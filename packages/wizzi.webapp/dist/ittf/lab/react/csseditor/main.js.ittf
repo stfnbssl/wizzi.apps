@@ -1,0 +1,5 @@
+﻿module 
+    kind react
+
+    $include g/js/wz/lodash
+    $include g/js/wz/localstorage

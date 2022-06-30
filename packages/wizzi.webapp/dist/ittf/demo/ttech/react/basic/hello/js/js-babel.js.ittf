@@ -1,0 +1,12 @@
+﻿module
+	kind react
+	class GreetingScriptFile
+		super React.Component
+		m render
+			return
+				div
+                    p Hello world from js wizzi model script file, tag=js-babel
+
+	_ ReactDOM.render
+		< GreetingScriptFile
+		@ document.getElementById('sample-jswizzimodel-script-file-tag-jsbabel')

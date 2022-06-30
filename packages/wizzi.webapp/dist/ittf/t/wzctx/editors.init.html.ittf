@@ -1,0 +1,11 @@
+$group
+
+    $
+        var wzCtx = {
+            title: '... title not set ...',
+            Build: {
+                useAce: true,
+                useCodemirror: false,
+                useMonaco: false,
+            }
+        }

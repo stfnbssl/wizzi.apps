@@ -1,0 +1,1016 @@
+ul 
+    class index
+    li 
+        a --*
+            href https://drafts.csswg.org/css-variables-1/#propdef-
+    li 
+        ++ align-content
+        ul 
+            li 
+                a in css-align-3
+                    href https://drafts.csswg.org/css-align-3/#propdef-align-content
+            li 
+                a in css-flexbox-1
+                    href https://drafts.csswg.org/css-flexbox-1/#propdef-align-content
+    li 
+        ++ align-items
+        ul 
+            li 
+                a in css-align-3
+                    href https://drafts.csswg.org/css-align-3/#propdef-align-items
+            li 
+                a in css-flexbox-1
+                    href https://drafts.csswg.org/css-flexbox-1/#propdef-align-items
+    li 
+        ++ align-self
+        ul 
+            li 
+                a in css-align-3
+                    href https://drafts.csswg.org/css-align-3/#propdef-align-self
+            li 
+                a in css-flexbox-1
+                    href https://drafts.csswg.org/css-flexbox-1/#propdef-align-self
+    li 
+        a all
+            href https://drafts.csswg.org/css-cascade-4/#propdef-all
+    li 
+        a animation
+            href https://drafts.csswg.org/css-animations-1/#propdef-animation
+    li 
+        a animation-delay
+            href https://drafts.csswg.org/css-animations-1/#propdef-animation-delay
+    li 
+        a animation-direction
+            href https://drafts.csswg.org/css-animations-1/#propdef-animation-direction
+    li 
+        a animation-duration
+            href https://drafts.csswg.org/css-animations-1/#propdef-animation-duration
+    li 
+        a animation-fill-mode
+            href https://drafts.csswg.org/css-animations-1/#propdef-animation-fill-mode
+    li 
+        a animation-iteration-count
+            href https://drafts.csswg.org/css-animations-1/#propdef-animation-iteration-count
+    li 
+        a animation-name
+            href https://drafts.csswg.org/css-animations-1/#propdef-animation-name
+    li 
+        a animation-play-state
+            href https://drafts.csswg.org/css-animations-1/#propdef-animation-play-state
+    li 
+        a animation-timing-function
+            href https://drafts.csswg.org/css-animations-1/#propdef-animation-timing-function
+    li 
+        a azimuth
+            href https://www.w3.org/TR/CSS2/aural.html#propdef-azimuth
+    li 
+        a background
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-background
+    li 
+        a background-attachment
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-background-attachment
+    li 
+        a background-blend-mode
+            href https://drafts.fxtf.org/compositing-1/#propdef-background-blend-mode
+    li 
+        a background-clip
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-background-clip
+    li 
+        a background-color
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-background-color
+    li 
+        a background-image
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-background-image
+    li 
+        a background-origin
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-background-origin
+    li 
+        a background-position
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-background-position
+    li 
+        a background-repeat
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-background-repeat
+    li 
+        a background-size
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-background-size
+    li 
+        a border
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border
+    li 
+        a border-bottom
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-bottom
+    li 
+        a border-bottom-color
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-bottom-color
+    li 
+        a border-bottom-left-radius
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-bottom-left-radius
+    li 
+        a border-bottom-right-radius
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-bottom-right-radius
+    li 
+        a border-bottom-style
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-bottom-style
+    li 
+        a border-bottom-width
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-bottom-width
+    li 
+        a border-collapse
+            href https://drafts.csswg.org/css2/#propdef-border-collapse
+    li 
+        a border-color
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-color
+    li 
+        a border-image
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-image
+    li 
+        a border-image-outset
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-image-outset
+    li 
+        a border-image-repeat
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-image-repeat
+    li 
+        a border-image-slice
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-image-slice
+    li 
+        a border-image-source
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-image-source
+    li 
+        a border-image-width
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-image-width
+    li 
+        a border-left
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-left
+    li 
+        a border-left-color
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-left-color
+    li 
+        a border-left-style
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-left-style
+    li 
+        a border-left-width
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-left-width
+    li 
+        a border-radius
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-radius
+    li 
+        a border-right
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-right
+    li 
+        a border-right-color
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-right-color
+    li 
+        a border-right-style
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-right-style
+    li 
+        a border-right-width
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-right-width
+    li 
+        a border-spacing
+            href https://drafts.csswg.org/css2/#propdef-border-spacing
+    li 
+        a border-style
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-style
+    li 
+        a border-top
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-top
+    li 
+        a border-top-color
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-top-color
+    li 
+        a border-top-left-radius
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-top-left-radius
+    li 
+        a border-top-right-radius
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-top-right-radius
+    li 
+        a border-top-style
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-top-style
+    li 
+        a border-top-width
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-top-width
+    li 
+        a border-width
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-border-width
+    li 
+        a bottom
+            href https://drafts.csswg.org/css2/#propdef-bottom
+    li 
+        a box-decoration-break
+            href https://drafts.csswg.org/css-break-3/#propdef-box-decoration-break
+    li 
+        a box-shadow
+            href https://drafts.csswg.org/css-backgrounds-3/#propdef-box-shadow
+    li 
+        a box-sizing
+            href https://drafts.csswg.org/css-ui-3/#propdef-box-sizing
+    li 
+        a break-after
+            href https://drafts.csswg.org/css-break-3/#propdef-break-after
+    li 
+        a break-before
+            href https://drafts.csswg.org/css-break-3/#propdef-break-before
+    li 
+        a break-inside
+            href https://drafts.csswg.org/css-break-3/#propdef-break-inside
+    li 
+        a caption-side
+            href https://drafts.csswg.org/css2/#propdef-caption-side
+    li 
+        a caret-color
+            href https://drafts.csswg.org/css-ui-3/#propdef-caret-color
+    li 
+        a clear
+            href https://drafts.csswg.org/css2/#propdef-clear
+    li 
+        a clip
+            href https://drafts.fxtf.org/css-masking-1/#propdef-clip
+    li 
+        a clip-path
+            href https://drafts.fxtf.org/css-masking-1/#propdef-clip-path
+    li 
+        a clip-rule
+            href https://drafts.fxtf.org/css-masking-1/#propdef-clip-rule
+    li 
+        a color
+            href https://drafts.csswg.org/css-color-3/#color0
+    li 
+        a color-interpolation-filters
+            href https://drafts.fxtf.org/filter-effects-1/#propdef-color-interpolation-filters
+    li 
+        a column-count
+            href https://drafts.csswg.org/css-multicol-1/#propdef-column-count
+    li 
+        a column-fill
+            href https://drafts.csswg.org/css-multicol-1/#propdef-column-fill
+    li 
+        ++ column-gap
+        ul 
+            li 
+                a in css-align-3
+                    href https://drafts.csswg.org/css-align-3/#propdef-column-gap
+            li 
+                a in css-multicol-1
+                    href https://drafts.csswg.org/css-multicol-1/#propdef-column-gap
+    li 
+        a column-rule
+            href https://drafts.csswg.org/css-multicol-1/#propdef-column-rule
+    li 
+        a column-rule-color
+            href https://drafts.csswg.org/css-multicol-1/#propdef-column-rule-color
+    li 
+        a column-rule-style
+            href https://drafts.csswg.org/css-multicol-1/#propdef-column-rule-style
+    li 
+        a column-rule-width
+            href https://drafts.csswg.org/css-multicol-1/#propdef-column-rule-width
+    li 
+        a columns
+            href https://drafts.csswg.org/css-multicol-1/#propdef-columns
+    li 
+        a column-span
+            href https://drafts.csswg.org/css-multicol-1/#propdef-column-span
+    li 
+        a column-width
+            href https://drafts.csswg.org/css-multicol-1/#propdef-column-width
+    li 
+        a contain
+            href https://drafts.csswg.org/css-contain-1/#propdef-contain
+    li 
+        a content
+            href https://drafts.csswg.org/css2/#propdef-content
+    li 
+        a counter-increment
+            href https://drafts.csswg.org/css2/#propdef-counter-increment
+    li 
+        a counter-reset
+            href https://drafts.csswg.org/css2/#propdef-counter-reset
+    li 
+        ++ cue
+        ul 
+            li 
+                a in css-speech-1
+                    href https://drafts.csswg.org/css-speech-1/#propdef-cue
+            li 
+                a in css2
+                    href https://www.w3.org/TR/CSS2/aural.html#propdef-cue
+    li 
+        ++ cue-after
+        ul 
+            li 
+                a in css-speech-1
+                    href https://drafts.csswg.org/css-speech-1/#propdef-cue-after
+            li 
+                a in css2
+                    href https://www.w3.org/TR/CSS2/aural.html#propdef-cue-after
+    li 
+        ++ cue-before
+        ul 
+            li 
+                a in css-speech-1
+                    href https://drafts.csswg.org/css-speech-1/#propdef-cue-before
+            li 
+                a in css2
+                    href https://www.w3.org/TR/CSS2/aural.html#propdef-cue-before
+    li 
+        a cursor
+            href https://drafts.csswg.org/css-ui-3/#propdef-cursor
+    li 
+        a direction
+            href https://drafts.csswg.org/css-writing-modes-4/#propdef-direction
+    li 
+        a display
+            href https://drafts.csswg.org/css-display-3/#propdef-display
+    li 
+        a elevation
+            href https://www.w3.org/TR/CSS2/aural.html#propdef-elevation
+    li 
+        a empty-cells
+            href https://drafts.csswg.org/css2/#propdef-empty-cells
+    li 
+        a filter
+            href https://drafts.fxtf.org/filter-effects-1/#propdef-filter
+    li 
+        a flex
+            href https://drafts.csswg.org/css-flexbox-1/#propdef-flex
+    li 
+        a flex-basis
+            href https://drafts.csswg.org/css-flexbox-1/#propdef-flex-basis
+    li 
+        a flex-direction
+            href https://drafts.csswg.org/css-flexbox-1/#propdef-flex-direction
+    li 
+        a flex-flow
+            href https://drafts.csswg.org/css-flexbox-1/#propdef-flex-flow
+    li 
+        a flex-grow
+            href https://drafts.csswg.org/css-flexbox-1/#propdef-flex-grow
+    li 
+        a flex-shrink
+            href https://drafts.csswg.org/css-flexbox-1/#propdef-flex-shrink
+    li 
+        a flex-wrap
+            href https://drafts.csswg.org/css-flexbox-1/#propdef-flex-wrap
+    li 
+        a float
+            href https://drafts.csswg.org/css2/#propdef-float
+    li 
+        a flood-color
+            href https://drafts.fxtf.org/filter-effects-1/#propdef-flood-color
+    li 
+        a flood-opacity
+            href https://drafts.fxtf.org/filter-effects-1/#propdef-flood-opacity
+    li 
+        a font
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font
+    li 
+        a font-family
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-family
+    li 
+        a font-feature-settings
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-feature-settings
+    li 
+        a font-kerning
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-kerning
+    li 
+        a font-size
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-size
+    li 
+        a font-size-adjust
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-size-adjust
+    li 
+        a font-stretch
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-stretch
+    li 
+        a font-style
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-style
+    li 
+        a font-synthesis
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-synthesis
+    li 
+        a font-variant
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-variant
+    li 
+        a font-variant-caps
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-variant-caps
+    li 
+        a font-variant-east-asian
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-variant-east-asian
+    li 
+        a font-variant-ligatures
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-variant-ligatures
+    li 
+        a font-variant-numeric
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-variant-numeric
+    li 
+        a font-variant-position
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-variant-position
+    li 
+        a font-weight
+            href https://drafts.csswg.org/css-fonts-3/#propdef-font-weight
+    li 
+        a gap
+            href https://drafts.csswg.org/css-align-3/#propdef-gap
+    li 
+        a globalcompositeoperation
+            href https://drafts.fxtf.org/compositing-1/#propdef-mix
+    li 
+        a glyph-orientation-vertical
+            href https://drafts.csswg.org/css-writing-modes-4/#propdef-glyph-orientation-vertical
+    li 
+        a grid
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid
+    li 
+        a grid-area
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-area
+    li 
+        a grid-auto-columns
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-auto-columns
+    li 
+        a grid-auto-flow
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-auto-flow
+    li 
+        a grid-auto-rows
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-auto-rows
+    li 
+        a grid-column
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-column
+    li 
+        a grid-column-end
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-column-end
+    li 
+        a grid-column-gap
+            href https://drafts.csswg.org/css-align-3/#propdef-grid-column-gap
+    li 
+        a grid-column-start
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-column-start
+    li 
+        a grid-gap
+            href https://drafts.csswg.org/css-align-3/#propdef-grid-gap
+    li 
+        a grid-row
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-row
+    li 
+        a grid-row-end
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-row-end
+    li 
+        a grid-row-gap
+            href https://drafts.csswg.org/css-align-3/#propdef-grid-row-gap
+    li 
+        a grid-row-start
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-row-start
+    li 
+        a grid-template
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-template
+    li 
+        a grid-template-areas
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-template-areas
+    li 
+        a grid-template-columns
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-template-columns
+    li 
+        a grid-template-rows
+            href https://drafts.csswg.org/css-grid-1/#propdef-grid-template-rows
+    li 
+        a hanging-punctuation
+            href https://drafts.csswg.org/css-text-3/#propdef-hanging-punctuation
+    li 
+        a height
+            href https://drafts.csswg.org/css2/#propdef-height
+    li 
+        a hyphens
+            href https://drafts.csswg.org/css-text-3/#propdef-hyphens
+    li 
+        a image-orientation
+            href https://drafts.csswg.org/css-images-3/#propdef-image-orientation
+    li 
+        a image-rendering
+            href https://drafts.csswg.org/css-images-3/#propdef-image-rendering
+    li 
+        a isolation
+            href https://drafts.fxtf.org/compositing-1/#propdef-isolation
+    li 
+        ++ justify-content
+        ul 
+            li 
+                a in css-align-3
+                    href https://drafts.csswg.org/css-align-3/#propdef-justify-content
+            li 
+                a in css-flexbox-1
+                    href https://drafts.csswg.org/css-flexbox-1/#propdef-justify-content
+    li 
+        a justify-items
+            href https://drafts.csswg.org/css-align-3/#propdef-justify-items
+    li 
+        a justify-self
+            href https://drafts.csswg.org/css-align-3/#propdef-justify-self
+    li 
+        a left
+            href https://drafts.csswg.org/css2/#propdef-left
+    li 
+        a letter-spacing
+            href https://drafts.csswg.org/css-text-3/#propdef-letter-spacing
+    li 
+        a lighting-color
+            href https://drafts.fxtf.org/filter-effects-1/#propdef-lighting-color
+    li 
+        a line-break
+            href https://drafts.csswg.org/css-text-3/#propdef-line-break
+    li 
+        a line-height
+            href https://drafts.csswg.org/css2/#propdef-line-height
+    li 
+        a list-style
+            href https://drafts.csswg.org/css2/#propdef-list-style
+    li 
+        a list-style-image
+            href https://drafts.csswg.org/css2/#propdef-list-style-image
+    li 
+        a list-style-position
+            href https://drafts.csswg.org/css2/#propdef-list-style-position
+    li 
+        a list-style-type
+            href https://drafts.csswg.org/css2/#propdef-list-style-type
+    li 
+        a margin
+            href https://drafts.csswg.org/css2/#propdef-margin
+    li 
+        a margin-bottom
+            href https://drafts.csswg.org/css2/#propdef-margin-bottom
+    li 
+        a margin-left
+            href https://drafts.csswg.org/css2/#propdef-margin-left
+    li 
+        a margin-right
+            href https://drafts.csswg.org/css2/#propdef-margin-right
+    li 
+        a margin-top
+            href https://drafts.csswg.org/css2/#propdef-margin-top
+    li 
+        a mask
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask
+    li 
+        a mask-border
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-border
+    li 
+        a mask-border-mode
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-border-mode
+    li 
+        a mask-border-outset
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-border-outset
+    li 
+        a mask-border-repeat
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-border-repeat
+    li 
+        a mask-border-slice
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-border-slice
+    li 
+        a mask-border-source
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-border-source
+    li 
+        a mask-border-width
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-border-width
+    li 
+        a mask-clip
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-clip
+    li 
+        a mask-composite
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-composite
+    li 
+        a mask-image
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-image
+    li 
+        a mask-mode
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-mode
+    li 
+        a mask-origin
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-origin
+    li 
+        a mask-position
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-position
+    li 
+        a mask-repeat
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-repeat
+    li 
+        a mask-size
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-size
+    li 
+        a mask-type
+            href https://drafts.fxtf.org/css-masking-1/#propdef-mask-type
+    li 
+        a max-height
+            href https://drafts.csswg.org/css2/#propdef-max-height
+    li 
+        a max-width
+            href https://drafts.csswg.org/css2/#propdef-max-width
+    li 
+        a min-height
+            href https://drafts.csswg.org/css2/#propdef-min-height
+    li 
+        a min-width
+            href https://drafts.csswg.org/css2/#propdef-min-width
+    li 
+        a mix-blend-mode
+            href https://drafts.fxtf.org/compositing-1/#propdef-mix-blend-mode
+    li 
+        a object-fit
+            href https://drafts.csswg.org/css-images-3/#propdef-object-fit
+    li 
+        a object-position
+            href https://drafts.csswg.org/css-images-3/#propdef-object-position
+    li 
+        a opacity
+            href https://drafts.csswg.org/css-color-3/#opacity
+    li 
+        a order
+            href https://drafts.csswg.org/css-flexbox-1/#propdef-order
+    li 
+        a orphans
+            href https://drafts.csswg.org/css-break-3/#propdef-orphans
+    li 
+        a outline
+            href https://drafts.csswg.org/css-ui-3/#propdef-outline
+    li 
+        a outline-color
+            href https://drafts.csswg.org/css-ui-3/#propdef-outline-color
+    li 
+        a outline-offset
+            href https://drafts.csswg.org/css-ui-3/#propdef-outline-offset
+    li 
+        a outline-style
+            href https://drafts.csswg.org/css-ui-3/#propdef-outline-style
+    li 
+        a outline-width
+            href https://drafts.csswg.org/css-ui-3/#propdef-outline-width
+    li 
+        a overflow
+            href https://drafts.csswg.org/css2/#propdef-overflow
+    li 
+        a overflow-wrap
+            href https://drafts.csswg.org/css-text-3/#propdef-overflow-wrap
+    li 
+        a padding
+            href https://drafts.csswg.org/css2/#propdef-padding
+    li 
+        a padding-bottom
+            href https://drafts.csswg.org/css2/#propdef-padding-bottom
+    li 
+        a padding-left
+            href https://drafts.csswg.org/css2/#propdef-padding-left
+    li 
+        a padding-right
+            href https://drafts.csswg.org/css2/#propdef-padding-right
+    li 
+        a padding-top
+            href https://drafts.csswg.org/css2/#propdef-padding-top
+    li 
+        a page-break-after
+            href https://drafts.csswg.org/css2/#propdef-page-break-after
+    li 
+        a page-break-before
+            href https://drafts.csswg.org/css2/#propdef-page-break-before
+    li 
+        a page-break-inside
+            href https://drafts.csswg.org/css2/#propdef-page-break-inside
+    li 
+        ++ pause
+        ul 
+            li 
+                a in css-speech-1
+                    href https://drafts.csswg.org/css-speech-1/#propdef-pause
+            li 
+                a in css2
+                    href https://www.w3.org/TR/CSS2/aural.html#propdef-pause
+    li 
+        ++ pause-after
+        ul 
+            li 
+                a in css-speech-1
+                    href https://drafts.csswg.org/css-speech-1/#propdef-pause-after
+            li 
+                a in css2
+                    href https://www.w3.org/TR/CSS2/aural.html#propdef-pause-after
+    li 
+        ++ pause-before
+        ul 
+            li 
+                a in css-speech-1
+                    href https://drafts.csswg.org/css-speech-1/#propdef-pause-before
+            li 
+                a in css2
+                    href https://www.w3.org/TR/CSS2/aural.html#propdef-pause-before
+    li 
+        a pitch
+            href https://www.w3.org/TR/CSS2/aural.html#propdef-pitch
+    li 
+        a pitch-range
+            href https://www.w3.org/TR/CSS2/aural.html#propdef-pitch-range
+    li 
+        a place-content
+            href https://drafts.csswg.org/css-align-3/#propdef-place-content
+    li 
+        a place-items
+            href https://drafts.csswg.org/css-align-3/#propdef-place-items
+    li 
+        a place-self
+            href https://drafts.csswg.org/css-align-3/#propdef-place-self
+    li 
+        a play-during
+            href https://www.w3.org/TR/CSS2/aural.html#propdef-play-during
+    li 
+        a position
+            href https://drafts.csswg.org/css2/#propdef-position
+    li 
+        a quotes
+            href https://drafts.csswg.org/css2/#propdef-quotes
+    li 
+        a resize
+            href https://drafts.csswg.org/css-ui-3/#propdef-resize
+    li 
+        a rest
+            href https://drafts.csswg.org/css-speech-1/#propdef-rest
+    li 
+        a rest-after
+            href https://drafts.csswg.org/css-speech-1/#propdef-rest-after
+    li 
+        a rest-before
+            href https://drafts.csswg.org/css-speech-1/#propdef-rest-before
+    li 
+        a richness
+            href https://www.w3.org/TR/CSS2/aural.html#propdef-richness
+    li 
+        a right
+            href https://drafts.csswg.org/css2/#propdef-right
+    li 
+        a row-gap
+            href https://drafts.csswg.org/css-align-3/#propdef-row-gap
+    li 
+        a scroll-margin
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-margin
+    li 
+        a scroll-margin-block
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-margin-block
+    li 
+        a scroll-margin-block-end
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-margin-block-end
+    li 
+        a scroll-margin-block-start
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-margin-block-start
+    li 
+        a scroll-margin-bottom
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-margin-bottom
+    li 
+        a scroll-margin-inline
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-margin-inline
+    li 
+        a scroll-margin-inline-end
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-margin-inline-end
+    li 
+        a scroll-margin-inline-start
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-margin-inline-start
+    li 
+        a scroll-margin-left
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-margin-left
+    li 
+        a scroll-margin-right
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-margin-right
+    li 
+        a scroll-margin-top
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-margin-top
+    li 
+        a scroll-padding
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-padding
+    li 
+        a scroll-padding-block
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-padding-block
+    li 
+        a scroll-padding-block-end
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-padding-block-end
+    li 
+        a scroll-padding-block-start
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-padding-block-start
+    li 
+        a scroll-padding-bottom
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-padding-bottom
+    li 
+        a scroll-padding-inline
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-padding-inline
+    li 
+        a scroll-padding-inline-end
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-padding-inline-end
+    li 
+        a scroll-padding-inline-start
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-padding-inline-start
+    li 
+        a scroll-padding-left
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-padding-left
+    li 
+        a scroll-padding-right
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-padding-right
+    li 
+        a scroll-padding-top
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-padding-top
+    li 
+        a scroll-snap-align
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-snap-align
+    li 
+        a scroll-snap-stop
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-snap-stop
+    li 
+        a scroll-snap-type
+            href https://drafts.csswg.org/css-scroll-snap-1/#propdef-scroll-snap-type
+    li 
+        a shape-image-threshold
+            href https://drafts.csswg.org/css-shapes-1/#propdef-shape-image-threshold
+    li 
+        a shape-margin
+            href https://drafts.csswg.org/css-shapes-1/#propdef-shape-margin
+    li 
+        a shape-outside
+            href https://drafts.csswg.org/css-shapes-1/#propdef-shape-outside
+    li 
+        ++ speak
+        ul 
+            li 
+                a in css-speech-1
+                    href https://drafts.csswg.org/css-speech-1/#propdef-speak
+            li 
+                a in css2
+                    href https://www.w3.org/TR/CSS2/aural.html#propdef-speak
+    li 
+        a speak-as
+            href https://drafts.csswg.org/css-speech-1/#propdef-speak-as
+    li 
+        a speak-header
+            href https://www.w3.org/TR/CSS2/aural.html#propdef-speak-header
+    li 
+        a speak-numeral
+            href https://www.w3.org/TR/CSS2/aural.html#propdef-speak-numeral
+    li 
+        a speak-punctuation
+            href https://www.w3.org/TR/CSS2/aural.html#propdef-speak-punctuation
+    li 
+        a speech-rate
+            href https://www.w3.org/TR/CSS2/aural.html#propdef-speech-rate
+    li 
+        a stress
+            href https://www.w3.org/TR/CSS2/aural.html#propdef-stress
+    li 
+        a table-layout
+            href https://drafts.csswg.org/css2/#propdef-table-layout
+    li 
+        a tab-size
+            href https://drafts.csswg.org/css-text-3/#propdef-tab-size
+    li 
+        a text-align
+            href https://drafts.csswg.org/css-text-3/#propdef-text-align
+    li 
+        a text-align-all
+            href https://drafts.csswg.org/css-text-3/#propdef-text-align-all
+    li 
+        a text-align-last
+            href https://drafts.csswg.org/css-text-3/#propdef-text-align-last
+    li 
+        a text-combine-upright
+            href https://drafts.csswg.org/css-writing-modes-4/#propdef-text-combine-upright
+    li 
+        a text-decoration
+            href https://drafts.csswg.org/css-text-decor-3/#propdef-text-decoration
+    li 
+        a text-decoration-color
+            href https://drafts.csswg.org/css-text-decor-3/#propdef-text-decoration-color
+    li 
+        a text-decoration-line
+            href https://drafts.csswg.org/css-text-decor-3/#propdef-text-decoration-line
+    li 
+        a text-decoration-style
+            href https://drafts.csswg.org/css-text-decor-3/#propdef-text-decoration-style
+    li 
+        a text-emphasis
+            href https://drafts.csswg.org/css-text-decor-3/#propdef-text-emphasis
+    li 
+        a text-emphasis-color
+            href https://drafts.csswg.org/css-text-decor-3/#propdef-text-emphasis-color
+    li 
+        a text-emphasis-position
+            href https://drafts.csswg.org/css-text-decor-3/#propdef-text-emphasis-position
+    li 
+        a text-emphasis-style
+            href https://drafts.csswg.org/css-text-decor-3/#propdef-text-emphasis-style
+    li 
+        a text-indent
+            href https://drafts.csswg.org/css-text-3/#propdef-text-indent
+    li 
+        a text-justify
+            href https://drafts.csswg.org/css-text-3/#propdef-text-justify
+    li 
+        a text-orientation
+            href https://drafts.csswg.org/css-writing-modes-4/#propdef-text-orientation
+    li 
+        a text-overflow
+            href https://drafts.csswg.org/css-ui-3/#propdef-text-overflow
+    li 
+        a text-shadow
+            href https://drafts.csswg.org/css-text-decor-3/#propdef-text-shadow
+    li 
+        a text-transform
+            href https://drafts.csswg.org/css-text-3/#propdef-text-transform
+    li 
+        a text-underline-position
+            href https://drafts.csswg.org/css-text-decor-3/#propdef-text-underline-position
+    li 
+        a top
+            href https://drafts.csswg.org/css2/#propdef-top
+    li 
+        a transform
+            href https://drafts.csswg.org/css-transforms-1/#propdef-transform
+    li 
+        a transform-box
+            href https://drafts.csswg.org/css-transforms-1/#propdef-transform-box
+    li 
+        a transform-origin
+            href https://drafts.csswg.org/css-transforms-1/#propdef-transform-origin
+    li 
+        a transition
+            href https://drafts.csswg.org/css-transitions-1/#propdef-transition
+    li 
+        a transition-delay
+            href https://drafts.csswg.org/css-transitions-1/#propdef-transition-delay
+    li 
+        a transition-duration
+            href https://drafts.csswg.org/css-transitions-1/#propdef-transition-duration
+    li 
+        a transition-property
+            href https://drafts.csswg.org/css-transitions-1/#propdef-transition-property
+    li 
+        a transition-timing-function
+            href https://drafts.csswg.org/css-transitions-1/#propdef-transition-timing-function
+    li 
+        a unicode-bidi
+            href https://drafts.csswg.org/css-writing-modes-4/#propdef-unicode-bidi
+    li 
+        a vertical-align
+            href https://drafts.csswg.org/css2/#propdef-vertical-align
+    li 
+        a visibility
+            href https://drafts.csswg.org/css2/#propdef-visibility
+    li 
+        a voice-balance
+            href https://drafts.csswg.org/css-speech-1/#propdef-voice-balance
+    li 
+        a voice-duration
+            href https://drafts.csswg.org/css-speech-1/#propdef-voice-duration
+    li 
+        ++ voice-family
+        ul 
+            li 
+                a in css-speech-1
+                    href https://drafts.csswg.org/css-speech-1/#propdef-voice-family
+            li 
+                a in css2
+                    href https://www.w3.org/TR/CSS2/aural.html#propdef-voice-family
+    li 
+        a voice-pitch
+            href https://drafts.csswg.org/css-speech-1/#propdef-voice-pitch
+    li 
+        a voice-range
+            href https://drafts.csswg.org/css-speech-1/#propdef-voice-range
+    li 
+        a voice-rate
+            href https://drafts.csswg.org/css-speech-1/#propdef-voice-rate
+    li 
+        a voice-stress
+            href https://drafts.csswg.org/css-speech-1/#propdef-voice-stress
+    li 
+        a voice-volume
+            href https://drafts.csswg.org/css-speech-1/#propdef-voice-volume
+    li 
+        a volume
+            href https://www.w3.org/TR/CSS2/aural.html#propdef-volume
+    li 
+        a white-space
+            href https://drafts.csswg.org/css-text-3/#propdef-white-space
+    li 
+        a widows
+            href https://drafts.csswg.org/css-break-3/#propdef-widows
+    li 
+        a width
+            href https://drafts.csswg.org/css2/#propdef-width
+    li 
+        a will-change
+            href https://drafts.csswg.org/css-will-change-1/#propdef-will-change
+    li 
+        a word-break
+            href https://drafts.csswg.org/css-text-3/#propdef-word-break
+    li 
+        a word-spacing
+            href https://drafts.csswg.org/css-text-3/#propdef-word-spacing
+    li 
+        a word-wrap
+            href https://drafts.csswg.org/css-text-3/#propdef-word-wrap
+    li 
+        a writing-mode
+            href https://drafts.csswg.org/css-writing-modes-4/#propdef-writing-mode
+    li 
+        a z-index
+            href https://drafts.csswg.org/css2/#propdef-z-index

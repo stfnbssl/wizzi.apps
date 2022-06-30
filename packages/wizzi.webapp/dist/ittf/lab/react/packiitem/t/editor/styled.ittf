@@ -1,0 +1,33 @@
+$group
+
+    const EditorRoot
+        _ styled.div
+            => 
+                param props
+                (
+                    { 
+                        @ display 'flex'
+                        @ flexDirection 'column'
+                        @ width '100%'
+                        @ height '100%'
+
+    const LeftSidebarPaper
+        _ styled.div
+            => 
+                param props
+                (
+                    {
+                        @ padding '5px'
+                        @ border '1px solid #efefef'
+                        @ borderRadius '10px' 
+                        @ width '12%'
+
+    const EditorControlPaper
+        _ styled.div
+            => 
+                param props
+                (
+                    {
+                        @ padding '5px'
+                        @ background '#efefef'
+                        @ borderRadius '10px'

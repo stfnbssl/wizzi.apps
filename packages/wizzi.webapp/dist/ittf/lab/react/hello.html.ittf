@@ -1,0 +1,38 @@
+html
+
+    $
+        var wzCtx = {
+            title: 'React / Property editor',
+            Build: {
+                useReact: true,
+                react: {
+                },
+                useTailwind: true,
+            }
+        }
+
+    h/std/basic(&wzCtx)
+
+        layouts/lab(&wzCtx)
+
+            # root
+
+            script
+                type text/babel
+                module
+                    kind react
+
+                    function Hello
+                        param props
+
+                        return
+                            div
+                                h1 
+                                    + Hello world {props.name}
+
+                    _ ReactDOM.render
+                        < Hello
+                            @ name 'Stefi'
+                        _ document.getElementById
+                            @ 'root'
+

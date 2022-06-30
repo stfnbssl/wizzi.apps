@@ -1,0 +1,119 @@
+﻿module
+    kind jsfile
+
+    $
+        var md = {
+        }
+
+    const listType
+        {
+            @ id "postList"
+            @ title "Posts"
+            @ kind "table"
+            @ isEditAdd true
+            @ hasSearch true
+            [ columns
+                {
+                    @ id "id"
+                    @ label "id"
+                    @ type "text"
+                    @ isKey true
+                {
+                    @ id "author"
+                    @ label "author"
+                    @ type "text"
+                {
+                    @ id "title"
+                    @ label "title"
+                    @ type "text"
+            @ onRemove console.log
+            @ onAdd console.log
+            @ onUpdate console.log
+
+    const listData
+        {
+            [ items
+                {
+                    @ id 1
+                    @ author "Stefi"
+                    @ title "Post 1"
+                {
+                    @ id 2
+                    @ author "Stefi"
+                    @ title "Post 2"
+                {
+                    @ id 3
+                    @ author "Stefi"
+                    @ title "Post 3"
+
+    const jq2
+        _ jQuery.noConflict
+    
+    _ jq2
+        function 
+            param $
+            
+            _ inject_page_styles
+            _ inject_list_styles
+
+            set document.getElementById("root").innerHTML
+                _ getContainer
+                    {
+                        @ type listType
+                        @ data listData
+
+            var context
+                {
+                    @ onUpdate
+                        function
+                            param id
+                            log 'Request update', id
+                    @ onDelete
+                        function
+                            param id
+                            log 'Request delete', id
+
+            _ setTimeout
+                function
+                    _ startList
+                        @ $
+                        {
+                            @ type listType
+                            @ data listData
+                @ 0
+
+    html_f getContainer
+        var temp_a = []    
+        _ getListHtml
+            @ temp_a
+            {
+                @ type listType
+                @ data listData
+
+        var temp_b = []    
+        _ HtmlList_Table_getHtml
+            @ temp_b
+            {
+                @ type listType
+                @ data listData
+
+        < div
+            id container
+            class page-wrapper bg-red p-t-30 p-b-100 font-robo
+            $*
+            div
+                id content_a
+                + {{ temp_a.join('') }}
+            *$
+            div
+                id content_b
+                + {{ temp_b.join('') }}
+            div
+                id footer
+
+    $include inject
+    $include page-styles
+    $include list-styles
+    $include list-html
+    $include list-html-table
+    $include list-start

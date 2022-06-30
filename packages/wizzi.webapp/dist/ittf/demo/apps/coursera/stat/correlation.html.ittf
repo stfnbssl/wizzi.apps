@@ -1,0 +1,16 @@
+html
+
+	$
+		var opt = {};
+		opt.title = 'Correlation';
+        opt.useMathJax = true;
+
+    h/std/empty_layout_opt(&opt)
+
+        h2 Formulas
+            
+        formulas/correlation()
+
+        h2 Glossary
+            
+        glossary/correlation()

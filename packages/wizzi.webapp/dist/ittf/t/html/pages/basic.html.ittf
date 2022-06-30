@@ -1,0 +1,28 @@
+$group
+	$params &wzCtx
+
+    head 
+		@title ${wzCtx.title}
+        meta 
+            charset utf-8
+        meta 
+            name viewport
+			content width=device-width, initial-scale=1
+
+		$hook head-styles-0
+		
+		$include html/root/head-styles
+		
+		$hook head-styles
+
+    body 
+		$hook
+	
+		$include html/root/script_meta
+
+		$hook body-scripts-0
+		
+		$include html/root/body-scripts
+		
+		$hook body-scripts
+

@@ -1,0 +1,74 @@
+html
+
+    $
+        var wzCtx = {
+            title: 'React / Wizzi playground',
+            Build: {
+                useReact: true,
+                react: {
+                    useStyledComponents: true,
+                },
+                useAce: true,
+                mainJs: './main.js.ittf',
+                mainCss: './main.css.ittf',
+                useGoogleFonts: true,
+                googleFonts: [
+                    { name: 'Roboto', weights: [100, 300, 700] }
+                ],
+            }
+        }
+
+    h/std/basic(&wzCtx)
+
+        $append head-styles
+            @style 
+                type text-css
+                data-noprefix 
+                class demo-styles
+                id demo_styles
+                contenteditable true
+
+        $append body-scripts
+            script
+                type text/babel
+                module
+                    kind react
+
+                    $include g/js/wz/react/Resize
+                    $include g/js/wz/react/Modal
+                    $include g/js/wz/react/FlexibleModal
+                    $include g/js/wz/react/ReactAce
+                    $include g/js/wz/react/IFramePage
+                    $include samplesData
+                    $include common/styled
+                    $include Generator
+                    $include Wizzifier
+                    $include Main
+                    $include Docs
+
+                    const AppRoot
+                        _ styled.div
+                            => 
+                                param props
+                                (
+                                    { 
+                                        @ width '100%'
+                                        @ height '100%'
+
+                    function App
+                        param props
+
+                        return
+                            < AppRoot
+                                < Main
+
+                    _ ReactDOM.render
+                        < App
+                        _ document.getElementById
+                            @ 'root'
+
+        layouts/lab(&wzCtx)
+
+            # root
+                style height: 100%; width: 100%
+

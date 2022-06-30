@@ -1,0 +1,17 @@
+﻿html
+
+    $
+        var opt = {
+            local: false,
+            production: false,
+            title: 'Router basic',
+            useRouter: true
+        }
+
+    h/std/react_layout_opt(&opt)
+
+        render
+            return 
+                div
+                    h1 
+                        + hello

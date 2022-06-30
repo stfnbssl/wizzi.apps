@@ -1,0 +1,206 @@
+/*
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
+    package: wizzi-js@0.7.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdatePackageProduction.tsx.ittf
+    utc time: Tue, 28 Jun 2022 14:18:03 GMT
+*/
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
+// see https://mxstbr.blog/2016/11/styled-components-magic-explained/
+import styled, {keyframes, css} from 'styled-components';
+import debounce from 'lodash/debounce';
+import nullthrows from 'nullthrows';
+import FormContainer from './widgets/FormContainer';
+import FormTitle from './widgets/FormTitle';
+import FormGroup from './widgets/FormGroup';
+import FormText from './widgets/FormText';
+import FormSelect from './widgets/FormSelect';
+import FormCheckBox from './widgets/FormCheckBox';
+import FormRadioBox from './widgets/FormRadioBox';
+import FormRow from './widgets/FormRow';
+import FormFile from './widgets/FormFile';
+import FormHidden from './widgets/FormHidden';
+import FormStatic from './widgets/FormStatic';
+import FormButton from './widgets/FormButton';
+import HR from './widgets/HR';
+import FlexRow from './widgets/styles/FlexRow';
+import Para from './widgets/styles/Para';
+import Text from './widgets/styles/Text';
+import Link from './widgets/styles/Link';
+import Box from './widgets/styles/Box';
+
+export interface UpdatePackageProductionProps {
+    data: any;
+}
+
+type UpdatePackageProductionState = { 
+    pp_id: string;
+    pp_userid: string;
+    pp_name_old: string;
+    pp_name_new: string;
+    pp_description: string;
+    pp_add_context: boolean;
+    pp_contexts: MISSING[];
+    pp_add_tfolder: boolean;
+    pp_dependencies: MISSING[];
+    pp_name_new_available: boolean;
+};
+
+interface RootStyleProps {
+}
+const StyledRoot = styled.div<RootStyleProps>`
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    
+`
+
+export class UpdatePackageProduction extends Component<UpdatePackageProductionProps, UpdatePackageProductionState> {
+    constructor() {
+    }
+    async _checkAvaliblePackageName() {
+        const pp_name_new_checked = this.state.pp_name_new;
+        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/package/checkname/${pp_name_new_checked}`;
+        console.log('CreatePackage._checkAvaliblePackageName.endpoint', endpoint);
+        const response = await fetch(endpoint);
+        if (!response.ok) {
+            throw new Error(`checkAvalible_package_Name error - ${response.status} - ${response.statusText}`);
+        }
+        const result = await response.json();
+        console.log('CreatePackage._checkAvaliblePackageName.result', result);
+        this.setState({
+            pp_name_new_available: result.isValid, 
+            pp_name_new_checked: pp_name_new_checked
+         })
+    }
+    
+    handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value);
+        this.setState({
+            [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
+         })
+    };
+    
+    handlePackageNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('handlePackageNameChange', ev.target.type, ev.target.checked, ev.target.value);
+        this.setState({
+            pp_name_new: ev.target.value
+         }, () => {
+        
+            if (ev.target.value !== this.state.pp_name_old) {
+                this._checkAvaliblePackageName();
+            }
+        }
+        )
+    };
+    
+    handleSubmitUpdate = (ev: React.MouseEvent<HTMLElement>) => {
+        ev.preventDefault();
+        if (this.state.pp_name_new_available) {
+            this.formRef.dispatchEvent(new Event('submit'));
+        }
+    };
+    componentDidMount() {
+        console.log('UpdatePackageProduction.componentDidMount.props', this.props);
+        const {
+            _id, 
+            userid, 
+            name, 
+            description, 
+            contexts, 
+            dependencies
+         } = this.props.data;
+        const pp_contexts = contexts || [];
+        const pp_dependencies = dependencies || [];
+        this.setState({
+            pp_id: _id, 
+            pp_userid: userid, 
+            pp_name_old: name, 
+            pp_name_new: name, 
+            pp_description: description, 
+            pp_add_context: pp_contexts.length > 0, 
+            pp_contexts, 
+            pp_add_tfolder: pp_dependencies.length > 0, 
+            pp_dependencies
+         })
+    }
+    
+    render() {
+        console.log('UpdatePacki.render', 'state', this.state);
+        return  (
+            <FormContainer
+            >
+                <FormTitle
+                 title='Update package production' subtitle='A package production contains the ittf documents for a software package.' />
+                <HR
+                 />
+                <form 
+                    action="/package/update"
+                    acceptCharset="UTF-8"
+                    method="POST"
+                    ref={ref => 
+                        
+                            this.formRef = ref
+                    }
+                >
+                    <FormHidden
+                     name='pp_id' id='pp_id' value={this.state.pp_id} />
+                    <FormHidden
+                     name='pp_userid' id='pp_userid' value={this.state.pp_userid} />
+                    <FormHidden
+                     name='pp_name_old' id='pp_name_old' value={this.state.pp_name_old} />
+                    <FormGroup 
+                        label='Package name'
+                        name='pp_name_new'
+                        id='pp_name_new'
+                        required={true}
+                        value={this.state.pp_name_new}
+                        onChange={this.handlePackageNameChange}
+                     />
+                    {
+                        this.state.pp_name_new.length > 0 && this.state.pp_name_old !== this.state.pp_name_new && this.state.pp_name_new_available
+                         &&  (
+                            <Para
+                            >
+                                {'Package name ' + this.state.pp_name_new_checked + ' is available'}
+                            </Para>
+                            )
+                        
+                    }
+                    {
+                        this.state.pp_name_new.length > 0 && this.state.pp_name_old !== this.state.pp_name_new && !this.state.pp_name_new_available
+                         &&  (
+                            <Para
+                             color='#ff0000'>
+                                {'Package name ' + this.state.pp_name_new_checked + ' is not available'}
+                            </Para>
+                            )
+                        
+                    }
+                    <HR
+                     />
+                    <FormGroup 
+                        label='Description'
+                        name='pp_description'
+                        id='pp_description'
+                        required={true}
+                        value={this.state.pp_description}
+                        onChange={this.handleInputChange}
+                     />
+                    <HR
+                     />
+                    <FormButton 
+                        label='Update package production'
+                        id='btn_update_ap'
+                        variant='submit'
+                        type="submit"
+                        onClick={this.handleSubmitUpdate}
+                     />
+                </form>
+            </FormContainer>
+            )
+        ;
+    }
+}
+export default UpdatePackageProduction;

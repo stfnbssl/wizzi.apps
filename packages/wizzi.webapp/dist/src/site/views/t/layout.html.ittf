@@ -1,0 +1,46 @@
+$group
+    $params &md
+
+    $
+        var ca = 'm-s color-header font-x font-w-s';
+        var ca2 = 'color-header font-x font-w-s';
+
+    head
+        css /ittf/styles/reset.css.ittf
+        css /ittf/styles/main.css.ittf
+        css /ittf/styles/header.css.ittf
+        link
+            rel preconnect
+            href https://fonts.googleapis.com
+        link
+            rel preconnect
+            href https://fonts.gstatic.com 
+            crossorigin
+        link 
+            href https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap
+            rel stylesheet        
+        $hook head-scripts
+    body
+        . flex-row space-between bg-color-header color-header
+            . flex-row
+                g/h/a( , /, ${ca2}
+                    div
+                        style width: 80px; margin-top: 5px; margin-left: 20px;
+                        g/h/images/logo(#efefef, #434343)
+            . flex-row
+                $if locals.user
+                    g/h/a( Artifacts, /productions/artifacts, ${ca}
+                    g/h/a( Packages, /productions/packages, ${ca}
+                    g/h/a( Metas, /productions/metas, ${ca}
+                    g/h/a( tFolders, /productions/tfolders, ${ca}
+                
+            . flex-row
+                g/h/a( Docs, /, ${ca}
+            . flex-row
+                $if locals.user
+                    g/h/a( Profile, /profile, ${ca}
+                    g/h/a( Log Out, /logout, ${ca}
+                $else
+                    g/h/a( Log In, /login, ${ca}
+        
+        $hook

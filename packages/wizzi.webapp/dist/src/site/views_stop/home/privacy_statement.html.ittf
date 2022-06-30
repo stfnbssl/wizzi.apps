@@ -1,0 +1,6 @@
+html
+    $
+        var md = {}
+    layout(&md)
+        . w3-container
+            h1 Privacy statement

@@ -1,0 +1,19 @@
+﻿html
+
+	$
+		var opt = {};
+		opt.title = "React-grid-layoyut example";
+		opt.useMaterialUI = true;
+		opt.mainJs = true;
+		opt.useReactGrid = true;
+
+	h/std/empty_layout_opt(&opt)
+	
+	    # root
+	    
+	    $append head-styles
+			css ./styles.css.ittf
+
+		$append body-scripts
+
+			react_app(&opt)	

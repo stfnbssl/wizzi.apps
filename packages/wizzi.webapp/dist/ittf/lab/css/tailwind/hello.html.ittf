@@ -1,0 +1,26 @@
+html
+
+    $
+        var wzCtx = {
+            title: 'Tailwind',
+            Build: {
+                useTailwind: true,
+            }
+        }
+
+    h/std/basic(&wzCtx)
+
+        layouts/lab(&wzCtx)
+
+            $include sampledata/nav
+
+            div
+                ul
+                    $foreach g in nav.groups
+                        li 
+                            h5 ${g.title}
+                            ul
+                                $foreach item in g.items
+                                    li
+                                        a ${item.title} 
+                                            href ${item.href} 

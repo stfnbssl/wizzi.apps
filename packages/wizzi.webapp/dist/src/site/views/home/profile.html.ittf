@@ -1,0 +1,76 @@
+html
+    $
+        var md = {}
+        var ca = 'm-s font-x font-w-s';
+    +
+    layout(&md)
+
+        $*
+        h1 ${title}
+        pre
+            code
+                + ${JSON.stringify(user, null, 2)}
+        *$
+
+        . flex-row flex-justify-center
+            profile-sidebar()
+
+            . flex-column
+                style width: 75%;
+                
+                . font-x font-w-s m-t-xxl
+                    . flex-row flex-space-between width-xl border-b-s p-b-s
+                        . flex-column
+                            + Artifacts
+                        . flex-row
+                            . flex-column m-r-s
+                                a-icon( All , /productions/artifacts
+                                    $include assets/dots.svg
+                            . flex-column
+                                a-icon( New, /artifact/new 
+                                    $include assets/add.svg
+                    $foreach item in artifacts
+                        . flex-row
+                            p ${item.name}
+
+                . font-x font-w-s m-t-xxl
+                    . flex-row flex-space-between width-xl border-b-s p-b-s
+                        . flex-column
+                            + Packages
+                        . flex-row
+                            . flex-column m-r-s
+                                a-icon( All, /productions/packages
+                                    $include assets/dots.svg
+                            . flex-column
+                                a-icon( New, /package/new 
+                                    $include assets/add.svg
+                    $foreach item in packages
+                        . flex-row
+                            p ${item.name}
+
+                . font-x font-w-s m-t-xxl
+                    . flex-row flex-space-between width-xl border-b-s p-b-s
+                        . flex-column
+                            + Metas
+                        . flex-row
+                            . flex-column m-r-s
+                                a-icon( All, /productions/metas
+                                    $include assets/dots.svg
+                            . flex-column
+                                a-icon( New, /meta/new 
+                                    $include assets/add.svg
+
+                . font-x font-w-s m-t-xxl
+                    . flex-row flex-space-between width-xl border-b-s p-b-s
+                        . flex-column
+                            + tFolders
+                        . flex-row
+                            . flex-column m-r-s
+                                a-icon( All, /productions/tfolders
+                                    $include assets/dots.svg
+                            . flex-column
+                                a-icon( New, /tfolder/new 
+                                    $include assets/add.svg
+                    $foreach item in tfolders
+                        . flex-row
+                            p ${item.name}

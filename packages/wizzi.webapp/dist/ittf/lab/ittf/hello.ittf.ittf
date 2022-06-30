@@ -1,0 +1,24 @@
+ittf
+    $
+        var x = [1,2]
+    name
+    value ${x.join('__________')}
+
+    $foreach item in mpage.items
+        ${item}
+
+    $foreach prop in Object.keys(mpage.properties).sort()
+        {
+            @ name '${prop}'
+            $if mpage.properties[prop].oneOf
+                $foreach item in mpage.properties[prop].oneOf
+                    $if item.enum
+                        [ enum
+                            @ ''
+                            $foreach ev in item.enum
+                                @ '${ev}'
+            $elif mpage.properties[prop].enum
+                [ enum
+                    @ ''
+                    $foreach ev in mpage.properties[prop].enum
+                        @ '${ev}'

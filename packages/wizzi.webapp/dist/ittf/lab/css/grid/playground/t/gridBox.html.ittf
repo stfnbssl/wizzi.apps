@@ -1,0 +1,23 @@
+﻿$group
+	
+	section
+		class controls
+		id flexBox
+                   
+		html/controls/control( columns )
+				html/controls/input( grid-template-columns, xl, grid-template-columns, 100px 100px )
+                    
+		html/controls/control( rows )
+				html/controls/input( grid-template-rows, xl, grid-template-rows, 150px 150px )
+
+		html/controls/control( gap )
+				html/controls/input( grid-gap, mid, grid-gap, 20px )
+
+		html/controls/control( column area )
+				html/controls/input( grid-column-start, mid, grid-column-start, 1 )
+				html/controls/input( grid-column-end, mid, grid-column-end, 2 )
+
+		html/controls/control( row area )
+				html/controls/input( grid-row-start, mid, grid-row-start, 1 )
+				html/controls/input( grid-row-end, mid, grid-row-end, 2 )
+

@@ -1,0 +1,215 @@
+module
+    kind react
+    const legend
+        { 
+            [ tokenTypes
+                @ 'comment'
+                @ 'string'
+                @ 'keyword'
+                @ 'number'
+                @ 'regexp'
+                @ 'operator'
+                @ 'namespace'
+                @ 'type'
+                @ 'struct'
+                @ 'class'
+                @ 'interface'
+                @ 'enum'
+                @ 'typeParameter'
+                @ 'function'
+                @ 'member'
+                @ 'macro'
+                @ 'variable'
+                @ 'parameter'
+                @ 'property'
+                @ 'label'
+            [ tokenModifiers
+                @ 'declaration'
+                @ 'documentation'
+                @ 'readonly'
+                @ 'static'
+                @ 'abstract'
+                @ 'deprecated'
+                @ 'modification'
+                @ 'async'
+        #
+            # * @type {monaco.languages.SemanticTokensLegend}
+        #
+            # * @type {(type: string)=>number}
+    function getType
+        param type
+        return legend.tokenTypes.indexOf(type)
+        #
+            # * @type {(type: string)=>number}
+        #
+            # * @type {(modifier: string[]|string|null)=>number}
+    function getModifier
+        param modifiers
+        if typeof modifiers === 'string'
+            set modifiers =
+                [ 
+                    @ modifiers
+        if Array.isArray(modifiers)
+            let nModifiers = 0
+            for 
+                left
+                    let modifier
+                of modifiers
+                set nModifier = legend.tokenModifiers.indexOf(modifier)
+                if nModifier > -1
+                    set nModifiers |= (1 << nModifier) >>> 0
+            return nModifiers
+        else
+            return 0
+        #
+            # * @type {(modifier: string[]|string|null)=>number}
+    const tokenPattern = new RegExp('(?<=\\[)([a-zA-Z]+)((?:\\.[a-zA-Z]+)*)(?=\\])', 'g')
+    _ monaco.languages.registerDocumentSemanticTokensProvider
+        @ 'plaintext'
+        { 
+            @ getLegend
+                function 
+                    return legend
+            @ provideDocumentSemanticTokens
+                function 
+                    param model
+                    param lastResultId
+                    param token
+                    const lines = model.getLinesContent()
+                        #
+                            # * @type {number[]}
+                    const data = []
+                        #
+                            # * @type {number[]}
+                    let prevLine = 0
+                    let prevChar = 0
+                    for let i = 0; i < lines.length; i++
+                        const line = lines[i]
+                        for let match = null; ;
+                            let type = getType(match[1])
+                                # translate token and modifiers to number representations
+                            if type === -1
+                                continue 
+                            let modifier
+                                iif match[2].length
+                                    then getModifier(match[2].split('.').slice(1))
+                                    else 0
+                            _ data.push
+                                set i - prevLine
+                                    # translate line to deltaLine
+                                iif prevLine === i
+                                    then match.index - prevChar
+                                    else match.index
+                                    # for the same line, translate start to deltaStart
+                                @expr match[0].length
+                                @ type
+                                @ modifier
+                            set prevLine = i
+                            set prevChar = match.index
+                    return 
+                        { 
+                            @ data new Uint32Array(data)
+                            @ resultId null
+            @ releaseDocumentSemanticTokens
+                function 
+                    param resultId
+        # add some missing tokens
+    _ monaco.editor.defineTheme
+        @ 'myCustomTheme'
+        { 
+            @ base 'vs'
+            @ inherit true
+            [ rules
+                { 
+                    @ token 'comment'
+                    @ foreground 'aaaaaa'
+                    @ fontStyle 'italic'
+                { 
+                    @ token 'keyword'
+                    @ foreground 'ce63eb'
+                { 
+                    @ token 'operator'
+                    @ foreground '000000'
+                { 
+                    @ token 'namespace'
+                    @ foreground '66afce'
+                { 
+                    @ token 'type'
+                    @ foreground '1db010'
+                { 
+                    @ token 'struct'
+                    @ foreground '0000ff'
+                { 
+                    @ token 'class'
+                    @ foreground '0000ff'
+                    @ fontStyle 'bold'
+                { 
+                    @ token 'interface'
+                    @ foreground '007700'
+                    @ fontStyle 'bold'
+                { 
+                    @ token 'enum'
+                    @ foreground '0077ff'
+                    @ fontStyle 'bold'
+                { 
+                    @ token 'typeParameter'
+                    @ foreground '1db010'
+                { 
+                    @ token 'function'
+                    @ foreground '94763a'
+                { 
+                    @ token 'member'
+                    @ foreground '94763a'
+                { 
+                    @ token 'macro'
+                    @ foreground '615a60'
+                { 
+                    @ token 'variable'
+                    @ foreground '3e5bbf'
+                { 
+                    @ token 'parameter'
+                    @ foreground '3e5bbf'
+                { 
+                    @ token 'property'
+                    @ foreground '3e5bbf'
+                { 
+                    @ token 'label'
+                    @ foreground '615a60'
+                { 
+                    @ token 'type.static'
+                    @ fontStyle 'bold'
+                { 
+                    @ token 'class.static'
+                    @ foreground 'ff0000'
+                    @ fontStyle 'bold'
+        # add some missing tokens
+    const editor
+        _ monaco.editor.create
+            _ document.getElementById("container")
+            { 
+                [ value
+                    @ 'Available token types:'
+                    @ '    [comment] [string] [keyword] [number] [regexp] [operator] [namespace]'
+                    @ '    [type] [struct] [class] [interface] [enum] [typeParameter] [function]'
+                    @ '    [member] [macro] [variable] [parameter] [property] [label]'
+                    @ ''
+                    @ 'Available token modifiers:'
+                    @ '    [type.declaration] [type.documentation] [type.member] [type.static]'
+                    @ '    [type.abstract] [type.deprecated] [type.modification] [type.async]'
+                    @ ''
+                    @ 'Some examples:'
+                    @ '    [class.static.token]     [type.static.abstract]'
+                    @ '    [class.static.token]     [type.static]'
+                    @ ''
+                    @ '    [struct]'
+                    @ ''
+                    @ '    [function.private]'
+                    @ ''
+                    @ 'An error case:'
+                    @ '    [notInLegend]'
+                    ._ join
+                        @ '\n'
+                @ language "plaintext"
+                @ theme 'myCustomTheme'
+                @ 'semanticHighlighting.enabled' true
+                    # semantic tokens provider is disabled by default

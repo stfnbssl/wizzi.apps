@@ -1,0 +1,16 @@
+html
+
+	$
+		var opt = {};
+		opt.title = 'Sampling distributions';
+        opt.useMathJax = true;
+
+    h/std/empty_layout_opt(&opt)
+
+        h2 Formulas
+            
+        formulas/sampled()
+
+        h2 Glossary
+            
+        glossary/sampled()

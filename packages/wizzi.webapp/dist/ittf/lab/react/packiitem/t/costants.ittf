@@ -1,0 +1,33 @@
+$group
+
+    const __constants
+        {
+            [ wizziSchemas
+                {
+                    @ name 'css'
+                {
+                    @ name 'graphql'
+                {
+                    @ name 'html'
+                {
+                    @ name 'ittf'
+                {
+                    @ name 'js'
+                {
+                    @ name 'json'
+                {
+                    @ name 'md'
+                {
+                    @ name 'scss'
+                {
+                    @ name 'svg'
+                {
+                    @ name 'text'
+                {
+                    @ name 'ts'
+                {
+                    @ name 'vml'
+                {
+                    @ name 'vue'
+                {
+                    @ name 'xml'

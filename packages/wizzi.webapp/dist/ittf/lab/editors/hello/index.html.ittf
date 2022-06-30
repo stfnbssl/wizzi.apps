@@ -1,0 +1,37 @@
+html
+
+    $
+        var wzCtx = {
+            title: 'Tailwind',
+            Build: {
+                useAce: true,
+                useCodemirror: false,
+                useMonaco: false,
+                useTailwind: true,
+                useEventEmitter: true,
+                mainJs: './index.js.ittf',
+            }
+        }
+
+    h/std/basic(&wzCtx)
+
+        layouts/lab(&wzCtx)
+
+            . box-border h-32 w-32 p-4 border-4
+                # ace-editor
+
+        $append body-scripts
+
+            script
+                module
+                    kind es6
+
+                    const editor
+                        new EditorControl
+                            {
+                                @ key 'gen-ittf'
+                                @ elementId 'ace-editor'
+                    _ editor.initialize
+
+
+                    

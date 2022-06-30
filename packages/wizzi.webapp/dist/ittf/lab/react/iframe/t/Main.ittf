@@ -1,0 +1,28 @@
+$group
+
+    react Main
+
+        ctor
+            set this.state
+                {
+                    @ content
+                        _ 
+                            [
+                                @ '<div id="my-bye"><h1>bye</h1></div>'
+                            ._ join('\n')
+                    @ css
+                        _ 
+                            [
+                                @ '#my-bye { color:red; background:yellow; }'
+                            ._ join('\n')
+
+        render
+
+            return
+                div
+                    h1 
+                        + Iframe component
+                    div
+                        < IFramePage
+                            @ content {this.state.content}
+                            @ css {this.state.css}

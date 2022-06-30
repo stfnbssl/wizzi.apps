@@ -1,0 +1,142 @@
+$group
+
+    => handleAddSampleRequest
+        _ this.setState
+            {
+                @ addSampleOpen true
+
+    => handleNewSampleNameChange
+        param ev
+        _ this.setState
+            {
+                @ newSampleName ev.target.value
+
+    => handleNewSampleHtmlChange
+        param value
+        _ this.setState
+            {
+                @ newSampleHtml value
+
+    => handleAddSampleConfirm
+        _ this.addSample
+            @ this.state.newSampleName
+            @ this.state.newSampleHtml
+        _ this.setState
+            {
+                @ addSampleOpen false
+                @ newSampleName ''
+                @ newSampleHtml ''
+
+    => handleAddSampleClose
+        _ this.setState
+            {
+                @ addSampleOpen false
+                @ newSampleName ''
+                @ newSampleHtml ''
+
+    => handleChangeSample   
+        param ev
+        log 'handleChangeSample', ev.target.value
+        _ this.setSample
+            @ ev.target.value
+
+    => handleEditHtmlRequest
+        _ this.setState
+            {
+                @ editHtmlModalOpen true
+                @ htmlEdit this.state.htmlData
+
+    => handleEditHtmlClose
+        let sampleData = this.storeSamples.get(this.state.currentSampleName)
+        set sampleData = sampleData ? JSON.parse(sampleData) : null
+        let ruleData = sampleData ? sampleData.ruleData : this.state.ruleData
+        var changed
+            _ updateRuleData
+                @ ruleData
+                @ this.state.htmlData
+                @ this.state.rulesNoClassData
+        if changed
+            _ this.setState
+                {
+                    @ editHtmlModalOpen false
+                    @ ruleData ruleData
+                =>
+                    const newStateValues
+                        _ this.updateValues
+                            @ this.state.values
+                    _ this.setState
+                        {
+                            @ cssRule newStateValues.cssRule
+                            @ cssRuleIttf newStateValues.cssRuleIttf
+                            @ cssRuleInJs newStateValues.cssRuleInJs
+                        =>
+                            _ this.saveSample
+                                @ newStateValues.ruleData
+                            _ this.executeValuesChangeDebounced
+                                @ newStateValues.cssRule
+        else
+            _ this.setState
+                {
+                    @ editHtmlModalOpen false
+
+    => handleEditHtmlChange
+        param value
+        
+        _ this.setState
+            {
+                @ htmlData value
+
+    => handleSelectCssPreviewMode
+        param ev
+        log 'handleSelectCssPreviewMode', ev.target, ev.target.id
+        _ this.setState
+            {
+                @ cssPreviewMode ev.target.id
+
+    => handleEditRulesRequest
+        _ this.setState
+            {
+                @ editRulesModalOpen true
+                @ rulesEdit this.state.rulesNoClassData.join('\n')
+
+    => handleEditRulesChange
+        param value
+        const rulesArray = value.trim().length == 0 ? [] : value.trim().split('\n')
+        log 'handleEditRulesChange', value, rulesArray
+        _ this.setState
+            {
+                @ rulesNoClassData rulesArray
+
+    => handleEditRulesClose
+        let sampleData = this.storeSamples.get(this.state.currentSampleName)
+        set sampleData = sampleData ? JSON.parse(sampleData) : null
+        let ruleData = sampleData ? sampleData.ruleData : this.state.ruleData
+        var changed
+            _ updateRuleData
+                @ ruleData
+                @ this.state.htmlData
+                @ this.state.rulesNoClassData
+        log 'handleEditRulesClose.ruleData', ruleData
+        if changed
+            _ this.setState
+                {
+                    @ editRulesModalOpen false
+                    @ ruleData ruleData
+                =>
+                    const newStateValues
+                        _ this.updateValues
+                            @ this.state.values
+                    _ this.setState
+                        {
+                            @ cssRule newStateValues.cssRule
+                            @ cssRuleIttf newStateValues.cssRuleIttf
+                            @ cssRuleInJs newStateValues.cssRuleInJs
+                        =>
+                            _ this.saveSample
+                                @ newStateValues.ruleData
+                            _ this.executeValuesChangeDebounced
+                                @ newStateValues.cssRule
+        else
+            _ this.setState
+                {
+                    @ editRulesModalOpen false

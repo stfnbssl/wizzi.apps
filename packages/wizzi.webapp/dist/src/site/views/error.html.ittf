@@ -1,0 +1,12 @@
+html
+    $
+        var md = {
+        }
+    $$ layout(&md)
+    body
+        . w3-container
+            h1 Sorry, We got an error
+            p ${error.message}
+            pre
+                code
+                    + ${JSON.stringify(error, null, 2)}

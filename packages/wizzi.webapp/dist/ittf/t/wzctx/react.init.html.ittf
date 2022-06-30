@@ -1,0 +1,13 @@
+$group
+
+    $
+        var wzCtx = {
+            title: '... title not set ...',
+            Build: {
+                useReact: true,
+                react: {
+                    useRouter: false,
+                    useMaterialUi: false,
+                }
+            }
+        }

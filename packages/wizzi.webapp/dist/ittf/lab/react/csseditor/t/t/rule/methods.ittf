@@ -1,0 +1,27 @@
+$group
+
+    => updateFilteredStyles
+        param filter
+        log 'updateFilteredStyles', filter
+        const filtered = []
+        _ this.props.cssDefs.categories.map
+            =>
+                param cat
+                const catStyles
+                    {
+                        @ name cat.name
+                        [ styles
+                _ cat.styles.map
+                    =>
+                        param style
+                        if style.name.indexOf(filter) >= 0
+                            if catStyles.styles.length == 0
+                                _ filtered.push(catStyles)
+                            _ catStyles.styles.push(style)
+        log 'updateFilteredStyles.filtered', filtered
+        _ this.setState
+            {
+                @ styleFilter filter
+                @ filteredStyles filtered
+
+

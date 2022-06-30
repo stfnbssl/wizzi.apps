@@ -1,0 +1,118 @@
+$group
+
+    m setSample
+        param sampleName
+        const currentSampleText = this.storeSamples.get(sampleName)
+        log 'currentSampleText', currentSampleText
+        const currentSample
+            _ JSON.parse
+                @ currentSampleText
+        log 'currentSample', currentSample
+        _ this.store.set
+            @ 'recentSample'
+            @ sampleName
+        const storedSamplesNames = this.storeSamples.getAllKeys()
+        _ this.setState
+            {
+                @ currentSampleName currentSample.sampleName
+                @ currentSample currentSample
+                @ storedSamplesNames storedSamplesNames
+                @ ruleData currentSample.ruleData
+                @ htmlData currentSample.htmlData
+                @ rulesNoClassData currentSample.rulesNoClassData || []
+    
+    m addSample
+        param name
+        param html
+        param rulesNoClass
+        const newSample = Object.assign({}, __initial.samplesData[0])
+        set newSample.sampleName = name
+        if html
+            set newSample.htmlData = html
+        elif Array.isArray(newSample.htmlData)
+            set newSample.htmlData = newSample.htmlData.join('\n')
+        else
+            set newSample.htmlData = '<div></div>'
+        if rulesNoClass
+            set newSample.rulesNoClassData = rulesNoClass
+        else
+            set newSample.rulesNoClassData = []
+        const changed
+            _ updateRuleData
+                @ newSample.ruleData
+                @ newSample.htmlData
+                @ newSample.rulesNoClassData
+        _ this.storeSamples.set
+            @ newSample.sampleName
+            _ JSON.stringify
+                @ newSample
+        _ this.store.set
+            @ 'recentSample'
+            @ newSample.sampleName
+        const storedSamplesNames = this.storeSamples.getAllKeys()
+        _ this.setState
+            {
+                @ currentSampleName newSample.sampleName
+                @ currentSample newSample
+                @ storedSamplesNames storedSamplesNames
+                @ ruleData newSample.ruleData
+                @ htmlData newSample.htmlData
+                @ rulesNoClassData newSample.rulesNoClassData
+
+    m saveSample
+        param newRuleData
+        const newSampleData
+            {
+                @ sampleName this.state.currentSampleName
+                @ ruleData newRuleData
+                @ htmlData this.state.htmlData
+                @ rulesNoClassData this.state.rulesNoClassData
+        _ this.storeSamples.set
+            @ this.state.currentSampleName
+            _ JSON.stringify
+                @ newSampleData
+
+
+    m updateValues
+        param values
+        const newRuleData = []
+        const cssStyles = []
+        const cssStylesIttf = []
+        const cssStylesInJs = ['TODO']
+        _ this.state.ruleData.map
+            =>
+                param rule
+                const newRuleStyles
+                    {
+                        @ name rule.name
+                        @ kind rule.kind
+                        { styles
+                if rule.pseudo
+                    set newRuleStyles.pseudo = rule.pseudo
+                const rulePrefix = rule.kind == '2' ? '.' : ''
+                const ittfRulePrefix = rule.kind == '2' ? '.' : '<'
+                const ruleSuffix = rule.pseudo ? ':' + rule.pseudo : ''
+                _ cssStyles.push(rulePrefix + rule.name + ruleSuffix + ' {')
+                _ cssStylesIttf.push(ittfRulePrefix + ' ' + rule.name + ruleSuffix)
+                # _ cssStylesInJs.push('')
+                const styleValues = values[packRuleName(rule.name, rule.kind, rule.pseudo)]
+                if styleValues
+                    _ Object.keys(styleValues).map
+                        =>
+                            param styleName
+                            if styleValues[styleName] && styleValues[styleName].length > 0
+                                _ cssStyles.push('\t' + styleName + ':' + styleValues[styleName] + ';')
+                                _ cssStylesIttf.push('\t' + styleName + ' ' + styleValues[styleName])
+                                set newRuleStyles.styles[styleName] = styleValues[styleName]
+                _ cssStyles.push('}')
+                _ newRuleData.push(newRuleStyles)
+        const cssRule = cssStyles.join('\n')
+        const cssRuleIttf = cssStylesIttf.join('\n')
+        const cssRuleInJs = cssStylesInJs.join('\n')
+        return
+            {
+                @ cssRule cssRule
+                @ cssRuleIttf cssRuleIttf
+                @ cssRuleInJs cssRuleInJs
+                @ ruleData newRuleData
+

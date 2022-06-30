@@ -1,0 +1,50 @@
+module
+    kind react
+    var editor
+        _ monaco.editor.create
+            _ document.getElementById("container")
+            { 
+                [ value
+                    @ ''
+                    @ 'class Example {'
+                    @ '\tprivate m:number;'
+                    @ ''
+                    @ '\tpublic met(): string {'
+                    @ '\t\treturn "Hello world!";'
+                    @ '\t}'
+                    @ '}'
+                    ._ join
+                        @ '\n'
+                @ language "typescript"
+        # Explanation:
+        # Press F1 => the action will appear and run if it is enabled
+        # Press Ctrl-F10 => the action will run if it is enabled
+        # Press Chord Ctrl-K, Ctrl-M => the action will run if it is enabled
+    _ editor.addAction
+        { 
+            @ id 'my-unique-id'
+                # An unique identifier of the contributed action.
+            @ label 'My Label!!!'
+                # A label of the action that will be presented to the user.
+            [ keybindings
+                @ monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10
+                _ monaco.KeyMod.chord(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_K, monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_M)
+                    # chord
+                # An optional array of keybindings for the action.
+            @ precondition null
+                # A precondition for this action.
+            @ keybindingContext null
+                # A rule to evaluate on top of the precondition in order to dispatch the keybindings.
+            @ contextMenuGroupId 'navigation'
+            @ contextMenuOrder 1.5
+            @ run
+                function 
+                    param ed
+                    _ alert("i'm running => " + ed.getPosition())
+                    return null
+                # Method that will be executed when the action is triggered.
+                # @param editor The editor instance is passed in as a convinience
+        # Explanation:
+        # Press F1 => the action will appear and run if it is enabled
+        # Press Ctrl-F10 => the action will run if it is enabled
+        # Press Chord Ctrl-K, Ctrl-M => the action will run if it is enabled

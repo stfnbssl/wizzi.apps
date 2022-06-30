@@ -1,0 +1,5 @@
+﻿$group
+    $params label, href
+    link ${href}
+        label ${label}
+        $hook

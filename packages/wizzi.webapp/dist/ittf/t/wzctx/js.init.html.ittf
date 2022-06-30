@@ -1,0 +1,8 @@
+$group
+
+    $
+        var wzCtx = {
+            title: '... title not set ...',
+            Build: {
+            }
+        }

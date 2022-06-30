@@ -1,0 +1,370 @@
+module
+    kind react
+    iife 
+        var isMac = /Mac/i.test(navigator.userAgent)
+        set window.onload =
+            function 
+                _ require
+                    [ 
+                        @ 'vs/editor/editor.main'
+                    function 
+                        _ xhr('playground/monaco.d.ts.txt').then
+                            function 
+                                param response
+                                _ monaco.languages.typescript.javascriptDefaults.addExtraLib(response.responseText, 'ts:monaco.d.ts')
+                                _ monaco.languages.typescript.javascriptDefaults.addExtraLib
+                                    [ 
+                                        @ 'declare var require: {'
+                                        @ '	toUrl(path: string): string;'
+                                        @ '	(moduleName: string): any;'
+                                        @ '	(dependencies: string[], callback: (...args: any[]) => any, errorback?: (err: any) => void): any;'
+                                        @ '	config(data: any): any;'
+                                        @ '	onError: Function;'
+                                        @ '};'
+                                        ._ join
+                                            @ '\n'
+                                    @ 'ts:require.d.ts'
+                        var loading = document.getElementById('loading')
+                        _ loading.parentNode.removeChild(loading)
+                        _ load()
+        var editor = null
+        var data
+            { 
+                { js
+                    @ model null
+                    @ state null
+                { css
+                    @ model null
+                    @ state null
+                { html
+                    @ model null
+                    @ state null
+        function load
+            function layout
+                var GLOBAL_PADDING = 20
+                var WIDTH = window.innerWidth - 2 * GLOBAL_PADDING
+                var HEIGHT = window.innerHeight
+                var TITLE_HEIGHT = 110
+                var FOOTER_HEIGHT = 80
+                var TABS_HEIGHT = 20
+                var INNER_PADDING = 20
+                var SWITCHER_HEIGHT = 30
+                var HALF_WIDTH = Math.floor((WIDTH - INNER_PADDING) / 2)
+                var REMAINING_HEIGHT = HEIGHT - TITLE_HEIGHT - FOOTER_HEIGHT - SWITCHER_HEIGHT
+                set playgroundContainer.style.width = WIDTH + 'px'
+                set playgroundContainer.style.height = (HEIGHT - FOOTER_HEIGHT) + 'px'
+                set sampleSwitcher.style.position = 'absolute'
+                set sampleSwitcher.style.top = TITLE_HEIGHT + 'px'
+                set sampleSwitcher.style.left = GLOBAL_PADDING + 'px'
+                set typingContainer.style.position = 'absolute'
+                set typingContainer.style.top = GLOBAL_PADDING + TITLE_HEIGHT + SWITCHER_HEIGHT + 'px'
+                set typingContainer.style.left = GLOBAL_PADDING + 'px'
+                set typingContainer.style.width = HALF_WIDTH + 'px'
+                set typingContainer.style.height = REMAINING_HEIGHT + 'px'
+                set tabArea.style.position = 'absolute'
+                set tabArea.style.boxSizing = 'border-box'
+                set tabArea.style.top = 0
+                set tabArea.style.left = 0
+                set tabArea.style.width = HALF_WIDTH + 'px'
+                set tabArea.style.height = TABS_HEIGHT + 'px'
+                set editorContainer.style.position = 'absolute'
+                set editorContainer.style.boxSizing = 'border-box'
+                set editorContainer.style.top = TABS_HEIGHT + 'px'
+                set editorContainer.style.left = 0
+                set editorContainer.style.width = HALF_WIDTH + 'px'
+                set editorContainer.style.height = (REMAINING_HEIGHT - TABS_HEIGHT) + 'px'
+                if editor
+                    _ editor.layout
+                        { 
+                            @ width HALF_WIDTH - 2
+                            @ height (REMAINING_HEIGHT - TABS_HEIGHT) - 1
+                set runContainer.style.position = 'absolute'
+                set runContainer.style.top = GLOBAL_PADDING + TITLE_HEIGHT + SWITCHER_HEIGHT + TABS_HEIGHT + 'px'
+                set runContainer.style.left = GLOBAL_PADDING + INNER_PADDING + HALF_WIDTH + 'px'
+                set runContainer.style.width = HALF_WIDTH + 'px'
+                set runContainer.style.height = (REMAINING_HEIGHT - TABS_HEIGHT) + 'px'
+                set runIframeHeight = (REMAINING_HEIGHT - TABS_HEIGHT)
+                if runIframe
+                    set runIframe.style.height = runIframeHeight + 'px'
+            function changeTab
+                param selectedTabNode
+                param desiredModelId
+                for var i = 0; i < tabArea.childNodes.length; i++
+                    var child = tabArea.childNodes[i]
+                    if /tab/.test(child.className)
+                        set child.className = 'tab'
+                set selectedTabNode.className = 'tab active'
+                var currentState = editor.saveViewState()
+                var currentModel = editor.getModel()
+                if currentModel === data.js.model
+                    set data.js.state = currentState
+                else
+                    if currentModel === data.css.model
+                        set data.css.state = currentState
+                    else
+                        if currentModel === data.html.model
+                            set data.html.state = currentState
+                _ editor.setModel(data[desiredModelId].model)
+                _ editor.restoreViewState(data[desiredModelId].state)
+                _ editor.focus()
+                # create the typing side
+            var typingContainer = document.createElement('div')
+                # create the typing side
+            set typingContainer.className = 'typingContainer'
+            var tabArea
+                iife 
+                    var tabArea = document.createElement('div')
+                    set tabArea.className = 'tabArea'
+                    var jsTab = document.createElement('span')
+                    set jsTab.className = 'tab active'
+                    _ jsTab.appendChild(document.createTextNode('JavaScript'))
+                    set jsTab.onclick =
+                        function 
+                            _ changeTab(jsTab, 'js')
+                    _ tabArea.appendChild(jsTab)
+                    var cssTab = document.createElement('span')
+                    set cssTab.className = 'tab'
+                    _ cssTab.appendChild(document.createTextNode('CSS'))
+                    set cssTab.onclick =
+                        function 
+                            _ changeTab(cssTab, 'css')
+                    _ tabArea.appendChild(cssTab)
+                    var htmlTab = document.createElement('span')
+                    set htmlTab.className = 'tab'
+                    _ htmlTab.appendChild(document.createTextNode('HTML'))
+                    set htmlTab.onclick =
+                        function 
+                            _ changeTab(htmlTab, 'html')
+                    _ tabArea.appendChild(htmlTab)
+                    var runLabel
+                        op+ 
+                            op+ 
+                                + 'Press '
+                                ( 
+                                    iif isMac
+                                        then 'CMD + return'
+                                        else 'CTRL + Enter'
+                            + ' to run the code.'
+                    var runBtn = document.createElement('button')
+                    set runBtn.className = 'action run'
+                    _ runBtn.setAttribute('role', 'button')
+                    _ runBtn.setAttribute('aria-label', runLabel)
+                    _ runBtn.appendChild(document.createTextNode('Run'))
+                    set runBtn.onclick =
+                        function 
+                            _ run()
+                    _ tabArea.appendChild(runBtn)
+                    return tabArea
+            var editorContainer = document.createElement('div')
+            set editorContainer.className = 'editor-container'
+            _ typingContainer.appendChild(tabArea)
+            _ typingContainer.appendChild(editorContainer)
+            var runContainer = document.createElement('div')
+            set runContainer.className = 'run-container'
+            var sampleSwitcher = document.createElement('select')
+            var sampleChapter
+            _ PLAY_SAMPLES.forEach
+                function 
+                    param sample
+                    if !sampleChapter || sampleChapter.label !== sample.chapter
+                        set sampleChapter = document.createElement('optgroup')
+                        set sampleChapter.label = sample.chapter
+                        _ sampleSwitcher.appendChild(sampleChapter)
+                    var sampleOption = document.createElement('option')
+                    set sampleOption.value = sample.id
+                    _ sampleOption.appendChild(document.createTextNode(sample.name))
+                    _ sampleChapter.appendChild(sampleOption)
+            set sampleSwitcher.className = 'sample-switcher'
+            var LOADED_SAMPLES = []
+            function findLoadedSample
+                param sampleId
+                for var i = 0; i < LOADED_SAMPLES.length; i++
+                    var sample = LOADED_SAMPLES[i]
+                    if sample.id === sampleId
+                        return sample
+                return null
+            function findSamplePath
+                param sampleId
+                for var i = 0; i < PLAY_SAMPLES.length; i++
+                    var sample = PLAY_SAMPLES[i]
+                    if sample.id === sampleId
+                        return sample.path
+                return null
+            function loadSample
+                param sampleId
+                param callback
+                var sample = findLoadedSample(sampleId)
+                if sample
+                    return callback(null, sample)
+                var samplePath = findSamplePath(sampleId)
+                if !samplePath
+                    return callback(Error('sample not found'))
+                set samplePath = 'playground/new-samples/' + samplePath
+                var js
+                    _ xhr(samplePath + '/sample.js').then
+                        function 
+                            param response
+                            return response.responseText
+                var css
+                    _ xhr(samplePath + '/sample.css').then
+                        function 
+                            param response
+                            return response.responseText
+                var html
+                    _ xhr(samplePath + '/sample.html').then
+                        function 
+                            param response
+                            return response.responseText
+                _ Promise.all
+                    [ 
+                        @ js
+                        @ css
+                        @ html
+                    ._ then
+                        function 
+                            param _
+                            var js = _[0]
+                            var css = _[1]
+                            var html = _[2]
+                            _ LOADED_SAMPLES.push
+                                { 
+                                    @ id sampleId
+                                    @ js
+                                    @ css
+                                    @ html
+                            return callback(null, findLoadedSample(sampleId))
+                        function 
+                            param err
+                            _ callback(err, null)
+            set sampleSwitcher.onchange =
+                function 
+                    var sampleId = sampleSwitcher.options[sampleSwitcher.selectedIndex].value
+                    set window.location.hash = sampleId
+            var playgroundContainer = document.getElementById('playground')
+            _ layout()
+            set window.onresize = layout
+            _ playgroundContainer.appendChild(sampleSwitcher)
+            _ playgroundContainer.appendChild(typingContainer)
+            _ playgroundContainer.appendChild(runContainer)
+            set data.js.model = monaco.editor.createModel('console.log("hi")', 'javascript')
+            set data.css.model = monaco.editor.createModel('css', 'css')
+            set data.html.model = monaco.editor.createModel('html', 'html')
+            set editor =
+                _ monaco.editor.create
+                    @ editorContainer
+                    { 
+                        @ model data.js.model
+                        { minimap
+                            @ enabled false
+            var currentToken = 0
+            function parseHash
+                param firstTime
+                var sampleId = window.location.hash.replace(/^#/, '')
+                if !sampleId
+                    set sampleId = PLAY_SAMPLES[0].id
+                if firstTime
+                    for var i = 0; i < sampleSwitcher.options.length; i++
+                        var opt = sampleSwitcher.options[i]
+                        if opt.value === sampleId
+                            set sampleSwitcher.selectedIndex = i
+                            break 
+                var myToken = ++currentToken
+                _ loadSample
+                    @ sampleId
+                    function 
+                        param err
+                        param sample
+                        if err
+                            _ alert('Sample not found! ' + err.message)
+                            return 
+                        if myToken !== currentToken
+                            return 
+                        _ data.js.model.setValue(sample.js)
+                        _ data.html.model.setValue(sample.html)
+                        _ data.css.model.setValue(sample.css)
+                        _ editor.setScrollTop(0)
+                        _ run()
+            set window.onhashchange = parseHash
+            _ parseHash(true)
+            function run
+                _ doRun(runContainer)
+            _ editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, run)
+            _ window.addEventListener
+                @ 'keydown'
+                function keyDown
+                    param ev
+                    if (isMac && !ev.metaKey) || !ev.ctrlKey
+                        return 
+                    if ev.shiftKey || ev.altKey || ev.keyCode !== 13
+                        return 
+                    _ ev.preventDefault()
+                    _ run()
+        var 
+            decl runIframe = null
+            decl runIframeHeight = 0
+        function doRun
+            param runContainer
+            if runIframe
+                _ runContainer.removeChild(runIframe)
+            set runIframe = document.createElement('iframe')
+                # Load new iframe
+            set runIframe.id = 'runner'
+            set runIframe.src = 'playground/playground-runner.html'
+            set runIframe.className = 'run-iframe'
+            set runIframe.style.boxSizing = 'border-box'
+            set runIframe.style.height = runIframeHeight + 'px'
+            set runIframe.style.width = '100%'
+            set runIframe.style.border = '1px solid lightgrey'
+            set runIframe.frameborder = '0'
+            _ runContainer.appendChild(runIframe)
+            var getLang
+                function 
+                    param lang
+                    return data[lang].model.getValue()
+            _ runIframe.addEventListener
+                @ 'load'
+                function 
+                    param e
+                    _ runIframe.contentWindow.load(getLang('js'), getLang('html'), getLang('css'))
+        var preloaded
+            { 
+        iife 
+            var elements = Array.prototype.slice.call(document.querySelectorAll('pre[data-preload]'), 0)
+            _ elements.forEach
+                function 
+                    param el
+                    var path = el.getAttribute('data-preload')
+                    set preloaded[path] = el.innerText || el.textContent
+                    _ el.parentNode.removeChild(el)
+        function xhr
+            param url
+            if preloaded[url]
+                return 
+                    _ Promise.resolve
+                        { 
+                            @ responseText preloaded[url]
+            var req = null
+            return 
+                new Promise
+                    function 
+                        param c
+                        param e
+                        set req = new XMLHttpRequest()
+                        set req.onreadystatechange =
+                            function 
+                                if req._canceled
+                                    return 
+                                if req.readyState === 4
+                                    if (req.status >= 200 && req.status < 300) || req.status === 1223
+                                        _ c(req)
+                                    else
+                                        _ e(req)
+                                    set req.onreadystatechange =
+                                        function 
+                        _ req.open("GET", url, true)
+                        set req.responseType = ""
+                        _ req.send(null)
+                    function 
+                        set req._canceled = true
+                        _ req.abort()
+        # / <reference path="../../release/monaco.d.ts" />

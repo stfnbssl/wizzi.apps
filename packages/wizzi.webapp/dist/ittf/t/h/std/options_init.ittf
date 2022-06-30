@@ -1,0 +1,7 @@
+﻿$group
+
+    $global
+        var opt = {}
+        opt.local = false;
+        opt.production = false;
+        opt.useMaterialUI = false;
