@@ -1,0 +1,39 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ ModalDialog 
+        from '../widgets/ModalDialog'
+    :type Props
+        :{ 
+            :p visible
+                :boolean 
+            :p onDismiss
+                :=> 
+                    :void 
+    export-default 
+        class ModalPublishUnknownError
+            super React.PureComponent
+                :param 
+                    :ref Props
+            m render
+                return 
+                    < ModalDialog 
+                        @ visible {this.props.visible}
+                        @ onDismiss {this.props.onDismiss}
+                        @ title "Couldn't save the Packi!"
+                        p 
+                            @ className {css(styles.text)}
+                            + An unknown error occurred when saving your Packi. Please try again later.
+    const styles
+        _ StyleSheet.create
+            { 
+                { text
+                    @ marginTop 12
+                    @ fontSize 16
+                    @ textAlign 'center'

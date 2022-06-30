@@ -1,0 +1,31 @@
+$group
+    useExpress true
+    { express
+        useSsl ${md.useSsl ? 'true' : 'false'}
+        useErrors true
+        useStaticFiles true
+        { staticFiles
+            basePath "__dirname, '..', '..'"
+    useSession true
+    { session
+        name "wizzi.backend"
+    noCache true
+    useSocketIO false
+    { socketIO
+    useCookie true
+    { cookie
+    useLogger true
+    { logger
+        useMorgan true
+        { morgan
+    useCompression false
+    { compression
+    useCors true
+    { cors
+        clientOrigin "${md.http}://localhost:${md.port}"
+    usePassport false
+    { passport
+    usePassportAuth0 false
+    { passportAuth0
+    useHelmet false
+    { helmet

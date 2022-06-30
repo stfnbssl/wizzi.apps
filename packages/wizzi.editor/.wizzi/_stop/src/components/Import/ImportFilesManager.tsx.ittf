@@ -1,0 +1,605 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import convertDataTransferItemsToFiles
+        @ WebkitFileEntry
+        @ WebkitDirectoryEntry
+        from '../../utils/convertDataTransferItemsToFiles'
+    import dragEventIncludes from '../../utils/dragEventIncludes'
+    import 
+        @ getUniquePath
+        @ isESLintConfig
+        from '../../features/file/index'
+    import 
+        @ FileSystemEntry
+        @ TextFileEntry
+        @ AssetFileEntry
+        from '../../features/file'
+    import 
+        @ c
+        @ s
+        from '../ThemeProvider'
+    import Button from '../widgets/Button'
+    import Modal from '../widgets/Modal'
+    import ModalDialog from '../widgets/ModalDialog'
+    :type Props
+        :{ 
+            :p entries
+                :[ 
+                    :ref FileSystemEntry
+            :p onImportFile
+                :=> 
+                    :void 
+                    param e
+                        :union 
+                            :ref TextFileEntry
+                            :ref AssetFileEntry
+            :p uploadFileAsync
+                :=> 
+                    :ref Promise
+                        :param string
+                    param file
+                        :ref File
+            :p render
+                :=> 
+                    :ref React.ReactNode
+                    param options
+                        :{ 
+                            :p onImportStart
+                                :=> 
+                                    :void 
+            :p className
+                :optional 
+                :string 
+    :type FileItem
+        :union 
+            :ref File
+            :ref WebkitFileEntry
+            :ref WebkitDirectoryEntry
+    :type State
+        :{ 
+            :p isImportModalShown
+                :boolean 
+            :p isDragging
+                :boolean 
+            :p isImporting
+                :boolean 
+            :p itemsToImport
+                :[ 
+                    :ref FileItem
+            :p itemsErrored
+                :[ 
+                    :{ 
+                        :p item
+                            :ref FileItem
+                        :p error
+                            :ref Error
+            :p importTotal
+                :number 
+            :p importProgress
+                :number 
+    export-default 
+        class ImportFilesManager
+            super React.PureComponent
+                :param 
+                    :ref Props
+                :param 
+                    :ref State
+            p state
+                :ref State
+                { 
+                    @ isImportModalShown false
+                    @ isDragging false
+                    @ isImporting false
+                    @ itemsToImport []
+                    @ itemsErrored []
+                    @ importProgress 0
+                    @ importTotal 0
+            m componentDidMount
+                _ document.addEventListener('dragover', this._handleDragOver)
+                _ document.addEventListener('drop', this._handleDrop)
+                # @ts-ignore
+            => _handleDragOver
+                param e
+                    :ref DragEvent
+                if dragEventIncludes(e, 'Files')
+                    _ e.preventDefault()
+                    if this.state.isImportModalShown
+                        return true
+                    if !this.state.isDragging
+                        _ this.setState
+                            { 
+                                @ isDragging true
+                    _ clearTimeout(this._dragTimer)
+                    set this._dragTimer = setTimeout(this._handleDragEnd, 300)
+                # @ts-ignore
+            => _handleDragEnd
+                if this.state.isDragging
+                    _ this.setState
+                        { 
+                            @ isDragging false
+            => _handleDrop
+                param e
+                    :ref DragEvent
+                if dragEventIncludes(e, 'Files') && e.dataTransfer && (e.dataTransfer.items || e.dataTransfer.files)
+                    const dataTransfer = e.dataTransfer
+                    _ e.preventDefault()
+                    const entries
+                        :[ 
+                            :ref FileItem
+                        =
+                            iif dataTransfer.items
+                                then
+                                    _ Array.from(dataTransfer.items).map
+                                        => 
+                                            param it
+                                            _ it.webkitGetAsEntry()
+                                else Array.from(dataTransfer.files)
+                    _ this._handleSelectFilesForImport(entries)
+            p _dragTimer
+                :any 
+            => _showImportModal
+                _ this.setState
+                    { 
+                        @ isImportModalShown true
+            => _hideImportModal
+                _ this.setState
+                    { 
+                        @ isImportModalShown false
+                        @ itemsToImport []
+            => _handleSelectFilesForImport
+                param items
+                    :[ 
+                        :ref FileItem
+                _ this.setState
+                    => 
+                        param state
+                        (
+                            { 
+                                @ isImportModalShown true
+                                [ itemsToImport
+                                    @ ...state.itemsToImport
+                                    @ ...items
+                                @ itemsErrored []
+            p _handleImportClick
+                async=> 
+                    _ this.setState
+                        { 
+                            @ isImporting true
+                            @ isImportModalShown false
+                            @ importProgress 0
+                    const allPaths
+                        _ this.props.entries.map
+                            => 
+                                param e
+                                +
+                                    @expr e.item.path
+                    const folderMappings
+                        :{ 
+                            :index 
+                                :string 
+                                param key
+                                    :string 
+                        =
+                            { 
+                    const 
+                        { 
+                            @ itemsToImport
+                        = this.state
+                    _ itemsToImport.forEach
+                        => 
+                            param item
+                            if item.isDirectory
+                                # @ts-ignore
+                                set folderMappings[item.name] = getUniquePath(allPaths, item.name)
+                    const files
+                        await 
+                            _ convertDataTransferItemsToFiles(itemsToImport, folderMappings)
+                    _ this.setState
+                        { 
+                            @ importTotal files.length
+                    await 
+                        _ Promise.all
+                            _ files.map
+                                async=> 
+                                    { 
+                                        @ file
+                                        @ path
+                                    try 
+                                        const entry
+                                            iif /\.(md|json|js|tsx?)$/.test(path) || isESLintConfig(path)
+                                                then
+                                                    await 
+                                                        new Promise
+                                                            => 
+                                                                param resolve
+                                                                param reject
+                                                                const reader = new FileReader()
+                                                                set reader.onload =
+                                                                    => 
+                                                                        param e
+                                                                            :ref ProgressEvent
+                                                                        _ resolve
+                                                                            { 
+                                                                                { item
+                                                                                    @ path
+                                                                                    @ type 'file'
+                                                                                    @ content
+                                                                                        iif e.target
+                                                                                            then e.target.result
+                                                                                            else ''
+                                                                                        # @ts-ignore
+                                                                                { state
+                                                                set reader.onerror =
+                                                                    => 
+                                                                        param error
+                                                                        _ reject(error)
+                                                                _ reader.readAsText(file)
+                                                else
+                                                    await 
+                                                        _ this.props.uploadFileAsync(file).then
+                                                            => 
+                                                                param uri
+                                                                ( 
+                                                                    @expr
+                                                                        { 
+                                                                            { item
+                                                                                @ path
+                                                                                @ type 'file'
+                                                                                @ uri
+                                                                                @ asset true
+                                                                            { state
+                                                                        :as 
+                                                                            :ref AssetFileEntry
+                                        if !this.state.itemsToImport.length
+                                            return 
+                                                # Import was cancelled
+                                        _ this.props.onImportFile(entry)
+                                            # @ts-ignore
+                                    catch error
+                                        _ console.error(error)
+                                        _ this.setState
+                                            => 
+                                                param state
+                                                (
+                                                    { 
+                                                        [ itemsErrored
+                                                            @ ...state.itemsErrored
+                                                            { 
+                                                                @ item file
+                                                                @ error
+                                    finally 
+                                        _ this.setState
+                                            => 
+                                                param state
+                                                (
+                                                    { 
+                                                        @ importProgress state.importProgress + 1
+                    _ this.setState
+                        { 
+                            @ itemsToImport []
+            => _handleFilesChange
+                param e
+                    :ref React.ChangeEvent
+                        :param 
+                            :ref HTMLInputElement
+                _ this._handleSelectFilesForImport(e.target.files)
+                    # @ts-ignore
+            => _handleRemoveFileImport
+                param file
+                    :ref FileItem
+                _ this.setState
+                    => 
+                        param state
+                        (
+                            { 
+                                @ itemsToImport
+                                    _ state.itemsToImport.filter
+                                        => 
+                                            param f
+                                            set f !== file
+            => _handleProgressDismiss
+                _ this.setState
+                    { 
+                        @ itemsToImport []
+                        @ itemsErrored []
+                        @ importProgress 0
+                        @ isImporting false
+            m render
+                const 
+                    { 
+                        @ isImporting
+                        @ importProgress
+                        @ itemsToImport
+                        @ itemsErrored
+                        @ isDragging
+                        @ isImportModalShown
+                        @ importTotal
+                    = this.state
+                const importedFiles = importProgress - itemsErrored.length
+                return 
+                    div 
+                        @ className {this.props.className}
+                        { 
+                            _ this.props.render
+                                { 
+                                    @ onImportStart this._showImportModal
+                        { 
+                            iif isImporting
+                                then
+                                    div 
+                                        @ className {css(styles.importProgress)}
+                                        div 
+                                            @ className {css(styles.importProgressHeader)}
+                                            h4 
+                                                @ className {css(styles.importProgressLabel)}
+                                                { 
+                                                    iif importTotal === 0
+                                                        then 'Reading files…'
+                                                        else
+                                                            iif importProgress === importTotal
+                                                                then
+                                                                    `lit 
+                                                                        + 
+                                                                        @ importedFiles
+                                                                        + &nbsp;file
+                                                                        iif importedFiles === 1
+                                                                            then ''
+                                                                            else 's'
+                                                                        + &nbsp;imported
+                                                                        iif itemsErrored.length
+                                                                            then
+                                                                                `lit 
+                                                                                    + ,&nbsp;
+                                                                                    @ itemsErrored.length
+                                                                                    + &nbsp;failed to import
+                                                                            else
+                                                                                `lit 
+                                                                                    + &nbsp;successfully
+                                                                        + 
+                                                                else
+                                                                    `lit 
+                                                                        + Importing files (
+                                                                        @ importProgress + 1
+                                                                        + /
+                                                                        @ importTotal
+                                                                        + )
+                                            button 
+                                                @ onClick {this._handleProgressDismiss}
+                                                @ className {css(styles.importProgressButton)}
+                                                { 
+                                                    iif importProgress === importTotal
+                                                        then 'Dismiss'
+                                                        else 'Cancel'
+                                        { 
+                                            iif importTotal
+                                                then
+                                                    progress 
+                                                        @ className {css(styles.importProgressBar)}
+                                                        @ value {(importProgress / importTotal) * 100}
+                                                        @ max {100}
+                                                else null
+                                else null
+                        < Modal 
+                            @ visible {isDragging}
+                            div 
+                                @ className {css(styles.dropzoneLarge)}
+                                h2 
+                                    + Drop anywhere to import
+                                p 
+                                    + You'll be able to adjust your selection before importing them into your project
+                        < ModalDialog 
+                            @ visible {isImportModalShown}
+                            @ onDismiss {this._hideImportModal}
+                            @ title "Import files"
+                            p 
+                                @ className {css(styles.paragraph)}
+                                + Import JavaScript files from your computer or a GitHub repository to use in your expo&lf;            project.
+                            div 
+                                @ className {css(styles.dropzoneSmall)}
+                                { 
+                                    iif itemsToImport.length
+                                        then
+                                            ul 
+                                                @ className {css(styles.fileList)}
+                                                { 
+                                                    _ itemsToImport.map
+                                                        => 
+                                                            param f
+                                                            param i
+                                                            li 
+                                                                @ className {css(styles.fileEntry)}
+                                                                @ key {i}
+                                                                span 
+                                                                    @ className {css(styles.fileEntryName)}
+                                                                    { 
+                                                                        iif 
+                                                                            test
+                                                                                @expr 
+                                                                                    ( 
+                                                                                        + f
+                                                                                            :as 
+                                                                                                :any 
+                                                                                    . isDirectory
+                                                                            then
+                                                                                `lit 
+                                                                                    + 
+                                                                                    @ f.name
+                                                                                    + /
+                                                                            else f.name
+                                                                span 
+                                                                    @ className {css(styles.fileEntrySize)}
+                                                                    { 
+                                                                        iif 
+                                                                            test
+                                                                                === 
+                                                                                    optypeof 
+                                                                                        @expr 
+                                                                                            ( 
+                                                                                                + f
+                                                                                                    :as 
+                                                                                                        :any 
+                                                                                            . size
+                                                                                    + 'number'
+                                                                            then
+                                                                                `lit 
+                                                                                    + 
+                                                                                    _ 
+                                                                                        @expr 
+                                                                                            ( 
+                                                                                                + f
+                                                                                                    :as 
+                                                                                                        :any 
+                                                                                            . size
+                                                                                        + 1024
+                                                                                        ._ toFixed
+                                                                                            @ 2
+                                                                                    + kb
+                                                                            else ''
+                                                                button 
+                                                                    @ onClick
+                                                                        => 
+                                                                            _ this._handleRemoveFileImport(f)
+                                                                    @ className {css(styles.fileEntryClose)}
+                                                                    + ×
+                                        else
+                                            div 
+                                                @ className {css(styles.dropzonePlaceholder)}
+                                                + Drop your files or
+                                                label 
+                                                    @ className {css(styles.fileInputLabel)}
+                                                    + browse
+                                                    input 
+                                                        @ multiple
+                                                        @ type "file"
+                                                        @ accept ".js"
+                                                        @ onChange {this._handleFilesChange}
+                                                        @ className {css(styles.fileInput)}
+                            < Button 
+                                @ large
+                                @ variant "primary"
+                                @ onClick {this._handleImportClick}
+                                @ disabled {!itemsToImport.length}
+                                + Import
+    const styles
+        _ StyleSheet.create
+            { 
+                { dropzoneLarge
+                    @ textAlign 'center'
+                    @ padding 48
+                    @ border
+                        `lit 
+                            + 2px dashed&nbsp;
+                            _ c('border')
+                            + 
+                    @ borderRadius 4
+                { dropzoneSmall
+                    @ border
+                        `lit 
+                            + 1px dashed&nbsp;
+                            _ c('border')
+                            + 
+                    @ backgroundColor c('background')
+                    @ borderRadius 3
+                    @ height '12em'
+                    @ marginBottom 8
+                { dropzonePlaceholder
+                    @ width '100%'
+                    @ height '100%'
+                    @ display 'flex'
+                    @ alignItems 'center'
+                    @ justifyContent 'center'
+                { paragraph
+                    @ margin '8px 0 16px'
+                { fileInputLabel
+                    @ margin 0
+                    @ paddingLeft 4
+                    @ color c('selected')
+                    @ fontWeight 'normal'
+                    @ cursor 'pointer'
+                    { ':hover'
+                        @ textDecoration 'underline'
+                { fileInput
+                    @ display 'none'
+                { fileList
+                    @ listStyle 'none'
+                    @ textAlign 'left'
+                    @ padding 0
+                    @ height '100%'
+                    @ width '100%'
+                    @ overflow 'auto'
+                { fileEntry
+                    @ display 'flex'
+                    @ borderBottom
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c('border')
+                            + 
+                    @ alignItems 'center'
+                { fileEntrySize
+                    @ flex 1
+                    @ opacity 0.5
+                    @ margin 8
+                { fileEntryName
+                    @ margin 8
+                    @ maxWidth '15em'
+                    @ whiteSpace 'nowrap'
+                    @ textOverflow 'ellipsis'
+                    @ overflow 'hidden'
+                { fileEntryClose
+                    @ padding '4px 12px'
+                    @ margin '0 4px'
+                    @ fontSize 18
+                    @ background 'none'
+                    @ border 'none'
+                    @ appearance 'none'
+                { importProgress
+                    @ position 'fixed'
+                    @ zIndex 10
+                    @ left '1em'
+                    @ bottom '4em'
+                    @ width '24em'
+                    @ padding '8px 16px'
+                    @ borderRadius 3
+                    @ backgroundColor c('content')
+                    @ border
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c('border')
+                            + 
+                    @ boxShadow s('popover')
+                { importProgressHeader
+                    @ display 'flex'
+                    @ flexDirection 'row'
+                    @ alignItems 'center'
+                    @ margin '4px 0'
+                { importProgressLabel
+                    @ flex 1
+                    @ fontSize '1em'
+                    @ fontWeight 500
+                    @ margin 0
+                { importProgressButton
+                    @ appearance 'none'
+                    @ background 'none'
+                    @ border 0
+                    @ color c('primary')
+                { importProgressBar
+                    @ appearance 'none'
+                    @ width '100%'
+                    @ margin '8px 0'
+                    @ height 6
+                    @ borderRadius 3
+                    @ overflow 'hidden'
+                    { '::-webkit-progress-bar'
+                        @ backgroundColor c('content')
+                    { '::-webkit-progress-value'
+                        @ backgroundColor c('primary')
+                    { '::-moz-progress-bar'
+                        @ backgroundColor c('content')
+                    { '::-moz-progress-value'
+                        @ backgroundColor c('primary')

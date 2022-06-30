@@ -1,0 +1,42 @@
+module
+
+    import sdks from './sdks'
+    import features from './sdks/features'    
+    import
+        @ SDKVersion
+        from './sdks/types'
+    
+    export 
+        function validateSDKVersion
+            param sdkVersion
+                :ref SDKVersion
+            :return
+                :ref SDKVersion
+            if Object.keys(sdks).indexOf(sdkVersion) < 0
+                throw 
+                    new Error
+                        `lit 
+                            + Invalid SDKVersion, the following versions are supported:&nbsp;
+                            _ Object.keys(sdks)
+                            + 
+            return sdkVersion
+
+    export 
+        function isTFolderPreloaded
+            param name
+                :string 
+            param sdkVersion
+                :ref SDKVersion
+            param coreTFoldersOnly
+                :boolean 
+                :optional 
+            :return
+                :boolean 
+            const sdk = sdks[sdkVersion]
+            if !sdk
+                return false
+            return !!(sdk.coreTFolders[name] || (!coreTFoldersOnly))
+        #
+            # 
+            # Checks whether a specific tfolder/dependency is preloaded for the given SDK version.
+            # 

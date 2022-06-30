@@ -1,0 +1,76 @@
+module
+    
+    $
+        var ctrl = {
+            name: 'ApiV1PackageProduction',
+            path: '/api/v1/production/package',
+        }
+    
+    controller( &ctrl )
+            
+        $append imports
+            import
+                @ validatePackageProduction
+                @ getPackageProduction
+                @ updatePackageProduction
+                from '../api/package'
+            +
+            const myname = 'features/production/controllers/apiv1packageproduction'
+
+        _ this.router.get('/checkname/:name', this.getCheckPackageName)
+        _ this.router.get('/:owner/:name', this.getPackageProduction)
+        _ this.router.put('/:owner/:name', this.putPackageProduction)
+        
+        $append handlers
+            
+            handler( getCheckPackageName )
+
+                # loog 'getCheckPackageName.request.params', request.params
+                # loog 'getCheckPackageName.request.session.user.username', (request.session as any).user.username
+                _ validatePackageProduction
+                    @ (request.session as any).user.username
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getCheckPackageName.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( getCheckPackageName )
+
+            handler( getPackageProduction )
+
+                # loog 'getPackageProduction.request.params', request.params
+                _ getPackageProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getPackageProduction.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( getPackageProduction )
+
+            handler( putPackageProduction )
+
+                # loog 'putPackageProduction.request.params', request.params
+                # loog 'putPackageProduction.request.body', request.body
+                _ updatePackageProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'putPackageProduction.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( putPackageProduction )

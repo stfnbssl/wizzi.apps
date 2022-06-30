@@ -1,0 +1,18 @@
+$group
+    +
+    export 
+        const getLuminance
+            => 
+                param color
+                    :string
+                const [r, g, b]
+                    _ decomposeColor(color).map
+                        => 
+                            param val
+                                :number
+                            set val = val / 255
+                            return 
+                                iif val <= 0.03928
+                                    then val / 12.92
+                                    else ((val + 0.055) / 1.055) ** 2.4
+                return 0.2126 * r + 0.7152 * g + 0.0722 * b

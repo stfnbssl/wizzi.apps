@@ -1,0 +1,12 @@
+module
+    import createStore from './createStore'
+    import 
+        @ StoreState
+        @ ResponsePayload
+        from './types'
+    +
+    export 
+        @ createStore
+    :export-type
+        @ ResponsePayload
+        @ StoreState

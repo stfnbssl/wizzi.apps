@@ -1,0 +1,6 @@
+module
+    import createStoreWithPreloadedState
+        from './createStore'
+    +
+    export
+        @ createStoreWithPreloadedState

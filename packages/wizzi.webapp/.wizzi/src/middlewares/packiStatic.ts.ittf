@@ -1,0 +1,6 @@
+module
+    $
+        var md = {
+        }
+
+    v08/express/middlewares/packiStatic(&md)

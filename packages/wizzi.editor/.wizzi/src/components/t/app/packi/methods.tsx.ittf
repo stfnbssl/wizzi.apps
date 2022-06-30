@@ -1,0 +1,35 @@
+$group
+
+    +
+    m _initializePackiSession
+        async=> 
+            _ this.setState
+                { 
+                    @ packiSessionReady true
+                # lots of inits
+
+    +
+    m _generateArtifact
+        param filePath
+        const files = this.state.session.files
+        if Object.keys(files).length
+            set filePath = filePath || this.state.selectedFile || Object.keys(files)[0]
+            if filePath.endsWith('.ittf')
+                log '_generateArtifact.filePath', filePath
+                log '_generateArtifact', 'state.session.files', files
+                _ this.props.dispatchGenerateArtifact
+                    @ filePath
+                    _ fileConversions.packiFilterIttf
+                        @ this.state.session.files
+
+    +
+    => _executeJobNotDebounced
+        log 'App._executeJobNotDebounced'
+        const files = this.state.session.files
+        if Object.keys(files).length
+            _ this.setState
+                { 
+                    @ isWizziJobWaiting false
+            _ this.props.dispatchExecuteJob
+                _ fileConversions.packiFilterIttf
+                    @ files

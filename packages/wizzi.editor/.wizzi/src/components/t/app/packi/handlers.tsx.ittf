@@ -1,0 +1,75 @@
+$group
+    
+    +
+    p _handleSelectPacki
+        async=> 
+            param packiId
+                :string 
+            _ this.props.dispatchSelectPacki(packiId)
+    +
+    p _handleMTreePreview
+        async=> 
+            const files = this.state.session.files
+            if Object.keys(files).length
+                const filePath = this.state.selectedFile || Object.keys(files)[0]
+                if filePath.endsWith('.ittf')
+                    log '_handleMTreePreview.filePath', filePath
+                    log '_handleMTreePreview', 'state.session.files', files
+                    _ this.props.dispatchMTree
+                        @ filePath
+                        _ fileConversions.packiFilterIttf
+                            @ this.state.session.files
+
+    p _handleMTreeDebugInfoPreview
+        async=> 
+            const files = this.state.session.files
+            if Object.keys(files).length
+                const filePath = this.state.selectedFile || Object.keys(files)[0]
+                if filePath.endsWith('.ittf')
+                    log '_handleMTreeDebugInfoPreview.filePath', filePath
+                    log '_handleMTreeDebugInfoPreview', 'state.session.files', files
+                    _ this.props.dispatchMTreeDebugInfo
+                        @ filePath
+                        _ fileConversions.packiFilterIttf
+                            @ this.state.session.files
+
+    $*
+    p _findFocusedEntry
+        => 
+            param entries
+                :[ 
+                    :ref FileSystemEntry
+            :return
+                :union 
+                    :ref TextFileEntry
+                    :ref AssetFileEntry
+                    :undefined 
+            _ entries.find
+                => 
+                    { 
+                        @ item
+                        @ state
+                    @expr item.type === 'file' && state.isFocused === true
+                # @ts-ignore
+    p _handleFileEntriesChange
+        => 
+            param nextFileEntries
+                :[ 
+                    :ref FileSystemEntry
+            :return
+                :ref Promise
+                    :param void
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        _ this.setState
+                            => 
+                                param state
+                                let fileEntries = nextFileEntries
+                                return 
+                                    { 
+                                        @ fileEntries
+                            @ resolve
+    *$
+

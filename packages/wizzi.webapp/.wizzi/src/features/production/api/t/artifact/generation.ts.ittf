@@ -1,0 +1,86 @@
+$group
+
+    +
+    export
+        async-function getArtifactGeneration
+            param owner
+                :string
+            param name
+                :string
+            param context
+                :any
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ getArtifactProduction_withCache
+                            @ owner
+                            @ name
+                            ._ then
+                                => 
+                                    param ap
+                                        :any
+                                    _ wizziProds.generateArtifact
+                                        @ ap.mainIttf
+                                        @ ap.packiFiles
+                                        @ context
+                                        ._ then
+                                            => 
+                                                param result
+                                                    :any
+                                                # loog 'getArtifactGeneration', name, result.artifactContent.length
+                                                # loog 'getArtifactGeneration', name, result.artifactContent.substring(0, 500) + '...'
+                                                const response
+                                                    { 
+                                                        @ content result.artifactContent
+                                                        @ contentLength result.artifactContent.length
+                                                        @ contentType contentTypeFor(ap.mainIttf)
+                                                return resolve(response)
+                                        catch_reject( getArtifactGeneration.generateArtifact )
+                            catch_reject( getArtifactGeneration.getArtifactProduction )
+
+    +
+    const extContentTypeMap
+        :{
+            :index
+                :string
+                param k
+                    :string
+        =
+            { 
+                @ '.css' 'text/css'
+                @ '.gif' 'image/gif'
+                @ '.html' 'text/html'
+                @ '.ittf' 'text/plain'
+                @ '.jpeg' 'image/jpeg'
+                @ '.jpg' 'image/jpg'
+                @ '.js' 'text/javascript'
+                @ '.json' 'application/json'
+                @ '.png' 'image/png'
+                @ '.scss' 'text/scss'
+                @ '.svg' 'image/svg+xml'
+                @ '.ttf' 'application/x-font-ttf'
+                @ '.txt' 'text/plain'
+                @ '.vtt' 'text/vtt'
+                @ '.woff' 'application/x-font-woff'
+                @ '.yaml' 'text/yanl'
+                @ '.yml' 'text/yanl'
+                @ '.xml' 'text/xml'
+    +
+    function ittfSchemaOf
+        param file
+            :string
+        const nameParts = path.basename(file).split('.')
+        if nameParts[nameParts.length - 1] === 'ittf'
+            return nameParts[nameParts.length - 2]
+        return undefined
+    +
+    function contentTypeFor
+        param file
+            :string
+        const ittfSchema = ittfSchemaOf(file)
+        # loog 'contentTypeFor', file, ittfSchema
+        if ittfSchema
+            return extContentTypeMap['.' + ittfSchema]
+        return undefined

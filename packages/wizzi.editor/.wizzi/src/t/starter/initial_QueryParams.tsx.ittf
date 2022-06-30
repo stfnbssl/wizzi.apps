@@ -1,0 +1,18 @@
+$group
+    $params name|@@null
+
+    { ${name}
+        $*
+        @ code ''
+        @ sourceUrl ''
+        @ name 'MyPackiName'
+        @ description 'My packi description'
+        @ files 'string?'
+        @ iframeId 'MyPackiIFrameId'
+        $$ @ waitForData 'false'
+        $$ @ saveToAccount 'false'
+        $$ @ preview 'true'
+        @ theme 'light'
+        $$ @ verbose 'true'
+        $$ @ hideQueryParams 'false'
+        *$

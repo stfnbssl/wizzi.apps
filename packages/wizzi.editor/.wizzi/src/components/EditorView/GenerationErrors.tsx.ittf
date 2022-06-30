@@ -1,0 +1,102 @@
+module
+    import 
+        as React
+        from 'react'
+    import 
+        @ withStyles
+        @ createStyles
+        @ Theme
+        from '@material-ui/core/styles'
+    +
+    export
+        :type GenerationErrorsProps
+            :{ 
+                :p classes
+                    :any 
+                    :optional
+                :p errorName
+                    :string 
+                    :optional
+                :p errorLines
+                    :[ 
+                        :string 
+                    :optional
+                :p errorMessage
+                    :string 
+                    :optional
+                :p errorStack
+                    :string 
+                    :optional
+    +
+    export
+        class GenerationErrors
+            super React.Component
+                :param 
+                    :ref GenerationErrorsProps
+            m render
+                const 
+                    { 
+                        @ classes
+                        @ errorName
+                        @ errorMessage
+                        @ errorLines
+                        @ errorStack
+                    = this.props
+                return 
+                    div 
+                        @ className {classes.container}
+                        div 
+                            @ className {classes.errorName}
+                            + {errorName}
+                        div 
+                            @ className {classes.message}
+                            { 
+                                && 
+                                    + errorMessage
+                                    _ errorMessage.split(',').map
+                                        => 
+                                            param line
+                                            param i
+                                            div 
+                                                @ key {i}
+                                                + {line}
+                        pre 
+                            @ className {classes.lines}
+                            + {errorLines && errorLines.join('\n')}
+                        ul 
+                            { 
+                                && 
+                                    + errorStack
+                                    _ errorStack.split('\n').map
+                                        => 
+                                            param line
+                                            param i
+                                            li 
+                                                @ key {i}
+                                                + {line}
+    +
+    const muiStyles
+        => 
+            param theme
+                :ref Theme
+            _ createStyles
+                { 
+                    { container
+                        @ display 'flex'
+                        @ flexDirection 'column'
+                        @ borderLeft '1px solid #cccccc'
+                        @ width '44vw'
+                        @ height '100%'
+                        @ overflow 'scroll'
+                    { errorName
+                        @ padding '15px 30px'
+                        @ fontSize '28px'
+                    { message
+                        @ padding '15px 30px'
+                        @ fontSize '20px'
+                    { lines
+                        @ padding '15px 30px'
+                        @ fontSize '18px'
+                        @ fontFamily 'Courier, mono'
+    +
+    export-default withStyles(muiStyles)(GenerationErrors)

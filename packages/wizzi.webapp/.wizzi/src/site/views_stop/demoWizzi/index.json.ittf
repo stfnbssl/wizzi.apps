@@ -1,0 +1,6 @@
+{
+    $
+        var md = {
+        }
+    { test
+        path "${__dirname}"

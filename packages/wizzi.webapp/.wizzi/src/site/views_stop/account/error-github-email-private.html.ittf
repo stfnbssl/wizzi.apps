@@ -1,0 +1,18 @@
+html
+    $
+        var md = {
+        }
+    layout(&md)
+        . w3-container
+            h1 Hello ${profile.name} 
+            p Sorry, We got an error
+            p ${message}
+            p
+                + It seems that your github email address is private.
+            p
+                + We cannot create your account without an email address. 
+            p
+                + Turn public your email in github or choose another identity provider.
+            pre
+                code
+                    + ${JSON.stringify(profile, null, 2)}

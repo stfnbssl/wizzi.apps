@@ -1,0 +1,92 @@
+module
+
+    +
+    import
+        @ Document
+        from "mongoose"
+
+    $
+        var md = {
+            Name: 'ArtifactProduction'
+        }
+
+    mongo/modeltype(&md)
+        $append fields
+            :p owner
+                :string
+            :p name
+                :string
+            :p description
+                :string
+            :p mainIttf
+                :string
+            :p wizziSchema
+                :string
+            :p packiFiles
+                :string
+            :p created_at
+                :ref Date
+            :p updated_at
+                :ref Date
+
+    $
+        md = {
+            Name: 'PackageProduction'
+        }
+
+    mongo/modeltype(&md)
+
+        $append fields
+            :p owner
+                :string
+            :p name
+                :string
+            :p description
+                :string
+            :p packiFiles
+                :string
+            :p created_at
+                :ref Date
+            :p updated_at
+                :ref Date
+
+    $
+        md = {
+            Name: 'MetaProduction'
+        }
+
+    mongo/modeltype(&md)
+
+        $append fields
+            :p owner
+                :string
+            :p name
+                :string
+            :p description
+                :string
+            :p packiFiles
+                :string
+            :p created_at
+                :ref Date
+            :p updated_at
+                :ref Date
+
+    $
+        md = {
+            Name: 'TFolder'
+        }
+
+    mongo/modeltype(&md)
+        $append fields
+            :p owner
+                :string
+            :p name
+                :string
+            :p description
+                :string
+            :p packiFiles
+                :string
+            :p created_at
+                :ref Date
+            :p updated_at
+                :ref Date

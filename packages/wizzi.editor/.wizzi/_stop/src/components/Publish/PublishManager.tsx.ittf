@@ -1,0 +1,244 @@
+module
+    import 
+        as React
+        from 'react'
+    import 
+        @ getLoginHref
+        @ withAuth
+        @ AuthProps
+        from '../../features/auth/index'
+    import
+        @ SaveOptions
+        @ SDKVersion
+        @ isIntentionallyNamed
+        from '../../features/packi'
+    import ModalProductionDetails from '../EditorView/ModalProductionDetails'
+    import ModalPublishOverwriteError from './ModalPublishOverwriteError'
+    import ModalPublishToProfile from './ModalPublishToProfile'
+    import ModalPublishUnknownError from './ModalPublishUnknownError'
+    import ModalPublishing from './ModalPublishing'
+    import ModalSuccessfulPublish from './ModalSuccessfulPublish'
+    export 
+        :type PublishModals
+            :union 
+                :literal 'publish-prompt-save'
+                :literal 'publish-edit-name'
+                :literal 'publish-success'
+                :literal 'publish-working'
+                :literal 'publish-unknown-error'
+                :literal 'publish-overwrite-experience-error'
+                :null 
+    :type Metadata
+        :{ 
+            :p name
+                :string 
+            :p description
+                :string 
+    :type Props
+        :intersect 
+            :ref AuthProps
+            :{ 
+                :p name
+                    :string 
+                :p description
+                    :string 
+                :p onSubmitMetadata
+                    :=> 
+                        :void 
+                        param details
+                            :ref Metadata
+                :p onPublishAsync
+                    :=> 
+                        :ref Promise
+                            :param void
+                        param options
+                            :ref SaveOptions
+                            :optional 
+                :p currentModal
+                    :union 
+                        :string 
+                        :null 
+                :p onShowModal
+                    :=> 
+                        :void 
+                        param name
+                            :ref PublishModals
+                :p onHideModal
+                    :=> 
+                        :void 
+                :p id
+                    :union 
+                        :undefined 
+                        :string 
+                $if wzCtx.Build.useExpo
+                    :p sdkVersion
+                        :ref SDKVersion
+                :p children
+                    :=> 
+                        :ref React.ReactNode
+                        param options
+                            :{ 
+                                :p onPublishAsync
+                                    :=> 
+                                        :ref Promise
+                                            :param void
+                                        param options
+                                            :ref SaveOptions
+                                            :optional 
+                                :p isPublishing
+                                    :boolean 
+    :type State
+        :{ 
+            :p isPublishInProgress
+                :boolean 
+            :p isPublishing
+                :boolean 
+            :p hasShownEditNameDialog
+                :boolean 
+    class PublishManager
+        super React.Component
+            :param 
+                :ref Props
+            :param 
+                :ref State
+        p state
+            { 
+                @ isPublishInProgress false
+                @ isPublishing false
+                @ hasShownEditNameDialog false
+        p _publishWithOptionsAsync
+            async=> 
+                param options
+                    :ref SaveOptions
+                _ this.setState
+                    { 
+                        @ isPublishing true
+                try 
+                    await 
+                        _ this.props.onPublishAsync(options)
+                catch e
+                    if /Experience .+ already exists/.test(e.message)
+                        _ this.props.onShowModal('publish-overwrite-experience-error')
+                    else
+                        _ this.props.onShowModal('publish-unknown-error')
+                    throw e
+                finally 
+                    _ this.setState
+                        { 
+                            @ isPublishing false
+        p _handleSaveToProfile
+            async=> 
+                const isLoggedIn = Boolean(this.props.viewer)
+                if isLoggedIn
+                    _ this.props.onShowModal('publish-working')
+                        # Show a spinner so we dismiss the auth modal
+                    _ this._handlePublishAsync()
+                else
+                    set window.location.href =
+                        _ getLoginHref
+                            { 
+                                @ saveToAccount true
+        p _handleSubmitMetadata
+            async=> 
+                param details
+                    :ref Metadata
+                _ this.props.onSubmitMetadata(details)
+                    # Save the new name and description, then publish the packi
+                await 
+                    _ this._handlePublishAsync()
+        p _handlePublishAsync
+            async=> 
+                param options
+                    :ref SaveOptions
+                    = 
+                        { 
+                _ this.setState
+                    { 
+                        @ isPublishInProgress true
+                    # When the publish flow starts, we set this so we know if we need to show the modals
+                if !this.props.name || (!isIntentionallyNamed(this.props.name) && !this.state.hasShownEditNameDialog)
+                    _ this.props.onShowModal('publish-edit-name')
+                    _ this.setState
+                        { 
+                            @ hasShownEditNameDialog true
+                else
+                    await 
+                        _ this._publishWithOptionsAsync(options)
+                    _ this.props.onShowModal
+                        iif this.props.viewer
+                            then 'publish-success'
+                            else 'publish-prompt-save'
+        => _handlePublishAbort
+            _ this.props.onHideModal()
+                # When publish flow ends, we don't need to show any modals
+            _ this.setState
+                { 
+                    @ isPublishInProgress false
+                # When publish flow ends, we don't need to show any modals
+        m render
+            const 
+                { 
+                    @ id
+                    @ viewer
+                    @ name
+                    @ description
+                    @ currentModal
+                    @ children
+                = this.props
+            const 
+                { 
+                    @ isPublishInProgress
+                = this.state
+            return 
+                < React.Fragment
+                    { 
+                        _ children
+                            { 
+                                @ onPublishAsync this._handlePublishAsync
+                                @ isPublishing this.state.isPublishing
+                    < ModalProductionDetails 
+                        @ visible {isPublishInProgress && currentModal === 'publish-edit-name'}
+                        @ title "Save your Packi"
+                        @ action
+                            iif this.state.isPublishing
+                                then 'Saving…'
+                                else 'Save'
+                        @ isWorking {this.state.isPublishing}
+                        @ name {name}
+                        @ description {description}
+                        @ onSubmit {this._handleSubmitMetadata}
+                        @ onDismiss {this._handlePublishAbort}
+                    < ModalPublishToProfile 
+                        @ visible {isPublishInProgress && currentModal === 'publish-prompt-save'}
+                        @ packiUrl
+                            iif id
+                                then
+                                    `lit 
+                                        + 
+                                        @ process.env.PACKI_SERVER_URL
+                                        + /
+                                        @ id
+                                        + 
+                                else undefined
+                        @ onPublish {this._handleSaveToProfile}
+                        @ isPublishing {this.state.isPublishing}
+                        @ onDismiss {this._handlePublishAbort}
+                    < ModalSuccessfulPublish 
+                        @ visible {isPublishInProgress && currentModal === 'publish-success'}
+                        @ viewer {viewer}
+                        @ onDismiss {this._handlePublishAbort}
+                    < ModalPublishUnknownError 
+                        @ visible {isPublishInProgress && currentModal === 'publish-unknown-error'}
+                        @ onDismiss {this._handlePublishAbort}
+                    < ModalPublishing 
+                        @ visible {isPublishInProgress && currentModal === 'publish-working'}
+                        @ onDismiss {this._handlePublishAbort}
+                    < ModalPublishOverwriteError 
+                        @ visible {isPublishInProgress && currentModal === 'publish-overwrite-experience-error'}
+                        @ slug {name}
+                        @ username {viewer?.username}
+                        @ onEditName
+                            => 
+                                _ this.props.onShowModal('publish-edit-name')
+                        @ onDismiss {this._handlePublishAbort}
+    export-default withAuth(PublishManager)

@@ -1,0 +1,7 @@
+module
+    $
+        var md = {
+        }
+
+    $if wzCtx.Build.useGithub
+        v08/express/features/github/index(&md)

@@ -1,0 +1,7 @@
+module
+    import
+        @ Viewer
+        from './types'
+    +
+    :export-type
+        @ Viewer

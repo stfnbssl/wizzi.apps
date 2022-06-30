@@ -1,0 +1,92 @@
+$group
+    +
+    export
+        async-function executeJob
+            param filePath
+                :string
+            param files
+                :ref packiTypes.PackiFiles
+            param context
+                :any
+            :return
+                :ref Promise
+                    :param
+                        :ref FsJson
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        if !verify.isObject(files)
+                            return
+                                _ reject
+                                    {
+                                        @ message 'files parameter must be an object of type PackiFiles'
+                                        @ files
+                        const ittfDocumentUri = ensurePackiFilePrefix(filePath)
+                        const jsonwf
+                            await
+                                _ createFsJsonAndFactory(files)
+                        _ jsonwf.wf.executeJob
+                            {
+                                @ name ''
+                                @ path ittfDocumentUri
+                                { productionOptions
+                                @ globalContext context || {}
+                            =>
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                # loog 'Job executed. result', result
+                                _ resolve(jsonwf.fsJson)
+    +
+    export
+        async-function executeJobs
+            param files
+                :ref packiTypes.PackiFiles
+            param context
+                :any
+            :return
+                :ref Promise
+                    :param
+                        :ref FsJson
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        const jobDocumentUris
+                            _ Object.keys(files).filter
+                                =>
+                                    param k
+                                    _ k.endsWith('.wfjob.ittf')
+                        # loog 'Executing jobs', jobDocumentUris, 'files', Object.keys(files)
+                        const jsonwf
+                            await
+                                _ createFsJsonAndFactory(files)
+                        const execJob
+                            =>
+                                param index
+                                    :number
+                                :return
+                                    :void
+                                if index == jobDocumentUris.length
+                                    # loog 'Jobs executed.'
+                                    return resolve(jsonwf.fsJson)
+                                const ittfDocumentUri = ensurePackiFilePrefix(jobDocumentUris[index])
+                                # loog 'Executing job', ittfDocumentUri
+                                _ jsonwf.wf.executeJob
+                                    {
+                                        @ name ''
+                                        @ path ittfDocumentUri
+                                        { productionOptions
+                                        @ globalContext context || {}
+                                    =>
+                                        param err
+                                        param result
+                                        if err
+                                            return reject(err)
+                                        # loog 'Job executed. result', result
+                                        _ execJob(index + 1)
+                        _ execJob(0)

@@ -1,0 +1,200 @@
+$group
+    +
+    :interface PackiStateProps
+        :p packiNames
+            :optional 
+            :[ 
+                :string 
+        :p packiTemplateNames
+            :optional 
+            :[ 
+                :string 
+        :p generatedArtifact
+            :optional 
+            :ref GeneratedArtifact
+        :p jobGeneratedArtifacts
+            :optional 
+            :ref PackiFiles
+        :p jobError
+            :optional 
+            :ref JobError
+    +
+    :interface PackiDispatchProps
+        :p dispatchInitPacki
+            :=> 
+                :void 
+                param preferences
+                    :ref PreferencesType
+        :p dispatchSelectPacki
+            :=> 
+                :void 
+                param packiId
+                    :string 
+        :p dispatchSavePacki
+            :=> 
+                :void 
+                param packiId
+                    :string 
+                param filesToSave
+                    :ref PackiFiles
+                param packiEntryFiles
+                    :ref PackiFiles
+        :p dispatchGenerateArtifact
+            :=> 
+                :void 
+                param fileName
+                    :string 
+                param files
+                    :ref PackiFiles
+        :p dispatchMTree
+            :=> 
+                :void 
+                param fileName
+                    :string 
+                param files
+                    :ref PackiFiles
+        :p dispatchMTreeDebugInfo
+            :=> 
+                :void 
+                param fileName
+                    :string 
+                param files
+                    :ref PackiFiles
+        :p dispatchExecuteJob
+            :=> 
+                :void 
+                param files
+                    :ref PackiFiles
+        :p dispatchSetTimedService
+            :=> 
+                :void 
+                param name
+                    :string 
+                param onOff
+                    :boolean 
+                param payload
+                    :any 
+                    :optional 
+                param frequence
+                    :number 
+                    :optional 
+    +
+    const packiMapStateToProps
+        => 
+            param state
+                :ref StoreState
+            :return
+                :ref PackiStateProps
+            log 'packiMapStateToProps.wizzi.mTreeIttf', state.wizzi.mTreeIttf
+            return
+                { 
+                    @ packiNames state.packi.packiNames
+                    @ packiTemplateNames state.packi.packiTemplateNames
+                    @ generatedArtifact state.wizzi.generatedArtifact
+                    @ mTreeBuildUpScript state.wizzi.mTreeBuildUpScript
+                    @ mTreeIttf state.wizzi.mTreeIttf
+                    @ jobGeneratedArtifacts state.wizzi.jobGeneratedArtifacts
+                    @ jobError state.wizzi.jobError
+                    
+    +
+    const packiMapDispatchToProps
+        => 
+            param dispatch
+                :ref Dispatch
+            :return
+                :ref PackiDispatchProps
+            (
+                { 
+                    @ dispatchInitPacki
+                        => 
+                            param preferences
+                                :ref PreferencesType
+                            _ dispatch
+                                _ packiActions.initPackiRequest
+                                    { 
+                                        @ preferences
+                    @ dispatchSelectPacki
+                        => 
+                            param packiId
+                                :string 
+                            _ dispatch
+                                _ packiActions.selectPackiRequest
+                                    { 
+                                        @ id packiId
+                    @ dispatchSavePacki
+                        => 
+                            param packiId
+                                :string 
+                            param filesToSave
+                                :ref PackiFiles
+                            param packiEntryFiles
+                                :ref PackiFiles
+                            _ dispatch
+                                _ packiActions.savePackiRequest
+                                    { 
+                                        @ id packiId
+                                        @ filesToSave
+                                        @ packiEntryFiles
+                    @ dispatchGenerateArtifact
+                        => 
+                            param filePath
+                                :string 
+                            param files
+                                :ref PackiFiles
+                            if filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')
+                                _ dispatch
+                                    _ wizziActions.generateArtifactRequest
+                                        { 
+                                            @ filePath
+                                            @ files
+                    @ dispatchMTree
+                        => 
+                            param filePath
+                                :string 
+                            param files
+                                :ref PackiFiles
+                            if filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')
+                                _ dispatch
+                                    _ wizziActions.mTreeRequest
+                                        { 
+                                            @ filePath
+                                            @ files
+                    @ dispatchMTreeDebugInfo
+                        => 
+                            param filePath
+                                :string 
+                            param files
+                                :ref PackiFiles
+                            if filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')
+                                _ dispatch
+                                    _ wizziActions.mTreeDebugInfoRequest
+                                        { 
+                                            @ filePath
+                                            @ files
+                    @ dispatchExecuteJob
+                        => 
+                            param files
+                                :ref PackiFiles
+                            _ dispatch
+                                _ wizziActions.executeJobRequest
+                                    { 
+                                        @ files
+                    @ dispatchSetTimedService
+                        => 
+                            param name
+                                :string 
+                            param onOff
+                                :boolean 
+                            param payload
+                                :any 
+                                :optional 
+                            param frequence
+                                :number 
+                                :optional 
+                            _ dispatch
+                                _ wizziActions.setTimedService
+                                    { 
+                                        @ serviceName name
+                                        @ onOff
+                                        @ payload
+                                        @ frequence

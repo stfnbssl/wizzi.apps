@@ -1,0 +1,8 @@
+module
+
+    $include mongoData
+    
+    $
+        var md = getSchema('packiItem')
+
+    v08/mongo/modelcontroller(&md)

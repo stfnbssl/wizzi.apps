@@ -1,0 +1,16 @@
+module
+    $
+        var md = {
+            name: 'PackiIcon'
+        }
+    
+    dark-light-icon( &md )
+        polyline
+            stroke {stroke}
+            fill {fill}
+            @ strokeWidth 2
+            points 4 2
+                \b 4 22
+                \b 20 22
+                \b 20 2
+                \b 4 2

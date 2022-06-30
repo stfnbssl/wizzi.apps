@@ -1,0 +1,28 @@
+module
+    import 
+        @ PackiState
+        from '../features/packi/reducer'
+    import 
+        @ WizziState
+        from '../features/wizzi/reducer'
+    #
+    export 
+        :type StoreState
+            :{ 
+                :p packi
+                    :ref PackiState
+                :p wizzi
+                    :ref WizziState
+    #
+    export 
+        :interface ResponsePayload
+            :p message
+                :optional 
+                :string 
+            :p error
+                :optional 
+                :{ 
+                    :index 
+                        :any 
+                        param k
+                            :string 

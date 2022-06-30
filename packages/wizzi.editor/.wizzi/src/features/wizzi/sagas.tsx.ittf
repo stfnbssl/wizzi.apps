@@ -1,0 +1,78 @@
+module
+    import 
+        @ all
+        @ fork
+        @ put
+        @ takeEvery
+        @ call
+        from 'redux-saga/effects'
+    import 
+        @ getType
+        from 'typesafe-actions'
+    import 
+        @ config
+        from '../config'
+    import 
+        as wizziActions
+        from './actions'
+    import 
+        @ packiActions
+        from '../packi'
+    import 
+        @ callApi
+        from '../../utils/api'
+    import 
+        @ packiFilterIttf
+        from '../file/convertFileStructure'
+        # import { getInstance } from '../../services/EventService';
+    #
+    saga_handler( wizzi, generateArtifactRequest, generateArtifactError
+        const res
+            yield call(callApi, 'post', config.API_URL, 
+                \b 'productions/artifact/' + encodeURIComponent(action.payload.filePath), 
+                \b action.payload.files)
+        log 'sagas.handleGenerateArtifactRequest.res', res
+        yield put(wizziActions.generateArtifactSuccess(res))
+    #
+    saga_handler( wizzi, mTreeDebugInfoRequest, generateArtifactError
+        const res
+            yield call(callApi, 'post', config.API_URL, 
+                \b 'productions/mtreedebuginfo/' + encodeURIComponent(action.payload.filePath), 
+                \b action.payload.files)
+        log 'sagas.handleMTreeDebugInfoRequest.res', res
+        yield put(wizziActions.mTreeDebugInfoSuccess(res))
+    #
+    saga_handler( wizzi, mTreeRequest, generateArtifactError
+        const res
+            yield call(callApi, 'post', config.API_URL, 
+                \b 'productions/mtree/' + encodeURIComponent(action.payload.filePath), 
+                \b action.payload.files)
+        log 'sagas.handleMTreeRequest.res', res
+        yield put(wizziActions.mTreeSuccess(res))
+    #
+    saga_handler( wizzi, executeJobRequest, executeJobError
+        const res
+            yield call(callApi, 'post', config.API_URL, 
+                \b 'productions/job/', packiFilterIttf(action.payload.files))
+        log 'sagas.handleExecuteJobRequest.res', res
+        yield put(wizziActions.executeJobSuccess(res))
+        yield 
+            _ put
+                _ packiActions.executeJobSuccess
+                    { 
+                        @ generatedArtifacts res.generatedArtifacts
+                        @ previousArtifacts action.payload.files
+    #
+    function* wizziRequest
+        yield takeEvery(getType(wizziActions.generateArtifactRequest), handleGenerateArtifactRequest)
+        yield takeEvery(getType(wizziActions.mTreeDebugInfoRequest), handleMTreeDebugInfoRequest)
+        yield takeEvery(getType(wizziActions.mTreeRequest), handleMTreeRequest)
+        yield takeEvery(getType(wizziActions.executeJobRequest), handleExecuteJobRequest)
+    #
+    function* wizziSaga
+        yield 
+            _ all
+                [ 
+                    @ fork(wizziRequest)
+    #
+    export-default wizziSaga

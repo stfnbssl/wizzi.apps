@@ -1,0 +1,29 @@
+$group
+    +
+    export 
+        const applyVariations
+            => 
+                param componentName
+                    :string
+                param variations
+                    :any
+                    = null
+                (
+                    => 
+                        param props
+                            :any
+                        const 
+                            { 
+                                @ color
+                                @ variation
+                            = props
+                        if variations && typeof variation === 'string'
+                            return 
+                                styled-css
+                                    ${'$'} variations[variation] || ''
+                                    ${'$'} typeof color === 'string' &&
+                                        \b themeGet(`componentStyles.${componentName}.${variation}.${color}`, '')
+                        return 
+                            styled-css
+                                ${'$'} themeGet(`componentStyles.${componentName}.${color}`, '')
+

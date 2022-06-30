@@ -1,0 +1,337 @@
+module
+    $*
+    import hoistNonReactStatics from 'hoist-non-react-statics'
+    import 
+        as React
+        from 'react'
+    import 
+        @ FormValidationContext
+        from './Form'
+    import 
+        @ FormValidation
+        from './types'
+    import 
+        @ $Subtract
+        from '../../types'
+    :type Props
+        :{ 
+            :p value
+                :any 
+            :p validate
+                :=> 
+                    :union 
+                        :ref Error
+                        :null 
+                    param value
+                        :any 
+            :p validation
+                :ref FormValidation
+            :p helperText
+                :string 
+    :type State
+        :{ 
+            :p initial
+                :boolean 
+            :p error
+                :union 
+                    :ref Error
+                    :null 
+            :p value
+                :any 
+    :type InjectedProps
+        :{ 
+            :p error
+                :boolean 
+            :p helperText
+                :any 
+    export-default 
+        function withValidation
+            :< P
+                :ref InjectedProps
+            param Comp
+                :ref React.ComponentType
+                    :param 
+                        :ref P
+            :return
+                :ref React.ComponentType
+                    :param 
+                        :ref $Subtract
+                            :param 
+                                :ref P
+                            :param 
+                                :ref InjectedProps
+            class EnhancedComponent
+                super React.Component
+                    :param 
+                        :ref Props
+                    :param 
+                        :ref State
+                p displayName
+                    static
+                    `lit 
+                        + withValidation(
+                        @ Comp.displayName || Comp.name
+                        + )
+                m getDerivedStateFromProps
+                    static
+                    param nextProps
+                        :ref Props
+                    param prevState
+                        :ref State
+                    const initial
+                        iif prevState.value !== nextProps.value
+                            then false
+                            else prevState.initial
+                    return 
+                        { 
+                            @ initial
+                            @ error
+                                iif initial
+                                    then null
+                                    else
+                                        iif nextProps.validate
+                                            then nextProps.validate(nextProps.value)
+                                            else null
+                            @ value nextProps.value
+                p state
+                    { 
+                        @ initial true
+                        @ error null
+                        @ value this.props.value
+                p _key
+                    :number 
+                    = 0
+                p _root
+                    _ React.createRef
+                        :param any
+                m componentDidMount
+                    set this._key =
+                        _ this.props.validation.register
+                            { 
+                                @ validate this._validate
+                                @ focus this._focus
+                m componentDidUpdate
+                    param prevProps
+                        :ref Props
+                    if prevProps.value !== this.props.value
+                        _ this.props.validation.update()
+                m componentWillUnmount
+                    _ this.props.validation.unregister(this._key)
+                p _validate
+                    => 
+                        _ this.props.validate(this.props.value)
+                p _focus
+                    => 
+                        _ this._root.current.focus && this._root.current.focus()
+                        if this.state.initial
+                            _ this.setState
+                                { 
+                                    @ initial false
+                                    @ error this.props.validate(this.props.value)
+                m render
+                    const 
+                        { 
+                            @ helperText
+                            @ validate
+                            ... other
+                        = this.props
+                        # @ts-ignore
+                    const 
+                        { 
+                            @ error
+                        = this.state
+                    return 
+                        < Comp 
+                            @ ref {this._root}
+                            @ error
+                                iif error
+                                    then true
+                                    else false
+                            @ helperText {(error && error.message) || helperText}
+                            @ {...other}
+            const Result
+                _ React.forwardRef
+                    => 
+                        param props
+                        param ref
+                        < FormValidationContext.Consumer 
+                            { 
+                                => 
+                                    param value
+                                        :any 
+                                    return 
+                                        < EnhancedComponent 
+                                            @ validation {value}
+                                            @ {...props}
+                                            @ forwardedRef {ref}
+                                                # @ts-ignore
+                                        # @ts-ignore
+                    #
+                        # $FlowIssue: Flow doesn't know about forwardRef yet
+            _ hoistNonReactStatics(Result, Comp)
+            return 
+                + Result
+                    :as 
+                        :any 
+
+    *$
+    import 
+        as React
+        from 'react'
+    import 
+        @ $Subtract
+        from '../../types'
+    import 
+        @ FormValidationContext
+        from './Form'
+    import 
+        @ FormValidation
+        from './types'
+    :type ExternalProps
+        :{ 
+            :p value
+                :any 
+            :p validate
+                :=> 
+                    :union 
+                        :ref Error
+                        :null 
+                    param value
+                        :any 
+            :p helperText
+                :string 
+                :optional
+    :type Props
+        :intersect 
+            :ref ExternalProps
+            :{ 
+                :p validation
+                    :ref FormValidation
+    :type InjectedProps
+        :{ 
+            :p error
+                :union 
+                    :ref Error
+                    :null 
+    :type State
+        :{ 
+            :p initial
+                :boolean 
+            :p error
+                :union 
+                    :ref Error
+                    :null 
+            :p value
+                :any 
+    export-default 
+        function withValidation
+            :< P
+                :ref InjectedProps
+            param Comp
+                :ref React.ComponentType
+                    :param 
+                        :ref P
+            :return
+                :ref React.ComponentType
+                    :param 
+                        :intersect 
+                            :ref $Subtract
+                                :param 
+                                    :ref P
+                                :param 
+                                    :ref InjectedProps
+                            :ref ExternalProps
+            class EnhancedComponent
+                super React.Component
+                    :param 
+                        :ref Props
+                    :param 
+                        :ref State
+                p displayName
+                    static
+                    `lit 
+                        + withValidation(
+                        @ Comp.displayName ?? Comp.name
+                        + )
+                m getDerivedStateFromProps
+                    static
+                    param nextProps
+                        :ref Props
+                    param prevState
+                        :ref State
+                    const initial
+                        iif prevState.value !== nextProps.value
+                            then false
+                            else prevState.initial
+                    return 
+                        { 
+                            @ initial
+                            @ error
+                                iif initial
+                                    then null
+                                    else
+                                        iif nextProps.validate
+                                            then nextProps.validate(nextProps.value)
+                                            else null
+                            @ value nextProps.value
+                p state
+                    { 
+                        @ initial true
+                        @ error null
+                        @ value this.props.value
+                p _key
+                    :number 
+                    = 0
+                p _root
+                    _ React.createRef
+                        :param any
+                m componentDidMount
+                    set this._key =
+                        _ this.props.validation.register
+                            { 
+                                @ validate this._validate
+                                @ focus this._focus
+                m componentDidUpdate
+                    param prevProps
+                        :ref Props
+                    if prevProps.value !== this.props.value
+                        _ this.props.validation.update()
+                m componentWillUnmount
+                    _ this.props.validation.unregister(this._key)
+                => _validate
+                    _ this.props.validate(this.props.value)
+                => _focus
+                    _ this._root.current?.focus?.()
+                    if this.state.initial
+                        _ this.setState
+                            { 
+                                @ initial false
+                                @ error this.props.validate(this.props.value)
+                m render
+                    const 
+                        { 
+                            @ helperText
+                            ... other
+                        = this.props
+                        # @ts-ignore
+                    return 
+                        < Comp 
+                            @ ref {this._root}
+                            @ error {this.state.error}
+                            @ helperText {this.state.error ? this.state.error.message : helperText}
+                                # @ts-ignore
+                            $$ @ {...this.props}
+                            @ {...other}
+                        # @ts-ignore
+            return 
+                => 
+                    param props
+                    < FormValidationContext.Consumer 
+                        { 
+                            => 
+                                param value
+                                    :any 
+                                return 
+                                    < EnhancedComponent 
+                                        @ validation {value}
+                                        @ {...props}

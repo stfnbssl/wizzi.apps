@@ -1,0 +1,42 @@
+module
+    
+    $
+        var ctrl = {
+            name: 'ApiV1User',
+            path: '/api/v1/user',
+        }
+    
+    controller( &ctrl )
+            
+        $append imports
+            import
+                @ validateUsername
+                from '../api/user'
+            +
+            const myname = 'features/account/controllers/apiv1user'
+
+        _ this.router.get('/checkusername/:username', this.getCheckUsername)
+        
+        $append handlers
+            
+            handler( getCheckUsername )
+
+                # loog 'getCheckUsername.request.params', request.params
+                _ validateUsername
+                    @ request.params.username
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getCheckUsername.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    ._ catch
+                        => 
+                            param err
+                            _ sendFailure
+                                @ response
+                                {
+                                    @ err err
+                                @ 501

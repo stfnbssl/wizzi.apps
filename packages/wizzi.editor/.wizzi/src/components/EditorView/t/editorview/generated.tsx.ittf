@@ -1,0 +1,29 @@
+{ 
+    iif jobError
+        then
+            < GenerationErrors 
+                @ errorName {jobError.errorName}
+                @ errorLines {[]}
+                @ errorMessage {jobError.errorMessage}
+                @ errorStack {jobError.errorStack}
+        else 
+            iif generatedArtifact && generatedArtifact.artifactContent
+                then
+                    < GeneratedView 
+                        @ generatedContent {generatedArtifact.artifactContent}
+                        @ generatedSourcePath {generatedArtifact.sourcePath}
+                        @ mTreeBuildUpScript {mTreeBuildUpScript}
+                        @ mTreeIttf {mTreeIttf}
+                        @ generatedPreviewURL {previewURL}
+                        @ splitViewKind {this.state.splitViewKind}
+                        @ onMTreePreview {onMTreePreview}
+                        @ onMTreeDebugInfoPreview {onMTreeDebugInfoPreview}
+                else
+                    iif generatedArtifact && generatedArtifact.errorLines
+                        then
+                            < GenerationErrors 
+                                @ errorName {generatedArtifact.errorName}
+                                @ errorLines {generatedArtifact.errorLines}
+                                @ errorMessage {generatedArtifact.errorMessage}
+                                @ errorStack {generatedArtifact.errorStack}
+                        else null

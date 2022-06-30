@@ -1,0 +1,167 @@
+module
+    import 
+        @ Reducer
+        from 'redux'
+    import 
+        @ ActionType
+        @ getType
+        from 'typesafe-actions'
+    import 
+        @ Packi
+        $if wzCtx.Build.usePackiLocal
+            @ LocalPackiData
+        from './types'
+    $if wzCtx.Build.usePackiLocal
+        import 
+            @ packiCreatedFromTemplate
+            @ getPackiData
+            @ savePackiData
+            @ deletePackiData
+            @ setSelectedPacki
+            from './localManager'
+    import 
+        as packiActions
+        from './actions'
+    $if wzCtx.Build.usePackiLocal
+        import 
+            @ deletePacki
+            from './data'
+    import 
+        @ mixPreviousAndGeneratedPackiFiles
+        from '../file/convertFileStructure'
+    export 
+        :interface PackiState
+            :p loading
+                :boolean 
+            :p errors
+                :optional 
+                :string 
+            :p packiNames
+                :optional 
+                :[ 
+                    :string 
+            $if wzCtx.Build.usePackiLocal
+                :p localPackiData
+                    :optional 
+                    :ref LocalPackiData
+            :p packiTemplateNames
+                :optional 
+                :[ 
+                    :string 
+            :p generatedArtifactContent
+                :optional 
+                :string 
+    const initialState
+        :ref PackiState
+        =
+            { 
+                @ loading false
+                @ errors undefined
+                @ packiNames undefined
+                @ packiTemplateNames undefined
+                @ generatedArtifactContent undefined
+    export 
+        :type PackiAction
+            :ref ActionType
+                :param 
+                    :typeof packiActions
+    const reducer
+        :ref Reducer
+            :param 
+                :ref PackiState
+            :param 
+                :ref PackiAction
+        =
+            => 
+                param state = initialState
+                param action
+                switch action.type
+                    case getType(packiActions.fetchPackiListRequest)
+                        log "packiActions.fetchPackiListRequest"
+                        return 
+                            { 
+                                @ ...state
+                                @ loading true
+                    case getType(packiActions.fetchPackiListSuccess)
+                        log "packiActions.fetchPackiListSuccess", action
+                        return 
+                            { 
+                                @ ...state
+                                @ loading false
+                                @ packiNames action.payload.packiNames
+                    case getType(packiActions.fetchPackiListError)
+                        log "packiActions.fetchPackiListError", action
+                        return 
+                            { 
+                                @ ...state
+                                @ loading false
+                                @ errors action.payload
+                    case getType(packiActions.initPackiRequest)
+                        log "packiActions.initPackiRequest"
+                        return 
+                            { 
+                                @ ...state
+                                @ loading true
+                    case getType(packiActions.initPackiSuccess)
+                        log "packiActions.initPackiSuccess"
+                        return 
+                            { 
+                                @ ...state
+                                @ loading false
+                    case getType(packiActions.initPackiError)
+                        log "packiActions.initPackiRequest"
+                        return 
+                            { 
+                                @ ...state
+                                @ loading false
+                    case getType(packiActions.savePackiSuccess)
+                        log "packiActions.savePackiSuccess", action
+                        return 
+                            { 
+                                @ ...state
+                                { currentPacki
+                                    @ id action.payload.id
+                                    @ files action.payload.packiEntryFiles
+                                    $if wzCtx.Build.usePackiLocal
+                                        @ localPackiData state.currentPacki.localPackiData
+                    case getType(packiActions.fetchPackiTemplateListRequest)
+                        log "packiActions.fetchPackiTemplateListRequest"
+                        return 
+                            { 
+                                @ ...state
+                                @ loading true
+                    case getType(packiActions.fetchPackiTemplateListSuccess)
+                        log "packiActions.fetchPackiTemplateListSuccess", action
+                        return 
+                            { 
+                                @ ...state
+                                @ loading false
+                                @ packiTemplateNames action.payload.packiNames
+                    case getType(packiActions.fetchPackiTemplateListError)
+                        log "packiActions.fetchPackiTemplateListError", action
+                        return 
+                            { 
+                                @ ...state
+                                @ loading false
+                                @ errors action.payload
+                    case getType(packiActions.executeJobSuccess)
+                        log "packiActions.executeJobSuccess", action
+                        const newPacki
+                            { 
+                                @ ...state.currentPacki
+                                @ files mixPreviousAndGeneratedPackiFiles(action.payload.previousArtifacts, action.payload.generatedArtifacts)
+                        log "packiActions.executeJobSuccess.newPacki", newPacki
+                        if !action.payload.error
+                            return 
+                                { 
+                                    @ ...state
+                                    { currentPacki
+                                        @ ...state.currentPacki
+                                        @ files mixPreviousAndGeneratedPackiFiles(action.payload.previousArtifacts, action.payload.generatedArtifacts)
+                                        :as 
+                                            :ref Packi
+                        else
+                            return state
+                    default 
+                        return state
+    export-default reducer

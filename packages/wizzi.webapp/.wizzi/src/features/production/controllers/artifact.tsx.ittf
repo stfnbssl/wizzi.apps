@@ -1,0 +1,128 @@
+module
+    $
+        var ctrl = {
+            name: 'ArtifactProduction',
+            path: '/artifact',
+        }
+    
+    controller( &ctrl )
+            
+        $append imports
+            import ReactDOMServer 
+                from 'react-dom/server'
+            import PageFormDocument 
+                from '../../../pages/PageFormDocument' 
+            import
+                @ CRUDResult
+                from '../../types'
+            import
+                @ createArtifactProduction
+                @ updateArtifactProduction
+                @ deleteArtifactProduction
+                @ getArtifactProductionObject
+                from '../api/artifact'
+            +
+            const myname = 'features/production/controllers/artifact'
+            +
+            function renderPageForm
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param data
+                    :object
+                param queryParams
+                    :object
+
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < PageFormDocument 
+                                @ data {data}
+                                @ queryParams {queryParams}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+
+            function getPackiFiles
+                param mainIttf
+                    :string
+                return
+                    {
+                        { [mainIttf]
+                            @ type 'CODE'
+                            @ contents ''
+
+        _ this.router.get('/new', this.getNewArtifactForm)
+        _ this.router.post('/new', this.postArtifact)
+        _ this.router.get('/update/:userid/*', this.getUpdateArtifactForm)
+        _ this.router.post('/update', this.putArtifact)
+        _ this.router.get('/delete/:userid/*', this.getDeleteArtifactForm)
+        _ this.router.post('/delete', this.deleteArtifact)
+        
+        $append handlers
+            
+            handler( getNewArtifactForm )
+                # loog og myname, 'getNewArtifactForm', JSON.stringify(request.query, null, 2)
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'CreateArtifactProduction'
+                        { formData 
+                            @ owner request.query.owner
+                            @ name request.query.name
+                            @ mainIttf request.query.mainIttf
+                            @ schema request.query.schema
+                    {
+
+            handler( postArtifact )
+                # loog og myname + '.postNewArtifact.request.body', JSON.stringify(request.body, null, 2)
+                # loog og myname + '.postNewArtifact.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+                _ createArtifactProduction
+                    @ (request.session as any).user.username
+                    @ request.body.ap_name
+                    @ request.body.ap_description
+                    @ request.body.ap_main_ittf
+                    @ request.body.ap_wizzi_schema
+                    @ JSON.stringify(getPackiFiles(request.body.ap_main_ittf))
+                    ._ then
+                        =>
+                            param result
+                                :ref CRUDResult
+                            # loog og myname + '.postNewArtifact.createArtifactProduction.result', JSON.stringify(result, null, 2)
+                            if result.ok
+                                _ response.redirect('/productions/artifacts')
+                            else
+                                _ response.render
+                                    @ 'error.html.ittf'
+                                    {
+                                        @ message 'creating a new artifact production'
+                                        @ error result
+                    ._ catch
+                        =>
+                            param err
+                                :any
+                            _ response.render
+                                @ 'error.html.ittf'
+                                {
+                                    @ message 'creating a new artifact production'
+                                    @ error err
+
+            handler( getUpdateArtifactForm )
+                update_get_form( artifact )
+                    @ mainIttf result.mainIttf
+                    @ wizziSchema result.wizziSchema
+
+            handler( putArtifact )
+                update_put( artifact )
+
+            handler( getDeleteArtifactForm )
+                delete_get_form( artifact )
+                    @ mainIttf result.mainIttf
+                    @ wizziSchema result.wizziSchema
+
+            handler( deleteArtifact )
+                delete_delete( artifact )

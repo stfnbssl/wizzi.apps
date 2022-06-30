@@ -1,0 +1,9 @@
+module
+    import
+        @ GitRepositoryMeta
+        @ ClonedGitRepository
+        from './types'
+    +
+    :export-type
+        @ GitRepositoryMeta
+        @ ClonedGitRepository

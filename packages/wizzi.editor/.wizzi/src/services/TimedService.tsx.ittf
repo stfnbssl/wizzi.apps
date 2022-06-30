@@ -1,0 +1,62 @@
+module
+    +
+    export
+        class TimedService
+            p timer
+                :ref NodeJS.Timeout
+            p frequence
+                :number 
+            p payload
+                :any 
+            p action
+                :=> 
+                    :void 
+                    param payload
+                        :any 
+            ctor 
+                param payload
+                    :any 
+                param frequence
+                    :number 
+                param action
+                    :=> 
+                        :void 
+                        param payload
+                            :any 
+                set this.payload = payload
+                set this.frequence = frequence
+                set this.action = action
+                set this.timer =
+                    _ setTimeout
+                        => 
+                            _ this.action(this.payload)
+                        @expr this.frequence
+            m setPayload
+                param payload
+                    :any 
+                param reset
+                    :boolean 
+                    = true
+                set this.payload = payload
+                if reset
+                    _ clearInterval(this.timer)
+                    set this.timer =
+                        _ setTimeout
+                            => 
+                                _ this.action(this.payload)
+                            @expr this.frequence
+            m setFrequence
+                param frequence
+                    :number 
+                param reset
+                    :boolean 
+                    = true
+                set this.frequence = frequence
+                if reset || frequence == 0
+                    _ clearInterval(this.timer)
+                    if frequence > 0
+                        set this.timer =
+                            _ setTimeout
+                                => 
+                                    _ this.action(this.payload)
+                                @expr this.frequence

@@ -1,0 +1,57 @@
+module
+    import 
+        @ createStore
+        @ compose
+        @ applyMiddleware
+        from 'redux'
+    import createSagaMiddleware from 'redux-saga'
+    import 
+        @ StoreState
+        from './types'
+    import 
+        @ createRootReducer
+        from './reducers'
+    import 
+        @ createRootSaga
+        from './sagas'
+    +
+    export-default 
+        function createStoreWithPreloadedState
+            param preloadedState
+                :ref StoreState
+            log 'createStoreWithPreloadedState', 'preloadedState', preloadedState
+            let composeEnhancer
+                :typeof compose
+            if typeof window !== 'undefined' 
+                set composeEnhancer
+                    || 
+                        @expr 
+                            ( 
+                                + window
+                                    :as 
+                                        :any 
+                            . __REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+                        + compose
+            else
+                set composeEnhancer = compose
+            const sagaMiddleware = createSagaMiddleware()
+            const store = createStore(createRootReducer(), preloadedState, composeEnhancer(applyMiddleware(sagaMiddleware)))
+            let sagaTask = sagaMiddleware.run(createRootSaga())
+            if module.hot
+                const newCreateRootReducer = require('./reducers')
+                _ module.hot.accept
+                    @ './reducers'
+                    => 
+                        _ store.replaceReducer(newCreateRootReducer())
+                    # Enable Webpack hot module replacement for reducers
+                _ module.hot.accept
+                    @ './sagas'
+                    => 
+                        const newCreateRootSaga = require('./sagas')
+                        _ sagaTask.cancel()
+                            # FIXME https://github.com/GuillaumeCisco/redux-sagas-injector/blob/master/src/redux-sagas-injector.js
+                        set sagaTask = sagaMiddleware.run(newCreateRootSaga())
+                            # FIXME https://github.com/GuillaumeCisco/redux-sagas-injector/blob/master/src/redux-sagas-injector.js
+                    # Enable Webpack hot module replacement for sagas
+                # Hot reloading
+            return store

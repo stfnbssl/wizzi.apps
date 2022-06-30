@@ -1,0 +1,12 @@
+module
+    import 
+        @ TimedServiceState
+        from './types'
+    import 
+        @ getEventServiceInstance
+        from './EventService'
+    +
+    :export-type
+        @ TimedServiceState
+    export 
+        @ getEventServiceInstance

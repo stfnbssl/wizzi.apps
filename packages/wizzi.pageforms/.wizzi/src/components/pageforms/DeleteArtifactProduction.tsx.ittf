@@ -1,0 +1,81 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "DeleteArtifactProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "ap_userid", type: "string" },
+                { name: "ap_name", type: "string" },
+                { name: "ap_description", type: "string" },
+            ]
+        }
+        
+    v08/ts/react/component(&md)
+
+        $append imports
+            common_imports( top )
+
+        +
+        m componentDidMount
+            log 'DeleteArtifactProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ userid
+                    @ name
+                    @ description
+                = this.props.data
+            
+            _ this.setState
+                {
+                    @ ap_userid userid
+                    @ ap_name name
+                    @ ap_description description
+        +
+        => handleSubmitDelete
+            param ev
+                :ref React.MouseEvent
+                    :param 
+                        :ref HTMLElement
+            _ ev.preventDefault()
+            _ this.formRef.dispatchEvent(new Event('submit'))
+        +
+        m render
+            log 'DeleteArtifactProduction.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Delete artifact production'
+                    < HR
+                    form
+                        action /artifact/delete
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref
+                            =>
+                                param ref
+                                set this.formRef = ref                        
+                        < FormHidden
+                            @ name 'ap_userid'
+                            @ id 'ap_userid'
+                            @ value {this.state.ap_userid}
+                        < FormStatic
+                            @ label 'Artifact name'
+                            @ name 'ap_name'
+                            @ id 'ap_name'
+                            @ value {this.state.ap_name}
+                        < HR
+                        < FormStatic
+                            @ label 'Description'
+                            @ name 'ap_description'
+                            @ id 'ap_description'
+                            @ value {this.state.ap_description}
+                        < HR
+                        < FormButton
+                            @ label 'Delete artifact production'
+                            @ id 'btn_delete_ap'
+                            @ variant 'submit'
+                            @ type submit
+                            @ onClick {this.handleSubmitDelete}

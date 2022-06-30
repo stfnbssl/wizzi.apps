@@ -1,0 +1,8 @@
+$group
+    $params name|@@null
+
+    [ ${name}
+        {
+            @ hashId 'xyz'
+            @ savedAt 'boh'
+            @ isDraft true

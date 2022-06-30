@@ -1,0 +1,72 @@
+module
+    import 
+        @ ModelBuilderType
+        @ ControllerType
+        from '../app/types'
+    import 
+        as packiTypes
+        from './types'
+        # import { UserModelBuilder, GetUserModel } from './mongo/user';
+    import 
+        @ PackiModelBuilder
+        @ GetPackiModel
+        from './mongo/packi'
+    $if wzCtx.Build.useFilesystem
+        import 
+            @ TemplatesController
+            from './controllers/templates'
+    import 
+        @ PackiEditingController
+        from './controllers/packiEditing'
+    import 
+        @ PackiAdminController
+        from './controllers/packiAdmin'
+    import 
+        @ PackiController
+        from './controllers/packi'
+    import 
+        @ ProductionsController
+        from './controllers/productions'
+    import 
+        @ ProxyController
+        from './controllers/proxy'
+    
+    $if wzCtx.Build.useGithub
+        import 
+            @ GithubController
+            from './controllers/github'
+    
+    +
+    const packiModelGetters
+        { 
+            @ GetPackiModel
+                # GetUserModel
+    +
+    const packiModelBuilders
+        :[ 
+            :ref ModelBuilderType
+        =
+            [ 
+                @ PackiModelBuilder
+                    # UserModelBuilder
+    +
+    const packiControllers
+        :[ 
+            :ref ControllerType
+        =
+            [ 
+                @ new PackiEditingController()
+                @ new PackiAdminController()
+                @ new PackiController()
+                @ new ProductionsController()
+                @ new ProxyController()
+                $if wzCtx.Build.useFilesystem
+                    @ new TemplatesController()
+                $if wzCtx.Build.useGithub
+                    @ new GithubController()
+    +
+    export 
+        @ packiTypes
+        @ packiModelGetters
+        @ packiModelBuilders
+        @ packiControllers

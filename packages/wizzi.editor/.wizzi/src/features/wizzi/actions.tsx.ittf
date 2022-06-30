@@ -1,0 +1,144 @@
+module
+    import
+        @ deprecated 
+        from "typesafe-actions"
+    const 
+        {
+            @ createStandardAction
+        = deprecated
+    import 
+        @ ResponsePayload
+        from '../../store'
+    import 
+        @ PackiFiles
+        from '../packi'
+    import 
+        @ GeneratedArtifact
+        from './types'
+    const GENERATE_ARTIFACT_REQUEST = '@@wizzi/GENERATE_ARTIFACT_REQUEST'
+    const GENERATE_ARTIFACT_SUCCESS = '@@wizzi/GENERATE_ARTIFACT_SUCCESS'
+    const GENERATE_ARTIFACT_ERROR = '@@wizzi/GENERATE_ARTIFACT_ERROR'
+    const MTREE_DEBUG_INFO_REQUEST = '@@wizzi/MTREE_DEBUG_INFO_REQUEST'
+    const MTREE_DEBUG_INFO_SUCCESS = '@@wizzi/MTREE_DEBUG_INFO_SUCCESS'
+    const MTREE_DEBUG_INFO_ERROR = '@@wizzi/MTREE_DEBUG_INFO_ERROR'
+    const MTREE_REQUEST = '@@wizzi/MTREE_REQUEST'
+    const MTREE_SUCCESS = '@@wizzi/MTREE_SUCCESS'
+    const MTREE_ERROR = '@@wizzi/MTREE_ERROR'
+    const EXECUTE_JOB_REQUEST = '@@wizzi/EXECUTE_JOB_REQUEST'
+    const EXECUTE_JOB_SUCCESS = '@@wizzi/EXECUTE_JOB_SUCCESS'
+    const EXECUTE_JOB_ERROR = '@@wizzi/EXECUTE_JOB_ERROR'
+    const SET_TIMED_SERVICE = '@@wizzi/SET_TIMED_SERVICE'
+    +
+    export 
+        :interface ArtifactRequestPayload
+            :p filePath
+                :string 
+            :p files
+                :ref PackiFiles
+    +
+    export 
+        :interface ArtifactResponsePayload
+            :extends ResponsePayload
+            :p generatedArtifact
+                :ref GeneratedArtifact
+    +
+    export 
+        :interface MTreeDebugInfoResponsePayload
+            :extends ResponsePayload
+            :p mTreeBuildUpScript
+                :string
+    +
+    export 
+        :interface MTreeResponsePayload
+            :extends ResponsePayload
+            :p mTreeIttf
+                :string
+    +
+    export 
+        :interface JobRequestPayload
+            :p files
+                :ref PackiFiles
+    +
+    export 
+        :interface JobResponsePayload
+            :extends ResponsePayload
+            :p generatedArtifacts
+                :ref PackiFiles
+    +
+    export 
+        :interface SetTimedServicePayload
+            :p serviceName
+                :string 
+            :p onOff
+                :boolean 
+            :p payload
+                :optional 
+                :any 
+            :p frequence
+                :optional 
+                :number 
+    +
+    export 
+        const generateArtifactRequest
+            _ createStandardAction(GENERATE_ARTIFACT_REQUEST)
+                :param 
+                    :ref ArtifactRequestPayload
+    export 
+        const generateArtifactSuccess
+            _ createStandardAction(GENERATE_ARTIFACT_SUCCESS)
+                :param 
+                    :ref ArtifactResponsePayload
+    export 
+        const generateArtifactError
+            _ createStandardAction(GENERATE_ARTIFACT_ERROR)
+                :param string
+    +
+    export 
+        const mTreeDebugInfoRequest
+            _ createStandardAction(MTREE_DEBUG_INFO_REQUEST)
+                :param 
+                    :ref ArtifactRequestPayload
+    export 
+        const mTreeDebugInfoSuccess
+            _ createStandardAction(MTREE_DEBUG_INFO_SUCCESS)
+                :param 
+                    :ref MTreeDebugInfoResponsePayload
+    export 
+        const mTreeDebugInfoError
+            _ createStandardAction(MTREE_DEBUG_INFO_ERROR)
+                :param string
+    +
+    export 
+        const mTreeRequest
+            _ createStandardAction(MTREE_REQUEST)
+                :param 
+                    :ref ArtifactRequestPayload
+    export 
+        const mTreeSuccess
+            _ createStandardAction(MTREE_SUCCESS)
+                :param 
+                    :ref MTreeResponsePayload
+    export 
+        const mTreeError
+            _ createStandardAction(MTREE_ERROR)
+                :param string
+    +
+    export 
+        const executeJobRequest
+            _ createStandardAction(EXECUTE_JOB_REQUEST)
+                :param 
+                    :ref JobRequestPayload
+    export 
+        const executeJobSuccess
+            _ createStandardAction(EXECUTE_JOB_SUCCESS)
+                :param 
+                    :ref JobResponsePayload
+    export 
+        const executeJobError
+            _ createStandardAction(EXECUTE_JOB_ERROR)
+                :param string
+    export 
+        const setTimedService
+            _ createStandardAction(SET_TIMED_SERVICE)
+                :param 
+                    :ref SetTimedServicePayload

@@ -1,0 +1,147 @@
+module
+    import 
+        as React
+        from 'react'
+    import 
+        @ SaveStatus
+        from '../../features/packi/index'
+    import FileListPaneButton from '../FileList/FileListPaneButton'
+    import ContextMenu from '../widgets/ContextMenu'
+    :type Props
+        :{ 
+            :p onImportFilesClick
+                :=> 
+                    :void 
+            :p onImportRepoClick
+                :=> 
+                    :void 
+            :p onImportProductionClick
+                :=> 
+                    :void 
+            :p onExportClick
+                :=> 
+                    :void 
+            :p hasPackiId
+                :boolean 
+            :p saveStatus
+                :ref SaveStatus
+    :type State
+        :{ 
+            :p menu
+                :union 
+                    :{ 
+                        :p pageX
+                            :number 
+                        :p pageY
+                            :number 
+                    :undefined 
+                    :null 
+    export-default 
+        class ImportExportMenu
+            super React.PureComponent
+                :param 
+                    :ref Props
+                :param 
+                    :ref State
+            p state
+                :ref State
+                { 
+                    @ menu null
+            m componentDidMount
+                _ document.addEventListener('click', this._handleDocumentClick)
+                _ document.addEventListener('contextmenu', this._hideContextMenu)
+            m componentWillUnmount
+                _ document.removeEventListener('click', this._handleDocumentClick)
+                _ document.removeEventListener('contextmenu', this._hideContextMenu)
+            => _hideContextMenu
+                _ this.setState
+                    { 
+                        @ menu null
+            => _showContextMenu
+                param e
+                    :ref React.MouseEvent
+                        :param 
+                            :ref HTMLButtonElement
+                const 
+                    { 
+                        @ bottom
+                        @ right
+                    = e.currentTarget.getBoundingClientRect()
+                _ this.setState
+                    { 
+                        { menu
+                            @ pageX right - 8
+                            @ pageY bottom - 8
+            => _handleDocumentClick
+                param e
+                    :ref MouseEvent
+                if this.state.menu
+                    if 
+                        test
+                            && 
+                                + this._button.current && e.target !== this._button.current
+                                op! 
+                                    _ this._button.current.contains
+                                        @expr e.target
+                                            :as 
+                                                :ref HTMLElement
+                        _ this._hideContextMenu()
+            => _toggleContextMenu
+                param e
+                    :ref React.MouseEvent
+                        :param 
+                            :ref HTMLButtonElement
+                if this.state.menu
+                    _ this._hideContextMenu()
+                else
+                    _ this._showContextMenu(e)
+            p _button
+                _ React.createRef
+                    :param 
+                        :ref HTMLButtonElement
+            m render
+                const isSaved = this.props.saveStatus === 'published' || this.props.saveStatus === 'saved-draft'
+                return 
+                    div 
+                        < FileListPaneButton 
+                            @ ref {this._button}
+                            @ onClick {this._toggleContextMenu}
+                            g 
+                                @ fillOpacity "0.7"
+                                circle 
+                                    @ cy "3"
+                                    @ cx "8"
+                                    @ r "1.5"
+                                circle 
+                                    @ cy "8"
+                                    @ cx "8"
+                                    @ r "1.5"
+                                circle 
+                                    @ cy "13"
+                                    @ cx "8"
+                                    @ r "1.5"
+                        < ContextMenu 
+                            @ visible {Boolean(this.state.menu)}
+                            @ position {this.state.menu}
+                            @ actions
+                                [ 
+                                    { 
+                                        @ label 'Import files'
+                                        @ handler this.props.onImportFilesClick
+                                    { 
+                                        @ label 'Import git repository'
+                                        @ handler this.props.onImportRepoClick
+                                    { 
+                                        @ label 'Export project'
+                                        @ handler this.props.onExportClick
+                                        @ disabled !(isSaved && this.props.hasPackiId)
+                                    ... 
+                                        ( 
+                                            iif process.env.DEPLOY_ENVIRONMENT !== 'production'
+                                                then
+                                                    [ 
+                                                        { 
+                                                            @ label 'Import from production'
+                                                            @ handler this.props.onImportProductionClick
+                                                else []
+                            @ onHide {this._hideContextMenu}

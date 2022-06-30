@@ -1,0 +1,102 @@
+$group
+
+    m updatePackiData
+        param packiData
+            :ref PackiData
+        return
+            _ this.setState
+                =>
+                    param state
+                    _ this.uploadUpdates
+                        @ packiData
+                    return packiData
+
+    m updateJobGeneratedFiles
+        param jobGeneratedFiles
+            :ref PackiFiles
+        log 'PackiSession.updateJobGeneratedFiles.jobGeneratedFiles', jobGeneratedFiles
+        _ this.updatePackiFiles
+            @ jobGeneratedFiles
+            =>
+        
+        $*
+        return
+            _ this.setState
+                =>
+                    param state
+                    const newFiles
+                        _ fileConversions.mixPreviousAndGeneratedPackiFiles
+                            @ state.files
+                            @ jobGeneratedFiles
+        *$
+
+    m updatePackiFiles
+        param files
+            :ref PackiFiles
+        param done
+            :=>
+                :any
+        log 'PackiSession.updatePackiFiles.files', files
+        return
+            _ this.setState
+                =>
+                    param state
+                    const newFiles = State.updateObjects(state.files, files)
+                    if newFiles !== state.files
+                        log 'PackiSession.calling.debounce.uploadUpdates'
+                        _ this.debouncedUploadUpdates
+                            {
+                                @ packiFiles newFiles
+                            @ done
+                    return
+                        iif newFiles !== state.files
+                            then
+                                {
+                                    @ files newFiles
+                            else null
+
+    m uploadUpdates
+        async
+        param payload
+            :ref PackiUploadPayload
+        param done
+            :=>
+                :any
+        log 'PackiSession.uploadUpdates.payload', payload
+        await
+            _ this.fileUploader.waitForCompletion()
+            # Wait for any pending asset uploads to complete before saving
+        const
+            {
+                @ owner
+                @ name
+                @ packiProduction
+            = this.state
+        const url
+            `lit
+                @ this.apiURL
+                + /api/v1/production/
+                @ packiProduction
+                + /
+                @ encodeURIComponent(owner)
+                + /
+                @ encodeURIComponent(name)
+        log 'PackiSession.uploadUpdates', url
+        const response
+            await
+                _ fetch
+                    @ url
+                    {
+                        @ method 'PUT'
+                        @ body JSON.stringify(payload)
+                        { headers
+                            @ 'Content-Type' 'application/json'
+        const data
+            await
+                _ response.json()
+        log 'PackiSession.uploadUpdates.response.data', data
+        set this.state.saveCount++
+        if done
+            _ done
+        _ this.setPreviewUrl
+        

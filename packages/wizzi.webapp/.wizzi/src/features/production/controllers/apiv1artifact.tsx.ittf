@@ -1,0 +1,82 @@
+module
+    
+    $
+        var ctrl = {
+            name: 'ApiV1ArtifactProduction',
+            path: '/api/v1/production/artifact',
+        }
+    
+    controller( &ctrl )
+            
+        $append imports
+            import
+                @ validateArtifactProduction
+                @ getArtifactProduction
+                @ updateArtifactProduction
+                @ invalidateCache
+                from '../api/artifact'
+            +
+            const myname = 'features/production/controllers/apiv1artifactproduction'
+
+        _ this.router.get('/checkname/:name', this.getCheckArtifactName)
+        _ this.router.get('/:owner/:name', this.getArtifactProduction)
+        _ this.router.put('/:owner/:name', this.putArtifactProduction)
+        
+        $append handlers
+            
+            handler( getCheckArtifactName )
+
+                # loog 'getCheckArtifactName.request.params', request.params
+                # loog 'getCheckArtifactName.request.session.user.username', (request.session as any).user.username
+                _ validateArtifactProduction
+                    @ (request.session as any).user.username
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getCheckArtifactName.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( getCheckArtifactName )
+
+            handler( getArtifactProduction )
+
+                # loog 'getArtifactProduction.request.params', request.params
+                _ getArtifactProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getArtifactProduction.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( getArtifactProduction )
+
+            handler( putArtifactProduction )
+
+                # loog 'putArtifactProduction.request.params', request.params
+                # loog 'putArtifactProduction.request.body', request.body
+                _ updateArtifactProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ request.body.mainIttf
+                    @ request.body.schema
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'putArtifactProduction.result', result
+                            _ invalidateCache
+                                @ request.params.owner
+                                @ request.params.name
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( putArtifactProduction )

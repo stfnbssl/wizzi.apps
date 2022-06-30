@@ -1,0 +1,47 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ withThemeName
+        @ ThemeName
+        from '../../features/preferences/index'
+    function Placeholder
+        param props
+            :{ 
+                :p theme
+                    :ref ThemeName
+                :p label
+                    :string 
+        return 
+            div 
+                @ className {css(styles.placeholder)}
+                img 
+                    @ className {css(styles.image)}
+                    @ src
+                        iif props.theme === 'dark'
+                            then require('../../assets/packi-icon-dark.svg')
+                            else require('../../assets/packi-icon.svg')
+                + {props.label}
+    export-default withThemeName(Placeholder)
+    const styles
+        _ StyleSheet.create
+            { 
+                { placeholder
+                    @ display 'flex'
+                    @ flexDirection 'column'
+                    @ alignItems 'center'
+                    @ justifyContent 'center'
+                    @ flex 1
+                    @ margin 24
+                    @ fontSize 16
+                    @ opacity 0.5
+                { image
+                    @ height 72
+                    @ width 72
+                    @ margin 16
+                    @ opacity 0.7

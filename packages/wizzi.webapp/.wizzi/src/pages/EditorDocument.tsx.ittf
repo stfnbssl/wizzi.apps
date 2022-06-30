@@ -1,0 +1,110 @@
+module
+    import jsesc from 'jsesc'
+    import React from 'react'
+    $*
+    import 
+        @ getPageMetadata
+        from '../components/PageMetadata'
+    import GoogleAnalytics from '../components/GoogleAnalytics'
+    *$
+    
+    common(true)
+
+    :type EditorDocumentProps
+        :{ 
+            :p data
+                :object
+            :p loggedUser
+                :object
+            :p queryParams
+                :object
+            :p content
+                :{ 
+                    :p html
+                        :string 
+                    :p css
+                        :{ 
+                            :p content
+                                :string 
+                            :p renderedClassNames
+                                :[ 
+                                    :string 
+                :optional
+    +
+    export-default 
+        function EditorDocument
+            param props
+                :ref EditorDocumentProps
+            const 
+                { 
+                    @ data
+                    @ loggedUser
+                    @ queryParams
+                    @ content
+                = props
+            return 
+                html 
+                    head 
+                        meta 
+                            @ charSet "utf-8"
+                        meta 
+                            @ httpEquiv "X-UA-Compatible"
+                            @ content "IE=edge"
+                        meta 
+                            @ name "viewport"
+                            @ content "width=device-width,minimum-scale=1,initial-scale=1"
+                        $*
+                        < title 
+                            + {title}
+                        { 
+                            _ meta.map
+                                => 
+                                    param metaProps
+                                    param index
+                                    meta 
+                                        @ key {index}
+                                        @ {...metaProps}
+                        meta 
+                            @ name "google-site-verification"
+                            @ content "Fh25fNM-buRYptb-TO6MVgOjXGzdhmAnRgIC7sdrmbw"
+                        link 
+                            @ rel "shortcut icon"
+                            @ href "/favicon.ico"
+                        *$
+                        link 
+                            @ rel "stylesheet"
+                            @ href "https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,500,600"
+                        link 
+                            @ rel "stylesheet"
+                            @ href "https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
+                        < style 
+                            @ type "text/css"
+                            @ dangerouslySetInnerHTML
+                                { 
+                                    @ __html PageCss
+                        < script 
+                            @ dangerouslySetInnerHTML
+                                {
+                                    @ __html
+                                        `lit 
+                                            + &nbsp; window.__INITIAL_DATA__ =&nbsp;
+                                            _ jsesc
+                                                { 
+                                                    @ data
+                                                    @ loggedUser
+                                                    @ queryParams
+                                                { 
+                                                    @ quotes 'double'
+                                                    @ isScriptContext true
+                                            + &lf; console.log(window.__INITIAL_DATA__) &lf;
+                                        
+                    body
+                        $*
+                        pre
+                            code {JSON.stringify(data, null, 2)}
+                        *$
+                        section
+                            id root
+                        script
+                            $$ src "/static/packi/main.bundle.js"
+                            src "/static/packi/main.bundle.js"

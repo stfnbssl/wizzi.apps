@@ -1,0 +1,54 @@
+$group
+
+    +
+    export
+        async-function scanIttfDocument
+            param filePath
+                :string
+            param rootFolder
+                :string
+            :return
+                :ref Promise
+                    :param
+                        :ref IttfMTreeState
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ ittfDocumentScanner.scan
+                            @ filePath
+                            {
+                                @ rootFolder
+                            =>
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                _ resolve(result)
+    +
+    export
+        async-function scanIttfFolder
+            param filePath
+                :string
+            param rootFolder
+                :string
+            :return
+                :ref Promise
+                    :param
+                        :ref FolderBrowseResult
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ folderBrowse.scan
+                            @ filePath
+                            {
+                                @ rootFolder
+                            =>
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                _ resolve(result)

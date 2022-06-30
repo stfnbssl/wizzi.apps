@@ -1,0 +1,62 @@
+module
+    import 
+        as React
+        from 'react'
+    import 
+        @ FormValidationContext
+        from './Form'
+    import 
+        @ $Subtract
+        from '../../types'
+    +
+    :type InjectedProps
+        :{ 
+            :p disabled
+                :union 
+                    :boolean 
+                    :undefined 
+        # The property ( 'disabled' ) is injected in the component
+        # enhanced by withStatus ( should be 'withEnabled' ).
+        # The 'disabled' status is inferred from the FormValidationContext.Consumer.
+    +
+    export-default 
+        function withStatus
+            :< P
+                :ref InjectedProps
+            param Comp
+                :ref React.ComponentType
+                    :param 
+                        :ref P
+            :return
+                :ref React.ComponentType
+                    :param 
+                        :ref $Subtract
+                            :param 
+                                :ref P
+                            :param 
+                                :ref InjectedProps
+            function withStatusFn
+                param props
+                    :any 
+                return 
+                    < FormValidationContext.Consumer 
+                        { 
+                            => 
+                                param value
+                                    :union 
+                                        :{ 
+                                            :p valid
+                                                :boolean 
+                                        :undefined 
+                                    = 
+                                        { 
+                                            @ valid true
+                                < Comp 
+                                    @ disabled {!value.valid}
+                                    @ {...props}
+            set withStatusFn.displayName =
+                `lit 
+                    + withValidation(
+                    @ Comp.displayName || Comp.name
+                    + )
+            return withStatusFn

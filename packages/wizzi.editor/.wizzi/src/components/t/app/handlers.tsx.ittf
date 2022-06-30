@@ -1,0 +1,354 @@
+$group
+    $params level|1
+    => _handleFocusChangeInterval
+        const isFocused = document.hasFocus()
+        if this._isFocused !== isFocused
+            set this._isFocused = isFocused
+            if isFocused
+                _ this._PackiSession.setFocus()
+    p _handleUnload
+        async=> 
+            if navigator.sendBeacon && this.state.session.sendBeaconCloseRequest
+                const 
+                    { 
+                        @ url
+                        @ data
+                    = this.state.session.sendBeaconCloseRequest
+                _ navigator.sendBeacon(url, data)
+    => _handleToggleSendCode
+        _ this.setState
+            => 
+                { 
+                    @ sendCodeOnChangeEnabled
+                _ this._PackiSession.setCodeChangesDelay
+                    iif sendCodeOnChangeEnabled
+                        then -1
+                        else 1000
+                return 
+                    { 
+                        @ sendCodeOnChangeEnabled !sendCodeOnChangeEnabled
+    => _handleSendCode
+        _ this._PackiSession.sendCodeChanges()
+    
+    => _handleSessionStateChange
+        param packiState
+            :ref PackiState
+        param prevPackiState
+            :ref PackiState
+        
+        _ this.setState
+            => 
+                param state
+                let annotations
+                    :union 
+                        :[ 
+                            :ref Annotation
+                        :undefined 
+                const saveStatus
+                    :ref SaveStatus
+                    =
+                        iif state.unsaved && (state.saveStatus === 'saved-draft' || state.saveStatus === 'published' || state.saveStatus === 'unsaved')
+                            then
+                                iif this.edited
+                                    then 'edited'
+                                    else 'unsaved'
+                            else state.saveStatus
+                    # Set save-status to changed if needed
+                log 'App._handleSessionStateChange', 'saveStatus', saveStatus
+                return 
+                    { 
+                        @ session packiState
+                        @ saveStatus
+                        @ annotations annotations ?? state.annotations
+                    # Update session state
+            => 
+                # 15/7/21 Disactivated
+                # for changes uploaded see
+                # - _PackiSession.updatePackiData
+                # - _PackiSession.updatePackiFiles
+                $if false
+                    log 'App._handleSessionStateChange', 'calling _saveDraftIfNeeded'
+                    _ this._saveDraftIfNeeded(true)
+            # log 'Session state change: ', diff(prevPackiState, packiState), packiState $$ deep-object-diff
+        $if wzCtx.Build.useExpo
+            # Record any dependency errors
+            if packiState.dependencies !== prevPackiState.dependencies
+                for const name in packiState.dependencies
+                    const dep = packiState.dependencies[name]
+                    if dep.error && dep.error !== prevPackiState.dependencies[name]?.error
+                        _ Raven.captureMessage(dep.error.message)
+    +
+    => _handleSubmitMetadata
+        param details
+            :{ 
+                :p name
+                    :string 
+                :p description
+                    :string 
+                :p mainIttf
+                    :string 
+                :p wizziSchema
+                    :string 
+        set this.edited = true
+        _ this._PackiSession.setName(details.name)
+        _ this._PackiSession.setDescription(details.description)
+        _ this._PackiSession.setMainIttf(details.mainIttf)
+        _ this._PackiSession.setWizziSchema(details.wizziSchema)
+    
+    +
+    => _handleChangeSDKVersion
+        param sdkVersion
+            :ref SDKVersion
+        param isLocalWebPreview
+            :boolean 
+            :optional 
+        set this.edited = true
+        _ this._packi.setSDKVersion(sdkVersion)
+        if this.state.isLocalWebPreview !== !!isLocalWebPreview
+            _ this.setState
+                { 
+                    @ isLocalWebPreview !!isLocalWebPreview
+    +
+    p _handleDownloadAsync
+        async=> 
+            _ this.setState
+                { 
+                    @ isDownloading true
+            const 
+                { 
+                    @ saveStatus
+                = this.state
+                # Make sure file is saved before downloading
+            if saveStatus !== 'published'
+                await 
+                    _ this._saveAsync
+                        { 
+                            @ ignoreUser true
+                            @ excludeFromHistory true
+            let once = true
+            _ this.setState
+                => 
+                    param state
+                    const 
+                        { 
+                            @ id
+                        = state.session
+                    if !id
+                        return 
+                            { 
+                                @ saveStatus
+                                @ isDownloading false
+                            # this shouldn't happen
+                    if once
+                        set once = false
+                        $if wzCtx.Build.useExpo
+                            _ Analytics.getInstance().logEvent('DOWNLOADED_CODE')
+                        const url
+                            `lit 
+                                @ process.env.API_SERVER_URL
+                                + /--/api/v2/packi/download/
+                                @ id
+                        const element = document.createElement('a')
+                            # Simulate link click to download file
+                        if element && document.body
+                            _ document.body.appendChild(element)
+                            _ element.setAttribute('href', url)
+                            _ element.setAttribute('download', 'packi.zip')
+                            set element.style.display = ''
+                            _ element.click()
+                            _ document.body.removeChild(element)
+                    return 
+                        { 
+                            @ saveStatus
+                            @ isDownloading false
+    +
+    => _saveDraftIfNeeded
+        param debounced
+            :boolean 
+            :optional 
+        log 'App._saveDraftIfNeeded', 'this.state.session.user', this.state.session.user,
+            \b 'this.state.autosaveEnabled', this.state.autosaveEnabled,
+            \b 'this.state.saveStatus', this.state.saveStatus
+        if true $$ TODO this.state.session.user && this.state.session.unsaved && this.state.autosaveEnabled && this.state.saveStatus === 'edited'
+            if debounced
+                _ this._saveDraftIfNeededDebounced()
+            else
+                _ this._saveAsync
+                    { 
+                        @ isDraft true
+    p _saveDraftIfNeededDebounced
+        _ debounce(this._saveDraftIfNeeded, 3000)
+    +
+    p _saveAsync
+        async=> 
+            param options
+                :ref PackiSaveOptions
+                = 
+                    { 
+            const 
+                { 
+                    @ isDraft
+                    @ ignoreUser
+                    @ excludeFromHistory
+                = options
+            _ this.setState
+                { 
+                    @ saveStatus
+                        iif isDraft || excludeFromHistory
+                            then 'saving-draft'
+                            else 'publishing'
+            if !isDraft
+                let cntCodeFile = 0
+                let cntAssetFile = 0
+                $if wzCtx.Build.useExpo
+                    const cntDependencies = Object.keys(this.state.session.dependencies).length
+                let codeSize = 0
+                for 
+                    left
+                        const path
+                    in this.state.session.files
+                    const file = this.state.session.files[path]
+                    if file.type === 'CODE'
+                        set cntCodeFile++
+                        set codeSize += file.contents.length
+                    else
+                        set cntAssetFile++
+                $if wzCtx.Build.useExpo
+                    _ Analytics.getInstance().logEvent
+                        @ 'SAVED_PACKI'
+                        { 
+                            @ cntCodeFile
+                            @ cntAssetFile
+                            @ codeSize
+                            @ cntDependencies
+                        @ 'lastSave'
+                    _ Analytics.getInstance().startTimer('lastSave')
+            try 
+                set this.edited = false
+                const saveResult
+                    await 
+                        _ this._PackiSession.saveAsync
+                            { 
+                                @ isDraft
+                                @ ignoreUser
+                $if wzCtx.Build.useExpo
+                    if !excludeFromHistory
+                        _ this.props.history.push
+                            { 
+                                @ pathname
+                                    `lit 
+                                        + /
+                                        @ saveResult.id
+                                        + 
+                                @ search this.props.location.search
+                _ this.setState
+                    => 
+                        param state
+                        (
+                            { 
+                                @ isSavedOnce true
+                                $if wzCtx.Build.useExpo
+                                    @ saveHistory
+                                        iif excludeFromHistory
+                                            then state.saveHistory
+                                            else
+                                                [ 
+                                                    { 
+                                                        @ hashId saveResult.hashId ?? ''
+                                                        @ savedAt new Date().toISOString()
+                                                        @ isDraft
+                                                    @ ...state.saveHistory
+                                @ saveStatus
+                                    iif state.session.unsaved
+                                        then
+                                            iif this.edited
+                                                then 'edited'
+                                                else 'unsaved'
+                                        else
+                                            iif isDraft
+                                                then 'saved-draft'
+                                                else 'published'
+            catch e
+                set this.edited = true
+                _ this.setState
+                    { 
+                        @ saveStatus 'edited'
+                throw e
+    => _handleOpenEditor
+        _ this.setState
+            { 
+                @ isPreview false
+    => _uploadAssetAsync
+        param asset
+            :ref File
+        return this._PackiSession.uploadAssetAsync(asset)
+    => _handleTogglePreview
+        _ this.props.setPreferences
+            { 
+                @ devicePreviewShown !this.state.devicePreviewShown
+        _ this.setState
+            => 
+                param state
+                (
+                    { 
+                        @ devicePreviewShown !state.devicePreviewShown
+    +
+    => _handleSelectFile
+        param path
+            :string 
+        _ this.setState
+            => 
+                param state
+                if state.selectedFile !== path
+                    log 'App._handleSelectFile', this.props.preferences.autoGenSingleDoc, path
+                    if this.props.preferences.autoGenSingleDoc
+                        _ this._generateArtifact
+                            @ path
+                    return
+                        { 
+                            @ selectedFile path
+                else
+                    return null
+  
+    +
+    => _updateFiles
+        param updateFn
+            :=> 
+                :{ 
+                    :index 
+                        :union 
+                            :ref PackiFile
+                            :null 
+                        param path
+                            :string 
+                param files
+                    :ref PackiFiles
+        const state = this._PackiSession.getState()
+        const filesUpdate = updateFn(state.files)
+        # log 'App._updateFiles.filesUpdate', filesUpdate
+        if Object.keys(filesUpdate).length
+            set this.edited = true
+            _ this._PackiSession.updatePackiFiles
+                @ filesUpdate
+                =>
+                    _ this._generateArtifact()
+    
+    +
+    => _updateDependencies
+        param updateFn
+            :=> 
+                :{ 
+                    :index 
+                        :union 
+                            :ref PackiDependency
+                            :null 
+                        param path
+                            :string 
+                param dependencies
+                    :ref PackiDependencies
+        const state = this._packi.getState()
+        const dependenciesUpdate = updateFn(state.dependencies)
+        if Object.keys(dependenciesUpdate).length
+            set this.edited = true
+            _ this._packi.updateDependencies(dependenciesUpdate)
+        return this._packi.getState().dependencies

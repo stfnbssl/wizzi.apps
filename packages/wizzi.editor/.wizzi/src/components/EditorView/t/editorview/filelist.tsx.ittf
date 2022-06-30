@@ -1,0 +1,17 @@
+< FileList 
+    @ annotations {annotations}
+    @ visible {preferences.fileTreeShown}
+    @ files {files}
+    @ selectedFile {selectedFile}
+    @ updateFiles {this.props.updateFiles}
+    @ onSelectFile {this.props.onSelectFile}
+    @ onRemoveFile {this._handleRemoveFile}
+    @ onRenameFile {this._handleRenameFile}
+    @ uploadFileAsync {uploadFileAsync}
+    @ onDownloadCode {this.props.onDownloadAsync}
+    @ onImportRepo {this._handleShowImportRepoModal}
+    @ onImportProduction {this._handleShowImportProductionModal}
+    $if wzCtx.Build.useExpo 
+        @ hasPackiId {!!id}
+    @ saveStatus {saveStatus}
+    @ sdkVersion {sdkVersion}

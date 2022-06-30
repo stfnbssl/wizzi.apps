@@ -1,0 +1,115 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import classnames from 'classnames'
+    import escape from 'escape-html'
+    import marked from 'marked'
+    import 
+        @ highlight
+        @ languages
+        from 'prismjs/components/prism-core'
+    import 
+        as React
+        from 'react'
+    import sanitize from 'sanitize-html'
+    import 'prismjs/components/prism-clike'
+    import 'prismjs/components/prism-javascript'
+    import 'prismjs/components/prism-typescript'
+    import 'prismjs/components/prism-markup'
+    import 'prismjs/components/prism-jsx'
+    import 'prismjs/components/prism-json'
+    import 'prismjs/components/prism-bash'
+    import 'prismjs/components/prism-swift'
+    import 'prismjs/components/prism-java'
+    import 'prismjs/components/prism-diff'
+    import './markdown.css'
+    import 
+        @ light
+        @ dark
+        from '../Editor/themes/simple-editor'
+    import 
+        @ withThemeName
+        @ ThemeName
+        from '../../features/preferences/index'
+    import 
+        @ c
+        from '../ThemeProvider'
+    :type Props
+        :{ 
+            :p source
+                :string 
+            :p theme
+                :ref ThemeName
+    const renderer = new marked.Renderer()
+        # use a custom renderer to customize the `a` tag and add `target='_blank'`
+    set renderer.link =
+        function 
+            param args
+                :any
+            return marked.Renderer.prototype.link.apply(this, args).replace(/^<a/, '<a target="_blank"')
+    class MarkdownPreview
+        super React.Component
+            :param 
+                :ref Props
+        m render
+            const 
+                { 
+                    @ source
+                    @ theme
+                = this.props
+            let html
+                _ marked
+                    @ source
+                    { 
+                        @ renderer
+                        @ gfm true
+                        @ silent true
+                        @ highlight
+                            => 
+                                param code
+                                    :string
+                                param lang
+                                    :string
+                                const grammar
+                                    iif lang === 'js'
+                                        then languages.jsx
+                                        else languages[lang]
+                                const language
+                                    iif lang === 'js'
+                                        then 'jsx'
+                                        else lang
+                                return 
+                                    iif grammar
+                                        then highlight(code, grammar, language)
+                                        else escape(code)
+            set html = sanitize(html, require('./santize-config.json'))
+            return 
+                < React.Fragment
+                    div 
+                        @ dangerouslySetInnerHTML
+                            { 
+                                @ __html html
+                        @ className {classnames(css(styles.content), 'markdown-body', 'prism-code')}
+                    < style 
+                        @ type "text/css"
+                        @ dangerouslySetInnerHTML
+                            { 
+                                @ __html
+                                    iif theme === 'dark'
+                                        then dark
+                                        else light
+    export-default withThemeName(MarkdownPreview)
+    const styles
+        _ StyleSheet.create
+            { 
+                { content
+                    @ flex 1
+                    @ overflow 'auto'
+                    @ backgroundColor c('content')
+                    @ color c('text')
+                    @ padding 40
+                    @ '--border-color' c('border')
+                    @ '--blockquote-text-color' c('text')
+                    @ '--code-background-color' c('hover')

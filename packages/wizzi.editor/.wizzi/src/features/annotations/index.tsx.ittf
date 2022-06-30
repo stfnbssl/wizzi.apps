@@ -1,0 +1,7 @@
+module
+    import
+        @ Annotation
+        from './types'
+    +
+    :export-type
+        @ Annotation

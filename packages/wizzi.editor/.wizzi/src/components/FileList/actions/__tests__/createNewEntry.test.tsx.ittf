@@ -1,0 +1,57 @@
+module
+    import 
+        @ FileSystemEntry
+        from '../../types'
+    import createNewEntry from '../createNewEntry'
+    _ it
+        @ 'creates new file'
+        => 
+            const entries
+                :[ 
+                    :ref FileSystemEntry
+                =
+                    [ 
+                        { 
+                            { item
+                                @ path 'test'
+                                @ type 'folder'
+                            { state
+                        { 
+                            { item
+                                @ path 'test/App.js'
+                                @ type 'file'
+                                @ content ''
+                            { state
+                        { 
+                            { item
+                                @ path 'components'
+                                @ type 'folder'
+                            { state
+            _ expect(createNewEntry(entries, 'file')).toMatchSnapshot()
+            _ expect(createNewEntry(entries, 'file', 'test')).toMatchSnapshot()
+    _ it
+        @ 'creates new folder'
+        => 
+            const entries
+                :[ 
+                    :ref FileSystemEntry
+                =
+                    [ 
+                        { 
+                            { item
+                                @ path 'test'
+                                @ type 'folder'
+                            { state
+                        { 
+                            { item
+                                @ path 'test/App.js'
+                                @ type 'file'
+                                @ content ''
+                            { state
+                        { 
+                            { item
+                                @ path 'components'
+                                @ type 'folder'
+                            { state
+            _ expect(createNewEntry(entries, 'folder')).toMatchSnapshot()
+            _ expect(createNewEntry(entries, 'folder', 'test')).toMatchSnapshot()

@@ -1,0 +1,123 @@
+module
+    import 
+        as React
+        from 'react'
+    import 
+        @ Register
+        @ Unregister
+        @ Update
+        @ FormValidation
+        from './types'
+    +
+    export
+        :type FormProps
+            :{ 
+                :p onSubmit
+                    :=> 
+                        :void 
+                :p children
+                    :ref React.ReactNode
+    :type State
+        :{ 
+            :p isValid
+                :boolean 
+    +
+    export 
+        const FormValidationContext
+            _ React.createContext
+                :param 
+                    :union 
+                        :ref FormValidation
+                        :undefined 
+                @ undefined
+    +
+    export-default 
+        class Form
+            super React.Component
+                :param 
+                    :ref FormProps
+                :param 
+                    :ref State
+            p state
+                { 
+                    @ isValid false
+            m componentDidMount
+                _ this._update()
+            p _key
+                = 0
+            p _inputs
+                :ref Array
+                    :param 
+                        :{ 
+                            :p key
+                                :number 
+                            :p validate
+                                :=> 
+                                    :union 
+                                        :ref Error
+                                        :null 
+                            :p focus
+                                :=> 
+                                    :void 
+                [ 
+            p _register
+                :ref Register
+                => 
+                    { 
+                        @ validate
+                        @ focus
+                    const key = this._key++
+                    _ this._inputs.push
+                        { 
+                            @ key
+                            @ validate
+                            @ focus
+                    return key
+            p _unregister
+                :ref Unregister
+                => 
+                    param key
+                        :number 
+                    set this._inputs =
+                        _ this._inputs.filter
+                            => 
+                                param it
+                                set it.key !== key
+            p _update
+                :ref Update
+                => 
+                    _ this.setState
+                        { 
+                            @ isValid
+                                _ this._inputs.every
+                                    => 
+                                        param it
+                                        + !it.validate()
+            p _handleSubmit
+                => 
+                    param e
+                        :ref React.FormEvent
+                            :param 
+                                :ref HTMLFormElement
+                    _ e.preventDefault()
+                    log 'features.form._handleSubmit'
+                    for const input of this._inputs
+                        log 'features.form._handleSubmit.input.validate()', input.validate()
+                        if input.validate()
+                            _ input.focus()
+                            return 
+                    log 'features.form._handleSubmit.onSubmit()'
+                    _ this.props.onSubmit()
+            
+            m render
+                return 
+                    < FormValidationContext.Provider 
+                        @ value
+                            { 
+                                @ register this._register
+                                @ unregister this._unregister
+                                @ update this._update
+                                @ valid this.state.isValid
+                        form 
+                            @ onSubmit {this._handleSubmit}
+                            + {this.props.children}

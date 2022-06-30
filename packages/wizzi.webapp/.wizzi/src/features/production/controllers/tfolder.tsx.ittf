@@ -1,0 +1,120 @@
+module
+    $
+        var ctrl = {
+            name: 'TFolder',
+            path: '/tfolder',
+        }
+    
+    controller( &ctrl )
+            
+        $append imports
+            import ReactDOMServer 
+                from 'react-dom/server'
+            import PageFormDocument 
+                from '../../../pages/PageFormDocument' 
+            import
+                @ CRUDResult
+                from '../../types'
+            import
+                @ createTFolder
+                @ updateTFolder
+                @ deleteTFolder
+                @ getTFolderObject
+                from '../api/tfolder'
+            +
+            const myname = 'features/production/controllers/tfolder'
+            +
+            function renderPageForm
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param data
+                    :object
+                param queryParams
+                    :object
+
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < PageFormDocument 
+                                @ data {data}
+                                @ queryParams {queryParams}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+
+            function getPackiFiles
+                param mainIttf
+                    :string
+                return
+                    {
+                        { [mainIttf]
+                            @ type 'CODE'
+                            @ contents ''
+
+        _ this.router.get('/new', this.getNewTFolderForm)
+        _ this.router.post('/new', this.postTFolder)
+        _ this.router.get('/update/:userid/*', this.getUpdateTFolderForm)
+        _ this.router.post('/update', this.putTFolder)
+        _ this.router.get('/delete/:userid/*', this.getDeleteTFolderForm)
+        _ this.router.post('/delete', this.deleteTFolder)
+        
+        $append handlers
+            
+            handler( getNewTFolderForm )
+                # loog myname, 'getNewTFolderForm', JSON.stringify(request.query, null, 2)
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'CreateTFolder'
+                        { formData 
+                            @ owner request.query.owner
+                            @ name request.query.name
+                    {
+
+            handler( postTFolder )
+                # loog myname + '.postNewTFolder.request.body', JSON.stringify(request.body, null, 2)
+                # loog myname + '.postNewTFolder.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+                _ createTFolder
+                    @ (request.session as any).user.username
+                    @ request.body.ap_name
+                    @ request.body.ap_description
+                    @ JSON.stringify(getPackiFiles('readme.md.ittf'))
+                    ._ then
+                        =>
+                            param result
+                                :ref CRUDResult
+                            # loog myname + '.postNewTFolder.createTFolder.result', JSON.stringify(result, null, 2)
+                            if result.ok
+                                _ response.redirect('/tfolders')
+                            else
+                                _ response.render
+                                    @ 'error.html.ittf'
+                                    {
+                                        @ message 'creating a new tfolder'
+                                        @ error result
+                    ._ catch
+                        =>
+                            param err
+                                :any
+                            _ response.render
+                                @ 'error.html.ittf'
+                                {
+                                    @ message 'creating a new tfolder'
+                                    @ error err
+
+            handler( getUpdateTFolderForm )
+                update_get_form( tFolder )
+
+            handler( putTFolder )
+                update_put( tFolder )
+
+            handler( getDeleteTFolderForm )
+                delete_get_form( tFolder )
+
+            handler( deleteTFolder )
+                delete_delete( tFolder )

@@ -1,0 +1,79 @@
+module
+    import EventEmitter
+        @ ListenerFn
+        from 'eventemitter3'
+    import
+        @ TimedService
+        from './TimedService'
+    +
+    class EventService
+        p eventEmitter
+            :ref EventEmitter
+        p timedServices
+            :{ 
+                :index 
+                    :ref TimedService
+                    param k
+                        :string 
+            { 
+        ctor 
+            set this.eventEmitter = new EventEmitter()
+        m on
+            param eventName
+                :string 
+            param listener
+                :ref ListenerFn
+            _ this.eventEmitter.on(eventName, listener)
+        m off
+            param eventName
+                :string 
+            param listener
+                :ref ListenerFn
+            _ this.eventEmitter.removeListener(eventName, listener)
+        m emit
+            param event
+                :string 
+            param payload
+                :any 
+            param error = false
+            _ this.eventEmitter.event_emit(event, payload, error)
+        m setTimed
+            param event
+                :string 
+            param onOff
+                :boolean 
+            param payload
+                :any 
+                :optional 
+            param frequence
+                :number 
+                :optional 
+            let ts = this.timedServices[event]
+            if ts
+                if !onOff
+                    _ ts.setFrequence(0)
+                else
+                    + payload && ts.setPayload(payload)
+                    + frequence && ts.setFrequence(frequence)
+            else
+                set this.timedServices[event] =
+                    new TimedService
+                        @ payload
+                        @expr frequence || 1000
+                        => 
+                            param payload
+                                :any 
+                            _ this.emit(event, payload)
+        m getEventEmitter
+            return this.eventEmitter
+    +
+    let _eventService
+        :ref EventService
+    +
+    export 
+        function getEventServiceInstance
+            :return
+                :ref EventService
+            if !_eventService
+                set _eventService = new EventService()
+            return _eventService

@@ -1,0 +1,218 @@
+module
+    $
+        var ctrl = {
+            name: 'PackageProduction',
+            path: '/package',
+        }
+    
+    controller( &ctrl )
+            
+        $append imports
+            import ReactDOMServer 
+                from 'react-dom/server'
+            import PageFormDocument 
+                from '../../../pages/PageFormDocument' 
+            import
+                @ CRUDResult
+                from '../../types'
+            import
+                @ getTemplatePackiFiles
+                from '../api/meta'
+            import
+                @ createPackageProduction
+                @ updatePackageProduction
+                @ deletePackageProduction
+                @ getPackageProductionObject
+                from '../api/package'
+            import
+                @ packiTypes
+                from '../../packi'
+            +
+            const myname = 'features/production/controllers/package'
+            +
+            function renderPageForm
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param data
+                    :object
+                param queryParams
+                    :object
+
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < PageFormDocument 
+                                @ data {data}
+                                @ queryParams {queryParams}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+
+            function getPackiFiles
+                param mainIttf
+                    :string
+                return
+                    {
+                        { [mainIttf]
+                            @ type 'CODE'
+                            @ contents ''
+
+        _ this.router.get('/new', this.getNewPackageForm)
+        _ this.router.post('/new', this.postPackage)
+        _ this.router.get('/update/:userid/*', this.getUpdatePackageForm)
+        _ this.router.post('/update', this.putPackage)
+        _ this.router.get('/delete/:userid/*', this.getDeletePackageForm)
+        _ this.router.post('/delete', this.deletePackage)
+        _ this.router.get('/props', this.getPackageProperties)
+        
+        $append handlers
+            
+            handler( getNewPackageForm )
+                # loog myname, 'getNewPackageForm', JSON.stringify(request.query, null, 2)
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'CreatePackageProduction'
+                        { formData 
+                            @ owner request.query.owner
+                            @ name request.query.name
+                    {
+
+            handler( postPackage )
+                # loog myname + '.postNewPackage.request.body', JSON.stringify(request.body, null, 2)
+                # loog myname + '.postNewPackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+                _ getTemplatePackiFiles
+                    @ request.body.meta_id
+                    @ request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}
+                    ._ then
+                        =>
+                            param packiFiles
+                                :ref packiTypes.PackiFiles
+                            _ createPackageProduction
+                                @ (request.session as any).user.username
+                                @ request.body.pp_name
+                                @ request.body.pp_description
+                                @ JSON.stringify(packiFiles)
+                                ._ then
+                                    =>
+                                        param result
+                                            :ref CRUDResult
+                                        # loog myname + '.postNewPackage.createPackageProduction.result', JSON.stringify(result, null, 2)
+                                        if result.ok
+                                            _ response.redirect('/productions/packages')
+                                        else
+                                            _ response.render
+                                                @ 'error.html.ittf'
+                                                {
+                                                    @ message 'creating a new package production'
+                                                    @ error result
+                                catch_error_page( creating a new package production )
+                    catch_error_page( getting template packi files while creating a new package production )
+
+            handler( getUpdatePackageForm )
+                # loog myname + '.getUpdatePackageForm', request.path 
+                const parts = request.path.split('/')
+                # loog myname + '.getUpdatePackageForm', parts[2], parts.slice(3).join('/')
+                const userid = parts[2]
+                const name = parts.slice(3).join('/')
+                _ getPackageProductionObject
+                    @ userid
+                    @ name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ renderPageForm
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    @ formName 'UpdatePackageProduction'
+                                    { formData 
+                                        @ userid userid
+                                        @ name name
+                                        @ description result.description
+                                        @ _id result._id
+                                {
+
+            handler( putPackage )
+                update_put( package )
+
+            handler( getDeletePackageForm )
+                # loog myname + '.getDeletePackageForm', request.path 
+                const parts = request.path.split('/')
+                # loog myname + '.getDeletePackageForm', parts[2], parts.slice(3).join('/')
+                const userid = parts[2]
+                const name = parts.slice(3).join('/')
+                _ getPackageProductionObject
+                    @ userid
+                    @ name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ renderPageForm
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    @ formName 'DeletePackageProduction'
+                                    { formData 
+                                        @ userid userid
+                                        @ name name
+                                        @ description result.description
+                                        @ _id result._id
+                                {
+
+            handler( deletePackage )
+                delete_delete( package )
+
+            handler( getPackageProperties )
+                # loog myname, 'getPackageProperties', JSON.stringify(request.query, null, 2)
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'PropertyEditor'
+                        { formData 
+                            @ owner request.query.owner
+                            @ name request.query.name
+                            { schema
+                                [ properties
+                                    { 
+                                        @ name 'name'
+                                        @ type 'string'
+                                    { 
+                                        @ name 'age'
+                                        @ type 'number'
+                                    { 
+                                        @ name 'jobs'
+                                        @ type 'array'
+                                        [ properties
+                                            { 
+                                                @ name 'title'
+                                                @ type 'string'
+                                            { 
+                                                @ name 'year'
+                                                @ type 'number'
+                                    { 
+                                        @ name 'react'
+                                        @ type 'object'
+                                        [ properties
+                                            { 
+                                                @ name 'useReact'
+                                                @ type 'boolean'
+                                                @ isCondition true
+                                            { 
+                                                @ name 'useRouter'
+                                                @ type 'boolean'
+                                            { 
+                                                @ name 'useRedux'
+                                                @ type 'boolean'
+                    {

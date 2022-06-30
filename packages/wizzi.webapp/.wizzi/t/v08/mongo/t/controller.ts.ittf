@@ -1,0 +1,51 @@
+$group
+    $params &ctrl
+    import
+        @ Router
+        @ Request
+        @ Response
+        from 'express'
+    import
+        @ ControllerType
+        @ AppInitializerType
+        from '../../../features/app/types'
+    import
+        @ sendHtml
+        @ sendSuccess
+        @ sendPromiseResult
+        @ sendFailure
+        from '../../../utils/sendResponse'
+    $if ctrl.modelName
+        import
+            @ I${ctrl.modelName}
+            from '../types'
+    $hook imports
+    +
+    export
+        class ${ctrl.name}Controller
+            :implements ControllerType
+            +
+            p path
+                :public
+                = '${ctrl.path}'
+            +
+            p router
+                :public
+                _ Router()
+            $if ctrl.modelName
+                +
+                p ${ctrl.modelName}Model
+                    :public
+                    :ref ${ctrl.modelName}ModelType
+            +
+            $hook properties
+            +
+            => initialize
+                param initValues
+                    :ref AppInitializerType
+                log 'Entering ${ctrl.name}Controller.initialize'
+                $if ctrl.modelName
+                    set this.${ctrl.modelName}Model
+                        _ Get${ctrl.modelName}Model
+                $hook
+            $hook handlers

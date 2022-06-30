@@ -1,0 +1,3 @@
+module
+    $if wzCtx.Build.useConfig
+        v08/express/features/packi/controllers/templates()

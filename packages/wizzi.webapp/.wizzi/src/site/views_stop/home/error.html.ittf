@@ -1,0 +1,10 @@
+html
+    $
+        var md = {}
+    layout(&md)
+        . w3-container
+            h1 Error
+            pre
+                code
+                    + ${JSON.stringify(error, null,2)}
+

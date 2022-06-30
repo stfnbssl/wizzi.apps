@@ -1,0 +1,98 @@
+$group
+    $params level|1
+    ctor 
+        param props
+            :ref AppProps
+        _ super(props)
+        log 'App.ctor.props', props
+        let id = props.packi._id
+        let files = props.packi.packiFiles
+        let dependencies = props.packi.dependencies
+        const owner = props.packi.owner
+        const name = props.packi.name
+        const mainIttf = props.packi.mainIttf
+        const wizziSchema = props.packi.wizziSchema
+        const description = props.packi.description
+        const packiProduction
+            :ref PackiProduction
+            = props.packi.packiProduction
+        # sdkVersion
+        let sdkVersion
+            :ref SDKVersion
+            = DEFAULT_SDK_VERSION
+        set sdkVersion = props.packi.sdkVersion ?? sdkVersion
+        const initialSdkVersion = sdkVersion
+        let wasUpgraded = false
+        if !VERSIONS.hasOwnProperty(sdkVersion)
+            set sdkVersion = DEFAULT_SDK_VERSION
+            set wasUpgraded = true
+        const verbose = props.preferences.verbose
+        const sendCodeOnChangeEnabled = true
+        $if wzCtx.Build.usePackiAspects
+            const sessionSecret = null
+        $else
+            const sessionSecret = props.getSessionSecret()
+        const isLocalWebPreview = false
+        set this._PackiSession =
+            new PackiSession
+                { 
+                    @ disabled true
+                    @ id
+                    @ owner
+                    @ name
+                    @ description
+                    @ mainIttf
+                    @ wizziSchema
+                    @ files
+                    @ dependencies
+                    @ packiProduction
+                    @ sdkVersion
+                    @ verbose
+                    @ codeChangesDelay
+                        iif sendCodeOnChangeEnabled
+                            then 1000
+                            else -1
+                    @ user props.loggedUser
+                    @ apiURL nullthrows(process.env.API_SERVER_URL)
+                    @ host new URL(nullthrows(process.env.SERVER_URL)).host
+                    @ webPreviewRef
+                        iif typeof window !== 'undefined'
+                            then this._previewRef
+                            else undefined
+        const devicePreviewShown = props.preferences.devicePreviewShown
+        +
+        # TODO preserve selected from history
+        const selectedFile
+            iif Object.keys(files).length
+                then Object.keys(files)[0]
+                else ''
+        
+        set this.state =
+            { 
+                @ session this._PackiSession.getState()
+                @ selectedFile
+                @ sendCodeOnChangeEnabled
+                @ autosaveEnabled true
+                @ isSavedOnce false
+                @ saveHistory props.packi?.history ?? []
+                @ saveStatus
+                    iif props.packi?.isDraft
+                        then 'saved-draft'
+                        else
+                            iif id
+                                then 'published'
+                                else 'unsaved'
+                @ isLocalWebPreview
+                @ wasUpgraded
+                @ initialSdkVersion
+                @ isDownloading false
+                @ devicePreviewShown
+                @ verbose
+                @ annotations []
+                @ packiStoreId undefined
+                @ packiSessionReady false
+                @ fileEntries []
+                @ generatedArtifact undefined
+                @ jobGeneratedArtifacts undefined
+                @ jobError undefined
+                @ isWizziJobWaiting false

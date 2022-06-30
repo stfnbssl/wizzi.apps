@@ -1,0 +1,151 @@
+module
+    
+    $
+        var ctrl = {
+            name: 'ApiV1MetaProduction',
+            path: '/api/v1/production/meta',
+        }
+    
+    controller( &ctrl )
+            
+        $append imports
+            import
+                @ validateMetaProduction
+                @ getListMetaProduction
+                @ getMetaProduction
+                @ updateMetaProduction
+                from '../api/meta'
+            +
+            import
+                @ wizziTypes
+                @ wizziProds
+                @ WizziFactory
+                from '../../wizzi'
+            import
+                @ artifactApi
+                from '../../production'
+
+            const myname = 'features/production/controllers/apiv1metaproduction'
+
+        _ this.router.get('/list', this.getMetaProductionList)
+        _ this.router.get('/props/:owner/:name', this.getMetaProperties)
+        _ this.router.get('/checkname/:name', this.getCheckMetaName)
+        _ this.router.get('/:owner/:name', this.getMetaProduction)
+        _ this.router.put('/:owner/:name', this.putMetaProduction)
+        
+        $append handlers
+            
+            handler( getMetaProductionList )
+
+                # loog 'getMetaProductionList.request.params', request.params
+                # loog 'getMetaProductionList.request.session.user.username', (request.session as any).user.username
+                _ getListMetaProduction
+                    @ (request.session as any).user.username
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getMetaProductionList.result', result
+                            if result.ok
+                                const items = []
+                                foreach meta in result.item
+                                    _ items.push
+                                        {
+                                            @ owner meta.owner
+                                            @ name meta.name
+                                            @ description meta.description
+                                _ sendSuccess
+                                    @ response
+                                    @ items
+                            else_send_fail( getMetaProductionList, result)
+                    catch_fail( getMetaProductionList )
+
+            handler( getMetaProperties )
+
+                # loog 'getMetaProperties.request.params', request.params
+                # loog 'getMetaProperties.request.session.user.username', (request.session as any).user.username
+                _ getMetaProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getMetaProperties.getMetaProduction.result', result
+                            if result.ok
+                                const meta = result.item
+                                const req_files = JSON.parse(meta.packiFiles)
+                                _ artifactApi.prepareGenerationFromWizziJson
+                                    @ req_files
+                                    ._ then
+                                        =>
+                                            param result
+                                                :any
+                                            _ wizziProds.generateArtifact
+                                                @ 'properties/index.json.ittf'
+                                                @ result.packiFiles
+                                                @ result.context
+                                                ._ then
+                                                    =>
+                                                        param value
+                                                        # loog myname, 'getMetaProperties.generateArtifact.result', value
+                                                        _ sendSuccess
+                                                            @ response
+                                                            {
+                                                                @ meta JSON.parse(value.artifactContent)
+                                                catch_fail( features.packi.controllers.production.generateArtifact )
+                                    catch_fail( getMetaProperties.prepareGenerationFromWizziJson )
+                            else_send_fail( getMetaProperties.getMetaProduction, result )
+                    catch_fail( getMetaProperties.getMetaProduction )
+            
+            handler( getCheckMetaName )
+
+                # loog 'getCheckMetaName.request.params', request.params
+                # loog 'getCheckMetaName.request.session.user.username', (request.session as any).user.username
+                _ validateMetaProduction
+                    @ (request.session as any).user.username
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getCheckMetaName.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( getCheckMetaName )
+
+            handler( getMetaProduction )
+
+                # loog 'getMetaProduction.request.params', request.params
+                _ getMetaProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getMetaProduction.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( getMetaProduction )
+
+            handler( putMetaProduction )
+
+                # loog 'putMetaProduction.request.params', request.params
+                # loog 'putMetaProduction.request.body', request.body
+                _ updateMetaProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'putMetaProduction.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( putMetaProduction )

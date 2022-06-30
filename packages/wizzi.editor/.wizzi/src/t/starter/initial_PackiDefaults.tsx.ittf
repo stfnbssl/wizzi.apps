@@ -1,0 +1,6 @@
+$group
+    $params name|@@null
+
+    { ${name}
+        @ name 'MyPackiName'
+        @ channel 'MyPackiChannel'

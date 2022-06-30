@@ -1,0 +1,70 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    :type Props
+        :{ 
+            :p innerRef
+                :optional 
+                :ref React.Ref
+                    :param 
+                        :ref HTMLButtonElement
+            :p onClick
+                :=> 
+                    :void 
+                    param event
+                        :ref React.MouseEvent
+                            :param 
+                                :ref HTMLButtonElement
+            :p children
+                :optional 
+                :ref React.ReactNode
+    class FileListPaneButton
+        super React.PureComponent
+            :param 
+                :ref Props
+        m render
+            const 
+                { 
+                    @ innerRef
+                    ... rest
+                = this.props
+            return 
+                button 
+                    @ {...rest}
+                    @ className {css(styles.button)}
+                    @ ref {innerRef}
+                    svg 
+                        @ className {css(styles.icon)}
+                        @ viewBox "0 0 16 16"
+                        + {this.props.children}
+    export-default 
+        _ React.forwardRef
+            => 
+                param props
+                    :ref Props
+                param ref
+                    :ref React.Ref
+                        :param 
+                            :ref HTMLButtonElement
+                < FileListPaneButton 
+                    @ {...props}
+                    @ innerRef {ref}
+    const styles
+        _ StyleSheet.create
+            { 
+                { button
+                    @ appearance 'none'
+                    @ background 'transparent'
+                    @ border 0
+                    @ margin 0
+                    @ outline 0
+                { icon
+                    @ fill 'currentColor'
+                    @ height 16
+                    @ width 16
+                    @ verticalAlign -3

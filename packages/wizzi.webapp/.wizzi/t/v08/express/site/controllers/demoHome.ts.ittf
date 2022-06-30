@@ -1,0 +1,17 @@
+$group
+    $params &md
+    $
+        var ctrl = {
+            name: 'DemoHome',
+            path: ''
+        }
+    controller( &ctrl )
+        _ this.router.get
+            `lit
+                + /
+            @expr this.home
+        $append handlers
+            handler( home )
+                _ sendHtml
+                    @ response
+                    @ '<h1>Hello world</h1>'

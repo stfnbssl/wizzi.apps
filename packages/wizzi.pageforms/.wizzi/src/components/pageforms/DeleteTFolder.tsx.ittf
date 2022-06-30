@@ -1,0 +1,81 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "DeleteTFolderProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "tf_userid", type: "string" },
+                { name: "tf_name", type: "string" },
+                { name: "tf_description", type: "string" },
+            ]
+        }
+        
+    v08/ts/react/component(&md)
+
+        $append imports
+            common_imports( top )
+
+        +
+        m componentDidMount
+            log 'DeleteTFolderProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ userid
+                    @ name
+                    @ description
+                = this.props.data
+            
+            _ this.setState
+                {
+                    @ tf_userid userid
+                    @ tf_name name
+                    @ tf_description description
+        +
+        => handleSubmitDelete
+            param ev
+                :ref React.MouseEvent
+                    :param 
+                        :ref HTMLElement
+            _ ev.preventDefault()
+            _ this.formRef.dispatchEvent(new Event('submit'))
+        +
+        m render
+            log 'DeleteTFolderProduction.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Delete tfolder'
+                    < HR
+                    form
+                        action /tfolder/delete
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref
+                            =>
+                                param ref
+                                set this.formRef = ref                        
+                        < FormHidden
+                            @ name 'tf_userid'
+                            @ id 'tf_userid'
+                            @ value {this.state.tf_userid}
+                        < FormStatic
+                            @ label 'TFolder name'
+                            @ name 'tf_name'
+                            @ id 'tf_name'
+                            @ value {this.state.tf_name}
+                        < HR
+                        < FormStatic
+                            @ label 'Description'
+                            @ name 'tf_description'
+                            @ id 'tf_description'
+                            @ value {this.state.tf_description}
+                        < HR
+                        < FormButton
+                            @ label 'Delete tfolder'
+                            @ id 'btn_delete_tf'
+                            @ variant 'submit'
+                            @ type submit
+                            @ onClick {this.handleSubmitDelete}

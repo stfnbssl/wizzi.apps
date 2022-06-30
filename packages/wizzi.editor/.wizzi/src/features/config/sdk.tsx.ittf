@@ -1,0 +1,13 @@
+module
+    export 
+        const versions
+            :{ 
+                :index 
+                    :boolean 
+                    param version
+                        :string 
+            =
+                { 
+                    @ '1.0.0' true
+    export 
+        const DEFAULT_SDK_VERSION = '1.0.0'

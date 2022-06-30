@@ -1,0 +1,102 @@
+$group
+    $
+        var ctrl = {
+            name: 'Packi',
+            path: '/api/v1/packi'
+        }
+    controller( &ctrl )
+        $append imports
+            import path from 'path'
+            import
+                @ file
+                from 'wizzi'
+            import
+                @ config
+                from '../../config'
+            import
+                @ wizziProds
+                from '../../wizzi'
+            import
+                @ PackiFiles
+                from '../types'
+        +
+        _ this.router.post
+            `lit
+                + /save/:id
+            @ this.savePacki
+        _ this.router.get
+            `lit
+                + /:id
+            @ this.getPacki
+        _ this.router.get
+            `lit
+                + /render/:id/:entry
+            @ this.renderPacki
+        $append handlers
+            +
+            handler( savePacki )
+                const id = request.params.id
+                const files
+                    :ref PackiFiles
+                    = request.body
+                try
+                    var data
+                        _ JSON.stringify
+                            @ files
+                    _ file.write
+                        _ path.join
+                            @ config.packiStoreFolder
+                            @ id
+                        @ data
+                    _ sendSuccess
+                        @ response
+                        {
+                            @ message 'Packi saved'
+                catch err
+                    _ sendFailure(response, err, 501)
+            +
+            handler( getPacki )
+                const id = request.params.id
+                try
+                    const data
+                        _ file.read
+                            _ path.join
+                                @ config.packiStoreFolder
+                                @ id
+                    const packiObj
+                        _ JSON.parse
+                            @ data
+                    _ sendSuccess
+                        @ response
+                        {
+                            @ packi packiObj
+                catch err
+                    _ sendFailure(response, err, 501)
+            +
+            handler( renderPacki )
+                const id = request.params.id
+                const entry = request.params.entry
+                try
+                    const data
+                        _ file.read
+                            _ path.join
+                                @ config.packiStoreFolder
+                                @ id
+                    const files
+                        :ref PackiFiles
+                        _ JSON.parse
+                            @ data
+                    _ wizziProds.generateArtifact(entry, files).then
+                        =>
+                            param generated
+                            log 'generateArtifact.result', generated
+                            _ sendHtml
+                                @ response
+                                @ generated.artifactContent
+                        ._ catch
+                            =>
+                                param err
+                                log 'features.packi.controllers.production.generateArtifact.err', err
+                                _ sendFailure(response, err, 501)
+                catch err
+                    _ sendFailure(response, err, 501)

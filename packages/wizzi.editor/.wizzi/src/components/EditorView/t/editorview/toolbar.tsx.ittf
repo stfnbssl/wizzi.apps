@@ -1,0 +1,40 @@
+< EditorToolbar 
+    @ name {name}
+    @ description {description}
+    @ mainIttf {mainIttf}
+    @ wizziSchema {wizziSchema}
+    @ packiProduction {packiProduction}
+    @ createdAt {createdAt}
+    @ saveHistory {saveHistory}
+    @ saveStatus {saveStatus}
+    @ loggedUser {loggedUser}
+    $if wzCtx.Build.useExpo 
+        @ isResolving {isResolving}
+    @ isEditModalVisible {currentModal === 'edit-info'}
+    @ loggedUser {loggedUser}
+    @ isWizziJobWaiting {isWizziJobWaiting}
+    @ onChangeSplitViewKind {this._handleChangeSplitViewKind}
+    $$
+    @ creatorUsername {this.props.creatorUsername}
+        # name={name}
+        # description={description}
+    @ splitViewKind {this.state.splitViewKind}
+    $$ @ saveHistory {saveHistory}
+    $$ @ saveStatus {saveStatus}
+    @ isDownloading {isDownloading}
+    @ isAuthModalVisible {currentModal === 'auth'}
+    @ generatedPreviewURL {previewURL}
+    $$ @ onShowPreviousSaves {this._handleShowPreviousSaves}
+    @ onShowEditModal {this._handleShowTitleDescriptionModal}
+    @ onDismissEditModal {this._handleDismissEditModal}
+    $if wzCtx.Build.usePackiAspectsAuth
+        @ onShowAuthModal {this._handleShowAuthModal}
+        @ onDismissAuthModal {this._handleHideModal}
+    @ onExecuteWizziJob {onExecuteWizziJob}
+    @ onShowPackiManager {this._handleShowPackiManager}
+    $$ @ onSaveCode {onSaveCode}
+    $if wzCtx.Build.useExpo 
+        @ onShowPreviousSaves {this._handleShowPreviousSaves}
+    @ onSubmitMetadata {this.props.onSubmitMetadata}
+    @ onDownloadCode {this.props.onDownloadAsync}
+    @ onPublishAsync {onPublishAsync}

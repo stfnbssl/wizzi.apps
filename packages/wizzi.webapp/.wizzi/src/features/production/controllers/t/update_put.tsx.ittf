@@ -1,0 +1,35 @@
+$group
+    $params prod
+
+    $
+        var suffix = prod == 'tFolder' ? '' : 'Production';
+        var prefix = 
+            prod == 'tFolder' ? 'tf' 
+            : prod == 'meta' ? 'mp' 
+            : prod == 'package' ? 'pp' 
+            : 'ap';
+    
+    # loog myname + '.put${_.capitalize(prod)}.request.path', request.path
+    # loog myname + '.put${_.capitalize(prod)}.request.body', JSON.stringify(request.body, null, 2)
+    # loog myname + '.put${_.capitalize(prod)}.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+
+    const obj = request.body
+    _ update${_.capitalize(prod)}${suffix}
+        @ obj.${prefix}_id
+        @ obj.${prefix}_owner
+        @ obj.${prefix}_name
+        @ obj.${prefix}_description
+        $if prod == 'artifact'
+            @ obj.${prefix}_mainIttf
+            @ obj.${prefix}_wizziSchema
+        ._ then
+            =>
+                param result
+                    :any
+                if result.ok
+                    _ sendSuccess
+                        @ response
+                        {
+                            @ body request.body
+                            @ user (request.session as any).user
+                            @ result result

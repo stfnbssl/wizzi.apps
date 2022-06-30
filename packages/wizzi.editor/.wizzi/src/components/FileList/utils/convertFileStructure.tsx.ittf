@@ -1,0 +1,198 @@
+module
+    import 
+        @ PackiFiles
+        @ PackiFile
+        from '../../../features/packi/index'
+    import 
+        @ Annotation
+        from '../../../features/annotations/index'
+    import 
+        @ isEntryPoint
+        from '../../../features/file/index'
+    import 
+        @ FileSystemEntry
+        @ TextFileEntry
+        @ AssetFileEntry
+        from '../types'
+    const getFolders
+        => 
+            param path
+                :string 
+            :return
+                :[ 
+                    :string 
+            const pathSegments = path.split('/')
+                # TODO: change this to slice and join
+            if pathSegments.length === 0
+                return []
+            const result = []
+            for let pathIdx = 0; pathIdx < pathSegments.length - 1; pathIdx++
+                _ result.push(pathSegments.slice(0, pathIdx + 1).join('/'))
+            return result
+    function fileToEntry
+        param path
+            :string 
+        param file
+            :ref PackiFile
+        param annotations
+            :[ 
+                :ref Annotation
+        param prevEntry
+            :ref FileSystemEntry
+            :optional 
+        :return
+            :any 
+        const isLoading
+            op! 
+                op! 
+                    _ annotations.find
+                        => 
+                            { 
+                                @ location
+                                @ severity
+                            @expr location?.fileName === path && severity < 0
+        const isError
+            && 
+                + !isLoading
+                op! 
+                    op! 
+                        _ annotations.find
+                            => 
+                                { 
+                                    @ location
+                                    @ severity
+                                @expr location?.fileName === path && severity >= 3
+        if file.type === 'ASSET'
+            if prevEntry && prevEntry.item.type === 'file' && prevEntry.item.asset
+                return 
+                    iif prevEntry.item.uri === file.contents && prevEntry.state.isError === isError && prevEntry.state.isLoading === isLoading
+                        then prevEntry
+                        else
+                            { 
+                                { item
+                                    @ ...prevEntry.item
+                                    @ uri
+                                        @expr file.contents
+                                            :as 
+                                                :string 
+                                { state
+                                    @ ...prevEntry.state
+                                    @ isError
+                                    @ isLoading
+            else
+                return 
+                    { 
+                        { item
+                            @ path
+                            @ type 'file'
+                            @ uri
+                                @expr file.contents
+                                    :as 
+                                        :string 
+                            @ asset true
+                        { state
+                            @ isError
+                            @ isLoading
+        else
+            const isEntry = isEntryPoint(path)
+            if prevEntry && prevEntry.item.type === 'file' && !prevEntry.item.asset
+                return 
+                    iif prevEntry.item.content === file.contents && prevEntry.state.isError === isError && prevEntry.state.isLoading === isLoading
+                        then prevEntry
+                        else
+                            { 
+                                { item
+                                    @ ...prevEntry.item
+                                    @ content file.contents
+                                { state
+                                    @ ...prevEntry.state
+                                    @ isError
+                                    @ isLoading
+            else
+                return 
+                    { 
+                        { item
+                            @ path
+                            @ type 'file'
+                            @ content file.contents
+                            @ virtual path === 'package.json'
+                        { state
+                            @ isOpen isEntry
+                            @ isSelected isEntry
+                            @ isFocused isEntry
+                            @ isError
+                            @ isLoading
+    export 
+        function filesToEntries
+            param files
+                :ref PackiFiles
+            param annotations
+                :[ 
+                    :ref Annotation
+            param prevEntries
+                :[ 
+                    :ref FileSystemEntry
+            :return
+                :[ 
+                    :ref FileSystemEntry
+            const fileSystem
+                :[ 
+                    :ref FileSystemEntry
+                = []
+            const foldersInFileSystem = new Set()
+                # Add entries from files
+            for 
+                left
+                    const filename
+                of Object.keys(files).sort()
+                for 
+                    left
+                        const folder
+                    of getFolders(filename)
+                    if !foldersInFileSystem.has(folder)
+                        _ fileSystem.push
+                            ?? 
+                                _ prevEntries.find
+                                    => 
+                                        param entry
+                                        set entry.item.path === folder
+                                { 
+                                    { item
+                                        @ path folder
+                                        @ type 'folder'
+                                    { state
+                        _ foldersInFileSystem.add(folder)
+                const file = files[filename]
+                const prevEntry
+                    _ prevEntries.find
+                        => 
+                            param entry
+                            set entry.item.path === filename
+                _ fileSystem.push(fileToEntry(filename, file, annotations, prevEntry))
+                # Add entries from files
+                # Restore empty folders that cannot be derived from files
+            _ prevEntries.forEach
+                => 
+                    param entry
+                    if entry.item.type === 'folder' && !foldersInFileSystem.has(entry.item.path)
+                        _ fileSystem.push(entry)
+                # Restore empty folders that cannot be derived from files
+            return fileSystem
+    export 
+        function findFocusedEntry
+            param entries
+                :[ 
+                    :ref FileSystemEntry
+            :return
+                :union 
+                    :ref TextFileEntry
+                    :ref AssetFileEntry
+                    :undefined 
+            return 
+                @expr
+                    _ entries.find
+                        => 
+                            param entry
+                            @expr entry.item.type === 'file' && entry.state.isFocused
+                    :as 
+                        :any 

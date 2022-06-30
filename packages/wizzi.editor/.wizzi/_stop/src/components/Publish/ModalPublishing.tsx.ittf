@@ -1,0 +1,36 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ ModalDialog 
+        from '../widgets/ModalDialog'
+    import Spinner from '../widgets/Spinner'
+    :type Props
+        :{ 
+            :p visible
+                :boolean 
+            :p onDismiss
+                :=> 
+                    :void 
+    export-default 
+        function ModalPublishing
+            param props
+                :ref Props
+            return 
+                < ModalDialog 
+                    @ visible {props.visible}
+                    @ onDismiss {props.onDismiss}
+                    @ title "Saving Packi…"
+                    div 
+                        @ className {css(styles.content)}
+                        < Spinner 
+    const styles
+        _ StyleSheet.create
+            { 
+                { content
+                    @ margin '16px 8px 12px'

@@ -1,0 +1,112 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ connect
+        from 'react-redux'
+    import 
+        @ c
+        from '../ThemeProvider'
+    import 
+        @ Button 
+        from '../widgets/Button'
+    import 
+        @ ModalDialog 
+        from '../widgets/ModalDialog'
+    :type Props
+        :{ 
+            :p visible
+                :boolean 
+            :p packiUrl
+                :optional 
+                :string 
+            :p zipUrl
+                :optional 
+                :string 
+            :p isPublishing
+                :boolean 
+            :p onDismiss
+                :=> 
+                    :void 
+            :p onPublish
+                :=> 
+                    :void 
+    class ModalPublishToProfile
+        super React.Component
+            :param 
+                :ref Props
+        m componentDidMount
+            _ document.addEventListener('keydown', this._handleKeyDown)
+        m componentWillUnmount
+            _ document.removeEventListener('keydown', this._handleKeyDown)
+        => _handleKeyDown
+            param e
+                :ref KeyboardEvent
+            if this.props.visible && e.keyCode === 13
+                _ e.preventDefault()
+                _ this.props.onPublish()
+        m render
+            const copy = 'Want a stable and easy to remember URL?'
+            const cta = 'Save to your Wizzi Profile'
+            return 
+                < ModalDialog 
+                    @ visible {this.props.visible}
+                    @ title "Save your packi"
+                    @ onDismiss {this.props.onDismiss}
+                    p 
+                        @ className {css(styles.text)}
+                        @ style
+                            { 
+                                @ marginTop 16
+                        + The shareable link to your Packi
+                        + {' '}
+                        a 
+                            @ href {this.props.packiUrl}
+                            @ target "blank"
+                            + {this.props.packiUrl}
+                    p 
+                        @ className {css(styles.text)}
+                        + Every time you save, your will get a new link to share.
+                        + {copy}
+                        + Log in or sign up and save&lf;          to your profile!
+                    < Button 
+                        @ large
+                        @ variant "primary"
+                        @ onClick {this.props.onPublish}
+                        @ loading {this.props.isPublishing}
+                        + {cta}
+                    { 
+                        iif this.props.zipUrl
+                            then
+                                p 
+                                    @ className {css(styles.caption)}
+                                    a 
+                                        @ className {css(styles.link)}
+                                        @ href {this.props.zipUrl}
+                                        @ target "blank"
+                                        + Download .zip file
+                            else null
+    export-default ModalPublishToProfile
+    const styles
+        _ StyleSheet.create
+            { 
+                { text
+                    @ marginBottom 24
+                    @ fontSize '16px'
+                    @ padding '0 24px 0 24px'
+                    @ lineHeight '22px'
+                    @ textAlign 'center'
+                { caption
+                    @ marginTop 24
+                    @ fontSize '16px'
+                    @ lineHeight '22px'
+                    @ textAlign 'center'
+                { link
+                    @ color c('primary')
+                    @ cursor 'pointer'
+                    @ textDecoration 'underline'

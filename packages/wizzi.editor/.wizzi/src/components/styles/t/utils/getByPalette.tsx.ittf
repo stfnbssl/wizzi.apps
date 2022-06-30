@@ -1,0 +1,10 @@
+$group
+    +
+    export 
+        const getByPalette
+            => 
+                param props
+                    :any
+                styled-css
+                    background-color ${'$'}{getPaletteColor(props.bg, 'base')(props)}
+                    color ${'$'}{getPaletteColor(props.color, 'base')(props)}

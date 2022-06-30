@@ -1,0 +1,215 @@
+module
+    
+    $
+        var ctrl = {
+            name: 'PackiEditing',
+            _stop_path: '/packi',
+            path: '/~~'
+        }
+    
+    controller( &ctrl )
+            
+        $append imports
+            import ReactDOMServer
+                from 'react-dom/server'
+            import
+                @ artifactApi
+                @ packageApi
+                @ metaApi
+                @ tFolderApi
+                from '../../production' 
+            import EditorDocument 
+                from '../../../pages/EditorDocument' 
+            import PackiItemList 
+                from '../components/PackiItemList' 
+            const myname = 'features/packi/controller/packiEditing'
+            +
+            function renderPackiEditor
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param packiItemObject
+                    :object
+                param loggedUser
+                    :object
+                param queryParams
+                    :object
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < EditorDocument 
+                                @ data {packiItemObject}
+                                @ queryParams {queryParams}
+                                @ loggedUser {loggedUser}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+        
+        _ this.router.get('/:userid', this.getPackiItemList)
+        _ this.router.get('/a/:userid/:name', this.getPackiArtifactProductionByUsername_Name)
+        _ this.router.get('/a/:userid/:name/*', this.getPackiArtifactProductionByUsername_Name)
+        _ this.router.get('/p/:userid/:name', this.getPackiPackageProductionByUsername_Name)
+        _ this.router.get('/p/:userid/:name/*', this.getPackiPackageProductionByUsername_Name)
+        _ this.router.get('/m/:userid/:name', this.getPackiMetaProductionByUsername_Name)
+        _ this.router.get('/m/:userid/:name/*', this.getPackiMetaProductionByUsername_Name)
+        _ this.router.get('/t/:userid/:name', this.getPackiTFolderByUsername_Name)
+        _ this.router.get('/t/:userid/:name/*', this.getPackiTFolderByUsername_Name)
+        
+        $append handlers
+            
+            handler( getPackiItemList )
+                return
+                    _ response.redirect
+                        @ '/productions/artifacts'
+            
+            handler( getPackiArtifactProductionByUsername_Name )
+                # TODO
+                # loog myname + '.getPackiArtifactProductionByUsername_Name', request.path 
+                const queryParams = {}
+                const parts = request.path.split('/')
+                # loog myname + '.getPackiArtifactProductionByUsername_Name', parts[1], parts.slice(2).join('/')
+                _ artifactApi.getArtifactProductionObject
+                    @ parts[2]
+                    @ parts.slice(3).join('/')
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog myname + '.getPackiArtifactProductionByUsername_Name.result', result
+                            const user = (request.session as any).user
+                            const loggedUser
+                                {
+                                    @ id user._id
+                                    @ username user.username
+                                    @ displayName user.name
+                                    @ picture user.avatar_url
+                            _ renderPackiEditor
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    { packi
+                                        @ _id result._id
+                                        @ owner result.owner
+                                        @ name result.name
+                                        @ description result.description
+                                        @ mainIttf result.mainIttf
+                                        @ wizziSchema result.wizziSchema
+                                        @ packiFiles result.packiFiles
+                                        @ packiProduction 'artifact'
+                                @ loggedUser
+                                @ queryParams
+                    catch_fail( getPackiArtifactProductionByUsername_Name )
+
+            handler( getPackiPackageProductionByUsername_Name )
+                # TODO
+                # loog myname + '.getPackiPackageProductionByUsername_Name', request.path 
+                const queryParams = {}
+                const parts = request.path.split('/')
+                # loog myname + '.getPackiPackageProductionByUsername_Name', parts[1], parts.slice(2).join('/')
+                _ packageApi.getPackageProductionObject
+                    @ parts[2]
+                    @ parts.slice(3).join('/')
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog myname + '.getPackiPackageProductionByUsername_Name.result', result
+                            const user = (request.session as any).user
+                            const loggedUser
+                                {
+                                    @ id user._id
+                                    @ username user.username
+                                    @ displayName user.name
+                                    @ picture user.avatar_url
+                            _ renderPackiEditor
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    { packi
+                                        @ _id result._id
+                                        @ owner result.owner
+                                        @ name result.name
+                                        @ description result.description
+                                        @ packiFiles result.packiFiles
+                                        @ packiProduction 'package'
+                                @ loggedUser
+                                @ queryParams
+                    catch_fail( getPackiPackageProductionByUsername_Name )
+
+            handler( getPackiMetaProductionByUsername_Name )
+                # TODO
+                # loog myname + '.getPackiMetaProductionByUsername_Name', request.path 
+                const queryParams = {}
+                const parts = request.path.split('/')
+                # loog myname + '.getPackiMetaProductionByUsername_Name', parts[1], parts.slice(2).join('/')
+                _ metaApi.getMetaProductionObject
+                    @ parts[2]
+                    @ parts.slice(3).join('/')
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog myname + '.getPackiMetaProductionByUsername_Name.result', result
+                            const user = (request.session as any).user
+                            const loggedUser
+                                {
+                                    @ id user._id
+                                    @ username user.username
+                                    @ displayName user.name
+                                    @ picture user.avatar_url
+                            _ renderPackiEditor
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    { packi
+                                        @ _id result._id
+                                        @ owner result.owner
+                                        @ name result.name
+                                        @ description result.description
+                                        @ packiFiles result.packiFiles
+                                        @ packiProduction 'meta'
+                                @ loggedUser
+                                @ queryParams
+                    catch_fail( getPackiMetaProductionByUsername_Name )
+
+            handler( getPackiTFolderByUsername_Name )
+                # TODO
+                # loog myname + '.getPackiTFolderByUsername_Name', request.path 
+                const queryParams = {}
+                const parts = request.path.split('/')
+                # loog myname + '.getPackiTFolderByUsername_Name', parts[1], parts.slice(2).join('/')
+                _ tFolderApi.getTFolderObject
+                    @ parts[2]
+                    @ parts.slice(3).join('/')
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog myname + '.getPackiTFolderByUsername_Name.result', result
+                            const user = (request.session as any).user
+                            const loggedUser
+                                {
+                                    @ id user._id
+                                    @ username user.username
+                                    @ displayName user.name
+                                    @ picture user.avatar_url
+                            _ renderPackiEditor
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    { packi
+                                        @ _id result._id
+                                        @ owner result.owner
+                                        @ name result.name
+                                        @ description result.description
+                                        @ packiFiles result.packiFiles
+                                        @ packiProduction 'tfolder'
+                                @ loggedUser
+                                @ queryParams
+                    catch_fail( getPackiTFolderByUsername_Name )

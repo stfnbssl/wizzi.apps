@@ -1,0 +1,79 @@
+module
+    import
+        as wizzi
+        from 'wizzi'
+    import
+        @ FsJson
+        from 'wizzi-repo'
+    import
+        @ packiTypes
+        from '../packi'
+    +
+    export
+        :type FilesystemWizziFactory
+            :{
+                :p wf
+                    :ref wizzi.WizziFactory
+    export
+        :type JsonWizziFactory
+            :{
+                :p wf
+                    :ref wizzi.WizziFactory
+                :p fsJson
+                    :ref FsJson
+    export
+        :type GeneratedArtifact
+            :{
+                :p artifactContent
+                    :string
+                :p sourcePath
+                    :string
+                :p artifactGenerator
+                    :string
+    export
+        :type TransformedModel
+            :{
+                :p transformResult
+                    :any
+                :p sourcePath
+                    :string
+                :p modelTransformer
+                    :string
+    +
+    export
+        :type MetaIttfDocument
+            :{
+                :p sourceType
+                    :string
+                :p sourcePath
+                    :string
+                    :optional
+                :p sourceFiles
+                    :ref packiTypes.PackiFiles
+                    :optional
+    +
+    export
+        :type MetaContext
+            :{
+                :p name
+                    :string
+                :p type
+                    :string
+                :p sourcePath
+                    :string
+                    :optional
+                :p sourceFiles
+                    :ref packiTypes.PackiFiles
+                    :optional
+                :p value
+                    :object
+                    :optional
+    +
+    export
+        :type ArtifactRequest
+            :{
+                :p mainIttf
+                    :ref MetaIttfDocument
+                :p contextItems
+                    :[
+                        :ref MetaContext

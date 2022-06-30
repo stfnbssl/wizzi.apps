@@ -1,0 +1,25 @@
+module
+    $
+        var md = {
+            name: 'PopoverIcon'
+        }
+    
+    dark-light-icon( &md )
+        polyline
+            stroke {stroke}
+            fill {fill}
+            @ strokeWidth 2
+            points 10 2
+                \b 10 18
+                \b 14 18
+                \b 14 2
+                \b 10 2
+        polyline
+            stroke {stroke}
+            fill {fill}
+            @ strokeWidth 2
+            points 10 20
+                \b 10 22
+                \b 14 22
+                \b 14 20
+                \b 10 20               

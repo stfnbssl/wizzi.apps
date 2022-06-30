@@ -1,0 +1,330 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import parseGitUrl from 'git-url-parse'
+    import querystring from 'query-string'
+    import 
+        as React
+        from 'react'
+    $if wzCtx.Build.useExpo
+        import Analytics from '../../utils/Analytics'
+    import 
+        @ c
+        from '../ThemeProvider'
+    import Button from '../widgets/Button'
+    import LargeInput from '../widgets/LargeInput'
+    import LargeTextArea from '../widgets/LargeTextArea'
+    import ModalDialog from '../widgets/ModalDialog'
+    import ProgressIndicator from '../widgets/ProgressIndicator'
+    :type Props
+        :{ 
+            :p visible
+                :boolean 
+            :p onHide
+                :=> 
+                    :void 
+            :p preventRedirectWarning
+                :=> 
+                    :void 
+    :type State
+        :{ 
+            :p status
+                :union 
+                    :literal 'idle'
+                    :literal 'importing'
+                    :literal 'error'
+            :p advanced
+                :boolean 
+            :p url
+                :string 
+            :p repo
+                :string 
+            :p path
+                :string 
+            :p branch
+                :string 
+    const TIMEOUT_MS = 45000
+    export-default 
+        class ImportRepoModal
+            super React.PureComponent
+                :param 
+                    :ref Props
+                :param 
+                    :ref State
+            p state
+                :ref State
+                { 
+                    @ status 'idle'
+                    @ advanced false
+                    @ url ''
+                    @ repo ''
+                    @ path ''
+                    @ branch ''
+            => _hideImportModal
+                $if wzCtx.Build.useExpo
+                    _ Analytics.getInstance().logEvent
+                        @ 'IMPORT_COMPLETED'
+                        { 
+                            @ reason 'dismiss'
+                        @ 'importStart'
+                _ this.setState
+                    { 
+                        @ status 'idle'
+                        @ url ''
+                        @ repo ''
+                        @ path ''
+                        @ branch ''
+                _ this.props.onHide()
+            p _handleImportRepoClick
+                async=> 
+                    param e
+                        :ref React.FormEvent
+                            :param 
+                                :ref HTMLFormElement
+                    _ e.preventDefault()
+                    _ this.setState
+                        { 
+                            @ status 'importing'
+                        # If the import hangs we want to make sure to throw an error
+                    _ setTimeout
+                        => 
+                            if this.props.visible && this.state.status === 'importing'
+                                _ this.setState
+                                    { 
+                                        @ status 'error'
+                        @ TIMEOUT_MS
+                        # If the import hangs we want to make sure to throw an error
+                    let res
+                    let packiId
+                    let didFail = false
+                    try 
+                        const IMPORT_API_URL
+                            `lit 
+                                + 
+                                @ this.props.packierURL
+                                + /git
+                        const params
+                            :{ 
+                                :p repo
+                                    :string 
+                                :p subpath
+                                    :optional 
+                                    :string 
+                                :p branch
+                                    :optional 
+                                    :string 
+                            =
+                                { 
+                                    @ repo this.state.repo
+                        if this.state.path
+                            set params.subpath = this.state.path
+                        if this.state.branch
+                            set params.branch = this.state.branch
+                        set res =
+                            await 
+                                _ fetch
+                                    `lit 
+                                        + 
+                                        @ IMPORT_API_URL
+                                        + ?
+                                        _ querystring.stringify(params)
+                                        + 
+                        set packiId =
+                            await 
+                                _ res.text()
+                        if this.props.visible
+                            if res.ok
+                                $if wzCtx.Build.useExpo
+                                    _ Analytics.getInstance().logEvent
+                                        @ 'IMPORT_COMPLETED'
+                                        { 
+                                            @ reason 'success'
+                                        @ 'importStart'
+                                _ this.props.preventRedirectWarning()
+                                set window.location.href =
+                                    `lit 
+                                        + /
+                                        @ packiId
+                                        + 
+                            else
+                                set didFail = true
+                    catch e
+                        set didFail = true
+                    if didFail
+                        _ this.setState
+                            { 
+                                @ status 'error'
+                        $if wzCtx.Build.useExpo
+                            _ Analytics.getInstance().logEvent
+                                @ 'IMPORT_COMPLETED'
+                                { 
+                                    @ reason 'error'
+                                @ 'importStart'
+                    else
+                        _ this.setState
+                            { 
+                                @ status 'idle'
+            => _handleChange
+                param e
+                    :ref React.ChangeEvent
+                        :param 
+                            :ref HTMLInputElement
+                _ this.setState
+                    { 
+                        @ [e.target.name] e.target.value
+                    # @ts-ignore
+            => _handleChangeUrl
+                param e
+                    :ref React.ChangeEvent
+                        :param 
+                            :ref HTMLTextAreaElement
+                const url = e.target.value
+                const parsed = parseGitUrl(url)
+                _ this.setState
+                    { 
+                        @ url
+                        @ repo
+                            `lit 
+                                + 
+                                @ parsed.protocol
+                                + ://
+                                @ parsed.source
+                                + /
+                                @ parsed.owner
+                                + /
+                                @ parsed.name
+                                + 
+                        @ path parsed.filepath
+                        @ branch parsed.ref
+            m render
+                const 
+                    { 
+                        @ status
+                        @ url
+                        @ repo
+                        @ path
+                        @ branch
+                        @ advanced
+                    = this.state
+                const isImporting = status === 'importing'
+                const isError = status === 'error'
+                return 
+                    < ModalDialog 
+                        @ visible {this.props.visible}
+                        @ onDismiss {this._hideImportModal}
+                        @ title "Import git repository"
+                        { 
+                            iif isImporting
+                                then
+                                    < ProgressIndicator 
+                                        @ duration {45000}
+                                        @ className {css(styles.progress)}
+                                else null
+                        form 
+                            @ onSubmit {this._handleImportRepoClick}
+                            p 
+                                @ className
+                                    iif !isError
+                                        then css(styles.paragraph)
+                                        else css(styles.errorParagraph)
+                                { 
+                                    iif !isError
+                                        then 'Import a Wizzi project from a Git repository.'
+                                        else 'An error occurred during import. This could be because the data provided was invalid, or because the repository referenced is not a properly formatted Wizzi project.'
+                            { 
+                                iif advanced
+                                    then
+                                        < React.Fragment
+                                            h4 
+                                                @ className {css(styles.subtitle)}
+                                                + Repository URL
+                                            < LargeInput 
+                                                @ name "repo"
+                                                @ value {repo}
+                                                @ onChange {this._handleChange}
+                                                @ placeholder "https://github.com/ide/love-languages.git"
+                                                @ autoFocus
+                                            h4 
+                                                @ className {css(styles.subtitle)}
+                                                + Folder path
+                                            < LargeInput 
+                                                @ name "path"
+                                                @ value {path}
+                                                @ onChange {this._handleChange}
+                                                @ placeholder "/example/app"
+                                            h4 
+                                                @ className {css(styles.subtitle)}
+                                                + Branch name
+                                            < LargeInput 
+                                                @ name "branch"
+                                                @ value {branch}
+                                                @ onChange {this._handleChange}
+                                                @ placeholder "main"
+                                    else
+                                        < React.Fragment
+                                            h4 
+                                                @ className {css(styles.subtitle)}
+                                                + Git URL
+                                            < LargeTextArea 
+                                                @ minRows {2}
+                                                @ value {url}
+                                                @ onChange {this._handleChangeUrl}
+                                                @ placeholder "https://github.com/ide/love-languages/tree/main/app"
+                                                @ autoFocus
+                            button 
+                                @ type "button"
+                                @ onClick
+                                    => 
+                                        _ this.setState
+                                            => 
+                                                param state
+                                                (
+                                                    { 
+                                                        @ advanced !state.advanced
+                                @ className {css(styles.advanced)}
+                                { 
+                                    iif advanced
+                                        then 'Hide'
+                                        else 'Show'
+                                + advanced options
+                            div 
+                                @ className {css(styles.buttons)}
+                                < Button 
+                                    @ large
+                                    @ disabled {!repo}
+                                    @ loading {isImporting}
+                                    @ type "submit"
+                                    @ variant "primary"
+                                    { 
+                                        iif isImporting
+                                            then 'Importing repository…'
+                                            else 'Import repository'
+    const styles
+        _ StyleSheet.create
+            { 
+                { paragraph
+                    @ margin '8px 0 16px'
+                { errorParagraph
+                    @ margin '8px 0 16px'
+                    @ color c('error')
+                { subtitle
+                    @ fontSize 16
+                    @ fontWeight 500
+                    @ padding 0
+                    @ lineHeight '22px'
+                    @ margin '16px 0 6px 0'
+                { progress
+                    @ marginTop -16
+                { advanced
+                    @ appearance 'none'
+                    @ background 'none'
+                    @ border 0
+                    @ padding '8px 0'
+                    @ marginTop 8
+                    @ textAlign 'left'
+                    @ width '100%'
+                    @ color c('selected')
+                { buttons
+                    @ margin '16px 0 0 0'

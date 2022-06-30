@@ -1,0 +1,67 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ Button 
+        from '../widgets/Button'
+    import 
+        @ ModalDialog 
+        from '../widgets/ModalDialog'
+    :type Props
+        :{ 
+            :p username
+                :union 
+                    :string 
+                    :undefined 
+            :p slug
+                :string 
+            :p visible
+                :boolean 
+            :p onEditName
+                :=> 
+                    :void 
+            :p onDismiss
+                :=> 
+                    :void 
+    export-default 
+        class ModalPublishOverwriteError
+            super React.Component
+                :param 
+                    :ref Props
+            m render
+                return 
+                    < ModalDialog 
+                        @ visible {this.props.visible}
+                        @ onDismiss {this.props.onDismiss}
+                        @ title "Experience already exists!"
+                        p 
+                            @ className {css(styles.text)}
+                            + You already have an experience published under "
+                            { 
+                                iif this.props.username
+                                    then
+                                        `lit 
+                                            + @
+                                            @ this.props.username
+                                            + /
+                                            @ this.props.slug
+                                            + 
+                                    else this.props.slug
+                            + " in&lf;          your profile. Please choose another name for the Packi and save again.
+                        < Button 
+                            @ large
+                            @ variant "secondary"
+                            @ onClick {this.props.onEditName}
+                            + Choose another name
+    const styles
+        _ StyleSheet.create
+            { 
+                { text
+                    @ marginTop 12
+                    @ fontSize 16
+                    @ textAlign 'center'

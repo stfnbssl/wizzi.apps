@@ -1,0 +1,12 @@
+html
+    $
+        var md = {}
+    layout(&md)
+        . w3-container
+            ul
+                li
+                    a with Google
+                        href /login/google
+                li
+                    a with Github
+                        href /login/github 

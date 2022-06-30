@@ -1,0 +1,43 @@
+module
+    import 
+        @ FileSystemEntry
+        @ getParentPath
+        from '../../../features/file'
+    export-default 
+        function recursivelyCreateParents
+            param entries
+                :[ 
+                    :ref FileSystemEntry
+            param path
+                :string 
+            param expand
+                :boolean 
+                :optional 
+            :return
+                :[ 
+                    :ref FileSystemEntry
+            const next
+                :[ 
+                    :ref FileSystemEntry
+                = []
+            let parent = getParentPath(path)
+            while parent
+                const parentEntry
+                    _ entries.find
+                        => 
+                            param e
+                            set e.item.path === parent
+                if parentEntry
+                    if parentEntry.item.type !== 'folder'
+                        throw new Error('File path must be inside a folder')
+                    break 
+                else
+                    _ next.push
+                        { 
+                            { item
+                                @ type 'folder'
+                                @ path parent
+                            { state
+                                @ isExpanded !!expand
+                    set parent = getParentPath(parent)
+            return next

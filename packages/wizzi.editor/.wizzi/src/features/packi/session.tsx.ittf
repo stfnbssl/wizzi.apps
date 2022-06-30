@@ -1,0 +1,1087 @@
+module
+    import mapValues from 'lodash/mapValues'
+    $$ import debounce from 'lodash/debounce'    
+    import nullthrows from 'nullthrows'
+    $if wzCtx.Build.useExpo
+        import DependencyResolver
+            @ DependencyResolverCallback
+            @ verifyDependency
+            @ getMissingDependencies
+            @ getPackageName
+            from './DependencyResolver'
+        import DevSession from './DevSession'
+    import FileUploader
+        @ FileUploaderCallback
+        from './FileUploader'
+    $if wzCtx.Build.useExpo
+        import
+            @ Logger
+            @ createLogger
+            from './Logger'
+    import
+        as State
+        from './State'
+    $if wzCtx.Build.useExpo
+        import
+            @ WantedDependencyVersions
+            @ WantedDependencyVersionsCallback
+            from './WantedVersions'
+    import defaultConfig
+        @ PackiIdentityState
+        from './defaultConfig'
+    import
+        @ validateSDKVersion
+        @ isModulePreloaded
+        from './sdk'
+    $if wzCtx.Build.useExpo
+        import
+            @ createTransport
+            @ PackiTransport
+            @ PackiTransportEvent
+            @ PackiTransportOptions
+            from './transports'
+        import
+            @ ProtocolIncomingMessage
+            @ ProtocolOutgoingMessage
+            @ ProtocolConsoleMessage
+            @ ProtocolErrorMessage
+            @ ProtocolReloadMessage
+            @ ProtocolStatusMessage
+            @ ProtocolRequestStatusMessage
+            from './transports/Protocol'
+        import
+            @ createWebPlayerTransport
+            @ getWebPlayerIFrameURL
+            from './transports/webPlayer'
+    import
+        @ SDKVersion
+        @ PackiDependencies
+        @ PackiFiles
+        @ PackiFile
+        @ PackiState
+        @ PackiUser
+        $if wzCtx.Build.useExpo
+            @ PackiSendBeaconRequest
+            @ PackiLogEvent
+            @ PackiListenerSubscription
+        @ PackiDependency
+        @ PackiWindowRef
+        @ PackiOptions
+        @ PackiStateListener
+        @ PackiListenerSubscription
+        @ PackiSaveOptions
+        from './types'
+    import
+        @ createChannel
+        @ fetch
+        @ createURL
+        @ createError
+        @ createUserHeader
+        from './utils'
+
+
+    const debounce
+        =>
+            param func
+            param timeout
+            param context
+            let timer
+            return
+                =>
+                    param ...args
+                    _ clearTimeout(timer)
+                    set timer 
+                        _ setTimeout
+                            =>
+                                _ func.apply(context || this, args)
+                            @ timeout        
+    
+    export-default
+        class PackiSession
+            p state
+                :private
+                :ref PackiState
+            p stateListeners
+                :private
+                :ref Set
+                    :param
+                        :ref PackiStateListener
+                new Set
+            $if wzCtx.Build.useExpo
+                p logListeners
+                    :private
+                    :ref Set
+                        :param
+                            :ref PackiLogListener
+                    new Set
+                $if wzCtx.Build.useExpo
+                    p logger?
+                        :readonly
+                        :private
+                        :ref Logger
+            p apiURL
+                :readonly
+                :private
+                :string
+            p host
+                :readonly
+                :private
+                :string
+            $if wzCtx.Build.useExpo
+                p dependencyResolver
+                    :readonly
+                    :private
+                    :ref DependencyResolver
+            p fileUploader
+                :readonly
+                :private
+                :ref FileUploader
+            $if wzCtx.Build.useExpo
+                p DevSession
+                    :readonly
+                    :private
+                    :ref DevSession
+                p wantedDependencyVersions
+                    :private
+                    :ref WantedDependencyVersions
+            p codeChangesDelay
+                :private
+                :number
+            p codeChangesTimer
+                :private
+                :any
+            $if wzCtx.Build.useExpo
+                p reloadTimeout
+                    :readonly
+                    :private
+                    :number
+                p previewTimeout
+                    :readonly
+                    :private
+                    :number
+            ctor
+                param options
+                    :ref PackiOptions
+                const channel = createChannel(options.channel)
+                const sdkVersion = validateSDKVersion(options.sdkVersion ?? defaultConfig.sdkVersion)
+                const dependencies
+                    iif options.dependencies
+                        then
+                            {
+                                @ ...options.dependencies
+                        else
+                            {
+                set this.apiURL = options.apiURL ?? defaultConfig.apiURL
+                set this.host = options.host ?? defaultConfig.host
+                $if wzCtx.Build.useExpo
+                    set this.logger =
+                        iif options.verbose
+                            then createLogger(true)
+                            else undefined
+                set this.codeChangesDelay = options.codeChangesDelay ?? 2000
+                $if wzCtx.Build.useExpo
+                    set this.reloadTimeout = options.reloadTimeout ?? 0
+                    set this.previewTimeout = options.previewTimeout ?? 10000
+                $if wzCtx.Build.useExpo
+                    set this.createTransport = options.createTransport ?? createTransport
+                set this.state =
+                    _ this.updateDerivedState
+                        {
+                            @ disabled !!options.disabled
+                            @ unsaved false
+                            @ owner options.owner ?? ''
+                            @ name options.name ?? ''
+                            @ description options.description ?? ''
+                            @ mainIttf options.mainIttf ?? ''
+                            @ wizziSchema options.wizziSchema ?? ''
+                            @ sdkVersion
+                            @ files
+                                ??
+                                    + options.files
+                                    {
+                            $if wzCtx.Build.useExpo
+                                @ dependencies
+                                @ missingDependencies getMissingDependencies(dependencies, sdkVersion)
+                                { connectedClients
+                                @ transports
+                            @ user options.user
+                            @ packiProduction options.packiProduction
+                            @ id options.id
+                            @ saveCount 0
+                            @ saveURL
+                                iif options.id
+                                    then
+                                        _ createURL
+                                            @ this.host
+                                            @ sdkVersion
+                                            @ options.id
+                                    else undefined
+                            $if wzCtx.Build.useExpo
+                                @ savedSDKVersion
+                                    iif options.id
+                                        then sdkVersion
+                                        else undefined
+                            @ url
+                                _ createURL
+                                    @ this.host
+                                    @ sdkVersion
+                                    @ options.id
+                            @ channel
+                        @ PackiIdentityState
+                set this.state.unsaved = false
+                _ this.setPreviewUrl
+                set this.fileUploader =
+                    new FileUploader
+                        {
+                            @ apiURL this.apiURL
+                            $if wzCtx.Build.useExpo
+                                @ logger this.logger
+                            @ callback this.onFileUploaded
+                $if wzCtx.Build.useExpo
+                    set this.DevSession =
+                        new DevSession
+                            {
+                                @ apiURL this.apiURL
+                                @ logger this.logger
+                                @ onSendBeaconCloseRequest this.onDevSessionSendBeaconCloseRequest
+                    _ this.logger?.info?.('Packi created', this.getState())
+                _ this.onStateChanged(this.state, PackiIdentityState)
+                set this.debouncedUploadUpdates
+                    _ debounce
+                        @ this.uploadUpdates
+                        @ 2000 $$ this.codeChangesDelay
+                        @ this
+            +
+            m setName
+                param name
+                    :string
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                iif state.name !== name
+                                    then
+                                        {
+                                            @ name
+                                    else null
+                #
+                    #
+                    # Sets the name of the Packi.
+                    #
+            +
+            m setDescription
+                param description
+                    :string
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                iif state.description !== description
+                                    then
+                                        {
+                                            @ description
+                                    else null
+                #
+                    #
+                    # Sets the description of the Packi.
+                    #
+            +
+            m setMainIttf
+                param mainIttf
+                    :string
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                iif state.mainIttf !== mainIttf
+                                    then
+                                        {
+                                            @ mainIttf
+                                    else null
+            +
+            m setWizziSchema
+                param wizziSchema
+                    :string
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                iif state.wizziSchema !== wizziSchema
+                                    then
+                                        {
+                                            @ wizziSchema
+                                    else null
+            +
+            m setUser
+                param user
+                    :ref PackiUser
+                    :optional
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                iif state.user !== user
+                                    then
+                                        {
+                                            @ user
+                                    else null
+                #
+                    #
+                    # Sets the associated user account.
+                    #
+                    # When set and `online` is true, causes this Packi to appear on the
+                    # "Recently in Development" section of all Wizzi clients that are signed
+                    # in with that account.
+                    #
+            +
+            m setPreviewUrl
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                {
+                                    @ previewURL
+                                        `lit
+                                            @ process.env.API_SERVER_URL
+                                            + /~/
+                                            @ encodeURIComponent(state.owner)
+                                            + /
+                                            @ encodeURIComponent(state.name)
+                                            + ?savecount=
+                                            @ state.saveCount
+            +
+            m getState
+                :return
+                    :ref PackiState
+                return this.state
+                #
+                # State
+                #
+                #
+                    #
+                    # Returns the current state of the Packi. This includes files, dependencies
+                    # and other meta-data about the Packi.
+                    #
+            +
+            m getStateAsync
+                async
+                $if wzCtx.Build.useExpo
+                    await
+                        _ this.wantedDependencyVersions.waitForCompletion()
+                    await
+                        _ this.dependencyResolver.waitForCompletion()
+                await
+                    _ this.fileUploader.waitForCompletion()
+                return this.getState()
+                #
+                    #
+                    # Waits for any pending operations such as running dependencies resolutions
+                    # before returning the state.
+                    #
+            +
+            m addStateListener
+                param listener
+                    :ref PackiStateListener
+                :return
+                    :ref PackiListenerSubscription
+                _ this.stateListeners.add(listener)
+                return
+                    =>
+                        _ this.stateListeners.delete(listener)
+                #
+                    #
+                    # Adds a callback for listening for any state changes.
+                    #
+                    # @example
+                    # ```
+                    # const unsubscribe = Packi.addStateListener((state, prevState) => {
+                    # if (state.name !== prevState.name) {
+                    # console.log('name changed: ', state.name);
+                    # }
+                    # });
+                    #
+                    # Packi.setName('unforgiven orange'); // // Make a change to the state
+                    #
+                    # unsubscribe(); // Remove listener
+                    # ```
+                    #
+            m setState
+                :private
+                param stateFn
+                    :=>
+                        :any
+                        param state
+                            :ref PackiState
+                const update = stateFn(this.state)
+                log '_PackiSession.setState.update', update
+                if update
+                    const oldState = this.state
+                    const newState
+                        :ref PackiState
+                        =
+                            {
+                                @ ...oldState
+                                @ ...update
+                    set this.state = this.updateDerivedState(newState, oldState)
+                    log '_PackiSession.setState.state', this.state
+                    _ this.onStateChanged(newState, oldState)
+                    _ this.stateListeners.forEach
+                        =>
+                            param listener
+                            _ listener(newState, oldState)
+            +
+            m updateDerivedState
+                :private
+                param state
+                    :ref PackiState
+                param prevState
+                    :ref PackiState
+                :return
+                    :ref PackiState
+                set state.unsaved = state.unsaved || State.isUnsaved(state, prevState)
+                    # Set unsaved to true whenever files or dependencies change
+                _ this.updateDerivedOnlineState(state, prevState)
+                    # Update other derived states
+                $if wzCtx.Build.useExpo
+                    _ this.updateDerivedDependenciesState(state, prevState)
+                    _ this.updateDerivedWebPreviewState(state, prevState)
+                return state
+            +
+            m onStateChanged
+                :private
+                param state
+                    :ref PackiState
+                param prevState
+                    :ref PackiState
+                $if wzCtx.Build.useExpo
+                    _ this.updateWantedDependencyVersions(state, prevState)
+                    _ this.updateDependencyResolver(state, prevState)
+                _ this.updateFileUploader(state, prevState)
+                $if wzCtx.Build.useExpo
+                    _ this.updateTransports(state, prevState)
+                    _ this.DevSession.setState(state, prevState)
+            +
+            m setFocus
+                $if wzCtx.Build.useExpo
+                    _ this.DevSession.setFocus(this.state)
+                #
+                    #
+                    # Sets the focus to this Packi.
+                    #
+                    # Causes this Packi to be moved to the top of the "Recently in Development" list
+                    # in the Wizzi client.
+                    #
+            +
+            m setDisabled
+                param disabled
+                    :boolean
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                iif disabled !== state.disabled
+                                    then
+                                        {
+                                            @ disabled
+                                    else null
+                #
+                # Online
+                #
+                #
+                    #
+                    # Enables or disables the Packi.
+                    #
+                    # When disabled, no uploads or dependency resolve operations
+                    # are performed.
+                    #
+            m setOnline
+                param enabled
+                    :boolean
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            $if wzCtx.Build.useExpo
+                                if enabled && !state.transports['pubnub']
+                                    return
+                                        {
+                                            @ transports
+                                                _ State.addObject
+                                                    @expr state.transports
+                                                    @ 'pubnub'
+                                                    _ this.createTransport
+                                                        {
+                                                            @ name 'pubnub'
+                                                            @ apiURL this.apiURL
+                                                            @ channel state.channel
+                                                            @ verbose !!this.logger
+                                else
+                                    if !enabled && state.transports['pubnub']
+                                        let connectedClients = state.connectedClients
+                                        for
+                                            left
+                                                const key
+                                            in state.connectedClients
+                                            if state.connectedClients[key].transport === 'pubnub'
+                                                set connectedClients = State.removeObject(connectedClients, key)
+                                        return
+                                            {
+                                                @ transports State.removeObject(state.transports, 'pubnub')
+                                                @ connectedClients
+                                    else
+                                        return null
+                            $else
+                                return null
+                #
+                    #
+                    # Makes the Packi available online.
+                    #
+                    # When online, a pubnub channel is created to which clients can
+                    # connect.
+                    #
+            +
+            m updateDerivedOnlineState
+                :private
+                param state
+                    :ref PackiState
+                param prevState
+                    :ref PackiState
+                const
+                    {
+                        $if wzCtx.Build.useExpo
+                            @ transports
+                            @ sdkVersion
+                            @ channel
+                        @ id
+                        @ name
+                        @ disabled
+                        $if wzCtx.Build.useExpo
+                            @ savedSDKVersion
+                    = state
+                $if wzCtx.Build.useExpo
+                    if sdkVersion !== prevState.sdkVersion || id !== prevState.id || name !== prevState.name || savedSDKVersion !== prevState.savedSDKVersion
+                        set state.online = !!transports['pubnub'] && !disabled
+                        set state.url =
+                            _ createURL
+                                @expr this.host
+                                @ sdkVersion
+                                iif savedSDKVersion && savedSDKVersion !== sdkVersion
+                                    then undefined
+                                    else id
+                        set state.onlineName =
+                            `lit
+                                @ name || 'Unnamed Packi'
+            +
+            m setCodeChangesDelay
+                param delay
+                    :number
+                if this.codeChangesDelay !== delay
+                    set this.codeChangesDelay = delay
+                    _ this._sendCodeChangesDebounced(this.state)
+                #
+                    #
+                    # Sets the delay that is used before sending code updates to the connected clients.
+                    # Use this method to set the "debounce" timeout to use for sending code changes
+                    # over pubnub.
+                    #
+                    # ```
+                    # -1 = Disable automatic sending of code changes (use `sendCodeChanges` to trigger the send)
+                    # 0 = Code changes are sent immediately to the connected clients
+                    # 1..n = Code changes are debounced and sent after the wait time
+                    # ```
+                    #
+                    # @param delay Timeout in milliseconds (or -1 to disable automatic code updates)
+                    #
+            +
+            m sendCodeChanges
+                _ this._sendCodeChangesDebounced(this.state, true)
+                #
+                    #
+                    # Sends any pending code changes to the connected clients.
+                    # No changes are send if all clients are already up to date.
+                    #
+            +
+            m _sendCodeChangesDebounced
+                :private
+                param state
+                    :ref PackiState
+                param immediate
+                    :boolean
+                    :optional
+                if this.codeChangesTimer
+                    _ clearTimeout(this.codeChangesTimer)
+                    set this.codeChangesTimer = undefined
+                if !immediate && this.codeChangesDelay > 0
+                    set this.codeChangesTimer =
+                        _ setTimeout
+                            =>
+                                _ this._sendCodeChangesDebounced(state, true)
+                            @expr this.codeChangesDelay
+                    return
+                else
+                    if !immediate && this.codeChangesDelay < 0
+                        return
+                $if wzCtx.Build.useExpo
+                    const
+                        {
+                            @ transports
+                            @ files
+                            @ dependencies
+                            @ sdkVersion
+                        = state
+                    for
+                        left
+                            const key
+                        in transports
+                        _ transports[key].postMessage
+                            {
+                                @ type 'update_code'
+                                { data
+                                    @ files
+                                    @ dependencies
+                                    @ sdkVersion
+                        # Send the changes
+            +
+            m updateFiles
+                param files
+                    :ref PackiFiles
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            const newFiles = State.updateObjects(state.files, files)
+                            return
+                                iif newFiles !== state.files
+                                    then
+                                        {
+                                            @ files newFiles
+                                    else null
+                #
+                # Files (code & assets)
+                #
+                #
+                    #
+                    # Updates code or asset files.
+                    #
+                    # Use this method to add/remove/update files and upload assets.
+                    # To remove a file specify `null` as the value of the file.
+                    #
+                    # @example
+                    # ```ts
+                    # const Packi = new Packi({
+                    # files: {
+                    # 'App.js': { type: 'CODE', contents: 'console.log("hello world!");' },
+                    # 'data.json': { type: 'CODE', contents: '{}' },
+                    # }
+                    # });
+                    #
+                    # // Add or update files
+                    # Packi.updateFiles({
+                    # 'App.js': {
+                    # type: 'CODE',
+                    # contents: 'console.log("Hello Packi!");'
+                    # }
+                    # });
+                    #
+                    # // Upload an asset
+                    # Packi.updateFiles({
+                    # 'assets/logo.png': {
+                    # type: 'ASSET',
+                    # contents: file // File, Blob or FormData
+                    # }
+                    # });
+                    #
+                    # // Add a pre-uploaded asset
+                    # Packi.updateFiles({
+                    # 'assets/expo.jpg': {
+                    # type: 'ASSET',
+                    # contents: 'https://mysite/expo.jpg'
+                    # }
+                    # });
+                    #
+                    # // Remove files
+                    # Packi.updateFiles({
+                    # 'data.json': null,
+                    # 'assets/expo.jpg': null
+                    # });
+                    # ```
+                    #
+            +
+            p uploadAssetAsync
+                async=>
+                    param contents
+                        :union
+                            :ref File
+                            :ref Blob
+                            :ref FormData
+                    :return
+                        :ref Promise
+                            :param string
+                    let url
+                        :string
+                        = ''
+                    const fileUploader
+                        new FileUploader
+                            {
+                                @ apiURL this.apiURL
+                                $if wzCtx.Build.useExpo
+                                    @ logger this.logger
+                                @ callback
+                                    =>
+                                        param _request
+                                        param resultURL
+                                        param error
+                                        if error
+                                            throw error
+                                        else
+                                            if resultURL
+                                                set url = resultURL
+                    _ fileUploader.add
+                        @ 'asset'
+                        {
+                            @ type 'ASSET'
+                            @ contents
+                    await
+                        _ fileUploader.waitForCompletion()
+                    return url
+                #
+                    # *
+                    # * Helper function that uploads an asset and returns its url.
+                    #
+            m updateFileUploader
+                :private
+                param state
+                    :ref PackiState
+                param prevState
+                    :ref PackiState
+                const files = state.files
+                const prevFiles = prevState.files
+                    # Stop uploading any removed or changed assets
+                if !prevState.disabled && ((!state.disabled && files !== prevFiles) || state.disabled)
+                    for
+                        left
+                            const path
+                        in prevFiles
+                        if !files[path] || files[path].contents !== prevFiles[path].contents || state.disabled
+                            _ this.fileUploader.remove(path, prevFiles[path])
+                if !state.disabled && (files !== prevFiles || prevState.disabled)
+                    for
+                        left
+                            const path
+                        in files
+                        const file = files[path]
+                        if file.type === 'ASSET' && typeof file.contents === 'object' && !file.error && (prevFiles[path]?.contents !== file.contents || prevState.disabled)
+                            _ this.fileUploader.add(path, file)
+            +
+            p onFileUploaded
+                :private
+                :ref FileUploaderCallback
+                =>
+                    param request
+                    param resultURL
+                    param error
+                    _ this.setState
+                        =>
+                            {
+                                @ files
+                            (
+                                {
+                                    @ files
+                                        _ State.addObject
+                                            @ files
+                                            @expr request.path
+                                            {
+                                                @ ...request.file
+                                                ...
+                                                    (
+                                                        iif resultURL
+                                                            then
+                                                                {
+                                                                    @ contents resultURL
+                                                            else
+                                                                {
+                                                ...
+                                                    (
+                                                        iif error
+                                                            then
+                                                                {
+                                                                    @ error
+                                                            else
+                                                                {
+                        # When a file has been uploaded, store its url in the state. This state should be persisted
+                        # by the client so that the next time it doesn't need to be uploaded again.
+            +
+            m saveAsync
+                async
+                param options
+                    :ref PackiSaveOptions
+                    :optional
+                log 'PackiSession.saveAsync.options', options
+                const prevState = this.state
+                await
+                    _ this.fileUploader.waitForCompletion()
+                    # Wait for any pending asset uploads to complete before saving
+                const
+                    {
+                        @ owner
+                        @ name
+                        @ description
+                        @ mainIttf
+                        @ wizziSchema
+                        @ sdkVersion
+                        @ files
+                        @ dependencies
+                        @ user
+                        @ packiProduction
+                    = this.state
+                const payload
+                    :any
+                    {
+                        @ description
+                        @ mainIttf
+                        @ schema wizziSchema
+                        @ packiFiles files 
+
+                const url
+                    `lit
+                        @ this.apiURL
+                        + /api/v1/production/artifact/
+                        @ encodeURIComponent(owner)
+                        + /
+                        @ encodeURIComponent(name)
+                log 'PackiSession.saveAsync', url
+                const response
+                    await
+                        _ fetch
+                            @ url
+                            {
+                                @ method 'PUT'
+                                @ body JSON.stringify(payload)
+                                { headers
+                                    @ 'Content-Type' 'application/json'
+                                    $if wzCtx.Build.useExpo
+                                        ...
+                                            (
+                                                iif options?.ignoreUser
+                                                    then
+                                                        {
+                                                    else createUserHeader(user)
+                const data
+                    await
+                        _ response.json()
+                set this.state.saveCount++
+                _ this.setPreviewUrl
+                log 'PackiSession.saveAsync.response.data', data
+            +
+            m saveAsync_Old
+                async
+                param options
+                    :ref PackiSaveOptions
+                    :optional
+                const prevState = this.state
+                await
+                    _ this.fileUploader.waitForCompletion()
+                    # Wait for any pending asset uploads the complete before saving
+                const
+                    {
+                        @ name
+                        @ description
+                        $if wzCtx.Build.useExpo
+                            @ sdkVersion
+                        @ files
+                        $if wzCtx.Build.useExpo
+                            @ dependencies
+                        @ user
+                    = this.state
+                try
+                    const payload
+                        :any
+                        =
+                            {
+                                { manifest
+                                    $if wzCtx.Build.useExpo
+                                        @ sdkVersion
+                                    @ name
+                                    @ description
+                                    $if wzCtx.Build.useExpo
+                                        @ dependencies
+                                            _ mapValues
+                                                @ dependencies
+                                                =>
+                                                    param dep
+                                                    +
+                                                        @expr dep.version
+                                @ code
+                                    _ mapValues
+                                        @ files
+                                        =>
+                                            param file
+                                                :any
+                                            set file =
+                                                {
+                                                    @ ...file
+                                            delete file.error
+                                            return file
+                                $if wzCtx.Build.useExpo
+                                    @ dependencies
+                                        _ mapValues
+                                            @ dependencies
+                                            =>
+                                                param dep
+                                                set dep =
+                                                    {
+                                                        @ ...dep
+                                                delete dep.error
+                                                return dep
+                                @ isDraft options?.isDraft ?? false
+                    $if wzCtx.Build.useExpo
+                        _ this.logger?.info?.('Saving...', payload)
+                        const previewPromise = this.getPreviewAsync()
+                    const url
+                        `lit
+                            +
+                            @ this.apiURL
+                            + /--/api/v2/packi/save
+                    const response
+                        await
+                            _ fetch
+                                @ url
+                                {
+                                    @ method 'POST'
+                                    @ body JSON.stringify(payload)
+                                    { headers
+                                        @ 'Content-Type' 'application/json'
+                                        ...
+                                            (
+                                                iif options?.ignoreUser
+                                                    then
+                                                        {
+                                                    else createUserHeader(user)
+                    const data
+                        await
+                            _ response.json()
+                    if !data?.id
+                        throw new Error()
+                    $if wzCtx.Build.useExpo
+                        _ this.logger?.info?.('Saved', data)
+                    const id
+                        :string
+                        = data.id
+                    const saveURL
+                        _ createURL
+                            @ this.host
+                            @ sdkVersion
+                            @ id
+                    const hashId
+                        :union
+                            :string
+                            :undefined
+                        = data.hashId
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                {
+                                    @ id
+                                    @ saveURL
+                                    @ unsaved State.isUnsaved(state, prevState)
+                                    $if wzCtx.Build.useExpo
+                                        @ savedSDKVersion
+                                            iif options?.isDraft && state.savedSDKVersion
+                                                then state.savedSDKVersion
+                                                else sdkVersion
+                    return
+                        {
+                            @ id
+                            @ url saveURL
+                            @ hashId
+                catch e
+                    $if wzCtx.Build.useExpo
+                        _ this.logger?.error?.(e)
+                    throw e
+                #
+                # Save
+                #
+                #
+                    # 
+                    # Uploads the current code to Wizzi's servers and return a url that points to that version of the code.
+                    #
+            +
+            m getDownloadURLAsync
+                async
+                param saveOptions
+                    :ref PackiSaveOptions
+                    :optional
+                await
+                    _ this.fileUploader.waitForCompletion()
+                let state = this.getState()
+                if !state.id || state.unsaved
+                    await
+                        _ this.saveAsync(saveOptions)
+                    set state = this.getState()
+                return
+                    `lit
+                        +
+                        @ this.apiURL
+                        + /--/api/v2/packi/download/
+                        @ state.id
+                        +
+                #
+                    # 
+                    # Gets the URL at which the Packi can be downloaded as a zip file. Will automatically
+                    # save the Packi if it contains unsaved changes.
+                    #
+            +
+            m uploadPreview
+                async
+                :private
+                param id
+                    :string
+                param previewURL
+                    :string
+                param status
+                    :boolean
+                const url
+                    `lit
+                        @ this.apiURL
+                        + /--/api/v2/packi/updateMetadata
+                const payload
+                    {
+                        @ id
+                        @ previewLocation previewURL
+                        @ status
+                            iif status
+                                then 'SUCCESS'
+                                else 'FAILURE'
+                $if wzCtx.Build.useExpo
+                    _ this.logger?.info?.('Uploading preview...', payload)
+                try
+                    const response
+                        await
+                            _ fetch
+                                @ url
+                                {
+                                    @ method 'POST'
+                                    @ body JSON.stringify(payload)
+                                    { headers
+                                        @ 'Content-Type' 'application/json'
+                    const data
+                        await
+                            _ response.json()
+                    if data.id
+                        $if wzCtx.Build.useExpo
+                            _ this.logger?.info?.('Uploaded preview', data)
+                    else
+                        throw new Error()
+                catch e
+                    $if wzCtx.Build.useExpo
+                        _ this.logger?.error?.('Failed to upload preview', e)
+
+            session/updates()

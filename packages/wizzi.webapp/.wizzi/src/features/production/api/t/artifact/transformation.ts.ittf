@@ -1,0 +1,39 @@
+$group
+
+    +
+    export
+        async-function getArtifactTransformation
+            param owner
+                :string
+            param name
+                :string
+            param context
+                :any
+            param transformerName
+                :string
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ getArtifactProduction
+                            @ owner
+                            @ name
+                            ._ then
+                                => 
+                                    param ap
+                                        :any
+                                    _ wizziProds.transformModel
+                                        @ ap.mainIttf
+                                        @ ap.packiFiles
+                                        @ context
+                                        { 
+                                            @ transformer transformerName
+                                        ._ then
+                                            => 
+                                                param result
+                                                    :any
+                                                # loog 'getArtifactTransformation.transformModel.keys', Object.keys(result)
+                                                return resolve(result)
+                                        catch_reject( getArtifactTransformation.transformModel )
+                            catch_reject( getArtifactTransformation.getArtifactProduction )

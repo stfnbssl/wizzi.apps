@@ -1,0 +1,39 @@
+module
+    import
+        @ PackiFiles
+        from '../packi'
+    export
+        const DEFAULT_PACKI_CODE
+            :ref PackiFiles
+            =
+                {
+                    { '.wizzi/index.html.ittf'
+                        @ contents
+                            `lit
+                                + html&lf;
+                                + &nbsp; body&lf;
+                                + &nbsp;   h1 Hello world&lf;
+                                + &nbsp;&nbsp;
+                        @ type 'CODE'
+                    { '.wizzi/main.js.ittf'
+                        @ contents
+                            `lit
+                                + module&lf;
+                                + &nbsp; kind es6&lf;
+                                + &nbsp; log 'Hello world'&lf;
+                                + &nbsp;&nbsp;
+                        @ type 'CODE'
+                    { '.wizzi/main.wfjob.ittf'
+                        @ contents
+                            `lit
+                                + wfjob&lf;
+                                + &nbsp;&nbsp;
+                        @ type 'CODE'
+                    { 'README.md'
+                        @ contents
+                            `lit
+                                + # Sample Packi&lf;
+                                + &nbsp;&nbsp;
+                        @ type 'CODE'
+    export
+        const EDITOR_LOAD_FALLBACK_TIMEOUT = 3000

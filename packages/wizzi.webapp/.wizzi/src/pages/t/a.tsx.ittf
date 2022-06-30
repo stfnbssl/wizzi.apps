@@ -1,0 +1,8 @@
+$group
+    $params text, href, ca|""
+    div
+        @ className flex-column
+        a ${text}
+            class ${ca}
+            href ${href}
+            $hook

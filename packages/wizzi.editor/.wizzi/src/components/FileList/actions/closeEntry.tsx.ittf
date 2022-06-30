@@ -1,0 +1,30 @@
+module
+    import 
+        @ FileSystemEntry
+        from '../../features/file'
+    import updateEntry from './updateEntry'
+    export-default 
+        function closeEntry
+            param entry
+                :ref FileSystemEntry
+            if entry.item.type === 'file'
+                if entry.state.isSelected || entry.state.isFocused || entry.state.isOpen
+                    return 
+                        _ updateEntry
+                            @ entry
+                            { 
+                                { state
+                                    @ isOpen false
+                                    @ isSelected false
+                                    @ isFocused false
+                        # Unselect and unfocus the file
+            else
+                if entry.state.isSelected
+                    return 
+                        _ updateEntry
+                            @ entry
+                            { 
+                                { state
+                                    @ isSelected false
+                        # Unselect the folder
+            return entry

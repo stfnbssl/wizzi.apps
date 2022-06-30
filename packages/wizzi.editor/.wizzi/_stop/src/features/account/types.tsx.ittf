@@ -1,0 +1,16 @@
+module
+    export
+        :type Viewer
+            :{
+                :p username
+                    :string
+                :p nickname
+                    :string
+                :p picture
+                    :optional
+                    :string
+                :p user_metadata
+                    :optional
+                    :{
+                        :p appetize_code
+                            :string

@@ -1,0 +1,127 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    :type Props
+        :{ 
+            :p title
+                :string 
+            :p expanded
+                :boolean 
+            :p onClick
+                :=> 
+                    :void 
+                    param event
+                        :ref React.MouseEvent
+                            :param 
+                                :ref HTMLDivElement
+            :p buttons
+                :optional 
+                :[ 
+                    :ref React.ReactNode
+            :p children
+                :optional 
+                :ref React.ReactNode
+            :p className
+                :optional 
+                :string 
+    export-default 
+        function FileListPane
+            { 
+                @ title
+                @ expanded
+                @ buttons
+                @ children
+                @ onClick
+                @ className
+                :ref Props
+            return 
+                div 
+                    @ className
+                        `lit 
+                            + 
+                            @ className ?? ''
+                            + &nbsp;
+                            _ css(styles.container)
+                            + 
+                    div 
+                        @ className {css(styles.header)}
+                        div 
+                            @ className {css(styles.left)}
+                            @ onClick {onClick}
+                            @ data-test-id
+                                `lit 
+                                    + file-list-pane-
+                                    _ title.toLowerCase().replace(/[^a-z]/g, '-')
+                                    + 
+                            svg 
+                                @ className
+                                    _ css
+                                        @expr styles.collapse
+                                        iif expanded
+                                            then styles.collapseExpanded
+                                            else styles.collapseCollapsed
+                                @ width "12px"
+                                @ height "12px"
+                                @ viewBox "0 0 12 12"
+                                g 
+                                    @ stroke "none"
+                                    @ strokeWidth "2"
+                                    @ fill "none"
+                                    @ fillRule "evenodd"
+                                    @ strokeLinecap "round"
+                                    @ strokeLinejoin "round"
+                                    polyline 
+                                        @ stroke "currentColor"
+                                        @ transform "translate(6.000000, 6.000000) scale(-1, 1) rotate(180.000000) translate(-6.000000, -6.000000) "
+                                        @ points "2 4 6 8 10 4"
+                            h4 
+                                @ className {css(styles.label)}
+                                + {title}
+                        div 
+                            @ className {css(styles.right)}
+                            + {buttons}
+                    { 
+                        iif expanded
+                            then children
+                            else null
+    const styles
+        _ StyleSheet.create
+            { 
+                { container
+                    @ display 'flex'
+                    @ flexDirection 'column'
+                { header
+                    @ display 'flex'
+                    @ flexDirection 'row'
+                    @ alignItems 'center'
+                    @ padding '0 4px'
+                    $if !!wzCtx.TODO
+                        @ backgroundColor '#dedede' 
+                        @ borderTop '1px solid #cdcdcd'
+                { label
+                    @ fontSize '1em'
+                    @ fontWeight 500
+                    @ lineHeight 1
+                    @ margin 0
+                { collapse
+                    @ margin '1px 6px 1px 2px'
+                    @ opacity 0.7
+                { collapseCollapsed
+                    @ transform 'rotate(180deg)'
+                { collapseExpanded
+                    @ transform 'rotate(0deg)'
+                { left
+                    @ flex 1
+                    @ display 'flex'
+                    @ flexDirection 'row'
+                    @ padding '${8*wzCtx.Style.vpadRatio}px 4px'
+                    @ cursor 'pointer'
+                { right
+                    @ display 'flex'
+                    @ flexDirection 'row'
+                    @ alignItems 'center'

@@ -1,0 +1,81 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "DeleteMetaProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "mp_userid", type: "string" },
+                { name: "mp_name", type: "string" },
+                { name: "mp_description", type: "string" },
+            ]
+        }
+        
+    v08/ts/react/component(&md)
+
+        $append imports
+            common_imports( top )
+
+        +
+        m componentDidMount
+            log 'DeleteMetaProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ userid
+                    @ name
+                    @ description
+                = this.props.data
+            
+            _ this.setState
+                {
+                    @ mp_userid userid
+                    @ mp_name name
+                    @ mp_description description
+        +
+        => handleSubmitDelete
+            param ev
+                :ref React.MouseEvent
+                    :param 
+                        :ref HTMLElement
+            _ ev.preventDefault()
+            _ this.formRef.dispatchEvent(new Event('submit'))
+        +
+        m render
+            log 'DeleteMetaProduction.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Delete meta production'
+                    < HR
+                    form
+                        action /meta/delete
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref
+                            =>
+                                param ref
+                                set this.formRef = ref                        
+                        < FormHidden
+                            @ name 'mp_userid'
+                            @ id 'mp_userid'
+                            @ value {this.state.mp_userid}
+                        < FormStatic
+                            @ label 'Meta name'
+                            @ name 'mp_name'
+                            @ id 'mp_name'
+                            @ value {this.state.mp_name}
+                        < HR
+                        < FormStatic
+                            @ label 'Description'
+                            @ name 'mp_description'
+                            @ id 'mp_description'
+                            @ value {this.state.mp_description}
+                        < HR
+                        < FormButton
+                            @ label 'Delete meta production'
+                            @ id 'btn_delete_mp'
+                            @ variant 'submit'
+                            @ type submit
+                            @ onClick {this.handleSubmitDelete}                    

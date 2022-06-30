@@ -1,0 +1,127 @@
+module
+    import 
+        @ all
+        @ fork
+        @ put
+        @ takeEvery
+        @ call
+        from 'redux-saga/effects'
+    import 
+        @ getType
+        from 'typesafe-actions'
+    import 
+        @ config
+        from '../config'
+    import 
+        @ appActions
+        from '../app'
+    import 
+        as packiActions
+        from './actions'
+    $if wzCtx.Build.usePackiLocal
+        import 
+            as packiData
+            from './data'
+    import 
+        as packiTypes
+        from './types'
+    $if wzCtx.Build.usePackiLocal
+        import 
+            @ getSelectedPacki
+            from './localManager'
+    import 
+        @ callApi
+        from '../../utils/api'
+    $if wzCtx.Build.usePackiLocal
+        +
+        saga_handler( packi, fetchPackiListRequest, fetchPackiListError
+            const res
+                :[ 
+                    :string 
+                =
+                    yield packiData.getPackiList()
+            log 'sagas.handleFetchPackiListRequest.res', res
+            yield 
+                _ put
+                    _ packiActions.fetchPackiListSuccess
+                        { 
+                            @ packiNames res
+        +
+        saga_handler( packi, selectPackiRequest, selectPackiError
+            const res
+                :ref packiTypes.PackiFiles
+                =
+                    yield packiData.getPackiFiles(action.payload.id)
+            yield 
+                _ put
+                    _ packiActions.selectPackiSuccess
+                        { 
+                            @ id action.payload.id
+                            @ files res
+        +
+        saga_handler( packi, savePackiRequest, savePackiError
+            yield 
+                _ packiData.savePackiFiles
+                    @expr action.payload.id
+                    @expr action.payload.filesToSave
+                        :as 
+                            :ref packiTypes.PackiFiles
+            yield 
+                _ put
+                    _ packiActions.savePackiSuccess
+                        { 
+                            @ message 'Packi files saved'
+                            @ id action.payload.id
+                            @ filesToSave action.payload.filesToSave
+                            @ packiEntryFiles action.payload.packiEntryFiles
+    +
+    saga_handler( packi, fetchPackiTemplateListRequest, fetchPackiTemplateListError
+        const res
+            yield call(callApi, 'get', config.API_URL, 'templates')
+        log 'sagas.handleFetchPackiTemplateListRequest.res', res
+        yield 
+            _ put
+                _ packiActions.fetchPackiTemplateListSuccess
+                    { 
+                        @ packiNames res
+    +
+    saga_handler( packi, uploadPackiTemplateRequest, uploadPackiTemplateError
+        const res
+            yield 
+                _ call
+                    @ callApi
+                    @ 'post'
+                    @expr config.API_URL
+                    `lit 
+                        + templates/
+                        @ action.payload.uid
+                        + /
+                        @ action.payload.templateId
+                        + 
+                    { 
+                        @ files action.payload.files
+        log 'sagas.handleUploadPackiTemplateRequest.res', res
+        yield 
+            _ put
+                _ packiActions.uploadPackiTemplateSuccess
+                    { 
+    +
+    function* watchFetchRequest
+        $if wzCtx.Build.usePackiLocal
+            yield takeEvery(getType(packiActions.fetchPackiListRequest), handleFetchPackiListRequest)
+            yield takeEvery(getType(packiActions.selectPackiRequest), handleSelectPackiRequest)
+        yield takeEvery(getType(packiActions.fetchPackiTemplateListRequest), handleFetchPackiTemplateListRequest)
+    +
+    function* watchCrudRequest
+        $if wzCtx.Build.usePackiLocal
+            yield takeEvery(getType(packiActions.savePackiRequest), handleSavePackiRequest)
+        yield takeEvery(getType(packiActions.uploadPackiTemplateRequest), handleUploadPackiTemplateRequest)
+    +
+    function* packiSaga
+        yield 
+            _ all
+                [ 
+                    @ fork(watchFetchRequest)
+                    @ fork(watchCrudRequest)
+    +
+    export-default packiSaga

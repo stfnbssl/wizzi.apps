@@ -1,0 +1,316 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    $if wzCtx.Build.useExpo
+        import 
+            @ standardizeDependencies
+            from 'snack-sdk'
+    :import-type 
+        @ SavedPacki
+        @ SDKVersion
+        @ PackiFiles
+        @ PackiFile
+        @ PackiDependencies
+        @ PackiDependency
+        from '../../features/packi'
+    import 
+        @ c
+        from '../ThemeProvider'
+    import Button from '../widgets/Button'
+    import LargeInput from '../widgets/LargeInput'
+    import ModalDialog from '../widgets/ModalDialog'
+    import ProgressIndicator from '../widgets/ProgressIndicator'
+    import ToggleSwitch from '../widgets/ToggleSwitch'
+    :type Props
+        :{ 
+            :p visible
+                :boolean 
+            :p onHide
+                :=> 
+                    :void 
+            :p onSubmitMetadata
+                :=> 
+                    :void 
+                    param details
+                        :{ 
+                            :p name
+                                :string 
+                            :p description
+                                :string 
+            $if wzCtx.Build.useExpo
+                :p onChangeSDKVersion
+                    :=> 
+                        :void 
+                        param sdkVersion
+                            :ref SDKVersion
+            :p updateFiles
+                :=> 
+                    :void 
+                    param updateFn
+                        :=> 
+                            :{ 
+                                :index 
+                                    :union 
+                                        :ref PackiFile
+                                        :null 
+                                    param path
+                                        :string 
+                            param files
+                                :ref PackiFiles
+            $if wzCtx.Build.useExpo
+                :p updateDependencies
+                    :=> 
+                        :void 
+                        param updateFn
+                            :=> 
+                                :{ 
+                                    :index 
+                                        :union 
+                                            :ref PackiDependency
+                                            :null 
+                                        param name
+                                            :string 
+                                param dependencies
+                                    :ref PackiDependencies
+    :type State
+        :{ 
+            :p isLoading
+                :boolean 
+            :p error
+                :string 
+            :p url
+                :string 
+            :p resetDependencies
+                :boolean 
+    export-default 
+        class ImportProductionModal
+            super React.PureComponent
+                :param 
+                    :ref Props
+                :param 
+                    :ref State
+            p state
+                :ref State
+                { 
+                    @ isLoading false
+                    @ error ''
+                    @ url ''
+                    @ resetDependencies false
+            => _hideImportModal
+                _ this.setState
+                    { 
+                        @ isLoading false
+                        @ error ''
+                        @ url ''
+                        @ resetDependencies false
+                _ this.props.onHide()
+            p _handleImportClick
+                async=> 
+                    param e
+                        :ref React.FormEvent
+                            :param 
+                                :ref HTMLFormElement
+                    _ e.preventDefault()
+                    _ this.setState
+                        { 
+                            @ isLoading true
+                            @ error ''
+                    try 
+                        const match = this.state.url.match(/^https:\/\/packi\.expo\.io\/(.*)/)
+                        if !match
+                            throw new Error('Invalid url')
+                        const id = match[1]
+                        const response
+                            await 
+                                _ fetch
+                                    `lit 
+                                        + https://exp.host/--/api/v2/packi/
+                                        @ id
+                                        + 
+                                    { 
+                                        { headers
+                                            @ 'Packi-Api-Version' '3.0.0'
+                        const text
+                            await 
+                                _ response.text()
+                        const json = JSON.parse(text)
+                        if json.errors?.length
+                            throw new Error(JSON.stringify(json.errors))
+                        const packi
+                            :ref SavedPacki
+                            =
+                                { 
+                                    @ ...json
+                                    $if wzCtx.Build.useExpo
+                                        @ dependencies standardizeDependencies(json.dependencies)
+                        _ this.props.onSubmitMetadata
+                            { 
+                                @ name packi.manifest.name
+                                @ description packi.manifest.description
+                        $if wzCtx.Build.useExpo
+                            if packi.manifest.sdkVersion
+                                _ this.props.onChangeSDKVersion(packi.manifest.sdkVersion)
+                        _ this.props.updateFiles
+                            => 
+                                param files
+                                const newFiles
+                                    :any 
+                                    =
+                                        { 
+                                for 
+                                    left
+                                        const key
+                                    in files
+                                    set newFiles[key] = null
+                                const packiFiles
+                                    iif typeof packi.code === 'string'
+                                        then
+                                            { 
+                                                { 'App.js'
+                                                    @ contents packi.code
+                                                    @ type 'CODE'
+                                        else
+                                            ( 
+                                                @expr packi.code
+                                                    :as 
+                                                        :any 
+                                for 
+                                    left
+                                        const key
+                                    in packiFiles
+                                    set newFiles[key] = packiFiles[key]
+                                return newFiles
+                        $if wzCtx.Build.useExpo
+                            _ this.props.updateDependencies
+                                => 
+                                    param deps
+                                    const newDeps
+                                        :any 
+                                        =
+                                            { 
+                                    for 
+                                        left
+                                            const key
+                                        in deps
+                                        set newDeps[key] = null
+                                    for 
+                                        left
+                                            const key
+                                        in packi.dependencies
+                                        if this.state.resetDependencies
+                                            set newDeps[key] =
+                                                { 
+                                                    @ version packi.dependencies[key].version
+                                        else
+                                            set newDeps[key] = packi.dependencies[key]
+                                    return newDeps
+                        _ this.setState
+                            { 
+                                @ isLoading false
+                        _ this.props.onHide()
+                    catch e
+                        _ this.setState
+                            { 
+                                @ isLoading false
+                                @ error e.message
+            => _handleChange
+                param e
+                    :ref React.ChangeEvent
+                        :param 
+                            :ref HTMLInputElement
+                _ this.setState
+                    { 
+                        @ url e.target.value
+            $if wzCtx.Build.useExpo
+                => _toggleResetDependencies
+                    _ this.setState
+                        => 
+                            param state
+                            (
+                                { 
+                                    @ resetDependencies !state.resetDependencies
+            m render
+                const 
+                    { 
+                        @ visible
+                    = this.props
+                const 
+                    { 
+                        @ isLoading
+                        @ error
+                        @ url
+                        $if wzCtx.Build.useExpo
+                            @ resetDependencies
+                    = this.state
+                return 
+                    < ModalDialog 
+                        @ visible {visible}
+                        @ onDismiss {this._hideImportModal}
+                        @ title "Import from production"
+                        { 
+                            iif isLoading
+                                then
+                                    < ProgressIndicator 
+                                        @ duration {45000}
+                                        @ className {css(styles.progress)}
+                                else null
+                        form 
+                            @ onSubmit {this._handleImportClick}
+                            p 
+                                @ className
+                                    iif !error
+                                        then css(styles.paragraph)
+                                        else css(styles.errorParagraph)
+                                { 
+                                    iif !error
+                                        then 'Import a saved Packi from production. This will overwrite all your current files and dependencies with the contents of the saved Packi.'
+                                        else
+                                            `lit 
+                                                + An error occurred during import.&nbsp;
+                                                @ error
+                                                + 
+                            < LargeInput 
+                                @ name "url"
+                                @ value {url}
+                                @ onChange {this._handleChange}
+                                @ placeholder "https://packi.expo.io/82kWr6arT"
+                                @ autoFocus
+                            $if wzCtx.Build.useExpo
+                                div 
+                                    @ className {css(styles.switch)}
+                                    < ToggleSwitch 
+                                        @ checked {resetDependencies}
+                                        @ label "Reset resolved dependencies"
+                                        @ onChange {this._toggleResetDependencies}
+                            div 
+                                @ className {css(styles.buttons)}
+                                < Button 
+                                    @ large
+                                    @ disabled {!url}
+                                    @ loading {isLoading}
+                                    @ type "submit"
+                                    @ variant "primary"
+                                    { 
+                                        iif isLoading
+                                            then 'Importing Packi...'
+                                            else 'Import Packi'
+    const styles
+        _ StyleSheet.create
+            { 
+                { paragraph
+                    @ margin '8px 0 16px'
+                { errorParagraph
+                    @ margin '8px 0 16px'
+                    @ color c('error')
+                { progress
+                    @ marginTop -16
+                { switch
+                    @ display 'flex'
+                    @ flexDirection 'row'
+                { buttons
+                    @ margin '16px 0 0 0'

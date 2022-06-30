@@ -1,0 +1,678 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import debounce from 'lodash/debounce'
+    import 
+        as React
+        from 'react'
+    import 
+        @ connect
+        from 'react-redux'
+    import Split from 'react-split'
+    import 
+        @ SDKVersion
+        @ PackiFiles
+        @ PackiProduction
+        from '../../features/packi'
+    $if wzCtx.Build.usePackiAspects        
+        import 
+            @ GeneratedArtifact
+            @ JobError
+            from '../../features/wizzi'
+        import
+            @ LoggedUser
+            from '../../features/app'
+    import 
+        @ Annotation
+        from '../../features/annotations'
+    $if wzCtx.Build.useExpo 
+        import Analytics from '../utils/Analytics'
+    import 
+        @ isScript
+        @ isJson
+        @ isTest
+        from '../../features/file/index'
+    $if wzCtx.Build.useExpo 
+        import lintFile from '../../features/lint/index'
+        import prettierCode from '../../features/prettier/index'
+        import AssetViewer from './AssetViewer'
+        import 
+            @ withDependencyManager
+            from './DependencyManager'
+    import 
+        @ EditorProps
+        from '../Editor/EditorProps'
+    import EditorFooter from './EditorFooter'
+    import EditorPanels from './EditorPanels'
+    import EditorToolbar from './EditorToolbar'
+    import 
+        @ EditorViewProps
+            as BaseEditorViewProps
+        from './EditorViewProps'
+    import FileList from '../FileList/FileList'
+    $if wzCtx.Build.useExpo 
+        import ImportProductionModal from './Import/ImportProductionModal'
+        import ImportRepoModal from './Import/ImportRepoModal'
+    import KeyboardShortcuts
+        @ Shortcuts
+        from './KeyboardShortcuts'
+    import NoFileSelected from './NoFileSelected'
+    import PageMetadata from '../PageMetadata'
+    
+    :import-type
+        @ PanelType
+        from '../../features/preferences/index'
+    
+    import
+        @ withPreferences
+        @ PreferencesContextType
+        from '../../features/preferences/index'
+    
+    $if wzCtx.Build.useExpo 
+        import PreviousSaves from './PreviousSaves'
+    
+    $if wzCtx.Build.usePublishManager
+        import PublishManager
+            @ PublishModals
+            from '../Publish/PublishManager'
+    
+    # from shell
+    import 
+        @ ContentShell 
+        from '../shell/ContentShell'
+    import 
+        @ EditorShell 
+        from '../shell/EditorShell'
+    import 
+        @ LayoutShell 
+        from '../shell/LayoutShell'
+    
+    import 
+        @ c
+        @ s
+        from '../ThemeProvider'
+    
+    # from widgets
+    import Banner from '../widgets/Banner'
+    import KeybindingsManager from '../widgets/KeybindingsManager'
+    import LazyLoad from '../widgets/LazyLoad'
+    import 
+        @ ModalDialog 
+        from '../widgets/ModalDialog'
+    import 
+        @ ProgressIndicator 
+        from '../widgets/ProgressIndicator'
+    $if wzCtx.Build.usePackiAspects
+        +
+        $if wzCtx.Build.usePackiManager
+            import PackiManagerContainer
+                from '../Packi/PackiManagerContainer'
+        import GeneratedView from './GeneratedView'
+        import GenerationErrors from './GenerationErrors'
+    +
+    const EDITOR_LOAD_FALLBACK_TIMEOUT = 3000
+    +
+    export 
+        :type EditorViewProps
+            :intersect 
+                :ref PreferencesContextType
+                :ref BaseEditorViewProps
+                :{ 
+                    :p loggedUser
+                        :optional 
+                        :ref LoggedUser
+
+    :type ModalName
+        :union 
+            $if wzCtx.Build.useOk
+                :ref PublishModals
+            $if wzCtx.Build.usePackiAspects 
+                :literal 'auth'
+                :literal 'packi-manager'
+                :literal 'github-commit'
+                :literal 'github-create'
+            :literal 'edit-info'
+            :literal 'shortcuts'
+            :literal 'previous-saves'
+            :literal 'import-repo'
+            :literal 'import-production'
+    :type BannerName
+        :union 
+            :literal 'connected'
+            :literal 'disconnected'
+            :literal 'reconnect'
+            :literal 'autosave-disabled'
+            $if wzCtx.Build.useExpo 
+                :literal 'sdk-upgraded'
+            :literal 'export-unavailable'
+            :literal 'slow-connection'
+    $if wzCtx.Build.usePackiAspects
+        :type SplitViewKind
+            :union 
+                :literal 'left'
+                :literal 'right'
+                :literal 'both'
+    :type State
+        :{ 
+            :p currentModal
+                :union 
+                    :ref ModalName
+                    :null 
+            :p currentBanner
+                :union 
+                    :ref BannerName
+                    :null 
+            :p loadedEditor
+                :union 
+                    :literal 'monaco'
+                    :literal 'simple'
+                    :null 
+            :p isMarkdownPreview
+                :boolean 
+            :p shouldPreventRedirectWarning
+                :boolean 
+            $if wzCtx.Build.usePackiAspects
+                :p isDownloading
+                    :boolean 
+                :p splitViewKind
+                    :ref SplitViewKind
+    const BANNER_TIMEOUT_SHORT = 1500
+    const BANNER_TIMEOUT_LONG = 5000
+    class EditorViewComp
+        super React.Component
+            :param 
+                :ref EditorViewProps
+            :param 
+                :ref State
+        p state
+            :ref State
+            { 
+                @ currentModal null
+                @ currentBanner null
+                @ loadedEditor null
+                @ isMarkdownPreview true
+                @ shouldPreventRedirectWarning false
+                $if wzCtx.Build.usePackiAspects
+                    @ isDownloading false
+                    @ splitViewKind
+                        + 'both'
+                            :as 
+                                :ref SplitViewKind
+        +
+        m getDerivedStateFromProps
+            static
+            param props
+                :ref EditorViewProps
+            param state
+                :ref State
+            const 
+                { 
+                    @ selectedFile
+                    @ files
+                = props
+            let newState
+                :any 
+                = null
+                # When an empty markdown file is opened, switch to edit mode
+            if state.isMarkdownPreview && selectedFile.endsWith('.md') && !files[selectedFile]?.contents
+                set newState =
+                    || 
+                        + newState
+                        { 
+                set newState.isMarkdownPreview = false
+            return newState
+        m componentDidMount
+            _ window.addEventListener('beforeunload', this._handleUnload)
+            $if wzCtx.Build.useExpo 
+                if this.props.wasUpgraded
+                    _ this._showBanner('sdk-upgraded', BANNER_TIMEOUT_LONG)
+        +
+        m componentDidUpdate
+            param prevProps
+                :ref EditorViewProps
+            if prevProps.autosaveEnabled !== this.props.autosaveEnabled && !this.props.autosaveEnabled
+                _ this._showBanner('autosave-disabled', BANNER_TIMEOUT_LONG)
+        +
+        m componentWillUnmount
+            _ window.removeEventListener('beforeunload', this._handleUnload)
+        +
+        => _handleUnload
+            param e
+                :any 
+            const isUnsaved = this.props.saveStatus === 'edited' || this.props.saveStatus === 'publishing' || this.props.saveStatus === 'saving-draft'
+            if !isUnsaved || this.state.shouldPreventRedirectWarning
+                _ this._allowRedirectWarning()
+                return 
+            const message = 'You have unsaved changes. Are you sure you want to leave this page?'
+            set e.returnValue = message
+            return message
+        => _showBanner
+            param name
+                :ref BannerName
+            param duration
+                :number 
+            _ this.setState
+                { 
+                    @ currentBanner name
+            _ setTimeout
+                => 
+                    _ this.setState
+                        => 
+                            param state
+                            ( 
+                                iif state.currentBanner === name
+                                    then
+                                        { 
+                                            @ currentBanner null
+                                    else state
+                        # @ts-ignore
+                @ duration
+        $if wzCtx.Build.usePackiAspects
+            +
+            p _handleChangeSplitViewKind
+                => 
+                    param e
+                        :any
+                    _ this.setState
+                        { 
+                            @ splitViewKind
+                                @expr e.target.value
+                                    :as 
+                                        :ref SplitViewKind
+        +
+        => _handleDismissEditModal
+            $if wzCtx.Build.useExpo 
+                _ Analytics.getInstance().logEvent
+                    @ 'DISMISSED_AUTH_MODAL'
+                    { 
+                        @ currentModal this.state.currentModal
+            _ this.setState
+                { 
+                    @ currentModal null
+        => _handleShowTitleDescriptionModal
+            _ this.setState
+                { 
+                    @ currentModal 'edit-info'
+        $if wzCtx.Build.usePackiAspects
+            p _handleShowPackiManager
+                => 
+                    _ this.setState
+                        { 
+                            @ currentModal 'packi-manager'
+        $if wzCtx.Build.usePackiAspectsGithub
+            p _handleShowGithubCommit
+                => 
+                    _ this.setState
+                        { 
+                            @ currentModal 'github-commit'
+            p _handleShowGithubCreate
+                => 
+                    _ this.setState
+                        { 
+                            @ currentModal 'github-create'
+        p _handleShowAuthModal
+            => 
+                _ this.setState
+                    { 
+                        @ currentModal 'auth'
+        
+        
+        => _handleShowShortcuts
+            _ this.setState
+                { 
+                    @ currentModal 'shortcuts'
+        $if wzCtx.Build.useExpo 
+            => _handleShowPreviousSaves
+                _ this.setState
+                    { 
+                        @ currentModal 'previous-saves'
+        => _handleShowImportRepoModal
+            _ this.setState
+                { 
+                    @ currentModal 'import-repo'
+        => _handleShowImportProductionModal
+            _ this.setState
+                { 
+                    @ currentModal 'import-production'
+        => _handleHideModal
+            _ this.setState
+                { 
+                    @ currentModal null
+        => _handleShowModal
+            param name
+                :any 
+            _ this.setState
+                { 
+                    @ currentModal name
+        => _handleRemoveFile
+            param path
+                :string 
+            _ this._EditorComponent?.removePath?.(path)
+        => _handleRenameFile
+            param oldPath
+                :string 
+            param newPath
+                :string 
+            _ this._EditorComponent?.renamePath?.(oldPath, newPath)
+        p _EditorComponent
+            :any 
+        => _showErrorPanel
+            _ this.props.setPreferences
+                { 
+                    @ panelType 'errors'
+        => _togglePanels
+            param panelType
+                :ref PanelType
+                :optional 
+            _ this.props.setPreferences
+                { 
+                    @ panelsShown !this.props.preferences.panelsShown
+                    @ panelType
+                        iif panelType && !this.props.preferences.panelsShown
+                            then panelType
+                            else this.props.preferences.panelType
+        => _toggleFileTree
+            _ this.props.setPreferences
+                { 
+                    @ fileTreeShown !this.props.preferences.fileTreeShown
+        => _toggleTheme
+            _ this.props.setPreferences
+                { 
+                    @ theme
+                        iif this.props.preferences.theme === 'light'
+                            then 'dark'
+                            else 'light'
+        => _toggleMarkdownPreview
+            _ this.setState
+                => 
+                    param state
+                    (
+                        { 
+                            @ isMarkdownPreview !state.isMarkdownPreview
+        => _preventRedirectWarning
+            _ this.setState
+                { 
+                    @ shouldPreventRedirectWarning true
+        => _allowRedirectWarning
+            _ this.setState
+                { 
+                    @ shouldPreventRedirectWarning false
+        m render
+            const 
+                { 
+                    @ currentModal
+                    @ currentBanner
+                    $if wzCtx.Build.usePackiAspects
+                        @ isDownloading
+                = this.state
+            const 
+                { 
+                    @ id
+                    @ createdAt
+                    @ saveHistory
+                    @ saveStatus
+                    @ files
+                    @ selectedFile
+                    @ dependencies
+                    $if wzCtx.Build.useExpo 
+                        @ isResolving
+                    @ sendCodeOnChangeEnabled
+                    @ sdkVersion
+                    $if wzCtx.Build.useExpo 
+                        @ isLocalWebPreview
+                    @ userAgent
+                    @ onSendCode
+                    @ onPublishAsync
+                    $if wzCtx.Build.useExpo 
+                        @ onReloadPacki
+                    @ onToggleSendCode
+                    @ onTogglePreview
+                    @ uploadFileAsync
+                    @ preferences
+                    @ owner
+                    @ name
+                    @ description
+                    @ mainIttf
+                    @ wizziSchema
+                    @ packiProduction
+                    @ previewRef
+                    @ previewURL
+                    @ previewShown
+                    $if wzCtx.Build.usePackiAspects
+                        @ loggedUser
+                        @ onExecuteWizziJob
+                        @ generatedArtifact
+                        @ mTreeBuildUpScript
+                        @ mTreeIttf
+                        @ jobError
+                        @ isWizziJobWaiting
+                        $$ @ onSaveCode
+                        @ onMTreePreview
+                        @ onMTreeDebugInfoPreview
+
+                = this.props
+            const annotations = this.props.annotations
+            const testPreviewURL
+                `lit
+                    @ process.env.API_SERVER_URL
+                    + /~/
+                    @ encodeURIComponent(owner)
+                    + /
+                    @ encodeURIComponent(name)
+            # log 'EditorView.props.loggedUser', loggedUser, this.props.loggedUser
+            log 'EditorView.props', this.props, mainIttf, wizziSchema
+            return 
+                < ContentShell 
+                    { 
+                        iif this.state.loadedEditor
+                            then null
+                            else
+                                < ProgressIndicator 
+                    < PageMetadata 
+                        @ name {name}
+                        @ description {description}
+                        @ id {id}
+                    $*
+                    < PublishManager 
+                        @ id {id}
+                        @ sdkVersion {sdkVersion}
+                        @ name {name}
+                        @ description {description}
+                        @ onSubmitMetadata {this.props.onSubmitMetadata}
+                        @ onPublishAsync {this.props.onPublishAsync}
+                        @ onShowModal {this._handleShowModal}
+                        @ onHideModal {this._handleHideModal}
+                        @ currentModal {currentModal}
+                        { 
+                            => 
+                                { 
+                                    @ onPublishAsync
+                                return 
+                                    < React.Fragment
+                    *$
+                    < KeybindingsManager 
+                        @ bindings {Shortcuts}
+                        @ onTrigger
+                            => 
+                                param type
+                                const commands
+                                    :{ 
+                                        :index 
+                                            :union 
+                                                :paren 
+                                                    :=> 
+                                                        :void 
+                                                :null 
+                                            param key
+                                                :string 
+                                    =
+                                        { 
+                                            $if wzCtx.Build.usePublishManager
+                                                @ save
+                                                    iif saveStatus === 'published'
+                                                        then null
+                                                        $if wzCtx.Build.useExpo 
+                                                            else
+                                                                iif this.props.isResolving
+                                                                    then null
+                                                                    else onPublishAsync
+                                                        $else
+                                                            else onPublishAsync
+                                            @ tree this._toggleFileTree
+                                            @ panels this._togglePanels
+                                            @ shortcuts this._handleShowShortcuts
+                                            @ update onSendCode
+                                const fn = commands[type]
+                                if fn
+                                    _ fn()
+                    editorview/toolbar()
+                    div 
+                        @ className {css(styles.editorAreaOuterWrapper)}
+                        div 
+                            @ className {css(styles.editorAreaOuter)}
+                            < LayoutShell
+                                editorview/filelist()
+                                editorview/monaco()
+                            { 
+                                iif preferences.panelsShown
+                                    then
+                                        < EditorPanels 
+                                            @ annotations {annotations}
+                                            @ onShowErrorPanel {this._showErrorPanel}
+                                            @ onTogglePanels {this._togglePanels}
+                                            @ onSelectFile {this.props.onSelectFile}
+                                            @ panelType {preferences.panelType}
+                                    else null
+                        editorview/generated()
+                    editorview/footer()
+                    $if wzCtx.Build.usePackiAspects
+                        $if wzCtx.Build.usePackiManager
+                            { 
+                                && 
+                                    + loggedUser
+                                    < ModalDialog 
+                                        @ title "Manage your packies"
+                                        @ visible {currentModal === 'packi-manager'}
+                                        @ onDismiss {this._handleHideModal}
+                                        < PackiManagerContainer
+                                            @ onClose {this._handleHideModal}
+                    $if wzCtx.Build.useExpo 
+                        < ModalDialog 
+                            @ visible {currentModal === 'previous-saves'}
+                            @ title "Previous saves"
+                            @ onDismiss {this._handleHideModal}
+                            < PreviousSaves 
+                                @ saveHistory {saveHistory}
+                    < ModalDialog 
+                        @ visible {currentModal === 'shortcuts'}
+                        @ onDismiss {this._handleHideModal}
+                        < KeyboardShortcuts 
+                    $if wzCtx.Build.useExpo 
+                        < ImportRepoModal 
+                            @ visible {currentModal === 'import-repo'}
+                            @ onHide {this._handleHideModal}
+                            @ preventRedirectWarning {this._preventRedirectWarning}
+                        < ImportProductionModal 
+                            @ visible {currentModal === 'import-production'}
+                            @ onHide {this._handleHideModal}
+                            @ onSubmitMetadata {this.props.onSubmitMetadata}
+                            @ onChangeSDKVersion {this.props.onChangeSDKVersion}
+                            @ updateFiles {this.props.updateFiles}
+                            @ updateDependencies {this.props.updateDependencies}
+                    < Banner 
+                        @ type "success"
+                        @ visible {currentBanner === 'connected'}
+                        + Device connected!
+                    < Banner 
+                        @ type "error"
+                        @ visible {currentBanner === 'disconnected'}
+                        + Device disconnected!
+                    < Banner 
+                        @ type "info"
+                        @ visible {currentBanner === 'autosave-disabled'}
+                        + Automatic saving has been disabled in this Packi because you have it open in&lf;                  another tab.
+                    < Banner 
+                        @ type "info"
+                        @ visible {currentBanner === 'sdk-upgraded'}
+                        + This Packi was written in an older Wizzi version that is not longer supported. We&lf;                  have upgraded the Wizzi version to
+                        + {sdkVersion}
+                        + .
+                        br 
+                        + You might need to do some manual changes to make the Packi work correctly.
+                    < Banner 
+                        @ type "info"
+                        @ visible {currentBanner === 'slow-connection'}
+                        + Slow network detected. Trying to load a basic version of the editor. Some features&lf;                  such as linting and autocomplete may not work.
+                    < Banner 
+                        @ type "info"
+                        @ visible {currentBanner === 'export-unavailable'}
+                        + You need to save the Packi first to export the code!
+    export
+        const EditorView  
+            _ withPreferences
+                $if wzCtx.Build.useExpo 
+                    _ withDependencyManager(EditorViewComp)
+                $else
+                    @ EditorViewComp
+    export-default EditorView
+    const styles
+        _ StyleSheet.create
+            { 
+                { editorAreaOuter
+                    @ display 'flex'
+                    @ flex 1
+                    @ flexDirection 'column'
+                    @ minWidth 0
+                    @ minHeight 0
+                { editorAreaOuterWrapper
+                    @ display 'flex'
+                    @ flex 1
+                    @ flexDirection 'row'
+                    @ minHeight 0
+                    @ minWidth 0
+                { embedModal
+                    @ minWidth 0
+                    @ minHeight 0
+                    @ maxWidth 'calc(100% - 48px)'
+                    @ maxHeight 'calc(100% - 48px)'
+                { preview
+                    @ backgroundColor c('content')
+                    @ borderLeft
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c('border')
+                            + 
+                { previewToggle
+                    @ appearance 'none'
+                    @ position 'absolute'
+                    @ right 0
+                    @ bottom 0
+                    @ margin 32
+                    @ padding 12
+                    @ height 48
+                    @ width 48
+                    @ border 0
+                    @ borderRadius '50%'
+                    @ backgroundColor c('secondary')
+                    @ color c('secondary-text')
+                    @ outline 0
+                    @ transitionDuration '170ms'
+                    @ transitionProperty 'box-shadow'
+                    @ transitionTimingFunction 'linear'
+                    { ':focus-visible'
+                        @ outline 'auto'
+                    { ':hover'
+                        @ boxShadow s('small')
+                { previewToggleIcon
+                    @ fill 'currentColor'
+                    @ verticalAlign -1
+                { editorComponentOuter
+                    @ border '0.3em solid rgb(122, 102, 82)'
+                    @ borderRadius '0.5em'
+                    @ height '100%'
+                    @ width '100%'                   
+                { editorComponent
+                    @ height '100%'
+                    @ width '100%'

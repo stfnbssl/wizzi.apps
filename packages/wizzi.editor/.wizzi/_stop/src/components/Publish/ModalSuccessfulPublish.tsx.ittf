@@ -1,0 +1,106 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ Viewer
+        from '../../features/account/index'
+    $if wzCtx.Build.useExpo
+        import Analytics from '../../utils/Analytics'
+    import 
+        @ Avatar 
+        from '../widgets/Avatar'
+    import 
+        @ ModalDialog 
+        from '../widgets/ModalDialog'
+    :type Props
+        :{ 
+            :p visible
+                :boolean 
+            :p viewer
+                :union 
+                    :ref Viewer
+                    :undefined 
+            :p onDismiss
+                :=> 
+                    :void 
+    class ModalSuccessfulPublish
+        super React.PureComponent
+            :param 
+                :ref Props
+        m componentDidUpdate
+            param prevProps
+                :ref Props
+            $if wzCtx.Build.useExpo
+                if !prevProps.visible && this.props.visible
+                    _ Analytics.getInstance().logEvent('CREATED_USER_PACKI')
+        => _dismissModal
+            if this.props.onDismiss
+                _ this.props.onDismiss()
+            $if wzCtx.Build.useExpo
+                _ Analytics.getInstance().logEvent('VIEWED_OWNED_USER_PACKIES')
+        m render
+            const picture = this.props.viewer?.picture
+            return 
+                < ModalDialog 
+                    @ visible {this.props.visible}
+                    @ onDismiss {this.props.onDismiss}
+                    { 
+                        iif picture
+                            then
+                                div 
+                                    @ className {css(styles.avatar)}
+                                    < Avatar 
+                                        @ source {picture}
+                                        @ size {80}
+                            else null
+                    h2 
+                        @ className {css(styles.heading)}
+                        + Your Packi was saved
+                    p 
+                        @ className {css(styles.text)}
+                        + You can now find your Packi on your profile and link others to it. Share it with your&lf;          friends!
+                    { 
+                        iif this.props.viewer
+                            then
+                                p 
+                                    @ className {css(styles.caption)}
+                                    a 
+                                        @ href
+                                            `lit 
+                                                + 
+                                                @ process.env.SERVER_URL
+                                                + /@
+                                                @ this.props.viewer.username
+                                                + /packis
+                                        @ onClick {this._dismissModal}
+                                        @ target "blank"
+                                        + View your Packies
+                            else null
+    export-default ModalSuccessfulPublish
+    const styles
+        _ StyleSheet.create
+            { 
+                { avatar
+                    @ marginTop 16
+                    @ marginBottom 24
+                    @ textAlign 'center'
+                { heading
+                    @ fontSize '24px'
+                    @ fontWeight 500
+                    @ lineHeight '24px'
+                    @ textAlign 'center'
+                { text
+                    @ marginBottom 24
+                    @ fontSize '16px'
+                    @ padding '0 24px 0 24px'
+                    @ lineHeight '22px'
+                    @ textAlign 'center'
+                { caption
+                    @ fontSize '16px'
+                    @ lineHeight '22px'
+                    @ textAlign 'center'

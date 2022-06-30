@@ -1,0 +1,101 @@
+module
+    import
+        @ ModelBuilderType
+        @ ControllerType
+        from '../app/types'
+    import
+        as productionTypes
+        from './types'
+    import
+        @ ArtifactProductionModelBuilder
+        @ GetArtifactProductionModel
+        from './mongo/artifact'
+    import
+        @ PackageProductionModelBuilder
+        @ GetPackageProductionModel
+        from './mongo/package'
+    import
+        @ MetaProductionModelBuilder
+        @ GetMetaProductionModel
+        from './mongo/meta'
+    import
+        @ TFolderModelBuilder
+        @ GetTFolderModel
+        from './mongo/tfolder'
+    import
+        @ ArtifactProductionController
+        from './controllers/artifact'
+    import
+        @ ApiV1ArtifactProductionController
+        from './controllers/apiv1artifact'
+    import
+        @ PackageProductionController
+        from './controllers/package'
+    import
+        @ ApiV1PackageProductionController
+        from './controllers/apiv1package'
+    import
+        @ MetaProductionController
+        from './controllers/meta'
+    import
+        @ ApiV1MetaProductionController
+        from './controllers/apiv1meta'
+    import
+        @ TFolderController
+        from './controllers/tfolder'
+    import
+        @ ApiV1TFolderController
+        from './controllers/apiv1tfolder'
+    import
+        as artifactApi
+        from './api/artifact'
+    import
+        as packageApi
+        from './api/package'
+    import
+        as metaApi
+        from './api/meta'
+    import
+        as tFolderApi
+        from './api/tfolder'
+    +
+    const productionModelGetters
+        {
+            @ GetArtifactProductionModel
+            @ GetPackageProductionModel
+            @ GetMetaProductionModel
+            @ GetTFolderModel
+    +
+    const productionModelBuilders
+        :[
+            :ref ModelBuilderType
+        =
+            [
+                @ ArtifactProductionModelBuilder
+                @ PackageProductionModelBuilder
+                @ MetaProductionModelBuilder
+                @ TFolderModelBuilder
+    +
+    const productionControllers
+        :[
+            :ref ControllerType
+        =
+            [
+                @ new ArtifactProductionController()
+                @ new ApiV1ArtifactProductionController()
+                @ new PackageProductionController()
+                @ new ApiV1PackageProductionController()
+                @ new MetaProductionController()
+                @ new ApiV1MetaProductionController()
+                @ new TFolderController()
+                @ new ApiV1TFolderController()
+
+    export
+        @ productionTypes
+        @ productionModelGetters
+        @ productionModelBuilders
+        @ productionControllers
+        @ artifactApi
+        @ packageApi
+        @ metaApi
+        @ tFolderApi

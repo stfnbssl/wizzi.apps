@@ -1,0 +1,27 @@
+module
+
+    :import-type 
+        @ RouterData
+        @ QueryParams
+        from './features/packi'
+
+    $*
+    :declare 
+        const __INITIAL_DATA__
+            :{ 
+                :p data
+                    :ref RouterData
+                :p queryParams
+                    :ref QueryParams
+    *$
+
+    export
+        const __INITIAL_DATA__
+            { 
+                starter/initial_RouterData( data )  $$ :ref RouterData
+                starter/initial_QueryParams( queryParams ) $$ :ref QueryParams
+
+    export
+        const __TEST_LOGGED_USER__
+            {
+                starter/initial_loggedUser( loggedUser )

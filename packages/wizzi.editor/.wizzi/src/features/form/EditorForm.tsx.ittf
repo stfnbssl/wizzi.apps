@@ -1,0 +1,402 @@
+module
+    import 
+        as React
+        from 'react'
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        @ withStyles
+        @ createStyles
+        @ Theme
+        from '@material-ui/core/styles'
+    import TextField from '@material-ui/core/TextField'
+    import MenuItem from '@material-ui/core/MenuItem'
+    import Typography from '@material-ui/core/Typography'
+    import Fab from '@material-ui/core/Fab'
+    import classnames from 'classnames'
+    import Form from './Form'
+    import withStatus from './withStatus'
+    import withValidation from './withValidation'
+    import 
+        @ ThemeName
+        @ withThemeName
+        from '../preferences'
+    import LargeInput from '../../components/widgets/LargeInput'
+    import 
+        @ c
+        from '../../components/ThemeProvider'
+    import
+        @ FormField
+        from './types'
+    
+    +
+    function validationOk
+        param value
+            :string 
+        :return
+            :union 
+                :ref Error
+                :null 
+        return null
+    +
+    export
+        :type EditFormProps
+            :{ 
+                :p visible
+                    :boolean 
+                :p title
+                    :string 
+                :p action
+                    :string 
+                :p fields
+                    :{ 
+                        :index 
+                            :ref FormField
+                            param key
+                                :string 
+                :p className
+                    :optional 
+                    :string 
+                :p onSubmit
+                    :=> 
+                        :void 
+                        param details
+                            :{ 
+                                :index 
+                                    :string 
+                                    param key
+                                        :string 
+                :p onDismiss
+                    :=> 
+                        :void 
+    :type Props
+        :intersect 
+            :ref EditFormProps
+            :{ 
+                :p classes
+                    :any 
+                :p theme
+                    :ref ThemeName
+    :type State
+        :{ 
+            :p values
+                :optional 
+                :{ 
+                    :index 
+                        :any 
+                        param key
+                            :string 
+            :p visible
+                :boolean 
+    function stateDefaultValues
+        param fields
+            :{ 
+                :index 
+                    :ref FormField
+                    param key
+                        :string 
+        :return
+            :{ 
+                :index 
+                    :string 
+                    param key
+                        :string 
+        const ret
+            :{ 
+                :index 
+                    :string 
+                    param key
+                        :string 
+            =
+                { 
+        _ Object.keys(fields).map
+            => 
+                param k
+                set ret[k] = fields[k].default
+        return ret
+    function optionsSelected
+        param options
+            :[ 
+                :{ 
+                    :p label
+                        :string 
+                    :p value
+                        :string 
+        param value
+            :string 
+        :return
+            :any 
+        const selected
+            _ options.find
+                => 
+                    param option
+                    set option.value === value
+        return 
+            iif selected
+                then selected.value
+                else undefined
+    const SubmitButton = withStatus(Fab)
+        # @ts-ignore
+    const ValidatedInput = withValidation(TextField)
+        # @ts-ignore
+    class EditorForm
+        super React.Component
+            :param 
+                :ref Props
+            :param 
+                :ref State
+        m getDerivedStateFromProps
+            static
+            param props
+                :ref Props
+            param state
+                :ref State
+            if state.visible !== props.visible
+                if props.visible
+                    return 
+                        { 
+                            @ visible props.visible
+                            @ values stateDefaultValues(props.fields)
+                else
+                    return 
+                        { 
+                            @ visible props.visible
+            return null
+        p state
+            { 
+                @ visible this.props.visible
+                @ values stateDefaultValues(this.props.fields)
+        p _handleSubmit
+            => 
+                _ this.props.onSubmit(this.state.values)
+        m render
+            const 
+                { 
+                    @ classes
+                    @ visible
+                    @ title
+                    @ action
+                    @ fields
+                    @ theme
+                    @ className
+                    @ onDismiss
+                = this.props
+                # console.log('EditForm.state.values', this.state.values);
+            return 
+                iif visible
+                    then
+                        div 
+                            @ className {classes.container}
+                            div 
+                                @ className
+                                    _ classnames
+                                        _ css
+                                            @expr styles.modal
+                                            iif theme === 'dark'
+                                                then styles.contentDark
+                                                else styles.contentLight
+                                        @ className
+                                div 
+                                    @ className {classes.title}
+                                    < Typography 
+                                        @ variant "h6"
+                                        + {title}
+                                < Form 
+                                    @ onSubmit {this._handleSubmit}
+                                    { 
+                                        _ Object.keys(fields).map
+                                            => 
+                                                param k
+                                                param i
+                                                const field = fields[k]
+                                                const value = this.state.values[k]
+                                                return 
+                                                    iif 
+                                                        test
+                                                            op> 
+                                                                [ 
+                                                                    @ 'text'
+                                                                    @ 'checkbox'
+                                                                    ._ indexOf
+                                                                        @expr field.type
+                                                                + -1
+                                                        then
+                                                            div 
+                                                                @ key {i}
+                                                                @ className {classes.fieldContainer}
+                                                                < ValidatedInput 
+                                                                    @ autoFocus
+                                                                        # @ts-ignore
+                                                                    @ type {field.type}
+                                                                    @ className {classes.textField}
+                                                                    @ margin "normal"
+                                                                    @ label {field.label}
+                                                                    @ value {value}
+                                                                    @ onChange
+                                                                        => 
+                                                                            param e
+                                                                                :ref React.ChangeEvent
+                                                                                    :param 
+                                                                                        :ref HTMLInputElement
+                                                                            _ this.setState
+                                                                                { 
+                                                                                    { values
+                                                                                        @ ...this.state.values
+                                                                                        @ [k] e.target.value
+                                                                    @ placeholder {field.label}
+                                                                    @ validate {field.onValidate || validationOk}
+                                                        else
+                                                            iif field.type === 'select'
+                                                                then
+                                                                    div 
+                                                                        @ key {i}
+                                                                        @ className {classes.fieldContainer}
+                                                                        < ValidatedInput 
+                                                                            @ select
+                                                                                # @ts-ignore
+                                                                            @ className {classes.textField}
+                                                                            @ label {field.label}
+                                                                            @ SelectProps
+                                                                                { 
+                                                                                    { MenuProps
+                                                                                        @ className classes.menu
+                                                                            @ helperText {field.helperText}
+                                                                            @ margin "normal"
+                                                                            @ value {value}
+                                                                            @ onChange
+                                                                                => 
+                                                                                    param e
+                                                                                        :ref React.ChangeEvent
+                                                                                            :param 
+                                                                                                :ref HTMLInputElement
+                                                                                    _ this.setState
+                                                                                        { 
+                                                                                            { values
+                                                                                                @ ...this.state.values
+                                                                                                @ [k] e.target.value
+                                                                                        # console.log('onChange', k, e.target.value);
+                                                                            @ placeholder {field.label}
+                                                                            @ validate {field.onValidate || validationOk}
+                                                                            { 
+                                                                                _ field.options && field.options.map
+                                                                                    => 
+                                                                                        param option
+                                                                                        < MenuItem 
+                                                                                            @ key {option.value}
+                                                                                            @ value {option.value}
+                                                                                            + {option.label}
+                                                                else null
+                                    div 
+                                        @ className {css(styles.buttons)}
+                                        div 
+                                            @ className {classes.button}
+                                            < SubmitButton 
+                                                @ type "submit"
+                                                    # @ts-ignore
+                                                @ color "primary"
+                                                @ variant "extended"
+                                                + {action}
+                                        div 
+                                            @ className {classes.button}
+                                            < Fab 
+                                                @ type "button"
+                                                    # @ts-ignore
+                                                @ color "secondary"
+                                                @ variant "extended"
+                                                @ onClick {onDismiss}
+                                                + Cancel
+                    else null
+                # console.log('EditForm.state.values', this.state.values);
+    const styles
+        _ StyleSheet.create
+            { 
+                { title
+                    @ height 72
+                    @ fontSize 24
+                    @ width '100%'
+                    @ lineHeight '24px'
+                    @ display 'flex'
+                    @ flexShrink 0
+                    @ alignItems 'center'
+                    @ justifyContent 'center'
+                    @ boxShadow '0 1px 0 rgba(36, 44, 58, 0.1)'
+                { subtitle
+                    @ fontSize 16
+                    @ fontWeight 500
+                    @ padding 0
+                    @ lineHeight '22px'
+                    @ margin '16px 0 6px 0'
+                { buttons
+                    @ margin '20px 0 0 0'
+                    @ display 'flex'
+                    @ justifyContent 'space-around'
+                { caption
+                    @ marginTop 24
+                    @ fontSize '16px'
+                    @ lineHeight '22px'
+                    @ textAlign 'center'
+                { link
+                    @ cursor 'pointer'
+                    @ color c('primary')
+                    @ textDecoration 'underline'
+                { modal
+                    @ display 'flex'
+                    @ flexDirection 'column'
+                    @ position 'relative'
+                    @ textAlign 'start'
+                    @ borderRadius 4
+                    @ boxShadow '0 1px 4px rgba(36, 44, 58, 0.3)'
+                { close
+                    @ appearance 'none'
+                    @ borderRadius '1em'
+                    @ outline 0
+                    @ padding 0
+                    @ position 'absolute'
+                    @ right '-1em'
+                    @ top '-1em'
+                    @ width '2em'
+                    @ height '2em'
+                    @ background c('background')
+                    @ border
+                        `lit 
+                            + 2px solid&nbsp;
+                            @ c('border')
+                            + 
+                    @ boxShadow '0 1.5px 3px rgba(0, 0, 0, .16)'
+                    @ color 'white'
+                    @ fontSize '1em'
+                    @ fontWeight 'bold'
+                    @ textAlign 'center'
+                { contentLight
+                    @ backgroundColor c('content')
+                    @ color c('text')
+                { contentDark
+                    @ backgroundColor c('content')
+                    @ color c('text')
+                    @ border
+                        `lit 
+                            + 1px solid&nbsp;
+                            @ c('border')
+    const muiStyles
+        => 
+            param theme
+                :ref Theme
+            _ createStyles
+                { 
+                    { container
+                        @ padding '20px'
+                    { title
+                        @ padding '10px'
+                        @ boxShadow '0 1px 0 rgba(36, 44, 58, 0.1)'
+                    { fieldContainer
+                        @ padding '10px'
+                    { button
+                        @ padding '5px'
+                    { textField
+                        @ marginLeft theme.spacing(1)
+                        @ marginRight theme.spacing(1)
+                        @ width '100%'
+    +
+    export-default withStyles(muiStyles)(withThemeName(EditorForm))

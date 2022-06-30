@@ -1,0 +1,39 @@
+$group
+    $params &md
+    import
+        @ Application
+        @ Request
+        @ Response
+        @ RequestHandler
+        from 'express'
+    import
+        @ MiddlewareType
+        from '../features/app/types'
+    #
+        #
+        # The purpose of this middleware is to have the `user`
+        # object available for all views.
+        #
+        #
+    export
+        const UserInViewMiddleware
+            :ref MiddlewareType
+            =
+                =>
+                    param app
+                        :ref Application
+                    $if wzCtx.Build.useAuthentication
+                        _ app.use
+                            =>
+                                param req
+                                    :ref Request
+                                param res
+                                    :ref Response
+                                param next
+                                $if wzCtx.Build.useMongoDb
+                                    log 'UserInViewMiddleware.req.session.user', (req.session as any).user
+                                    set res.locals.user = (req.session as any).user
+                                $else
+                                    log 'UserInViewMiddleware.req.user', req.user
+                                    set res.locals.user = req.user
+                                _ next()

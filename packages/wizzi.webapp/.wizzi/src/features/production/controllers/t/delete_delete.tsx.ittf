@@ -1,0 +1,15 @@
+$group
+    $params prod
+
+    $
+        var suffix = prod == 'tFolder' ? '' : 'Production';
+    
+    log myname + '.delete${_.capitalize(prod)}', request.path 
+    # loog myname + '.delete${_.capitalize(prod)}.request.body', JSON.stringify(request.body, null, 2)
+    # loog myname + '.delete${_.capitalize(prod)}.request.session.user', JSON.stringify((request.session as any).user, null, 2)    
+
+    _ sendSuccess
+        @ response
+        {
+            @ body request.body
+            @ user (request.session as any).user

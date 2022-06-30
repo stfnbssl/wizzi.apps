@@ -1,0 +1,12 @@
+$group
+    +
+    export 
+        const getContrastRatio
+            => 
+                param colorA
+                    :string
+                param colorB
+                    :string
+                const luminA = getLuminance(colorA)
+                const luminB = getLuminance(colorB)
+                return (Math.max(luminA, luminB) + 0.05) / (Math.min(luminA, luminB) + 0.05)

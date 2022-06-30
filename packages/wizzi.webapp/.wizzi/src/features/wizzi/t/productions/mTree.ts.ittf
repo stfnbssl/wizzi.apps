@@ -1,0 +1,50 @@
+$group
+    +
+    export
+        async-function mTree
+            param filePath
+                :string
+            param files
+                :ref packiTypes.PackiFiles
+            param context
+                :any
+            :return
+                :ref Promise
+                    :param
+                        :any
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        if !verify.isObject(files)
+                            return
+                                _ reject
+                                    {
+                                        @ message 'files parameter must be an object of type PackiFiles'
+                                        @ files
+                        const ittfDocumentUri
+                            _ ensurePackiFilePrefix(filePath)
+                                :as
+                                    :string
+                        let jsonwf
+                            :any
+                            =
+                                {
+                        set jsonwf =
+                            await
+                                _ createFsJsonAndFactory(files)
+                        _ jsonwf.wf.loadMTree
+                            @ ittfDocumentUri
+                            @ context
+                            =>
+                                param err
+                                    :any
+                                param mTree
+                                    :any
+                                if err
+                                    return reject(err)
+                                _ resolve
+                                    {
+                                        @ mTreeIttf
+                                            _ mTree.toIttf

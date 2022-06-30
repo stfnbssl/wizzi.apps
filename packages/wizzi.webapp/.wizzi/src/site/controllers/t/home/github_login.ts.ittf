@@ -1,0 +1,83 @@
+$group
+
+    handler( loginGithub )
+        _ response.redirect(`https://github.com/login/oauth/authorize?client_id=${config.githubClientId}`);
+
+    handler( githubCallback )
+        const body
+            {
+                @ client_id config.githubClientId
+                @ client_secret config.githubClientSecret
+                @ code request.query.code
+        const options = { headers: { accept: 'application/json' } }
+        _ axios.post(`https://github.com/login/oauth/access_token`, body, options)
+            ._ then
+                =>
+                    param result
+                        :any
+                    log myname, 'site.controllers.home.githubCallback', 'result', JSON.stringify(result.data,null,2)
+                    return result.data['access_token']
+            ._ then
+                =>
+                    param _token
+                        :string
+                    log myname, 'site.controllers.home.githubCallback', '_token', _token
+                    set (request.session as any).github_access_token = _token
+                    _ response.redirect('/profile/github')
+            ._ catch
+                =>
+                    param err
+                        :any
+                    log myname, 'githubCallback', 'error', err
+                    _ response.status(500).json({ message: err.message })
+    
+    handler( profileGithub )
+        # loog myname, 'profileGithub'
+        _ axios
+            {
+                @ method 'get'
+                @ url `https://api.github.com/user`
+                { headers
+                    @ Authorization 'token ' + (request.session as any).github_access_token
+            ._ then
+                =>
+                    param githubResult
+                        :any
+                    log myname, 'profileGithub', 'githubResult.data', githubResult.data
+                    if githubResult.data.email == null
+                        _ response.render
+                            @ 'account/error-github-email-private.html.ittf'
+                            {
+                                @ profile githubResult.data
+                                @ message 'trying to create your wizzi account'
+                    else
+                        _ userApi.getUserByEmail
+                            @ githubResult.data.email
+                            ._ then
+                                =>
+                                    param wizziresult
+                                        :any
+                                    log myname, 'profileGithub', 'getUserByEmail', 'wizziresult', wizziresult
+                                    if wizziresult.found
+                                        set (request.session as any).user = wizziresult.user
+                                        _ response.redirect('/profile')
+                                        # _ response.send('<pre><code>' +  JSON.stringify({ userData: user /*result.data*/ }, null, 2) + '</code></pre>')
+                                    else
+                                        const queryParams
+                                            _ queryString.stringify
+                                                {
+                                                    @ name githubResult.data.name
+                                                    @ email githubResult.data.email
+                                                    @ avatar_url githubResult.data.avatar_url
+                                                    @ openid_provider 'github'
+                                        _ response.redirect(`/user/new?${queryParams}`)
+                            ._ catch
+                                =>
+                                    param err
+                                        :any
+                                    # loog myname, 'profileGithub', 'getUserByEmail', 'error', err
+                                    _ response.render
+                                        @ 'error.html.ittf'
+                                        {
+                                            @ error err
+                                            @ message 'getting user data by email'

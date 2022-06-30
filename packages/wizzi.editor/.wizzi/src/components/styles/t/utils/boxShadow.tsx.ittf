@@ -1,0 +1,23 @@
+$group
+    import 
+        @ boxShadows
+            as defaultBoxShadowTheme
+        from '../SCTheme'
+    +
+    export
+        function boxShadow
+            param props
+                :any
+            const boxShadowTheme = props.theme.boxShadows || defaultBoxShadowTheme
+            const boxShadows
+                { 
+                    { sm
+                        @ 'box-shadow' boxShadowTheme[0]
+                    { md
+                        @ 'box-shadow' boxShadowTheme[1]
+                    { lg
+                        @ 'box-shadow' boxShadowTheme[2]
+                    { xl
+                        @ 'box-shadow' boxShadowTheme[3]
+            return boxShadows[props.boxShadowSize]
+                # @ts-ignore

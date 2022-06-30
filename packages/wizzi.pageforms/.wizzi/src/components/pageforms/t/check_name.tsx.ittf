@@ -1,0 +1,33 @@
+$group
+    $params prod, name
+
+    m _checkAvalible${_.capitalize(prod)}Name
+        async
+        const ${name}_checked = this.state.${name}
+        const endpoint
+            `lit
+                _ nullthrows(process.env.API_SERVER_URL)
+                + /production/${prod}/checkname/
+                @ ${name}_checked
+        log 'Create${_.capitalize(prod)}._checkAvalible${_.capitalize(prod)}Name.endpoint', endpoint
+        const response
+            await 
+                _ fetch(endpoint)
+        if !response.ok
+            throw 
+                new Error
+                    `lit 
+                        + checkAvalible_${prod}_Name error
+                        + &nbsp;-&nbsp;
+                        @ response.status
+                        + &nbsp;-&nbsp;
+                        @ response.statusText
+        const result
+            await 
+                _ response.json()
+        log 'Create${_.capitalize(prod)}._checkAvalible${_.capitalize(prod)}Name.result', result
+        _ this.setState
+            {
+                @ ${name}_available result.isValid
+                @ ${name}_checked ${name}_checked
+    

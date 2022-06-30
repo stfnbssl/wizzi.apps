@@ -1,0 +1,104 @@
+module
+    
+    $
+        var ctrl = {
+            name: 'Home',
+            path: ''
+        } 
+
+    controller( &ctrl )
+        
+        $append imports
+            import
+                as queryString 
+                from 'query-string'
+            import axios from 'axios'
+            import
+                @ userApi
+                from '../../features/account'
+            import
+                @ artifactApi
+                @ packageApi
+                @ tFolderApi
+                from '../../features/production'
+            import
+                @ config
+                from '../../features/config'
+            const myname = 'site.controllers.home'
+        
+        _ this.router.get('/', this.home)
+        _ this.router.get('/login', this.login)
+        _ this.router.get('/login/github', this.loginGithub)
+        _ this.router.get('/api/v${wzCtx.App.apiVersion}/authenticate/github/callback', this.githubCallback)
+        _ this.router.get('/profile/github', this.profileGithub)
+        _ this.router.get('/login/google', this.loginGoogle)
+        _ this.router.get('/api/v${wzCtx.App.apiVersion}/authenticate/google/callback', this.googleCallback)
+        _ this.router.get('/profile/google', this.profileGoogle)
+        _ this.router.get('/profile', this.profile)
+        _ this.router.get('/logout', this.logout)
+        _ this.router.get('/privacy', this.sendPrivacy)
+        _ this.router.get('/terms-of-services', this.sendTermsOfServices)
+        
+        $append handlers
+            handler( home )
+                _ response.render
+                    @ 'home/index.html.ittf'
+                    {
+                        @ title 'Wizzi: one machinery many production · Wizzi'
+
+            handler( login )
+                _ response.render
+                    @ 'home/login.html.ittf'
+                    {
+                        @ title 'Sign in to Wizzi · Wizzi'
+            
+            $include home/github_login
+            $include home/google_login
+            
+            handler( profile )
+                const options
+                    {
+                        @ limit 10
+                        { sort
+                            @ updated_at -1
+                const artifactList = artifactApi.getListArtifactProduction(options)
+                const packageList = packageApi.getListPackageProduction(options)
+                const tfolderList = tFolderApi.getListTFolder(options)
+                _ Promise.all
+                    [
+                        @ artifactList
+                        @ packageList
+                        @ tfolderList
+                    ._ then
+                        =>
+                            param values
+                                :any
+                            const [artifacts, packages, tfolders] = values
+                            # loog 'artifacts', artifacts
+                            # loog 'packages', packages
+                            # loog 'tfolders', tfolders
+                            _ response.render
+                                @ 'home/profile.html.ittf'
+                                {
+                                    @ title (request.session as any).user ? (request.session as any).user.name + ' profile · Wizzi' : 'User unknown'
+                                    @ artifacts artifacts.item
+                                    @ packages packages.item
+                                    @ tfolders tfolders.item
+
+            handler( logout )
+                set (request.session as any).user = null
+                set (request.session as any).github_access_token = null
+                set (request.session as any).google_access_token = null
+                _ response.redirect('/')
+
+            handler( sendPrivacy )
+                _ response.render
+                    @ 'home/privacy_statement.html.ittf'
+                    {
+                        @ title 'Privacy statement · Wizzi'
+
+            handler( sendTermsOfServices )
+                _ response.render
+                    @ 'home/terms_of_services.html.ittf'
+                    {
+                        @ title 'Terms of services · Wizzi'

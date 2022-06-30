@@ -1,0 +1,132 @@
+module
+    
+    $
+        var useRouter = false;
+    
+    import cookies from 'js-cookie'
+    import 
+        as React
+        from 'react'
+    import ReactDOM from 'react-dom'
+    import 
+        @ HelmetProvider
+        from 'react-helmet-async'
+    import 
+        @ Provider
+        from 'react-redux'
+    
+    $if useRouter
+        import 
+            @ BrowserRouter
+            from 'react-router-dom'
+        import Router from './components/Router'
+    $else
+        import App from './components/App'
+        import NonExistent from './components/NonExistent'
+    
+    import 
+        @ PreferencesProvider 
+        from './features/preferences'
+    
+    $if wzCtx.Build.useExpo
+        import ServiceWorkerManager from './components/ServiceWorkerManager'
+    
+    import ThemeProvider from './components/ThemeProvider'
+    import createStore from './store/createStore'
+
+    :import-type 
+        @ RouterData
+        @ QueryParams
+        from './features/packi'
+
+    :declare 
+        const __INITIAL_DATA__
+            :{ 
+                :p data
+                    :any
+                    $$ :ref RouterData
+                :p loggedUser
+                    :any
+                    $$ :ref LoggedUser
+                :p queryParams
+                    :any
+                    $$ :ref QueryParams
+    
+    $*
+    import
+        @ __INITIAL_DATA__
+        from './initialData'
+    *$
+    
+    +
+    const store
+        _ createStore
+            { 
+                { packi
+                    @ loading false
+                { wizzi
+                    @ loading false
+                    @ jobError undefined
+                    @ generatedArtifact undefined
+                    @ mTreeBuildUpScript undefined
+                    @ mTreeIttf undefined
+                    { jobGeneratedArtifacts
+                    { timedServices
+    +
+    $if !useRouter
+        function AppContainer
+            param props
+                :any 
+            const 
+                { 
+                    @ data
+                    ... rest
+                = props
+            if data && data.type === 'success'
+                const appProps
+                    { 
+                        @ ...props
+                        @ ...rest
+                        @ packi data.packi
+                        @ defaults data.defaults
+                log 'index.data.loggedUser', data.loggedUser
+                return 
+                    < App 
+                        @ {...appProps}
+            else
+                return 
+                    < NonExistent 
+
+    function PackiApp
+        return 
+            $$ < React.StrictMode 
+            < React.Fragment
+                $if wzCtx.Build.useExpo
+                    < ServiceWorkerManager 
+                < HelmetProvider 
+                    < Provider 
+                        @ store {store}
+                        < PreferencesProvider 
+                            @ cookies {cookies}
+                            < ThemeProvider 
+                                $if useRouter
+                                    < BrowserRouter 
+                                        < Router 
+                                            @ data {window.__INITIAL_DATA__.data}
+                                            @ loggedUser {window.__INITIAL_DATA__.loggedUser}
+                                            @ queryParams {window.__INITIAL_DATA__.queryParams}
+                                            @ userAgent {navigator.userAgent}
+                                $else
+                                    < AppContainer
+                                        @ data {window.__INITIAL_DATA__.data}
+                                        @ loggedUser {window.__INITIAL_DATA__.loggedUser}
+                                        @ queryParams {window.__INITIAL_DATA__.queryParams}
+
+    $*
+    _ ReactDOM.hydrate
+        < PackiApp 
+        _ document.getElementById('root')
+    *$
+    _ ReactDOM.render
+        < PackiApp 
+        _ document.getElementById('root')

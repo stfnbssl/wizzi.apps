@@ -1,0 +1,114 @@
+module
+    $
+        var ctrl = {
+            name: 'MetaProduction',
+            path: '/meta',
+        }
+    
+    controller( &ctrl )
+            
+        $append imports
+            import ReactDOMServer 
+                from 'react-dom/server'
+            import PageFormDocument 
+                from '../../../pages/PageFormDocument' 
+            import
+                @ CRUDResult
+                from '../../types'
+            import
+                @ createMetaProduction
+                @ updateMetaProduction
+                @ deleteMetaProduction
+                @ getMetaProductionObject
+                from '../api/meta'
+            +
+            const myname = 'features/production/controllers/meta'
+            +
+            function renderPageForm
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param data
+                    :object
+                param queryParams
+                    :object
+
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < PageFormDocument 
+                                @ data {data}
+                                @ queryParams {queryParams}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+
+            $include defaults/meta_packifiles
+
+        _ this.router.get('/new', this.getNewMetaForm)
+        _ this.router.post('/new', this.postMeta)
+        _ this.router.get('/update/:userid/*', this.getUpdateMetaForm)
+        _ this.router.post('/update', this.putMeta)
+        _ this.router.get('/delete/:userid/*', this.getDeleteMetaForm)
+        _ this.router.post('/delete', this.deleteMeta)
+        
+        $append handlers
+            
+            handler( getNewMetaForm )
+                # loog myname, 'getNewMetaForm', JSON.stringify(request.query, null, 2)
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'CreateMetaProduction'
+                        { formData 
+                            @ owner request.query.owner
+                            @ name request.query.name
+                    {
+
+            handler( postMeta )
+                # loog myname + '.postNewMeta.request.body', JSON.stringify(request.body, null, 2)
+                # loog myname + '.postNewMeta.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+                _ createMetaProduction
+                    @ (request.session as any).user.username
+                    @ request.body.mp_name
+                    @ request.body.mp_description
+                    _ JSON.stringify
+                        _ getPackiFiles
+                    ._ then
+                        =>
+                            param result
+                                :ref CRUDResult
+                            # loog myname + '.postNewMeta.createMetaProduction.result', JSON.stringify(result, null, 2)
+                            if result.ok
+                                _ response.redirect('/productions/metas')
+                            else
+                                _ response.render
+                                    @ 'error.html.ittf'
+                                    {
+                                        @ message 'creating a new meta production'
+                                        @ error result
+                    ._ catch
+                        =>
+                            param err
+                                :any
+                            _ response.render
+                                @ 'error.html.ittf'
+                                {
+                                    @ message 'creating a new meta production'
+                                    @ error err
+
+            handler( getUpdateMetaForm )
+                update_get_form( meta )
+
+            handler( putMeta )
+                update_put( meta )
+            
+            handler( getDeleteMetaForm )
+                delete_get_form( meta )
+
+            handler( deleteMeta )
+                delete_delete( meta )

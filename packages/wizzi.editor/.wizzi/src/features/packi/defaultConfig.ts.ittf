@@ -1,0 +1,46 @@
+module
+    import
+        @ SDKVersion
+        from './sdks/types'
+    import
+        @ PackiState
+        from './types'
+    +
+    export
+        const apiURL
+            :string
+            = 'https://exp.host'
+    +
+    export
+        const host
+            :string
+            = 'expo.io'
+    +
+    export
+        const sdkVersion
+            :ref SDKVersion
+            = '1.0.0'
+    +
+    export
+        const PackiIdentityState
+            :ref PackiState
+            =
+                {
+                    @ sdkVersion
+                    @ owner ''
+                    @ name ''
+                    @ description ''
+                    { dependencies
+                    { missingDependencies
+                    { files
+                    @ disabled false
+                    @ unsaved false
+                    @ url ''
+    +
+    const defaultConfig
+        {
+            @ apiURL
+            @ host
+            @ sdkVersion
+    +
+    export-default defaultConfig

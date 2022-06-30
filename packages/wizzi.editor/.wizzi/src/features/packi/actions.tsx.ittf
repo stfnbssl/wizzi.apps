@@ -1,0 +1,201 @@
+module
+    import
+        @ deprecated 
+        from "typesafe-actions"
+    const 
+        {
+            @ createStandardAction
+        = deprecated
+    import 
+        @ ResponsePayload
+        from '../../store'
+    import 
+        @ PreferencesType
+        from '../preferences'
+    import 
+        @ GitRepositoryMeta
+        @ ClonedGitRepository
+        from '../github'
+    import 
+        @ PackiFiles
+        @ PackiTemplate
+        from './types'
+    const FETCH_PACKI_LIST_REQUEST = '@@packi/FETCH_PACKI_LIST_REQUEST'
+    const FETCH_PACKI_LIST_SUCCESS = '@@packi/FETCH_PACKI_LIST_SUCCESS'
+    const FETCH_PACKI_LIST_ERROR = '@@packi/FETCH_PACKI_LIST_ERROR'
+    const INIT_PACKI_REQUEST = '@@packi/INIT_PACKI_REQUEST'
+    const INIT_PACKI_SUCCESS = '@@packi/INIT_PACKI_SUCCESS'
+    const INIT_PACKI_ERROR = '@@packi/INIT_PACKI_ERROR'
+    const SELECT_PACKI_REQUEST = '@@packi/SELECT_PACKI_REQUEST'
+    const SELECT_PACKI_SUCCESS = '@@packi/SELECT_PACKI_SUCCESS'
+    const SELECT_PACKI_ERROR = '@@packi/SELECT_PACKI_ERROR'
+    const SAVE_PACKI_REQUEST = '@@packi/SAVE_PACKI_REQUEST'
+    const SAVE_PACKI_SUCCESS = '@@packi/SAVE_PACKI_SUCCESS'
+    const SAVE_PACKI_ERROR = '@@packi/SAVE_PACKI_ERROR'
+    const FETCH_PACKI_TEMPLATE_LIST_REQUEST = '@@packi/FETCH_PACKI_TEMPLATE_LIST_REQUEST'
+    const FETCH_PACKI_TEMPLATE_LIST_SUCCESS = '@@packi/FETCH_PACKI_TEMPLATE_LIST_SUCCESS'
+    const FETCH_PACKI_TEMPLATE_LIST_ERROR = '@@packi/FETCH_PACKI_TEMPLATE_LIST_ERROR'
+    const UPLOAD_PACKI_TEMPLATE_REQUEST = '@@packi/UPLOAD_PACKI_TEMPLATE_REQUEST'
+    const UPLOAD_PACKI_TEMPLATE_SUCCESS = '@@packi/UPLOAD_PACKI_TEMPLATE_SUCCESS'
+    const UPLOAD_PACKI_TEMPLATE_ERROR = '@@packi/UPLOAD_PACKI_TEMPLATE_ERROR'
+    const EXECUTE_JOB_SUCCESS = '@@packi/EXECUTE_JOB_SUCCESS'
+    +
+    export 
+        :interface AuthRequestPayload
+            :p uid
+                :string 
+    +
+    export 
+        :interface InitPackiRequestPayload
+            :p preferences
+                :ref PreferencesType
+    +
+    export 
+        :interface PackiListPayload
+            :extends ResponsePayload
+            :p packiNames
+                :[ 
+                    :string 
+    +
+    export 
+        :interface PackiIdPayload
+            :p id
+                :string 
+    +
+    export 
+        :interface SelectedPackiPayload
+            :extends ResponsePayload
+            :p id
+                :string 
+            :p files
+                :ref PackiFiles
+    +
+    export 
+        :interface PackiTemplatePayload
+            :extends ResponsePayload
+            :p packi
+                :ref PackiTemplate
+    +
+    export 
+        :interface SavePackiPayload
+            :extends ResponsePayload
+            :p id
+                :string 
+            :p filesToSave
+                :ref PackiFiles
+            :p packiEntryFiles
+                :ref PackiFiles
+    +
+    export 
+        :interface JobResponsePayload
+            :extends ResponsePayload
+            :p generatedArtifacts
+                :ref PackiFiles
+            :p previousArtifacts
+                :ref PackiFiles
+    +
+    export 
+        :interface UploadPackiTemplatePayload
+            :extends AuthRequestPayload
+            :p templateId
+                :string 
+            :p files
+                :ref PackiFiles
+    +
+    export 
+        :interface UploadPackiTemplateResponsePayload
+            :extends ResponsePayload
+            :p writtenFiles
+                :optional 
+                :number 
+            :p deletedFiles
+                :optional 
+                :number 
+    +
+    export 
+        const fetchPackiListRequest
+            _ createStandardAction(FETCH_PACKI_LIST_REQUEST)
+                :param void
+    export 
+        const fetchPackiListSuccess
+            _ createStandardAction(FETCH_PACKI_LIST_SUCCESS)
+                :param 
+                    :ref PackiListPayload
+    export 
+        const fetchPackiListError
+            _ createStandardAction(FETCH_PACKI_LIST_ERROR)
+                :param string
+    export 
+        const initPackiRequest
+            _ createStandardAction(INIT_PACKI_REQUEST)
+                :param 
+                    :ref InitPackiRequestPayload
+    export 
+        const initPackiSuccess
+            _ createStandardAction(INIT_PACKI_SUCCESS)
+                :param 
+                    :ref SelectedPackiPayload
+    export 
+        const initPackiError
+            _ createStandardAction(INIT_PACKI_ERROR)
+                :param string
+    export 
+        const selectPackiRequest
+            _ createStandardAction(SELECT_PACKI_REQUEST)
+                :param 
+                    :ref PackiIdPayload
+    export 
+        const selectPackiSuccess
+            _ createStandardAction(SELECT_PACKI_SUCCESS)
+                :param 
+                    :ref SelectedPackiPayload
+    export 
+        const selectPackiError
+            _ createStandardAction(SELECT_PACKI_ERROR)
+                :param string
+    export 
+        const savePackiRequest
+            _ createStandardAction(SAVE_PACKI_REQUEST)
+                :param 
+                    :ref SavePackiPayload
+    export 
+        const savePackiSuccess
+            _ createStandardAction(SAVE_PACKI_SUCCESS)
+                :param 
+                    :ref SavePackiPayload
+    export 
+        const savePackiError
+            _ createStandardAction(SAVE_PACKI_ERROR)
+                :param string
+    export 
+        const fetchPackiTemplateListRequest
+            _ createStandardAction(FETCH_PACKI_TEMPLATE_LIST_REQUEST)
+                :param void
+    export 
+        const fetchPackiTemplateListSuccess
+            _ createStandardAction(FETCH_PACKI_TEMPLATE_LIST_SUCCESS)
+                :param 
+                    :ref PackiListPayload
+    export 
+        const fetchPackiTemplateListError
+            _ createStandardAction(FETCH_PACKI_TEMPLATE_LIST_ERROR)
+                :param string
+    export 
+        const uploadPackiTemplateRequest
+            _ createStandardAction(UPLOAD_PACKI_TEMPLATE_REQUEST)
+                :param 
+                    :ref UploadPackiTemplatePayload
+    export 
+        const uploadPackiTemplateSuccess
+            _ createStandardAction(UPLOAD_PACKI_TEMPLATE_SUCCESS)
+                :param 
+                    :ref UploadPackiTemplateResponsePayload
+    export 
+        const uploadPackiTemplateError
+            _ createStandardAction(UPLOAD_PACKI_TEMPLATE_ERROR)
+                :param string
+    export 
+        const executeJobSuccess
+            _ createStandardAction(EXECUTE_JOB_SUCCESS)
+                :param 
+                    :ref JobResponsePayload
