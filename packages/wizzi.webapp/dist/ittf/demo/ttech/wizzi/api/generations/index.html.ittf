@@ -1,4 +1,4 @@
-h/root/empty_layout()
+html/layouts/empty()
 
 	$
 		var d = '$';
@@ -125,7 +125,7 @@ h/root/empty_layout()
     							@ 'html'
     							@ '    body'
     							@ '        ul'
-    							@ '            lia( alfa, #alfa'
-    							@ '            lia( beta, #beta'
+    							@ '            html/li_a( alfa, #alfa'
+    							@ '            html/li_a( beta, #beta'
     							._ join
     								@ '\n'

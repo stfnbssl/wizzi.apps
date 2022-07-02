@@ -1,7 +1,7 @@
 html
 
     $
-        var wzCtx = {
+        var opt = {
             title: 'React / Packi item editor',
             Build: {
                 useReact: true,
@@ -18,7 +18,7 @@ html
             }
         }
 
-    h/std/basic(&wzCtx)
+    html/layouts/basic_opt(&opt)
     
         $append head-styles
             @style 
@@ -34,11 +34,11 @@ html
                 module
                     kind react
 
-                    $include g/js/wz/react/Resize
-                    $include g/js/wz/react/Modal
-                    $include g/js/wz/react/FlexibleModal
-                    $include g/js/wz/react/ReactAce
-                    $include g/js/wz/react/IWebFrame
+                    $include js/wz/react/Resize
+                    $include js/wz/react/Modal
+                    $include js/wz/react/FlexibleModal
+                    $include js/wz/react/ReactAce
+                    $include js/wz/react/IWebFrame
                     $include costants
                     $include initialData
                     $include common/styled

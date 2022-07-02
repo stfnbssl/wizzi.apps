@@ -10,7 +10,7 @@
 		opt.useMaterialUI = true;
 		opt.mainJs = true
 
-	h/root/empty_layout_opt(&opt)
+	html/layouts/empty_opt(&opt)
 	
 	    # root
 	    

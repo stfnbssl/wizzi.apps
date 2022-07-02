@@ -10,7 +10,7 @@
 
 		m initialize
 			
-			event_on( schema-selected
+			js/event_on( schema-selected
 				set this.selectedSchema = data.name
 				_ this.getSchemaData
 					@ data.name
@@ -20,7 +20,7 @@
 			
 			if this.schemaDatas[name]
 			
-				event_emit( schema-selected-ready
+				js/event_emit( schema-selected-ready
 						@ name name
 						@ data this.schemaDatas[name]
 			
@@ -37,7 +37,7 @@
 							param json
 							set json = this.setIds(json)
 							set this.schemaDatas[name] = json
-							event_emit( schema-selected-ready
+							js/event_emit( schema-selected-ready
 								@ name name
 								@ json json
 					._ catch

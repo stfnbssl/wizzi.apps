@@ -1,0 +1,8 @@
+﻿$group
+    $params text, href|#, ca|@@null
+    li
+        a ${text}
+            href ${href}
+            $if ca
+                class ${ca}
+            $hook

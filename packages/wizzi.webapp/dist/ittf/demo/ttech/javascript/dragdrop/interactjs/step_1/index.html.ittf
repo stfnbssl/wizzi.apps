@@ -5,7 +5,7 @@ html
 		opt.title = 'Drag drop, step 1';
 		opt.useInteractJs = true;
 
-    h/std/empty_layout_opt(&opt)
+    html/layouts/empty_opt(&opt)
 	
         # demo-canvas
             h1 Drawable canvas

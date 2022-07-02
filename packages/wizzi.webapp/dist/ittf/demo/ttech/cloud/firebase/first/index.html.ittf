@@ -1,6 +1,8 @@
 html
 
-	body
+	$include v08/env/vars
+    
+    body
 	    js https://www.gstatic.com/firebasejs/5.8.1/firebase.js
 		js https://www.gstatic.com/firebasejs/5.8.1/firebase-app.js
 		
@@ -18,7 +20,7 @@ html
 				# Initialize Firebase
 				var config
 					{
-						@ apiKey "AIzaSyACBhxkQICMYxWeftA2DmsOzCAqVf3aTOQ"
+						@ apiKey "${stfnbssl_env.firebaseApiKey}"
 						@ authDomain "wizzifactory.firebaseapp.com"
 						@ databaseURL "https://wizzifactory.firebaseio.com"
 						@ projectId "wizzifactory"

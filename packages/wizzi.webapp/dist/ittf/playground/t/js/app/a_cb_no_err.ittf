@@ -5,7 +5,7 @@
 		param err
 		param ${result}
 		if err
-			event_emit( seteditvalue
+			js/event_emit( seteditvalue
 				@ key 'gen-result'
 				@ value result
 			_ this.emit

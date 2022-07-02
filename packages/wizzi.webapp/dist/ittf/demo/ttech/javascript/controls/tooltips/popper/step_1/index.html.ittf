@@ -6,7 +6,7 @@
 		opt.useJQuery = true;
         opt.usePopper = true;
 	
-	h/std/empty_layout_opt(&opt)
+	html/layouts/empty_opt(&opt)
 
         section 
             class spotlight

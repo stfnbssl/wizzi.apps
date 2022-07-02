@@ -31,7 +31,7 @@
         bodyLineHeight 1.3165
     
     { Build
-        sessionSecret ${stfnbssl_env.sessionSecret}
+        sessionSecret "${stfnbssl_env.sessionSecret}"
         usePackiAspects true
         
         isClientServer false

@@ -5,7 +5,7 @@ html
             mainJs: 'm-2.js.ittf',
         }
 
-    h/layouts/basic-layout(&opt)
+    html/layouts/basic(&opt)
         
         $append head-styles
         

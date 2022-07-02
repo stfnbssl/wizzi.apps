@@ -4,7 +4,7 @@
 		var opt = {}
 		opt.title = 'Http request';
 
-    h/std/empty_layout_opt(&opt)
+    html/layouts/empty_opt(&opt)
 
 		. wrapper
 			img

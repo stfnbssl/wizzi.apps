@@ -1,9 +1,9 @@
 ﻿module
     kind react
 
-    $include g/js/wz/core
-    $include g/js/wz/lodash
-    $include g/js/wz/localstorage
-    $include g/js/wz/iframe
-    $include g/js/wz/standalone
-    $include g/js/wz/packi
+    $include js/wz/core
+    $include js/wz/lodash
+    $include js/wz/localstorage
+    $include js/wz/iframe
+    $include js/wz/standalone
+    $include js/wz/packi

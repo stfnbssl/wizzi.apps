@@ -10,32 +10,32 @@
 
 		m initialize
 			
-			event_on( schema-selected
+			js/event_on( schema-selected
 				set this.selectedSchema = data.name
 				_ this.getSchemaData
 					@ data.name
 
-			event_on( select-tree-node
+			js/event_on( select-tree-node
 				if data.treeNode.item.isFolder
 					return
 
 				var item = this.schemaDatas[this.selectedSchema].itemsDict[data.treeNode.item.id]
 				
-				event_emit( seteditvalue
+				js/event_emit( seteditvalue
 					@ key 'gen-ittf'
 					@ value wz.replace(item.ittfWrapped, '\\n', '\n')
 				
-				event_emit( editvaluechanged
+				js/event_emit( editvaluechanged
 					@ key 'gen-ittf'
 					@ value wz.replace(item.ittfWrapped, '\\n', '\n')
 
-				event_emit( seteditvalue
+				js/event_emit( seteditvalue
 					@ key 'snippet-source'
 					@ value
 						_ wz.unescapeHtml
 							_ wz.replace(item.generated, '\\n', '\n')
 				
-				event_emit( editvaluechanged
+				js/event_emit( editvaluechanged
 					@ key 'snippet-source'
 					@ value
 						_ wz.unescapeHtml
@@ -46,7 +46,7 @@
 			
 			if this.schemaDatas[name]
 			
-				event_emit( schema-selected-ready
+				js/event_emit( schema-selected-ready
 						@ name name
 						@ data this.schemaDatas[name]
 			
@@ -63,7 +63,7 @@
 							param json
 							set json = this.setIds(json)
 							set this.schemaDatas[name] = json
-							event_emit( schema-selected-ready
+							js/event_emit( schema-selected-ready
 								@ name name
 								@ json json
 					._ catch

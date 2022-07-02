@@ -1,7 +1,7 @@
 module
     kind react
     
-    $include g/js/wz/core
+    $include js/wz/core
 
     function m1_reset
         $foreach menu in wzCtx.Nav1.menus

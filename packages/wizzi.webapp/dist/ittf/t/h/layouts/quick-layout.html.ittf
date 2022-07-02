@@ -1,9 +1,0 @@
-html
-
-    head 
-		$hook head
-		
-    body 
-        $hook
-	
-		$include h/script_meta

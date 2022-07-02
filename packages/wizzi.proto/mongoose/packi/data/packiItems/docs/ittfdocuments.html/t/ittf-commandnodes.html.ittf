@@ -91,7 +91,7 @@
 		p .. can be mixed in this way
 		ittf
 			- ul
-				- lia( my home page, http://hello.it )
+				- html/li_a( my home page, http://hello.it )
 
 		h3 $hook
 		ittf

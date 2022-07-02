@@ -1,8 +1,8 @@
 module
 	kind es6
 
-	$include g/js/wz/core
-	$include g/js/wz/localstorage
+	$include js/wz/core
+	$include js/wz/localstorage
 
 	$include js/appManager
 	$include js/dataManager

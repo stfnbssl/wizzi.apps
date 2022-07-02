@@ -1,4 +1,4 @@
-h/std/empty_layout( Uikit step 1 )
+html/layouts/empty( Uikit step 1 )
 
 	$append head-styles
 		css /static/lib/uikit-3.0.0/css/uikit.min.css

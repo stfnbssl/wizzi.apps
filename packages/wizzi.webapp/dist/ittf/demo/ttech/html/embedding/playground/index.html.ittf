@@ -1,4 +1,4 @@
-﻿h/std/empty_layout( Html embedding playground )
+﻿html/layouts/empty( Html embedding playground )
 
 	$append head-styles
         css ./main.css.ittf

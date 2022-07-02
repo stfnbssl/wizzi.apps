@@ -1,7 +1,7 @@
 html
 
     $
-        var wzCtx = {
+        var opt = {
             title: 'React / Property editor',
             Build: {
                 useReact: true,
@@ -18,9 +18,9 @@ html
             }
         }
 
-    h/std/basic(&wzCtx)
+    html/layouts/basic_opt(&opt)
 
-        layouts/lab(&wzCtx)
+        layouts/lab(&opt)
             
             # root
 

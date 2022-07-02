@@ -1,4 +1,4 @@
-h/std/empty_layout( webspeech phrase matcher )
+html/layouts/empty( webspeech phrase matcher )
 
 	$append head-styles
         css ./style.css.ittf

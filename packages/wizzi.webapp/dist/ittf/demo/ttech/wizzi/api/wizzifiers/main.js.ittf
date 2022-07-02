@@ -1,9 +1,9 @@
 module
 	kind es6
 
-	$include g/js/wz/core
-	$include g/js/wz/ace
-	$include g/js/wz/localstorage
+	$include js/wz/core
+	$include js/wz/ace
+	$include js/wz/localstorage
 
 	var store = null
 	var currentSchema = null

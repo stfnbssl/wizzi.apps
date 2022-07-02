@@ -1,4 +1,4 @@
-﻿h/root/empty_layout( Html pages embedding )
+﻿html/layouts/empty( Html pages embedding )
 
 	$
 		var pages = [

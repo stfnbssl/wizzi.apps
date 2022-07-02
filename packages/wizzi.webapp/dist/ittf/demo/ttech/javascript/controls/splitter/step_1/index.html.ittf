@@ -1,4 +1,4 @@
-﻿h/std/empty_layout()
+﻿html/layouts/empty()
 
 	$append head-styles
 		css https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css

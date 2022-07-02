@@ -7,7 +7,7 @@
             title: 'Starter 1'
         }
 
-    h/std/react_layout_opt(&opt)
+    html/layouts/react_opt(&opt)
 
 		$append components
 			react MyButton

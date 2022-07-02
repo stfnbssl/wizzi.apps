@@ -65,7 +65,7 @@
                 {
                     @ removeOnClass 'sh-bo-lsb-schema-button'
 
-			event_emit( schema-selected
+			js/event_emit( schema-selected
 				@ name this.selectedSchema
 
 			$$ VIA _ wz.show('selectedSchema')
@@ -73,7 +73,7 @@
 		m selectSchema
             param schema
             set this.selectedSchema = schema
-            event_emit( schema-selected
+            js/event_emit( schema-selected
                 @ name this.selectedSchema
             _ this.store.set('lastSchema', this.selectedSchema)
             _ this.applySchemaChange
@@ -94,7 +94,7 @@
 					@ this.selectedSchema + '_ittf_content'
 					@ initialIttfs[this.selectedSchema] || this.selectedSchema
 					@ true
-			event_emit( seteditvalue
+			js/event_emit( seteditvalue
 				@ key 'gen-ittf'
 				@ value content
 
@@ -104,7 +104,7 @@
 					@ this.selectedSchema + '_snippet_content'
 					@ initialSnippets[this.selectedSchema] || this.selectedSchema
 					@ true
-			event_emit( seteditvalue
+			js/event_emit( seteditvalue
 				@ key 'snippet-source'
 				@ value content
 
@@ -141,7 +141,7 @@
 			_ this.snippetResultEditor.initialize
 
 		m setEvents
-			event_on( editvaluechanged
+			js/event_on( editvaluechanged
 				set this.lastKey = data.key
                 set this.lastValue = data.value
 				var elapse = data.defer ? 2 * 1500 : 100
@@ -218,13 +218,13 @@
 					param err
 					param result
 					if err
-						event_emit(   seteditvalue
+						js/event_emit(   seteditvalue
 							@ key 'gen-result'
 							@ value JSON.stringify(err, null, 2)
 					else
-						event_emit( artifactgenerated
+						js/event_emit( artifactgenerated
 							@ content result
-						event_emit( seteditvalue
+						js/event_emit( seteditvalue
 							@ key 'gen-result'
 							@ value result
 
@@ -237,13 +237,13 @@
 					param err
 					param result
 					if err
-						event_emit( seteditvalue
+						js/event_emit( seteditvalue
 							@ key 'snippet-result'
 							@ value JSON.stringify(err, null, 2)
 					else
-						event_emit( artifactwizzified
+						js/event_emit( artifactwizzified
 							@ content result
-						event_emit( seteditvalue
+						js/event_emit( seteditvalue
 							@ key 'snippet-result'
 							@ value result
 

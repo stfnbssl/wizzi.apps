@@ -1,4 +1,4 @@
-h/std/empty_layout()
+html/layouts/empty()
 
 	$append body-scripts
 		js /static/lib/browserFS/browserfs.js

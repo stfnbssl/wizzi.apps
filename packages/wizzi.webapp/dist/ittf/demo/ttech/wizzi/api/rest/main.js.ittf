@@ -1,5 +1,5 @@
 ﻿module
 	kind es6
 
-	$include g/js/wz/core
-	$include g/js/wz/stringFunctions
+	$include js/wz/core
+	$include js/wz/stringFunctions

@@ -1,8 +1,8 @@
 ﻿css
 	
-	$include c/webfonts
+	$include css/webfonts
 	
-	$include c/reset
+	$include css/reset
     
     < body
         + html
@@ -32,7 +32,7 @@
         opacity 1
         transition .3s
     
-	$include c/sidebar
+	$include css/sidebar
 
 	. demo
         flex 1
@@ -56,13 +56,13 @@
         color #222
         border-right 1px solid #e1e1e1
 
-	$include c/toggle-control
-	$include c/controls
+	$include css/toggle-control
+	$include css/controls
 
     . twitter
         justify-content flex-start
    
-	$include c/tips
+	$include css/tips
     
     < figure > div
         display inline-flex
@@ -112,7 +112,7 @@
         keyframe 100%
             transform rotate(1turn)
     
-	$include c/results
+	$include css/results
 	
     . no-flexbox .demo
         + .no-flexbox .results

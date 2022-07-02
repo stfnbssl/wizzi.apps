@@ -1,11 +1,11 @@
 ﻿module
 	kind es6
 
-	$include g/js/wz/core
-	$include g/js/wz/ace
-	$include g/js/wz/htmlBuilder
-	$include g/js/wz/form
-	$include g/js/wz/contextMenu
+	$include js/wz/core
+	$include js/wz/ace
+	$include js/wz/htmlBuilder
+	$include js/wz/form
+	$include js/wz/contextMenu
 
 	$include js/notifyManager
 	$include js/storeManager

@@ -1,9 +1,0 @@
-$group
-
-    $
-        var wzCtx = {
-            title: '... title not set ...',
-            Build: {
-                useWizzi: true,
-            }
-        }

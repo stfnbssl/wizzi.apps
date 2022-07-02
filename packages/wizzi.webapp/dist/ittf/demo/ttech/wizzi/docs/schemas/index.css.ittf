@@ -50,8 +50,8 @@
 		height 100% !important
 		width 100% !important
 
-	$include g/css/widgets/file-explorer
-	$include g/css/widgets/tree-node
+	$include css/widgets/file-explorer
+	$include css/widgets/tree-node
 	$include css/schema-listing
 	$include css/modal-css-only
 

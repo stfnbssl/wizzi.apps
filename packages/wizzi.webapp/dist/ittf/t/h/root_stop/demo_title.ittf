@@ -1,3 +1,0 @@
-h3 Demo ${title}
-	$params title
-	style background-color: beige; padding: 3px;

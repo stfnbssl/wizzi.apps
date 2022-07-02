@@ -4,7 +4,7 @@
 		var opt = {};
 		opt.title = 'getlibs react example';
 	
-	h/std/empty_layout_opt(&opt)
+	html/layouts/empty_opt(&opt)
 
 		$append head-styles
 			css ./index.css.ittf

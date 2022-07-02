@@ -5,7 +5,7 @@ html
 		opt.title = 'Vue starter 1';
 		opt.useVue = true;
 	
-	h/std/empty_layout_opt(&opt)
+	html/layouts/empty_opt(&opt)
 
 		$append head-styles
 			css ./index.css.ittf

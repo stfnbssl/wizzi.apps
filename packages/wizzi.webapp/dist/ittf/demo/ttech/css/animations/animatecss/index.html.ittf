@@ -1,4 +1,4 @@
-h/std/empty_layout()
+html/layouts/empty()
 	
     header 
         class site__header island

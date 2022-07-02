@@ -1,4 +1,4 @@
-﻿h/std/empty_layout()
+﻿html/layouts/empty()
 
 	$append head-styles
 		css css/styles.css.ittf

@@ -5,7 +5,7 @@ html
 		opt.title = 'RxJs starter';
 		opt.useRxJs = true;
 	
-	h/std/empty_layout_opt(&opt)
+	html/layouts/empty_opt(&opt)
 
 		$append body-scripts
 			js ./main.js.ittf

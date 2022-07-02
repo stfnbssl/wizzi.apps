@@ -1,4 +1,4 @@
-h/root/empty_layout()
+html/layouts/empty()
 
 	$
 		var opt = {}

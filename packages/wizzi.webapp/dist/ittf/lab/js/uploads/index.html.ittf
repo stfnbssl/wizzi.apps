@@ -1,16 +1,16 @@
 html
 
     $
-        var wzCtx = {
+        var opt = {
             title: 'Tailwind',
             Build: {
                 useTailwind: true,
             }
         }
 
-    h/std/basic(&wzCtx)
+    html/layouts/basic_opt(&opt)
 
-        layouts/lab(&wzCtx)
+        layouts/lab(&opt)
 
             input
                 type file

@@ -22,7 +22,7 @@ html
             'xml'
         ];
 	
-    h/root/empty_layout_opt(&opt)
+    html/layouts/empty_opt(&opt)
 
 		$append head-styles
 		    $if isWizziStudio

@@ -1,4 +1,4 @@
-﻿h/root/layout()
+﻿html/std/layout()
 
 	$
 		var opt = {

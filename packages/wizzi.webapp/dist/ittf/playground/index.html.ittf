@@ -39,8 +39,6 @@ html
             $else			  
                 js ./index.js
 
-		$$ html/layouts/lab(&wzCtx)
-            
         # root
 
             . sh

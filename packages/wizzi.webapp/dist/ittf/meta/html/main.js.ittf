@@ -1,8 +1,8 @@
 ﻿module
 	kind es6
 
-	$include g/js/wz/core
-	$include g/js/wz/ace
+	$include js/wz/core
+	$include js/wz/ace
 	$include js/editManager
 	$include js/modalManager
 	$include js/dataManager

@@ -1,8 +1,8 @@
 ﻿css
 	
-	$include css/misc/webfont_lato
+	$include css/webfont_lato
 	
-	$include css/misc/reset
+	$include css/reset
     
     < body
         + html
@@ -32,7 +32,7 @@
         opacity 1
         transition .3s
     
-	$include css/misc/sidebar
+	$include css/sidebar
 
 	. demo
         flex 1
@@ -56,13 +56,13 @@
         color #222
         border-right 1px solid #e1e1e1
 
-	$include css/misc/toggle-control
-	$include css/misc/controls
+	$include css/toggle-control
+	$include css/controls
 
     . twitter
         justify-content flex-start
    
-	$include css/misc/tips
+	$include css/tips
     
     < figure > div
         display inline-flex

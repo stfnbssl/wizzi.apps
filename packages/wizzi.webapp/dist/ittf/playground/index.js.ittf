@@ -1,17 +1,17 @@
 module
 	kind es6
 
-	$include g/js/wz/core
-	$include g/js/wz/node
-	$include g/js/wz/ace
-	$include g/js/wz/localstorage
-	$include g/js/wz/htmlBuilder
-	$include g/js/wz/contextMenu
-	$include g/js/wz/standalone
-	$include g/js/widgets/editorControl
-	$include g/js/widgets/treeNode
-	$include g/js/widgets/treeView
-	$include g/js/widgets/treeFilesystem
+	$include js/wz/core
+	$include js/wz/node
+	$include js/wz/ace
+	$include js/wz/localstorage
+	$include js/wz/htmlBuilder
+	$include js/wz/contextMenu
+	$include js/wz/standalone
+	$include js/widgets/editorControl
+	$include js/widgets/treeNode
+	$include js/widgets/treeView
+	$include js/widgets/treeFilesystem
 
 	$include js/appManager
 	$include js/dataManager

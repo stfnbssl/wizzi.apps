@@ -1,4 +1,4 @@
-﻿h/std/empty_layout( Html video audio step_1 )
+﻿html/layouts/empty( Html video audio step_1 )
 
 	$append head-styles
 		css https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css

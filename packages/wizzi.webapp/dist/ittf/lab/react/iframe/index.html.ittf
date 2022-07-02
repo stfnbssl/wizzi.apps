@@ -1,7 +1,7 @@
 html
 
     $
-        var wzCtx = {
+        var opt = {
             title: 'React / iframe component',
             Build: {
                 useReact: true,
@@ -17,7 +17,7 @@ html
             }
         }
 
-    h/std/basic(&wzCtx)
+    html/layouts/basic_opt(&opt)
 
         $append body-scripts
             script
@@ -25,7 +25,7 @@ html
                 module
                     kind react
 
-                    $include g/js/wz/react/IFramePage
+                    $include js/wz/react/IFramePage
                     $include Main
 
                     const AppRoot

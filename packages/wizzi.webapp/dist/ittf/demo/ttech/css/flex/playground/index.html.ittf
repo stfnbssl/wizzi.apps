@@ -1,4 +1,4 @@
-﻿h/std/empty_layout()
+﻿html/layouts/empty()
     
 	$append head-styles
         @title Cssexplorer
@@ -24,12 +24,12 @@
             menu 
                 class controls flex
 
-				h/select( css-feature, css-feature, none,
+				html/select( css-feature, css-feature, none,
 					\b float;flexbox;grid
 
 				$include ./flexBox
 
-                $include h/twitter
+                $include html/twitter
             
 		figure 
             id demo

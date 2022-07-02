@@ -4,9 +4,9 @@
 		class controls
 		id propsBox
                    
-		h/control( size )
-			h/input( image-width, small, image-width, ${opt.iframeW} )
-			h/input( image-height, small, image-height, ${opt.iframeH} )
+		html/control( size )
+			html/input( image-width, small, image-width, ${opt.iframeW} )
+			html/input( image-height, small, image-height, ${opt.iframeH} )
 		
-		h/control( figure )
-			h/input( figcaption, xl, figcaption, '' )
+		html/control( figure )
+			html/input( figcaption, xl, figcaption, '' )

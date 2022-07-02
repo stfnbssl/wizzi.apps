@@ -5,7 +5,7 @@ html
 		opt.title = 'Integrals';
         opt.useMathJax = true;
 
-    h/std/empty_layout_opt(&opt)
+    html/layouts/empty_opt(&opt)
 
         h2 Formulas
             

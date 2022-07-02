@@ -1,7 +1,7 @@
 html
 
     $
-        var wzCtx = {
+        var opt = {
             title: 'Tailwind',
             Build: {
                 useAce: true,
@@ -13,9 +13,9 @@ html
             }
         }
 
-    h/std/basic(&wzCtx)
+    html/layouts/basic_opt(&opt)
 
-        layouts/lab(&wzCtx)
+        layouts/lab(&opt)
 
             . box-border h-32 w-32 p-4 border-4
                 # ace-editor

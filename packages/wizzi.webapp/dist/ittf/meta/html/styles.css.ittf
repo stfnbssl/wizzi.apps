@@ -10,7 +10,7 @@
 
 	$include common/options-analize
 
-	g/css/root/main(&opt)
+	g/css/layouts/main(&opt)
 
 	< body
         background-color ${opt.c_bg_0}

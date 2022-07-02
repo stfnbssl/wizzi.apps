@@ -24,10 +24,10 @@ html
                             + Artifacts
                         . flex-row
                             . flex-column m-r-s
-                                a-icon( All , /productions/artifacts
+                                html/a-icon( All , /productions/artifacts
                                     $include assets/dots.svg
                             . flex-column
-                                a-icon( New, /artifact/new 
+                                html/a-icon( New, /artifact/new 
                                     $include assets/add.svg
                     $foreach item in artifacts
                         . flex-row
@@ -39,10 +39,10 @@ html
                             + Packages
                         . flex-row
                             . flex-column m-r-s
-                                a-icon( All, /productions/packages
+                                html/a-icon( All, /productions/packages
                                     $include assets/dots.svg
                             . flex-column
-                                a-icon( New, /package/new 
+                                html/a-icon( New, /package/new 
                                     $include assets/add.svg
                     $foreach item in packages
                         . flex-row
@@ -54,10 +54,10 @@ html
                             + Metas
                         . flex-row
                             . flex-column m-r-s
-                                a-icon( All, /productions/metas
+                                html/a-icon( All, /productions/metas
                                     $include assets/dots.svg
                             . flex-column
-                                a-icon( New, /meta/new 
+                                html/a-icon( New, /meta/new 
                                     $include assets/add.svg
 
                 . font-x font-w-s m-t-xxl
@@ -66,10 +66,10 @@ html
                             + tFolders
                         . flex-row
                             . flex-column m-r-s
-                                a-icon( All, /productions/tfolders
+                                html/a-icon( All, /productions/tfolders
                                     $include assets/dots.svg
                             . flex-column
-                                a-icon( New, /tfolder/new 
+                                html/a-icon( New, /tfolder/new 
                                     $include assets/add.svg
                     $foreach item in tfolders
                         . flex-row

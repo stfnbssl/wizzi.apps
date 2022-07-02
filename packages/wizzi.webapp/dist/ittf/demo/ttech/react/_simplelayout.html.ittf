@@ -1,4 +1,4 @@
-h/std/empty_layout( )
+html/layouts/empty( )
 	$params title|Title, usebabel|false
 	head
 		@style

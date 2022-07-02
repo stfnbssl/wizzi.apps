@@ -1,7 +1,7 @@
 html
 
     $
-        var wzCtx = {
+        var opt = {
             title: 'React / Css editor sample',
             Build: {
                 useReact: true,
@@ -19,7 +19,7 @@ html
             }
         }
 
-    h/std/basic(&wzCtx)
+    html/layouts/basic_opt(&opt)
 
         $append head-styles
             @style 
@@ -35,10 +35,10 @@ html
                 module
                     kind react
 
-                    $include g/js/wz/react/Resize
-                    $include g/js/wz/react/Modal
-                    $include g/js/wz/react/FlexibleModal
-                    $include g/js/wz/react/ReactAce
+                    $include js/wz/react/Resize
+                    $include js/wz/react/Modal
+                    $include js/wz/react/FlexibleModal
+                    $include js/wz/react/ReactAce
                     $include cssDefs
                     $include help
                     $include samplesData

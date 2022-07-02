@@ -29,7 +29,7 @@
 			m init
 				_ firebase.initializeApp
 					{
-						@ apiKey "AIzaSyACBhxkQICMYxWeftA2DmsOzCAqVf3aTOQ"
+						@ apiKey "${stfnbssl_env.firebaseApiKey}"
 						@ authDomain "wizzifactory.firebaseapp.com"
 						@ databaseURL "https://wizzifactory.firebaseio.com"
 						@ projectId "wizzifactory"

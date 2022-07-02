@@ -1,7 +1,7 @@
 module
 	kind es6
 
-	$include g/js/wz/core
+	$include js/wz/core
 	$include js/jsonStore
 	$include js/input
 

@@ -1,9 +1,0 @@
-﻿$group
-	$params id, labelClass, title|@@null
-
-	input
-		type checkbox
-		id ${id}
-	label ${title}
-		for ${id}
-		class ${labelClass}

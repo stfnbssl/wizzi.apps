@@ -1,4 +1,4 @@
-h/std/empty_layout()
+html/layouts/empty()
 
 	$append head-styles
 	    css /static/lib/font-awesome/css/font-awesome4.7.min.css

@@ -1,7 +1,7 @@
 ﻿module 
     kind jsfile
 
-	$include g/js/wz/core
+	$include js/wz/core
 	$include j/html-builder
 
 	$include options

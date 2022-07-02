@@ -6,7 +6,7 @@ html
 		opt.useFirebase = true;
 		opt.project = "wizzifactory";
 	
-	h/root/empty_layout_opt(&opt)
+	html/layouts/empty_opt(&opt)
 
 		$append body-scripts
     		script

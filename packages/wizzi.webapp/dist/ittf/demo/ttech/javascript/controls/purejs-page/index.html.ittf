@@ -1,4 +1,4 @@
-h/std/empty_layout( Pure js page )
+html/layouts/empty( Pure js page )
 
     $append head-styles
     

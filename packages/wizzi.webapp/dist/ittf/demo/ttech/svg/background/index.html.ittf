@@ -1,4 +1,4 @@
-﻿h/std/empty_layout( SVG image as background )
+﻿html/layouts/empty( SVG image as background )
 
 	div
 		img

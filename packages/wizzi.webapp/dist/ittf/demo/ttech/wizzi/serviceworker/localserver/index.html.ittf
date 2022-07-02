@@ -1,4 +1,4 @@
-﻿h/root/empty_layout()
+﻿html/layouts/empty()
 
 	$append head-styles
 		css /ittf/meta/folder/styles.css.ittf

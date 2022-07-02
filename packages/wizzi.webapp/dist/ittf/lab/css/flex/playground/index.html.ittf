@@ -1,7 +1,7 @@
 ﻿html
 
     $
-        var wzCtx = {
+        var opt = {
             title: 'Css flex explorer',
             Build: {
                 useJQuery: true,
@@ -10,9 +10,9 @@
             }
         }
 
-    h/std/basic(&wzCtx)
+    html/layouts/basic_opt(&opt)
 
-        layouts/lab(&wzCtx)
+        layouts/lab(&opt)
 
             section 
                 class flex
@@ -29,12 +29,12 @@
                     menu 
                         class controls flex
 
-                        html/controls/select( css-feature, css-feature, none,
+                        html/select( css-feature, css-feature, none,
                             \b float;flexbox;grid
 
                         $include flexBox
 
-                        html/controls/twitter( Flexplorer: the CSS3 Flexible box layout explorer
+                        html/twitter( Flexplorer: the CSS3 Flexible box layout explorer
                     
                 figure 
                     id demo

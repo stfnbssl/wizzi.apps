@@ -7,7 +7,7 @@
 		opt.mainJs = true;
 		opt.useReactGrid = true;
 
-	h/std/empty_layout_opt(&opt)
+	html/layouts/empty_opt(&opt)
 	
 	    # root
 	    

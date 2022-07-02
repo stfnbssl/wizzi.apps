@@ -5,7 +5,7 @@ html
 		opt.title = 'Basic react app';
 		opt.useMaterialUI = true;
 	
-	h/std/empty_layout_opt(&opt)
+	html/layouts/empty_opt(&opt)
 	
 	    # root
 	    

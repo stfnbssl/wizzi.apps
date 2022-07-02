@@ -1,4 +1,4 @@
-h/std/empty_layout( Basic )
+html/layouts/empty( Basic )
    
     h3 Refereng in 'src' attribute of 'img' tag
     div
