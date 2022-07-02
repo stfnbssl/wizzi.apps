@@ -22,7 +22,7 @@ class EventService {
         this.eventEmitter.removeListener(eventName, listener);
     }
     emit(event: string, payload: any, error = false) {
-        this.eventEmitter.js/event_emit(event, payload, error);
+        this.eventEmitter.event_emit(event, payload, error);
     }
     setTimed(event: string, onOff: boolean, payload?: any, frequence?: number) {
         let ts = this.timedServices[event];

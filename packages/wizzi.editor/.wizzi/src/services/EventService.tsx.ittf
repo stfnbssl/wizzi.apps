@@ -36,7 +36,7 @@ module
             param payload
                 :any 
             param error = false
-            _ this.eventEmitter.js/event_emit(event, payload, error)
+            _ this.eventEmitter.event_emit(event, payload, error)
         m setTimed
             param event
                 :string 
