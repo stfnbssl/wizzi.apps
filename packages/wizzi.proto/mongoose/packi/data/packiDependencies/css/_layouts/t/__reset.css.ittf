@@ -5,7 +5,7 @@ $group
         -webkit-text-size-adjust 100%
     < body
         margin 0
-        background ${mpage.Colors.background}
+        background ${wzCtx.Colors.background}
     < article
         + aside
         + details
@@ -520,7 +520,7 @@ $group
         + pre tt:after
         content none
     < a
-        color ${mpage.Colors.primary}
+        color ${wzCtx.Colors.primary}
     < h1
         + h2
         + h3

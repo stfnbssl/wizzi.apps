@@ -1,7 +1,7 @@
 $group
     . css-et18we
         $$ BAX-M 
-        background var(--theme-ui-colors-${mpage.Colors.themeBack})
+        background var(--theme-ui-colors-${wzCtx.Colors.themeBack})
         bottom 0
         display flex
         flex-grow 1

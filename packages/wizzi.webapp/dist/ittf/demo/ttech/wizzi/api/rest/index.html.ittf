@@ -1,8 +1,8 @@
 h/root/empty_layout( )
 
 	$
-		for (var i = 0; i < mpage.apis.length; i++) {
-			var api = mpage.apis[i];
+		for (var i = 0; i < wzCtx.apis.length; i++) {
+			var api = wzCtx.apis[i];
 			api._id = api.method + _.replace(_.replace(api.url, ':', '_'), '/', '_');
 		}
 
@@ -12,12 +12,12 @@ h/root/empty_layout( )
 	. d-container
 		. d-left-aside
 			ul
-				$foreach api in mpage.apis
+				$foreach api in wzCtx.apis
 					li
 						a ${api.title}
 							href #api_id_${api.url}
 		. d-main-content
-			$foreach api in mpage.apis
+			$foreach api in wzCtx.apis
 				. d-api
 					id api_id_${api.url}
 					h3 ${api.title}
@@ -47,7 +47,7 @@ h/root/empty_layout( )
 		script
 			module
 				var btn
-				$foreach api in mpage.apis
+				$foreach api in wzCtx.apis
 					set btn = document.querySelector("#" + 'btn_${ api._id }')
 					_ btn.addEventListener
 						@ 'click'

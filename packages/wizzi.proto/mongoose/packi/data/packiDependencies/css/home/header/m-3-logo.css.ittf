@@ -33,9 +33,9 @@ $group
         transform rotate(-60deg)
         display inline-block
         margin-left -12px
-        background ${mpage.Colors.primary30} $$ var(--theme-ui-colors-purple-30,#d9bae8)
+        background ${wzCtx.Colors.primary30} $$ var(--theme-ui-colors-purple-30,#d9bae8)
 
     . m-3-logo-a-section-title
         margin-top 1px
         margin-bottom -1px
-        color ${mpage.Colors.primary30} $$ var(--theme-ui-colors-purple-30,#d9bae8)
+        color ${wzCtx.Colors.primary30} $$ var(--theme-ui-colors-purple-30,#d9bae8)

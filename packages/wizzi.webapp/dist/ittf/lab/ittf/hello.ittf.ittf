@@ -4,21 +4,21 @@ ittf
     name
     value ${x.join('__________')}
 
-    $foreach item in mpage.items
+    $foreach item in wzCtx.items
         ${item}
 
-    $foreach prop in Object.keys(mpage.properties).sort()
+    $foreach prop in Object.keys(wzCtx.properties).sort()
         {
             @ name '${prop}'
-            $if mpage.properties[prop].oneOf
-                $foreach item in mpage.properties[prop].oneOf
+            $if wzCtx.properties[prop].oneOf
+                $foreach item in wzCtx.properties[prop].oneOf
                     $if item.enum
                         [ enum
                             @ ''
                             $foreach ev in item.enum
                                 @ '${ev}'
-            $elif mpage.properties[prop].enum
+            $elif wzCtx.properties[prop].enum
                 [ enum
                     @ ''
-                    $foreach ev in mpage.properties[prop].enum
+                    $foreach ev in wzCtx.properties[prop].enum
                         @ '${ev}'

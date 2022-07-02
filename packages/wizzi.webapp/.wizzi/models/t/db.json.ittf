@@ -7,7 +7,7 @@ $group
         $if false
             host "mongodb+srv"
             user "yanez"
-            password "x5csosPN5YAsrl4Z"
+            password "${stfnbssl_env.mongoDbPsw}"
             dbPath "@cluster0.idlk7.mongodb.net"
             dbName "wizzi"
         $else

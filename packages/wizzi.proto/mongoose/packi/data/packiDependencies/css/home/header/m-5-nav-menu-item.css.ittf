@@ -52,12 +52,12 @@ $group
         text-decoration none
         background transparent
         border 1px solid transparent
-        color ${mpage.Colors.primary}
+        color ${wzCtx.Colors.primary}
         font-size 0.875rem
         min-height 2rem
         min-width 2rem
         padding 0.25rem 0.75rem
-        color var(--theme-ui-colors-${mpage.Colors.gray70})
+        color var(--theme-ui-colors-${wzCtx.Colors.gray70})
         $$ BAX-M display none
     . css-3q8779[disabled]
         + .css-3q8779[disabled]:hover
@@ -109,7 +109,7 @@ $group
             $$ BAX-M bright
             transform translateX(calc(-50% - 0px)) rotate(45deg)
             border-top-left-radius 4px
-            background ${mpage.Colors.themeBack}
+            background ${wzCtx.Colors.themeBack}
             will-change transform
             transition-property transform
     media (min-width: 1000px)
@@ -127,7 +127,7 @@ $group
             transform translateX(calc(-50% + 0px))
     media (min-width: 1000px)
         . css-y86b6k
-            background ${mpage.Colors.themeBack}
+            background ${wzCtx.Colors.themeBack}
             border-radius 8px
             box-shadow 0px 4px 16px rgba(46,41,51,0.08),0px 8px 24px rgba(71,63,79,0.16)
             width 32.5rem
@@ -165,12 +165,12 @@ $group
         text-decoration none
         background transparent
         border 1px solid transparent
-        color ${mpage.Colors.primary}
+        color ${wzCtx.Colors.primary}
         font-size 0.875rem
         min-height 2rem
         min-width 2rem
         padding 0.25rem 0.75rem
-        color var(--theme-ui-colors-${mpage.Colors.gray70})
+        color var(--theme-ui-colors-${wzCtx.Colors.gray70})
         display none
     . css-1r69p41[disabled]
         + .css-1r69p41[disabled]:hover
@@ -224,8 +224,8 @@ $group
         transition background 250ms,border 250ms,color 250ms
         line-height 1
         text-decoration none
-        background ${mpage.Colors.primary}
-        border 1px solid ${mpage.Colors.primary}
+        background ${wzCtx.Colors.primary}
+        border 1px solid ${wzCtx.Colors.primary}
         color var(--theme-ui-colors-white,#ffffff)
         font-weight 600
         font-size 0.875rem

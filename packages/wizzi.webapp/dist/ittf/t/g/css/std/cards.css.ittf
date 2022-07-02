@@ -3,10 +3,10 @@
 	$
 		var useCards = false;
 		var cardsData = [];
-		if (mpage.contMain.panels.length > 0) {
+		if (wzCtx.contMain.panels.length > 0) {
 			var panel, card;
-			for(var i=0; i<mpage.contMain.panels.length; i++) {
-				panel = mpage.contMain.panels[i];
+			for(var i=0; i<wzCtx.contMain.panels.length; i++) {
+				panel = wzCtx.contMain.panels[i];
 				if (panel.kind === 'cards') {
 					useCards = true;
 					for(var j=0; j<panel.cards.length; j++) {

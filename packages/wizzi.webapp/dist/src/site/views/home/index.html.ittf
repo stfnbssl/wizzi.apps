@@ -8,7 +8,8 @@ html
                     { title: 'Playground', href: '/ittf/playground/index.html.ittf' }
                 ]}, 
                 { title: 'Work in progress', items: [
-                    { title: 'Target technologies', href: '/ittf/demo/ttech' },
+                    { title: 'Demo - Target technologies', href: '/ittf/demo/ttech' },
+                    { title: 'Demo - Apps', href: '/ittf/demo/apps' },
                     { title: 'Lab', href: '/ittf/lab' },
                     { title: 'Packi', href: '/static/packi/index.html' },
                     { title: 'Productions', href: '/ittf/test/productions.html.ittf' },

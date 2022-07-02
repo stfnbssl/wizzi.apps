@@ -8,7 +8,7 @@ $group
 
     . css-jix6m
         align-items center
-        color var(--theme-ui-colors-${mpage.Colors.primary})
+        color var(--theme-ui-colors-${wzCtx.Colors.primary})
         text-decoration underline
         align-items center
         border-radius 100%

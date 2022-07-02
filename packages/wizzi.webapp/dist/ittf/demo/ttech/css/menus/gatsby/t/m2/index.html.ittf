@@ -1,18 +1,18 @@
 $group
     $
-        var promo = mpage.Banner.promotion;
+        var promo = wzCtx.Banner.promotion;
     
     m2/a-0-page()
         m2/b-0-banner-aside()
             m2/b-1-promo( &promo )
             m2/b-2-nav-ul()
-                $foreach item in mpage.Banner.items
+                $foreach item in wzCtx.Banner.items
                     m2/b-3-item-li( &item )
         m2/m-1-header()
             m2/m-2-nav()
                 m2/m-3-div-ul()
                     m2/m-4-li-ul()
-                        $foreach menu in mpage.Nav1.menus
+                        $foreach menu in wzCtx.Nav1.menus
                             m2/m-5-li-h3-div-ul(&menu)
                                 $foreach panel in menu.panels
                                     m2/m-6-li-a-ul(&panel)

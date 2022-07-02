@@ -6,5 +6,5 @@ $group
         font-family raleway
 
     . main-container
-        background ${mpage.Colors.themeBack}
+        background ${wzCtx.Colors.themeBack}
         position relative

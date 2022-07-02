@@ -2,7 +2,7 @@ html
     $include html/options-init
 	$
         // _.log('cs', cs);
-        opt.mainCss = '/~-/docs/cheatsheets/index.css?context=mpage;home.model';
+        opt.mainCss = '/~-/docs/cheatsheets/index.css?context=wzCtx;home.model';
         opt.mainJs = null;
 		opt.logo_w = 70;
 		opt.logo_h = 30;

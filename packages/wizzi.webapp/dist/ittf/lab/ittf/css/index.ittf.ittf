@@ -12,7 +12,7 @@ module
 
             [ cssProperiesHRefs
 
-                $foreach li in mpage.children
+                $foreach li in wzCtx.children
                     $$ 1 ${li.name} ${li.value} 
                     $foreach li2 in li.children
                         $if li2.name == 'a'

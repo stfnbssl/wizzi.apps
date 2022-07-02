@@ -48,7 +48,7 @@ $group
         -moz-letter-spacing -0.015em
         -ms-letter-spacing -0.015em
         letter-spacing -0.015em
-        color var(--theme-ui-colors-${mpage.Colors.primary})
+        color var(--theme-ui-colors-${wzCtx.Colors.primary})
         line-height 1.1
 
     media (min-width: 750px)

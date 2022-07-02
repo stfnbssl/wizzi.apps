@@ -36,7 +36,7 @@ $group
                     $*
                     path 
                         d M52.5313 71.0975C52.5311 72.2571 52.6037 73.4156 52.7486 74.5662C52.6037 73.4156 52.5311 72.2571 52.5313 71.0975C52.5379 69.3549 52.7129 67.6171 53.0539 65.9082
-                        stroke ${mpage.Colors.primary}
+                        stroke ${wzCtx.Colors.primary}
                         stroke-width 6.9375
                         stroke-linecap round
                         stroke-linejoin round
@@ -65,7 +65,7 @@ $group
                         fill white
                     path 
                         d M98.5 63.875C83.1 63.875 70.5 76.475 70.5 91.875C70.5 107.275 83.1 119.875 98.5 119.875C113.9 119.875 126.5 107.275 126.5 91.875C126.5 76.475 113.9 63.875 98.5 63.875ZM82.9 107.475C78.7 103.275 76.5 97.675 76.5 92.275L98.3 113.875C92.7 113.675 87.1 111.675 82.9 107.475ZM103.3 113.275L77.1 87.075C79.3 77.275 88.1 69.875 98.5 69.875C105.9 69.875 112.3 73.475 116.3 78.875L113.3 81.475C109.9 76.875 104.5 73.875 98.5 73.875C90.7 73.875 84.1 78.875 81.5 85.875L104.5 108.875C110.3 106.875 114.7 101.875 116.1 95.875H106.5V91.875H120.5C120.5 102.275 113.1 111.075 103.3 113.275Z
-                        fill ${mpage.Colors.primary}
+                        fill ${wzCtx.Colors.primary}
                     *$
                     $$html/logo/index( 76, 70, 63 )
                     defs 
@@ -77,7 +77,7 @@ $group
                             y2 58.3777
                             gradientUnits userSpaceOnUse
                             stop 
-                                stop-color ${mpage.Colors.primary}
+                                stop-color ${wzCtx.Colors.primary}
                             stop 
                                 offset 1
                                 stop-color #159BF3

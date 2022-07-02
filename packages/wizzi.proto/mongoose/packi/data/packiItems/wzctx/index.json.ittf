@@ -22,13 +22,13 @@
         [ items
             {
                 title "Home"
-                url "/~-/home.html?context=mpage;home.model"
+                url "/~-/home.html?context=wzCtx;home.model"
             {
                 title "Docs"
-                url "/~-/docs/concepts.html?context=mpage;home.model"
+                url "/~-/docs/concepts.html?context=wzCtx;home.model"
             {
                 title "Resources"
-                url "/~-/resources.html?context=mpage;home.model"
+                url "/~-/resources.html?context=wzCtx;home.model"
             {
                 title "Packy"
                 url "/packy/index.html"
@@ -41,43 +41,43 @@
             {
                 title "Concepts"
                 name "concepts"
-                url "/~-/docs/concepts.html?context=mpage;home.model"
+                url "/~-/docs/concepts.html?context=wzCtx;home.model"
             {
                 title "Ittf documents"
                 name "ittfDocuments"
-                url "/~-/docs/ittfdocuments.html?context=mpage;home.model"
+                url "/~-/docs/ittfdocuments.html?context=wzCtx;home.model"
             {
                 title "JsWizzi"
                 name "jsWizzi"
-                url "/~-/docs/jswizzi.html?context=mpage;home.model"
+                url "/~-/docs/jswizzi.html?context=wzCtx;home.model"
             {
                 title "mTrees"
                 name "mTrees"
-                url "/~-/docs/mtrees.html?context=mpage;home.model"
+                url "/~-/docs/mtrees.html?context=wzCtx;home.model"
             {
                 title "Wizzi schemas"
                 name "wizziSchemas"
-                url "/~-/docs/wizzischemas.html?context=mpage;home.model"
+                url "/~-/docs/wizzischemas.html?context=wzCtx;home.model"
             {
                 title "Wizzi models"
                 name "wizziModels"
-                url "/~-/docs/wizzimodels.html?context=mpage;home.model"
+                url "/~-/docs/wizzimodels.html?context=wzCtx;home.model"
             {
                 title "Artifacts"
                 name "artifacts"
-                url "/~-/docs/artifacts.html?context=mpage;home.model"
+                url "/~-/docs/artifacts.html?context=wzCtx;home.model"
             {
                 title "Wizzi factory class"
                 name "wizziFactory"
-                url "/~-/docs/wizziFactory.html?context=mpage;home.model"
+                url "/~-/docs/wizziFactory.html?context=wzCtx;home.model"
             {
                 title "Wizzi jobs"
                 name "wizziJobs"
-                url "/~-/docs/wizzijobs.html?context=mpage;home.model"
+                url "/~-/docs/wizzijobs.html?context=wzCtx;home.model"
             {
                 title "Wizzi plugins"
                 name "wizziPlugins"
-                url "/~-/docs/wizziplugins.html?context=mpage;home.model"
+                url "/~-/docs/wizziplugins.html?context=wzCtx;home.model"
 
     { Starter
         [ items

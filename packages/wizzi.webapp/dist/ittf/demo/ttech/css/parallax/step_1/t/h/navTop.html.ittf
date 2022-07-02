@@ -2,7 +2,7 @@
 
 	ul
 		class nav-top
-		$foreach panel in mpage.navTop.panels
+		$foreach panel in wzCtx.navTop.panels
 			$if panel.kind === 'img-logo'
 				. nav-top-log
 					a

@@ -1,7 +1,7 @@
 $group
     . m-3-nav-bar
         $$ BAX-M 
-        background ${mpage.Colors.themeBack}
+        background ${wzCtx.Colors.themeBack}
         bottom 0
         display flex
         flex-grow 1

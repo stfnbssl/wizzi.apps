@@ -4,19 +4,19 @@
 		display flex
 		justify-content space-around
 		align-items center
-		background-color ${mpage.navTop.backgroundColor}
+		background-color ${wzCtx.navTop.backgroundColor}
 		
-		$if mpage.navTop.fixed
+		$if wzCtx.navTop.fixed
 			position fixed
-			height ${mpage.navTop.height}px
+			height ${wzCtx.navTop.height}px
 		
-		$if mpage.navLeft.fullHeight
-			$if mpage.navLeft.drawer
-				left ${mpage.navLeft.drawerClosedWidth}px
-				width calc(100% - ${mpage.navLeft.drawerClosedWidth}px)
+		$if wzCtx.navLeft.fullHeight
+			$if wzCtx.navLeft.drawer
+				left ${wzCtx.navLeft.drawerClosedWidth}px
+				width calc(100% - ${wzCtx.navLeft.drawerClosedWidth}px)
 			$else
-				left ${mpage.navLeft.width}px
-				width calc(100% - ${mpage.navLeft.width}px)
+				left ${wzCtx.navLeft.width}px
+				width calc(100% - ${wzCtx.navLeft.width}px)
 		$else
 			width 100%
 		z-index 1000
@@ -25,20 +25,20 @@
 		display flex
 		justify-content space-around
 		align-items center
-		background-color ${mpage.navSubTop.backgroundColor}
+		background-color ${wzCtx.navSubTop.backgroundColor}
 		
-		$if mpage.navSubTop.fixed
+		$if wzCtx.navSubTop.fixed
 			position fixed
-			top ${mpage.navTop.height}px
-			height ${mpage.navSubTop.height}px
+			top ${wzCtx.navTop.height}px
+			height ${wzCtx.navSubTop.height}px
 		
-		$if mpage.navLeft.fullHeight
-			$if mpage.navLeft.drawer
-				left ${mpage.navLeft.drawerClosedWidth}px
-				width calc(100% - ${mpage.navLeft.drawerClosedWidth}px)
+		$if wzCtx.navLeft.fullHeight
+			$if wzCtx.navLeft.drawer
+				left ${wzCtx.navLeft.drawerClosedWidth}px
+				width calc(100% - ${wzCtx.navLeft.drawerClosedWidth}px)
 			$else
-				left ${mpage.navLeft.width}px
-				width calc(100% - ${mpage.navLeft.width}px)
+				left ${wzCtx.navLeft.width}px
+				width calc(100% - ${wzCtx.navLeft.width}px)
 		$else
 			width 100%
 		z-index 1000

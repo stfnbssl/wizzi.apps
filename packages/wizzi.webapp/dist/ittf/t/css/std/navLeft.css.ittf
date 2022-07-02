@@ -1,28 +1,28 @@
 ﻿$group
 
 	. nav-left
-		background-color ${mpage.navLeft.backgroundColor}
+		background-color ${wzCtx.navLeft.backgroundColor}
 		
-		$if mpage.navLeft.fixed || mpage.navLeft.drawer
+		$if wzCtx.navLeft.fixed || wzCtx.navLeft.drawer
 			position fixed
 			left 0
 			top 0
 			bottom 0
-			$if mpage.navLeft.drawer
-				width ${mpage.navLeft.drawerClosedWidth}px
+			$if wzCtx.navLeft.drawer
+				width ${wzCtx.navLeft.drawerClosedWidth}px
 				overflow hidden
 				-webkit-transition width .05s linear
 				transition width .05s linear
 				-webkit-transform translateZ(0) scale(1,1)
 			$else
-				width ${mpage.navLeft.width}px
+				width ${wzCtx.navLeft.width}px
 		z-index 1000
-		$if mpage.navLeft.drawer
+		$if wzCtx.navLeft.drawer
 			& :hover
-				width ${mpage.navLeft.width}px
+				width ${wzCtx.navLeft.width}px
 				overflow visible
 
-	$if mpage.navLeft.drawer
+	$if wzCtx.navLeft.drawer
 		. nav-left-fa
 			display inline-block
 			font-family FontAwesome
@@ -40,7 +40,7 @@
 			font-size 20px
 
 
-	$if mpage.navLeft.drawer
+	$if wzCtx.navLeft.drawer
 
 		. nav-left>ul
 			margin 7px 0

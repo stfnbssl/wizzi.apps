@@ -2,7 +2,7 @@ $group
     . css-1jx4yha
         display flex
         align-items center
-        background linear-gradient(to right,${mpage.Colors.grad1},${mpage.Colors.grad2})
+        background linear-gradient(to right,${wzCtx.Colors.grad1},${wzCtx.Colors.grad2})
         justify-content center
         height 100%
         width 100%
@@ -23,7 +23,7 @@ $group
         min-width 0
     . css-1sz4een
         align-items center
-        color var(--theme-ui-colors-${mpage.Colors.gray70})
+        color var(--theme-ui-colors-${wzCtx.Colors.gray70})
         display flex
         flex-grow 1
         margin-left -1.25rem
@@ -56,7 +56,7 @@ $group
 
     . css-1orjk4a
         align-items center
-        color var(--theme-ui-colors-${mpage.Colors.scheme1Fade90})
+        color var(--theme-ui-colors-${wzCtx.Colors.scheme1Fade90})
         display flex
         flex-grow 1
         margin-left 0
@@ -73,7 +73,7 @@ $group
     . css-1orjk4a p
         margin 0
     . css-1orjk4a a
-        color ${mpage.Colors.themeBack}
+        color ${wzCtx.Colors.themeBack}
         font-weight 600
         -webkit-text-decoration underline
         text-decoration underline

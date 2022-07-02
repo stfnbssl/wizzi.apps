@@ -1,15 +1,15 @@
 ﻿h/std/empty_layout()
 
 	$append head-styles
-		$if mpage.body.fontFamily === 'roboto'
+		$if wzCtx.body.fontFamily === 'roboto'
 			css https://fonts.googleapis.com/css?family=Roboto
-		css ./styles.css.ittf?_context=mpage&_mpage=json
+		css ./styles.css.ittf?_context=wzCtx&_wzCtx=json
 
 	$include h/navTop
 	
 	ul
 		class nav-sub-top
-		$foreach item in mpage.navSubTop.items
+		$foreach item in wzCtx.navSubTop.items
 			li
 				class nav-sub-top-text-1
 				a ${item.label}
@@ -17,7 +17,7 @@
 
 	. nav-left
 		ul
-			$foreach item in mpage.navLeft.items
+			$foreach item in wzCtx.navLeft.items
 				li
 					a
 						href 
@@ -28,18 +28,18 @@
 
 	. wrap-main
 		. cont-main
-			$if mpage.debug.showPalette
+			$if wzCtx.debug.showPalette
 				div
 					style display:flex; flex-wrap: wrap;
-					$foreach c in mpage.theme.colors
+					$foreach c in wzCtx.theme.colors
 						div ${c}
 							style margin: 10px; font-weight: 900;
 							div
 								style height: 50px; width: 50px; background: ${c};
 
-			$if mpage.contMain.panels.length > 0
+			$if wzCtx.contMain.panels.length > 0
 				
-				$foreach panel in mpage.contMain.panels
+				$foreach panel in wzCtx.contMain.panels
 					
 					$if panel.kind === 'cards'
 						

@@ -3,21 +3,21 @@
 	$
 		var l_colors = "#B9D2DE;#919FA6;#3C7590;#D1E5EE;#D9E7EE;#C0C4E3;#9799AA;#3E4893;#D5D9F1;#DDDFF1;#BDE5CE;#95AC9F;#3D9563;#D2F2E0;#DBF2E5;#FFEAD2;#BFB4A6;#A67944;#FFF0DE;#FFF4E7".split(';')
 
-	$if mpage.theme.fontAwesome
+	$if wzCtx.theme.fontAwesome
 		import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css")
 
     < html
-		font-size ${mpage.html.fontSize}px
+		font-size ${wzCtx.html.fontSize}px
 
 	< body
-        background-color ${mpage.body.backgroundColor}
+        background-color ${wzCtx.body.backgroundColor}
         margin 0
 		padding 0
-		$if mpage.body.fontFamily === 'roboto'
+		$if wzCtx.body.fontFamily === 'roboto'
 			font-family 'Roboto', arial, verdana, sans-serif;
 		$else
 			font-family arial, verdana
-		font-size ${mpage.body.fontSize}px
+		font-size ${wzCtx.body.fontSize}px
 
 	< ul
 		margin 0
@@ -40,8 +40,8 @@
 	$include s/wrapMain
 	
 	. cont-main
-		$if mpage.contMain.padding
-			padding ${mpage.contMain.padding}rem
+		$if wzCtx.contMain.padding
+			padding ${wzCtx.contMain.padding}rem
 	
 	. pad-2
 		$$ padding 2rem

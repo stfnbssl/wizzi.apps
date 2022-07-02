@@ -17,12 +17,12 @@ h/std/empty_layout()
             href https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.0/fullpage.css
         css ./styles.css.ittf
 
-    $foreach page in mpage.pages        
+    $foreach page in wzCtx.pages        
         $ page.id = _.replace(page.name, ' ', '_')
 
     ul 
         id menu
-        $foreach page in mpage.pages
+        $foreach page in wzCtx.pages
             li 
                 data-menuanchor ${page.name}
                 class active
@@ -101,7 +101,7 @@ h/std/empty_layout()
 
     div 
         id fullpage
-        $foreach page in mpage.pages
+        $foreach page in wzCtx.pages
             . section
                 id section_${page.id}
                 class section1
@@ -136,7 +136,7 @@ h/std/empty_layout()
         type text/javascript
         module
             kind react
-            $foreach page in mpage.pages
+            $foreach page in wzCtx.pages
                 var eldiv_${page.id} = document.querySelector("#magnifier_${page.id}");
                 var elimg_${page.id} = document.querySelector("#section_${page.id} .image-inside");
                 # log 'AFTER LOAD', 'eldiv,elimg', eldiv, elimg
@@ -148,7 +148,7 @@ h/std/empty_layout()
                     { 
                         $*
                         [ sectionsColor
-                            $foreach page in mpage.pages
+                            $foreach page in wzCtx.pages
                                 @ '#1bbc9b'
                         
                             @ '#4BBFC3'
@@ -157,7 +157,7 @@ h/std/empty_layout()
                             @ '#ccddff'
                         *$
                         [ anchors
-                            $foreach page in mpage.pages
+                            $foreach page in wzCtx.pages
                                 @ '${page.id}'
                         @ menu '#menu'
                         @ continuousVertical false $$ true

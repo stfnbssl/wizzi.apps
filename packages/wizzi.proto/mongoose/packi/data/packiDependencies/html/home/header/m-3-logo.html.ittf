@@ -5,13 +5,13 @@ $group
             class m-3-logo-a
             href /
             $$html/logo/index( 74 )
-        $if mpage.Nav1.section
+        $if wzCtx.Nav1.section
             a 
                 aria-current page
-                aria-label ${mpage.Nav1.section.ariaLabel}
+                aria-label ${wzCtx.Nav1.section.ariaLabel}
                 class m-3-logo-a-section
-                href ${mpage.Nav1.section.href}
+                href ${wzCtx.Nav1.section.href}
                 span 
                     class m-3-logo-a-section-sep
-                span ${mpage.Nav1.section.title}
+                span ${wzCtx.Nav1.section.title}
                     class m-3-logo-a-section-title

@@ -15,8 +15,8 @@ h/std/empty_layout()
             _ document.addEventListener
                 @ "DOMContentLoaded"
                 function
-                    $foreach tb in Object.keys(mpage)
-                        $ var item = mpage[tb]                    
+                    $foreach tb in Object.keys(wzCtx)
+                        $ var item = wzCtx[tb]                    
 
                         $if item.kind == 'table'
                             $foreach fd in item.fields
@@ -30,8 +30,8 @@ h/std/empty_layout()
                                         {
 
     . container
-        $foreach tb in Object.keys(mpage)
-            $ var item = mpage[tb]
+        $foreach tb in Object.keys(wzCtx)
+            $ var item = wzCtx[tb]
 
             $if item.kind == 'table'
                 . container-login100

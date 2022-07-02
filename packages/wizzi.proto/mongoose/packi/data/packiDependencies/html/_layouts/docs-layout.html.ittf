@@ -3,7 +3,7 @@ $group
 
     $
         var opt = {
-            mainCss: '/~-/docs/styles/main.css?context=mpage;home.model',
+            mainCss: '/~-/docs/styles/main.css?context=wzCtx;home.model',
             mainJs: null,
         }
         var page = {

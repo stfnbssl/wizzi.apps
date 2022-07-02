@@ -38,13 +38,13 @@ $group
 		category Layouts
 			demo step_1
 				label Step 1
-				context-model mpage
+				context-model wzCtx
 					type json
 
 		category Menus
 			demo stu-responsive
 				label Stu responsive
-				context-model mpage
+				context-model wzCtx
 					type json
 
 		category Animations

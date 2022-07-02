@@ -70,9 +70,9 @@ $group
         transition background 250ms,border 250ms,color 250ms
         line-height 1
         text-decoration none
-        background ${mpage.Colors.primary}
-        border 1px solid ${mpage.Colors.primary}
-        color ${mpage.Colors.themeBack}
+        background ${wzCtx.Colors.primary}
+        border 1px solid ${wzCtx.Colors.primary}
+        color ${wzCtx.Colors.themeBack}
         font-weight 600
         font-size 1.125rem
         min-height 3rem

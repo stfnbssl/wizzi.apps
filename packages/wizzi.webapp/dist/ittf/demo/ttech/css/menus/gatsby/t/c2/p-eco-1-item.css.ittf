@@ -42,7 +42,7 @@ $group
 
     . css-1ds30p3
         align-items flex-start
-        color var(--theme-ui-colors-${mpage.Colors.gray70})
+        color var(--theme-ui-colors-${wzCtx.Colors.gray70})
         display none
         flex-direction column
         margin-top 0.75rem
@@ -68,9 +68,9 @@ $group
         transition background 250ms,border 250ms,color 250ms
         line-height 1
         text-decoration none
-        background ${mpage.Colors.primary2}
-        border 1px solid ${mpage.Colors.primary2}
-        color var(--theme-ui-colors-${mpage.Colors.themeBack})
+        background ${wzCtx.Colors.primary2}
+        border 1px solid ${wzCtx.Colors.primary2}
+        color var(--theme-ui-colors-${wzCtx.Colors.themeBack})
         font-weight 600
         font-size 1.125rem
         min-height 3rem

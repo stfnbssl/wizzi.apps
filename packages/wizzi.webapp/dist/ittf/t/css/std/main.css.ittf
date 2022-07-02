@@ -1,6 +1,6 @@
 ﻿$group
 
-	$if mpage.theme.fontAwesome
+	$if wzCtx.theme.fontAwesome
 		import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css")
 
     < *
@@ -11,17 +11,17 @@
         box-sizing border-box
 
     < html
-		font-size ${mpage.html.fontSize}px
+		font-size ${wzCtx.html.fontSize}px
 
 	< body
-        background-color ${mpage.body.backgroundColor}
+        background-color ${wzCtx.body.backgroundColor}
         margin 0
 		padding 0
-		$if mpage.body.fontFamily === 'roboto'
+		$if wzCtx.body.fontFamily === 'roboto'
 			font-family 'Roboto', arial, verdana, sans-serif;
 		$else
 			font-family arial, verdana
-		font-size ${mpage.body.fontSize}px
+		font-size ${wzCtx.body.fontSize}px
 		$$ TODO line-height 1.5
 		-webkit-font-smoothing antialiased
 
@@ -49,8 +49,8 @@
 	$include ./breadCrumbs
 	
 	. cont-main
-		$if mpage.contMain.padding
-			padding ${mpage.contMain.padding}rem
+		$if wzCtx.contMain.padding
+			padding ${wzCtx.contMain.padding}rem
 	
 	. cont-title
 		padding 1rem

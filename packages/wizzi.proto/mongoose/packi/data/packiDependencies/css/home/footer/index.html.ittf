@@ -1,8 +1,8 @@
 $group
     
-    $if mpage.Footer
+    $if wzCtx.Footer
         p-footer-1()
-            $foreach content in mpage.Footer.contents
+            $foreach content in wzCtx.Footer.contents
                 $foreach panel in content.panels
                     $if panel.kind == 'comunity'
                         p-comunity-1(&panel)

@@ -1,8 +1,8 @@
 html
     $
         var opt = {
-            mainCss: '/~-/home.css?context=mpage;home.model',
-            mainJs: '/~-/home.js?context=mpage;home.model',
+            mainCss: '/~-/home.css?context=wzCtx;home.model',
+            mainJs: '/~-/home.js?context=wzCtx;home.model',
         }
 
     html/_layouts/page-layout(&opt)

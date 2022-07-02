@@ -1,7 +1,7 @@
 $group
     
     . css-a2s10c
-        $foreach content in mpage.Main.contents
+        $foreach content in wzCtx.Main.contents
             $foreach panel in content.panels
                 $if panel.kind == 'splash'
                     p-splash-1(&panel)

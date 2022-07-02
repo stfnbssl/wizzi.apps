@@ -2,7 +2,7 @@ html
 
     $
         var wzCtx = {
-            title: 'React / Packi item editor',
+            title: 'React / Wizzi playground',
             Build: {
                 useReact: true,
                 react: {
@@ -19,7 +19,7 @@ html
         }
 
     h/std/basic(&wzCtx)
-    
+
         $append head-styles
             @style 
                 type text-css
@@ -38,12 +38,11 @@ html
                     $include g/js/wz/react/Modal
                     $include g/js/wz/react/FlexibleModal
                     $include g/js/wz/react/ReactAce
-                    $include g/js/wz/react/IWebFrame
-                    $include costants
-                    $include initialData
+                    $include g/js/wz/react/IFramePage
+                    $include samplesData
                     $include common/styled
-                    $include Browser
-                    $include Editor
+                    $include Generator
+                    $include Wizzifier
                     $include Main
                     $include Docs
 
@@ -68,6 +67,8 @@ html
                         _ document.getElementById
                             @ 'root'
 
-        layouts/lab(&wzCtx)
+        apps_layout(&wzCtx)
+
             # root
                 style height: 100%; width: 100%
+

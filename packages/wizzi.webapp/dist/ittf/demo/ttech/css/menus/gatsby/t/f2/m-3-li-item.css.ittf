@@ -9,7 +9,7 @@ $group
 
     . css-tu9on4
         align-items center
-        color var(--theme-ui-colors-${mpage.Colors.primary})
+        color var(--theme-ui-colors-${wzCtx.Colors.primary})
         display inline-flex
         text-decoration none
         color var(--theme-ui-colors-blackFade-70,rgba(35,33,41,0.7))

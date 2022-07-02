@@ -6,9 +6,9 @@ $group
 		s( /static/lib/codemirror/theme/monokai.css
 		s( /static/lib/codemirror/theme/twilight.css
 
-	$if typeof(mpage.aspect) !== 'undefined'
-		$if mpage.aspect.AnimateCss
-		    $if mpage.aspect.production
+	$if typeof(wzCtx.aspect) !== 'undefined'
+		$if wzCtx.aspect.AnimateCss
+		    $if wzCtx.aspect.production
 		        s( /static/lib/animatecss/animate.min.css
 		    $else
 		        s( /static/lib/animatecss/animate.css

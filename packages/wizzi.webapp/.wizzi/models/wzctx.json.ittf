@@ -1,10 +1,11 @@
 {
-    name "wizzi.backend"
+    $include v08/env/vars
+    name "wizzi.webapp"
     version "0.0.1"
-    description "wizzi.backend"
+    description "wizzi.webapp"
     { author
-        name ""
-        email ""
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
     $
         var md = {
             useSsl: false,
@@ -30,6 +31,7 @@
         bodyLineHeight 1.3165
     
     { Build
+        sessionSecret ${stfnbssl_env.sessionSecret}
         usePackiAspects true
         
         isClientServer false
@@ -48,16 +50,15 @@
         
         useGithub false
         { github
-            clientId "6a42cd4cb7247bb4e823"
-            clientSecret "dedced0ac262cae62557e4c3f567a6227b17bfb7"
-            callbackURL "http://localhost:5000/authenticate/github/callback"
-        
+            clientId "${stfnbssl_env.githubClientId}"
+            clientSecret "${stfnbssl_env.githubClientSecret}"
+            callbackURL "${md.http}://localhost:${md.port}/api/${md.apiVersion}/authenticate/github/callback"
         useGoogle false
         { google
-            clientId ""
-            clientSecret ""
-            callbackURL ""
-
+            clientId "${stfnbssl_env.googleClientId}"
+            clientSecret "${stfnbssl_env.googleClientSecret}"
+            callbackURL "${md.http}://localhost:${md.port}/api/${md.apiVersion}/authenticate/google/callback"
+        
         useAccount true
         { account
         

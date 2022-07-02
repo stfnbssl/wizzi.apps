@@ -22,7 +22,7 @@ $group
         line-height 1
     . css-2fjqwl span
         color var(--theme-ui-colors-blue-70,#047bd3)
-        background linear-gradient(0deg,${mpage.Colors.primary},var(--theme-ui-colors-blue-60,#0e8de6) )
+        background linear-gradient(0deg,${wzCtx.Colors.primary},var(--theme-ui-colors-blue-60,#0e8de6) )
         -webkit-background-clip text
         -webkit-text-fill-color transparent
     media (min-width: 1000px)
@@ -35,7 +35,7 @@ $group
         line-height 1
     . css-6bzo2 span
         color var(--theme-ui-colors-blue-70,#047bd3)
-        background linear-gradient(0deg,${mpage.Colors.primary},var(--theme-ui-colors-blue-60,#0e8de6) )
+        background linear-gradient(0deg,${wzCtx.Colors.primary},var(--theme-ui-colors-blue-60,#0e8de6) )
         -webkit-background-clip text
         -webkit-text-fill-color transparent
     media (min-width: 1000px)
@@ -53,7 +53,7 @@ $group
         line-height 1
     . css-19ibzfj span
         color var(--theme-ui-colors-blue-70,#047bd3)
-        $$ background linear-gradient(0deg,${mpage.Colors.themeBack},var(--theme-ui-colors-blue-60,#0e8de6) )
+        $$ background linear-gradient(0deg,${wzCtx.Colors.themeBack},var(--theme-ui-colors-blue-60,#0e8de6) )
         -webkit-background-clip text
         $$ -webkit-text-fill-color transparent
     media (min-width: 1000px)

@@ -1,35 +1,35 @@
 ﻿$group
 
 	. nav-right
-		background-color ${mpage.navRight.backgroundColor}
+		background-color ${wzCtx.navRight.backgroundColor}
 		
-		$if mpage.navRight.fixed || mpage.navRight.drawer
+		$if wzCtx.navRight.fixed || wzCtx.navRight.drawer
 			position fixed
 			right 0
-			$if mpage.navTop.fixed
-				$if mpage.navSubTop && mpage.navSubTop.fixed
-					top ${mpage.navTop.height + mpage.navSubTop.height}px
+			$if wzCtx.navTop.fixed
+				$if wzCtx.navSubTop && wzCtx.navSubTop.fixed
+					top ${wzCtx.navTop.height + wzCtx.navSubTop.height}px
 				$else
-					top ${mpage.navTop.height}px
+					top ${wzCtx.navTop.height}px
 			$else
 				top 0
 			bottom 0
-			$if mpage.navRight.drawer
-				width ${mpage.navRight.drawerClosedWidth}px
+			$if wzCtx.navRight.drawer
+				width ${wzCtx.navRight.drawerClosedWidth}px
 				overflow hidden
 				-webkit-transition width .05s linear
 				transition width .05s linear
 				-webkit-transform translateZ(0) scale(1,1)
 			$else
-				width ${mpage.navRight.width}px
-		padding ${mpage.navRight.padding}
+				width ${wzCtx.navRight.width}px
+		padding ${wzCtx.navRight.padding}
 		z-index 1000
-		$if mpage.navRight.drawer
+		$if wzCtx.navRight.drawer
 			& :hover
-				width ${mpage.navRight.width}px
+				width ${wzCtx.navRight.width}px
 				overflow visible
 
-	$if mpage.navRight.drawer
+	$if wzCtx.navRight.drawer
 		. nav-right-fa
 			display inline-block
 			font-family FontAwesome
@@ -47,7 +47,7 @@
 			font-size 20px
 
 
-	$if mpage.navRight.drawer
+	$if wzCtx.navRight.drawer
 
 		. nav-right>ul
 			margin 7px 0

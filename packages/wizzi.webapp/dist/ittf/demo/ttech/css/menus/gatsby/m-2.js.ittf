@@ -4,7 +4,7 @@ module
     $include g/js/wz/core
 
     function m1_reset
-        $foreach menu in mpage.Nav1.menus
+        $foreach menu in wzCtx.Nav1.menus
             $if menu.panels && menu.panels.length > 0
                 _ wz.removeClass
                     @ '#${menu.title}-dropdown'
@@ -14,7 +14,7 @@ module
                     @ 'css-1sg6jvm'
 
     function eco_reset
-        $foreach content in mpage.Main.contents
+        $foreach content in wzCtx.Main.contents
             $foreach panel in content.panels
                 $if panel.kind == 'eco'
                     $foreach item in panel.items
@@ -28,7 +28,7 @@ module
     _ wz.contentLoaded
         =>
             log 'contentLoaded'
-            $foreach menu in mpage.Nav1.menus
+            $foreach menu in wzCtx.Nav1.menus
                 $if menu.panels && menu.panels.length > 0            
                     _ wz.click
                         @ '#${menu.title}'
@@ -45,7 +45,7 @@ module
                                 @ 'css-1sg6jvm'
                             _ ev.stopPropagation();
 
-            $foreach content in mpage.Main.contents
+            $foreach content in wzCtx.Main.contents
                 $foreach panel in content.panels
                     $if panel.kind == 'eco'
                         $foreach item in panel.items

@@ -1,9 +1,9 @@
 {
-    "name": "wizzi.backend",
+    "name": "wizzi.webapp",
     "version": "0.0.1",
     "author": {
-        "name": "",
-        "email": ""
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
     },
     "private": false,
     "main": "",

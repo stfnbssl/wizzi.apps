@@ -69,7 +69,7 @@ html
                         _ document.getElementById
                             @ 'root'
 
-        layouts/lab(&wzCtx)
+        apps_layout(&wzCtx)
 
             # root
                 style height: 100%; width: 100%

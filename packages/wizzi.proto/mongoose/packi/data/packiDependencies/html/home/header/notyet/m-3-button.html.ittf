@@ -16,7 +16,7 @@ $group
                 text-decoration none
                 background transparent
                 border 1px solid transparent
-                color ${mpage.Colors.primary}
+                color ${wzCtx.Colors.primary}
                 width 2.5rem
                 height 2.5rem
                 position relative
