@@ -7,6 +7,7 @@ $group
         CORS_CLIENT_ORIGIN=${wzCtx.Build.cors.clientOrigin}
     $if wzCtx.Build.useWizzi
         IS_WIZZI_DEV=${wzCtx.Build.wizzi.isDev}
+        WIZZI_BASE_PATH=${wzCtx.Build.wizzi.basePath}
     $if wzCtx.Build.usePacki
         PACKI_API_ENDPOINT=${wzCtx.Build.packi.endPoint}
         PACKI_STORE_FOLDER=${wzCtx.Build.packi.storeFolder}

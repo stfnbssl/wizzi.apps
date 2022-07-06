@@ -1,0 +1,13 @@
+module
+
+    export
+        :type FsOptions
+            :{
+                :p hash
+                    :string
+                :p content
+                    :string
+                    :optional
+                :p prettify
+                    :boolean
+                    :optional

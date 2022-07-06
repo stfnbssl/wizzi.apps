@@ -4,20 +4,20 @@
 		var opt = {}
 		opt.useCodemirror = true;
 
-	page( &opt
+	html/layouts/empty_opt(&opt)
 		
 		textarea
 			id myTextarea
 			name myTextarea
 			+ var i = 0;
 		
-		$append styles
+		$append head-styles
 			@style
 				css
 					< body
 						background-color #322132
 
-		$append scripts-2
+		$append body-scripts-2
 		
 			script
 				module

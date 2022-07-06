@@ -1,7 +1,13 @@
 $group
 	$params &opt
 
-	$if opt.useCodemirror
+    $if opt.useFontRoboto
+        s( https://fonts.googleapis.com/css?family=Roboto:300,400,500
+    
+    $if opt.useFontMaterialIcons
+		s( https://fonts.googleapis.com/icon?family=Material+Icons
+	
+    $if opt.useCodemirror
 		s( /static/lib/codemirror/lib/codemirror.css
 		s( /static/lib/codemirror/theme/monokai.css
 		s( /static/lib/codemirror/theme/twilight.css
@@ -37,11 +43,11 @@ $group
     $if opt.usePopper
         s( /static/lib/popper/main.css
 	
-    $if opt.useRoboto
-		s( https://fonts.googleapis.com/css?family=Roboto:300,400,500
-
     $if opt.useSocial
         s( /static/lib/social/social-icons.css
 	
     $if opt.useSweetalert
 		s( https://cdn.jsdelivr.net/npm/sweetalert2@7.31.1/dist/sweetalert2.min.css	
+
+    $if opt.mainCss && opt.mainCss.length > 0
+        s( ${opt.mainCss}

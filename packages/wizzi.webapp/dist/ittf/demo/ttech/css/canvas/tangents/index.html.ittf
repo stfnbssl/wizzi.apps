@@ -1,0 +1,620 @@
+html/layouts/empty()
+
+    - https://alvarotrigo.com/blog/best-css-button-hover-effects/
+    
+    $append head-styles
+        css ./styles.css.ittf
+
+    . about title
+        h1 Tangents
+        h2 by
+            a Kyle Phillips
+                href http://haptic-data.com
+        button Randomize
+            class btn randomize
+
+    $append body-scripts
+        script
+            var 
+                decl bezier
+                decl layouts
+                decl cloudMotion
+                decl sketch
+                decl aboutPanel
+                decl gui
+                decl app
+                decl settings
+                decl take
+                decl main
+                #
+                    # global toxi, animitter, dat
+                #
+                    # *
+                    # This sketch uses random motion along a bezier path
+                    # and draws rays connecting the moving point to the tangents found on
+                    # a series of plotted circles.
+                    # 
+                    # The Code
+                    # 
+                    # Bezier and cloudMotion objects are awesome modules by
+                    # - Mathias Paumgarten - http://mathias-paumgarten.com/
+                    # 
+                    # Toxiclibs.js
+                    # - me - http://haptic-data.com/toxiclibjs
+                    # 
+                    # Animitter
+                    # - me - https://github.com/hapticdata/animitter
+                    # 
+                    # dat.GUI
+                    # - Data Arts - http://workshop.chromeexperiments.com/
+                    # 
+                    # 
+            set window.pathA = []
+            set window.pathB = []
+                # "bezier" by Mathias Paumgarten
+            set bezier =
+                iife 
+                    var proto
+                        { 
+                            @ t 0
+                            @ addAnchor
+                                function 
+                                    param point
+                                    if !this.anchors
+                                        set this.anchors = []
+                                    _ this.anchors.push
+                                        { 
+                                            @ x point.x
+                                            @ y point.y
+                                    _ this.update()
+                            @ setPosition
+                                function 
+                                    param value
+                                    set this.t = value
+                                    _ this.update()
+                            @ update
+                                function 
+                                    var t = this.t || 0
+                                    var anchors = this.anchors || []
+                                    var length = anchors.length
+                                    var points = []
+                                    var 
+                                        decl i
+                                        decl j
+                                    for ; i < length; i++
+                                        set points[i] =
+                                            { 
+                                                @ x anchors[i].x
+                                                @ y anchors[i].y
+                                    for ; j < length; ++j
+                                        for ; i < length - j; ++i
+                                            set points[i].x = (1 - t) * points[i].x + t * points[~ ~ (i + 1)].x
+                                            set points[i].y = (1 - t) * points[i].y + t * points[~ ~ (i + 1)].y
+                                    set this.x = points[0].x
+                                    set this.y = points[0].y
+                            @ get
+                                function 
+                                    return 
+                                        { 
+                                            @ x this.x
+                                            @ y this.y
+                    var Bezier
+                        function 
+                    set Bezier.prototype = Object.create(proto)
+                    function bezier
+                        return new Bezier()
+                    return bezier
+                # "bezier" by Mathias Paumgarten
+                # "cloud motion" by Mathias Paumgarten
+            set cloudMotion =
+                iife 
+                    param bezier
+                    function CloudMotion
+                        param radius
+                        param speed
+                        set speed = speed || 0.01
+                        var points = []
+                        var curve
+                        var current = 0
+                        function init
+                            _ points.push(getRandomPoint())
+                            _ points.push(getRandomPoint())
+                            _ points.push(getRandomPoint())
+                            _ initCurve()
+                        function initCurve
+                            set curve = bezier()
+                            _ curve.addAnchor(points[0].interpolateTo(points[1], 0.5))
+                            _ curve.addAnchor(points[1])
+                            _ curve.addAnchor(points[1].interpolateTo(points[2], 0.5))
+                        function getRandomPoint
+                            var pt = new toxi.geom.Vec2D()
+                            set pt.x = toxi.math.MathUtils.random(radius / 3, radius)
+                            set pt.y = Math.random() * Math.PI * 2
+                            return pt.toCartesian()
+                        set this.update =
+                            function 
+                                set current += speed
+                                if current >= 1
+                                    _ points.shift()
+                                    _ points.push(getRandomPoint())
+                                    _ initCurve()
+                                    set current -= 1
+                                _ curve.setPosition(current)
+                        set this.getPosition =
+                            function 
+                                return curve.get()
+                        _ init()
+                    return 
+                        function 
+                            param radius
+                            param speed
+                            return new CloudMotion(radius, speed)
+                    (
+                        @ bezier
+                # "cloud motion" by Mathias Paumgarten
+                # The main rendering of the sketch
+            set sketch =
+                iife 
+                    param cloudMotion
+                    var 
+                        decl exports
+                            { 
+                        decl canvas = document.createElement('canvas')
+                        decl ctx = canvas.getContext('2d')
+                        decl center = new toxi.geom.Vec2D()
+                        decl focus = new toxi.geom.Vec2D()
+                        decl circles = []
+                        decl color = toxi.color.TColor.newHex('3b2141').setAlpha(0.015)
+                        decl motion
+                        decl drawTangents
+                    set exports.clear =
+                        function 
+                            set canvas.width = window.innerWidth * 2
+                            set canvas.height = window.innerHeight * 2
+                            set canvas.style.width = window.innerWidth + 'px'
+                            set canvas.style.height = window.innerHeight + 'px'
+                            _ center.set(canvas.width, canvas.height).scaleSelf(0.5)
+                            _ focus.set(center)
+                            _ ctx.clearRect(0, 0, canvas.width, canvas.height)
+                    _ exports.clear()
+                    set motion = cloudMotion(1000, 0.1)
+                    set drawTangents =
+                        function 
+                            param ctx
+                            param pt
+                            param circle
+                            param color
+                            var globalPath
+                                iif color === color1
+                                    then window.pathA
+                                    else window.pathB
+                            var isecs = circle.getTangentPoints(pt)
+                            if isecs
+                                set ctx.strokeStyle = color.toRGBACSS()
+                                _ isecs.forEach
+                                    function 
+                                        param isec
+                                        _ ctx.beginPath()
+                                        var 
+                                            decl ray = new toxi.geom.Ray2D(pt, isec.sub(pt))
+                                            decl line = ray.toLine2DWithPointAtDistance(canvas.width)
+                                        _ ctx.moveTo(line.a.x, line.a.y)
+                                        _ ctx.lineTo(line.b.x, line.b.y)
+                                        var pr
+                                            => 
+                                                param arr
+                                                _ arr.map
+                                                    => 
+                                                        param v
+                                                        set Math.floor(v * 1000) / 1000
+                                        _ globalPath.push
+                                            [ 
+                                                _ pr
+                                                    [ 
+                                                        @ line.a.x
+                                                        @ line.a.y
+                                                _ pr
+                                                    [ 
+                                                        @ line.b.x
+                                                        @ line.b.y
+                                        _ ctx.closePath()
+                                        _ ctx.stroke()
+                    var 
+                        decl color1 = color.copy()
+                        decl color2 = toxi.color.TColor.newHex('ffdb4d').adjustHSV(0, -0.01, 0.25).setAlpha(0.015)
+                    set color2 = toxi.color.NamedColor.GOLD.copy().setAlpha(0.015)
+                    var colors
+                        [ 
+                            @ color1
+                            @ color2
+                        # call this function every frame to render the sketch
+                    function render
+                        param frameCount
+                        _ focus.set(motion.getPosition()).addSelf(center)
+                            # add a subtle white fill
+                        set ctx.fillStyle = 'rgba(255,255,255,0.001)'
+                            # add a subtle white fill
+                        _ ctx.fillRect(0, 0, canvas.width, canvas.height)
+                        _ circles.forEach
+                            function 
+                                param circle
+                                param i
+                                _ drawTangents(ctx, focus, circle, colors[i % colors.length])
+                        # call this function every frame to render the sketch
+                    set exports.el = canvas
+                    set exports.center = center
+                    set exports.colors = colors
+                        # provide the sketch with the layout of toxi.geom.Circle's
+                    set exports.setCircles =
+                        function 
+                            param _circles
+                            set circles = _circles
+                        # provide the sketch with the layout of toxi.geom.Circle's
+                    set exports.setMotion =
+                        function 
+                            param radius
+                            param speed
+                            _ exports.loop.off('update', motion.update)
+                            set motion = cloudMotion(radius, speed)
+                            _ exports.loop.on('update', motion.update)
+                    set exports.loop = animitter().on('update', motion.update).on('update', render)
+                    return exports
+                    (
+                        @ cloudMotion
+                # The main rendering of the sketch
+                # call `fn` `num` times, collecting results
+            set take =
+                function 
+                    param num
+                    param fn
+                    var results = []
+                    for var i = 0; i < num; i++
+                        _ results.push(fn(i, num))
+                    return results
+                # call `fn` `num` times, collecting results
+                # methods to determine where the circles are plotted
+            set layouts =
+                iife 
+                    param toxi
+                    param sketch
+                    param take
+                    var 
+                        decl exports
+                            { 
+                        decl el = sketch.el
+                    set exports.random =
+                        function 
+                            param num
+                            return 
+                                _ take
+                                    @ num
+                                    function 
+                                        param i
+                                        param total
+                                        return new toxi.geom.Circle(Math.random() * el.width, Math.random() * el.height, toxi.math.MathUtils.random(el.width * 0.005, el.width))
+                    set exports.concentric =
+                        function 
+                            param num
+                            param position
+                            param options
+                            set options =
+                                || 
+                                    + options
+                                    { 
+                            var 
+                                decl minRadius = options.minRadius || 10
+                                decl maxRadius = options.maxRadius || el.width / 3
+                                decl interp = options.interpolator || new toxi.math.LinearInterpolation()
+                            return 
+                                _ take
+                                    @ num
+                                    function 
+                                        param i
+                                        param total
+                                        return new toxi.geom.Circle(position, interp.interpolate(minRadius, maxRadius, i / total))
+                    set exports.combination =
+                        function 
+                            param num
+                            param position
+                            var 
+                                decl numRandom = ~ ~ toxi.math.MathUtils.random(num / 4, num)
+                                decl numConcentric = num - numRandom
+                            return exports.random(numRandom).concat(exports.concentric(numConcentric, position))
+                    return exports
+                    (
+                        @expr window.toxi
+                        @ sketch
+                        @ take
+                # methods to determine where the circles are plotted
+                # the panel with my name on it
+            set aboutPanel =
+                iife 
+                    var 
+                        decl exports
+                            { 
+                        decl create
+                        decl svg
+                        decl setPath
+                        decl aboutEl = document.body.querySelector('.about.title')
+                        decl randomizeEl = document.body.querySelector('.btn.randomize')
+                        decl interp = new toxi.math.SigmoidInterpolation()
+                        decl paths = []
+                    set create =
+                        function 
+                            param type
+                            return document.createElementNS('http://www.w3.org/2000/svg', type)
+                    set setPath =
+                        function 
+                            param points
+                            param path
+                            set path = path || create('path')
+                                # build the path "d" attribute
+                            var d
+                                _ points.reduce
+                                    function 
+                                        param str
+                                        param pt
+                                        set str += pt.x + ' ' + pt.y + ' '
+                                        return str
+                                    @ 'M '
+                                # build the path "d" attribute
+                                # close the path
+                            set d += 'Z'
+                                # close the path
+                            _ path.setAttribute('d', d)
+                            return path
+                    set svg = create('svg')
+                    _ svg.classList.add('about')
+                    var poly
+                        { 
+                    set poly.from =
+                        new toxi.geom.Rect
+                            { 
+                                @ x 0
+                                @ y 0
+                                @ width 200
+                                @ height 0
+                            ._ toPolygon2D
+                    set poly.to =
+                        new toxi.geom.Rect
+                            { 
+                                @ x 0
+                                @ y 0
+                                @ width 200
+                                @ height 150
+                            ._ toPolygon2D
+                    set poly.current = poly.from.copy()
+                    var faces
+                        [ 
+                            [ 
+                                @ 0
+                                @ 1
+                                @ 3
+                            [ 
+                                @ 1
+                                @ 2
+                                @ 3
+                    var colors
+                        [ 
+                            { 
+                                @ from toxi.color.TColor.newHex('cccccc')
+                                @ to toxi.color.TColor.newHex('ffffff')
+                            { 
+                                @ from toxi.color.TColor.newHex('999999')
+                                @ to toxi.color.TColor.newHex('ffffff')
+                    _ colors.forEach
+                        function 
+                            param color
+                            set color.current = color.from.copy()
+                    var tweenColor
+                        function 
+                            param colorIndex
+                            param delayFrames
+                            param durationFrames
+                            return 
+                                function 
+                                    param frameCount
+                                    var f = frameCount - delayFrames
+                                    set f = toxi.math.MathUtils.clip(f / durationFrames, 0, 1)
+                                    var color = colors[colorIndex]
+                                    _ color.current.setRGB(color.from.copy().blend(color.to, f).rgb)
+                    var tweenVertex
+                        function 
+                            param vertIndex
+                            param delayFrames
+                            param durationFrames
+                            return 
+                                function 
+                                    param frameCount
+                                    var f = frameCount - delayFrames
+                                    set f = toxi.math.MathUtils.clip(f / durationFrames, 0, 1)
+                                    var 
+                                        decl c = poly.current.vertices[vertIndex]
+                                        decl from = poly.from.vertices[vertIndex]
+                                        decl to = poly.to.vertices[vertIndex]
+                                    _ c.set(from.interpolateTo(to, f, interp))
+                    var extract
+                        function 
+                            param arr
+                            param idxArr
+                            return 
+                                _ idxArr.map
+                                    function 
+                                        param i
+                                        return arr[i]
+                    var tris
+                    var makePaths
+                        function 
+                            set tris =
+                                _ faces.map
+                                    function 
+                                        param face
+                                        return extract(poly.current.vertices, face)
+                            set paths =
+                                _ tris.map
+                                    function 
+                                        param tri
+                                        var path = setPath(tri)
+                                        set path.style.strokeWidth = '1px'
+                                        return path
+                            _ paths.forEach
+                                function 
+                                    param path
+                                    _ svg.appendChild(path)
+                    var render
+                        function 
+                            _ tris.forEach
+                                function 
+                                    param tri
+                                    param i
+                                    var path = paths[i]
+                                    var color = colors[i].current
+                                    set path.style.fill = color.toRGBCSS()
+                                    set path.style.stroke = color.toRGBCSS()
+                                    _ setPath(tri, path)
+                    set exports.loop =
+                        _ animitter().once('start', makePaths).on('update', tweenColor(0, 0, 30)).on('update', tweenColor(1, 30, 30)).on('update', tweenVertex(1, 0, 15)).on('update', tweenVertex(3, 0, 30)).on('update', tweenVertex(2, 15, 30)).on('update', render).on
+                            @ 'update'
+                            function 
+                                param frameCount
+                                if frameCount === 60
+                                    _ this.emit('fade-text')
+                            ._ on
+                                @ 'fade-text'
+                                function 
+                                    _ aboutEl.classList.add('active')
+                                    _ this.complete()
+                    return exports
+                # the panel with my name on it
+                # some of the basic configuration
+            set settings =
+                { 
+                    @ numCircles 50
+                    @ layout 'random'
+                    @ colors sketch.colors
+                    @ motionRadius 2000
+                    @ motionSpeed 0.1
+                # some of the basic configuration
+                # control all of the pieces
+            set app =
+                { 
+                    @ logPaths
+                        function 
+                            var result
+                                { 
+                                    @ a window.pathA.slice(0, 6000)
+                                    @ b window.pathB.slice(0, 6000)
+                            var output = document.createElement('textarea')
+                            _ Object.assign
+                                @expr output.style
+                                { 
+                                    @ position 'fixed'
+                                    @ bottom '10px'
+                                    @ right '10px'
+                                    @ width '300px'
+                                    @ heght '150px'
+                            _ document.body.appendChild(output)
+                            var stringified = JSON.stringify(result, null, '    ')
+                            set output.value = stringified
+                    @ updateMotion
+                        function 
+                            _ sketch.setMotion(settings.motionRadius, settings.motionSpeed)
+                    @ randomize
+                        function 
+                            var coin = toxi.math.MathUtils.flipCoin
+                            var generator
+                                { 
+                                    @ layout
+                                        function 
+                                            var types = Object.keys(layouts)
+                                            return types[~ ~ toxi.math.MathUtils.random(0, types.length)]
+                                    @ numCircles
+                                        function 
+                                            var r = toxi.math.MathUtils.random
+                                            if settings.layout === 'concentric'
+                                                return ~ ~ r(20, 60)
+                                            return 
+                                                op~ 
+                                                    op~ 
+                                                        ( 
+                                                            iif coin()
+                                                                then r(100, 50)
+                                                                else
+                                                                    iif coin()
+                                                                        then r(120, 200)
+                                                                        else r(25, 50)
+                                    @ motionRadius
+                                        function 
+                                            return 
+                                                iif coin()
+                                                    then 1000
+                                                    else 2000
+                                    @ motionSpeed
+                                        function 
+                                            return 
+                                                iif coin()
+                                                    then 0.1
+                                                    else
+                                                        iif coin()
+                                                            then 0.01
+                                                            else 0.003
+                            for 
+                                left
+                                    var prop
+                                in generator
+                                set settings[prop] = generator[prop]()
+                            _ app.reset()
+                    @ reset
+                        function 
+                            set window.pathA = []
+                            set window.pathB = []
+                            _ sketch.clear()
+                            _ sketch.setCircles(layouts[settings.layout](settings.numCircles, sketch.center))
+                            _ sketch.setMotion(settings.motionRadius, settings.motionSpeed)
+                            _ sketch.loop.start()
+                    @ resume
+                        function 
+                            _ sketch.loop.start()
+                    @ pause
+                        function 
+                            _ sketch.loop.stop()
+                # control all of the pieces
+                # create the gui in the top-right
+            set gui =
+                iife 
+                    param settings
+                    param app
+                    param layouts
+                    var gui = new dat.GUI()
+                    _ gui.close()
+                    _ gui.add(settings, 'numCircles', 1, 200).step(1).listen()
+                    _ gui.add(settings, 'layout', Object.keys(layouts)).listen()
+                    _ gui.add(settings, 'motionRadius', 10, sketch.el.width).listen().onFinishChange(app.updateMotion)
+                    _ gui.add(settings, 'motionSpeed', 0.001, 0.15).step(0.001).listen().onFinishChange(app.updateMotion)
+                    _ gui.add(app, 'pause')
+                    _ gui.add(app, 'resume')
+                    _ gui.add(app, 'reset')
+                    _ gui.add(app, 'logPaths')
+                    return gui
+                    (
+                        @ settings
+                        @ app
+                        @ layouts
+                # create the gui in the top-right
+                # kick off the sketch
+            set main =
+                function 
+                    _ document.body.appendChild(sketch.el)
+                    _ document.body.appendChild(aboutPanel.el)
+                    _ document.body.querySelector('.btn.randomize').addEventListener('click', app.randomize)
+                    _ window.addEventListener('resize', app.reset)
+                        # transition in info panel
+                    _ setTimeout
+                        function 
+                            _ aboutPanel.loop.start()
+                        @ 6000
+                        # transition in info panel
+                    _ app.reset()
+                # kick off the sketch
+            set window.onload = main
+

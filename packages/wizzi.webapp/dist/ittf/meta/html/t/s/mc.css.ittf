@@ -18,32 +18,6 @@
 		$if opt.debug_css
 			border 1px solid red
 
-	. mc-sidebar-left
-		padding 20px 30px
-		$$ height 100%
-		$$ still i can't find why i need to subtract these 40 pixels
-		height calc(100% - 10rem)
-		min-width 20rem
-		overflow auto
-		< ul
-			display flex
-			justify-content space-between
-			flex-direction column
-			list-style-type none
-			transition all 1s ease
-			< li
-				border-bottom 1px solid ${opt.c_0}
-				color ${opt.c_0}
-				display block
-				font-size 1rem
-				padding 0.3rem 0 0.3rem 1rem
-				< a
-					color ${opt.c_0}
-			< li:last-child
-				border-bottom 0
-
-	. mc-sidebar-left-title
-		display none
 
 	. mc-content
 		$$padding 50px 30px

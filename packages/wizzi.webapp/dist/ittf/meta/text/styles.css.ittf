@@ -9,7 +9,7 @@
 
 	$include s/options-analize
 
-	css/layouts/main(&opt)
+	css/layouts/meta_main(&opt)
 
 	< body
         background-color ${opt.c_bg_0}

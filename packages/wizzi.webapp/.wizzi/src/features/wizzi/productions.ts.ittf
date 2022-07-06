@@ -4,10 +4,8 @@ module
     import wizzi from 'wizzi'
     import wizziTools from 'wizzi-tools'
     import
-        @ ittfDocumentScanner
-        @ folderBrowse
-        @ IttfMTreeState
-        @ FolderBrowseResult
+        @ ittfScanner
+        @ ittfGraph
         @ verify
         from 'wizzi-utils'
     import

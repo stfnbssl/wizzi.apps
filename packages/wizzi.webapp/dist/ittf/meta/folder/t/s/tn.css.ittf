@@ -27,6 +27,7 @@
 						background-color ${opt.c_tn_bg_logo_hover}
 
 		. tn-breadcrumbs
-			background-color ${opt.c_bg_tn_main}
+			margin 5px
+            background-color ${opt.c_bg_tn_main}
 
 

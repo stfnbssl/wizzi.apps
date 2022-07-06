@@ -1,0 +1,25 @@
+module
+    import
+        @ ControllerType
+        from '../app/types'
+    import
+        as ittfTypes
+        from './types'
+    import
+        as ittfFsApi
+        from './api/ittfFsApi'
+    import
+        @ ApiV1IttfFsController
+        from './controllers/apiv1ittf'
+    +
+    const ittfControllers
+        :[
+            :ref ControllerType
+        =
+            [
+                @ new ApiV1IttfFsController()
+    +
+    export
+        @ ittfTypes
+        @ ittfControllers
+        @ ittfFsApi

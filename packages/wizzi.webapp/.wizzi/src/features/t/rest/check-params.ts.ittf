@@ -1,0 +1,12 @@
+$group
+
+	var check = paramsCheck(request)
+	$hook
+	if check.errors.length > 0
+		return
+            _ sendFailure
+                @ response
+                {
+                    @ err check.errors
+                @ 400
+

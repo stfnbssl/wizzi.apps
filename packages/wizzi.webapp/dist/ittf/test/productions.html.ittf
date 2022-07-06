@@ -1,11 +1,13 @@
 html
 
-    $include wzctx/base.init
-    
     $
-        wzCtx.Build.useTailwind = true;
+        var wzCtx = {
+            Build: {
+                useTailwind: true
+            }
+        }
 
-    html/pages/basic(&wzCtx)
+    html/layouts/basic_opt(&wzCtx)
 
         ul
             li

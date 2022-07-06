@@ -1,0 +1,297 @@
+html/layouts/empty()
+
+    - from http://www.cssplay.co.uk/menus/cssplay-responsive-radio-tree-menu.html
+
+    $append head-styles
+        css ./index.css.ittf
+
+    input 
+        type radio
+        name sn_menu
+        id sn_close
+        class close
+    input 
+        type radio
+        name sn_menu
+        id sn_open
+        class open
+    input 
+        type radio
+        name sn_menu
+        id sn_menu1
+        class open menu1
+    input 
+        type radio
+        name sn_menu
+        id sn_menu2
+        class open menu2
+    input 
+        type radio
+        name sn_menu
+        id sn_menu3
+        class open menu2 menu3
+    input 
+        type radio
+        name sn_menu
+        id sn_menu4
+        class open menu2 menu3 menu4
+    input 
+        type radio
+        name sn_menu
+        id sn_menu5
+        class open menu2 menu5
+    input 
+        type radio
+        name sn_menu
+        id sn_menu6
+        class open menu2 menu6
+    input 
+        type radio
+        name sn_menu
+        id sn_menu7
+        class open menu7
+    input 
+        type radio
+        name sn_menu
+        id sn_menu8
+        class open menu8
+    input 
+        type radio
+        name sn_menu
+        id sn_menu9
+        class open menu8 menu9
+    input 
+        type radio
+        name sn_menu
+        id sn_menu10
+        class open menu8 menu9 menu10
+    input 
+        type radio
+        name sn_menu
+        id sn_menu11
+        class open menu8 menu11
+
+
+    div 
+        id sn_menu_outer
+        div 
+            id sn_menu
+            p 
+                a Home
+                    href index.html
+            p 
+                class pmenu1
+                label 
+                    for sn_menu1
+                    span 
+                    + Contact Us
+                label 
+                    for sn_open
+            div 
+                p 
+                    a Email
+                        href index.html
+                p 
+                    a Telephone
+                        href index.html
+                p 
+                    a Onpne Form
+                        href index.html
+                p 
+                    a Snail Mail Address
+                        href index.html
+            p 
+                class pmenu2
+                label 
+                    for sn_menu2
+                    span 
+                    + Resort
+                label 
+                    for sn_open
+            div 
+                p 
+                    a Ski Hire Facilities
+                        href index.html
+                p 
+                    class pmenu3
+                    label 
+                        for sn_menu3
+                        span 
+                        + Main Ski Slopes
+                    label 
+                        for sn_menu2
+                div 
+                    p 
+                        a Beginners Slopes
+                            href index.html
+                    p 
+                        a Intermediate Slopes
+                            href index.html
+                    p 
+                        class pmenu4
+                        label 
+                            for sn_menu4
+                            span 
+                            + Advanced Skill Levels
+                        label 
+                            for sn_menu3
+                    div 
+                        p 
+                            a Local
+                                href index.html
+                        p 
+                            a Nearby
+                                href index.html
+                        p 
+                            a With instructor
+                                href index.html
+                        p 
+                            a Snow boarding
+                                href index.html
+                    p 
+                        a Expert
+                            href index.html
+                p 
+                    a Night life
+                        href index.html
+                p 
+                    class pmenu5
+                    label 
+                        for sn_menu5
+                        span 
+                        + Restaurants
+                    label 
+                        for sn_menu2
+                div 
+                    p 
+                        a Snow Hotel
+                            href index.html
+                    p 
+                        a The Snowman
+                            href index.html
+                    p 
+                        a Ice Cavern
+                            href index.html
+                    p 
+                        a Ski Inn
+                            href index.html
+                p 
+                    class pmenu6
+                    label 
+                        for sn_menu6
+                        span 
+                        + Car Hire
+                    label 
+                        for sn_menu2
+                div 
+                    p 
+                        a From Airport
+                            href index.html
+                    p 
+                        a In Resort
+                            href index.html
+                    p 
+                        a Multiple Resorts
+                            href index.html
+            p 
+                class pmenu7
+                label 
+                    for sn_menu7
+                    span 
+                    + Surrounding Area
+                label 
+                    for sn_open
+            div 
+                p 
+                    a Where to go
+                        href index.html
+                p 
+                    a What to do
+                        href index.html
+                p 
+                    a Places of interest
+                        href index.html
+                p 
+                    a National parks &amp; Museums
+                        href index.html
+            p 
+                class pmenu8
+                label 
+                    for sn_menu8
+                    span 
+                    + Information
+                label 
+                    for sn_open
+            div 
+                p 
+                    a Money Exchange
+                        href index.html
+                p 
+                    class pmenu9
+                    label 
+                        for sn_menu9
+                        span 
+                        + Resort Essential Information
+                    label 
+                        for sn_menu8
+                div 
+                    p 
+                        a lift Passes
+                            href index.html
+                    p 
+                        a Insurance
+                            href index.html
+                    p 
+                        class pmenu10
+                        label 
+                            for sn_menu10
+                            span 
+                            + Gear Rental
+                        label 
+                            for sn_menu9
+                    div 
+                        p 
+                            a Boots
+                                href index.html
+                        p 
+                            a Skis
+                                href index.html
+                        p 
+                            a Ski Wear
+                                href index.html
+                        p 
+                            a Goggles
+                                href index.html
+                    p 
+                        a Ski Schools
+                            href index.html
+                    p 
+                        a Snow Report
+                            href index.html
+                p 
+                    class pmenu11
+                    label 
+                        for sn_menu11
+                        span 
+                        + Language
+                    label 
+                        for sn_menu8
+                div 
+                    p 
+                        a Austrian
+                            href index.html
+                    p 
+                        a German
+                            href index.html
+                    p 
+                        a French
+                            href index.html
+                    p 
+                        a English
+                            href index.html
+                p 
+                    a Short Breaks
+                        href index.html
+            p 
+                a Privacy
+                    href index.html

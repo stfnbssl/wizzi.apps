@@ -10,7 +10,7 @@
 
 	$include common/options-analize
 
-	g/css/layouts/main(&opt)
+	css/layouts/meta_main(&opt)
 
 	< body
         background-color ${opt.c_bg_0}
@@ -33,3 +33,6 @@
 	$include s/tn
 	$include s/fsitems
 	$include s/mc
+
+    $include sidebar-left
+    $include breadcrumbs

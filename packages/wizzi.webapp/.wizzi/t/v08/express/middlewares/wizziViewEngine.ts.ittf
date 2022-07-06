@@ -29,7 +29,7 @@ $group
                             try
                                 const twinJsonContext
                                     await
-                                        _ wizziProds.inferAndLoadContextFs(filePath, 'wzCtx')
+                                        _ wizziProds.inferAndLoadContextFs(filePath, 'mpage')
                                 const context
                                     {
                                         @ ...options

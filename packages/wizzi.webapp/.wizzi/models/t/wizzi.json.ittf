@@ -10,6 +10,9 @@ $group
         pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi/packages"
         { globalContext
             wzConfigIsDevelopment true
+        basePath "C:/My/wizzi"
+    useWizziIttf true
+    { wizziIttf
     useIttfStatic true
     { ittfStatic
     usePackiStatic false

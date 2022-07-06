@@ -1,0 +1,34 @@
+﻿module
+
+    import fs from 'fs'
+    import path from 'path'
+    import
+        @ crypto
+        @ fSystem
+        @ verify
+        from 'wizzi-utils'
+    import
+        @ config
+        from '../../config'
+    +
+    var file = fSystem.vfile()
+    +
+    function normalize
+        param filepath
+            :string
+        return verify.replaceAll(filepath, '\\', '/')
+	+
+    function hashEncrypt
+		param text
+            :string
+		return crypto.encrypt(text)
+	+
+	function hashDecrypt
+		param text
+            :string
+		return crypto.decrypt(text)        
+    $include paths/files
+    $*
+    $include paths/ids
+    $include paths/ide
+    *$

@@ -3,13 +3,14 @@
 
 	$if opt.useMaterialUI
 
-		const {
-			\b colors,
-			\b createMuiTheme,
-			\b CssBaseline,
-			\b MuiThemeProvider,
-			\b withStyles,
-			\b } = window['material-ui']
+		const
+            {
+                @ colors
+                @ createMuiTheme
+                @ CssBaseline
+                @ MuiThemeProvider
+                @ withStyles
+            = MaterialUI
 
 		$hook imports
 

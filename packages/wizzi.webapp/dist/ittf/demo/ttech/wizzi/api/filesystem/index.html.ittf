@@ -1,10 +1,10 @@
-html/layouts/empty()
+html
 
 	$
 		var opt = {}
 		opt.useWizzi = true;
 
-	page( &opt
+	html/layouts/empty_opt( &opt
 
 		$append styles
 			@style

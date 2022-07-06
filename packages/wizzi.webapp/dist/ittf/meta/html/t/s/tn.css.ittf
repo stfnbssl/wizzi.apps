@@ -41,4 +41,5 @@
 							color ${opt.c_tn_2}
 		
 		. tn-breadcrumbs
+            margin 5px
 			background-color ${opt.c_bg_tn_main}

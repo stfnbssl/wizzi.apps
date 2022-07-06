@@ -1,0 +1,90 @@
+﻿module
+
+    import
+        @ FsOptions
+        from '../types'
+    import
+        @ getIttfFileContentByHash
+        @ putIttfFileContentByHash
+        from './ittfPaths'
+    import
+        @ pretty
+        from 'wizzi-utils'
+
+    +
+    async-function getIttfDocument
+        param options
+            :ref FsOptions
+        return
+            new Promise
+                =>
+                    param resolve
+                    param reject
+                    var hash = options.hash
+                    var ittf
+                        _ getIttfFileContentByHash
+                            @ hash
+                    if ittf.ok == false
+                        return
+                            _ reject
+                                {
+                                    @ message ittf.message
+                    else
+                        return
+                            _ resolve
+                                {
+                                    @ data
+                                        {
+                                            @ content ittf.content
+                                    @ message 'Ittf document content fetched'
+    +
+    async-function putIttfDocument
+        param options
+            :ref FsOptions
+        return
+            new Promise
+                =>
+                    param resolve
+                    param reject
+                    var hash = options.hash
+                    var content = options.content || ""
+                    var ittf
+                        _ putIttfFileContentByHash
+                            @ hash
+                            @ content
+                    if ittf.ok == false
+                        return
+                            _ reject
+                                {
+                                    @ message ittf.message
+                    else
+                        var prettyText = ""
+                        if options.prettify
+                            _ pretty.prettifyIttfHtmlFromString
+                                @ content
+                                function
+                                    param err
+                                        :any
+                                    param text
+                                        :string
+                                    if err
+                                        set prettyText = ""
+                                    else
+                                        set prettyText = text
+                                    return
+                                        _ resolve
+                                            {
+                                                { data
+                                                    @ pretty prettyText
+                                                @ message 'Ittf document content written'   
+                        else
+                            return
+                                _ resolve
+                                    {
+                                        { data
+                                            @ pretty prettyText
+                                        @ message 'Ittf document content written'   
+    +
+    export
+        @ getIttfDocument
+        @ putIttfDocument

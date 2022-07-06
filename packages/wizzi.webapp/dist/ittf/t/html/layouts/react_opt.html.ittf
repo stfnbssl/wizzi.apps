@@ -17,113 +17,154 @@
 			name viewport
 			content user-scalable=0, initial-scale=1, minimum-scale=1, width=device-width, height=device-height
 
-		css https://fonts.googleapis.com/css?family=Roboto:300,400,500
-		css https://fonts.googleapis.com/icon?family=Material+Icons
-		css ./styles.css.ittf
+		./empty_styles( &opt )
 	
 	body
 		# root
 
 		$hook scripts-1
 
-		$if opt.local
-			j(/static/lib/babel/babel.min.6.26.0.js
-		$else
-			j(${babel_url}
+		./empty_scripts( &opt )
 
-        $if opt.local
-			j(/static/lib/react/prop-types.min.15.6.2.js
-		$else
-			j(https://unpkg.com/prop-types@15.6/prop-types.min.js
 		
-		$if opt.local
-			$if opt.production
-				j(/static/lib/react/react.production.min.16.4.2.js
-			$else
-				j(/static/lib/react/react.development.16.4.2.js
-		$else
-			j(${react_dev_url}
-		
-		$if opt.local
-			$if opt.production
-				j(/static/lib/react/react-dom.production.min.16.5.1.js
-			$else
-				j(/static/lib/react/react-dom.development.16.5.1.js
-		$else
-			j(${react_dom_dev_url}
-		
-		$if opt.useMaterialUI
-			$if opt.local
-				j(/static/lib/material-ui/material-ui.development.3.1.2.js
-			$else
-				j(${mui_dev_url}
-		
-		$if opt.useKeycode
-			$if opt.local
-				j(/static/lib/material-ui/keycode.min.2.2.0.js
-			$else
-				j(https://cdn.jsdelivr.net/npm/keycode.js
-		
-		$if opt.useGridLayout
-			j(js/react-grid-layout.min.js
-		
-		$if opt.useRouter
-			$if opt.local
-				j(/static/lib/react/react-router.min.4.3.1.js
-			$else
-				j(https://unpkg.com/react-router-dom@4.3.1/umd/react-router-dom.js
-		
-		$if opt.useDownshift
-			$if opt.local
-				j(/static/lib/react/downshift.umd.min.2.0.10.js
-			$else
-				j(https://cdn.jsdelivr.net/npm/downshift@2.0.10/dist/downshift.umd.min.js
-		
-		$if opt.useMonaco
-			j(/static/lib/monaco-editor/package/min/vs/loader.js
-
-		$if opt.mainJs
-			j(js/main.js.ittf
-
-		$else
+		$if !opt.mainJs
 
 			script
 				type text/babel
 				module
 					kind react
-
 					$if opt.useMaterialUI
+                        const ReactRouterDOM = window.ReactRouterDOM
+                        const classnames = window.classNames
                         const 
                             { 
-                            	@ colors
-                                @ createMuiTheme
-                                @ MuiThemeProvider
+                                @ colors
+                                @ createGenerateClassName
+                                @ createTheme
+                                @ createStyles
+                                @ fade
+                                @ makeStyles
+                                @ jssPreset
+                                @ ThemeProvider
+                                @ Container
                                 @ withStyles
+                                @ withTheme
+                                $if !opt.materialUI.v4
+                                    @ Box
                                 @ AppBar
+                                @ Avatar
+                                @ Backdrop
+                                @ Badge
+                                @ BottomNavigation
+                                @ BottomNavigationAction
                                 @ Button
+                                @ ButtonBase
+                                @ Card
+                                @ CardActionArea
+                                @ CardActions
+                                @ CardContent
+                                @ CardHeader
+                                @ CardMedia
+                                @ Checkbox
                                 @ Chip
+                                @ CircularProgress
+                                @ ClickAwayListener
+                                @ Collapse
                                 @ CssBaseline
                                 @ Dialog
                                 @ DialogActions
                                 @ DialogContent
                                 @ DialogContentText
                                 @ DialogTitle
+                                @ Divider
+                                @ Drawer
+                                @ ExpansionPanel
+                                @ ExpansionPanelActions
+                                @ ExpansionPanelDetails
+                                @ ExpansionPanelSummary
+                                @ Fab
+                                @ Fade
+                                @ FilledInput
+                                @ FormControl
+                                @ FormControlLabel
+                                @ FormGroup
+                                @ FormHelperText
+                                @ FormLabel
+                                @ Grid
+                                @ GridList
+                                @ GridListTile
+                                @ GridListTileBar
+                                @ Grow
+                                @ Hidden
                                 @ Icon
                                 @ IconButton
+                                @ Input
+                                @ InputAdornment
                                 @ InputBase
+                                @ InputLabel
+                                @ LinearProgress
+                                @ Link
+                                @ List
+                                @ ListItem
+                                @ ListItemAvatar
+                                @ ListItemIcon
+                                @ ListItemSecondaryAction
+                                @ ListItemText
+                                @ ListSubheader
+                                @ Menu
                                 @ MenuItem
-                                @ MenuIcon
+                                @ MenuList
+                                @ MobileStepper
+                                @ Modal
+                                @ ModalManager
+                                @ NativeSelect
+                                @ NoSsr
+                                @ OutlinedInput
                                 @ Paper
+                                @ Popover
+                                @ Popper
+                                @ Portal
+                                @ Radio
+                                @ RadioGroup
+                                @ RootRef
+                                @ Select
+                                @ Slide
+                                @ Snackbar
+                                @ SnackbarContent
+                                @ Step
+                                @ StepButton
+                                @ StepConnector
+                                @ StepContent
+                                @ StepIcon
+                                @ StepLabel
+                                @ Stepper
+                                @ SvgIcon
+                                @ SwipeableDrawer
+                                @ Switch
+                                @ Tab
+                                @ Table
+                                @ TableBody
+                                @ TableCell
+                                @ TableFooter
+                                @ TableHead
+                                @ TablePagination
+                                @ TableRow
+                                @ TableSortLabel
+                                @ Tabs
                                 @ TextField
                                 @ Toolbar
+                                @ Tooltip
                                 @ Typography
-                            = window['MaterialUI']
+                                @ withMobileDialog
+                                @ withWidth
+                                @ Zoom
+                            = MaterialUI
 
 					$hook imports
 
 					$if opt.useMaterialUI
 						const theme
-							_ createMuiTheme
+                            _ createTheme
 								{
 									{ palette
 										{ primary
@@ -144,23 +185,33 @@
                             $hook styles
 						$hook
 
-					$if opt.useMaterialUI
-						const StyledApp
-							_ withStyles
-								@ styles
-								(
-									@ App
-
-						log 'Calling _ ReactDOM.render StyledApp'
-                        _ ReactDOM.render
-							< StyledApp
-							_ document.getElementById
-								@ 'root'
-					
+					const root = ReactDOM.createRoot(document.getElementById('root'))
+                    $if opt.useMaterialUI
+						$if opt.materialUI.v4
+                            const StyledApp
+                                _ withStyles
+                                    @ styles
+                                    $if opt.withTheme
+                                        {
+                                            @ withTheme true
+                                    (
+                                        @ App
+                            log 'Calling root.render ThemeProvider+StyledApp'
+                            _ root.render
+                                < ThemeProvider 
+                                    @ theme {theme}
+                                    < CssBaseline 
+                                    < StyledApp 
+                        $else
+                            log 'Calling root.render ThemeProvider'
+                            _ root.render
+                                < ThemeProvider 
+                                    @ theme {theme}
+                                    < CssBaseline 
+                                    < App 
 					$else
-
-						log 'Calling _ ReactDOM.render App'
-                        _ ReactDOM.render
+						log 'Calling root.render App'
+                        _ root.render
 							< App
 							_ document.getElementById
 								@ 'root'

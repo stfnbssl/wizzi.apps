@@ -4,7 +4,7 @@
 		var opt = {}
 		opt.useAce = true;
 
-	page( &opt
+	html/layouts/empty_opt(&opt)
 		
 		pre
 			id codeArea
@@ -15,7 +15,7 @@
 				\n }
 				\n }
 		
-		$append styles
+		$append head-styles
 			@style
 				css
 					< body
@@ -28,7 +28,7 @@
 						left 0
 						right 0
 		
-		$append scripts-2
+		$append body-scripts-2
 		
 			script
 				module

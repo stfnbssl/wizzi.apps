@@ -29,9 +29,9 @@
             . flex-row
                 html/a( Profile, /profile, ${ca}
                 html/a( Log Out, /logout, ${ca}
-		$*
         nav
 			class tn-bar
+        $*
 			nav
 				class tn-main
 				a
@@ -40,17 +40,26 @@
 						img
 							src /ittf/images/logo.svg.ittf
         *$
-
-        nav
-            class tn-breadcrumbs
-            . breadcrumbs-panel
-                $foreach bc in fs.breadCrumbs
-                    $if bc.isLast
-                        . breadcrumb-item
-                            span / ${bc.name}
-                    $else
-                        . breadcrumb-item
-                            a / ${bc.name}
+            nav
+                class tn-breadcrumbs
+                $*
+                . breadcrumbs-panel
+                    $foreach bc in fs.breadCrumbs
+                        $if bc.isLast
+                            . breadcrumb-item
+                                span / ${bc.name}
+                        $else
+                            . breadcrumb-item
+                                a / ${bc.name}
+                                    href ${bc.uri}
+                *$
+                . breadcrumb
+                    $foreach bc in fs.breadCrumbs
+                        a ${bc.name}
+                            $if bc.isLast
+                                class active
+                                href #
+                            $else
                                 href ${bc.uri}
 
 		# mc-wrapper

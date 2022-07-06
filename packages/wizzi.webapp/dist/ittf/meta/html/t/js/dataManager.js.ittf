@@ -15,7 +15,7 @@
 		m editSave
 			param hash
 			param content
-			# log 'wz.DataManager.editSave', hash, content
+			log 'wz.DataManager.editSave', hash, content
 			_ fetch
 				@ this.editSaveUrl
 				{
@@ -31,16 +31,27 @@
 				._ then
 					=>
 						param response
-						_ response.json()
+                        _ response.json()
 				._ then
 					=>
 						param json
+                        #
+                            _ alert
+                                @ 'editSave: ' + JSON.stringify(json, null, 2)
 						if this.ctx.editManager && this.ctx.editManager.onSave
 							set json.data.hash = hash
 							set json.data.content = content
+                            #
+                                _ alert
+                                    @ 'editSave: ' + JSON.stringify(json, null, 2)
 							_ this.ctx.editManager.onSave
 								@ json.data
-						#
-							_ alert
-								@ 'editSave: ' + JSON.stringify(json, null, 2)
+                ._ catch
+					=>
+						param err
+                        _ alert
+                            @ 'editSave error: ' + err
+                            $$ @ 'editSave error: ' + err + '\n' + JSON.stringify(err, null, 2)
+
+
 

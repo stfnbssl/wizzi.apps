@@ -1,0 +1,105 @@
+html/layouts/empty()
+
+    - from http://www.cssplay.co.uk/layouts/cssplay-./images.html#url
+
+    $append head-styles
+        link 
+            href http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two
+            rel stylesheet
+            type text/css
+        link 
+            href http://fonts.googleapis.com/css?family=Ubuntu+Condensed
+            rel stylesheet
+            type text/css
+        link 
+            href http://fonts.googleapis.com/css?family=Ubuntu
+            rel stylesheet
+            type text/css
+        css ./index.css.ittf
+
+    section 
+        header 
+            h1 On
+                span The
+                span Beach
+        nav 
+            ul 
+                li 
+                    a Home
+                        href #url
+                li 
+                    a Swim Wear
+                        href #url
+                li 
+                    a Beach Wear
+                        href #url
+                li 
+                    a Swim Shoes
+                        href #url
+                li 
+                    a Towels
+                        href #url
+                li 
+                    a Hats
+                        href #url
+                li 
+                    a Cart
+                        href #url
+                li 
+                    a Checkout
+                        href #url
+        article 
+            img 
+                src ./images/shoe1.jpg
+                alt 
+            h1 Shoe #1
+            h3 &#163;30.00
+            p Perfect for the beaches where the sand gets too hot to walk on in bare feet.
+            p A experimental responsive layout with animated repositioning.
+                class info
+        article 
+            img 
+                src ./images/shoe2.jpg
+                alt 
+            h1 Shoe #2
+            h3 &#163;27.50
+            p Perfect for the beaches where the sand gets too hot to walk on in bare feet.
+            p For IE10, Firefox, Chrome, Safari, Opera, iOS and Android OS.
+                class info
+        article 
+            img 
+                src ./images/shoe3.jpg
+                alt 
+            h1 Shoe #3
+            h3 &#163;15.00
+            p Perfect for the beaches where the sand gets too hot to walk on in bare feet.
+            p Will also work on IE9 but with no animation.
+                class info
+        article 
+            img 
+                src ./images/shoe4.jpg
+                alt 
+            h1 Shoe #4
+            h3 &#163;20.00
+            p Perfect for the beaches where the sand gets too hot to walk on in bare feet.
+            p Can be made to work on IE6, IE7 and IE8 using jQuery/javascript for animation.
+                class info
+        article 
+            img 
+                src ./images/shoe5.jpg
+                alt 
+            h1 Shoe #5
+            h3 &#163;22.50
+            p Perfect for the beaches where the sand gets too hot to walk on in bare feet.
+            p So resize your browser to see the various elements resize and reposition with animation.
+                class info
+        article 
+            img 
+                src ./images/shoe6.jpg
+                alt 
+            h1 Shoe #6
+            h3 &#163;25.00
+            p Perfect for the beaches where the sand gets too hot to walk on in bare feet.
+            p There are two changes of size and position.
+                class info
+            br 

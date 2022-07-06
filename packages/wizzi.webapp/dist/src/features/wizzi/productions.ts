@@ -2,13 +2,13 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\wizzi\productions.ts.ittf
-    utc time: Sat, 02 Jul 2022 09:02:58 GMT
+    utc time: Tue, 05 Jul 2022 18:30:33 GMT
 */
 import path from 'path';
 import fs from 'fs';
 import wizzi from 'wizzi';
 import wizziTools from 'wizzi-tools';
-import {ittfDocumentScanner, folderBrowse, IttfMTreeState, FolderBrowseResult, verify} from 'wizzi-utils';
+import {ittfScanner, ittfGraph, verify} from 'wizzi-utils';
 import {packiFilePrefix} from '../config/env';
 import {packiTypes} from '../packi';
 import {config} from '../config';
@@ -550,11 +550,11 @@ export async function inferAndLoadContextFs(filePath: string, exportName: string
         );
 }
 
-export async function scanIttfDocument(filePath: string, rootFolder: string):  Promise<IttfMTreeState> {
+export async function scanIttfDocument(filePath: string, rootFolder: string):  Promise<ittfGraph.IttfDocumentGraph> {
 
     return new Promise((resolve, reject) => 
         
-            ittfDocumentScanner.scan(filePath, {
+            ittfScanner.scanIttfDocument(filePath, {
                 rootFolder
              }, (err, result) => {
             
@@ -567,11 +567,11 @@ export async function scanIttfDocument(filePath: string, rootFolder: string):  P
         );
 }
 
-export async function scanIttfFolder(filePath: string, rootFolder: string):  Promise<FolderBrowseResult> {
+export async function scanIttfFolder(filePath: string, rootFolder: string):  Promise<ittfScanner.FolderBrowseResult> {
 
     return new Promise((resolve, reject) => 
         
-            folderBrowse.scan(filePath, {
+            ittfScanner.browseFolder(filePath, {
                 rootFolder
              }, (err, result) => {
             

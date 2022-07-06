@@ -1,9 +1,9 @@
-html/layouts/empty()
+html
 
 	$
 		var opt = {}
 
-	page( &opt
+	html/layouts/empty_opt( &opt
 
 		js ../js/githubClient.js.ittf
 

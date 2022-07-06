@@ -10,13 +10,13 @@ $group
             :return
                 :ref Promise
                     :param
-                        :ref IttfMTreeState
+                        :ref ittfGraph.IttfDocumentGraph
             return
                 new Promise
                     =>
                         param resolve
                         param reject
-                        _ ittfDocumentScanner.scan
+                        _ ittfScanner.scanIttfDocument
                             @ filePath
                             {
                                 @ rootFolder
@@ -36,13 +36,13 @@ $group
             :return
                 :ref Promise
                     :param
-                        :ref FolderBrowseResult
+                        :ref ittfScanner.FolderBrowseResult
             return
                 new Promise
                     =>
                         param resolve
                         param reject
-                        _ folderBrowse.scan
+                        _ ittfScanner.browseFolder
                             @ filePath
                             {
                                 @ rootFolder

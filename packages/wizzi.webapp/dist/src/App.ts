@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\App.ts.ittf
-    utc time: Sat, 02 Jul 2022 09:02:58 GMT
+    utc time: Tue, 05 Jul 2022 18:30:33 GMT
 */
 import express from 'express';
 import {AppInitializerType} from './features/app';
@@ -19,6 +19,14 @@ class App {
         initValues.middlewaresPre.forEach(middleware => 
         
             middleware(this.app)
+        )
+        
+        initValues.apis.forEach((api) => {
+        
+            console.log('installing api: ', api.name);
+            api.initialize(initValues);
+            initValues.globalApi[api.name] = api;
+        }
         )
         
         initValues.controllers.forEach((controller) => {

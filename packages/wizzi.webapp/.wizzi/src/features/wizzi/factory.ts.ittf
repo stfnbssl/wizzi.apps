@@ -76,6 +76,8 @@ module
                         param reject
                         _ wizzi.fsFactory
                             {
+                                { repo
+                                    @ storeKind "filesystem"
                                 { plugins
                                     [ items
                                         $foreach item in wzCtx.Build.wizzi.plugins

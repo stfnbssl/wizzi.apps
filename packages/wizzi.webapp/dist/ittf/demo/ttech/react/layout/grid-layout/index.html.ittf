@@ -4,16 +4,8 @@
 		var opt = {};
 		opt.title = "React-grid-layoyut example";
 		opt.useMaterialUI = true;
-		opt.mainJs = true;
+        opt.materialUI = { v4: true };
+		opt.mainJs = "js/main.js.ittf";
 		opt.useReactGrid = true;
 
-	html/layouts/empty_opt(&opt)
-	
-	    # root
-	    
-	    $append head-styles
-			css ./styles.css.ittf
-
-		$append body-scripts
-
-			react_app(&opt)	
+	html/layouts/react_opt(&opt)

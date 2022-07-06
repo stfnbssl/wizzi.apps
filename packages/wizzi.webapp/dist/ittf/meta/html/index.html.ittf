@@ -30,6 +30,21 @@
                 html/a( Profile, /profile, ${ca}
                 html/a( Log Out, /logout, ${ca}
 
+        
+        nav
+			class tn-bar
+            nav
+                class tn-breadcrumbs
+                . breadcrumb
+                    $foreach bc in ds.breadCrumbs
+                        a ${bc.name}
+                            $if bc.isLast
+                                class active
+                                href #
+                            $else
+                                href ${bc.uri}
+        
+        $*
         nav
             class tn-breadcrumbs
             . breadcrumbs-panel
@@ -41,6 +56,7 @@
                         . breadcrumb-item
                             a / ${bc.name}
                                 href ${bc.uri}
+        *$
 
 		# mc-wrapper
 			class mc-wrapper-layout

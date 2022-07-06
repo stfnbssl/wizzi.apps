@@ -1,0 +1,7 @@
+$group
+    $params name
+    +
+    p ${name}
+        :public
+        async=>
+            $hook

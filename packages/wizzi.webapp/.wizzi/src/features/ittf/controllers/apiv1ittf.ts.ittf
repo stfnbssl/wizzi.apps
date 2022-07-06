@@ -1,0 +1,60 @@
+module
+    
+    $
+        var ctrl = {
+            name: 'ApiV1IttfFs',
+            path: '/api/v1/ittf/fs/',
+        }
+    
+    controller( &ctrl )
+            
+        $append imports
+            import
+                as ittfFsApi
+                from '../api/ittfFsApi'
+            +
+            const myname = 'features/ittf/controllers/apiv1ittffs'
+
+        _ this.router.get('', this.getIttfDocument)
+        _ this.router.put('', this.putIttfDocument)
+        
+        $append handlers
+            
+            handler( getIttfDocument )
+                log 'getIttfDocument.request.params', request.params
+                rest/check-params( )
+                    rest/not-empty( body , hash )
+                _ ittfFsApi.getIttfDocument
+                    {
+                        @ hash request.body.hash
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            log 'getIttfDocument.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( getIttfDocument )
+
+            handler( putIttfDocument )
+                log 'putIttfDocument.request.params', request.params
+                log 'putIttfDocument.request.body', request.body
+                rest/check-params( )
+                    rest/not-empty( body , hash )
+                    rest/not-empty( body , content )
+                    rest/optional( body , prettify )
+                _ ittfFsApi.putIttfDocument
+                    {
+                        @ hash request.body.hash
+                        @ content request.body.content
+                        @ prettify request.body.prettify
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            log 'putIttfDocument.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( putIttfDocument )

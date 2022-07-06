@@ -6,6 +6,7 @@
             production: false,
             title: 'Downshift component',
             useMaterialUI: true,
+            materialUI: { v4: true},
 			useRouter: true,
 			useDownshift: true,
         }
@@ -15,9 +16,15 @@
 
         $append imports
 
-            const Downshift = Downshift.default
-
-            # log 'Downshift', Downshift
+            const Downshift = Downshift['default']
+            const 
+                { 
+                    @ resetIdCounter
+                    @ useCombobox
+                    @ useMultipleSelection
+                    @ useSelect
+                = window["Downshift"]
+            log 'Downshift', Downshift, resetIdCounter, useCombobox, useMultipleSelection, useSelect
 
             const suggestion_items
                 [

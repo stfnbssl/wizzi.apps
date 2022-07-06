@@ -1,14 +1,15 @@
 html
 
-    $include wzctx/wizzi.init
-
 	$
-		
-		wzCtx.title = 'Wizzi playground';
-		wzCtx.Build.useWizzi = true;
-		wzCtx.Build.useAce = true;
-		wzCtx.Build.useSweetalert = true;
-		wzCtx.Build.useEventEmitter = true;
+        var wzCtx = {
+		    title: 'Wizzi playground',
+            Build: {
+                useWizzi: true,
+                useAce: true,
+                useSweetalert: true,
+                useEventEmitter: true,
+            }
+        }
         var opt = {}
         opt.schemas = [
             'css',
@@ -25,7 +26,7 @@ html
             'xml'
         ];
 
-    html/pages/basic(&wzCtx)
+    html/layouts/basic_opt(&wzCtx)
 
 		$append head-styles
 		    $if isWizziStudio

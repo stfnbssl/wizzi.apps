@@ -4,9 +4,9 @@
 		var opt = {}
 		opt.useMonaco = true;
 
-	page( &opt
+	html/layouts/empty_opt(&opt)
 
-		$append styles
+		$append head-styles
 			@style
 				css
 					# root
@@ -14,7 +14,7 @@
 						height 600px
 						border 1px solid grey
 
-		$append scripts-1
+		$append body-scripts
 			script
 				module
 

@@ -1,0 +1,18 @@
+html/layouts/empty()
+
+    - https://alvarotrigo.com/blog/best-css-button-hover-effects/
+    
+    $append head-styles
+        css ./styles.css.ittf
+
+    div 
+        id container
+        button 
+            class learn-more
+            span 
+                class circle
+                aria-hidden true
+                span 
+                    class icon arrow
+            span Learn More
+                class button-text

@@ -1,0 +1,30 @@
+$group
+    $params &ctrl
+    import
+        @ ApiType
+        @ AppInitializerType
+        from '../../../features/app/types'
+    $hook imports
+    +
+    export
+        class ${ctrl.name}Api
+            :implements ApiType
+            +
+            p name
+                :public
+                = '${ctrl.name}'
+            p globalApi
+                :any
+            p config
+                :any
+            +
+            $hook properties
+            +
+            => initialize
+                param initValues
+                    :ref AppInitializerType
+                log 'Entering ${ctrl.name}Api.initialize'
+                set this.globalApi = initValues.globalApi;
+                set this.config = initValues.config;
+                $hook
+            $hook methods

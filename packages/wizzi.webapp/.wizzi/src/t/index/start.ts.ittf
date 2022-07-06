@@ -31,6 +31,13 @@ $group
             [
                 @ ...appMiddlewaresPost
         +
+    let apis
+        :[
+            :ref ApiType
+        =
+            [
+                $if wzCtx.Build.useWizziIttf
+        +
     let controllers
         :[
             :ref ControllerType
@@ -53,6 +60,8 @@ $group
                     @ ...packiControllers
                 $if wzCtx.Build.useWizzi
                     @ ...wizziControllers
+                $if wzCtx.Build.useWizziIttf
+                    @ ...ittfControllers
         +
     log 'Starting app. Config:', config
     $if wzCtx.Build.useFilesystem
@@ -68,6 +77,8 @@ $group
             {
                 @ config
                 @ middlewaresPre
+                { globalApi
+                @ apis
                 @ controllers
                 @ middlewaresPost
                 $if wzCtx.Build.useFilesystem

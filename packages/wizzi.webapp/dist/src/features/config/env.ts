@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\config\env.ts.ittf
-    utc time: Sat, 02 Jul 2022 09:02:58 GMT
+    utc time: Tue, 05 Jul 2022 18:30:33 GMT
 */
 import path from 'path';
 import dotenv from 'dotenv';
@@ -38,6 +38,7 @@ function validateEnv() {
         GOOGLE_CLIENT_SECRET: str(), 
         GOOGLE_CALLBACK_URL: str(), 
         IS_WIZZI_DEV: bool(), 
+        WIZZI_BASE_PATH: str(), 
         PACKI_STORE_FOLDER: str(), 
         PACKI_TEMPLATES_FOLDER: str(), 
         PACKI_API_ENDPOINT: str()
@@ -83,6 +84,7 @@ export default function create():  ConfigType {
                 googleClientSecret: checkedEnv.GOOGLE_CLIENT_SECRET, 
                 googleCallbackURL: checkedEnv.GOOGLE_CALLBACK_URL, 
                 isWizziDev: checkedEnv.IS_WIZZI_DEV, 
+                wizziBasePath: checkedEnv.WIZZI_BASE_PATH, 
                 ittfPath: __ittfPath, 
                 dataPath: __dataPath, 
                 metaHtmlIttfPath: path.join(__ittfPath, 'meta', 'html', 'index.html.ittf'), 

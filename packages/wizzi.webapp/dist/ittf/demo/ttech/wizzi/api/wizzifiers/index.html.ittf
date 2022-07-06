@@ -1,4 +1,4 @@
-html/layouts/empty()
+html
 
 	$
 		var d = '$';
@@ -7,7 +7,7 @@ html/layouts/empty()
 		opt.useAce = true;
 		opt.useJsonFormatter = true;
 
-	page( &opt
+	html/layouts/empty_opt( &opt
 
 		$append styles
 			css ./styles.css.ittf

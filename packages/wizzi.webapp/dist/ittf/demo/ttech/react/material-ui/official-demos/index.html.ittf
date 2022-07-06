@@ -5,7 +5,8 @@ html
             local: false,
             production: false,
             title: 'Starter 1',
-            useMaterialUI: true
+            useMaterialUI: true,
+            materialUI: { v4: true},
         }
         var isCdn = true;
 

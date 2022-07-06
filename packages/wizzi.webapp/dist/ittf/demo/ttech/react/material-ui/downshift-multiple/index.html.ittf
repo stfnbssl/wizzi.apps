@@ -6,6 +6,7 @@
             production: false,
             title: 'Downshift multiple',
             useMaterialUI: true,
+            materialUI: { v4: true},
 			useRouter: true,
 			useDownshift: true,
         }

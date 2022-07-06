@@ -1,0 +1,17 @@
+html/layouts/empty()
+
+    $append head-styles
+        css ./styles.css.ittf
+
+    h1 Straight &amp; Narrow
+    h2 Cravats for the Modern Adventurist
+    h3 If you're going to hang a piece of cloth around your neck, why not make it one of ours?
+    section 
+        p 
+            ++ Did you know that the modern necktie originates from the cravats worn by Croation mercenaries during the Thirty Years War almost four centuries ago? From that kick-ass origin, ties have become the sartorial choice of dandies, fops, and Organisation
+            ++ Men of all stripes.
+            p 
+                ++ Here at Straight &amp; Narrow we believe that ties should return to that are capable of staunching aortal bleeding from a musket-ball wound, lashing bamboo together to raft down the Mekong Delta, or acting as a garrotte.
+                p 
+                    ++ To accomplish this, we make our ties from modern materials: no silk or plain cotton! We use tactical ballistic nylon or military spec canvas for our creations, which include hidden pockets. Skinny, fashion-forward ties to complement the modern adventurist.
+                    p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima corrupti odio, officiis debitis culpa ratione illum. Similique voluptate dolores quaerat cumque quas quibusdam eveniet at repudiandae culpa, assumenda, eum absurdum veniam.

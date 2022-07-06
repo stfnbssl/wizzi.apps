@@ -1,0 +1,15 @@
+html/layouts/empty()
+
+    - https://alvarotrigo.com/blog/best-css-button-hover-effects/
+
+    $append head-styles
+        css ./styles.css.ittf
+
+    . section1
+        . woman
+            h1 Create.
+                contenteditable 
+                data-heading Create.
+        . content
+            h2 Suscipit velit commodi
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit nemo id dolorem quaerat placeat delectus explicabo similique consectetur vero illum sequi enim, beatae? Quas excepturi dolor eum illo velit, deserunt!

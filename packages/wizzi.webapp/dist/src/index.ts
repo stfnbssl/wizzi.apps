@@ -2,9 +2,9 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\index.ts.ittf
-    utc time: Sat, 02 Jul 2022 09:02:58 GMT
+    utc time: Tue, 05 Jul 2022 18:30:33 GMT
 */
-import {ControllerType, AppInitializerType, MiddlewareType} from './features/app/types';
+import {ApiType, ControllerType, AppInitializerType, MiddlewareType} from './features/app/types';
 import {ModelBuilderType} from './features/app';
 import {config} from './features/config/index';
 import { mongodbStart } from './services/mongodb';
@@ -15,6 +15,7 @@ import {productionControllers, productionModelBuilders} from './features/product
 import {siteControllers} from './site/index';
 import {packiControllers} from './features/packi/index';
 import {wizziControllers} from './features/wizzi/index';
+import {ittfControllers} from './features/ittf/index';
 import {appMiddlewaresPre, appMiddlewaresPost, auth0Secured} from './middlewares/index';
 import App from './App';
 async function start() {
@@ -32,19 +33,25 @@ async function start() {
     let middlewaresPost: MiddlewareType[] = [
         ...appMiddlewaresPost
     ];
+    let apis: ApiType[] = [];
     let controllers: ControllerType[] = [
         ...siteControllers, 
         ...authenticationControllers, 
         ...accountControllers, 
         ...productionControllers, 
         ...packiControllers, 
-        ...wizziControllers
+        ...wizziControllers, 
+        ...ittfControllers
     ];
     console.log('Starting app. Config:', config);
     await wizziStart(config);
     const appInitializer: AppInitializerType = {
         config, 
         middlewaresPre, 
+        globalApi: {
+            
+         }, 
+        apis, 
         controllers, 
         middlewaresPost, 
         auth0Secured
