@@ -7,7 +7,7 @@ html
             }
         }
 
-    html/layouts/basic_opt(&wzCtx)
+    html/layouts/basic_opt(&opt)
 
         ul
             li

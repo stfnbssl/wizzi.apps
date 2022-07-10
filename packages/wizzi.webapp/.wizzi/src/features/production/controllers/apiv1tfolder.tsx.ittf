@@ -10,6 +10,7 @@ module
             
         $append imports
             import
+                @ getListTFolder
                 @ validateTFolder
                 @ getTFolder
                 @ updateTFolder
@@ -18,11 +19,27 @@ module
             +
             const myname = 'features/production/controllers/apiv1tfolder'
 
+        _ this.router.get('/:owner', this.getTFolderList)
         _ this.router.get('/checkname/:name', this.getCheckTFolderName)
         _ this.router.get('/:owner/:name', this.getTFolder)
         _ this.router.put('/:owner/:name', this.putTFolder)
         
         $append handlers
+
+            handler( getTFolderList )
+
+                # loog 'getTFolderList.request.params', request.params
+                _ getListTFolder
+                    @ request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getTFolderList.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( getTFolderList )
             
             handler( getCheckTFolderName )
 

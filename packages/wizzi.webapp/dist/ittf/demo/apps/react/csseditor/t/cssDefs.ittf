@@ -402,6 +402,23 @@ $group
                                     @ 'circle'
                                     @ 'armenian'
                     {
+                        @ name 'grid'
+                        [ styles
+                            {
+                                @ name 'grid-template-columns'
+                            {
+                                @ name 'grid-template-rows'
+                            {
+                                @ name 'grid-row'
+                            {
+                                @ name 'grid-column'
+                            {
+                                @ name 'grid-auto-row'
+                            {
+                                @ name 'grid-auto-column'
+                            {
+                                @ name 'grid-auto-flow'
+                    {
                         @ name 'table'
                         [ styles
                             {

@@ -1,5 +1,5 @@
 $group
-	$params &wzCtx
+	$params &opt
 
     style
         < *
@@ -133,7 +133,7 @@ $group
         . l1-lab
         
             . l2-lab-header
-                + Lab / ${wzCtx.title}
+                + Lab / ${opt.title}
             
             . l2-lab-content
                 $hook

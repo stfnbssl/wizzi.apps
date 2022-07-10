@@ -10,6 +10,7 @@ module
             
         $append imports
             import
+                @ getListPackageProduction
                 @ validatePackageProduction
                 @ getPackageProduction
                 @ updatePackageProduction
@@ -17,11 +18,27 @@ module
             +
             const myname = 'features/production/controllers/apiv1packageproduction'
 
+        _ this.router.get('/:owner', this.getPackageProductionList)
         _ this.router.get('/checkname/:name', this.getCheckPackageName)
         _ this.router.get('/:owner/:name', this.getPackageProduction)
         _ this.router.put('/:owner/:name', this.putPackageProduction)
         
         $append handlers
+
+            handler( getPackageProductionList )
+
+                # loog 'getPackageProductionList.request.params', request.params
+                _ getListPackageProduction
+                    @ request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getPackageProductionList.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( getPackageProductionList )
             
             handler( getCheckPackageName )
 

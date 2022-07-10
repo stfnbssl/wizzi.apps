@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\middlewares\ittfStatic.ts.ittf
-    utc time: Tue, 05 Jul 2022 18:30:33 GMT
+    utc time: Sat, 09 Jul 2022 08:31:38 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -291,7 +291,7 @@ async function contextLoader(resourceFilePath: string, req: Request, callback: a
     }
     else {
         try {
-            const twinJsonContext = await wizziProds.inferAndLoadContextFs(resourceFilePath, 'mpage');
+            const twinJsonContext = await wizziProds.inferAndLoadContextFs(resourceFilePath, 'wzCtx');
             return (callback(null, twinJsonContext));
         } 
         catch (ex) {

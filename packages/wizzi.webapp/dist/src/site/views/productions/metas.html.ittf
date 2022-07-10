@@ -1,12 +1,20 @@
 html
-    $
-        var md = {}
 
-    +
-    layout(&md)
+	$
+        var opt = {
+            section: 'Productions',
+		    title: 'Meta productions',
+            user: {},
+        }
+
+    site/layouts/basic( &opt )
+
         $append head-scripts
             < script
                 + ${__INITIAL_DATA__}
+        
+        top_navigation( metas )
+
         . flex-row flex-justify-center
             profile-sidebar(s)
             . flex-column width-full

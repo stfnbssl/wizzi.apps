@@ -1,0 +1,61 @@
+html 
+    head 
+        meta 
+            http-equiv Content-Type
+            content text/html;charset=utf-8
+    body 
+        h2 Monaco Diff Editor Sample
+        div 
+            id container
+            style width: 800px; height: 600px; border: 1px solid grey
+        js /static/lib/monaco-editor/min/vs/loader.js
+        script 
+            module
+                kind react
+                _ require.config
+                    { 
+                        { paths
+                            @ vs '/static/lib/monaco-editor/min/vs'
+                _ require
+                    [ 
+                        @ 'vs/editor/editor.main'
+                    function 
+                        var diffEditor = monaco.editor.createDiffEditor(document.getElementById('container'))
+                        _ Promise.all
+                            [ 
+                                @ xhr('original.txt')
+                                @ xhr('modified.txt')
+                            ._ then
+                                function 
+                                    param r
+                                    var originalTxt = r[0].responseText
+                                    var modifiedTxt = r[1].responseText
+                                    _ diffEditor.setModel
+                                        { 
+                                            @ original monaco.editor.createModel(originalTxt, 'javascript')
+                                            @ modified monaco.editor.createModel(modifiedTxt, 'javascript')
+        script 
+            <  300) 
+                || 
+                req.status =
+                1223) 
+                { 
+                c(req); 
+                } 
+                else 
+                e(req); 
+                req.onreadystatechange function
+                () 
+                {}; 
+                }; 
+                req.open('GET', 
+                url, 
+                true); 
+                req.responseType '';
+                req.send(null); 
+                }, 
+                function 
+                req._canceled true;
+                req.abort(); 
+                ); 
+            error Unexpected token, expected "," (11:44)

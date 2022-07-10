@@ -1,6 +1,120 @@
 {
 	[ apis
 		{
+			title 'Productions - get artifacts list'
+			method 'get'
+			url '/api/v1/production/artifact/:owner'
+			[ parameters
+				{
+					type "text"
+                    paramType "url"
+					name "owner"
+					label "Owner"
+					demoValue "stfnbssl"
+		{
+			title 'Productions - get artifact'
+			method 'get'
+			url '/api/v1/production/artifact/:owner/:name'
+			[ parameters
+				{
+					type "text"
+                    paramType "url"
+					name "owner"
+					label "Owner"
+					demoValue "stfnbssl"
+				{
+					type "text"
+                    paramType "url"
+					name "name"
+					label "Name"
+					demoValue "docs/artifacts.html"
+		{
+			title 'Productions - get packages list'
+			method 'get'
+			url '/api/v1/production/package/:owner'
+			[ parameters
+				{
+					type "text"
+                    paramType "url"
+					name "owner"
+					label "Owner"
+					demoValue "stfnbssl"
+		{
+			title 'Productions - get package'
+			method 'get'
+			url '/api/v1/production/package/:owner/:name'
+			[ parameters
+				{
+					type "text"
+                    paramType "url"
+					name "owner"
+					label "Owner"
+					demoValue "stfnbssl"
+				{
+					type "text"
+                    paramType "url"
+					name "name"
+					label "Name"
+					demoValue "react.app.sample"
+		{
+			title 'Productions - get metas list'
+			method 'get'
+			url '/api/v1/production/meta/:owner'
+			[ parameters
+				{
+					type "text"
+                    paramType "url"
+					name "owner"
+					label "Owner"
+					demoValue "stfnbssl"
+		{
+			title 'Productions - get meta'
+			method 'get'
+			url '/api/v1/production/meta/:owner/:name'
+			[ parameters
+				{
+					type "text"
+                    paramType "url"
+					name "owner"
+					label "Owner"
+					demoValue "stfnbssl"
+				{
+					type "text"
+                    paramType "url"
+					name "name"
+					label "Name"
+					demoValue "webpack.react"
+		{
+			title 'Productions - get tFolders list'
+			method 'get'
+			url '/api/v1/production/tfolder/:owner'
+			[ parameters
+				{
+					type "text"
+                    paramType "url"
+					name "owner"
+					label "Owner"
+					demoValue "stfnbssl"
+		{
+			title 'Productions - get tFolder'
+			method 'get'
+			url '/api/v1/production/tfolder/:owner/:name'
+			[ parameters
+				{
+					type "text"
+                    paramType "url"
+					name "owner"
+					label "Owner"
+					demoValue "stfnbssl"
+				{
+					type "text"
+                    paramType "url"
+					name "name"
+					label "Name"
+					demoValue "css"
+
+		$*
+        {
 			title 'Studio - summary of main infos'
 			method 'get'
 			url '/api/studio/check'
@@ -694,3 +808,4 @@
 					name "folder"
 					label "Folder"
 					demoValue ""
+        *$

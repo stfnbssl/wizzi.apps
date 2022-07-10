@@ -1,0 +1,18 @@
+html
+
+    $
+        var opt = {
+            /* TODO For ittf(s) documents, user SHOULD BE set in the global Artifact Generation Context */
+            user: {},
+            section: 'Starter',
+        }
+        var ca = 'm-s color-header font-x font-w-s';
+
+    site/layouts/basic( &opt )
+
+        . flex-row space-between bg-color-header color-header
+            . flex-row
+                html/a( Artifacts, /productions/artifacts, ${ca}
+                html/a( Packages, /productions/packages, ${ca}
+                html/a( Metas, /productions/metas, ${ca}
+                html/a( tFolders, /productions/tfolders, ${ca}

@@ -1,58 +1,22 @@
 ﻿html
 
-    $
+	$
+        var opt = {
+		    title: 'ITTF explorer',
+            user: {},
+        }
         var ca = 'm-s color-header font-x font-w-s';
         var ca2 = 'color-header font-x font-w-s';
 
-	head
-        css /ittf/styles/reset.css.ittf
-        css /ittf/styles/main.css.ittf
-        css /ittf/styles/header.css.ittf
-		css /ittf/meta/folder/styles.css.ittf
+    site/layouts/basic( &opt )
 
-	body
+        $append head-styles-2
+		    css /ittf/meta/folder/styles.css.ittf
 
-        . flex-row space-between bg-color-header color-header
-            . flex-row
-                html/a( , /, ${ca2}
-                    div
-                        style width: 80px; margin-top: 5px; margin-left: 20px;
-                        html/images/logo(#efefef, #434343)
-            . flex-row
-                html/a( Artifacts, /productions/artifacts, ${ca}
-                html/a( Packages, /productions/packages, ${ca}
-                html/a( Metas, /productions/metas, ${ca}
-                html/a( tFolders, /productions/tfolders, ${ca}
-                
-            . flex-row
-                html/a( Docs, /, ${ca}
-            . flex-row
-                html/a( Profile, /profile, ${ca}
-                html/a( Log Out, /logout, ${ca}
         nav
 			class tn-bar
-        $*
-			nav
-				class tn-main
-				a
-					href /ittf/home/index.html.ittf
-					. logo
-						img
-							src /ittf/images/logo.svg.ittf
-        *$
             nav
                 class tn-breadcrumbs
-                $*
-                . breadcrumbs-panel
-                    $foreach bc in fs.breadCrumbs
-                        $if bc.isLast
-                            . breadcrumb-item
-                                span / ${bc.name}
-                        $else
-                            . breadcrumb-item
-                                a / ${bc.name}
-                                    href ${bc.uri}
-                *$
                 . breadcrumb
                     $foreach bc in fs.breadCrumbs
                         a ${bc.name}

@@ -10,6 +10,7 @@ module
             
         $append imports
             import
+                @ getListArtifactProduction
                 @ validateArtifactProduction
                 @ getArtifactProduction
                 @ updateArtifactProduction
@@ -18,12 +19,28 @@ module
             +
             const myname = 'features/production/controllers/apiv1artifactproduction'
 
+        _ this.router.get('/:owner', this.getArtifactProductionList)
         _ this.router.get('/checkname/:name', this.getCheckArtifactName)
         _ this.router.get('/:owner/:name', this.getArtifactProduction)
         _ this.router.put('/:owner/:name', this.putArtifactProduction)
         
         $append handlers
             
+            handler( getArtifactProductionList )
+
+                # loog 'getArtifactProductionList.request.params', request.params
+                _ getListArtifactProduction
+                    @ request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getArtifactProductionList.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( getArtifactProductionList )
+
             handler( getCheckArtifactName )
 
                 # loog 'getCheckArtifactName.request.params', request.params

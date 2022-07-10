@@ -29,6 +29,7 @@ let PackiDependency = null;
 
 module.exports = {
     getPackiDependency: function() {
+        PackiDependency = mongoose.models.TFolder;
         if (!PackiDependency) { PackiDependency = mongoose.model(modelName, packiDependencySchema); }
         return PackiDependency;
     }

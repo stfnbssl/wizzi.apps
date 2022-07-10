@@ -129,4 +129,4 @@
 
     < a
         text-decoration none
-        color ${opt.color}
+        color black

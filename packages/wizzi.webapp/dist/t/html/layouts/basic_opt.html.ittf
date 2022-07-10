@@ -1,8 +1,8 @@
 $group
-	$params &wzCtx
+	$params &opt
 
     head 
-		@title ${wzCtx.title}
+		@title ${opt.title}
         meta 
             charset utf-8
         meta 

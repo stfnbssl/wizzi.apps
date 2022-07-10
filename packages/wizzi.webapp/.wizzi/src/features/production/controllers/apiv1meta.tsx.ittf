@@ -27,7 +27,7 @@ module
 
             const myname = 'features/production/controllers/apiv1metaproduction'
 
-        _ this.router.get('/list', this.getMetaProductionList)
+        _ this.router.get('/:owner', this.getMetaProductionList)
         _ this.router.get('/props/:owner/:name', this.getMetaProperties)
         _ this.router.get('/checkname/:name', this.getCheckMetaName)
         _ this.router.get('/:owner/:name', this.getMetaProduction)

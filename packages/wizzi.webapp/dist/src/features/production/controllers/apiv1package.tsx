@@ -2,13 +2,13 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\apiv1package.tsx.ittf
-    utc time: Tue, 05 Jul 2022 18:30:34 GMT
+    utc time: Sat, 09 Jul 2022 08:31:39 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
 import {paramsCheck} from '../../../utils/rest';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
-import {validatePackageProduction, getPackageProduction, updatePackageProduction} from '../api/package';
+import {getListPackageProduction, validatePackageProduction, getPackageProduction, updatePackageProduction} from '../api/package';
 
 const myname = 'features/production/controllers/apiv1packageproduction';
 
@@ -21,10 +21,31 @@ export class ApiV1PackageProductionController implements ControllerType {
     
     initialize = (initValues: AppInitializerType) => {
         console.log('Entering ApiV1PackageProductionController.initialize');
+        this.router.get('/:owner', this.getPackageProductionList);
         this.router.get('/checkname/:name', this.getCheckPackageName);
         this.router.get('/:owner/:name', this.getPackageProduction);
         this.router.put('/:owner/:name', this.putPackageProduction);
     };
+    
+    private getPackageProductionList = 
+    // loog 'getPackageProductionList.request.params', request.params
+    async (request: Request, response: Response) => 
+    
+        getListPackageProduction(request.params.owner).then(
+        // loog 'getPackageProductionList.result', result
+        (result: any) => 
+        
+            sendSuccess(response, result)
+        ).catch((err: any) => {
+        
+            console.log('getPackageProductionList.error', err);
+            sendFailure(response, {
+                err: err
+             }, 501)
+        }
+        )
+    
+    ;
     
     private getCheckPackageName = 
     // loog 'getCheckPackageName.request.params', request.params

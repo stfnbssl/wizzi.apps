@@ -32,6 +32,7 @@ let PackiItem = null;
 
 module.exports = {
     getPackiItem: function() {
+        PackiItem = mongoose.models.ArtifactProduction;
         if (!PackiItem) { PackiItem = mongoose.model(modelName, packiItemSchema); }
         return PackiItem;
     }

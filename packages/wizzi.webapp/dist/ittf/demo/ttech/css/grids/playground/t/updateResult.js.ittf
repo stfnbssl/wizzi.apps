@@ -6,6 +6,8 @@
 				@ '\tdisplay: grid;'
 				@ '\tgrid-template-columns: ' + grid_template_columns + ';'
 				@ '\tgrid-template-rows: ' + grid_template_rows + ';'
+                @ '\tgrid-auto-columns: ' + grid_auto_columns + ';'
+                @ '\tgrid-auto-rows: ' + grid_auto_rows + ';'
 				@ '\tgrid-gap: ' + grid_gap + ';'
 				@ '}'
 				._ join('\n')

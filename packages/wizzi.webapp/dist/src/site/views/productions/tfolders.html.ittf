@@ -1,15 +1,24 @@
 html
-    $
-        var md = {}
 
-    +
-    layout(&md)
+	$
+        var opt = {
+            section: 'Productions',
+		    title: 'tFolders',
+            user: {},
+        }
+
+    site/layouts/basic( &opt )
+
         $append head-scripts
             < script
                 + ${__INITIAL_DATA__}
+        
+        top_navigation( tfolders )
+
         . flex-row flex-justify-center
             profile-sidebar(s)
             . flex-column width-full
                 # root
+        
         script
             src "/static/pageforms/main.bundle.js"

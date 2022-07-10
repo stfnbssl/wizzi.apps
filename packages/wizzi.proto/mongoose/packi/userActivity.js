@@ -10,6 +10,7 @@ let UserActivity = null;
 
 module.exports = {
     getUserActivity: function() {
+        UserActivity = mongoose.models.UserActivity;
         if (!UserActivity) { UserActivity = mongoose.model('UserActivity', userActivitySchema); }
         return UserActivity;
     }

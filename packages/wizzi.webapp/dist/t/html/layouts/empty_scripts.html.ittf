@@ -111,7 +111,7 @@ $group
         j( https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML
 
     $if opt.useMonaco
-        j( /static/lib/monaco-editor/package/min/vs/loader.js
+        j( /static/lib/monaco-editor/min/vs/loader.js
 
     $if opt.usePopper
         j( /static/lib/popper/popper.js

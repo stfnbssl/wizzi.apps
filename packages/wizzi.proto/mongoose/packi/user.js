@@ -15,6 +15,7 @@ let User;
 
 module.exports = {
     getUser: function() {
+        User = mongoose.models.User;
         if (!User) { User = mongoose.model('User', userSchema); }
         return User;
     }

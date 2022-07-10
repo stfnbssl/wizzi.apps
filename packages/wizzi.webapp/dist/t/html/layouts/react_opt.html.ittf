@@ -51,6 +51,7 @@
                                 @ withTheme
                                 $if !opt.materialUI.v4
                                     @ Box
+                                    @ Container
                                 @ AppBar
                                 @ Avatar
                                 @ Backdrop

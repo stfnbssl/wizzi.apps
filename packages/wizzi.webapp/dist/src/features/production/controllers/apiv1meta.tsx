@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\apiv1meta.tsx.ittf
-    utc time: Tue, 05 Jul 2022 18:30:34 GMT
+    utc time: Sat, 09 Jul 2022 08:31:39 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -23,7 +23,7 @@ export class ApiV1MetaProductionController implements ControllerType {
     
     initialize = (initValues: AppInitializerType) => {
         console.log('Entering ApiV1MetaProductionController.initialize');
-        this.router.get('/list', this.getMetaProductionList);
+        this.router.get('/:owner', this.getMetaProductionList);
         this.router.get('/props/:owner/:name', this.getMetaProperties);
         this.router.get('/checkname/:name', this.getCheckMetaName);
         this.router.get('/:owner/:name', this.getMetaProduction);

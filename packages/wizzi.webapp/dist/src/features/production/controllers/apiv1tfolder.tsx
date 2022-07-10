@@ -2,13 +2,13 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\apiv1tfolder.tsx.ittf
-    utc time: Tue, 05 Jul 2022 18:30:34 GMT
+    utc time: Sat, 09 Jul 2022 08:31:39 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
 import {paramsCheck} from '../../../utils/rest';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
-import {validateTFolder, getTFolder, updateTFolder, invalidateCache} from '../api/tfolder';
+import {getListTFolder, validateTFolder, getTFolder, updateTFolder, invalidateCache} from '../api/tfolder';
 
 const myname = 'features/production/controllers/apiv1tfolder';
 
@@ -21,10 +21,31 @@ export class ApiV1TFolderController implements ControllerType {
     
     initialize = (initValues: AppInitializerType) => {
         console.log('Entering ApiV1TFolderController.initialize');
+        this.router.get('/:owner', this.getTFolderList);
         this.router.get('/checkname/:name', this.getCheckTFolderName);
         this.router.get('/:owner/:name', this.getTFolder);
         this.router.put('/:owner/:name', this.putTFolder);
     };
+    
+    private getTFolderList = 
+    // loog 'getTFolderList.request.params', request.params
+    async (request: Request, response: Response) => 
+    
+        getListTFolder(request.params.owner).then(
+        // loog 'getTFolderList.result', result
+        (result: any) => 
+        
+            sendSuccess(response, result)
+        ).catch((err: any) => {
+        
+            console.log('getTFolderList.error', err);
+            sendFailure(response, {
+                err: err
+             }, 501)
+        }
+        )
+    
+    ;
     
     private getCheckTFolderName = 
     // loog 'getCheckTFolderName.request.session.user.username', (request.session as any).user.username

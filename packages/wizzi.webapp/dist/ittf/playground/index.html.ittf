@@ -1,66 +1,44 @@
 html
 
 	$
-        var wzCtx = {
+        var opt = {
 		    title: 'Wizzi playground',
-            Build: {
-                useWizzi: true,
-                useAce: true,
-                useSweetalert: true,
-                useEventEmitter: true,
-            }
+            user: {},
+            useWizzi: true,
+            useAce: true,
+            useSweetalert: true,
+            useEventEmitter: true,
+            schemas: [
+                'css',
+                'html',
+                'graphql',
+                'js',
+                'json',
+                'md',
+                'scss',
+                'svg',
+                'ts',
+                'vtt',
+                'vue',
+                'xml'
+            ]
         }
-        var opt = {}
-        opt.schemas = [
-            'css',
-            'html',
-            'graphql',
-            'js',
-            'json',
-            'md',
-            'scss',
-            'svg',
-            'ts',
-            'vtt',
-            'vue',
-            'xml'
-        ];
 
-    html/layouts/basic_opt(&wzCtx)
+    site/layouts/basic( &opt )
 
-		$append head-styles
-		    $if isWizziStudio
-			    css ./index.css.ittf
-            $else			
-                css ./index.css
+		$append head-styles-2
+			html/css_wz( ./index.css )
 	
-		$append body-scripts
-		    $if isWizziStudio
-			    js ./index.js.ittf
-            $else			  
-                js ./index.js
+		$append body-scripts-2
+            html/js_wz( ./index.js )
 
         # root
 
             . sh
 
                 . sh-he
-                    . logo
-                        a
-                            $if isWizziStudio
-                                href #
-                            $else
-                                href /
-                            img
-                                $if isWizziStudio
-                                    src /ittf/images/logo.svg.ittf
-                                $else
-                                    src /images/logo.svg
-                                width 100px
-                                height 40px
                     . m2
-                        ul
-                            $$ $include h/menu_2
+                        h1 Generate from ittf, wizzify snippets
                 
                 . sh-bo
                     . sh-bo-lsb

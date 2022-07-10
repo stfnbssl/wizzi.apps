@@ -1,24 +1,24 @@
 $group
 
-    $if wzCtx.Build.useGoogleFonts
-        $foreach item in wzCtx.Build.googleFonts
+    $if opt.Build.useGoogleFonts
+        $foreach item in opt.Build.googleFonts
             css https://fonts.googleapis.com/css2?family=${item.name}:wght@${item.weights.join(';')}&display=swap
 
-    $if wzCtx.Build.useBootstrap
+    $if opt.Build.useBootstrap
         css https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css
 	
-	$if wzCtx.Build.useCodemirror
+	$if opt.Build.useCodemirror
         css /static/lib/codemirror/lib/codemirror.css
 		css /static/lib/codemirror/addon/display/fullscreen.css
 
-    $if wzCtx.Build.useFontAwesome
+    $if opt.Build.useFontAwesome
         $ 
             var fontAwesomeKey = 'eab461efef';
         script
             src https://kit.fontawesome.com/${fontAwesomeKey}.js
             crossorigin anonymous
 
-    $if wzCtx.Build.useHighlight
+    $if opt.Build.useHighlight
         $*
         link 
             rel stylesheet
@@ -26,17 +26,17 @@ $group
         *$
         css /static/lib/highlightjs-master/dracula.css
 
-	$if wzCtx.Build.usePrism
+	$if opt.Build.usePrism
 	    $if isWizziStudio
 		    css /static/lib/prism/prism.css
 		$else
 		    css https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css
 
-    $if wzCtx.Build.useReact
+    $if opt.Build.useReact
         css https://fonts.googleapis.com/icon?family=Material+Icons
 
-    $if wzCtx.Build.useTailwind
+    $if opt.Build.useTailwind
 		css /ittf/styles/tailwind.css
 
-    $if wzCtx.Build.mainCss && wzCtx.Build.mainCss.length > 0
-        css ${wzCtx.Build.mainCss}
+    $if opt.Build.mainCss && opt.Build.mainCss.length > 0
+        css ${opt.Build.mainCss}
