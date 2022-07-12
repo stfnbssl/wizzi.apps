@@ -6,7 +6,7 @@ $group
         _` css
             + &lf;
             + &nbsp;             :root {&lf;
-            + &nbsp;               --font-normal: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;&lf;
+            + &nbsp;               --font-normal: -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;&lf;
             + &nbsp;               --font-monospace: 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New',&lf;
             + &nbsp;                 monospace;&lf;
             + &nbsp;             }&lf;

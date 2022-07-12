@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorTitle.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:08:24 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorTitle.tsx.ittf
+    utc time: Tue, 12 Jul 2022 15:10:51 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import formatDistance from 'date-fns/formatDistance';
@@ -162,7 +162,7 @@ export function EditorTitle(props: EditorTitleProps) {
                 </div>
             </div>
             <ModalProductionDetails 
-                title="Edit Packi Details"
+                title="Edit Production Details"
                 action="Done"
                 visible={isEditModalVisible}
                 onDismiss={onDismissEditModal}

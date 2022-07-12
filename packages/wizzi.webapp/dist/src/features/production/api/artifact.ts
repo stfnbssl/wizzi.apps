@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\api\artifact.ts.ittf
-    utc time: Sat, 09 Jul 2022 08:31:38 GMT
+    utc time: Mon, 11 Jul 2022 18:32:54 GMT
 */
 import path from 'path';
 import NodeCache from 'node-cache';
@@ -423,7 +423,12 @@ export async function getDefaultContext_withCache(owner: string, sysContext?: an
         );
 }
 
-export async function getArtifactContext(owner: string, queryContextString: string, sysContext?: any) {
+export /**
+    // sample queryContextString: "wzCtx;wzctx.json|db;item.db.json"
+    // context property 'wzCtx' from json document 'wzctx.json'
+    // context property 'db' from json document 'item.db.json'
+*/
+async function getArtifactContext(owner: string, queryContextString: string, sysContext?: any) {
 
     sysContext = sysContext || {};
     return new Promise((resolve, reject) => {
@@ -464,6 +469,11 @@ export async function getArtifactContext(owner: string, queryContextString: stri
 export async function getArtifactContextItem(owner: string, queryContextString: string, sysContext?: any) {
 
     sysContext = sysContext || {};
+    
+    /**
+        * sample queryContextString: "wzCtx;wzctx.json"
+        * context property 'wzCtx' from json document 'wzctx.json'
+    */
     return new Promise((resolve, reject) => {
         
             

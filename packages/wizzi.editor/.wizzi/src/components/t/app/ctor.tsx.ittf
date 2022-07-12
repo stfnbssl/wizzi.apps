@@ -7,7 +7,6 @@ $group
         log 'App.ctor.props', props
         let id = props.packi._id
         let files = props.packi.packiFiles
-        let dependencies = props.packi.dependencies
         const owner = props.packi.owner
         const name = props.packi.name
         const mainIttf = props.packi.mainIttf
@@ -16,16 +15,6 @@ $group
         const packiProduction
             :ref PackiProduction
             = props.packi.packiProduction
-        # sdkVersion
-        let sdkVersion
-            :ref SDKVersion
-            = DEFAULT_SDK_VERSION
-        set sdkVersion = props.packi.sdkVersion ?? sdkVersion
-        const initialSdkVersion = sdkVersion
-        let wasUpgraded = false
-        if !VERSIONS.hasOwnProperty(sdkVersion)
-            set sdkVersion = DEFAULT_SDK_VERSION
-            set wasUpgraded = true
         const verbose = props.preferences.verbose
         const sendCodeOnChangeEnabled = true
         $if wzCtx.Build.usePackiAspects
@@ -44,9 +33,7 @@ $group
                     @ mainIttf
                     @ wizziSchema
                     @ files
-                    @ dependencies
                     @ packiProduction
-                    @ sdkVersion
                     @ verbose
                     @ codeChangesDelay
                         iif sendCodeOnChangeEnabled
@@ -83,8 +70,6 @@ $group
                                 then 'published'
                                 else 'unsaved'
                 @ isLocalWebPreview
-                @ wasUpgraded
-                @ initialSdkVersion
                 @ isDownloading false
                 @ devicePreviewShown
                 @ verbose

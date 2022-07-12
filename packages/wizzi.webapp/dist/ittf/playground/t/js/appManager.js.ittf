@@ -237,6 +237,7 @@
 				=>
 					param err
 					param result
+                    log 'wizzify', err
 					if err
                         log 'wizzify.err', err
 						js/event_emit( seteditvalue

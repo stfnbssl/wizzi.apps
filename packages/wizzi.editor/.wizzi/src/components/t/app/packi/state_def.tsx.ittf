@@ -28,8 +28,6 @@ $group
     :p jobError
         :optional 
         :ref JobError
-    :p params
-        :ref Params
     :p fileEntries
         :[ 
             :ref FileSystemEntry

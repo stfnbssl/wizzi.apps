@@ -103,7 +103,7 @@
             "useStatsWriter": false,
             "useIgnore": true,
             "useCodeSplitting": true,
-            "outputPath": "C:/My/wizzi/stfnbssl/wizzi.webapp/packages/wizzi.backend/dist/static/pageforms",
+            "outputPath": "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.webapp/dist/static/pageforms",
             "publicPath": "/static/pageforms/",
             "useEnv": true,
             "env": {

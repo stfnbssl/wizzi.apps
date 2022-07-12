@@ -31,7 +31,7 @@ module
         _ this.router.get('/props/:owner/:name', this.getMetaProperties)
         _ this.router.get('/checkname/:name', this.getCheckMetaName)
         _ this.router.get('/:owner/:name', this.getMetaProduction)
-        _ this.router.put('/:owner/:name', this.putMetaProduction)
+        _ this.router.put('/:id', this.putMetaProduction)
         
         $append handlers
             
@@ -136,6 +136,7 @@ module
                 # loog 'putMetaProduction.request.params', request.params
                 # loog 'putMetaProduction.request.body', request.body
                 _ updateMetaProduction
+                    @ request.params.id
                     @ request.params.owner
                     @ request.params.name
                     @ request.body.description

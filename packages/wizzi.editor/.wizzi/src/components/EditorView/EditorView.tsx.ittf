@@ -10,9 +10,11 @@ module
     import 
         @ connect
         from 'react-redux'
-    import Split from 'react-split'
+    # import Split from 'react-split'
     import 
-        @ SDKVersion
+        @ Split 
+        from '../widgets/splitter/Split'
+    import 
         @ PackiFiles
         @ PackiProduction
         from '../../features/packi'
@@ -27,20 +29,11 @@ module
     import 
         @ Annotation
         from '../../features/annotations'
-    $if wzCtx.Build.useExpo 
-        import Analytics from '../utils/Analytics'
     import 
         @ isScript
         @ isJson
         @ isTest
         from '../../features/file/index'
-    $if wzCtx.Build.useExpo 
-        import lintFile from '../../features/lint/index'
-        import prettierCode from '../../features/prettier/index'
-        import AssetViewer from './AssetViewer'
-        import 
-            @ withDependencyManager
-            from './DependencyManager'
     import 
         @ EditorProps
         from '../Editor/EditorProps'
@@ -52,9 +45,6 @@ module
             as BaseEditorViewProps
         from './EditorViewProps'
     import FileList from '../FileList/FileList'
-    $if wzCtx.Build.useExpo 
-        import ImportProductionModal from './Import/ImportProductionModal'
-        import ImportRepoModal from './Import/ImportRepoModal'
     import KeyboardShortcuts
         @ Shortcuts
         from './KeyboardShortcuts'
@@ -69,14 +59,6 @@ module
         @ withPreferences
         @ PreferencesContextType
         from '../../features/preferences/index'
-    
-    $if wzCtx.Build.useExpo 
-        import PreviousSaves from './PreviousSaves'
-    
-    $if wzCtx.Build.usePublishManager
-        import PublishManager
-            @ PublishModals
-            from '../Publish/PublishManager'
     
     # from shell
     import 
@@ -144,8 +126,6 @@ module
             :literal 'disconnected'
             :literal 'reconnect'
             :literal 'autosave-disabled'
-            $if wzCtx.Build.useExpo 
-                :literal 'sdk-upgraded'
             :literal 'export-unavailable'
             :literal 'slow-connection'
     $if wzCtx.Build.usePackiAspects
@@ -225,9 +205,6 @@ module
             return newState
         m componentDidMount
             _ window.addEventListener('beforeunload', this._handleUnload)
-            $if wzCtx.Build.useExpo 
-                if this.props.wasUpgraded
-                    _ this._showBanner('sdk-upgraded', BANNER_TIMEOUT_LONG)
         +
         m componentDidUpdate
             param prevProps
@@ -283,11 +260,6 @@ module
                                         :ref SplitViewKind
         +
         => _handleDismissEditModal
-            $if wzCtx.Build.useExpo 
-                _ Analytics.getInstance().logEvent
-                    @ 'DISMISSED_AUTH_MODAL'
-                    { 
-                        @ currentModal this.state.currentModal
             _ this.setState
                 { 
                     @ currentModal null
@@ -323,11 +295,6 @@ module
             _ this.setState
                 { 
                     @ currentModal 'shortcuts'
-        $if wzCtx.Build.useExpo 
-            => _handleShowPreviousSaves
-                _ this.setState
-                    { 
-                        @ currentModal 'previous-saves'
         => _handleShowImportRepoModal
             _ this.setState
                 { 
@@ -415,18 +382,10 @@ module
                     @ saveStatus
                     @ files
                     @ selectedFile
-                    @ dependencies
-                    $if wzCtx.Build.useExpo 
-                        @ isResolving
                     @ sendCodeOnChangeEnabled
-                    @ sdkVersion
-                    $if wzCtx.Build.useExpo 
-                        @ isLocalWebPreview
                     @ userAgent
                     @ onSendCode
                     @ onPublishAsync
-                    $if wzCtx.Build.useExpo 
-                        @ onReloadPacki
                     @ onToggleSendCode
                     @ onTogglePreview
                     @ uploadFileAsync
@@ -474,24 +433,6 @@ module
                         @ name {name}
                         @ description {description}
                         @ id {id}
-                    $*
-                    < PublishManager 
-                        @ id {id}
-                        @ sdkVersion {sdkVersion}
-                        @ name {name}
-                        @ description {description}
-                        @ onSubmitMetadata {this.props.onSubmitMetadata}
-                        @ onPublishAsync {this.props.onPublishAsync}
-                        @ onShowModal {this._handleShowModal}
-                        @ onHideModal {this._handleHideModal}
-                        @ currentModal {currentModal}
-                        { 
-                            => 
-                                { 
-                                    @ onPublishAsync
-                                return 
-                                    < React.Fragment
-                    *$
                     < KeybindingsManager 
                         @ bindings {Shortcuts}
                         @ onTrigger
@@ -513,13 +454,7 @@ module
                                                 @ save
                                                     iif saveStatus === 'published'
                                                         then null
-                                                        $if wzCtx.Build.useExpo 
-                                                            else
-                                                                iif this.props.isResolving
-                                                                    then null
-                                                                    else onPublishAsync
-                                                        $else
-                                                            else onPublishAsync
+                                                        else onPublishAsync
                                             @ tree this._toggleFileTree
                                             @ panels this._togglePanels
                                             @ shortcuts this._handleShowShortcuts
@@ -533,8 +468,13 @@ module
                         div 
                             @ className {css(styles.editorAreaOuter)}
                             < LayoutShell
-                                editorview/filelist()
-                                editorview/monaco()
+                                < Split
+                                    @ initialPrimarySize 30%
+                                    editorview/filelist()
+                                    < Split
+                                        @ initialPrimarySize 60%
+                                        editorview/monaco()
+                                        editorview/generated()
                             { 
                                 iif preferences.panelsShown
                                     then
@@ -545,7 +485,6 @@ module
                                             @ onSelectFile {this.props.onSelectFile}
                                             @ panelType {preferences.panelType}
                                     else null
-                        editorview/generated()
                     editorview/footer()
                     $if wzCtx.Build.usePackiAspects
                         $if wzCtx.Build.usePackiManager
@@ -558,29 +497,10 @@ module
                                         @ onDismiss {this._handleHideModal}
                                         < PackiManagerContainer
                                             @ onClose {this._handleHideModal}
-                    $if wzCtx.Build.useExpo 
-                        < ModalDialog 
-                            @ visible {currentModal === 'previous-saves'}
-                            @ title "Previous saves"
-                            @ onDismiss {this._handleHideModal}
-                            < PreviousSaves 
-                                @ saveHistory {saveHistory}
                     < ModalDialog 
                         @ visible {currentModal === 'shortcuts'}
                         @ onDismiss {this._handleHideModal}
                         < KeyboardShortcuts 
-                    $if wzCtx.Build.useExpo 
-                        < ImportRepoModal 
-                            @ visible {currentModal === 'import-repo'}
-                            @ onHide {this._handleHideModal}
-                            @ preventRedirectWarning {this._preventRedirectWarning}
-                        < ImportProductionModal 
-                            @ visible {currentModal === 'import-production'}
-                            @ onHide {this._handleHideModal}
-                            @ onSubmitMetadata {this.props.onSubmitMetadata}
-                            @ onChangeSDKVersion {this.props.onChangeSDKVersion}
-                            @ updateFiles {this.props.updateFiles}
-                            @ updateDependencies {this.props.updateDependencies}
                     < Banner 
                         @ type "success"
                         @ visible {currentBanner === 'connected'}
@@ -595,14 +515,6 @@ module
                         + Automatic saving has been disabled in this Packi because you have it open in&lf;                  another tab.
                     < Banner 
                         @ type "info"
-                        @ visible {currentBanner === 'sdk-upgraded'}
-                        + This Packi was written in an older Wizzi version that is not longer supported. We&lf;                  have upgraded the Wizzi version to
-                        + {sdkVersion}
-                        + .
-                        br 
-                        + You might need to do some manual changes to make the Packi work correctly.
-                    < Banner 
-                        @ type "info"
                         @ visible {currentBanner === 'slow-connection'}
                         + Slow network detected. Trying to load a basic version of the editor. Some features&lf;                  such as linting and autocomplete may not work.
                     < Banner 
@@ -612,10 +524,7 @@ module
     export
         const EditorView  
             _ withPreferences
-                $if wzCtx.Build.useExpo 
-                    _ withDependencyManager(EditorViewComp)
-                $else
-                    @ EditorViewComp
+                @ EditorViewComp
     export-default EditorView
     const styles
         _ StyleSheet.create

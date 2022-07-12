@@ -15,12 +15,20 @@ $group
             css /ittf/styles/reset.css.ittf
             css /ittf/styles/main.css.ittf
             css /ittf/styles/header.css.ittf
+            $if opt.stickyNav
+                style
+                    # ${opt.stickyNav}.sticky
+                        position fixed
+                        top 0
+                    . ${opt.stickyNav}OffsetMargin
+                        padding-top ${opt.stickyNavOffset}px
         
         $hook head-styles
 
         $hook head-scripts
         
-        . flex-row space-between bg-color-header color-header
+        . flex-row space-between bg-color-header color-header align-items-center
+            id __main_navbar
             . flex-row
                 html/a( , /, ${ca2}
                     div
@@ -34,16 +42,12 @@ $group
                         html/a( Playground, /ittf/site/playground.html.ittf, ${ca}
                     $if opt.section != 'Productions'
                         html/a( Productions, /ittf/site/productions.html.ittf, ${ca}
-                    $*
-                    html/a( Artifacts, /productions/artifacts, ${ca}
-                    html/a( Packages, /productions/packages, ${ca}
-                    html/a( Metas, /productions/metas, ${ca}
-                    html/a( tFolders, /productions/tfolders, ${ca}
-                    *$
+                    $if opt.section != 'Project'
+                        html/a( Project, /ittf/site/project.html.ittf, ${ca}
             . flex-row
                 $if opt.section != 'Docs'
                     html/a( Docs, /ittf/site/docs.html.ittf, ${ca}
-            . flex-row
+            . flex-row m-r-x
                 $if opt.user
                     html/a( Profile, /profile, ${ca}
                     html/a( Log Out, /logout, ${ca}
@@ -51,3 +55,23 @@ $group
                     html/a( Log In, /login, ${ca}
         
         $hook
+
+        $append body-scripts
+            $if opt.stickyNav
+                script
+                    let header = document.getElementById("__main_navbar")
+                    let stickyBar = document.getElementById("${opt.stickyNav}")
+                    let stickyPos = stickyBar.getBoundingClientRect().top
+                    _ window.addEventListener
+                        @ "scroll"
+                        => 
+                            param e
+                            let scrollPos = window.scrollY
+                            log 'pre sticki', stickyPos, scrollPos, scrollPos > stickyPos
+                            if scrollPos > stickyPos
+                                _ stickyBar.classList.add('sticky')
+                                _ header.classList.add('${opt.stickyNav}OffsetMargin')
+                                log 'sticki', scrollPos
+                            else
+                                _ stickyBar.classList.remove('sticky')
+                                _ header.classList.remove('${opt.stickyNav}OffsetMargin')

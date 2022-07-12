@@ -25,6 +25,7 @@ $group
                             return
                                 _ reject
                                     {
+                                        @ action 'wizzi.productions.generateFolderArtifacts'
                                         @ message 'files parameter must be an object of type PackiFiles'
                                         @ files
                         # loog myname, 'generateFolderArtifacts.sourceFolderUri,destFolderUri', sourceFolderUri, destFolderUri

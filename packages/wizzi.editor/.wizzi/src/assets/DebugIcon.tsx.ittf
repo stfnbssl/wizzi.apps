@@ -1,7 +1,8 @@
 module
     $
         var md = {
-            name: 'DebugIcon'
+            name: 'DebugIcon',
+            viewBox: '0 0 30 30'
         }
     
     dark-light-icon( &md )

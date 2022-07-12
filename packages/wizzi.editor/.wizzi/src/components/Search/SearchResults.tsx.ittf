@@ -17,8 +17,6 @@ module
         @ List
         @ InfiniteLoader
         from 'react-virtualized'
-    $if wzCtx.Build.useExpo 
-        import Analytics from '../../utils/Analytics'
     import
         @ withThemeName
         @ ThemeName
@@ -106,9 +104,6 @@ module
                     @ type 'success'
                     @ data []
         m componentDidMount
-            $if wzCtx.Build.useExpo
-                _ Analytics.getInstance().startTimer('launchedSearch')
-                _ Analytics.getInstance().logEvent('SEARCH_OPENED')
             if this.props.query
                 _ this._fetchResultsNotDebounced(this.props.query)
         m componentDidUpdate
@@ -116,13 +111,6 @@ module
                 :ref Props
             if this.props.query !== prevProps.query
                 _ this._fetchResults(this.props.query)
-        $if wzCtx.Build.useExpo
-            => _handleClick
-                _ Analytics.getInstance().logEvent
-                    @ 'SEARCH_RESULT_CHOSEN'
-                    { 
-                        @ searchTerm this.props.query
-                    @ 'launchedSearch'
         p _fetchResultsNotDebounced
             async=> 
                 param query
@@ -131,11 +119,6 @@ module
                     :ref Data
                     = 
                         [ 
-                $if wzCtx.Build.useExpo
-                    _ Analytics.getInstance().logEvent
-                        @ 'SEARCH_REQUESTED'
-                        { 
-                            @ searchTerm query
                 _ this.setState
                     { 
                         { status
@@ -208,8 +191,6 @@ module
                             + /
                             @ packi.slug
                             + 
-                    $if wzCtx.Build.useExpo
-                        @ onClick {this._handleClick}
                     @ className {css(styles.item)}
                     img 
                         @ className {css(styles.icon)}

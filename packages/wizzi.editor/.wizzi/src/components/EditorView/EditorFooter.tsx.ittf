@@ -10,9 +10,6 @@ module
         @ LoggedUser
         from '../../features/app'
     import 
-        @ SDKVersion
-        from '../../features/packi'
-    import 
         @ Annotation
         from '../../features/annotations'
     import 
@@ -23,8 +20,6 @@ module
         @ PanelType
         @ withPreferences
         from '../../features/preferences'
-    $if wzCtx.Build.useExpo
-        import SDKVersionSwitcher from '../SDKVersionSwitcher'
     import 
         @ FooterShell 
         from '../shell/FooterShell'
@@ -55,8 +50,6 @@ module
                         :boolean 
                     :p loggedUser
                         :ref LoggedUser
-                    :p sdkVersion
-                        :ref SDKVersion
                     :p isLocalWebPreview
                         :boolean 
                     :p onToggleTheme
@@ -77,24 +70,12 @@ module
                     :p onToggleSendCode
                         :=> 
                             :void 
-                    :p onChangeSDKVersion
-                        :=> 
-                            :void 
-                            param sdkVersion
-                                :ref SDKVersion
-                            param isLocalWebPreview
-                                :boolean 
-                                :optional 
                     :p onShowShortcuts
                         :=> 
                             :void 
                     :p onSendCode
                         :=> 
                             :void 
-                    $if wzCtx.Build.useExpo
-                        :p onReloadPacki
-                            :=> 
-                                :void 
                     :p theme
                         :string 
                     $if wzCtx.Build.usePackiAspects
@@ -113,18 +94,13 @@ module
                 @ previewShown
                 @ panelsShown
                 @ sendCodeOnChangeEnabled
-                @ sdkVersion
                 @ isLocalWebPreview
                 @ onSendCode
-                $if wzCtx.Build.useExpo
-                    @ onReloadPacki
                 @ onToggleTheme
                 @ onTogglePanels
                 @ onToggleFileTree
                 @ onTogglePreview
                 @ onToggleSendCode
-                $if wzCtx.Build.useExpo
-                    @ onChangeSDKVersion
                 @ onShowShortcuts
                 @ theme
                 $if wzCtx.Build.usePackiAspects
@@ -142,15 +118,6 @@ module
                     _ props.setPreferences
                         { 
                             @ autoExecJob !props.preferences.autoExecJob
-        $if wzCtx.Build.useExpo
-            const appText
-                iif connectedDevices.length > 1
-                    then 'apps'
-                    else 'app'
-            const deviceText
-                iif connectedDevices.length > 1
-                    then 'devices'
-                    else 'device'
         const loadingItems
             _ annotations.filter
                 => 
@@ -293,13 +260,6 @@ module
                                                             + 
                                                     else ''
                                                 + 
-                $if wzCtx.Build.useExpo
-                    < FooterButton 
-                        @ icon {require('../../assets/prettify-icon.png')}
-                        @ onClick {onPrettifyCode}
-                        span 
-                            @ className {css(styles.buttonLabel)}
-                            + Prettier
                 $if wzCtx.Build.usePackiAspects
                     < MenuButton 
                         @ icon {require('../../assets/settings-icon.png')}
@@ -364,20 +324,6 @@ module
                                 @ checked {theme !== 'light'}
                                 @ onChange {onToggleTheme}
                                 @ label "Dark theme"
-                            $if wzCtx.Build.useExpo
-                                iif onToggleVimMode
-                                    then
-                                        < ToggleSwitch 
-                                            @ checked {editorMode === 'vim'}
-                                            @ onChange {onToggleVimMode}
-                                            @ label "Vim mode"
-                                    else null
-                $if wzCtx.Build.useExpo
-                    < SDKVersionSwitcher 
-                        @ sdkVersion {sdkVersion}
-                        @ isLocalWebPreview {isLocalWebPreview}
-                        @ onChange {onChangeSDKVersion}
-                        @ selectClassName {(isErrorFatal && css(styles.errorBorder)) || undefined}
                 div 
                     @ className {css(styles.devicePreviewSwitch)}
                     < ToggleSwitch 

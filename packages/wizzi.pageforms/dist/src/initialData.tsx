@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.pageforms\.wizzi\src\initialData.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:18:03 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\initialData.tsx.ittf
+    utc time: Tue, 12 Jul 2022 16:15:51 GMT
 */
 import type {RouterData, QueryParams} from './features/packi';
 export const __INITIAL_DATA__ = {

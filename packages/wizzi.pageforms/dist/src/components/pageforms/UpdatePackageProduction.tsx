@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdatePackageProduction.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:18:03 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdatePackageProduction.tsx.ittf
+    utc time: Tue, 12 Jul 2022 16:15:51 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -40,9 +40,9 @@ type UpdatePackageProductionState = {
     pp_name_new: string;
     pp_description: string;
     pp_add_context: boolean;
-    pp_contexts: MISSING[];
+    pp_contexts: any[];
     pp_add_tfolder: boolean;
-    pp_dependencies: MISSING[];
+    pp_dependencies: any[];
     pp_name_new_available: boolean;
 };
 
@@ -57,7 +57,8 @@ const StyledRoot = styled.div<RootStyleProps>`
 `
 
 export class UpdatePackageProduction extends Component<UpdatePackageProductionProps, UpdatePackageProductionState> {
-    constructor() {
+    constructor(props: UpdatePackageProductionProps) {
+        super(props);
     }
     async _checkAvaliblePackageName() {
         const pp_name_new_checked = this.state.pp_name_new;

@@ -8,8 +8,6 @@
     @ saveHistory {saveHistory}
     @ saveStatus {saveStatus}
     @ loggedUser {loggedUser}
-    $if wzCtx.Build.useExpo 
-        @ isResolving {isResolving}
     @ isEditModalVisible {currentModal === 'edit-info'}
     @ loggedUser {loggedUser}
     @ isWizziJobWaiting {isWizziJobWaiting}
@@ -33,8 +31,6 @@
     @ onExecuteWizziJob {onExecuteWizziJob}
     @ onShowPackiManager {this._handleShowPackiManager}
     $$ @ onSaveCode {onSaveCode}
-    $if wzCtx.Build.useExpo 
-        @ onShowPreviousSaves {this._handleShowPreviousSaves}
     @ onSubmitMetadata {this.props.onSubmitMetadata}
     @ onDownloadCode {this.props.onDownloadAsync}
     @ onPublishAsync {onPublishAsync}

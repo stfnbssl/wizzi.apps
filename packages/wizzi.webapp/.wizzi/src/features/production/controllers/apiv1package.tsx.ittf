@@ -21,7 +21,7 @@ module
         _ this.router.get('/:owner', this.getPackageProductionList)
         _ this.router.get('/checkname/:name', this.getCheckPackageName)
         _ this.router.get('/:owner/:name', this.getPackageProduction)
-        _ this.router.put('/:owner/:name', this.putPackageProduction)
+        _ this.router.put('/:id', this.putPackageProduction)
         
         $append handlers
 
@@ -78,6 +78,7 @@ module
                 # loog 'putPackageProduction.request.params', request.params
                 # loog 'putPackageProduction.request.body', request.body
                 _ updatePackageProduction
+                    @ request.params.id
                     @ request.params.owner
                     @ request.params.name
                     @ request.body.description

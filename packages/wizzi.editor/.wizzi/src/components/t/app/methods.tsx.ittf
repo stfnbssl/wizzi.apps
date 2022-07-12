@@ -4,85 +4,30 @@ $group
     m getDerivedStateFromProps
         static
         param _props
-            :ref Props
+            :ref AppProps
         param state
             :ref State
         return null
     +
     m componentDidMount
-        $if wzCtx.Build.useExpo
-            if this.state.verbose
-                _ console.info
-                    `lit 
-                        + %c INFO&nbsp;
-                    `lit 
-                        + background: #2196f3; color: #fff
-                    @ 'Verbose logging is enabled, open the web-preview in a popup to view runtime logs'
-            if window.__packi_embedded_session
-                set window.__packi_embedded_session = undefined
-            if this.state.verbose && process.env.NODE_ENV !== 'production'
-                set Analytics.getInstance().verbose = true
-            if window.location.host.includes('expo.io')
-                _ Raven.config('https://6501f7d527764d85b045b0ce31927c75@sentry.io/191351').install()
-                const build_date = new Date(process.env.BUILD_TIMESTAMP ?? 0).toUTCString()
-                _ Raven.setTagsContext
-                    { 
-                        @ build_date
-                _ Analytics.getInstance().identify
-                    { 
-                        @ build_date
-            _ Analytics.getInstance().setCommonData
-                { 
-                    @ packiId this.state.session.id
-                    @ isEmbedded !!this.props.isEmbedded
-                    @ previewPane
-                        iif this.state.devicePreviewShown
-                            then this.state.devicePreviewPlatform
-                            else 'hidden'
-            if this.state.wasUpgraded
-                _ Analytics.getInstance().logEvent
-                    @ 'LOADED_UNSUPPORTED_VERSION'
-                    { 
-                        @ requestedVersion this.state.initialSdkVersion
-                        @ packiId this.props.match.params.id
-            _ Analytics.getInstance().logEvent
-                @ 'LOADED_PACKI'
-                { 
-                    @ sdkVersion this.state.session.sdkVersion
-        
         set this._PackiStateListener = this._PackiSession.addStateListener(this._handleSessionStateChange)
-        
-        $if wzCtx.Build.useExpoLog
-            set this._packiLogListener = this._packi.addLogListener(this._handleSessionLog)
-        _ this._PackiSession.setDisabled(false)
         set this._isFocused = document.hasFocus()
         set this._focusTimer = window.setInterval(this._handleFocusChangeInterval, 500)
-        
-        $if wzCtx.Build.useExpo
-            _ window.addEventListener('unload', this._handleUnload)
-            if this.props.query.saveToAccount === 'true'
-                if this._PackiSession.getState().user
-                    _ this._saveAsync()
-
-        if this.props.preferences.autoGenSingleDoc
+        if this.props.preferences.autoGenSingleDoc && this.props.packi.mainIttf
             _ this._generateArtifact
+                @ this.props.packi.mainIttf
+
     +
     m componentWillUnmount
         _ this._PackiStateListener?.()
-        $if wzCtx.Build.useExpo
-            _ this._packiLogListener?.()
-        _ this._PackiSession.setDisabled(true)
-        _ this._PackiSession.setOnline(false)
-        $if wzCtx.Build.useExpo
-            _ window.removeEventListener('unload', this._handleUnload)
         _ clearInterval(this._focusTimer)
         set this._focusTimer = undefined
     +
     m componentDidUpdate
         param prevProps
-            :ref Props
+            :ref AppProps
         param prevState
             :ref State
         if prevProps.jobGeneratedArtifacts !== this.props.jobGeneratedArtifacts
             _ this._PackiSession.updateJobGeneratedFiles
-                @ this.props.jobGeneratedArtifacts
+                @ this.props.jobGeneratedArtifacts || {}

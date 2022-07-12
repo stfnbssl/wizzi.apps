@@ -1,8 +1,5 @@
 module
     import
-        @ SDKVersion
-        from './sdks/types'
-    import
         @ PackiState
         from './types'
     +
@@ -17,21 +14,13 @@ module
             = 'expo.io'
     +
     export
-        const sdkVersion
-            :ref SDKVersion
-            = '1.0.0'
-    +
-    export
         const PackiIdentityState
             :ref PackiState
             =
                 {
-                    @ sdkVersion
                     @ owner ''
                     @ name ''
                     @ description ''
-                    { dependencies
-                    { missingDependencies
                     { files
                     @ disabled false
                     @ unsaved false
@@ -41,6 +30,5 @@ module
         {
             @ apiURL
             @ host
-            @ sdkVersion
     +
     export-default defaultConfig

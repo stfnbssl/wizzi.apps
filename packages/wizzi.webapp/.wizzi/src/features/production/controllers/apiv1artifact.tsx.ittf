@@ -22,7 +22,7 @@ module
         _ this.router.get('/:owner', this.getArtifactProductionList)
         _ this.router.get('/checkname/:name', this.getCheckArtifactName)
         _ this.router.get('/:owner/:name', this.getArtifactProduction)
-        _ this.router.put('/:owner/:name', this.putArtifactProduction)
+        _ this.router.put('/:id', this.putArtifactProduction)
         
         $append handlers
             
@@ -76,11 +76,12 @@ module
 
             handler( putArtifactProduction )
 
-                # loog 'putArtifactProduction.request.params', request.params
-                # loog 'putArtifactProduction.request.body', request.body
+                log 'putArtifactProduction.request.params', request.params
+                log 'putArtifactProduction.request.body', request.body
                 _ updateArtifactProduction
-                    @ request.params.owner
-                    @ request.params.name
+                    @ request.params.id
+                    @ request.body.owner
+                    @ request.body.name
                     @ request.body.description
                     @ request.body.mainIttf
                     @ request.body.schema
@@ -89,7 +90,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog 'putArtifactProduction.result', result
+                            log 'putArtifactProduction.result', result
                             _ invalidateCache
                                 @ request.params.owner
                                 @ request.params.name

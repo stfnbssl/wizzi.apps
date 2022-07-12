@@ -1,9 +1,5 @@
 module
     import isEqual from 'lodash/isEqual'
-    $if wzCtx.Build.useExpo
-        import
-            @ isModulePreloaded
-            from './sdk'
     import
         @ PackiState
         from './types'
@@ -198,46 +194,16 @@ module
                         set newState[key] = val
             return newState ?? state
     export
-        function isBusy
-            param state
-                :ref PackiState
-            :return
-                :boolean
-            return
-                (
-                    ||
-                        $if wzCtx.Build.useExpo
-                            op!
-                                op!
-                                    _ Object.keys(state.dependencies).find
-                                        =>
-                                            param name
-                                            @expr !state.dependencies[name].handle && !isModulePreloaded(name, state.sdkVersion)
-                        $else
-                            + true
-                        op!
-                            op!
-                                _ Object.values(state.files).find
-                                    =>
-                                        param file
-                                        @expr file.type === 'ASSET' && typeof file.contents !== 'string'
-    export
         function isCodeChanged
             param state
                 :ref PackiState
             param prevState
                 :ref PackiState
-            $if wzCtx.Build.useExpo
-                return (state.dependencies !== prevState.dependencies || state.files !== prevState.files || state.sdkVersion !== prevState.sdkVersion)
-            $else
-                return (state.files !== prevState.files)
+            return (state.files !== prevState.files)
     export
         function isUnsaved
             param state
                 :ref PackiState
             param prevState
                 :ref PackiState
-            $if wzCtx.Build.useExpo
-                return (state.dependencies !== prevState.dependencies || state.files !== prevState.files || state.sdkVersion !== prevState.sdkVersion || state.name !== prevState.name || state.description !== prevState.description)
-            $else
-                return (state.files !== prevState.files || state.name !== prevState.name || state.description !== prevState.description)
+            return (state.files !== prevState.files || state.name !== prevState.name || state.description !== prevState.description)

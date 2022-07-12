@@ -28,6 +28,12 @@ module
             :p generatedArtifact
                 :optional 
                 :ref GeneratedArtifact
+            :p mTreeBuildUpScript
+                :optional 
+                :string
+            :p mTreeIttf
+                :optional 
+                :any
             :p jobGeneratedArtifacts
                 :optional 
                 :ref PackiFiles

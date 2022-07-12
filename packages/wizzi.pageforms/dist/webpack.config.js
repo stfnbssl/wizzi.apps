@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.pageforms\.wizzi\root\webpack.config.js.ittf
-    utc time: Tue, 28 Jun 2022 14:17:57 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\root\webpack.config.js.ittf
+    utc time: Tue, 12 Jul 2022 16:15:49 GMT
 */
 'use strict';
 const path = require('path');
@@ -115,7 +115,7 @@ module.exports = {
      }, 
     output: {
         globalObject: 'self', 
-        path: 'C:/My/wizzi/stfnbssl/wizzi.webapp/packages/wizzi.backend/dist/static/pageforms', 
+        path: 'C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.webapp/dist/static/pageforms', 
         publicPath: '/static/pageforms/', 
         filename: '[name].bundle.js', 
         chunkFilename: '[id].[hash].chunk.js'

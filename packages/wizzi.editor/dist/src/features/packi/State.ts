@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.editor\.wizzi\src\features\packi\State.ts.ittf
-    utc time: Tue, 28 Jun 2022 14:08:18 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\State.ts.ittf
+    utc time: Tue, 12 Jul 2022 15:10:47 GMT
 */
 import isEqual from 'lodash/isEqual';
 import {PackiState} from './types';
@@ -83,13 +83,6 @@ export function updateObjects<T>(state: StateObject<T>, content: {
         }
     }
     return newState ?? state;
-}
-export function isBusy(state: PackiState):  boolean {
-
-    return (true || !!Object.values(state.files).find(file => 
-        
-            file.type === 'ASSET' && typeof file.contents !== 'string'
-        ));
 }
 export function isCodeChanged(state: PackiState, prevState: PackiState) {
 

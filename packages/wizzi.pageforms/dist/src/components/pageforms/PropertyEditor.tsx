@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.pageforms\.wizzi\src\components\pageforms\PropertyEditor.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:18:03 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\PropertyEditor.tsx.ittf
+    utc time: Tue, 12 Jul 2022 16:15:51 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -52,7 +52,8 @@ const StyledRoot = styled.div<RootStyleProps>`
 `
 
 export class PropertyEditor extends Component<PropertyEditorProps, PropertyEditorState> {
-    constructor() {
+    constructor(props: PropertyEditorProps) {
+        super(props);
         const values: any = {};
         this.state = {
             pe_values: values, 

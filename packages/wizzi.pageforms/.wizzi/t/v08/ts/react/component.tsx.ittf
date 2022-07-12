@@ -42,6 +42,7 @@ $group
                     :{
                         $foreach prop in myProps
                             $ if (prop.xdefault) { defaultProps.push(prop); }
+
                             $include setPropType
     $else
         $if myProps.length > 0
@@ -51,6 +52,7 @@ $group
                     $foreach prop in myProps
                         $ if (prop.xdefault) { defaultProps.push(prop); }
                         $include setPropType
+
     $if myStateProps.length > 0
         +
         :type ${md.name}State
@@ -79,6 +81,12 @@ $group
                 $else
                     :param {}
             ctor
+                param props
+                    $if md.connected || myProps.length > 0                
+                        :ref ${md.name}Props
+                    $else
+                        :{
+                _ super(props)
                 $hook ctor
             $hook
     $if md.connected

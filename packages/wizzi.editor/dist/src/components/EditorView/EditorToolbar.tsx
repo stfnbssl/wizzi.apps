@@ -1,34 +1,35 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorToolbar.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:08:24 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorToolbar.tsx.ittf
+    utc time: Tue, 12 Jul 2022 15:10:51 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
-import {SaveStatus, SaveHistory, PackiSaveOptions} from '../../features/packi';
-import EditorTitle from './EditorTitle';
+import {SaveStatus, SaveHistory, PackiSaveOptions, PackiProduction} from '../../features/packi';
 import {usePreferences} from '../../features/preferences';
-import {ToolbarShell} from '../shell/ToolbarShell';
-import {ToolbarTitleShell} from '../shell/ToolbarTitleShell';
-import UserMenu from './UserMenu';
-import {Button} from '../widgets/Button';
-import {PackiIcon} from '../../assets/PackiIcon';
+import {WizziIcon} from '../../assets/WizziIcon';
+import {EditIcon} from '../../assets/EditIcon';
 import {BrowserIcon} from '../../assets/BrowserIcon';
 import IconButton from '../widgets/IconButton';
+import UserMenu from './UserMenu';
 import {LoggedUser} from '../../features/app';
 import {Packi} from '../../features/packi';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import ModalProductionDetails from './ModalProductionDetails';
 export type EditorToolbarProps = { 
     name: string;
     description: string;
+    mainIttf: string;
+    wizziSchema: string;
     packiProduction: PackiProduction;
     createdAt: string | undefined;
     saveStatus: SaveStatus;
     saveHistory: SaveHistory;
     isDownloading: boolean;
     isEditModalVisible: boolean;
+    generatedPreviewURL: string;
     onSubmitMetadata: (details: { 
         name: string;
         description: string;
@@ -82,32 +83,40 @@ export function EditorToolbar(props: EditorToolbarProps) {
     const isPublished = saveStatus === 'published';
     console.log('EditorToolbar.props', props, mainIttf, wizziSchema);
     return  (
-        <ToolbarShell
-        >
-            <ToolbarTitleShell
-            >
-                <div
-                 className={css(styles.logo)}>
-                    <PackiIcon
-                     theme={theme} />
-                </div>
-                <EditorTitle 
-                    name={name}
-                    description={description}
-                    mainIttf={mainIttf}
-                    wizziSchema={wizziSchema}
-                    createdAt={createdAt}
-                    saveHistory={saveHistory}
-                    saveStatus={saveStatus}
-                    loggedUser={loggedUser}
-                    isEditModalVisible={isEditModalVisible}
-                    onSubmitMetadata={onSubmitMetadata}
-                    onShowEditModal={onShowEditModal}
-                    onDismissEditModal={onDismissEditModal}
-                 />
-            </ToolbarTitleShell>
+        <div
+         className={css(styles.ve_top_bar)}>
             <div
-             className={css(styles.buttons)}>
+             className={css(styles.ve_top_bar_logo)}>
+                <a
+                 href="/">
+                    <WizziIcon
+                     theme={theme} width="150" height="50" />
+                </a>
+            </div>
+            <div
+             className={css(styles.ve_top_bar_control)}>
+                <div
+                 className={css(styles.ve_top_bar_label)}>
+                    {packiProduction} Production
+                </div>
+                <div
+                 className={css(styles.ve_top_bar_field)}>
+                    <div
+                     className={css(styles.ve_top_bar_field_editor)}>
+                        {name}
+                    </div>
+                    <div
+                     className={css(styles.ve_top_bar_field_button)}>
+                        <IconButton
+                         responsive title="Edit production metadata" onClick={onShowEditModal}>
+                            <EditIcon
+                             theme={theme} width="20" height="20" />
+                        </IconButton>
+                    </div>
+                </div>
+            </div>
+            <div
+             className={css(styles.ve_top_bar_icons)}>
                 {
                     packiProduction == 'artifact'
                      &&  (
@@ -161,30 +170,65 @@ export function EditorToolbar(props: EditorToolbarProps) {
                 <UserMenu
                  loggedUser={loggedUser} />
             </div>
-        </ToolbarShell>
+            <ModalProductionDetails 
+                title="Edit Production Details"
+                action="Done"
+                visible={isEditModalVisible}
+                onDismiss={onDismissEditModal}
+                onSubmit={(details) => {
+                    
+                        onSubmitMetadata(details);
+                        onDismissEditModal();
+                    }
+                }
+                description={description}
+                name={name}
+                mainIttf={mainIttf}
+                wizziSchema={wizziSchema}
+             />
+        </div>
         )
     ;
 }
 export default EditorToolbar;
 const styles = StyleSheet.create({
-    logo: {
-        width: 24, 
-        height: 24, 
-        marginLeft: 16, 
-        marginRight: 16
+    ve_top_bar: {
+        display: "grid", 
+        gridTemplateColumns: "1fr 5fr 1fr", 
+        marginBottom: "20px", 
+        height: "50px"
      }, 
-    buttons: {
-        display: 'flex', 
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        position: 'relative', 
-        zIndex: 5
+    ve_top_bar_logo: {
+        paddingTop: "4px", 
+        cursor: "pointer"
      }, 
-    saveButton: {
-        height: 40, 
-        fontWeight: 600, 
-        minWidth: 80, 
-        fontSize: '16px', 
-        marginRight: 16
+    ve_top_bar_control: {
+        display: "grid", 
+        gridTemplateRows: "0.1fr 1fr", 
+        borderBottom: "1px solid gray"
+     }, 
+    ve_top_bar_label: {
+        paddingTop: "2px", 
+        paddingLeft: "10px", 
+        fontSize: "12px", 
+        fontWeight: "900"
+     }, 
+    ve_top_bar_field: {
+        display: "grid", 
+        gridTemplateColumns: "5fr 1fr"
+     }, 
+    ve_top_bar_field_editor: {
+        paddingLeft: "10px", 
+        fontSize: "24px"
+     }, 
+    ve_top_bar_field_button: {
+        
+     }, 
+    ve_top_bar_icons: {
+        paddingTop: "4px", 
+        display: "flex", 
+        flexDirection: "row", 
+        alignItems: "center", 
+        justifyItems: "center"
      }
  });

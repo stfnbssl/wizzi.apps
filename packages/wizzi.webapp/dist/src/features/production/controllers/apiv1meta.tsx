@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\apiv1meta.tsx.ittf
-    utc time: Sat, 09 Jul 2022 08:31:39 GMT
+    utc time: Mon, 11 Jul 2022 18:32:55 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -27,7 +27,7 @@ export class ApiV1MetaProductionController implements ControllerType {
         this.router.get('/props/:owner/:name', this.getMetaProperties);
         this.router.get('/checkname/:name', this.getCheckMetaName);
         this.router.get('/:owner/:name', this.getMetaProduction);
-        this.router.put('/:owner/:name', this.putMetaProduction);
+        this.router.put('/:id', this.putMetaProduction);
     };
     
     private getMetaProductionList = 
@@ -177,7 +177,7 @@ export class ApiV1MetaProductionController implements ControllerType {
     // loog 'putMetaProduction.request.body', request.body
     async (request: Request, response: Response) => 
     
-        updateMetaProduction(request.params.owner, request.params.name, request.body.description, JSON.stringify(request.body.packiFiles)).then(
+        updateMetaProduction(request.params.id, request.params.owner, request.params.name, request.body.description, JSON.stringify(request.body.packiFiles)).then(
         // loog 'putMetaProduction.result', result
         (result: any) => 
         

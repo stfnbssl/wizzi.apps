@@ -7,10 +7,6 @@ module
     import 
         as React
         from 'react'
-    $if wzCtx.Build.useExpo
-        import 
-            @ SDKVersion
-            from '../../types'
     import 
         @ FileSystemEntry
         @ isInsideFolder
@@ -95,9 +91,6 @@ module
             :p onClearClipboard
                 :=> 
                     :void 
-            $if wzCtx.Build.useExpo
-                :p sdkVersion
-                    :ref SDKVersion
             :p theme
                 :ref ThemeName
             :p className
@@ -192,8 +185,6 @@ module
                                             @ onExpand {onExpand}
                                             @ onClearClipboard {onClearClipboard}
                                             @ getAdjacentEntries {this._getImmediateChildren}
-                                            $if wzCtx.Build.useExpo
-                                                @ sdkVersion {this.props.sdkVersion}
                                             @ theme {theme}
     const styles
         _ StyleSheet.create

@@ -3,7 +3,7 @@ html
         var md = {}
     
     layout(&md)
-        . flex-row flex-justify-center m-xxl
+        . flex-row justify-content-center m-xxl
             . flex-column border-s
                 . m-t-xxl
                     h3
@@ -14,22 +14,22 @@ html
                     . card-item m-xxl
                         a 
                             href /login/google
-                            . flex-row flex-justify-center border-s radius-m p-x color-black font-w-s
-                                . flex-column flex-justify-center
+                            . flex-row justify-content-center border-s radius-m p-x color-black font-w-s
+                                . flex-column justify-content-center
                                     img
                                         src /static/images/sign-in/btn_google_dark_normal_ios.svg
-                                . flex-column flex-justify-center p-l-x
+                                . flex-column justify-content-center p-l-x
                                     span
                                         + Sign in with google
                     . card-item m-xxl 
                         a
                             href /login/github 
-                            . flex-row flex-justify-center border-s radius-m p-x color-black font-w-s
-                                . flex-column flex-justify-center 
+                            . flex-row justify-content-center border-s radius-m p-x color-black font-w-s
+                                . flex-column justify-content-center 
                                     img 
                                         width 46px
                                         height 46px
                                         src /static/images/sign-in/GitHub-Mark-32px.png
-                                . flex-column flex-justify-center p-l-x 
+                                . flex-column justify-content-center p-l-x 
                                     span
                                         + Sign in with github

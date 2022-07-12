@@ -6,34 +6,49 @@ css
         var scale = ['0.6','0.8','1','1.3','1.6','2'];
         var scaleRad = ['3','6','12','18','30','48'];
         var scaleWidth = [15,25,35,65,75,85];
+        var scale50 = [50,100,150,200];
 
     < html
-        font-family Roboto,Verdana,Arial
+        $$ font-family Roboto,Verdana,Arial
+        font-family -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
         font-size 14px
 
     $include colors
 
+    . fixed
+        position fixed
+    . relative
+        position relative
+    . absolute
+        position absolute
     . flex-row
         display flex
         flex-direction row
     . flex-column
         display flex
         flex-direction column
-    . flex-justify-start
+    . justify-content-start
         justify-content start
-    . flex-justify-center
+    . justify-content-center
         justify-content center
-    . flex-space-between
+    . justify-content-space-between
         justify-content space-between
     . space-between
         justify-content space-between
-    . flex-items-start
+    . align-items-start
         align-items start
+    . align-items-center
+        align-items center
     . width-full
         width 100%!important
     . width-half
         width 50%!important
         
+    . m-0-auto
+        margin 0 auto
+    $foreach c in scale50
+        . m-${c}
+            margin ${c}px
     $foreach c in count
         . font-${sizes[c]}
             font-size ${scale[c]}em
@@ -90,7 +105,6 @@ css
         font-weight 500
     . font-w-xxl
         font-weight 700
-
 
     $include form        
     $include icons

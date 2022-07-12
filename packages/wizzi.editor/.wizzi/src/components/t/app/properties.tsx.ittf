@@ -4,9 +4,6 @@ $group
         :ref PackiSession
     p _PackiStateListener?
         :ref PackiListenerSubscription
-    $if wzCtx.Build.useExpo
-        p _packiLogListener?
-            :ref PackiListenerSubscription
     p _isFocused
         :boolean 
         = false

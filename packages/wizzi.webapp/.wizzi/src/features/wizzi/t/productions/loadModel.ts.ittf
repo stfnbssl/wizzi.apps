@@ -23,6 +23,7 @@ $group
                             return
                                 _ reject
                                     {
+                                        @ action 'wizzi.productions.loadModel'
                                         @ message 'files parameter must be an object of type PackiFiles'
                                         @ files
                         let jsonwf

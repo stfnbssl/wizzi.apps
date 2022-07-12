@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\wizzi\productions.ts.ittf
-    utc time: Sat, 09 Jul 2022 08:31:38 GMT
+    utc time: Mon, 11 Jul 2022 18:32:54 GMT
 */
 import path from 'path';
 import fs from 'fs';
@@ -23,6 +23,7 @@ export async function loadModel(filePath: string, files: packiTypes.PackiFiles, 
         
             if (!verify.isObject(files)) {
                 return reject({
+                        action: 'wizzi.productions.loadModel', 
                         message: 'files parameter must be an object of type PackiFiles', 
                         files
                      });
@@ -97,6 +98,7 @@ export async function mTreeDebugInfo(filePath: string, files: packiTypes.PackiFi
         
             if (!verify.isObject(files)) {
                 return reject({
+                        action: 'wizzi.productions.mTreeDebugInfo', 
                         message: 'files parameter must be an object of type PackiFiles', 
                         files
                      });
@@ -124,6 +126,7 @@ export async function mTree(filePath: string, files: packiTypes.PackiFiles, cont
         
             if (!verify.isObject(files)) {
                 return reject({
+                        action: 'wizzi.productions.mTree', 
                         message: 'files parameter must be an object of type PackiFiles', 
                         files
                      });
@@ -155,6 +158,7 @@ export async function generateArtifact(filePath: string, files: packiTypes.Packi
         
             if (!verify.isObject(files)) {
                 return reject({
+                        action: 'wizzi.productions.generateArtifact', 
                         message: 'files parameter must be an object of type PackiFiles', 
                         files
                      });
@@ -257,6 +261,7 @@ export async function generateFolderArtifacts(sourceFolderUri: string, destFolde
         
             if (!verify.isObject(files)) {
                 return reject({
+                        action: 'wizzi.productions.generateFolderArtifacts', 
                         message: 'files parameter must be an object of type PackiFiles', 
                         files
                      });
@@ -315,6 +320,7 @@ export async function transformModel(filePath: string, files: packiTypes.PackiFi
         
             if (!verify.isObject(files)) {
                 return reject({
+                        action: 'wizzi.productions.transformModel', 
                         message: 'files parameter must be an object of type PackiFiles', 
                         files
                      });
@@ -406,6 +412,7 @@ export async function executeJob(filePath: string, files: packiTypes.PackiFiles,
         
             if (!verify.isObject(files)) {
                 return reject({
+                        action: 'wizzi.productions.executeJob', 
                         message: 'files parameter must be an object of type PackiFiles', 
                         files
                      });
@@ -484,6 +491,7 @@ export async function inferAndLoadContextJson(wf: wizzi.WizziFactory, files: pac
         
             if (!verify.isObject(files)) {
                 return reject({
+                        action: 'wizzi.productions.inferAndLoadContextJson', 
                         message: 'files parameter must be an object of type PackiFiles', 
                         files
                      });

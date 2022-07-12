@@ -12,14 +12,14 @@ html
                 + ${JSON.stringify(user, null, 2)}
         *$
 
-        . flex-row flex-justify-center
+        . flex-row justify-content-center
             profile-sidebar()
 
             . flex-column
                 style width: 75%;
                 
                 . font-x font-w-s m-t-xxl
-                    . flex-row flex-space-between width-xl border-b-s p-b-s
+                    . flex-row justify-content-space-between width-xl border-b-s p-b-s
                         . flex-column
                             + Artifacts
                         . flex-row
@@ -34,7 +34,7 @@ html
                             p ${item.name}
 
                 . font-x font-w-s m-t-xxl
-                    . flex-row flex-space-between width-xl border-b-s p-b-s
+                    . flex-row justify-content-space-between width-xl border-b-s p-b-s
                         . flex-column
                             + Packages
                         . flex-row
@@ -49,7 +49,7 @@ html
                             p ${item.name}
 
                 . font-x font-w-s m-t-xxl
-                    . flex-row flex-space-between width-xl border-b-s p-b-s
+                    . flex-row justify-content-space-between width-xl border-b-s p-b-s
                         . flex-column
                             + Metas
                         . flex-row
@@ -61,7 +61,7 @@ html
                                     $include assets/add.svg
 
                 . font-x font-w-s m-t-xxl
-                    . flex-row flex-space-between width-xl border-b-s p-b-s
+                    . flex-row justify-content-space-between width-xl border-b-s p-b-s
                         . flex-column
                             + tFolders
                         . flex-row

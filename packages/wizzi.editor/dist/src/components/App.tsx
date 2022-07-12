@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.editor\.wizzi\src\components\App.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:08:24 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\App.tsx.ittf
+    utc time: Tue, 12 Jul 2022 15:10:51 GMT
 */
 import * as React from 'react';
 // Redux
@@ -14,7 +14,7 @@ import {getFilesFromQuery, fileConversions} from '../features/file';
 import {withPreferences, PreferencesContextType} from '../features/preferences';
 import {Annotation} from '../features/annotations';
 import {LoggedUser} from '../features/app';
-import {SavedPacki, QueryParams, SaveStatus, SaveHistory, PackiSaveOptions, SDKVersion, PackiState, PackiFile, PackiFiles, PackiDependencies, PackiDependency, PackiDefaults, PackiProduction} from '../features/packi';
+import {SavedPacki, QueryParams, SaveStatus, SaveHistory, PackiSaveOptions, PackiState, PackiFile, PackiFiles, PackiDefaults, PackiProduction} from '../features/packi';
 import {PackiSession, PackiListenerSubscription} from '../features/packi';
 // Utils
 import nullthrows from 'nullthrows';
@@ -31,7 +31,6 @@ import LazyLoad from './widgets/LazyLoad';
 import {Dispatch} from 'redux';
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import {Packi, packiActions} from '../features/packi';
-import {GitRepositoryMeta} from '../features/github';
 import {GeneratedArtifact, JobError, wizziActions} from '../features/wizzi';
 import {PreferencesType} from '../features/preferences';
 import {StoreState} from '../store';
@@ -42,9 +41,7 @@ import updateEntry from './FileList/actions/updateEntry';
 // Defaults
 import {config} from '../features/config';
 const {
-    DEFAULT_PACKI_CODE, 
-    VERSIONS, 
-    DEFAULT_SDK_VERSION
+    DEFAULT_PACKI_CODE
  } = config;
 
 
@@ -52,6 +49,8 @@ interface PackiStateProps {
     packiNames?: string[];
     packiTemplateNames?: string[];
     generatedArtifact?: GeneratedArtifact;
+    mTreeBuildUpScript?: string;
+    mTreeIttf?: any;
     jobGeneratedArtifacts?: PackiFiles;
     jobError?: JobError;
 }
@@ -153,12 +152,9 @@ const packiMapDispatchToProps = (dispatch: Dispatch):  PackiDispatchProps =>
      })
 ;
 type AppProps = PreferencesContextType & PropsFromRedux & { 
-    Packi?: SavedPacki;
-    loggedUser?: LoggedUser;
-    query: QueryParams;
+    packi: SavedPacki;
+    loggedUser: LoggedUser;
     userAgent: string;
-    files: PackiFiles;
-    defaults: PackiDefaults;
 };
 type State = PackiStateProps & { 
     session: PackiState;
@@ -168,7 +164,6 @@ type State = PackiStateProps & {
     isSavedOnce: boolean;
     saveHistory: SaveHistory;
     saveStatus: SaveStatus;
-    isPreview: boolean;
     isDownloading: boolean;
     devicePreviewShown: boolean;
     isLocalWebPreview: boolean;
@@ -183,7 +178,6 @@ type State = PackiStateProps & {
     mTreeIttf?: string;
     jobGeneratedArtifacts?: PackiFiles;
     jobError?: JobError;
-    params: Params;
     fileEntries: FileSystemEntry[];
     isWizziJobWaiting: boolean;
 };
@@ -193,22 +187,12 @@ class AppMain extends React.Component<AppProps, State> {
         console.log('App.ctor.props', props);
         let id = props.packi._id;
         let files = props.packi.packiFiles;
-        let dependencies = props.packi.dependencies;
         const owner = props.packi.owner;
         const name = props.packi.name;
         const mainIttf = props.packi.mainIttf;
         const wizziSchema = props.packi.wizziSchema;
         const description = props.packi.description;
         const packiProduction: PackiProduction = props.packi.packiProduction;
-        // sdkVersion
-        let sdkVersion: SDKVersion = DEFAULT_SDK_VERSION;
-        sdkVersion = props.packi.sdkVersion ?? sdkVersion;
-        const initialSdkVersion = sdkVersion;
-        let wasUpgraded = false;
-        if (!VERSIONS.hasOwnProperty(sdkVersion)) {
-            sdkVersion = DEFAULT_SDK_VERSION;
-            wasUpgraded = true;
-        }
         const verbose = props.preferences.verbose;
         const sendCodeOnChangeEnabled = true;
         const sessionSecret = null;
@@ -222,9 +206,7 @@ class AppMain extends React.Component<AppProps, State> {
             mainIttf, 
             wizziSchema, 
             files, 
-            dependencies, 
             packiProduction, 
-            sdkVersion, 
             verbose, 
             codeChangesDelay: sendCodeOnChangeEnabled ? 1000 : -1, 
             user: props.loggedUser, 
@@ -246,8 +228,6 @@ class AppMain extends React.Component<AppProps, State> {
             saveHistory: props.packi?.history ?? [], 
             saveStatus: props.packi?.isDraft ? 'saved-draft' : id ? 'published' : 'unsaved', 
             isLocalWebPreview, 
-            wasUpgraded, 
-            initialSdkVersion, 
             isDownloading: false, 
             devicePreviewShown, 
             verbose, 
@@ -278,7 +258,7 @@ class AppMain extends React.Component<AppProps, State> {
         
     }
     
-    _generateArtifact(filePath) {
+    _generateArtifact(filePath: string) {
         const files = this.state.session.files;
         if (Object.keys(files).length) {
             filePath = filePath || this.state.selectedFile || Object.keys(files)[0];
@@ -301,31 +281,28 @@ class AppMain extends React.Component<AppProps, State> {
         }
     };
     
-    static getDerivedStateFromProps(_props: Props, state: State) {
+    static getDerivedStateFromProps(_props: AppProps, state: State) {
         return null;
     }
     
     componentDidMount() {
         this._PackiStateListener = this._PackiSession.addStateListener(this._handleSessionStateChange);
-        this._PackiSession.setDisabled(false);
         this._isFocused = document.hasFocus();
         this._focusTimer = window.setInterval(this._handleFocusChangeInterval, 500);
-        if (this.props.preferences.autoGenSingleDoc) {
-            this._generateArtifact();
+        if (this.props.preferences.autoGenSingleDoc && this.props.packi.mainIttf) {
+            this._generateArtifact(this.props.packi.mainIttf)
         }
     }
     
     componentWillUnmount() {
         this._PackiStateListener?.();
-        this._PackiSession.setDisabled(true);
-        this._PackiSession.setOnline(false);
         clearInterval(this._focusTimer);
         this._focusTimer = undefined;
     }
     
-    componentDidUpdate(prevProps: Props, prevState: State) {
+    componentDidUpdate(prevProps: AppProps, prevState: State) {
         if (prevProps.jobGeneratedArtifacts !== this.props.jobGeneratedArtifacts) {
-            this._PackiSession.updateJobGeneratedFiles(this.props.jobGeneratedArtifacts)
+            this._PackiSession.updateJobGeneratedFiles(this.props.jobGeneratedArtifacts || {})
         }
     }
     _handleFocusChangeInterval = () => {
@@ -339,13 +316,6 @@ class AppMain extends React.Component<AppProps, State> {
     };
     _handleUnload = async () => {
     
-        if (navigator.sendBeacon && this.state.session.sendBeaconCloseRequest) {
-            const {
-                url, 
-                data
-             } = this.state.session.sendBeaconCloseRequest;
-            navigator.sendBeacon(url, data);
-        }
     }
     ;
     _handleToggleSendCode = () => 
@@ -402,16 +372,6 @@ class AppMain extends React.Component<AppProps, State> {
         this._PackiSession.setDescription(details.description);
         this._PackiSession.setMainIttf(details.mainIttf);
         this._PackiSession.setWizziSchema(details.wizziSchema);
-    };
-    
-    _handleChangeSDKVersion = (sdkVersion: SDKVersion, isLocalWebPreview?: boolean) => {
-        this.edited = true;
-        this._packi.setSDKVersion(sdkVersion);
-        if (this.state.isLocalWebPreview !== !!isLocalWebPreview) {
-            this.setState({
-                isLocalWebPreview: !!isLocalWebPreview
-             })
-        }
     };
     
     _handleDownloadAsync = async () => {
@@ -531,10 +491,6 @@ class AppMain extends React.Component<AppProps, State> {
         } 
     }
     ;
-    _handleOpenEditor = () => 
-        this.setState({
-            isPreview: false
-         });
     _uploadAssetAsync = (asset: File) => {
         return this._PackiSession.uploadAssetAsync(asset);
     };
@@ -584,18 +540,6 @@ class AppMain extends React.Component<AppProps, State> {
         }
     };
     
-    _updateDependencies = (updateFn: (dependencies: PackiDependencies) => { 
-        [path: string]: PackiDependency | null;
-    }) => {
-        const state = this._packi.getState();
-        const dependenciesUpdate = updateFn(state.dependencies);
-        if (Object.keys(dependenciesUpdate).length) {
-            this.edited = true;
-            this._packi.updateDependencies(dependenciesUpdate);
-        }
-        return this._packi.getState().dependencies;
-    };
-    
     _handleSelectPacki = async (packiId: string) => 
     
         this.props.dispatchSelectPacki(packiId);
@@ -631,18 +575,6 @@ class AppMain extends React.Component<AppProps, State> {
     render() {
         if (this.props && this.state) {
             const experienceURL = this.state.session.url;
-            if (this.state.isPreview) {
-                return  (
-                    <AppDetails 
-                        name={this.state.session.name}
-                        description={this.state.session.description}
-                        experienceURL={experienceURL}
-                        onOpenEditor={this._handleOpenEditor}
-                        userAgent={this.props.userAgent}
-                     />
-                    )
-                ;
-            }
             console.log('App.state.session.files', this.state.session.files);
             return  (
                 <LazyLoad<React.ComponentType<EditorViewProps>>
@@ -661,9 +593,7 @@ class AppMain extends React.Component<AppProps, State> {
                                     annotations={this.state.annotations}
                                     loggedUser={this.props.loggedUser}
                                     autosaveEnabled={this.state.autosaveEnabled}
-                                    createdAt={this.props.Packi ? this.props.Packi.created : undefined}
-                                    dependencies={this.state.session.dependencies}
-                                    missingDependencies={this.state.session.missingDependencies}
+                                    createdAt={this.props.packi.created}
                                     description={this.state.session.description}
                                     mainIttf={this.state.session.mainIttf}
                                     wizziSchema={this.state.session.wizziSchema}
@@ -686,10 +616,8 @@ class AppMain extends React.Component<AppProps, State> {
                                     previewURL={this.state.session.previewURL}
                                     saveHistory={this.state.saveHistory}
                                     saveStatus={this.state.saveStatus}
-                                    sdkVersion={this.state.session.sdkVersion}
                                     selectedFile={this.state.selectedFile}
                                     sendCodeOnChangeEnabled={this.state.sendCodeOnChangeEnabled}
-                                    updateDependencies={this._updateDependencies}
                                     updateFiles={this._updateFiles}
                                     uploadFileAsync={this._uploadAssetAsync}
                                     userAgent={this.props.userAgent}

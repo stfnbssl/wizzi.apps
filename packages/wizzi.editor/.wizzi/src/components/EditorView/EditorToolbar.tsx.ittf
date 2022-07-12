@@ -10,30 +10,24 @@ module
         @ SaveStatus
         @ SaveHistory
         @ PackiSaveOptions
+        @ PackiProduction
         from '../../features/packi'
-    import EditorTitle from './EditorTitle'
     import
         @ usePreferences 
         from '../../features/preferences'
     $if false
         import SearchButton from '../Search/SearchButton'
     import 
-        @ ToolbarShell 
-        from '../shell/ToolbarShell'
+        @ WizziIcon
+        from '../../assets/WizziIcon'
     import 
-        @ ToolbarTitleShell 
-        from '../shell/ToolbarTitleShell'
-    import UserMenu from './UserMenu'
-    import 
-        @ Button 
-        from '../widgets/Button'
-    import 
-        @ PackiIcon
-        from '../../assets/PackiIcon'
+        @ EditIcon
+        from '../../assets/EditIcon'
     import 
         @ BrowserIcon
         from '../../assets/BrowserIcon'
     import IconButton from '../widgets/IconButton'
+    import UserMenu from './UserMenu'
     $if wzCtx.Build.usePackiAspects
         import
             @ LoggedUser
@@ -43,12 +37,18 @@ module
             from '../../features/packi'
         import Select from '@material-ui/core/Select'
         import MenuItem from '@material-ui/core/MenuItem'
+    import ModalProductionDetails from './ModalProductionDetails'        
+
     export
         :type EditorToolbarProps
             :{ 
                 :p name
                     :string 
                 :p description
+                    :string 
+                :p  mainIttf
+                    :string 
+                :p  wizziSchema
                     :string 
                 :p packiProduction
                     :ref PackiProduction                    
@@ -62,11 +62,10 @@ module
                     :ref SaveHistory
                 :p isDownloading
                     :boolean 
-                $if wzCtx.Build.useExpo
-                    :p isResolving
-                        :boolean 
                 :p isEditModalVisible
                     :boolean 
+                :p generatedPreviewURL
+                    :string 
                 :p onSubmitMetadata
                     :=> 
                         :void 
@@ -76,20 +75,12 @@ module
                                     :string 
                                 :p description
                                     :string 
-                $if wzCtx.Build.useExpo
-                    :p onShowPreviousSaves
-                        :=> 
-                            :void 
                 :p onShowEditModal
                     :=> 
                         :void 
                 :p onDismissEditModal
                     :=> 
                         :void 
-                $if wzCtx.Build.useExpo
-                    :p onShowEmbedCode
-                        :=> 
-                            :void 
                 :p onDownloadCode
                     :=> 
                         :ref Promise
@@ -119,13 +110,6 @@ module
                         # isResolving: boolean;
                     :p isWizziJobWaiting
                         :boolean 
-                    $if wzCtx.Build.usePackiAspectsAuth
-                        :p onShowAuthModal
-                            :=> 
-                                :void 
-                        :p onDismissAuthModal
-                            :=> 
-                                :void 
                     :p onChangeSplitViewKind
                         :=> 
                             :void 
@@ -137,18 +121,6 @@ module
                     :p onShowPackiManager
                         :=> 
                             :void 
-                    $if wzCtx.Build.usePackiAspectsGithub
-                        :p onShowGithubCommit
-                            :=> 
-                                :void 
-                        :p onShowGithubCreate
-                            :=> 
-                                :void 
-                    $*
-                    :p onSaveCode
-                        :=> 
-                            :void 
-                    *$
                     :p creatorUsername
                         :optional 
                         :string 
@@ -168,16 +140,10 @@ module
                     @ saveHistory
                     @ saveStatus
                     @ isDownloading
-                    $if wzCtx.Build.useExpo
-                        @ isResolving
                     @ isEditModalVisible
                     @ onSubmitMetadata
-                    $if wzCtx.Build.useExpo
-                        @ onShowPreviousSaves
                     @ onShowEditModal
                     @ onDismissEditModal
-                    $if wzCtx.Build.useExpo
-                        @ onShowEmbedCode
                     @ onDownloadCode
                     @ onPublishAsync
                     @ splitViewKind
@@ -188,74 +154,51 @@ module
                     @ generatedPreviewURL
                     @ onExecuteWizziJob
                     @ onShowPackiManager
-                    $if wzCtx.Build.usePackiAspectsGithub
-                        @ onShowGithubCommit
-                        @ onShowGithubCreate
-                        $$ @ onSaveCode
                 = props
+            
             const 
                 { 
                     @ theme
                 = preferences
+            
             const isPublishing = saveStatus === 'publishing'
             const isPublished = saveStatus === 'published'
             log 'EditorToolbar.props', props, mainIttf, wizziSchema
-            return 
-                < ToolbarShell 
-                    < ToolbarTitleShell 
-                        div
-                            @ className {css(styles.logo)}
-                            < PackiIcon
-                                @ theme {theme}
-                        < EditorTitle 
-                            @ name {name}
-                            @ description {description}
-                            @ mainIttf {mainIttf}
-                            @ wizziSchema {wizziSchema}
-                            @ createdAt {createdAt}
-                            @ saveHistory {saveHistory}
-                            @ saveStatus {saveStatus}
-                            @ loggedUser {loggedUser}
-                            @ isEditModalVisible {isEditModalVisible}
-                            @ onSubmitMetadata {onSubmitMetadata}
-                            $if wzCtx.Build.useExpo
-                                @ onShowPreviousSaves {onShowPreviousSaves}
-                            @ onShowEditModal {onShowEditModal}
-                            @ onDismissEditModal {onDismissEditModal}
+
+            return
+                div 
+                    className {css(styles.ve_top_bar)}
                     div 
-                        @ className {css(styles.buttons)}
-                        $if wzCtx.Build.useExpo
-                            < Button 
-                                @ variant "secondary"
-                                @ onClick
-                                    => 
-                                        _ onPublishAsync()
-                                $if wzCtx.Build.useExpo
-                                    @ disabled {isPublishing || isResolving || isPublished}
-                                $else
-                                    @ disabled {isPublishing || isPublished}
-                                @ loading {isPublishing}
-                                @ className {css(styles.saveButton)}
-                                { 
-                                    iif isPublishing
-                                        then 'Saving…'
-                                        else
-                                            iif isPublished
-                                                then 'Saved'
-                                                else 'Save'
-                        $if wzCtx.Build.usePackiAspects_stop
-                            < Select 
-                                @ value {splitViewKind}
-                                @ onChange {onChangeSplitViewKind}
-                                < MenuItem 
-                                    @ value {'left'}
-                                    + Left
-                                < MenuItem 
-                                    @ value {'right'}
-                                    + Right
-                                < MenuItem 
-                                    @ value {'both'}
-                                    + Both
+                        className {css(styles.ve_top_bar_logo)}
+                        a
+                            href /
+                            < WizziIcon
+                                @ theme {theme} 
+                                width 150
+                                height 50
+                    div 
+                        className {css(styles.ve_top_bar_control)}
+                        div 
+                            className {css(styles.ve_top_bar_label)}
+                            + {packiProduction} Production
+                        div 
+                            className {css(styles.ve_top_bar_field)}
+                            div 
+                                className {css(styles.ve_top_bar_field_editor)}
+                                + {name}
+                            div 
+                                className {css(styles.ve_top_bar_field_button)}
+                                < IconButton 
+                                    @ responsive
+                                    @ title "Edit production metadata"
+                                    @ onClick {onShowEditModal}
+                                    $$ @ disabled {isDownloading || isPublishing}
+                                    < EditIcon 
+                                        @ theme {theme} 
+                                        width 20
+                                        height 20
+                    div 
+                        className {css(styles.ve_top_bar_icons)}
                         {
                             &&
                                 + packiProduction == 'artifact'
@@ -299,44 +242,59 @@ module
                                     @ d "M2.5 18.333h15M10 10V1.667"
                                     @ strokeWidth "2"
                                     @ strokeLinecap "round"
-                        $if wzCtx.Build.useExpo
-                            < IconButton 
-                                @ responsive
-                                @ title "Show embed code"
-                                @ onClick {onShowEmbedCode}
-                                svg 
-                                    @ width "20px"
-                                    @ height "18px"
-                                    @ viewBox "0 0 20 18"
-                                    @ fill "none"
-                                    path 
-                                        @ d "M13.333 15l5-5-5-5M6.667 5l-5 5 5 5"
-                                        @ strokeWidth "2"
-                                        @ strokeLinecap "round"
-                                        @ strokeLinejoin "round"
                         $if false
                             < SearchButton 
                                 @ responsive
                         < UserMenu 
                             @ loggedUser {loggedUser}
+                    < ModalProductionDetails 
+                        @ title "Edit Production Details"
+                        @ action "Done"
+                        @ visible {isEditModalVisible}
+                        @ onDismiss {onDismissEditModal}
+                        @ onSubmit
+                            => 
+                                param details
+                                _ onSubmitMetadata(details)
+                                _ onDismissEditModal()
+                        @ description {description}
+                        @ name {name}
+                        @ mainIttf {mainIttf}
+                        @ wizziSchema {wizziSchema}
+
     export-default EditorToolbar
     const styles
         _ StyleSheet.create
             { 
-                { logo
-                    @ width 24
-                    @ height 24
-                    @ marginLeft 16
-                    @ marginRight 16
-                { buttons
-                    @ display 'flex'
-                    @ flexDirection 'row'
-                    @ alignItems 'center'
-                    @ position 'relative'
-                    @ zIndex 5
-                { saveButton
-                    @ height 40
-                    @ fontWeight 600
-                    @ minWidth 80
-                    @ fontSize '16px'
-                    @ marginRight 16
+                { ve_top_bar
+                    @ display "grid"
+                    @ gridTemplateColumns "1fr 5fr 1fr"
+                    @ marginBottom "20px"
+                    @ height "50px"
+                { ve_top_bar_logo
+                    @ paddingTop "4px"
+                    @ cursor "pointer"
+                { ve_top_bar_control
+                    @ display "grid"
+                    @ gridTemplateRows "0.1fr 1fr"
+                    @ borderBottom "1px solid gray"
+                { ve_top_bar_label
+                    @ paddingTop "2px"
+                    @ paddingLeft "10px"
+                    @ fontSize "12px"
+                    @ fontWeight "900"
+                { ve_top_bar_field
+                    @ display "grid"
+                    @ gridTemplateColumns "5fr 1fr"
+                { ve_top_bar_field_editor
+                    $$ @ paddingTop "2px"
+                    @ paddingLeft "10px"
+                    @ fontSize "24px"
+                { ve_top_bar_field_button
+                    $$ @ padding "2px"
+                { ve_top_bar_icons
+                    @ paddingTop "4px"
+                    @ display "flex"
+                    @ flexDirection "row"
+                    @ alignItems "center"
+                    @ justifyItems "center"

@@ -54,10 +54,6 @@ module
                         :undefined 
                 :p isEditModalVisible
                     :boolean 
-                $if wzCtx.Build.useExpo
-                    :p onShowPreviousSaves
-                        :=> 
-                            :void 
                 :p onShowEditModal
                     :=> 
                         :void 
@@ -104,8 +100,6 @@ module
                     @ saveStatus
                     @ loggedUser
                     @ isEditModalVisible
-                    $if wzCtx.Build.useExpo
-                        @ onShowPreviousSaves
                     @ onShowEditModal
                     @ onSubmitMetadata
                     @ onDismissEditModal
@@ -167,15 +161,6 @@ module
                             + {statusText}
                             + .
                         + {' '}
-                        $if wzCtx.Build.useExpo
-                            { 
-                                iif hasPermanentHistory
-                                    then
-                                        button 
-                                            @ onClick {onShowPreviousSaves}
-                                            @ className {css(styles.textButton)}
-                                            + See previous saves.
-                                    else null
             else
                 set statusText =
                     < React.Fragment
@@ -225,7 +210,7 @@ module
                                                 @ points "3.34328358 6.32835821 0.835820896 3.82089552 0 4.65671642 3.34328358 8 10.5074627 0.835820896 9.67164179 0"
                                     else null
                     < ModalProductionDetails 
-                        @ title "Edit Packi Details"
+                        @ title "Edit Production Details"
                         @ action "Done"
                         @ visible {isEditModalVisible}
                         @ onDismiss {onDismissEditModal}

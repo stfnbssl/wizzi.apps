@@ -1,15 +1,11 @@
 module
 
     import 
-        @ SDKVersion
         @ SaveStatus
         @ SaveHistory
         @ PackiSaveOptions
         @ PackiFiles
         @ PackiFile
-        @ PackiDependencies
-        @ PackiDependency
-        @ PackiMissingDependencies
         from '../../features/packi'
 
     $if false
@@ -69,16 +65,9 @@ module
                     :string
                 :p packiProduction
                     :ref PackiProduction                    
-                :p dependencies
-                    :ref PackiDependencies
-                :p missingDependencies
-                    :ref PackiMissingDependencies
                 :p id
                     :optional 
                     :string 
-                $if wzCtx.Build.useExpo 
-                    :p isResolving
-                        :boolean 
                 :p isDownloading
                     :boolean 
                 :p annotations
@@ -86,20 +75,11 @@ module
                         :ref Annotation
                 :p experienceURL
                     :string 
-                :p sdkVersion
-                    :ref SDKVersion
                 :p sendCodeOnChangeEnabled
                     :boolean 
-                $if wzCtx.Build.useExpo 
-                    :p isLocalWebPreview
-                        :boolean 
                 :p onSendCode
                     :=> 
                         :void 
-                $if wzCtx.Build.useExpo 
-                    :p onReloadPacki
-                        :=> 
-                            :void 
                 :p onToggleSendCode
                     :=> 
                         :void 
@@ -115,15 +95,6 @@ module
                                     :string 
                                 :p description
                                     :string 
-                $if wzCtx.Build.useExpo 
-                    :p onChangeSDKVersion
-                        :=> 
-                            :void 
-                            param sdkVersion
-                                :ref SDKVersion
-                            param isLocalWebPreview
-                                :boolean 
-                                :optional 
                 :p onPublishAsync
                     :=> 
                         :ref Promise
@@ -154,30 +125,12 @@ module
                                             :string 
                                 param files
                                     :ref PackiFiles
-                $if wzCtx.Build.useExpo 
-                    :p updateDependencies
-                        :=> 
-                            :void 
-                            param updateFn
-                                :=> 
-                                    :{ 
-                                        :index 
-                                            :union 
-                                                :ref PackiDependency
-                                                :null 
-                                            param name
-                                                :string 
-                                    param dependencies
-                                        :ref PackiDependencies
                 :p uploadFileAsync
                     :=> 
                         :ref Promise
                             :param string
                         param file
                             :ref File
-                $if wzCtx.Build.useExpo 
-                    :p wasUpgraded
-                        :boolean 
                 :p autosaveEnabled
                     :boolean 
                 :p userAgent

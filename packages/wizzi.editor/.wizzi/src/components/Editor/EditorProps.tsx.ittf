@@ -1,7 +1,5 @@
 module
     import 
-        @ SDKVersion
-        @ PackiDependencies
         @ PackiFiles
         @ PackiFile
         from '../../features/packi'
@@ -13,11 +11,6 @@ module
             :{ 
                 :p files
                     :ref PackiFiles
-                $if wzCtx.Build.usePackiDependencies
-                    :p dependencies
-                        :ref PackiDependencies
-                    :p sdkVersion
-                        :ref SDKVersion
                 :p updateFiles
                     :=> 
                         :void 

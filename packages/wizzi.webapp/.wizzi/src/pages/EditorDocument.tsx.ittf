@@ -106,5 +106,4 @@ module
                         section
                             id root
                         script
-                            $$ src "/static/packi/main.bundle.js"
                             src "/static/packi/main.bundle.js"

@@ -159,7 +159,7 @@ module
                     @ borderRadius 4
                     @ borderStyle 'solid'
                     @ boxShadow s('popover')
-                    @ minWidth 240
+                    @ minWidth 160
                     @ animationName fadeIn
                     @ animationDuration '0.083s'
                     @ animationTimingfunction 'linear'
@@ -178,11 +178,11 @@ module
                     @ border 0
                     @ outline 0
                     @ width '100%'
-                    @ padding '16px 12px'
+                    @ padding '8px 6px'
                     @ textAlign 'left'
                     @ userSelect 'none'
                     @ borderRadius 2
-                    @ minHeight 56
+                    $$ @ minHeight 56
                     @ fontSize 16
                     @ color c('text')
                     @ borderBottom

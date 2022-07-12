@@ -43,12 +43,7 @@ module
                     # eslint @typescript-eslint/switch-exhaustiveness-check: 1
             switch name
                 case 'preview'
-                $if wzCtx.Build.useExpo
-                    case 'platform'
                 case 'theme'
-                $if wzCtx.Build.useExpo
-                    case 'supportedPlatforms'
-                    case 'appetizePayerCode'
                 case 'verbose'
                 case 'hideQueryParams'
                     set res[name] =

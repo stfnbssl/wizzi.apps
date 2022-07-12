@@ -1,8 +1,4 @@
 module
-    $if wzCtx.Build.useExpo
-        import
-            @ Logger
-            from './Logger'
     import
         @ PackiFile
         @ PackiError
@@ -35,10 +31,6 @@ module
             p apiURL
                 :private
                 :string
-            $if wzCtx.Build.useExpo
-                p logger?
-                    :private
-                    :ref Logger
             p status
                 :private
                 :{
@@ -62,14 +54,8 @@ module
                             :string
                         :p callback
                             :ref FileUploaderCallback
-                        $if wzCtx.Build.useExpo
-                            :p logger
-                                :optional
-                                :ref Logger
                 set this.apiURL = options.apiURL
                 set this.callback = options.callback
-                $if wzCtx.Build.useExpo
-                    set this.logger = options.logger
             m add
                 param path
                     :string
@@ -120,8 +106,6 @@ module
                     :ref Promise
                         :param any
                 try
-                    $if wzCtx.Build.useExpo
-                        _ this.logger?.module?.('Uploading file', path, '...')
                     let url
                         :string
                     let input
@@ -183,8 +167,6 @@ module
                             _ response.json()
                     const resultURL = result.url
                     if this.status[path]?.file === file
-                        $if wzCtx.Build.useExpo
-                            _ this.logger?.module?.('Uploaded file', path, resultURL)
                         delete this.status[path]
                         try
                             _ this.callback
@@ -206,8 +188,6 @@ module
                                         @ e.message
                                         + )
                                 @ fileName path
-                    $if wzCtx.Build.useExpo
-                        _ this.logger?.error?.(error)
                     if this.status[path]?.file === file
                         delete this.status[path]
                         _ this.callback

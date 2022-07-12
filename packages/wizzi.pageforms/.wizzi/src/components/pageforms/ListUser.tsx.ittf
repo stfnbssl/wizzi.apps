@@ -34,12 +34,15 @@ module
                     @ l_artifacts this.props.data.artifacts
 
         m render
-
+            if !this.state
+                return
+                    div
+                        + Loading ...
             return
                 div
                     @ className flex-column width-full
                     div
-                        @ className flex-row flex-items-start
+                        @ className flex-row align-items-start
                         form 
                             class width-full
                             @ aria-label Artifact productions
@@ -98,7 +101,7 @@ module
                                     :number
                                 return
                                     div
-                                        @ className flex-row flex-items-start m-m
+                                        @ className flex-row align-items-start
                                         div
                                             @ className flex-column border-b-s p-b-s width-full m-w-xxl
                                             div

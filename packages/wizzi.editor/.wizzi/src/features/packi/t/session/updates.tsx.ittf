@@ -19,17 +19,6 @@ $group
             @ jobGeneratedFiles
             =>
         
-        $*
-        return
-            _ this.setState
-                =>
-                    param state
-                    const newFiles
-                        _ fileConversions.mixPreviousAndGeneratedPackiFiles
-                            @ state.files
-                            @ jobGeneratedFiles
-        *$
-
     m updatePackiFiles
         param files
             :ref PackiFiles
@@ -68,8 +57,7 @@ $group
             # Wait for any pending asset uploads to complete before saving
         const
             {
-                @ owner
-                @ name
+                @ id
                 @ packiProduction
             = this.state
         const url
@@ -78,9 +66,7 @@ $group
                 + /api/v1/production/
                 @ packiProduction
                 + /
-                @ encodeURIComponent(owner)
-                + /
-                @ encodeURIComponent(name)
+                @ encodeURIComponent(id)
         log 'PackiSession.uploadUpdates', url
         const response
             await

@@ -5,18 +5,12 @@
     @ previewShown {previewShown}
     @ panelsShown {preferences.panelsShown}
     @ sendCodeOnChangeEnabled {sendCodeOnChangeEnabled}
-    @ sdkVersion {sdkVersion}
-    $if wzCtx.Build.useExpo 
-        @ isLocalWebPreview {isLocalWebPreview}
     @ onSendCode {onSendCode}
-    $if wzCtx.Build.useExpo 
-        @ onReloadPacki {onReloadPacki}
     @ onToggleTheme {this._toggleTheme}
     @ onTogglePanels {this._togglePanels}
     @ onToggleFileTree {this._toggleFileTree}
     @ onTogglePreview {onTogglePreview}
     @ onToggleSendCode {onToggleSendCode}
-    @ onChangeSDKVersion {this.props.onChangeSDKVersion}
     @ onShowShortcuts {this._handleShowShortcuts}
     @ theme {this.props.preferences.theme}
     $if wzCtx.Build.usePackiAspects

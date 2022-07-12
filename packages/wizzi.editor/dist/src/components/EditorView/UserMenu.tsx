@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.editor\.wizzi\src\components\EditorView\UserMenu.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:08:24 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\UserMenu.tsx.ittf
+    utc time: Tue, 12 Jul 2022 15:10:51 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -24,12 +24,14 @@ export class UserMenuComp extends React.Component<UserMenuProps, State> {
     componentDidMount() {
         document.addEventListener('click', this._handleDocumentClick);
         document.addEventListener('contextmenu', this._handleDocumentContextMenu);
+        console.log('UserMenu componentDidMount');
     }
     componentWillUnmount() {
         document.removeEventListener('click', this._handleDocumentClick);
         document.removeEventListener('contextmenu', this._handleDocumentContextMenu);
     }
     _handleDocumentClick = (e: MouseEvent) => {
+        console.log('UserMenu _handleDocumentClick', this.state.visible);
         if (this.state.visible) {
             if (this._menu.current && e.target !== this._menu.current && !this._menu.current.contains(e.target as HTMLElement)) {
                 this._hideMenu();
@@ -65,7 +67,7 @@ export class UserMenuComp extends React.Component<UserMenuProps, State> {
             <div
              className={css(styles.container)}>
                 <button
-                 ref={this._avatar} className={css(styles.button)}>
+                 ref={this._avatar} className={css(styles.button)} title="Your profile">
                     <Avatar
                      source={loggedUser?.picture ? loggedUser.picture : null} size={26} />
                 </button>
@@ -74,35 +76,35 @@ export class UserMenuComp extends React.Component<UserMenuProps, State> {
                     visible={this.state.visible}
                     actions={loggedUser ? [
                                 {
-                                    label: 'My artifacts', 
+                                    label: 'Artifacts', 
                                     handler: () => 
                                     
                                         window.open(`${process.env.SERVER_URL}/productions/artifacts`)
                                     
                                  }, 
                                 {
-                                    label: 'My packages', 
+                                    label: 'Packages', 
                                     handler: () => 
                                     
                                         window.open(`${process.env.SERVER_URL}/productions/packages`)
                                     
                                  }, 
                                 {
-                                    label: 'My metas', 
+                                    label: 'Metas', 
                                     handler: () => 
                                     
                                         window.open(`${process.env.SERVER_URL}/productions/metas`)
                                     
                                  }, 
                                 {
-                                    label: 'My fragments', 
+                                    label: 'tFolders', 
                                     handler: () => 
                                     
-                                        window.open(`${process.env.SERVER_URL}/productions/fragments`)
+                                        window.open(`${process.env.SERVER_URL}/productions/tfolders`)
                                     
                                  }, 
                                 {
-                                    label: 'Account Settings', 
+                                    label: 'Settings', 
                                     handler: () => 
                                     
                                         window.open(`${process.env.SERVER_URL}/settings`)
@@ -134,8 +136,7 @@ const styles = StyleSheet.create({
     menu: {
         position: 'absolute', 
         margin: '4px 0', 
-        right: 16, 
-        top: '100%'
+        right: 16
      }, 
     button: {
         appearance: 'none', 

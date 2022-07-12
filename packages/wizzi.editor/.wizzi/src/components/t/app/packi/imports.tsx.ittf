@@ -11,9 +11,6 @@ $group
         @ packiActions
         from '../features/packi'
     import 
-        @ GitRepositoryMeta
-        from '../features/github'
-    import 
         @ GeneratedArtifact
         @ JobError
         @ wizziActions

@@ -18,8 +18,10 @@
         $include v08/package/scripts
     { dependencies
         $include v08/package/dependencies
+        react-measure "^2.5.2"
     { devDependencies
         $include v08/package/devDependencies
+        @types/react-measure "^2.0.8"
     $include v08/package/tools
     $include v08/package/browser
     $$ see https://classic.yarnpkg.com/en/docs/selective-version-resolutions/

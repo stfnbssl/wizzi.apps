@@ -102,7 +102,7 @@
             "useStatsWriter": false,
             "useIgnore": true,
             "useCodeSplitting": true,
-            "outputPath": "C:/My/wizzi/stfnbssl/wizzi.webapp/packages/wizzi.backend/dist/static/packi",
+            "outputPath": "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.webapp/dist/static/packi",
             "publicPath": "/static/packi/",
             "useEnv": true,
             "env": {

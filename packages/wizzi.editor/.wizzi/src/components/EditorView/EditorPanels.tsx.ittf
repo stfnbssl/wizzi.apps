@@ -9,8 +9,6 @@ module
     import 
         @ Annotation
         from '../../features/annotations'
-    $if wzCtx.Build.useExpo
-        import EditorPanelLogs from './EditorPanelLogs'
     :import-type 
         @ PanelType
         from '../../features/preferences'
@@ -51,16 +49,10 @@ module
             m getSnapshotBeforeUpdate
                 param prevProps
                     :ref Props
-                $if wzCtx.Build.useExpo
-                    if this.props.deviceLogs !== prevProps.deviceLogs && this._panel.current
-                        set this._isScrolled = this._panel.current.scrollHeight - this._panel.current.clientHeight !== this._panel.current.scrollTop
                 return null
             m componentDidUpdate
                 param prevProps
                     :ref Props
-                $if wzCtx.Build.useExpo
-                    if this.props.deviceLogs !== prevProps.deviceLogs && this._panel.current && !this._isScrolled
-                        set this._panel.current.scrollTop = this._panel.current.scrollHeight - this._panel.current.clientHeight
             p _isScrolled
                 :boolean 
                 = false

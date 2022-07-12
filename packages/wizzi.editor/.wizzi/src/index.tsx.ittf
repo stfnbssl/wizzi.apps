@@ -28,9 +28,6 @@ module
         @ PreferencesProvider 
         from './features/preferences'
     
-    $if wzCtx.Build.useExpo
-        import ServiceWorkerManager from './components/ServiceWorkerManager'
-    
     import ThemeProvider from './components/ThemeProvider'
     import createStore from './store/createStore'
 
@@ -101,8 +98,6 @@ module
         return 
             $$ < React.StrictMode 
             < React.Fragment
-                $if wzCtx.Build.useExpo
-                    < ServiceWorkerManager 
                 < HelmetProvider 
                     < Provider 
                         @ store {store}

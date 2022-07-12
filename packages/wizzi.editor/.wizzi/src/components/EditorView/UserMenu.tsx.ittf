@@ -48,12 +48,14 @@ module
             m componentDidMount
                 _ document.addEventListener('click', this._handleDocumentClick)
                 _ document.addEventListener('contextmenu', this._handleDocumentContextMenu)
+                log 'UserMenu componentDidMount'
             m componentWillUnmount
                 _ document.removeEventListener('click', this._handleDocumentClick)
                 _ document.removeEventListener('contextmenu', this._handleDocumentContextMenu)
             => _handleDocumentClick
                 param e
                     :ref MouseEvent
+                log 'UserMenu _handleDocumentClick', this.state.visible
                 if this.state.visible
                     if 
                         test
@@ -109,6 +111,7 @@ module
                         button 
                             @ ref {this._avatar}
                             @ className {css(styles.button)}
+                            @ title "Your profile"
                             < Avatar 
                                 @ source
                                     iif loggedUser?.picture
@@ -123,7 +126,7 @@ module
                                     then
                                         [ 
                                             { 
-                                                @ label 'My artifacts'
+                                                @ label 'Artifacts'
                                                 @ handler
                                                     => 
                                                         _ window.open
@@ -131,7 +134,7 @@ module
                                                                 @ process.env.SERVER_URL
                                                                 + /productions/artifacts
                                             { 
-                                                @ label 'My packages'
+                                                @ label 'Packages'
                                                 @ handler
                                                     => 
                                                         _ window.open
@@ -139,7 +142,7 @@ module
                                                                 @ process.env.SERVER_URL
                                                                 + /productions/packages
                                             { 
-                                                @ label 'My metas'
+                                                @ label 'Metas'
                                                 @ handler
                                                     => 
                                                         _ window.open
@@ -147,15 +150,15 @@ module
                                                                 @ process.env.SERVER_URL
                                                                 + /productions/metas
                                             { 
-                                                @ label 'My fragments'
+                                                @ label 'tFolders'
                                                 @ handler
                                                     => 
                                                         _ window.open
                                                             `lit 
                                                                 @ process.env.SERVER_URL
-                                                                + /productions/fragments
+                                                                + /productions/tfolders
                                             { 
-                                                @ label 'Account Settings'
+                                                @ label 'Settings'
                                                 @ handler
                                                     => 
                                                         _ window.open
@@ -190,7 +193,7 @@ module
                     @ position 'absolute'
                     @ margin '4px 0'
                     @ right 16
-                    @ top '100%'
+                    $$ @ top '100%'
                 { button
                     @ appearance 'none'
                     @ background 'transparent'

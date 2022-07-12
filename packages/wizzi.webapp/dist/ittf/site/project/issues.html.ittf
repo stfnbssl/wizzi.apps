@@ -1,0 +1,22 @@
+html
+
+    $
+        var opt = {
+            /* TODO For ittf(s) documents, user SHOULD BE set in the global Artifact Generation Context */
+            user: {},
+            section: 'Project',
+        }
+        var ca = 'm-s color-header font-x font-w-s';
+
+    site/layouts/basic( &opt )
+
+        h1 ISSUES
+        p In the Packi Editor the '$' ITTF Command must be followed by a space otherwise sinthax highlighting does not work correctly.
+
+        h1 Packi editor
+        p The editor must show production name and kind (artifact|package|meta|tFolder).
+        p Make a decent splitter work between edit content and result pane.
+        p Result pane icons should be inside the pane. And should be decent.
+        p The 'saved' message should be: 'Not modified', or 'Not yet saved' or 'Saved x seconds|minutes|hours ago'.
+        p SavedPacki and PackiOptions are the same
+

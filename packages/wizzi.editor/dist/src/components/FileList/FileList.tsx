@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.editor\.wizzi\src\components\FileList\FileList.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:08:24 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileList.tsx.ittf
+    utc time: Tue, 12 Jul 2022 15:10:51 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import pickBy from 'lodash/pickBy';
@@ -438,137 +438,134 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
              className={css(styles.container)}>
                 {
                 this.props.visible ?  (
-                    <ResizablePane
-                     direction="horizontal" className={css(styles.pane)}>
-                        <SidebarShell
+                    <SidebarShell
+                     className={css(styles.pane)}>
+                        <FileListPane 
+                            className={css(this.state.projectPane ? styles.openFilesSmall : styles.openFilesLarge)}
+                            title="Open files"
+                            expanded={this.state.openFilesPane}
+                            onClick={this._toggleOpenFilesPane}
                         >
-                            <FileListPane 
-                                className={css(this.state.projectPane ? styles.openFilesSmall : styles.openFilesLarge)}
-                                title="Open files"
-                                expanded={this.state.openFilesPane}
-                                onClick={this._toggleOpenFilesPane}
-                            >
-                                <ul
-                                 className={css(styles.tabs)} data-test-id="file-list-open-files-content">
-                                    {
-                                    this.state.entries.filter(e => 
-                                    
-                                        e.item.type === 'file' && e.state.isOpen
-                                    ).map((e: any) => 
-                                    
-                                         (
-                                        <FileListOpenEntry 
-                                            key={e.item.path}
-                                            entry={e}
-                                            onOpen={() => 
-                                                
-                                                    this._handleEntryOpen(e.item.path)
-                                            }
-                                            onClose={() => 
-                                                
-                                                    this._handleEntryClose(e.item.path)
-                                            }
-                                            onCloseOthers={() => 
-                                                
-                                                    this._handleEntryCloseOthers(e.item.path)
-                                            }
-                                            onCloseAll={this._handleEntryCloseAll}
-                                         />
-                                        )
-                                    
+                            <ul
+                             className={css(styles.tabs)} data-test-id="file-list-open-files-content">
+                                {
+                                this.state.entries.filter(e => 
+                                
+                                    e.item.type === 'file' && e.state.isOpen
+                                ).map((e: any) => 
+                                
+                                     (
+                                    <FileListOpenEntry 
+                                        key={e.item.path}
+                                        entry={e}
+                                        onOpen={() => 
+                                            
+                                                this._handleEntryOpen(e.item.path)
+                                        }
+                                        onClose={() => 
+                                            
+                                                this._handleEntryClose(e.item.path)
+                                        }
+                                        onCloseOthers={() => 
+                                            
+                                                this._handleEntryCloseOthers(e.item.path)
+                                        }
+                                        onCloseAll={this._handleEntryCloseAll}
+                                     />
                                     )
-                                    }</ul>
-                            </FileListPane>
-                            <FileListPane 
-                                className={css(styles.project)}
-                                title="Project"
-                                expanded={this.state.projectPane}
-                                onClick={this._toggleProjectPane}
-                                buttons={[
-                                         (
-                                        <FileListPaneButton
-                                         key="create-file" onClick={() => 
-                                            
-                                                this._handleCreateFile()
-                                        }>
-                                            <path
-                                             fillOpacity="0.7" d="M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z" />
-                                            <AddIcon
-                                             />
-                                        </FileListPaneButton>
-                                        )
-                                        , 
-                                         (
-                                        <FileListPaneButton
-                                         key="create-folder" onClick={() => 
-                                            
-                                                this._handleCreateFolder()
-                                        }>
-                                            <path
-                                             fillOpacity="0.7" d="M7.25,4 L7.5,4 L7.5,3 L7,3.5 L7,2 L15,2 L15,4 L7.25,4 Z M6.75,4 L5,4 L7,2 L7,3.5 L6.5,4 L6.75,4 Z M1,4 L15,4 L15,14 L1,14 L1,4 Z M7.5,3 L7.5,4 L14,4 L14,3 L7.5,3 Z" />
-                                            <AddIcon
-                                             />
-                                        </FileListPaneButton>
-                                        )
-                                        
-                                    ]}
-                            >
-                                <FileListEntryDropTarget
-                                 className={css(styles.files)} rest={this.state.entries} onRename={this._handleEntryRename}>
-                                    <div
-                                     className={css(styles.children)} data-test-id="file-list-project-content">
-                                        <FileListChildren 
-                                            parent=""
-                                            entries={this.state.entries}
-                                            clipboard={this.state.clipboard}
-                                            onCreateFile={this._handleCreateFile}
-                                            onCreateFolder={this._handleCreateFolder}
-                                            onOpen={this._handleEntryOpen}
-                                            onSelect={this._handleEntrySelect}
-                                            onFocus={this._handleEntryFocus}
-                                            onPaste={this._handleEntryPaste}
-                                            onRename={this._handleEntryRename}
-                                            onExpand={this._handleEntryExpand}
-                                            onDelete={this._handleEntryDelete}
-                                            onCopy={this._handleCopy}
-                                            onClearClipboard={this._handleClearClipboard}
-                                            theme={this.props.theme}
-                                            className={css(styles.list)}
-                                         />
-                                    </div>
-                                </FileListEntryDropTarget>
-                            </FileListPane>
-                            {
-                            this.state.deleted.map((group) => 
-                            
-                                 (
-                                <Toast 
-                                    key={group.id}
-                                    label={`Deleted ${group.path.split('/').pop()}`}
-                                    actions={[
-                                            {
-                                                label: 'Undo', 
-                                                action: () => {
-                                                
-                                                    this._restoreEntries(group.entries);
-                                                    this._handleDismissDelete(group.id);
-                                                }
-                                                
-                                             }, 
-                                            {
-                                                label: 'Dismiss'
-                                             }
-                                        ]}
-                                    onDismiss={() => 
-                                        
-                                            this._handleDismissDelete(group.id)
-                                    }
-                                 />
+                                
                                 )
-                            
-                            ).reverse()
-                            }</SidebarShell>
-                    </ResizablePane>
+                                }</ul>
+                        </FileListPane>
+                        <FileListPane 
+                            className={css(styles.project)}
+                            title="Project"
+                            expanded={this.state.projectPane}
+                            onClick={this._toggleProjectPane}
+                            buttons={[
+                                     (
+                                    <FileListPaneButton
+                                     key="create-file" onClick={() => 
+                                        
+                                            this._handleCreateFile()
+                                    }>
+                                        <path
+                                         fillOpacity="0.7" d="M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z" />
+                                        <AddIcon
+                                         />
+                                    </FileListPaneButton>
+                                    )
+                                    , 
+                                     (
+                                    <FileListPaneButton
+                                     key="create-folder" onClick={() => 
+                                        
+                                            this._handleCreateFolder()
+                                    }>
+                                        <path
+                                         fillOpacity="0.7" d="M7.25,4 L7.5,4 L7.5,3 L7,3.5 L7,2 L15,2 L15,4 L7.25,4 Z M6.75,4 L5,4 L7,2 L7,3.5 L6.5,4 L6.75,4 Z M1,4 L15,4 L15,14 L1,14 L1,4 Z M7.5,3 L7.5,4 L14,4 L14,3 L7.5,3 Z" />
+                                        <AddIcon
+                                         />
+                                    </FileListPaneButton>
+                                    )
+                                    
+                                ]}
+                        >
+                            <FileListEntryDropTarget
+                             className={css(styles.files)} rest={this.state.entries} onRename={this._handleEntryRename}>
+                                <div
+                                 className={css(styles.children)} data-test-id="file-list-project-content">
+                                    <FileListChildren 
+                                        parent=""
+                                        entries={this.state.entries}
+                                        clipboard={this.state.clipboard}
+                                        onCreateFile={this._handleCreateFile}
+                                        onCreateFolder={this._handleCreateFolder}
+                                        onOpen={this._handleEntryOpen}
+                                        onSelect={this._handleEntrySelect}
+                                        onFocus={this._handleEntryFocus}
+                                        onPaste={this._handleEntryPaste}
+                                        onRename={this._handleEntryRename}
+                                        onExpand={this._handleEntryExpand}
+                                        onDelete={this._handleEntryDelete}
+                                        onCopy={this._handleCopy}
+                                        onClearClipboard={this._handleClearClipboard}
+                                        theme={this.props.theme}
+                                        className={css(styles.list)}
+                                     />
+                                </div>
+                            </FileListEntryDropTarget>
+                        </FileListPane>
+                        {
+                        this.state.deleted.map((group) => 
+                        
+                             (
+                            <Toast 
+                                key={group.id}
+                                label={`Deleted ${group.path.split('/').pop()}`}
+                                actions={[
+                                        {
+                                            label: 'Undo', 
+                                            action: () => {
+                                            
+                                                this._restoreEntries(group.entries);
+                                                this._handleDismissDelete(group.id);
+                                            }
+                                            
+                                         }, 
+                                        {
+                                            label: 'Dismiss'
+                                         }
+                                    ]}
+                                onDismiss={() => 
+                                    
+                                        this._handleDismissDelete(group.id)
+                                }
+                             />
+                            )
+                        
+                        ).reverse()
+                        }</SidebarShell>
                     )
                  : null}
             </div>
@@ -584,7 +581,8 @@ export default withThemeName(FileListComp);
 const styles = StyleSheet.create({
     container: {
         display: 'flex', 
-        flexDirection: 'column'
+        flexDirection: 'column', 
+        height: '100%'
      }, 
     list: {
         padding: '0 12px', 

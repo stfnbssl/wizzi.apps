@@ -1,13 +1,12 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorFooter.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:08:24 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorFooter.tsx.ittf
+    utc time: Tue, 12 Jul 2022 15:10:51 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
 import {LoggedUser} from '../../features/app';
-import {SDKVersion} from '../../features/packi';
 import {Annotation} from '../../features/annotations';
 import {Shortcuts} from './KeyboardShortcuts';
 import {PreferencesContextType, PanelType, withPreferences} from '../../features/preferences';
@@ -26,14 +25,12 @@ export type EditorFooterProps = PreferencesContextType & {
     panelsShown: boolean;
     sendCodeOnChangeEnabled: boolean;
     loggedUser: LoggedUser;
-    sdkVersion: SDKVersion;
     isLocalWebPreview: boolean;
     onToggleTheme: () => void;
     onTogglePanels: (panelType?: PanelType) => void;
     onToggleFileTree: () => void;
     onTogglePreview: () => void;
     onToggleSendCode: () => void;
-    onChangeSDKVersion: (sdkVersion: SDKVersion, isLocalWebPreview?: boolean) => void;
     onShowShortcuts: () => void;
     onSendCode: () => void;
     theme: string;
@@ -49,7 +46,6 @@ function EditorFooterComp(props: EditorFooterProps) {
         previewShown, 
         panelsShown, 
         sendCodeOnChangeEnabled, 
-        sdkVersion, 
         isLocalWebPreview, 
         onSendCode, 
         onToggleTheme, 

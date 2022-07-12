@@ -6,10 +6,6 @@ module
     import 
         as React
         from 'react'
-    $if wzCtx.Build.useExpo
-        import 
-            @ SDKVersion
-            from '../../types'
     import 
         @ FileSystemEntry
         @ isEntryPoint
@@ -113,9 +109,6 @@ module
                     :=> 
                         :[ 
                             :ref FileSystemEntry
-                $if wzCtx.Build.useExpo
-                    :p sdkVersion
-                        :ref SDKVersion
                 :p theme
                     :ref ThemeName
     :type State
@@ -498,8 +491,6 @@ module
                                     @ onExpand {onExpand}
                                     @ onDelete {onDelete}
                                     @ onClearClipboard {onClearClipboard}
-                                    $if wzCtx.Build.useExpo
-                                        @ sdkVersion {this.props.sdkVersion}
                                     @ theme {theme}
                         else null
             => _renderMenuIcon

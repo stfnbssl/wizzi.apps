@@ -85,12 +85,6 @@
             set this._EditorComponent = Comp
             const file = files[selectedFile]
             if file
-                $if wzCtx.Build.useExpo 
-                    if file.type === 'ASSET'
-                        return 
-                            < AssetViewer 
-                                @ selectedFile {selectedFile}
-                                @ files {files}
                 const 
                     { 
                         @ contents
@@ -136,8 +130,6 @@
                             @ className {css(styles.editorComponentOuter)}
                             < Comp 
                                 @ className {css(styles.editorComponent)}
-                                @ dependencies {dependencies}
-                                @ sdkVersion {sdkVersion}
                                 @ selectedFile {selectedFile}
                                 @ files {files}
                                 @ autoFocus {!/Untitled file.*\.(js|tsx?)$/.test(selectedFile)}

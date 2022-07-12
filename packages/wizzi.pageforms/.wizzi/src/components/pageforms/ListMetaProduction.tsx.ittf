@@ -46,11 +46,15 @@ module
 
         m render
             log 'ListMetaProduction.render', this.state
+            if !this.state
+                return
+                    div
+                        + Loading ...
             return
                 div
                     @ className flex-column width-full
                     div
-                        @ className flex-row flex-items-start
+                        @ className flex-row align-items-start
                         form 
                             class width-full
                             @ aria-label Meta productions
@@ -109,17 +113,15 @@ module
                                     if this.filterItem(item)
                                         return
                                             div
-                                                @ className flex-row flex-items-start m-m
+                                                @ className flex-row align-items-start
                                                 @ key {ndx}
                                                 div
-                                                    @ className flex-row border-b-s p-b-s width-full m-w-xxl
+                                                    @ className flex-row border-b-s width-full m-w-xxl
                                                     div
                                                         @ className flex-column width-full
                                                         div
                                                             @ className font-xl
                                                             a {item.name}
                                                                 href {'/~~/m/stfnbssl/' + item.name}
-                                                        div
-                                                            @ className font-m m-b-m
-                                                            + {item.description}
+                                                                title {item.description}
                                                     list_update_delete_icons( meta )

@@ -8,13 +8,6 @@ $group
                 _ this._PackiSession.setFocus()
     p _handleUnload
         async=> 
-            if navigator.sendBeacon && this.state.session.sendBeaconCloseRequest
-                const 
-                    { 
-                        @ url
-                        @ data
-                    = this.state.session.sendBeaconCloseRequest
-                _ navigator.sendBeacon(url, data)
     => _handleToggleSendCode
         _ this.setState
             => 
@@ -70,13 +63,6 @@ $group
                     log 'App._handleSessionStateChange', 'calling _saveDraftIfNeeded'
                     _ this._saveDraftIfNeeded(true)
             # log 'Session state change: ', diff(prevPackiState, packiState), packiState $$ deep-object-diff
-        $if wzCtx.Build.useExpo
-            # Record any dependency errors
-            if packiState.dependencies !== prevPackiState.dependencies
-                for const name in packiState.dependencies
-                    const dep = packiState.dependencies[name]
-                    if dep.error && dep.error !== prevPackiState.dependencies[name]?.error
-                        _ Raven.captureMessage(dep.error.message)
     +
     => _handleSubmitMetadata
         param details
@@ -94,20 +80,6 @@ $group
         _ this._PackiSession.setDescription(details.description)
         _ this._PackiSession.setMainIttf(details.mainIttf)
         _ this._PackiSession.setWizziSchema(details.wizziSchema)
-    
-    +
-    => _handleChangeSDKVersion
-        param sdkVersion
-            :ref SDKVersion
-        param isLocalWebPreview
-            :boolean 
-            :optional 
-        set this.edited = true
-        _ this._packi.setSDKVersion(sdkVersion)
-        if this.state.isLocalWebPreview !== !!isLocalWebPreview
-            _ this.setState
-                { 
-                    @ isLocalWebPreview !!isLocalWebPreview
     +
     p _handleDownloadAsync
         async=> 
@@ -141,8 +113,6 @@ $group
                             # this shouldn't happen
                     if once
                         set once = false
-                        $if wzCtx.Build.useExpo
-                            _ Analytics.getInstance().logEvent('DOWNLOADED_CODE')
                         const url
                             `lit 
                                 @ process.env.API_SERVER_URL
@@ -200,8 +170,6 @@ $group
             if !isDraft
                 let cntCodeFile = 0
                 let cntAssetFile = 0
-                $if wzCtx.Build.useExpo
-                    const cntDependencies = Object.keys(this.state.session.dependencies).length
                 let codeSize = 0
                 for 
                     left
@@ -213,16 +181,6 @@ $group
                         set codeSize += file.contents.length
                     else
                         set cntAssetFile++
-                $if wzCtx.Build.useExpo
-                    _ Analytics.getInstance().logEvent
-                        @ 'SAVED_PACKI'
-                        { 
-                            @ cntCodeFile
-                            @ cntAssetFile
-                            @ codeSize
-                            @ cntDependencies
-                        @ 'lastSave'
-                    _ Analytics.getInstance().startTimer('lastSave')
             try 
                 set this.edited = false
                 const saveResult
@@ -231,33 +189,12 @@ $group
                             { 
                                 @ isDraft
                                 @ ignoreUser
-                $if wzCtx.Build.useExpo
-                    if !excludeFromHistory
-                        _ this.props.history.push
-                            { 
-                                @ pathname
-                                    `lit 
-                                        + /
-                                        @ saveResult.id
-                                        + 
-                                @ search this.props.location.search
                 _ this.setState
                     => 
                         param state
                         (
                             { 
                                 @ isSavedOnce true
-                                $if wzCtx.Build.useExpo
-                                    @ saveHistory
-                                        iif excludeFromHistory
-                                            then state.saveHistory
-                                            else
-                                                [ 
-                                                    { 
-                                                        @ hashId saveResult.hashId ?? ''
-                                                        @ savedAt new Date().toISOString()
-                                                        @ isDraft
-                                                    @ ...state.saveHistory
                                 @ saveStatus
                                     iif state.session.unsaved
                                         then
@@ -274,10 +211,6 @@ $group
                     { 
                         @ saveStatus 'edited'
                 throw e
-    => _handleOpenEditor
-        _ this.setState
-            { 
-                @ isPreview false
     => _uploadAssetAsync
         param asset
             :ref File
@@ -332,23 +265,3 @@ $group
                 @ filesUpdate
                 =>
                     _ this._generateArtifact()
-    
-    +
-    => _updateDependencies
-        param updateFn
-            :=> 
-                :{ 
-                    :index 
-                        :union 
-                            :ref PackiDependency
-                            :null 
-                        param path
-                            :string 
-                param dependencies
-                    :ref PackiDependencies
-        const state = this._packi.getState()
-        const dependenciesUpdate = updateFn(state.dependencies)
-        if Object.keys(dependenciesUpdate).length
-            set this.edited = true
-            _ this._packi.updateDependencies(dependenciesUpdate)
-        return this._packi.getState().dependencies

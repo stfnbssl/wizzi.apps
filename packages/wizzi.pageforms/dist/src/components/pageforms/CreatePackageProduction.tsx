@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreatePackageProduction.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:18:03 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreatePackageProduction.tsx.ittf
+    utc time: Tue, 12 Jul 2022 16:15:51 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -41,10 +41,10 @@ type CreatePackageProductionState = {
     pp_description: string;
     pp_type: string;
     pp_add_context: boolean;
-    pp_contexts: MISSING[];
+    pp_contexts: any[];
     pp_add_tfolder: boolean;
-    pp_dependencies: MISSING[];
-    pp_upload_files: MISSING[];
+    pp_dependencies: any[];
+    pp_upload_files: any[];
     meta_id: any;
     meta_listOptions: any;
     meta_props: any;
@@ -62,7 +62,8 @@ const StyledRoot = styled.div<RootStyleProps>`
 `
 
 export class CreatePackageProduction extends Component<CreatePackageProductionProps, CreatePackageProductionState> {
-    constructor() {
+    constructor(props: CreatePackageProductionProps) {
+        super(props);
         this.state = {
             ...this.state, 
             meta_propsValues: {}, 

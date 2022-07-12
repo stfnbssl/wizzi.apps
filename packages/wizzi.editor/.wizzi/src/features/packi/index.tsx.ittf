@@ -1,12 +1,5 @@
 module
     import
-        @ SDKVersion
-        from './sdks/types'
-    import
-        @ validateSDKVersion
-        @ isTFolderPreloaded
-        from './sdk'
-    import
         $if wzCtx.Build.usePackiAspects
             @ Packi
             @ PackiTemplate
@@ -14,14 +7,10 @@ module
         @ PackiAssetFile
         @ PackiFile
         @ PackiFiles
-        @ PackiDependencyVersions
-        @ PackiDependency
-        @ PackiDependencies
-        @ PackiMissingDependency
-        @ PackiMissingDependencies
         @ PackiError
         @ PackiUser
         @ PackiState
+        @ PackiProduction
         @ SaveStatus
         @ SaveHistory
         @ PackiSaveOptions
@@ -48,7 +37,6 @@ module
         from './validations'
     +
     :export-type
-        @ SDKVersion
         $if wzCtx.Build.usePackiAspects
             @ Packi
             @ PackiTemplate
@@ -56,12 +44,8 @@ module
         @ PackiAssetFile
         @ PackiFile
         @ PackiFiles
-        @ PackiDependencyVersions
-        @ PackiDependency
-        @ PackiDependencies
-        @ PackiMissingDependency
-        @ PackiMissingDependencies
         @ PackiError
+        @ PackiProduction
         @ PackiUser
         @ PackiState
         @ SaveStatus
@@ -81,5 +65,3 @@ module
         @ getPackiName
         @ packiActions
         @ packiValidations
-        @ validateSDKVersion
-        @ isTFolderPreloaded

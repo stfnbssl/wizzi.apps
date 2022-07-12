@@ -1,11 +1,6 @@
 module
     +
     export 
-        :type SDKVersion
-            :union 
-                :literal '1.0.0'
-    +
-    export 
         :type SDKSpec
             :{ 
                 :p version

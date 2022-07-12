@@ -14,23 +14,9 @@ module
     import 
         @ StaticServices
         from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices'
-    $if wzCtx.Build.useExpo
-        import 
-            @ initVimMode
-            from 'monaco-vim'
     import 
         as React
         from 'react'
-    $if wzCtx.Build.useExpo
-        import 
-            @ getPreloadedModules
-            @ isValidSemver
-            from 'snack-sdk'
-    import 
-        $if wzCtx.Build.usePackiDependencies
-            @ SDKVersion
-            @ PackiDependencies
-        from '../../features/packi'
     import 
         @ Annotation
         from '../../features/annotations/index'
@@ -109,18 +95,6 @@ module
     _ monaco.editor.defineTheme('ittfDark', ittfDarkTheme)
     _ monaco.editor.defineTheme('light', light)
     _ monaco.editor.defineTheme('dark', dark)
-    $if wzCtx.Build.useExpo
-        _ monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions
-            { 
-                @ noSemanticValidation true
-                @ noSyntaxValidation true
-            #
-                # 
-                # Disable typescript's diagnostics for JavaScript files.
-                # This suppresses errors when using Flow syntax.
-                # It's also unnecessary since we use ESLint for error checking.
-                # 
-            #
     const documentFormattingProvider
         :ref monaco.languages.DocumentFormattingEditProvider
         =
@@ -144,43 +118,6 @@ module
     _ monaco.languages.registerDocumentFormattingEditProvider('javascript', documentFormattingProvider)
     _ monaco.languages.registerDocumentFormattingEditProvider('typescript', documentFormattingProvider)
     _ monaco.languages.registerDocumentFormattingEditProvider('markdown', documentFormattingProvider)
-    $if wzCtx.Build.useExpo
-        _ monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true)
-            #
-                # 
-                # Sync all the models to the worker eagerly.
-                # This enables intelliSense for all files without needing an `addExtraLib` call.
-                # 
-        _ monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true)
-        const compilerOptions
-            :ref monaco.languages.typescript.CompilerOptions
-            =
-                { 
-                    @ allowJs true
-                    @ allowSyntheticDefaultImports true
-                    @ alwaysStrict true
-                    @ esModuleInterop true
-                    @ forceConsistentCasingInFileNames true
-                    @ isolatedModules true
-                    @ jsx monaco.languages.typescript.JsxEmit.React
-                    @ module monaco.languages.typescript.ModuleKind.ESNext
-                    @ moduleResolution monaco.languages.typescript.ModuleResolutionKind.NodeJs
-                    @ noEmit true
-                    @ resolveJsonModule true
-                    @ strict true
-                    @ target monaco.languages.typescript.ScriptTarget.ESNext
-                    { paths
-                        [ '*'
-                            @ '*'
-                            @ '*.native'
-                            @ '*.ios'
-                            @ '*.android'
-            #
-                # 
-                # Configure the typescript compiler to detect JSX and load type definitions
-                # 
-        _ monaco.languages.typescript.typescriptDefaults.setCompilerOptions(compilerOptions)
-        _ monaco.languages.typescript.javascriptDefaults.setCompilerOptions(compilerOptions)
     export
         :type MonacoEditorProps
             :intersect 
@@ -190,13 +127,6 @@ module
                         :ref ThemeName
     :type State
         :{ 
-            $if wzCtx.Build.usePackiDependencies
-                :p sdkVersion
-                    :ref SDKVersion
-                :p dependencies
-                    :ref PackiDependencies
-                :p allDependencies
-                    :ref PackiDependencies
     const editorStates = new Map()
         # Store editor states such as cursor position, selection and scroll position for each model
     const requestedTypings = new Map()
@@ -238,10 +168,6 @@ module
         p state
             :ref State
             { 
-                $if wzCtx.Build.usePackiDependencies
-                    { dependencies
-                    @ sdkVersion this.props.sdkVersion
-                    { allDependencies
         m removePath
             static
             param path
@@ -270,66 +196,11 @@ module
                 return theme == 'ligth' ? 'ittfLight' : 'ittfDark'
             else
                 return theme
-        $if wzCtx.Build.useExpo
-            m getDerivedStateFromProps
-                static
-                param props
-                    :ref MonacoEditorProps
-                param state
-                    :ref State
-                $if wzCtx.Build.usePackiDependencies
-                    const 
-                        { 
-                            @ dependencies
-                            @ sdkVersion
-                        = props
-                
-                    if sdkVersion !== state.sdkVersion || dependencies !== state.dependencies
-                        const coreDependencies
-                            :ref PackiDependencies
-                            =
-                                { 
-                        for 
-                            left
-                                const [name, version]
-                            of Object.entries(getPreloadedModules(sdkVersion, true))
-                            if isValidSemver(version) && version !== '*'
-                                set coreDependencies[name] =
-                                    { 
-                                        @ version
-                        return 
-                            { 
-                                @ sdkVersion
-                                @ dependencies
-                                { allDependencies
-                                    @ ...coreDependencies
-                                    @ ...dependencies
-                return null
         m componentDidMount
-            $if wzCtx.Build.useExpo
-                set this._typingsWorker =
-                    new Worker
-                        @ '../../workers/typings.worker'
-                        { 
-                            @ type 'module'
-                    # Spawn a worker to fetch type definitions for dependencies
-                    # @ts-ignore
-                _ this._typingsWorker?.addEventListener?.
-                    @ 'message'
-                    => 
-                        { 
-                            @ data
-                            :any 
-                        _ this._addTypings(data)
             const 
                 { 
                     @ files
-                    $if wzCtx.Build.usePackiDependencies
-                        @ sdkVersion
-                        @ dependencies
                     @ selectedFile
-                    $if wzCtx.Build.useExpo
-                        @ annotations
                     @ autoFocus
                     @ updateFiles
                     @ onSelectFile
@@ -376,36 +247,11 @@ module
                     :as 
                         :string 
                 @ autoFocus
-            $if wzCtx.Build.useExpo
-                _ this._updateMarkers(annotations, selectedFile)
-                _ this._fetchTypings()
             for const path in files
                 const file = files[path]
                 if file.type === 'CODE'
                     _ this._initializeFile(path, file.contents)
                 # Load all the files so the editor can provide proper intellisense
-            $if wzCtx.Build.useExpo
-                const hoverProvider
-                    :ref monaco.languages.HoverProvider
-                    =
-                        { 
-                            @ provideHover this._handleProvideHover
-                    # Hover provider to show version for imported modules
-                _ this._disposables.push(monaco.languages.registerHoverProvider('javascript', hoverProvider))
-                _ this._disposables.push(monaco.languages.registerHoverProvider('typescript', hoverProvider))
-                const completionProvider
-                    :ref monaco.languages.CompletionItemProvider
-                    =
-                        { 
-                            [ triggerCharacters
-                                @ "'"
-                                @ '"'
-                                @ '.'
-                                @ '/'
-                            @ provideCompletionItems this._handleProvideCompletionItems
-                    # Completion provider to provide autocomplete for files and dependencies
-                _ this._disposables.push(monaco.languages.registerCompletionItemProvider('javascript', completionProvider))
-                _ this._disposables.push(monaco.languages.registerCompletionItemProvider('typescript', completionProvider))
         m componentDidUpdate
             param prevProps
                 :ref MonacoEditorProps
@@ -415,11 +261,6 @@ module
                 { 
                     @ selectedFile
                     @ files
-                    $if wzCtx.Build.useExpo
-                        @ annotations
-                    $if wzCtx.Build.usePackiDependencies
-                        @ dependencies
-                        @ sdkVersion
                     @ autoFocus
                     @ theme
                     @ updateFiles
@@ -452,11 +293,6 @@ module
                                     @ range model.getFullModelRange()
                                     @ text value
                             # @ts-ignore
-            $if wzCtx.Build.useExpo
-                if annotations !== prevProps.annotations || selectedFile !== prevProps.selectedFile
-                    _ this._updateMarkers(annotations, selectedFile)
-                if this.state.allDependencies !== prevState.allDependencies
-                    _ this._fetchTypings()
             if theme !== prevProps.theme || selectedFile !== prevProps.selectedFile
                 _ monaco.editor.setTheme
                     _ this.getTheme
@@ -472,8 +308,6 @@ module
                 => 
                     param dis
                     _ dis.dispose()
-            $if wzCtx.Build.useExpo
-                _ this._typingsWorker?.terminate?.()
         +
         => _initializeFile
             param path
@@ -553,10 +387,6 @@ module
                                     { [this.props.selectedFile]
                                         @ type 'CODE'
                                         @ contents value
-        $if wzCtx.Build.useExpo
-            monaco/hover()
-            monaco/completion()
-            monaco/markers()
         p _handleResize
             _ debounce
                 => 
@@ -565,11 +395,6 @@ module
                 { 
                     @ leading true
                     @ trailing true
-        $if wzCtx.Build.useExpo
-            p _typingsWorker
-                :union 
-                    :ref Worker
-                    :undefined 
         p _disposables
             :[ 
                 :ref monaco.IDisposable

@@ -1,34 +1,16 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.editor\.wizzi\src\features\packi\utils.ts.ittf
-    utc time: Tue, 28 Jun 2022 14:08:18 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\utils.ts.ittf
+    utc time: Tue, 12 Jul 2022 15:10:47 GMT
 */
 import fetchPonyfill from 'fetch-ponyfill';
-import {customAlphabet} from 'nanoid';
 import {PackiError, PackiUser} from './types';
 const {
     fetch
  } = fetchPonyfill();
 export {fetch};
-
-// + and - are used as delimiters in the uri, ensure they do not appear in the channel itself
-const VALID_CHANNEL_CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!_';
-const generateChannel = customAlphabet(VALID_CHANNEL_CHARS, 10);
-export function createChannel(channel?: string):  string {
-
-    channel = channel ?? generateChannel();
-    if (channel.length < 6) {
-        throw new Error();
-    }
-    for (const char of channel) {
-        if (VALID_CHANNEL_CHARS.indexOf(char) < 0) {
-            throw new Error();
-        }
-    }
-    return channel;
-}
-export function createURL(host: string, sdkVersion: SDKVersion, id?: string) {
+export function createURL(host: string, id?: string) {
 
     if (host.includes('packi.expo.io')) {
         host = host.replace('packi.expo.io', 'exp.host');

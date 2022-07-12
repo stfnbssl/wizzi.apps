@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateMetaProduction.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:18:03 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateMetaProduction.tsx.ittf
+    utc time: Tue, 12 Jul 2022 16:15:51 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -38,10 +38,10 @@ type CreateMetaProductionState = {
     mp_description: string;
     mp_type: string;
     mp_add_context: boolean;
-    mp_contexts: MISSING[];
+    mp_contexts: any[];
     mp_add_tfolder: boolean;
-    mp_dependencies: MISSING[];
-    mp_upload_files: MISSING[];
+    mp_dependencies: any[];
+    mp_upload_files: any[];
 };
 
 interface RootStyleProps {
@@ -55,7 +55,8 @@ const StyledRoot = styled.div<RootStyleProps>`
 `
 
 export class CreateMetaProduction extends Component<CreateMetaProductionProps, CreateMetaProductionState> {
-    constructor() {
+    constructor(props: CreateMetaProductionProps) {
+        super(props);
     }
     formRef = React.createRef();
     

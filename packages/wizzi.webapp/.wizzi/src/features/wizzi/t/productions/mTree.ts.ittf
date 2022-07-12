@@ -21,6 +21,7 @@ $group
                             return
                                 _ reject
                                     {
+                                        @ action 'wizzi.productions.mTree'
                                         @ message 'files parameter must be an object of type PackiFiles'
                                         @ files
                         const ittfDocumentUri

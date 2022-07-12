@@ -11,8 +11,6 @@ module
         @ QueryParams
         from '../features/packi'
     import App from './App'
-    $if wzCtx.Build.useExpo
-        import EmbeddedApp from './EmbeddedApp'
     import NonExistent from './NonExistent'
     :type Props
         :{ 
@@ -37,8 +35,6 @@ module
                         @ data
                         ... rest
                     = this.props
-                $if wzCtx.Build.useExpo
-                    const isEmbedded = props.location.pathname.split('/')[1] === 'embedded'
                 if data && data.type === 'success'
                     const appProps
                         { 
@@ -48,36 +44,14 @@ module
                             @ packi data.packi
                             @ defaults data.defaults
                     return 
-                        $if wzCtx.Build.useExpo
-                            iif isEmbedded
-                                then
-                                    < EmbeddedApp 
-                                        @ {...appProps}
-                                else
-                                    < App 
-                                        @ {...appProps}
-                        $else
-                            < App 
-                                @ {...appProps}
+                        < App 
+                            @ {...appProps}
                 else
                     return 
                         < NonExistent 
             m render
                 return 
                     < Switch 
-                        $if wzCtx.Build.useExpo
-                            < Route 
-                                @ exact
-                                @ path "/embedded/@:username/:projectName+"
-                                @ render {this._renderRoute}
-                            < Route 
-                                @ exact
-                                @ path "/embedded/:id"
-                                @ render {this._renderRoute}
-                            < Route 
-                                @ exact
-                                @ path "/embedded"
-                                @ render {this._renderRoute}
                         < Route 
                             @ exact
                             @ path "/@:username/:projectName+"

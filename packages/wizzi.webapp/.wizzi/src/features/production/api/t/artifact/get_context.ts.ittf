@@ -41,6 +41,10 @@ $group
             param sysContext
                 :any
                 :optional
+            # 
+                # sample queryContextString: "wzCtx;wzctx.json|db;item.db.json"
+                # context property 'wzCtx' from json document 'wzctx.json'
+                # context property 'db' from json document 'item.db.json'
             set sysContext = sysContext || {}
             return 
                 new Promise
@@ -86,6 +90,9 @@ $group
                 :optional
             set sysContext = sysContext || {}
             return 
+                # 
+                    # sample queryContextString: "wzCtx;wzctx.json"
+                    # context property 'wzCtx' from json document 'wzctx.json'
                 new Promise
                     => 
                         param resolve

@@ -1,25 +1,18 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.editor\.wizzi\src\features\packi\types.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:08:24 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\types.tsx.ittf
+    utc time: Tue, 12 Jul 2022 15:10:51 GMT
 */
 import {ThemeName} from '../preferences/index';
-import {SDKVersion} from './sdks/types';
 
 export type Packi = { 
     id: string;
     files: PackiFiles;
-    dependencies?: { 
-        [key: string]: string;
-    };
 };
 export type PackiTemplate = { 
     id: string;
     files: PackiFiles;
-    dependencies?: { 
-        [key: string]: string;
-    };
 };
 
 export type PackiCodeFile = { 
@@ -50,36 +43,6 @@ export type PackiFile = PackiCodeFile | PackiAssetFile;
 
 export type PackiFiles = { 
     [path: string]: PackiFile;
-};
-    //
-    
-export type PackiDependencyVersions = { 
-    [name: string]: string;
-};
-    //
-    
-export type PackiDependency = { 
-    version: string;
-    handle?: string;
-    peerDependencies?: PackiDependencyVersions;
-    wantedVersion?: string;
-    error?: Error;
-};
-    //
-    
-export type PackiDependencies = { 
-    [name: string]: PackiDependency;
-};
-    //
-    
-export type PackiMissingDependency = { 
-    dependents: string[];
-    wantedVersion?: string;
-};
-    //
-    
-export type PackiMissingDependencies = { 
-    [name: string]: PackiMissingDependency;
 };
     //
     
@@ -182,18 +145,17 @@ export type SaveHistory = {
 export type PackiListenerSubscription = () => any;
 
 export type SavedPacki = { 
-    id: string;
+    _id: string;
     created: string;
-    code?: string | PackiFiles;
-    manifest: PackiManifest;
-    history?: SaveHistory;
-    isDraft?: boolean;
-};
-
-export type PackiManifest = { 
+    owner: string;
     name: string;
     description: string;
-    sdkVersion?: SDKVersion;
+    packiProduction: PackiProduction;
+    files: PackiFiles;
+    mainIttf?: string;
+    wizziSchema?: string;
+    history?: SaveHistory;
+    isDraft?: boolean;
 };
 
 export type PackiDefaults = { 
@@ -205,12 +167,10 @@ export type PackiWindowRef = {
 };
 
 export type PackiOptions = { 
-    sdkVersion?: SDKVersion;
     name?: string;
     description?: string;
     mainIttf?: string;
     wizziSchema?: string;
-    dependencies?: PackiDependencies;
     files?: PackiFiles;
     apiURL?: string;
     host?: string;
@@ -236,9 +196,7 @@ export type QueryInitParams = {
     sourceUrl?: string;
     name?: string;
     description?: string;
-    dependencies?: string;
     files?: string;
-    sdkVersion?: SDKVersion;
     iframeId?: string;
     waitForData?: 'boolean';
     saveToAccount?: 'true' | 'false';

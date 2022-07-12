@@ -22,7 +22,7 @@ module
         _ this.router.get('/:owner', this.getTFolderList)
         _ this.router.get('/checkname/:name', this.getCheckTFolderName)
         _ this.router.get('/:owner/:name', this.getTFolder)
-        _ this.router.put('/:owner/:name', this.putTFolder)
+        _ this.router.put('/:id', this.putTFolder)
         
         $append handlers
 
@@ -79,6 +79,7 @@ module
                 # loog 'putTFolder.request.params', request.params
                 # loog 'putTFolder.request.body', request.body
                 _ updateTFolder
+                    @ request.params.id
                     @ request.params.owner
                     @ request.params.name
                     @ request.body.description

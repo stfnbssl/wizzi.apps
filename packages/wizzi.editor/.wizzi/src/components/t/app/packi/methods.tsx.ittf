@@ -11,6 +11,7 @@ $group
     +
     m _generateArtifact
         param filePath
+            :string
         const files = this.state.session.files
         if Object.keys(files).length
             set filePath = filePath || this.state.selectedFile || Object.keys(files)[0]

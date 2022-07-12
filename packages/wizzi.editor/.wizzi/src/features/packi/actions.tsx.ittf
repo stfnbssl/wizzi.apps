@@ -13,10 +13,6 @@ module
         @ PreferencesType
         from '../preferences'
     import 
-        @ GitRepositoryMeta
-        @ ClonedGitRepository
-        from '../github'
-    import 
         @ PackiFiles
         @ PackiTemplate
         from './types'

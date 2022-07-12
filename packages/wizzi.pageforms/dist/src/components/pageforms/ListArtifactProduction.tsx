@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.pageforms\.wizzi\src\components\pageforms\ListArtifactProduction.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:18:03 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\ListArtifactProduction.tsx.ittf
+    utc time: Tue, 12 Jul 2022 16:15:51 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -35,11 +35,11 @@ export interface ListArtifactProductionProps {
 }
 
 type ListArtifactProductionState = { 
-    l_artifacts: MISSING[];
+    l_artifacts: any[];
     l_search: string;
     l_sort: string;
     l_wizziSchema: string;
-    l_wizziSchemas: MISSING[];
+    l_wizziSchemas: any[];
 };
 
 interface RootStyleProps {
@@ -53,7 +53,8 @@ const StyledRoot = styled.div<RootStyleProps>`
 `
 
 export class ListArtifactProduction extends Component<ListArtifactProductionProps, ListArtifactProductionState> {
-    constructor() {
+    constructor(props: ListArtifactProductionProps) {
+        super(props);
     }
     componentDidMount() {
         console.log('ListArtifactProduction.componentDidMount', this.props.data);
@@ -100,11 +101,20 @@ export class ListArtifactProduction extends Component<ListArtifactProductionProp
     };
     render() {
         console.log('ListArtifactProduction.render', this.state);
+        if (!this.state) {
+            return  (
+                <div
+                >
+                    Loading ...
+                </div>
+                )
+            ;
+        }
         return  (
             <div
              className="flex-column width-full">
                 <div
-                 className="flex-row flex-items-start">
+                 className="flex-row align-items-start">
                     <form 
                         className="width-full"
                         aria-label="Artifact productions"
@@ -203,21 +213,17 @@ export class ListArtifactProduction extends Component<ListArtifactProductionProp
                         if (this.filterItem(item)) {
                             return  (
                                 <div
-                                 className="flex-row flex-items-start m-m" key={ndx}>
+                                 className="flex-row align-items-start" key={ndx}>
                                     <div
-                                     className="flex-row border-b-s p-b-s width-full m-w-xxl">
+                                     className="flex-row border-b-s width-full m-w-xxl">
                                         <div
                                          className="flex-column width-full">
                                             <div
                                              className="font-xl">
                                                 <a
-                                                 href={'/~~/a/stfnbssl/' + item.name}>
+                                                 href={'/~~/a/stfnbssl/' + item.name} title={item.description}>
                                                 {item.name}
                                                 </a>
-                                            </div>
-                                            <div
-                                             className="font-m m-b-m">
-                                                {item.description}
                                             </div>
                                             <div
                                              className="flex-row">

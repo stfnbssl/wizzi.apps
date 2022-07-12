@@ -1,0 +1,294 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ SaveStatus
+        @ SaveHistory
+        @ PackiSaveOptions
+        from '../../features/packi'
+    import EditorTitle from './EditorTitle'
+    import
+        @ usePreferences 
+        from '../../features/preferences'
+    $if false
+        import SearchButton from '../Search/SearchButton'
+    import 
+        @ ToolbarShell 
+        from '../shell/ToolbarShell'
+    import 
+        @ ToolbarTitleShell 
+        from '../shell/ToolbarTitleShell'
+    import UserMenu from './UserMenu'
+    import 
+        @ Button 
+        from '../widgets/Button'
+    import 
+        @ PackiIcon
+        from '../../assets/PackiIcon'
+    import 
+        @ WizziIcon
+        from '../../assets/WizziIcon'
+    import 
+        @ BrowserIcon
+        from '../../assets/BrowserIcon'
+    import IconButton from '../widgets/IconButton'
+    $if wzCtx.Build.usePackiAspects
+        import
+            @ LoggedUser
+            from '../../features/app'
+        import
+            @ Packi
+            from '../../features/packi'
+        import Select from '@material-ui/core/Select'
+        import MenuItem from '@material-ui/core/MenuItem'
+    export
+        :type EditorToolbarProps
+            :{ 
+                :p name
+                    :string 
+                :p description
+                    :string 
+                :p packiProduction
+                    :ref PackiProduction                    
+                :p createdAt
+                    :union 
+                        :string 
+                        :undefined 
+                :p saveStatus
+                    :ref SaveStatus
+                :p saveHistory
+                    :ref SaveHistory
+                :p isDownloading
+                    :boolean 
+                :p isEditModalVisible
+                    :boolean 
+                :p onSubmitMetadata
+                    :=> 
+                        :void 
+                        param details
+                            :{ 
+                                :p name
+                                    :string 
+                                :p description
+                                    :string 
+                :p onShowEditModal
+                    :=> 
+                        :void 
+                :p onDismissEditModal
+                    :=> 
+                        :void 
+                :p onDownloadCode
+                    :=> 
+                        :ref Promise
+                            :param void
+                :p onPublishAsync
+                    :=> 
+                        :ref Promise
+                            :param void
+                        param options
+                            :ref PackiSaveOptions
+                            :optional 
+                $if wzCtx.Build.usePackiAspects
+                    $*
+                    :p saveStatus
+                        :ref SaveStatus
+                    :p saveHistory
+                        :ref SaveHistory
+                    *$
+                    :p loggedUser
+                        :union 
+                            :ref LoggedUser
+                            :undefined 
+                    :p splitViewKind
+                        :string 
+                    :p isAuthModalVisible
+                        :boolean 
+                        # isResolving: boolean;
+                    :p isWizziJobWaiting
+                        :boolean 
+                    $if wzCtx.Build.usePackiAspectsAuth
+                        :p onShowAuthModal
+                            :=> 
+                                :void 
+                        :p onDismissAuthModal
+                            :=> 
+                                :void 
+                    :p onChangeSplitViewKind
+                        :=> 
+                            :void 
+                            param e
+                                :any
+                    :p onExecuteWizziJob
+                        :=> 
+                            :void 
+                    :p onShowPackiManager
+                        :=> 
+                            :void 
+                    $if wzCtx.Build.usePackiAspectsGithub
+                        :p onShowGithubCommit
+                            :=> 
+                                :void 
+                        :p onShowGithubCreate
+                            :=> 
+                                :void 
+                    $*
+                    :p onSaveCode
+                        :=> 
+                            :void 
+                    *$
+                    :p creatorUsername
+                        :optional 
+                        :string 
+    export
+        function EditorToolbar
+            param props
+                :ref EditorToolbarProps
+            const [preferences] = usePreferences()
+            const 
+                { 
+                    @ name
+                    @ description
+                    @ mainIttf
+                    @ wizziSchema
+                    @ packiProduction
+                    @ createdAt
+                    @ saveHistory
+                    @ saveStatus
+                    @ isDownloading
+                    @ isEditModalVisible
+                    @ onSubmitMetadata
+                    @ onShowEditModal
+                    @ onDismissEditModal
+                    @ onDownloadCode
+                    @ onPublishAsync
+                    @ splitViewKind
+                    @ onChangeSplitViewKind
+                    @ loggedUser
+                    @ isAuthModalVisible
+                    @ isWizziJobWaiting
+                    @ generatedPreviewURL
+                    @ onExecuteWizziJob
+                    @ onShowPackiManager
+                    $if wzCtx.Build.usePackiAspectsGithub
+                        @ onShowGithubCommit
+                        @ onShowGithubCreate
+                        $$ @ onSaveCode
+                = props
+            const 
+                { 
+                    @ theme
+                = preferences
+            const isPublishing = saveStatus === 'publishing'
+            const isPublished = saveStatus === 'published'
+            log 'EditorToolbar.props', props, mainIttf, wizziSchema
+            return 
+                < ToolbarShell 
+                    div
+                        @ className {css(styles.logo)}
+                        < WizziIcon
+                            @ theme {theme}
+                            @ width {150}
+                            @ height {150}
+                    $$ < ToolbarTitleShell 
+                    < EditorTitle 
+                        @ name {name}
+                        @ description {description}
+                        @ mainIttf {mainIttf}
+                        @ wizziSchema {wizziSchema}
+                        @ createdAt {createdAt}
+                        @ saveHistory {saveHistory}
+                        @ saveStatus {saveStatus}
+                        @ loggedUser {loggedUser}
+                        @ isEditModalVisible {isEditModalVisible}
+                        @ onSubmitMetadata {onSubmitMetadata}
+                        @ onShowEditModal {onShowEditModal}
+                        @ onDismissEditModal {onDismissEditModal}
+                    div 
+                        @ className {css(styles.buttons)}
+                        $if wzCtx.Build.usePackiAspects_stop
+                            < Select 
+                                @ value {splitViewKind}
+                                @ onChange {onChangeSplitViewKind}
+                                < MenuItem 
+                                    @ value {'left'}
+                                    + Left
+                                < MenuItem 
+                                    @ value {'right'}
+                                    + Right
+                                < MenuItem 
+                                    @ value {'both'}
+                                    + Both
+                        {
+                            &&
+                                + packiProduction == 'artifact'
+                                < IconButton 
+                                    @ responsive
+                                    @ title "Browse generated"
+                                    @ onClick
+                                        =>
+                                            _ window.open
+                                                @ generatedPreviewURL
+                                    $$ @ disabled {isDownloading || isPublishing}
+                                    < BrowserIcon
+                        {
+                            &&
+                                + packiProduction == 'package'
+                                < IconButton 
+                                    @ responsive
+                                    @ title "Generate package"
+                                    @ onClick {onExecuteWizziJob}
+                                    svg 
+                                        @ width "20px"
+                                        @ height "18px"
+                                        @ viewBox "0 0 20 18"
+                                        @ fill "none"
+                                        path 
+                                            @ d "M13.333 15l5-5-5-5M6.667 5l-5 5 5 5"
+                                            @ strokeWidth "2"
+                                            @ strokeLinecap "round"
+                                            @ strokeLinejoin "round"
+                        < IconButton 
+                            @ responsive
+                            @ title "Download as zip"
+                            @ onClick {onDownloadCode}
+                            @ disabled {isDownloading || isPublishing}
+                            svg 
+                                @ width "20"
+                                @ height "20"
+                                path 
+                                    @ d "M14.167 10H5.833L10 16.667 14.167 10z"
+                                path 
+                                    @ d "M2.5 18.333h15M10 10V1.667"
+                                    @ strokeWidth "2"
+                                    @ strokeLinecap "round"
+                        $if false
+                            < SearchButton 
+                                @ responsive
+                        < UserMenu 
+                            @ loggedUser {loggedUser}
+    export-default EditorToolbar
+    const styles
+        _ StyleSheet.create
+            { 
+                { logo
+                    @ width 24
+                    @ height 24
+                    @ marginLeft 16
+                    @ marginRight 16
+                { buttons
+                    @ display 'flex'
+                    @ flexDirection 'row'
+                    @ alignItems 'center'
+                    @ position 'relative'
+                    @ zIndex 5
+                { saveButton
+                    @ height 40
+                    @ fontWeight 600
+                    @ minWidth 80
+                    @ fontSize '16px'
+                    @ marginRight 16

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.editor\.wizzi\src\components\widgets\ContextMenu.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:08:24 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\ContextMenu.tsx.ittf
+    utc time: Tue, 12 Jul 2022 15:10:51 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import classnames from 'classnames';
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         borderRadius: 4, 
         borderStyle: 'solid', 
         boxShadow: s('popover'), 
-        minWidth: 240, 
+        minWidth: 160, 
         animationName: fadeIn, 
         animationDuration: '0.083s', 
         animationTimingfunction: 'linear', 
@@ -138,11 +138,10 @@ const styles = StyleSheet.create({
         border: 0, 
         outline: 0, 
         width: '100%', 
-        padding: '16px 12px', 
+        padding: '8px 6px', 
         textAlign: 'left', 
         userSelect: 'none', 
         borderRadius: 2, 
-        minHeight: 56, 
         fontSize: 16, 
         color: c('text'), 
         borderBottom: `1px solid ${c('border')}`, 

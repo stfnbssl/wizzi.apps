@@ -26,6 +26,7 @@ $group
                             return
                                 _ reject
                                     {
+                                        @ action 'wizzi.productions.generateArtifact'
                                         @ message 'files parameter must be an object of type PackiFiles'
                                         @ files
                         const generator = options && options.generator 

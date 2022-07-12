@@ -3,10 +3,6 @@ module
         @ ThemeName
         from '../preferences/index'
 
-    import
-        @ SDKVersion
-        from './sdks/types'
-    
     $if wzCtx.Build.usePackiAspects
         +
         export
@@ -16,13 +12,6 @@ module
                         :string
                     :p files
                         :ref PackiFiles
-                    :p dependencies
-                        :optional
-                        :{
-                            :index
-                                :string
-                                param key
-                                    :string
         export
             :type PackiTemplate
                 :{
@@ -30,13 +19,6 @@ module
                         :string
                     :p files
                         :ref PackiFiles
-                    :p dependencies
-                        :optional
-                        :{
-                            :index
-                                :string
-                                param key
-                                    :string
     +
     export
         :type PackiCodeFile
@@ -116,75 +98,6 @@ module
             # Dictionary of file-names and their content that make up
             # the files of the Packi.
             #
-    export 
-        :type PackiDependencyVersions
-            :{ 
-                :index 
-                    :string 
-                    param name
-                        :string 
-        #
-            # 
-            # Dictionary of dependencies and their version.
-            # 
-    export 
-        :type PackiDependency
-            :{ 
-                :p version
-                    :string 
-                :p handle
-                    :optional 
-                    :string 
-                :p peerDependencies
-                    :optional 
-                    :ref PackiDependencyVersions
-                :p wantedVersion
-                    :optional 
-                    :string 
-                :p error
-                    :optional 
-                    :ref Error
-        #
-            # 
-            # The version, resolved handle, peer-dependencies and optional
-            # error of a dependency.
-            # 
-    export 
-        :type PackiDependencies
-            :{ 
-                :index 
-                    :ref PackiDependency
-                    param name
-                        :string 
-        #
-            # 
-            # Dictionary of dependency names and their (resolved) versions.
-            # 
-    export 
-        :type PackiMissingDependency
-            :{ 
-                :p dependents
-                    :[ 
-                        :string 
-                :p wantedVersion
-                    :optional 
-                    :string 
-        #
-            # 
-            #  Wanted version of the dependency that is missing, including the
-            #  dependents which have this dependency as a peer-dependency.
-            # 
-    export 
-        :type PackiMissingDependencies
-            :{ 
-                :index 
-                    :ref PackiMissingDependency
-                    param name
-                        :string 
-        #
-            #
-            # Dictionary of dependencies that are missing.
-            # 
     +
     export
         :interface PackiError
@@ -333,34 +246,32 @@ module
     export
         :type SavedPacki
             :{
-                :p id
+                :p _id
                     :string
                 :p created
                     :string
-                :p code
+                :p owner
+                    :string
+                :p name
+                    :string
+                :p description
+                    :string
+                :p packiProduction
+                    :ref PackiProduction
+                :p files
+                    :ref PackiFiles
+                :p mainIttf
                     :optional
-                    :union
-                        :string
-                        :ref PackiFiles
-                :p manifest
-                    :ref PackiManifest
+                    :string
+                :p wizziSchema
+                    :optional
+                    :string
                 :p history
                     :optional
                     :ref SaveHistory
                 :p isDraft
                     :optional
                     :boolean
-    +
-    export
-        :type PackiManifest
-            :{
-                :p name
-                    :string
-                :p description
-                    :string
-                :p sdkVersion
-                    :optional
-                    :ref SDKVersion
     +
     export
         :type PackiDefaults
@@ -379,9 +290,6 @@ module
     export
         :type PackiOptions
             :{
-                :p sdkVersion
-                    :optional
-                    :ref SDKVersion
                 :p name
                     :optional
                     :string
@@ -394,9 +302,6 @@ module
                 :p wizziSchema
                     :optional
                     :string
-                :p dependencies
-                    :optional
-                    :ref PackiDependencies
                 :p files
                     :optional
                     :ref PackiFiles
@@ -415,13 +320,6 @@ module
                 :p codeChangesDelay
                     :optional
                     :number
-                $if wzCtx.Build.useExpo
-                    :p reloadTimeout
-                        :optional
-                        :number
-                    :p previewTimeout
-                        :optional
-                        :number
                 :p user
                     :optional
                     :ref PackiUser
@@ -472,15 +370,9 @@ module
                 :p description
                     :optional
                     :string
-                :p dependencies
-                    :optional
-                    :string
                 :p files
                     :optional
                     :string
-                :p sdkVersion
-                    :optional
-                    :ref SDKVersion
                 :p iframeId
                     :optional
                     :string

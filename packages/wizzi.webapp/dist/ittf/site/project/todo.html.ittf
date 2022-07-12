@@ -1,0 +1,47 @@
+html
+
+    $
+        var opt = {
+            /* TODO For ittf(s) documents, user SHOULD BE set in the global Artifact Generation Context */
+            user: {},
+            section: 'Project',
+        }
+        var ca = 'm-s color-header font-x font-w-s';
+
+    site/layouts/basic( &opt )
+
+        . p-x
+            h1 TODO
+            p set -apple-system as default font.
+            p Finish the demo app 'CSS Editor'.
+            p Compile webpack bundle on the fly.
+            ul
+                li
+                    a Use an in-memory webpack compiler to get specific files or file trees.
+                        href https://gist.github.com/mark-bradshaw/ce2d449e30a856fe3b41
+                li
+                    a webpack memory compile
+                        href https://github.com/krakenjs/webpack-mem-compile
+                li
+                    a Webpack Virtual Modules is a plugin that allows for dynamical generation of in-memory virtual modules for JavaScript builds created with webpack. 
+                        href https://github.com/sysgears/webpack-virtual-modules
+            p From pure javascript upload an Artfact production and then get back the generated artifact.
+            p Create pure javascript/typescript examples for webpack + react + material ui
+                \b then implement child-process exec of a webpack compile: 
+                a example gist
+                    href https://gist.github.com/nyteshade/f4b4f5cc6fad6f91196902e2858168d9
+            p Continue the lab/react/Properties Editor, to be used for executing a Wizzi Meta Production.
+            p Create the first Wizzi Meta Plugin.
+            p Eliminate the 'dist' folder from wizzi packages.
+            p Restyle and update the readme.md of wizzi packages.
+            p Create and publish plugins from Package Productions.
+            
+            h2 Package wizzi.editor
+            p Manage SaveState and SaveHistory
+
+            h1 Good reads
+            ul
+                li
+                    a twitter-lite-and-high-performance-react-progressive-web-apps-at-scale
+                        href https://medium.com/@paularmstrong/twitter-lite-and-high-performance-react-progressive-web-apps-at-scale-d28a00e780a3#3732
+

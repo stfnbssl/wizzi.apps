@@ -25,6 +25,7 @@ $group
                             return
                                 _ reject
                                     {
+                                        @ action 'wizzi.productions.transformModel'
                                         @ message 'files parameter must be an object of type PackiFiles'
                                         @ files
                         const transformer = options && options.transformer ? options.transformer : transformerFor(filePath)

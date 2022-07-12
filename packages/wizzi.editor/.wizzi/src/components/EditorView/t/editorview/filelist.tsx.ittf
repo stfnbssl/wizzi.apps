@@ -11,7 +11,4 @@
     @ onDownloadCode {this.props.onDownloadAsync}
     @ onImportRepo {this._handleShowImportRepoModal}
     @ onImportProduction {this._handleShowImportProductionModal}
-    $if wzCtx.Build.useExpo 
-        @ hasPackiId {!!id}
     @ saveStatus {saveStatus}
-    @ sdkVersion {sdkVersion}

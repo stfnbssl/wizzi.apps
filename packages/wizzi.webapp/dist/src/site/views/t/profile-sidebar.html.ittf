@@ -1,7 +1,7 @@
 $group
     $params size|x
     
-    . flex-column flex-justify-start p-xl
+    . flex-column justify-content-start p-xl
 
 
         . m-${size}

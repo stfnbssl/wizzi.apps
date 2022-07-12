@@ -1,21 +1,20 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.editor\.wizzi\src\features\packi\session.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:08:24 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\session.tsx.ittf
+    utc time: Tue, 12 Jul 2022 15:10:51 GMT
 */
 import mapValues from 'lodash/mapValues';
 import nullthrows from 'nullthrows';
 import FileUploader, {FileUploaderCallback} from './FileUploader';
 import * as State from './State';
 import defaultConfig, {PackiIdentityState} from './defaultConfig';
-import {validateSDKVersion, isModulePreloaded} from './sdk';
-import {SDKVersion, PackiDependencies, PackiFiles, PackiFile, PackiState, PackiUser, PackiDependency, PackiWindowRef, PackiOptions, PackiStateListener, PackiListenerSubscription, PackiSaveOptions} from './types';
-import {createChannel, fetch, createURL, createError, createUserHeader} from './utils';
-const debounce = (func, timeout, context) => {
+import {PackiFiles, PackiFile, PackiState, PackiUser, PackiWindowRef, PackiOptions, PackiStateListener, PackiListenerSubscription, PackiSaveOptions} from './types';
+import {fetch, createURL, createError, createUserHeader} from './utils';
+const debounce = (func: any, timeout: any, context: any) => {
 
-    let timer;
-    return (...args) => {
+    let timer: NodeJS.Timeout;
+    return (...args: any[]) => {
         
             clearTimeout(timer);
             timer = setTimeout(() => 
@@ -29,11 +28,6 @@ const debounce = (func, timeout, context) => {
 ;
 export default class PackiSession {
         constructor(options: PackiOptions) {
-            const channel = createChannel(options.channel);
-            const sdkVersion = validateSDKVersion(options.sdkVersion ?? defaultConfig.sdkVersion);
-            const dependencies = options.dependencies ? {
-                    ...options.dependencies
-                 } : {};
             this.apiURL = options.apiURL ?? defaultConfig.apiURL;
             this.host = options.host ?? defaultConfig.host;
             this.codeChangesDelay = options.codeChangesDelay ?? 2000;
@@ -45,15 +39,13 @@ export default class PackiSession {
                 description: options.description ?? '', 
                 mainIttf: options.mainIttf ?? '', 
                 wizziSchema: options.wizziSchema ?? '', 
-                sdkVersion, 
                 files: options.files ?? {}, 
                 user: options.user, 
                 packiProduction: options.packiProduction, 
                 id: options.id, 
                 saveCount: 0, 
-                saveURL: options.id ? createURL(this.host, sdkVersion, options.id) : undefined, 
-                url: createURL(this.host, sdkVersion, options.id), 
-                channel
+                saveURL: options.id ? createURL(this.host, options.id) : undefined, 
+                url: createURL(this.host, options.id)
              }, PackiIdentityState)
             ;
             this.state.unsaved = false;
@@ -248,46 +240,6 @@ export default class PackiSession {
             * 
         */
         setFocus() {
-        }
-        
-        
-        // 
-        
-        // Online
-        
-        // 
-        
-        /**
-            * 
-            * Enables or disables the Packi.
-            * 
-            * When disabled, no uploads or dependency resolve operations
-            * are performed.
-            * 
-        */
-        setDisabled(disabled: boolean) {
-            return this.setState((state) => 
-                
-                    (disabled !== state.disabled ? {
-                            disabled
-                         } : null)
-                );
-        }
-        
-        /**
-            * 
-            * Makes the Packi available online.
-            * 
-            * When online, a pubnub channel is created to which clients can
-            * connect.
-            * 
-        */
-        setOnline(enabled: boolean) {
-            return this.setState((state) => {
-                
-                    return null;
-                }
-                );
         }
         
         private updateDerivedOnlineState(state: PackiState, prevState: PackiState) {
@@ -503,14 +455,13 @@ export default class PackiSession {
             // Wait for any pending asset uploads to complete before saving
             await this.fileUploader.waitForCompletion();
             const {
+                id, 
                 owner, 
                 name, 
                 description, 
                 mainIttf, 
                 wizziSchema, 
-                sdkVersion, 
                 files, 
-                dependencies, 
                 user, 
                 packiProduction
              } = this.state;
@@ -520,7 +471,7 @@ export default class PackiSession {
                 schema: wizziSchema, 
                 packiFiles: files
              };
-            const url = `${this.apiURL}/api/v1/production/artifact/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
+            const url = `${this.apiURL}/api/v1/production/artifact/${encodeURIComponent(id)}`;
             console.log('PackiSession.saveAsync', url);
             const response = await fetch(url, {
                     method: 'PUT', 
@@ -533,82 +484,6 @@ export default class PackiSession {
             this.state.saveCount++;
             this.setPreviewUrl();
             console.log('PackiSession.saveAsync.response.data', data);
-        }
-        
-        
-        // 
-        
-        // Save
-        
-        // 
-        
-        /**
-            * 
-            * Uploads the current code to Wizzi's servers and return a url that points to that version of the code.
-            * 
-        */
-        async saveAsync_Old(options?: PackiSaveOptions) {
-            const prevState = this.state;
-            
-            // Wait for any pending asset uploads the complete before saving
-            await this.fileUploader.waitForCompletion();
-            const {
-                name, 
-                description, 
-                files, 
-                user
-             } = this.state;
-            try {
-                const payload: any = {
-                    manifest: {
-                        name, 
-                        description
-                     }, 
-                    code: mapValues(files, (file: any) => {
-                    
-                        file = {
-                            ...file
-                         };
-                        delete file.error
-                        return file;
-                    }
-                    ), 
-                    isDraft: options?.isDraft ?? false
-                 };
-                const url = `${this.apiURL}/--/api/v2/packi/save`;
-                const response = await fetch(url, {
-                        method: 'POST', 
-                        body: JSON.stringify(payload), 
-                        headers: {
-                            'Content-Type': 'application/json', 
-                            ...((options?.ignoreUser ? {} : createUserHeader(user)))
-                            
-                         }
-                     });
-                const data = await response.json();
-                if (!data?.id) {
-                    throw new Error();
-                }
-                const id: string = data.id;
-                const saveURL = createURL(this.host, sdkVersion, id);
-                const hashId: string | undefined = data.hashId;
-                this.setState((state) => 
-                
-                    ({
-                        id, 
-                        saveURL, 
-                        unsaved: State.isUnsaved(state, prevState)
-                     })
-                )
-                return {
-                        id, 
-                        url: saveURL, 
-                        hashId
-                     };
-            } 
-            catch (e) {
-                throw e;
-            } 
         }
         
         
@@ -626,32 +501,6 @@ export default class PackiSession {
                 state = this.getState();
             }
             return `${this.apiURL}/--/api/v2/packi/download/${state.id}`;
-        }
-        
-        private async uploadPreview(id: string, previewURL: string, status: boolean) {
-            const url = `${this.apiURL}/--/api/v2/packi/updateMetadata`;
-            const payload = {
-                id, 
-                previewLocation: previewURL, 
-                status: status ? 'SUCCESS' : 'FAILURE'
-             };
-            try {
-                const response = await fetch(url, {
-                        method: 'POST', 
-                        body: JSON.stringify(payload), 
-                        headers: {
-                            'Content-Type': 'application/json'
-                         }
-                     });
-                const data = await response.json();
-                if (data.id) {
-                }
-                else {
-                    throw new Error();
-                }
-            } 
-            catch (e) {
-            } 
         }
         updatePackiData(packiData: PackiData) {
             return this.setState((state) => {
@@ -691,11 +540,10 @@ export default class PackiSession {
             // Wait for any pending asset uploads to complete before saving
             await this.fileUploader.waitForCompletion();
             const {
-                owner, 
-                name, 
+                id, 
                 packiProduction
              } = this.state;
-            const url = `${this.apiURL}/api/v1/production/${packiProduction}/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
+            const url = `${this.apiURL}/api/v1/production/${packiProduction}/${encodeURIComponent(id)}`;
             console.log('PackiSession.uploadUpdates', url);
             const response = await fetch(url, {
                     method: 'PUT', 

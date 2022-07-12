@@ -2,69 +2,20 @@ module
     import mapValues from 'lodash/mapValues'
     $$ import debounce from 'lodash/debounce'    
     import nullthrows from 'nullthrows'
-    $if wzCtx.Build.useExpo
-        import DependencyResolver
-            @ DependencyResolverCallback
-            @ verifyDependency
-            @ getMissingDependencies
-            @ getPackageName
-            from './DependencyResolver'
-        import DevSession from './DevSession'
     import FileUploader
         @ FileUploaderCallback
         from './FileUploader'
-    $if wzCtx.Build.useExpo
-        import
-            @ Logger
-            @ createLogger
-            from './Logger'
     import
         as State
         from './State'
-    $if wzCtx.Build.useExpo
-        import
-            @ WantedDependencyVersions
-            @ WantedDependencyVersionsCallback
-            from './WantedVersions'
     import defaultConfig
         @ PackiIdentityState
         from './defaultConfig'
     import
-        @ validateSDKVersion
-        @ isModulePreloaded
-        from './sdk'
-    $if wzCtx.Build.useExpo
-        import
-            @ createTransport
-            @ PackiTransport
-            @ PackiTransportEvent
-            @ PackiTransportOptions
-            from './transports'
-        import
-            @ ProtocolIncomingMessage
-            @ ProtocolOutgoingMessage
-            @ ProtocolConsoleMessage
-            @ ProtocolErrorMessage
-            @ ProtocolReloadMessage
-            @ ProtocolStatusMessage
-            @ ProtocolRequestStatusMessage
-            from './transports/Protocol'
-        import
-            @ createWebPlayerTransport
-            @ getWebPlayerIFrameURL
-            from './transports/webPlayer'
-    import
-        @ SDKVersion
-        @ PackiDependencies
         @ PackiFiles
         @ PackiFile
         @ PackiState
         @ PackiUser
-        $if wzCtx.Build.useExpo
-            @ PackiSendBeaconRequest
-            @ PackiLogEvent
-            @ PackiListenerSubscription
-        @ PackiDependency
         @ PackiWindowRef
         @ PackiOptions
         @ PackiStateListener
@@ -72,7 +23,6 @@ module
         @ PackiSaveOptions
         from './types'
     import
-        @ createChannel
         @ fetch
         @ createURL
         @ createError
@@ -83,12 +33,17 @@ module
     const debounce
         =>
             param func
+                :any
             param timeout
+                :any
             param context
+                :any
             let timer
+                :ref NodeJS.Timeout
             return
                 =>
                     param ...args
+                        :ref any[]
                     _ clearTimeout(timer)
                     set timer 
                         _ setTimeout
@@ -107,18 +62,6 @@ module
                     :param
                         :ref PackiStateListener
                 new Set
-            $if wzCtx.Build.useExpo
-                p logListeners
-                    :private
-                    :ref Set
-                        :param
-                            :ref PackiLogListener
-                    new Set
-                $if wzCtx.Build.useExpo
-                    p logger?
-                        :readonly
-                        :private
-                        :ref Logger
             p apiURL
                 :readonly
                 :private
@@ -127,63 +70,22 @@ module
                 :readonly
                 :private
                 :string
-            $if wzCtx.Build.useExpo
-                p dependencyResolver
-                    :readonly
-                    :private
-                    :ref DependencyResolver
             p fileUploader
                 :readonly
                 :private
                 :ref FileUploader
-            $if wzCtx.Build.useExpo
-                p DevSession
-                    :readonly
-                    :private
-                    :ref DevSession
-                p wantedDependencyVersions
-                    :private
-                    :ref WantedDependencyVersions
             p codeChangesDelay
                 :private
                 :number
             p codeChangesTimer
                 :private
                 :any
-            $if wzCtx.Build.useExpo
-                p reloadTimeout
-                    :readonly
-                    :private
-                    :number
-                p previewTimeout
-                    :readonly
-                    :private
-                    :number
             ctor
                 param options
                     :ref PackiOptions
-                const channel = createChannel(options.channel)
-                const sdkVersion = validateSDKVersion(options.sdkVersion ?? defaultConfig.sdkVersion)
-                const dependencies
-                    iif options.dependencies
-                        then
-                            {
-                                @ ...options.dependencies
-                        else
-                            {
                 set this.apiURL = options.apiURL ?? defaultConfig.apiURL
                 set this.host = options.host ?? defaultConfig.host
-                $if wzCtx.Build.useExpo
-                    set this.logger =
-                        iif options.verbose
-                            then createLogger(true)
-                            else undefined
                 set this.codeChangesDelay = options.codeChangesDelay ?? 2000
-                $if wzCtx.Build.useExpo
-                    set this.reloadTimeout = options.reloadTimeout ?? 0
-                    set this.previewTimeout = options.previewTimeout ?? 10000
-                $if wzCtx.Build.useExpo
-                    set this.createTransport = options.createTransport ?? createTransport
                 set this.state =
                     _ this.updateDerivedState
                         {
@@ -194,16 +96,10 @@ module
                             @ description options.description ?? ''
                             @ mainIttf options.mainIttf ?? ''
                             @ wizziSchema options.wizziSchema ?? ''
-                            @ sdkVersion
                             @ files
                                 ??
                                     + options.files
                                     {
-                            $if wzCtx.Build.useExpo
-                                @ dependencies
-                                @ missingDependencies getMissingDependencies(dependencies, sdkVersion)
-                                { connectedClients
-                                @ transports
                             @ user options.user
                             @ packiProduction options.packiProduction
                             @ id options.id
@@ -213,20 +109,12 @@ module
                                     then
                                         _ createURL
                                             @ this.host
-                                            @ sdkVersion
                                             @ options.id
                                     else undefined
-                            $if wzCtx.Build.useExpo
-                                @ savedSDKVersion
-                                    iif options.id
-                                        then sdkVersion
-                                        else undefined
                             @ url
                                 _ createURL
                                     @ this.host
-                                    @ sdkVersion
                                     @ options.id
-                            @ channel
                         @ PackiIdentityState
                 set this.state.unsaved = false
                 _ this.setPreviewUrl
@@ -234,17 +122,7 @@ module
                     new FileUploader
                         {
                             @ apiURL this.apiURL
-                            $if wzCtx.Build.useExpo
-                                @ logger this.logger
                             @ callback this.onFileUploaded
-                $if wzCtx.Build.useExpo
-                    set this.DevSession =
-                        new DevSession
-                            {
-                                @ apiURL this.apiURL
-                                @ logger this.logger
-                                @ onSendBeaconCloseRequest this.onDevSessionSendBeaconCloseRequest
-                    _ this.logger?.info?.('Packi created', this.getState())
                 _ this.onStateChanged(this.state, PackiIdentityState)
                 set this.debouncedUploadUpdates
                     _ debounce
@@ -371,11 +249,6 @@ module
             +
             m getStateAsync
                 async
-                $if wzCtx.Build.useExpo
-                    await
-                        _ this.wantedDependencyVersions.waitForCompletion()
-                    await
-                        _ this.dependencyResolver.waitForCompletion()
                 await
                     _ this.fileUploader.waitForCompletion()
                 return this.getState()
@@ -448,9 +321,6 @@ module
                     # Set unsaved to true whenever files or dependencies change
                 _ this.updateDerivedOnlineState(state, prevState)
                     # Update other derived states
-                $if wzCtx.Build.useExpo
-                    _ this.updateDerivedDependenciesState(state, prevState)
-                    _ this.updateDerivedWebPreviewState(state, prevState)
                 return state
             +
             m onStateChanged
@@ -459,92 +329,15 @@ module
                     :ref PackiState
                 param prevState
                     :ref PackiState
-                $if wzCtx.Build.useExpo
-                    _ this.updateWantedDependencyVersions(state, prevState)
-                    _ this.updateDependencyResolver(state, prevState)
                 _ this.updateFileUploader(state, prevState)
-                $if wzCtx.Build.useExpo
-                    _ this.updateTransports(state, prevState)
-                    _ this.DevSession.setState(state, prevState)
             +
             m setFocus
-                $if wzCtx.Build.useExpo
-                    _ this.DevSession.setFocus(this.state)
                 #
                     #
                     # Sets the focus to this Packi.
                     #
                     # Causes this Packi to be moved to the top of the "Recently in Development" list
                     # in the Wizzi client.
-                    #
-            +
-            m setDisabled
-                param disabled
-                    :boolean
-                return
-                    _ this.setState
-                        =>
-                            param state
-                            (
-                                iif disabled !== state.disabled
-                                    then
-                                        {
-                                            @ disabled
-                                    else null
-                #
-                # Online
-                #
-                #
-                    #
-                    # Enables or disables the Packi.
-                    #
-                    # When disabled, no uploads or dependency resolve operations
-                    # are performed.
-                    #
-            m setOnline
-                param enabled
-                    :boolean
-                return
-                    _ this.setState
-                        =>
-                            param state
-                            $if wzCtx.Build.useExpo
-                                if enabled && !state.transports['pubnub']
-                                    return
-                                        {
-                                            @ transports
-                                                _ State.addObject
-                                                    @expr state.transports
-                                                    @ 'pubnub'
-                                                    _ this.createTransport
-                                                        {
-                                                            @ name 'pubnub'
-                                                            @ apiURL this.apiURL
-                                                            @ channel state.channel
-                                                            @ verbose !!this.logger
-                                else
-                                    if !enabled && state.transports['pubnub']
-                                        let connectedClients = state.connectedClients
-                                        for
-                                            left
-                                                const key
-                                            in state.connectedClients
-                                            if state.connectedClients[key].transport === 'pubnub'
-                                                set connectedClients = State.removeObject(connectedClients, key)
-                                        return
-                                            {
-                                                @ transports State.removeObject(state.transports, 'pubnub')
-                                                @ connectedClients
-                                    else
-                                        return null
-                            $else
-                                return null
-                #
-                    #
-                    # Makes the Packi available online.
-                    #
-                    # When online, a pubnub channel is created to which clients can
-                    # connect.
                     #
             +
             m updateDerivedOnlineState
@@ -555,29 +348,10 @@ module
                     :ref PackiState
                 const
                     {
-                        $if wzCtx.Build.useExpo
-                            @ transports
-                            @ sdkVersion
-                            @ channel
                         @ id
                         @ name
                         @ disabled
-                        $if wzCtx.Build.useExpo
-                            @ savedSDKVersion
                     = state
-                $if wzCtx.Build.useExpo
-                    if sdkVersion !== prevState.sdkVersion || id !== prevState.id || name !== prevState.name || savedSDKVersion !== prevState.savedSDKVersion
-                        set state.online = !!transports['pubnub'] && !disabled
-                        set state.url =
-                            _ createURL
-                                @expr this.host
-                                @ sdkVersion
-                                iif savedSDKVersion && savedSDKVersion !== sdkVersion
-                                    then undefined
-                                    else id
-                        set state.onlineName =
-                            `lit
-                                @ name || 'Unnamed Packi'
             +
             m setCodeChangesDelay
                 param delay
@@ -628,26 +402,6 @@ module
                 else
                     if !immediate && this.codeChangesDelay < 0
                         return
-                $if wzCtx.Build.useExpo
-                    const
-                        {
-                            @ transports
-                            @ files
-                            @ dependencies
-                            @ sdkVersion
-                        = state
-                    for
-                        left
-                            const key
-                        in transports
-                        _ transports[key].postMessage
-                            {
-                                @ type 'update_code'
-                                { data
-                                    @ files
-                                    @ dependencies
-                                    @ sdkVersion
-                        # Send the changes
             +
             m updateFiles
                 param files
@@ -731,8 +485,6 @@ module
                         new FileUploader
                             {
                                 @ apiURL this.apiURL
-                                $if wzCtx.Build.useExpo
-                                    @ logger this.logger
                                 @ callback
                                     =>
                                         param _request
@@ -830,14 +582,13 @@ module
                     # Wait for any pending asset uploads to complete before saving
                 const
                     {
+                        @ id
                         @ owner
                         @ name
                         @ description
                         @ mainIttf
                         @ wizziSchema
-                        @ sdkVersion
                         @ files
-                        @ dependencies
                         @ user
                         @ packiProduction
                     = this.state
@@ -853,9 +604,7 @@ module
                     `lit
                         @ this.apiURL
                         + /api/v1/production/artifact/
-                        @ encodeURIComponent(owner)
-                        + /
-                        @ encodeURIComponent(name)
+                        @ encodeURIComponent(id)
                 log 'PackiSession.saveAsync', url
                 const response
                     await
@@ -866,153 +615,12 @@ module
                                 @ body JSON.stringify(payload)
                                 { headers
                                     @ 'Content-Type' 'application/json'
-                                    $if wzCtx.Build.useExpo
-                                        ...
-                                            (
-                                                iif options?.ignoreUser
-                                                    then
-                                                        {
-                                                    else createUserHeader(user)
                 const data
                     await
                         _ response.json()
                 set this.state.saveCount++
                 _ this.setPreviewUrl
                 log 'PackiSession.saveAsync.response.data', data
-            +
-            m saveAsync_Old
-                async
-                param options
-                    :ref PackiSaveOptions
-                    :optional
-                const prevState = this.state
-                await
-                    _ this.fileUploader.waitForCompletion()
-                    # Wait for any pending asset uploads the complete before saving
-                const
-                    {
-                        @ name
-                        @ description
-                        $if wzCtx.Build.useExpo
-                            @ sdkVersion
-                        @ files
-                        $if wzCtx.Build.useExpo
-                            @ dependencies
-                        @ user
-                    = this.state
-                try
-                    const payload
-                        :any
-                        =
-                            {
-                                { manifest
-                                    $if wzCtx.Build.useExpo
-                                        @ sdkVersion
-                                    @ name
-                                    @ description
-                                    $if wzCtx.Build.useExpo
-                                        @ dependencies
-                                            _ mapValues
-                                                @ dependencies
-                                                =>
-                                                    param dep
-                                                    +
-                                                        @expr dep.version
-                                @ code
-                                    _ mapValues
-                                        @ files
-                                        =>
-                                            param file
-                                                :any
-                                            set file =
-                                                {
-                                                    @ ...file
-                                            delete file.error
-                                            return file
-                                $if wzCtx.Build.useExpo
-                                    @ dependencies
-                                        _ mapValues
-                                            @ dependencies
-                                            =>
-                                                param dep
-                                                set dep =
-                                                    {
-                                                        @ ...dep
-                                                delete dep.error
-                                                return dep
-                                @ isDraft options?.isDraft ?? false
-                    $if wzCtx.Build.useExpo
-                        _ this.logger?.info?.('Saving...', payload)
-                        const previewPromise = this.getPreviewAsync()
-                    const url
-                        `lit
-                            +
-                            @ this.apiURL
-                            + /--/api/v2/packi/save
-                    const response
-                        await
-                            _ fetch
-                                @ url
-                                {
-                                    @ method 'POST'
-                                    @ body JSON.stringify(payload)
-                                    { headers
-                                        @ 'Content-Type' 'application/json'
-                                        ...
-                                            (
-                                                iif options?.ignoreUser
-                                                    then
-                                                        {
-                                                    else createUserHeader(user)
-                    const data
-                        await
-                            _ response.json()
-                    if !data?.id
-                        throw new Error()
-                    $if wzCtx.Build.useExpo
-                        _ this.logger?.info?.('Saved', data)
-                    const id
-                        :string
-                        = data.id
-                    const saveURL
-                        _ createURL
-                            @ this.host
-                            @ sdkVersion
-                            @ id
-                    const hashId
-                        :union
-                            :string
-                            :undefined
-                        = data.hashId
-                    _ this.setState
-                        =>
-                            param state
-                            (
-                                {
-                                    @ id
-                                    @ saveURL
-                                    @ unsaved State.isUnsaved(state, prevState)
-                                    $if wzCtx.Build.useExpo
-                                        @ savedSDKVersion
-                                            iif options?.isDraft && state.savedSDKVersion
-                                                then state.savedSDKVersion
-                                                else sdkVersion
-                    return
-                        {
-                            @ id
-                            @ url saveURL
-                            @ hashId
-                catch e
-                    $if wzCtx.Build.useExpo
-                        _ this.logger?.error?.(e)
-                    throw e
-                #
-                # Save
-                #
-                #
-                    # 
-                    # Uploads the current code to Wizzi's servers and return a url that points to that version of the code.
-                    #
             +
             m getDownloadURLAsync
                 async
@@ -1038,50 +646,5 @@ module
                     # Gets the URL at which the Packi can be downloaded as a zip file. Will automatically
                     # save the Packi if it contains unsaved changes.
                     #
-            +
-            m uploadPreview
-                async
-                :private
-                param id
-                    :string
-                param previewURL
-                    :string
-                param status
-                    :boolean
-                const url
-                    `lit
-                        @ this.apiURL
-                        + /--/api/v2/packi/updateMetadata
-                const payload
-                    {
-                        @ id
-                        @ previewLocation previewURL
-                        @ status
-                            iif status
-                                then 'SUCCESS'
-                                else 'FAILURE'
-                $if wzCtx.Build.useExpo
-                    _ this.logger?.info?.('Uploading preview...', payload)
-                try
-                    const response
-                        await
-                            _ fetch
-                                @ url
-                                {
-                                    @ method 'POST'
-                                    @ body JSON.stringify(payload)
-                                    { headers
-                                        @ 'Content-Type' 'application/json'
-                    const data
-                        await
-                            _ response.json()
-                    if data.id
-                        $if wzCtx.Build.useExpo
-                            _ this.logger?.info?.('Uploaded preview', data)
-                    else
-                        throw new Error()
-                catch e
-                    $if wzCtx.Build.useExpo
-                        _ this.logger?.error?.('Failed to upload preview', e)
 
             session/updates()

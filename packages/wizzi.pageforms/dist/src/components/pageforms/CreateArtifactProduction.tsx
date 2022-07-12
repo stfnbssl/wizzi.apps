@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateArtifactProduction.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:18:03 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateArtifactProduction.tsx.ittf
+    utc time: Tue, 12 Jul 2022 16:15:51 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -40,10 +40,10 @@ type CreateArtifactProductionState = {
     ap_main_ittf: string;
     ap_type: string;
     ap_add_context: boolean;
-    ap_contexts: MISSING[];
+    ap_contexts: any[];
     ap_add_tfolder: boolean;
-    ap_dependencies: MISSING[];
-    ap_upload_files: MISSING[];
+    ap_dependencies: any[];
+    ap_upload_files: any[];
 };
 
 interface RootStyleProps {
@@ -57,7 +57,8 @@ const StyledRoot = styled.div<RootStyleProps>`
 `
 
 export class CreateArtifactProduction extends Component<CreateArtifactProductionProps, CreateArtifactProductionState> {
-    constructor() {
+    constructor(props: CreateArtifactProductionProps) {
+        super(props);
     }
     formRef = React.createRef();
     

@@ -1,15 +1,16 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.webapp\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorView.tsx.ittf
-    utc time: Tue, 28 Jun 2022 14:08:24 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorView.tsx.ittf
+    utc time: Tue, 12 Jul 2022 15:10:51 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
 import {connect} from 'react-redux';
-import Split from 'react-split';
-import {SDKVersion, PackiFiles, PackiProduction} from '../../features/packi';
+// import Split from 'react-split'
+import {Split} from '../widgets/splitter/Split';
+import {PackiFiles, PackiProduction} from '../../features/packi';
 import {GeneratedArtifact, JobError} from '../../features/wizzi';
 import {LoggedUser} from '../../features/app';
 import {Annotation} from '../../features/annotations';
@@ -224,9 +225,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
             saveStatus, 
             files, 
             selectedFile, 
-            dependencies, 
             sendCodeOnChangeEnabled, 
-            sdkVersion, 
             userAgent, 
             onSendCode, 
             onPublishAsync, 
@@ -322,204 +321,238 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                      className={css(styles.editorAreaOuter)}>
                         <LayoutShell
                         >
-                            <FileList 
-                                annotations={annotations}
-                                visible={preferences.fileTreeShown}
-                                files={files}
-                                selectedFile={selectedFile}
-                                updateFiles={this.props.updateFiles}
-                                onSelectFile={this.props.onSelectFile}
-                                onRemoveFile={this._handleRemoveFile}
-                                onRenameFile={this._handleRenameFile}
-                                uploadFileAsync={uploadFileAsync}
-                                onDownloadCode={this.props.onDownloadAsync}
-                                onImportRepo={this._handleShowImportRepoModal}
-                                onImportProduction={this._handleShowImportProductionModal}
-                                saveStatus={saveStatus}
-                                sdkVersion={sdkVersion}
-                             />
-                            <LazyLoad
-                             load={async ():  Promise<{ 
-                                    default: React.ComponentType<EditorProps>;
-                                }> => {
-                                
-                                    let timeout: any;
-                                    
-                                    // Fallback to simple editor if monaco editor takes too long to load
-                                    const MonacoEditorPromise = import('../Editor/MonacoEditor').then((editor) => 
-                                    
-                                        ({
-                                            editor, 
-                                            type: 'monaco'
-                                         })
-                                    )
-                                    ;
-                                    
-                                    // Fallback to simple editor if monaco editor takes too long to load
-                                    const SimpleEditorPromise = new Promise((resolve, reject) => 
-                                    
-                                        timeout = setTimeout(() => {
+                            <Split
+                             initialPrimarySize="30%">
+                                <FileList 
+                                    annotations={annotations}
+                                    visible={preferences.fileTreeShown}
+                                    files={files}
+                                    selectedFile={selectedFile}
+                                    updateFiles={this.props.updateFiles}
+                                    onSelectFile={this.props.onSelectFile}
+                                    onRemoveFile={this._handleRemoveFile}
+                                    onRenameFile={this._handleRenameFile}
+                                    uploadFileAsync={uploadFileAsync}
+                                    onDownloadCode={this.props.onDownloadAsync}
+                                    onImportRepo={this._handleShowImportRepoModal}
+                                    onImportProduction={this._handleShowImportProductionModal}
+                                    saveStatus={saveStatus}
+                                 />
+                                <Split
+                                 initialPrimarySize="60%">
+                                    <LazyLoad
+                                     load={async ():  Promise<{ 
+                                            default: React.ComponentType<EditorProps>;
+                                        }> => {
                                         
-                                            this._showBanner('slow-connection', BANNER_TIMEOUT_LONG);
-                                            import('../Editor/SimpleEditor').then(resolve, reject)
-                                        }
-                                        , EDITOR_LOAD_FALLBACK_TIMEOUT)
-                                    
-                                    ).then((editor) => 
-                                    
-                                        ({
-                                            editor, 
-                                            type: 'simple'
-                                         })
-                                    );
-                                    return Promise.race([
-                                            MonacoEditorPromise.catch(() => 
+                                            let timeout: any;
                                             
-                                                SimpleEditorPromise
+                                            // Fallback to simple editor if monaco editor takes too long to load
+                                            const MonacoEditorPromise = import('../Editor/MonacoEditor').then((editor) => 
                                             
-                                            ), 
-                                            SimpleEditorPromise
-                                        ]).then(({
-                                            editor, 
-                                            type
-                                         }: any) => {
-                                        
-                                            this.setState({
-                                                loadedEditor: type
-                                             })
-                                            clearTimeout(timeout);
-                                            return editor;
+                                                ({
+                                                    editor, 
+                                                    type: 'monaco'
+                                                 })
+                                            )
+                                            ;
+                                            
+                                            // Fallback to simple editor if monaco editor takes too long to load
+                                            const SimpleEditorPromise = new Promise((resolve, reject) => 
+                                            
+                                                timeout = setTimeout(() => {
+                                                
+                                                    this._showBanner('slow-connection', BANNER_TIMEOUT_LONG);
+                                                    import('../Editor/SimpleEditor').then(resolve, reject)
+                                                }
+                                                , EDITOR_LOAD_FALLBACK_TIMEOUT)
+                                            
+                                            ).then((editor) => 
+                                            
+                                                ({
+                                                    editor, 
+                                                    type: 'simple'
+                                                 })
+                                            );
+                                            return Promise.race([
+                                                    MonacoEditorPromise.catch(() => 
+                                                    
+                                                        SimpleEditorPromise
+                                                    
+                                                    ), 
+                                                    SimpleEditorPromise
+                                                ]).then(({
+                                                    editor, 
+                                                    type
+                                                 }: any) => {
+                                                
+                                                    this.setState({
+                                                        loadedEditor: type
+                                                     })
+                                                    clearTimeout(timeout);
+                                                    return editor;
+                                                }
+                                                )
+                                            ;
                                         }
-                                        )
-                                    ;
-                                }
-                            }>
-                                {
-                                    ({
-                                        loaded, 
-                                        data: Comp
-                                     }) => {
-                                    
-                                        this._EditorComponent = Comp;
-                                        const file = files[selectedFile];
-                                        if (file) {
-                                            const {
-                                                contents
-                                             } = file;
-                                            const isMarkdown = selectedFile.endsWith('.md');
-                                            if (isMarkdown && this.state.isMarkdownPreview) {
-                                                return  (
-                                                    <React.Fragment
-                                                    >
-                                                        <LazyLoad
-                                                         load={() => 
-                                                            
-                                                                import('../Markdown/MarkdownPreview')
-                                                        }>
-                                                            {
-                                                                ({
-                                                                    loaded: mdLoaded, 
-                                                                    data: MarkdownPreview
-                                                                 }) => {
-                                                                
-                                                                    if (mdLoaded && MarkdownPreview) {
-                                                                        return  (
-                                                                            <MarkdownPreview
-                                                                             source={contents as string} />
-                                                                            )
-                                                                        ;
-                                                                    }
-                                                                    return  (
-                                                                        <EditorShell
-                                                                         />
-                                                                        )
-                                                                    ;
-                                                                }
-                                                                
-                                                            }
-                                                        </LazyLoad>
-                                                        <button
-                                                         className={css(styles.previewToggle)} onClick={this._toggleMarkdownPreview}>
-                                                            <svg 
-                                                                width="12px"
-                                                                height="12px"
-                                                                viewBox="0 0 18 18"
-                                                                className={css(styles.previewToggleIcon)}
+                                    }>
+                                        {
+                                            ({
+                                                loaded, 
+                                                data: Comp
+                                             }) => {
+                                            
+                                                this._EditorComponent = Comp;
+                                                const file = files[selectedFile];
+                                                if (file) {
+                                                    const {
+                                                        contents
+                                                     } = file;
+                                                    const isMarkdown = selectedFile.endsWith('.md');
+                                                    if (isMarkdown && this.state.isMarkdownPreview) {
+                                                        return  (
+                                                            <React.Fragment
                                                             >
-                                                                <g
-                                                                 transform="translate(-147.000000, -99.000000)">
-                                                                    <g
-                                                                     transform="translate(144.000000, 96.000000)">
-                                                                        <path
-                                                                         d="M3,17.25 L3,21 L6.75,21 L17.81,9.94 L14.06,6.19 L3,17.25 L3,17.25 Z M20.71,7.04 C21.1,6.65 21.1,6.02 20.71,5.63 L18.37,3.29 C17.98,2.9 17.35,2.9 16.96,3.29 L15.13,5.12 L18.88,8.87 L20.71,7.04 L20.71,7.04 Z" />
-                                                                    </g>
-                                                                </g>
-                                                            </svg>
-                                                        </button>
-                                                    </React.Fragment>
-                                                    )
-                                                ;
-                                            }
-                                            if (loaded && Comp) {
-                                                return  (
-                                                    <div
-                                                     className={css(styles.editorComponentOuter)}>
-                                                        <Comp 
-                                                            className={css(styles.editorComponent)}
-                                                            dependencies={dependencies}
-                                                            sdkVersion={sdkVersion}
-                                                            selectedFile={selectedFile}
-                                                            files={files}
-                                                            autoFocus={!/Untitled file.*\.(js|tsx?)$/.test(selectedFile)}
-                                                            annotations={annotations}
-                                                            updateFiles={this.props.updateFiles}
-                                                            onSelectFile={this.props.onSelectFile}
-                                                            lineNumbers="undefined"
-                                                         />
-                                                        {
-                                                            isMarkdown ?  (
+                                                                <LazyLoad
+                                                                 load={() => 
+                                                                    
+                                                                        import('../Markdown/MarkdownPreview')
+                                                                }>
+                                                                    {
+                                                                        ({
+                                                                            loaded: mdLoaded, 
+                                                                            data: MarkdownPreview
+                                                                         }) => {
+                                                                        
+                                                                            if (mdLoaded && MarkdownPreview) {
+                                                                                return  (
+                                                                                    <MarkdownPreview
+                                                                                     source={contents as string} />
+                                                                                    )
+                                                                                ;
+                                                                            }
+                                                                            return  (
+                                                                                <EditorShell
+                                                                                 />
+                                                                                )
+                                                                            ;
+                                                                        }
+                                                                        
+                                                                    }
+                                                                </LazyLoad>
                                                                 <button
                                                                  className={css(styles.previewToggle)} onClick={this._toggleMarkdownPreview}>
                                                                     <svg 
-                                                                        width="16px"
+                                                                        width="12px"
                                                                         height="12px"
-                                                                        viewBox="0 0 22 16"
+                                                                        viewBox="0 0 18 18"
                                                                         className={css(styles.previewToggleIcon)}
                                                                     >
                                                                         <g
-                                                                         transform="translate(-145.000000, -1156.000000)">
+                                                                         transform="translate(-147.000000, -99.000000)">
                                                                             <g
-                                                                             transform="translate(144.000000, 1152.000000)">
+                                                                             transform="translate(144.000000, 96.000000)">
                                                                                 <path
-                                                                                 d="M12,4.5 C7,4.5 2.73,7.61 1,12 C2.73,16.39 7,19.5 12,19.5 C17,19.5 21.27,16.39 23,12 C21.27,7.61 17,4.5 12,4.5 L12,4.5 Z M12,17 C9.24,17 7,14.76 7,12 C7,9.24 9.24,7 12,7 C14.76,7 17,9.24 17,12 C17,14.76 14.76,17 12,17 L12,17 Z M12,9 C10.34,9 9,10.34 9,12 C9,13.66 10.34,15 12,15 C13.66,15 15,13.66 15,12 C15,10.34 13.66,9 12,9 L12,9 Z" />
+                                                                                 d="M3,17.25 L3,21 L6.75,21 L17.81,9.94 L14.06,6.19 L3,17.25 L3,17.25 Z M20.71,7.04 C21.1,6.65 21.1,6.02 20.71,5.63 L18.37,3.29 C17.98,2.9 17.35,2.9 16.96,3.29 L15.13,5.12 L18.88,8.87 L20.71,7.04 L20.71,7.04 Z" />
                                                                             </g>
                                                                         </g>
                                                                     </svg>
                                                                 </button>
-                                                                )
-                                                             : null
-                                                        }
-                                                    </div>
+                                                            </React.Fragment>
+                                                            )
+                                                        ;
+                                                    }
+                                                    if (loaded && Comp) {
+                                                        return  (
+                                                            <div
+                                                             className={css(styles.editorComponentOuter)}>
+                                                                <Comp 
+                                                                    className={css(styles.editorComponent)}
+                                                                    selectedFile={selectedFile}
+                                                                    files={files}
+                                                                    autoFocus={!/Untitled file.*\.(js|tsx?)$/.test(selectedFile)}
+                                                                    annotations={annotations}
+                                                                    updateFiles={this.props.updateFiles}
+                                                                    onSelectFile={this.props.onSelectFile}
+                                                                    lineNumbers="undefined"
+                                                                 />
+                                                                {
+                                                                    isMarkdown ?  (
+                                                                        <button
+                                                                         className={css(styles.previewToggle)} onClick={this._toggleMarkdownPreview}>
+                                                                            <svg 
+                                                                                width="16px"
+                                                                                height="12px"
+                                                                                viewBox="0 0 22 16"
+                                                                                className={css(styles.previewToggleIcon)}
+                                                                            >
+                                                                                <g
+                                                                                 transform="translate(-145.000000, -1156.000000)">
+                                                                                    <g
+                                                                                     transform="translate(144.000000, 1152.000000)">
+                                                                                        <path
+                                                                                         d="M12,4.5 C7,4.5 2.73,7.61 1,12 C2.73,16.39 7,19.5 12,19.5 C17,19.5 21.27,16.39 23,12 C21.27,7.61 17,4.5 12,4.5 L12,4.5 Z M12,17 C9.24,17 7,14.76 7,12 C7,9.24 9.24,7 12,7 C14.76,7 17,9.24 17,12 C17,14.76 14.76,17 12,17 L12,17 Z M12,9 C10.34,9 9,10.34 9,12 C9,13.66 10.34,15 12,15 C13.66,15 15,13.66 15,12 C15,10.34 13.66,9 12,9 L12,9 Z" />
+                                                                                    </g>
+                                                                                </g>
+                                                                            </svg>
+                                                                        </button>
+                                                                        )
+                                                                     : null
+                                                                }
+                                                            </div>
+                                                            )
+                                                        ;
+                                                    }
+                                                }
+                                                else {
+                                                    return  (
+                                                        <NoFileSelected
+                                                         />
+                                                        )
+                                                    ;
+                                                }
+                                                return  (
+                                                    <EditorShell
+                                                     />
                                                     )
                                                 ;
                                             }
+                                            
                                         }
-                                        else {
-                                            return  (
-                                                <NoFileSelected
-                                                 />
-                                                )
-                                            ;
-                                        }
-                                        return  (
-                                            <EditorShell
+                                    </LazyLoad>
+                                    {
+                                        jobError ?  (
+                                            <GenerationErrors 
+                                                errorName={jobError.errorName}
+                                                errorLines={[]}
+                                                errorMessage={jobError.errorMessage}
+                                                errorStack={jobError.errorStack}
                                              />
                                             )
-                                        ;
+                                         : generatedArtifact && generatedArtifact.artifactContent ?  (
+                                                <GeneratedView 
+                                                    generatedContent={generatedArtifact.artifactContent}
+                                                    generatedSourcePath={generatedArtifact.sourcePath}
+                                                    mTreeBuildUpScript={mTreeBuildUpScript}
+                                                    mTreeIttf={mTreeIttf}
+                                                    generatedPreviewURL={previewURL}
+                                                    splitViewKind={this.state.splitViewKind}
+                                                    onMTreePreview={onMTreePreview}
+                                                    onMTreeDebugInfoPreview={onMTreeDebugInfoPreview}
+                                                 />
+                                                )
+                                             : generatedArtifact && generatedArtifact.errorLines ?  (
+                                                    <GenerationErrors 
+                                                        errorName={generatedArtifact.errorName}
+                                                        errorLines={generatedArtifact.errorLines}
+                                                        errorMessage={generatedArtifact.errorMessage}
+                                                        errorStack={generatedArtifact.errorStack}
+                                                     />
+                                                    )
+                                                 : null
                                     }
-                                    
-                                }
-                            </LazyLoad>
+                                </Split>
+                            </Split>
                         </LayoutShell>
                         {
                             preferences.panelsShown ?  (
@@ -534,37 +567,6 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                              : null
                         }
                     </div>
-                    {
-                        jobError ?  (
-                            <GenerationErrors 
-                                errorName={jobError.errorName}
-                                errorLines={[]}
-                                errorMessage={jobError.errorMessage}
-                                errorStack={jobError.errorStack}
-                             />
-                            )
-                         : generatedArtifact && generatedArtifact.artifactContent ?  (
-                                <GeneratedView 
-                                    generatedContent={generatedArtifact.artifactContent}
-                                    generatedSourcePath={generatedArtifact.sourcePath}
-                                    mTreeBuildUpScript={mTreeBuildUpScript}
-                                    mTreeIttf={mTreeIttf}
-                                    generatedPreviewURL={previewURL}
-                                    splitViewKind={this.state.splitViewKind}
-                                    onMTreePreview={onMTreePreview}
-                                    onMTreeDebugInfoPreview={onMTreeDebugInfoPreview}
-                                 />
-                                )
-                             : generatedArtifact && generatedArtifact.errorLines ?  (
-                                    <GenerationErrors 
-                                        errorName={generatedArtifact.errorName}
-                                        errorLines={generatedArtifact.errorLines}
-                                        errorMessage={generatedArtifact.errorMessage}
-                                        errorStack={generatedArtifact.errorStack}
-                                     />
-                                    )
-                                 : null
-                    }
                 </div>
                 <EditorFooter 
                     annotations={annotations}
@@ -573,14 +575,12 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                     previewShown={previewShown}
                     panelsShown={preferences.panelsShown}
                     sendCodeOnChangeEnabled={sendCodeOnChangeEnabled}
-                    sdkVersion={sdkVersion}
                     onSendCode={onSendCode}
                     onToggleTheme={this._toggleTheme}
                     onTogglePanels={this._togglePanels}
                     onToggleFileTree={this._toggleFileTree}
                     onTogglePreview={onTogglePreview}
                     onToggleSendCode={onToggleSendCode}
-                    onChangeSDKVersion={this.props.onChangeSDKVersion}
                     onShowShortcuts={this._handleShowShortcuts}
                     theme={this.props.preferences.theme}
                     autoGenSingleDoc={preferences.autoGenSingleDoc}
@@ -603,16 +603,6 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                  type="info" visible={currentBanner === 'autosave-disabled'}>
                     Automatic saving has been disabled in this Packi because you have it open in
                   another tab.
-                </Banner>
-                <Banner
-                 type="info" visible={currentBanner === 'sdk-upgraded'}>
-                    This Packi was written in an older Wizzi version that is not longer supported. We
-                  have upgraded the Wizzi version to
-                    {sdkVersion}
-                    .
-                    <br
-                     />
-                    You might need to do some manual changes to make the Packi work correctly.
                 </Banner>
                 <Banner
                  type="info" visible={currentBanner === 'slow-connection'}>
