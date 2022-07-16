@@ -53,9 +53,14 @@ $group
                     => 
                         param resolve
                         param reject
-                        let tfValue = metaCache.get(cacheKey)
-                        if tfValue
-                            return resolve(tfValue)
+                        $if useCachedProductions
+                            let mpValue = metaCache.get(cacheKey)
+                            if mpValue
+                                return resolve(mpValue)
+                        $else
+                            let mpValue
+                                { 
+                                    { packiFiles
                         _ getMetaProduction
                             @ owner
                             @ name
@@ -70,11 +75,12 @@ $group
                                     const tf_packiFiles_object
                                         :ref packiTypes.PackiFiles
                                         _ JSON.parse(tf.packiFiles)
-                                    set tfValue
+                                    set mpValue
                                         { 
                                             @ packiFiles tf_packiFiles_object
-                                    _ metaCache.set(cacheKey, tfValue)
-                                    return resolve(tfValue)
+                                    $if useCachedProductions
+                                        _ metaCache.set(cacheKey, mpValue)
+                                    return resolve(mpValue)
                             catch_reject( getMetaProduction_withCache.getArtifactProduction )
 
     +

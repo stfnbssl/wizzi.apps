@@ -1,5 +1,5 @@
 $group
-    $params text, href, ca|""
+    $params text|@@empty, href|@@empty, ca|@@empty
     div
         @ className flex-column
         a ${text}

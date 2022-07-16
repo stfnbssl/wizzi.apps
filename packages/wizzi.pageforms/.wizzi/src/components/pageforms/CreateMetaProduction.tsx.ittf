@@ -8,6 +8,8 @@ module
             ],
             stateProps: [
                 { name: "mp_name", type: "string" },
+                { name: "mp_name_available", type: "boolean" },
+                { name: "mp_name_checked", type: "string" },
                 { name: "mp_description", type: "string" },
                 { name: "mp_type", type: "string" },
                 { name: "mp_add_context", type: "boolean" },

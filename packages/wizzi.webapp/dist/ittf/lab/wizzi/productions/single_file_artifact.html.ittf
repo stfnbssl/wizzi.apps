@@ -1,0 +1,166 @@
+html
+
+    $
+        var opt = {
+            title: 'Wizzi / Productions / Single file artifact',
+            useMonaco: true,
+            useWizziProductions: true,
+            useSiteMainCss: true,
+            mainJs: './scripts/main.js.ittf'
+        }
+
+    html/layouts/empty_opt(&opt)
+
+		# root
+            . toolbar
+                . fields
+                    div
+                        span id
+                        input
+                            id fd_id
+                            width 120px
+                    div
+                        span owner
+                        input
+                            id fd_owner
+                            value stfnbssl
+                            width 120px
+                    div
+                        span path
+                        input
+                            id fd_path
+                            value ittf/lab/samples
+                            width 120px
+                    div
+                        span name
+                        input
+                            id fd_name
+                            value first
+                            width 120px
+                    div
+                        span schema
+                        input
+                            id fd_schema
+                            value html
+                            width 120px
+                div
+                    button Create
+                        id btnCreate
+                div
+                    button Update
+                        id btnUpdate
+                div
+                    button List
+                        id btnList
+            # content
+                . pen
+                    pre
+                        code
+                            # list
+                . pen
+                    # editor_1
+        
+        $append head-styles
+			@style
+				css
+                    # root
+                    . toolbar
+                        display grid
+                        grid-template-columns 2fr 1fr 1fr
+                    . fields
+                        display flex
+                        flex-direction column
+					# content
+						width 90% $$ 800px
+						height 90vh $$ 600px
+						border 1px solid grey
+                        display grid
+                        grid-template-columns repeat(2, 1fr)
+                    . pen
+                        $$ background #343436
+                        padding 10px
+                        display grid
+                        overflow auto
+
+        $append body-scripts
+
+            script
+                _ wz.click
+                    @ '#btnCreate'
+                    function
+                        var wizziSchema = wz.value('fd_schema')
+                        var mainIttf = wz.value('fd_name') + '.' + wizziSchema + '.ittf'
+                        _ wz.production.createItem
+                            @ 'artifact'
+                            _ wz.value('fd_owner')
+                            _ wz.value('fd_path') + '/' + wz.value('fd_name')
+                            @ wizziSchema
+                            @ mainIttf
+                            _ wz.production.fileListToPacki
+                                [
+                                    {
+                                        @ path mainIttf
+                                        @ contents editors['editor_1'].getValue()
+                            f_cb_no_err( result )
+                                if err
+                                    _ document.getElementById('list').innerHTML = JSON.stringify(err, null, 4)
+                                else
+                                    _ document.getElementById('list').innerHTML = JSON.stringify(result, null, 4)
+                        # _ alert('create')
+                _ wz.click
+                    @ '#btnUpdate'
+                    function
+                        var wizziSchema = wz.value('fd_schema')
+                        var mainIttf = wz.value('fd_name') + '.' + wizziSchema + '.ittf'
+                        _ wz.production.updateItem
+                            @ 'artifact'
+                            _ wz.value('fd_id')
+                            @ wizziSchema
+                            @ mainIttf
+                            _ wz.production.fileListToPacki
+                                [
+                                    {
+                                        @ path mainIttf
+                                        @ contents editors['editor_1'].getValue()
+                            f_cb( result )
+                                _ document.getElementById('list').innerHTML = JSON.stringify(result, null, 4)
+                        # _ alert('update')
+                _ wz.click
+                    @ '#btnList'
+                    function
+                        _ wz.production.getList
+                            @ 'artifact'
+                            @ 'stfnbssl'
+                            f_cb( result )
+                                var items = []
+                                foreach item in result.item
+                                    _ items.push
+                                        {
+                                            @ _id item._id
+                                            @ owner item.owner
+                                            @ name item.name
+                                _ document.getElementById('list').innerHTML = JSON.stringify(items, null, 4)
+                
+                var editors
+                    [
+                _ startIttfEditor
+                    @ editors
+                    @ 'editor_1'
+                    _ getCode
+                
+                function getCode
+                    return 
+                        [ 
+                            @ 'html'
+                            @ '    head'
+                            @ '    body'
+                            @ '        $foreach item in fields'
+                            @ '            p ${'$'}{item.text}'
+                        ._ join
+                            @ '\n'
+
+
+
+
+
+

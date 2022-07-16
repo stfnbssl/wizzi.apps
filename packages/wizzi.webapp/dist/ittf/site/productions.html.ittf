@@ -28,6 +28,7 @@ html
             . flex-row justify-center m-0-auto
                 html/a( Artifacts, /productions/artifacts, ${ca}
                 html/a( Packages, /productions/packages, ${ca}
+                html/a( Plugins, /productions/plugins, ${ca}
                 html/a( Metas, /productions/metas, ${ca}
                 html/a( tFolders, /productions/tfolders, ${ca}
 
@@ -70,6 +71,10 @@ html
                 p ...
             . t-item-l
                 h2 Package productions
+            . t-item-r
+                p ...
+            . t-item-l
+                h2 Plugin productions
             . t-item-r
                 p ...
             . t-item-l

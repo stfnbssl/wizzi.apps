@@ -20,15 +20,15 @@
 			if format === 'ul.li.a'
 				return
 					li
-						@style { this.ul_li_style() }
+						@ style { this.ul_li_style() }
 						a { text }
 							href { href }
-							@style { this.style() }
+							@ style { this.style() }
 			
 			elif format === 'div.a.i'
 				return
 					a 
-						@style { this.style() }
+						@ style { this.style() }
 						href { href }
 						i
 							class { xclass }
@@ -36,14 +36,15 @@
 			elif format === 'a.img'
 				return
 					a 
-						@style { this.style() }
+						@ style { this.style() }
 						href { href }
 						img
 							src { src }
-							@style { this.img_style(img_style) }
+							@ style { this.img_style(img_style) }
 			else
 				return
-					div { 'Unknown Link format ' + format }
+					div 
+                        + { 'Unknown Link format ' + format }
 						
 		m ul_li_style
 			return

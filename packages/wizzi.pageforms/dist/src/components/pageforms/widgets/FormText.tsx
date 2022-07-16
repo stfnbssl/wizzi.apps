@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\widgets\FormText.tsx.ittf
-    utc time: Tue, 12 Jul 2022 16:15:51 GMT
+    utc time: Wed, 13 Jul 2022 18:16:24 GMT
 */
 import React, {FunctionComponent} from 'react';
 // see https://mxstbr.blog/2016/11/styled-components-magic-explained/
@@ -14,10 +14,10 @@ export interface FormTextProps {
     id: string;
     name: string;
     label: string;
-    required: boolean;
+    required?: boolean;
     value: string;
-    rows: number;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    rows?: number;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface RootStyleProps {

@@ -9,7 +9,7 @@ module
                 { name: 'label', type: 'string' },
                 { name: 'required', type: 'boolean'},
                 { name: 'value', type: 'any'},
-                { name: 'onChange', type: 'any' },
+                { name: 'onChange', type: 'any', optional: true},
             ]
         }
         

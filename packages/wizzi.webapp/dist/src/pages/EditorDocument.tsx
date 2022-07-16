@@ -2,14 +2,14 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\pages\EditorDocument.tsx.ittf
-    utc time: Mon, 11 Jul 2022 18:32:55 GMT
+    utc time: Fri, 15 Jul 2022 15:38:04 GMT
 */
 import jsesc from 'jsesc';
 import React from 'react';
 const css = String.raw;
 const PageCss = css`
               :root {
-                --font-normal: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                --font-normal: -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                 --font-monospace: 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New',
                   monospace;
               }

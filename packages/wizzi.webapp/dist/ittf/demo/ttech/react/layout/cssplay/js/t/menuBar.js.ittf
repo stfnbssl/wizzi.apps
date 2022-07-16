@@ -20,17 +20,18 @@
 				return
 					div
 						ul
-							@style {this.get_ul_Style()}
+							@ style {this.get_ul_Style()}
 							+ { menuItems }
 			
 			elif format === 'div.a.i'
 				return
 					div
-						@style {this.get_ul_Style()}
+						@ style {this.get_ul_Style()}
 						+ { menuItems }
 			else
 				return
-					< div unknown menu format: { format }
+					< div 
+                        + unknown menu format: { format }
 		
 		m get_ul_Style
 			return

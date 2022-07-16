@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\widgets\FormRow.tsx.ittf
-    utc time: Tue, 12 Jul 2022 16:15:51 GMT
+    utc time: Wed, 13 Jul 2022 18:16:24 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -17,6 +17,7 @@ export interface FormRowProps {
     value?: any;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onDelete?: any;
+    onAdd?: any;
 }
 
 type FormRowState = { 
@@ -58,6 +59,10 @@ export class FormRow extends Component<FormRowProps, FormRowState> {
     constructor(props: FormRowProps) {
         super(props);
     }
+    state: FormRowState = {
+        name: ""
+    }
+    ;
     componentDidMount() {
         if (this.props.type == 'delete') {
             console.log('FormRow.componentDidMount.props.value.name', this.props.value.name);
@@ -66,7 +71,7 @@ export class FormRow extends Component<FormRowProps, FormRowState> {
              })
         }
     }
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: FormRowProps) {
         if (this.props.type == 'delete' && prevProps.value !== this.props.value) {
             console.log('FormRow.componentDidUpdate.props.value.name', this.props.value.name);
             this.setState({

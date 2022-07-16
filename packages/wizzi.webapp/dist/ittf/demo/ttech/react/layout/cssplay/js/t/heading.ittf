@@ -10,18 +10,19 @@
 			if format === 'h1.span'
 				return
 					h1 { text }
-						@style { this.h1_style() }
+						@ style { this.h1_style() }
 						span { span }
-							@style { this.span_style() }
+							@ style { this.span_style() }
 			
 			elif format === 'h1'
 				return
 					h1 { text }
-						@style { this.h1_style() }
+						@ style { this.h1_style() }
 			
 			else
 				return
-					div { 'Unknown Heading format ' + format }
+					div
+                        + { 'Unknown Heading format ' + format }
 						
 		m h1_style
 			return this.props.data.style.h1

@@ -10,7 +10,7 @@ module
                 { name: 'label', type: 'string' },
                 { name: 'sublabel', type: 'string', optional:true },
                 { name: 'value', type: 'boolean' },
-                { name: 'onChange', type: 'input-event' },
+                { name: 'onChange', type: 'input-event', optional: true },
             ]
         }
 

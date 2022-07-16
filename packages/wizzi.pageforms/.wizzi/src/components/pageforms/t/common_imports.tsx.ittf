@@ -2,6 +2,10 @@ $group
     $params level|top
     
     $if level == 'top'
+        import
+            @ ContextRef
+            @ TFolderRef
+            from '../types'
         import FormContainer from './widgets/FormContainer'
         import FormTitle from './widgets/FormTitle'
         import FormGroup from './widgets/FormGroup'

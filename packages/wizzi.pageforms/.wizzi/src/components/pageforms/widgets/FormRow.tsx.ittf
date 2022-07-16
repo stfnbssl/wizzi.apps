@@ -8,6 +8,7 @@ module
                 { name: 'value', type: 'any', optional: true},
                 { name: 'onChange', type: 'input-event', optional: true },
                 { name: 'onDelete', type: 'any', optional: true },
+                { name: 'onAdd', type: 'any', optional: true },
             ],
             stateProps: [
                 { name: "name", type: "string" },
@@ -61,6 +62,7 @@ module
         
         m componentDidUpdate
             param prevProps
+                :ref ${md.name}Props
             if this.props.type == 'delete' && prevProps.value !== this.props.value
                 log 'FormRow.componentDidUpdate.props.value.name', this.props.value.name
                 _ this.setState

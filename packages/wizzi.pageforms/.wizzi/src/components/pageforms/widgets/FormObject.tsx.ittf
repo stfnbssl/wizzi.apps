@@ -6,10 +6,11 @@ module
             props: [
                 { name: 'id', type: 'string'},
                 { name: 'name', type: 'string'},
+                { name: 'label', type: 'string'},
                 { name: "path", type: "string" },
                 { name: 'properties', type: 'any' },
                 { name: 'values', type: 'any' },
-                { name: 'onChange', type: 'any' },
+                { name: 'onChange', type: 'any', optional: true },
             ],
             stateProps: [
                 { name: "objProperties", type: "any" },

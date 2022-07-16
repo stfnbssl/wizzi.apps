@@ -3,6 +3,7 @@ $group
         
     => handleTFolderAdd
         param tfolder
+            :ref TFolderRef
         _ this.setState
             => 
                 param state
@@ -12,6 +13,7 @@ $group
 
     => handleTFolderDelete
         param deltfolder
+            :ref TFolderRef
         _ this.setState
             => 
                 param state

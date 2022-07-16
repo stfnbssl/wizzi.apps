@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\ListArtifactProduction.tsx.ittf
-    utc time: Tue, 12 Jul 2022 16:15:51 GMT
+    utc time: Wed, 13 Jul 2022 18:16:24 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import styled, {keyframes, css} from 'styled-components';
 import debounce from 'lodash/debounce';
 import nullthrows from 'nullthrows';
+import {ContextRef, TFolderRef} from '../types';
 import FormContainer from './widgets/FormContainer';
 import FormTitle from './widgets/FormTitle';
 import FormGroup from './widgets/FormGroup';
@@ -56,6 +57,18 @@ export class ListArtifactProduction extends Component<ListArtifactProductionProp
     constructor(props: ListArtifactProductionProps) {
         super(props);
     }
+    state: ListArtifactProductionState = {
+        l_artifacts: [
+            
+        ], 
+        l_search: "", 
+        l_sort: "", 
+        l_wizziSchema: "", 
+        l_wizziSchemas: [
+            
+        ]
+    }
+    ;
     componentDidMount() {
         console.log('ListArtifactProduction.componentDidMount', this.props.data);
         const wsObj = this.props.data.artifacts.reduce((obj: any, el: any) => {

@@ -41,8 +41,7 @@ $group
                             :typeof mapDispatchToProps
                     :{
                         $foreach prop in myProps
-                            $ if (prop.xdefault) { defaultProps.push(prop); }
-
+                            $ if (prop.xdefault) { defaultProps.push(prop); } 
                             $include setPropType
     $else
         $if myProps.length > 0
@@ -88,6 +87,18 @@ $group
                         :{
                 _ super(props)
                 $hook ctor
+            p state
+                :ref ${md.name}State
+                {
+                    $foreach prop in myStateProps
+                        $if prop.type == 'string'
+                            @ ${prop.name} ""
+                        $elif prop.type == 'boolean'
+                            @ ${prop.name} false
+                        $elif prop.type == '['
+                            [ ${prop.name}
+                        $else
+                            @ ${prop.name} null
             $hook
     $if md.connected
         export

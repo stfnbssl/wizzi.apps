@@ -3,6 +3,7 @@ $group
         
     => handleContextAdd
         param context
+            :ref ContextRef
         _ this.setState
             => 
                 param state
@@ -13,6 +14,7 @@ $group
 
     => handleContextDelete
         param delcontext
+            :ref ContextRef
         _ this.setState
             => 
                 param state

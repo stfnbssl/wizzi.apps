@@ -13,12 +13,14 @@ module
             import
                 @ artifactApi
                 @ packageApi
+                @ pluginApi
                 @ metaApi
                 @ tFolderApi
                 from '../../features/production'
         
         _ this.router.get('/artifacts', this.artifacts)
         _ this.router.get('/packages', this.packages)
+        _ this.router.get('/plugins', this.plugins)
         _ this.router.get('/metas', this.metas)
         _ this.router.get('/tfolders', this.tfolders)
 
@@ -75,6 +77,33 @@ module
                                                     @ isScriptContext true
 
                     catch_fail( package productions )
+
+            handler( plugins )
+                _ pluginApi.getListPluginProduction
+                    ._ then
+                        =>
+                            param result
+                            _ response.render
+                                @ 'productions/plugins.html.ittf'
+                                {
+                                    @ title 'Plugin productions · Wizzi'
+                                    @ plugins result.item
+                                    @ __INITIAL_DATA__
+                                        `lit 
+                                            + &nbsp; window.__INITIAL_DATA__ =&nbsp;
+                                            _ jsesc
+                                                { 
+                                                    { data
+                                                        @ type 'success'
+                                                        @ formName 'ListPluginProduction'
+                                                        { formData 
+                                                            @ plugins result.item
+                                                    { queryParams
+                                                { 
+                                                    @ quotes 'double'
+                                                    @ isScriptContext true
+
+                    catch_fail( plugin productions )
 
             handler( metas )
                 _ metaApi.getListMetaProduction

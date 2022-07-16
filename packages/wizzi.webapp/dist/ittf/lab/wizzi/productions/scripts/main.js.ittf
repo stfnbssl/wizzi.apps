@@ -1,0 +1,31 @@
+module
+    kind es6
+
+    $include js/wz/core
+    $include js/wz/fetch
+    $include js/wz/production
+
+    function startIttfEditor
+        param editors
+        param controlId
+        param content
+        _ require.config
+            {
+                @ paths
+                    {
+                        @ vs '/static/lib/monaco-editor/min/vs'
+        _ require
+            [
+                @ 'vs/editor/editor.main'
+            function
+                $include js/monaco/ittf_monarch
+                set editors[controlId]
+                    _ monaco.editor.create
+                        _ document.getElementById
+                            @ controlId
+                        {
+                            @ value content
+                            @ language 'ittf'
+                            @ theme 'ittfDark'
+                            @ automaticLayout true
+        

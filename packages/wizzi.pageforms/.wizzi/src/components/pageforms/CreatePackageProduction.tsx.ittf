@@ -8,6 +8,8 @@ module
             ],
             stateProps: [
                 { name: "pp_name", type: "string" },
+                { name: "pp_name_available", type: "boolean" },
+                { name: "pp_name_checked", type: "string" },
                 { name: "pp_description", type: "string" },
                 { name: "pp_type", type: "string" },
                 { name: "pp_add_context", type: "boolean" },
@@ -17,7 +19,7 @@ module
                 { name: "pp_upload_files", type: "[" },
                 { name: "meta_id", type: "any" },
                 { name: "meta_listOptions", type: "any" },
-                { name: "meta_props", type: "any" },
+                { name: "meta_props", type: "[" },
                 { name: "meta_propsValues", type: "any" },
                 
             ]

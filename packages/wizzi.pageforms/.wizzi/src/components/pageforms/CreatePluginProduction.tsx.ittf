@@ -1,0 +1,171 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "CreatePluginProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "pp_name", type: "string" },
+                { name: "pp_name_available", type: "boolean" },
+                { name: "pp_name_checked", type: "string" },
+                { name: "pp_description", type: "string" },
+                { name: "pp_type", type: "string" },
+                { name: "pp_add_context", type: "boolean" },
+                { name: "pp_contexts", type: "[" },
+                { name: "pp_add_tfolder", type: "boolean" },
+                { name: "pp_dependencies", type: "[" },
+                { name: "pp_upload_files", type: "[" },
+                { name: "meta_id", type: "any" },
+                { name: "meta_listOptions", type: "any" },
+                { name: "meta_props", type: "[" },
+                { name: "meta_propsValues", type: "any" },
+                
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+            $include usemeta_imports
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        $append ctor
+            set this.state
+                {
+                    ... this.state
+                    @ meta_propsValues {}
+                    @ meta_props []
+                    @ meta_id ''
+                    @ meta_listOptions []
+
+        p formRef 
+            = React.createRef()
+        +
+        m _checkAvaliblePluginName
+            async
+            const pp_checked = this.state.pp_name
+            const endpoint
+                `lit
+                    _ nullthrows(process.env.API_SERVER_URL)
+                    + /production/plugin/checkname/
+                    @ pp_checked
+            log 'CreatePlugin._checkAvaliblePluginName.endpoint', endpoint
+            const response
+                await 
+                    _ fetch(endpoint)
+            if !response.ok
+                throw 
+                    new Error
+                        `lit 
+                            + checkAvaliblePluginName error
+                            + &nbsp;-&nbsp;
+                            @ response.status
+                            + &nbsp;-&nbsp;
+                            @ response.statusText
+            const result
+                await 
+                    _ response.json()
+            log 'CreatePlugin._checkAvaliblePluginName.result', result
+            _ this.setState
+                {
+                    @ pp_name_available result.isValid
+                    @ pp_name_checked pp_checked
+        
+        m componentDidMount
+            async
+            set this._checkAvaliblePluginName
+                _ debounce
+                    @ this._checkAvaliblePluginName
+                    @ 100
+            $include usemeta_did_mount
+        
+        $include handle_input_change
+        add_context_handlers( pp )
+        add_tfolder_handlers( pp )
+        $include usemeta_handlers
+
+        +
+        => handlePluginNameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            log 'handlePluginNameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ pp_name ev.target.value
+            _ this._checkAvaliblePluginName
+        +
+        => handleSubmitCreate
+            param ev
+                :ref React.MouseEvent
+                    :param 
+                        :ref HTMLElement
+            _ ev.preventDefault();
+            if this.state.pp_name_available
+                _ this.formRef.dispatchEvent(new Event('submit'))
+        
+        +
+        m render
+            log 'CreatePluginProduction.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Create a new plugin production'
+                        @ subtitle 'A plugin production contains the ittf documents 
+                            \b for a plugin.'
+                    < HR
+                    form
+                        action /plugin/new
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref
+                            =>
+                                param ref
+                                set this.formRef = ref                        
+                        < FormGroup
+                            @ label 'Plugin name'
+                            @ name 'pp_name'
+                            @ id 'pp_name'
+                            @ required {true}
+                            @ value {this.state.pp_name}
+                            @ onChange {this.handlePluginNameChange}
+                        {
+                            &&
+                                + this.state.pp_name.length > 0 && this.state.pp_name_available
+                                < Para
+                                    + {'Plugin name ' + this.state.pp_name_checked + ' is available'}
+                        {
+                            &&
+                                + this.state.pp_name.length > 0 && !this.state.pp_name_available
+                                < Para
+                                    @ color '#ff0000'
+                                    + {'Plugin name ' + this.state.pp_name_checked + ' is not available'}
+                        < HR
+                        < FormGroup
+                            @ label 'Description'
+                            @ name 'pp_description'
+                            @ id 'pp_description'
+                            @ required {true}
+                            @ value {this.state.pp_description}
+                            @ onChange {this.handleInputChange}
+                        
+                        add_context_render( pp )
+                        add_tfolder_render( pp )
+                        $include usemeta_render
+                        
+                        < HR
+                        < FormButton
+                            @ label 'Create plugin production'
+                            @ id 'btn_create_pp'
+                            @ variant 'submit'
+                            @ type submit
+                            @ onClick {this.handleSubmitCreate}

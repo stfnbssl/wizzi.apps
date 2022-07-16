@@ -45,6 +45,8 @@ $group
                                 foreach item in result
                                     const item_obj
                                         {
+                                            @ _id item._id
+                                            @ id item.id
                                             $foreach item in md.fields
                                                 @ ${item.name} item.${item.name}
                                     _ resultItem.push

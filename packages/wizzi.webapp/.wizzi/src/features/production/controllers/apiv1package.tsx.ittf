@@ -14,6 +14,7 @@ module
                 @ validatePackageProduction
                 @ getPackageProduction
                 @ updatePackageProduction
+                @ createPackageProduction
                 from '../api/package'
             +
             const myname = 'features/production/controllers/apiv1packageproduction'
@@ -22,6 +23,7 @@ module
         _ this.router.get('/checkname/:name', this.getCheckPackageName)
         _ this.router.get('/:owner/:name', this.getPackageProduction)
         _ this.router.put('/:id', this.putPackageProduction)
+        _ this.router.post('/:owner/:name', this.postPackageProduction)
         
         $append handlers
 
@@ -29,7 +31,9 @@ module
 
                 # loog 'getPackageProductionList.request.params', request.params
                 _ getListPackageProduction
-                    @ request.params.owner
+                    {
+                        { query
+                            @ owner request.params.owner
                     ._ then
                         =>
                             param result
@@ -73,14 +77,31 @@ module
                                 @ result
                     catch_fail( getPackageProduction )
 
+            handler( postPackageProduction )
+
+                # loog 'postPackageProduction.request.params', request.params
+                # loog 'postPackageProduction.request.body', request.body
+                _ createPackageProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'postPackageProduction.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( postPackageProduction )
+
             handler( putPackageProduction )
 
                 # loog 'putPackageProduction.request.params', request.params
                 # loog 'putPackageProduction.request.body', request.body
                 _ updatePackageProduction
                     @ request.params.id
-                    @ request.params.owner
-                    @ request.params.name
                     @ request.body.description
                     @ JSON.stringify(request.body.packiFiles)
                     ._ then
@@ -92,3 +113,4 @@ module
                                 @ response
                                 @ result
                     catch_fail( putPackageProduction )
+

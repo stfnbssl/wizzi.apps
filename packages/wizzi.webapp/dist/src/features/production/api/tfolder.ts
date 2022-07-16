@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\api\tfolder.ts.ittf
-    utc time: Mon, 11 Jul 2022 18:32:54 GMT
+    utc time: Fri, 15 Jul 2022 15:38:03 GMT
 */
 import NodeCache from 'node-cache';
 import {GetTFolderModel} from '../mongo/tfolder';
@@ -75,6 +75,8 @@ export async function getListTFolder(options?: any):  Promise<CRUDResult> {
                 for (i=0; i<i_len; i++) {
                     item = result[i];
                     const item_obj = {
+                        _id: item._id, 
+                        id: item.id, 
                         owner: item.owner, 
                         name: item.name, 
                         description: item.description, 
@@ -109,6 +111,42 @@ export async function getTFolder(owner: string, name: string):  Promise<CRUDResu
              };
             
             TFolder.find(query, (err, result) => {
+            
+                if (err) {
+                    console.log(myname, 'getTFolder', 'TFolder.find', 'error', err);
+                    return reject(err);
+                }
+                if (result.length == 1) {
+                    return resolve({
+                            oper: 'get', 
+                            ok: true, 
+                            item: result[0]
+                         });
+                }
+                resolve({
+                    oper: 'get', 
+                    ok: false, 
+                    message: 'tFolder not found'
+                 })
+            }
+            )
+        }
+        );
+}
+
+export async function getTFolderById(id: string):  Promise<CRUDResult> {
+
+    
+    console.log(myname, 'getTFolderById', id)
+    
+    const TFolder = GetTFolderModel();
+    
+    return new Promise((resolve, reject) => {
+        
+            
+            TFolder.find({
+                _id: id
+             }, (err: any, result: ITFolderModel[]) => {
             
                 if (err) {
                     console.log(myname, 'getTFolder', 'TFolder.find', 'error', err);
@@ -236,7 +274,7 @@ export async function updateTFolder(id: string, owner?: string, name?: string, d
         );
 }
 
-export async function deleteTFolder(owner: string, name: string):  Promise<CRUDResult> {
+export async function deleteTFolder(id: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
 
     
     console.log(myname, 'deleteTFolder', owner, name)
@@ -247,8 +285,7 @@ export async function deleteTFolder(owner: string, name: string):  Promise<CRUDR
         
             
             let query = {
-                owner: owner, 
-                name: name
+                _id: id
              };
             
             TFolder.deleteOne(query, 
@@ -310,10 +347,11 @@ async function getTFolder_withCache(owner: string, name: string) {
     var cacheKey = owner + '|' + name;
     return new Promise((resolve, reject) => {
         
-            let tfValue = tfolderCache.get(cacheKey);
-            if (tfValue) {
-                return resolve(tfValue);
-            }
+            let tfValue = {
+                packiFiles: {
+                    
+                 }
+             };
             getTFolder(owner, name).then((result) => {
             
                 if (!result.ok) {
@@ -324,7 +362,6 @@ async function getTFolder_withCache(owner: string, name: string) {
                 tfValue = {
                     packiFiles: tf_packiFiles_object
                  };
-                tfolderCache.set(cacheKey, tfValue);
                 return resolve(tfValue);
             }
             ).catch((err: any) => {

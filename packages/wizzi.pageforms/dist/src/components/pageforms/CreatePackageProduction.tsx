@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreatePackageProduction.tsx.ittf
-    utc time: Tue, 12 Jul 2022 16:15:51 GMT
+    utc time: Wed, 13 Jul 2022 18:16:24 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import styled, {keyframes, css} from 'styled-components';
 import debounce from 'lodash/debounce';
 import nullthrows from 'nullthrows';
+import {ContextRef, TFolderRef} from '../types';
 import FormContainer from './widgets/FormContainer';
 import FormTitle from './widgets/FormTitle';
 import FormGroup from './widgets/FormGroup';
@@ -38,6 +39,8 @@ export interface CreatePackageProductionProps {
 
 type CreatePackageProductionState = { 
     pp_name: string;
+    pp_name_available: boolean;
+    pp_name_checked: string;
     pp_description: string;
     pp_type: string;
     pp_add_context: boolean;
@@ -47,7 +50,7 @@ type CreatePackageProductionState = {
     pp_upload_files: any[];
     meta_id: any;
     meta_listOptions: any;
-    meta_props: any;
+    meta_props: any[];
     meta_propsValues: any;
 };
 
@@ -72,6 +75,31 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
             meta_listOptions: []
          };
     }
+    state: CreatePackageProductionState = {
+        pp_name: "", 
+        pp_name_available: false, 
+        pp_name_checked: "", 
+        pp_description: "", 
+        pp_type: "", 
+        pp_add_context: false, 
+        pp_contexts: [
+            
+        ], 
+        pp_add_tfolder: false, 
+        pp_dependencies: [
+            
+        ], 
+        pp_upload_files: [
+            
+        ], 
+        meta_id: null, 
+        meta_listOptions: null, 
+        meta_props: [
+            
+        ], 
+        meta_propsValues: null
+    }
+    ;
     formRef = React.createRef();
     
     async _checkAvaliblePackageName() {
@@ -118,14 +146,14 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
     };
-    handleContextAdd = context => 
+    handleContextAdd = (context: ContextRef) => 
         this.setState((state) => 
         
             ({
                 pp_contexts: [context, ...state.pp_contexts]
              })
         );
-    handleContextDelete = delcontext => 
+    handleContextDelete = (delcontext: ContextRef) => 
         this.setState((state) => {
         
             const contexts = [];
@@ -141,14 +169,14 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
                  };
         }
         );
-    handleTFolderAdd = tfolder => 
+    handleTFolderAdd = (tfolder: TFolderRef) => 
         this.setState((state) => 
         
             ({
                 pp_dependencies: [tfolder, ...state.pp_dependencies]
              })
         );
-    handleTFolderDelete = deltfolder => 
+    handleTFolderDelete = (deltfolder: TFolderRef) => 
         this.setState((state) => {
         
             const tfolders = [];
@@ -164,7 +192,7 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
                  };
         }
         );
-    handleMetaChange = async (value) => {
+    handleMetaChange = async (value: string) => {
     
         const parts = value.split('|');
         if (parts.length == 2) {
@@ -199,7 +227,7 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
              })
         }
     }
-    handleMetaPropsValuesChange = (valuePath, value) => 
+    handleMetaPropsValuesChange = (valuePath: string, value: any) => 
         this.setState((state) => {
         
             const newValues = lodashSet(state.meta_propsValues, valuePath, value);

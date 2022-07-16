@@ -6,8 +6,10 @@ module
             name: "FormButton",
             props: [
                 { name: 'id', type: 'string'},
-                { name: 'name', type: 'string'},
                 { name: 'label', type: 'string' },
+                { name: 'type', type: 'string' },
+                { name: 'variant', type: 'string' },
+                { name: 'onClick', type: 'any', optional: true },
             ]
         }
 

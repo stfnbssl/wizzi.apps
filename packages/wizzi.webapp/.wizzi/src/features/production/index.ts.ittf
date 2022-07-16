@@ -15,6 +15,10 @@ module
         @ GetPackageProductionModel
         from './mongo/package'
     import
+        @ PluginProductionModelBuilder
+        @ GetPluginProductionModel
+        from './mongo/plugin'
+    import
         @ MetaProductionModelBuilder
         @ GetMetaProductionModel
         from './mongo/meta'
@@ -35,6 +39,12 @@ module
         @ ApiV1PackageProductionController
         from './controllers/apiv1package'
     import
+        @ PluginProductionController
+        from './controllers/plugin'
+    import
+        @ ApiV1PluginProductionController
+        from './controllers/apiv1plugin'
+    import
         @ MetaProductionController
         from './controllers/meta'
     import
@@ -53,6 +63,9 @@ module
         as packageApi
         from './api/package'
     import
+        as pluginApi
+        from './api/plugin'
+    import
         as metaApi
         from './api/meta'
     import
@@ -63,6 +76,7 @@ module
         {
             @ GetArtifactProductionModel
             @ GetPackageProductionModel
+            @ GetPluginProductionModel
             @ GetMetaProductionModel
             @ GetTFolderModel
     +
@@ -73,6 +87,7 @@ module
             [
                 @ ArtifactProductionModelBuilder
                 @ PackageProductionModelBuilder
+                @ PluginProductionModelBuilder
                 @ MetaProductionModelBuilder
                 @ TFolderModelBuilder
     +
@@ -85,6 +100,8 @@ module
                 @ new ApiV1ArtifactProductionController()
                 @ new PackageProductionController()
                 @ new ApiV1PackageProductionController()
+                @ new PluginProductionController()
+                @ new ApiV1PluginProductionController()
                 @ new MetaProductionController()
                 @ new ApiV1MetaProductionController()
                 @ new TFolderController()
@@ -97,5 +114,6 @@ module
         @ productionControllers
         @ artifactApi
         @ packageApi
+        @ pluginApi
         @ metaApi
         @ tFolderApi

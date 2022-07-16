@@ -21,29 +21,30 @@
 				return
 					div
 						@ id { id }
-						@style { this.style(flex, elementStyle) }
+						@ style { this.style(flex, elementStyle) }
 						a 
-							@style { this.a_style() }
+							@ style { this.a_style() }
 							href { href }
 							img
 								src { src }
-								@style { this.img_style() }
+								@ style { this.img_style() }
 						p { text }
-							@style { this.p_style() }
+							@ style { this.p_style() }
 						+ { childPanels }
 			
 			elif format === 'h2.p+'
 				return
 					div
 						@ id { id }
-						@style { this.style(flex, elementStyle) }
+						@ style { this.style(flex, elementStyle) }
 						h2 { heading }
-							@style { this.h2_style() }
+							@ style { this.h2_style() }
 						+ { childPanels }
 			
 			else
 				return
-					div { 'Unknown InfoPanel format ' + format }
+					div 
+                        + { 'Unknown InfoPanel format ' + format }
 						
 		m a_style
 			return

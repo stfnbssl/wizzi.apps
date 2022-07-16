@@ -1,0 +1,25 @@
+html
+
+	$
+        var opt = {
+            section: 'Productions',
+		    title: 'Plugin productions',
+            user: {},
+        }
+
+    site/layouts/basic( &opt )
+
+        $append head-scripts
+            < script
+                + ${__INITIAL_DATA__}
+        
+        top_navigation( plugins )
+
+        . flex-row justify-content-center
+            profile-sidebar(s)
+            . flex-column width-full
+                # root
+        
+        script
+            src "/static/pageforms/main.bundle.js"            
+

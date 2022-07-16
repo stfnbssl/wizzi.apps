@@ -26,14 +26,14 @@
 
 			return
 				span
-					@style { this.style() }
+					@ style { this.style() }
 					@ onClick { this.onClick }
 					span { ' ' }
-						@style { this.span_before_style() }
+						@ style { this.span_before_style() }
 					span { ' ' }
-						@style { this.span_style() }
+						@ style { this.span_style() }
 					span { ' ' }
-						@style { this.span_after_style() }
+						@ style { this.span_after_style() }
 						
 		m _span_style_base
 			return 

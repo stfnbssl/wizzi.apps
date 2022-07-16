@@ -2,13 +2,13 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\apiv1meta.tsx.ittf
-    utc time: Mon, 11 Jul 2022 18:32:55 GMT
+    utc time: Fri, 15 Jul 2022 15:38:04 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
 import {paramsCheck} from '../../../utils/rest';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
-import {validateMetaProduction, getListMetaProduction, getMetaProduction, updateMetaProduction} from '../api/meta';
+import {validateMetaProduction, getListMetaProduction, getMetaProduction, updateMetaProduction, createMetaProduction} from '../api/meta';
 
 import {wizziTypes, wizziProds, WizziFactory} from '../../wizzi';
 import {artifactApi} from '../../production';
@@ -28,6 +28,7 @@ export class ApiV1MetaProductionController implements ControllerType {
         this.router.get('/checkname/:name', this.getCheckMetaName);
         this.router.get('/:owner/:name', this.getMetaProduction);
         this.router.put('/:id', this.putMetaProduction);
+        this.router.post('/:owner/:name', this.postMetaProduction);
     };
     
     private getMetaProductionList = 
@@ -36,7 +37,11 @@ export class ApiV1MetaProductionController implements ControllerType {
     // loog 'getMetaProductionList.request.session.user.username', (request.session as any).user.username
     async (request: Request, response: Response) => 
     
-        getListMetaProduction((request.session as any).user.username).then(
+        getListMetaProduction({
+            query: {
+                owner: request.params.owner
+             }
+         }).then(
         // loog 'getMetaProductionList.result', result
         (result: any) => {
         
@@ -171,13 +176,35 @@ export class ApiV1MetaProductionController implements ControllerType {
     
     ;
     
+    private postMetaProduction = 
+    // loog 'postMetaProduction.request.params', request.params
+    
+    // loog 'postMetaProduction.request.body', request.body
+    async (request: Request, response: Response) => 
+    
+        createMetaProduction(request.params.owner, request.params.name, request.body.description, JSON.stringify(request.body.packiFiles)).then(
+        // loog 'postMetaProduction.result', result
+        (result: any) => 
+        
+            sendSuccess(response, result)
+        ).catch((err: any) => {
+        
+            console.log('postMetaProduction.error', err);
+            sendFailure(response, {
+                err: err
+             }, 501)
+        }
+        )
+    
+    ;
+    
     private putMetaProduction = 
     // loog 'putMetaProduction.request.params', request.params
     
     // loog 'putMetaProduction.request.body', request.body
     async (request: Request, response: Response) => 
     
-        updateMetaProduction(request.params.id, request.params.owner, request.params.name, request.body.description, JSON.stringify(request.body.packiFiles)).then(
+        updateMetaProduction(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(request.body.packiFiles)).then(
         // loog 'putMetaProduction.result', result
         (result: any) => 
         

@@ -53,9 +53,14 @@ $group
                     => 
                         param resolve
                         param reject
-                        let tfValue = packageCache.get(cacheKey)
-                        if tfValue
-                            return resolve(tfValue)
+                        $if useCachedProductions
+                            let ppValue = packageCache.get(cacheKey)
+                            if ppValue
+                                return resolve(ppValue)
+                        $else
+                            let ppValue
+                                { 
+                                    { packiFiles
                         _ getPackageProduction
                             @ owner
                             @ name
@@ -70,11 +75,12 @@ $group
                                     const tf_packiFiles_object
                                         :ref packiTypes.PackiFiles
                                         _ JSON.parse(tf.packiFiles)
-                                    set tfValue
+                                    set ppValue
                                         { 
                                             @ packiFiles tf_packiFiles_object
-                                    _ packageCache.set(cacheKey, tfValue)
-                                    return resolve(tfValue)
+                                    $if useCachedProductions
+                                        _ packageCache.set(cacheKey, ppValue)
+                                    return resolve(ppValue)
                             catch_reject( getPackageProduction_withCache.getArtifactProduction )
 
     +

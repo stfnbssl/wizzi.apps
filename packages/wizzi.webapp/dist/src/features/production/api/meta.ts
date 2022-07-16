@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\api\meta.ts.ittf
-    utc time: Mon, 11 Jul 2022 18:32:54 GMT
+    utc time: Fri, 15 Jul 2022 15:38:03 GMT
 */
 import NodeCache from 'node-cache';
 import {GetMetaProductionModel} from '../mongo/meta';
@@ -78,6 +78,8 @@ export async function getListMetaProduction(options?: any):  Promise<CRUDResult>
                 for (i=0; i<i_len; i++) {
                     item = result[i];
                     const item_obj = {
+                        _id: item._id, 
+                        id: item.id, 
                         owner: item.owner, 
                         name: item.name, 
                         description: item.description, 
@@ -112,6 +114,42 @@ export async function getMetaProduction(owner: string, name: string):  Promise<C
              };
             
             MetaProduction.find(query, (err, result) => {
+            
+                if (err) {
+                    console.log(myname, 'getMetaProduction', 'MetaProduction.find', 'error', err);
+                    return reject(err);
+                }
+                if (result.length == 1) {
+                    return resolve({
+                            oper: 'get', 
+                            ok: true, 
+                            item: result[0]
+                         });
+                }
+                resolve({
+                    oper: 'get', 
+                    ok: false, 
+                    message: 'meta production not found'
+                 })
+            }
+            )
+        }
+        );
+}
+
+export async function getMetaProductionById(id: string):  Promise<CRUDResult> {
+
+    
+    console.log(myname, 'getMetaProductionById', id)
+    
+    const MetaProduction = GetMetaProductionModel();
+    
+    return new Promise((resolve, reject) => {
+        
+            
+            MetaProduction.find({
+                _id: id
+             }, (err: any, result: IMetaProductionModel[]) => {
             
                 if (err) {
                     console.log(myname, 'getMetaProduction', 'MetaProduction.find', 'error', err);
@@ -239,7 +277,7 @@ export async function updateMetaProduction(id: string, owner?: string, name?: st
         );
 }
 
-export async function deleteMetaProduction(owner: string, name: string):  Promise<CRUDResult> {
+export async function deleteMetaProduction(id: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
 
     
     console.log(myname, 'deleteMetaProduction', owner, name)
@@ -250,8 +288,7 @@ export async function deleteMetaProduction(owner: string, name: string):  Promis
         
             
             let query = {
-                owner: owner, 
-                name: name
+                _id: id
              };
             
             MetaProduction.deleteOne(query, 
@@ -313,10 +350,11 @@ export async function getMetaProduction_withCache(owner: string, name: string) {
     console.log('getMetaProduction_withCache.cacheKey', cacheKey);
     return new Promise((resolve, reject) => {
         
-            let tfValue = metaCache.get(cacheKey);
-            if (tfValue) {
-                return resolve(tfValue);
-            }
+            let mpValue = {
+                packiFiles: {
+                    
+                 }
+             };
             getMetaProduction(owner, name).then((result) => {
             
                 if (!result.ok) {
@@ -324,11 +362,10 @@ export async function getMetaProduction_withCache(owner: string, name: string) {
                 }
                 const tf: IMetaProductionModel = result.item;
                 const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
-                tfValue = {
+                mpValue = {
                     packiFiles: tf_packiFiles_object
                  };
-                metaCache.set(cacheKey, tfValue);
-                return resolve(tfValue);
+                return resolve(mpValue);
             }
             ).catch((err: any) => {
             

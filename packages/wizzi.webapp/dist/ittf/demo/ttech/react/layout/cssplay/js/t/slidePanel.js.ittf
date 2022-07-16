@@ -34,7 +34,7 @@
 			return
 				div
 					@ id { id }
-					@style { this.style(percWidth, flex, elementStyle) }
+					@ style { this.style(percWidth, flex, elementStyle) }
 					{
 						_ data.panels.map
 							=>

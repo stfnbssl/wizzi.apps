@@ -1,0 +1,81 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "DeletePluginProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "pp_userid", type: "string" },
+                { name: "pp_name", type: "string" },
+                { name: "pp_description", type: "string" },
+            ]
+        }
+        
+    v08/ts/react/component(&md)
+
+        $append imports
+            common_imports( top )
+
+        +
+        m componentDidMount
+            log 'DeletePluginProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ userid
+                    @ name
+                    @ description
+                = this.props.data
+            
+            _ this.setState
+                {
+                    @ pp_userid userid
+                    @ pp_name name
+                    @ pp_description description
+        +
+        => handleSubmitDelete
+            param ev
+                :ref React.MouseEvent
+                    :param 
+                        :ref HTMLElement
+            _ ev.preventDefault()
+            _ this.formRef.dispatchEvent(new Event('submit'))
+        +
+        m render
+            log 'DeletePluginProduction.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Delete plugin production'
+                    < HR
+                    form
+                        action /plugin/delete
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref
+                            =>
+                                param ref
+                                set this.formRef = ref                        
+                        < FormHidden
+                            @ name 'pp_userid'
+                            @ id 'pp_userid'
+                            @ value {this.state.pp_userid}
+                        < FormStatic
+                            @ label 'Plugin name'
+                            @ name 'pp_name'
+                            @ id 'pp_name'
+                            @ value {this.state.pp_name}
+                        < HR
+                        < FormStatic
+                            @ label 'Description'
+                            @ name 'pp_description'
+                            @ id 'pp_description'
+                            @ value {this.state.pp_description}
+                        < HR
+                        < FormButton
+                            @ label 'Delete plugin production'
+                            @ id 'btn_delete_pp'
+                            @ variant 'submit'
+                            @ type submit
+                            @ onClick {this.handleSubmitDelete}                    

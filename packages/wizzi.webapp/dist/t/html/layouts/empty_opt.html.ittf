@@ -1,4 +1,4 @@
-html
+$group
 	$params &opt
 
     head 
@@ -17,9 +17,14 @@ html
             rel preconnect
             href https://fonts.gstatic.com 
             crossorigin
-		link
+		$*
+        link
 			rel stylesheet
 			href https://fonts.googleapis.com/css?family=Roboto
+        *$
+        link 
+            @ rel "stylesheet"
+            @ href "https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
 		
 		$if isWizziStudio && !opt.useFirebase
     		script

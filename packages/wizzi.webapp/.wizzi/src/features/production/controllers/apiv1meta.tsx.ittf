@@ -14,6 +14,7 @@ module
                 @ getListMetaProduction
                 @ getMetaProduction
                 @ updateMetaProduction
+                @ createMetaProduction
                 from '../api/meta'
             +
             import
@@ -32,6 +33,7 @@ module
         _ this.router.get('/checkname/:name', this.getCheckMetaName)
         _ this.router.get('/:owner/:name', this.getMetaProduction)
         _ this.router.put('/:id', this.putMetaProduction)
+        _ this.router.post('/:owner/:name', this.postMetaProduction)
         
         $append handlers
             
@@ -40,7 +42,9 @@ module
                 # loog 'getMetaProductionList.request.params', request.params
                 # loog 'getMetaProductionList.request.session.user.username', (request.session as any).user.username
                 _ getListMetaProduction
-                    @ (request.session as any).user.username
+                    {
+                        { query
+                            @ owner request.params.owner
                     ._ then
                         =>
                             param result
@@ -131,14 +135,33 @@ module
                                 @ result
                     catch_fail( getMetaProduction )
 
+            handler( postMetaProduction )
+
+                # loog 'postMetaProduction.request.params', request.params
+                # loog 'postMetaProduction.request.body', request.body
+                _ createMetaProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'postMetaProduction.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( postMetaProduction )
+
             handler( putMetaProduction )
 
                 # loog 'putMetaProduction.request.params', request.params
                 # loog 'putMetaProduction.request.body', request.body
                 _ updateMetaProduction
                     @ request.params.id
-                    @ request.params.owner
-                    @ request.params.name
+                    @ request.body.owner
+                    @ request.body.name
                     @ request.body.description
                     @ JSON.stringify(request.body.packiFiles)
                     ._ then
@@ -149,4 +172,4 @@ module
                             _ sendSuccess
                                 @ response
                                 @ result
-                    catch_fail( putMetaProduction )
+                    catch_fail( putMetaProduction )                    

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateMetaProduction.tsx.ittf
-    utc time: Tue, 12 Jul 2022 16:15:51 GMT
+    utc time: Wed, 13 Jul 2022 18:16:24 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import styled, {keyframes, css} from 'styled-components';
 import debounce from 'lodash/debounce';
 import nullthrows from 'nullthrows';
+import {ContextRef, TFolderRef} from '../types';
 import FormContainer from './widgets/FormContainer';
 import FormTitle from './widgets/FormTitle';
 import FormGroup from './widgets/FormGroup';
@@ -35,6 +36,8 @@ export interface CreateMetaProductionProps {
 
 type CreateMetaProductionState = { 
     mp_name: string;
+    mp_name_available: boolean;
+    mp_name_checked: string;
     mp_description: string;
     mp_type: string;
     mp_add_context: boolean;
@@ -58,6 +61,25 @@ export class CreateMetaProduction extends Component<CreateMetaProductionProps, C
     constructor(props: CreateMetaProductionProps) {
         super(props);
     }
+    state: CreateMetaProductionState = {
+        mp_name: "", 
+        mp_name_available: false, 
+        mp_name_checked: "", 
+        mp_description: "", 
+        mp_type: "", 
+        mp_add_context: false, 
+        mp_contexts: [
+            
+        ], 
+        mp_add_tfolder: false, 
+        mp_dependencies: [
+            
+        ], 
+        mp_upload_files: [
+            
+        ]
+    }
+    ;
     formRef = React.createRef();
     
     async _checkAvalibleMetaName() {
@@ -85,14 +107,14 @@ export class CreateMetaProduction extends Component<CreateMetaProductionProps, C
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
     };
-    handleContextAdd = context => 
+    handleContextAdd = (context: ContextRef) => 
         this.setState((state) => 
         
             ({
                 mp_contexts: [context, ...state.mp_contexts]
              })
         );
-    handleContextDelete = delcontext => 
+    handleContextDelete = (delcontext: ContextRef) => 
         this.setState((state) => {
         
             const contexts = [];
@@ -108,14 +130,14 @@ export class CreateMetaProduction extends Component<CreateMetaProductionProps, C
                  };
         }
         );
-    handleTFolderAdd = tfolder => 
+    handleTFolderAdd = (tfolder: TFolderRef) => 
         this.setState((state) => 
         
             ({
                 mp_dependencies: [tfolder, ...state.mp_dependencies]
              })
         );
-    handleTFolderDelete = deltfolder => 
+    handleTFolderDelete = (deltfolder: TFolderRef) => 
         this.setState((state) => {
         
             const tfolders = [];

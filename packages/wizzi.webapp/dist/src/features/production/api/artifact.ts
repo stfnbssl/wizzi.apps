@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\api\artifact.ts.ittf
-    utc time: Mon, 11 Jul 2022 18:32:54 GMT
+    utc time: Fri, 15 Jul 2022 15:38:03 GMT
 */
 import path from 'path';
 import NodeCache from 'node-cache';
@@ -80,6 +80,8 @@ export async function getListArtifactProduction(options?: any):  Promise<CRUDRes
                 for (i=0; i<i_len; i++) {
                     item = result[i];
                     const item_obj = {
+                        _id: item._id, 
+                        id: item.id, 
                         owner: item.owner, 
                         name: item.name, 
                         description: item.description, 
@@ -116,6 +118,42 @@ export async function getArtifactProduction(owner: string, name: string):  Promi
              };
             
             ArtifactProduction.find(query, (err, result) => {
+            
+                if (err) {
+                    console.log(myname, 'getArtifactProduction', 'ArtifactProduction.find', 'error', err);
+                    return reject(err);
+                }
+                if (result.length == 1) {
+                    return resolve({
+                            oper: 'get', 
+                            ok: true, 
+                            item: result[0]
+                         });
+                }
+                resolve({
+                    oper: 'get', 
+                    ok: false, 
+                    message: 'artifact production not found'
+                 })
+            }
+            )
+        }
+        );
+}
+
+export async function getArtifactProductionById(id: string):  Promise<CRUDResult> {
+
+    
+    console.log(myname, 'getArtifactProductionById', id)
+    
+    const ArtifactProduction = GetArtifactProductionModel();
+    
+    return new Promise((resolve, reject) => {
+        
+            
+            ArtifactProduction.find({
+                _id: id
+             }, (err: any, result: IArtifactProductionModel[]) => {
             
                 if (err) {
                     console.log(myname, 'getArtifactProduction', 'ArtifactProduction.find', 'error', err);
@@ -251,7 +289,7 @@ export async function updateArtifactProduction(id: string, owner?: string, name?
         );
 }
 
-export async function deleteArtifactProduction(owner: string, name: string):  Promise<CRUDResult> {
+export async function deleteArtifactProduction(id: string, owner?: string, name?: string, description?: string, mainIttf?: string, wizziSchema?: string, packiFiles?: string):  Promise<CRUDResult> {
 
     
     console.log(myname, 'deleteArtifactProduction', owner, name)
@@ -262,8 +300,7 @@ export async function deleteArtifactProduction(owner: string, name: string):  Pr
         
             
             let query = {
-                owner: owner, 
-                name: name
+                _id: id
              };
             
             ArtifactProduction.deleteOne(query, 
@@ -336,10 +373,12 @@ async function getArtifactProduction_withCache(owner: string, name: string) {
     var cacheKey = owner + '|' + name;
     return new Promise((resolve, reject) => {
         
-            let apValue = artifactCache.get(cacheKey);
-            if (apValue) {
-                return resolve(apValue);
-            }
+            let apValue = {
+                mainIttf: "", 
+                packiFiles: {
+                    
+                 }
+             };
             getArtifactProduction(owner, name).then((result) => {
             
                 if (!result.ok) {
@@ -357,7 +396,6 @@ async function getArtifactProduction_withCache(owner: string, name: string) {
                                 mainIttf: ap.mainIttf, 
                                 packiFiles: ap_packiFiles_object
                              };
-                            artifactCache.set(cacheKey, apValue);
                             return resolve(apValue);
                         }
                         const tf: ITFolderModel = result.item;
@@ -366,7 +404,6 @@ async function getArtifactProduction_withCache(owner: string, name: string) {
                             mainIttf: ap.mainIttf, 
                             packiFiles: mergePackiFiles(ap_packiFiles_object, tf_packiFiles_object)
                          };
-                        artifactCache.set(cacheKey, apValue);
                         return resolve(apValue);
                     }
                     ).catch((err: any) => {
@@ -381,7 +418,6 @@ async function getArtifactProduction_withCache(owner: string, name: string) {
                         mainIttf: ap.mainIttf, 
                         packiFiles: ap_packiFiles_object
                      };
-                    artifactCache.set(cacheKey, apValue);
                     return resolve(apValue);
                 }
             }

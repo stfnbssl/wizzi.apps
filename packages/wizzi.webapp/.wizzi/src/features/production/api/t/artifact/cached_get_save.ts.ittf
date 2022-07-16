@@ -100,9 +100,15 @@ $group
                     => 
                         param resolve
                         param reject
-                        let apValue = artifactCache.get(cacheKey)
-                        if apValue
-                            return resolve(apValue)
+                        $if useCachedProductions
+                            let apValue = artifactCache.get(cacheKey)
+                            if apValue
+                                return resolve(apValue)
+                        $else
+                            let apValue
+                                { 
+                                    @ mainIttf ""
+                                    { packiFiles
                         _ getArtifactProduction
                             @ owner
                             @ name
@@ -130,7 +136,8 @@ $group
                                                             { 
                                                                 @ mainIttf ap.mainIttf
                                                                 @ packiFiles ap_packiFiles_object
-                                                        _ artifactCache.set(cacheKey, apValue)
+                                                        $if useCachedProductions
+                                                            _ artifactCache.set(cacheKey, apValue)
                                                         return resolve(apValue)
                                                     const tf
                                                         :ref ITFolderModel
@@ -145,7 +152,8 @@ $group
                                                                 _ mergePackiFiles
                                                                     @ ap_packiFiles_object
                                                                     @ tf_packiFiles_object
-                                                    _ artifactCache.set(cacheKey, apValue)
+                                                    $if useCachedProductions
+                                                        _ artifactCache.set(cacheKey, apValue)
                                                     return resolve(apValue)
                                             catch_reject( getArtifactProduction_withCache.getTFolder )
                                     else
@@ -153,7 +161,8 @@ $group
                                             { 
                                                 @ mainIttf ap.mainIttf
                                                 @ packiFiles ap_packiFiles_object
-                                        _ artifactCache.set(cacheKey, apValue)
+                                        $if useCachedProductions
+                                            _ artifactCache.set(cacheKey, apValue)
                                         return resolve(apValue)
                             catch_reject( getArtifactProduction_withCache.getArtifactProduction )
 

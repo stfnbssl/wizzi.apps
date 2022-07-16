@@ -9,7 +9,7 @@
 			return
 				div
 					@ id { id }
-					@style { this.style(elementStyle) }
+					@ style { this.style(elementStyle) }
 					{
 						_ data.panels.map
 							=>

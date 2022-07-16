@@ -85,7 +85,7 @@ module
                                                 => 
                                                     param result
                                                         :any
-                                                    $$ # loog myname + '.result.length:', result.length
+                                                    log myname + '.result.length:', result.length, result
                                                     _ response.status(200)
                                                     _ response.set('Content-Type', result.contentType)
                                                     _ response.set('Content-Length', result.contentLength.toString())

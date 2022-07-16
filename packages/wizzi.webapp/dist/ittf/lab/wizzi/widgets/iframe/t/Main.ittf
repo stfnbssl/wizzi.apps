@@ -1,0 +1,104 @@
+$group
+
+    const monaco_findModel
+        =>
+            param path
+            _ monaco.editor.getModels().find
+                => 
+                    param model
+                    === 
+                        + model.uri.path
+                        `lit 
+                            + /
+                            @ path
+
+
+    react Main
+
+        ctor
+            set this.state
+                {
+                    [ artifactProductions
+                    @ selectedArtifact null
+                    @ editorStates new Map()
+
+        did-mount
+            _ wz.production.getList
+                @ 'artifact'
+                @ 'stfnbssl'
+                a_cb( result )
+                    var items = []
+                    foreach item in result.item
+                        if item.name.startsWith('ittf/lab/samples')
+                            set item.packiFilesJson = JSON.parse(item.packiFiles)
+                            _ items.push
+                                @ item
+                            log 'wz.production.getList.item', item
+                    _ this.setState
+                        {
+                            @ artifactProductions items
+
+
+
+        => handleSelectArtifact
+            param artifact
+
+        render
+
+            log 'rendering Main', this.state
+            
+            const
+                {
+                    @ artifactProductions
+                    @ selectedArtifact
+                = this.state
+            
+            const editContent = selectedArtifact ? selectedArtifact.packiFilesJson[selectedArtifact.mainIttf].contents : ""
+            const iframeSrc = selectedArtifact ? "http://localhost:5000/~/stfnbssl/" + selectedArtifact.name : ""
+            
+            return
+                div
+                    h1 
+                        + ittf/lab/samples artifact productions
+                    div
+                        @ style
+                            {
+                                @ display "grid"
+                                @ padding "20px"
+                                @ margin "20px"
+                                @ width "90%"
+                                @ height "80vh"
+                                @ border "1px solid grey"
+                                @ gridTemplateColumns "200px 1fr 1fr"
+                        < Directory
+                            @ files
+                                { 
+                                    @ name "artifacts"
+                                    @ type "folder"
+                                    @ items this.state.artifactProductions
+                            @ onSelect
+                                =>
+                                    param artifact
+                                    _ this.setState
+                                        {
+                                            @ selectedArtifact artifact
+
+                        < MonacoEditor
+                            @ files { selectedArtifact ? selectedArtifact.packiFilesJson : {} }
+                            @ selectedFile { selectedArtifact ? selectedArtifact.mainIttf : null }
+                            @ theme 'ittfDark'
+                            @ updateFiles
+                                => 
+                                    param document
+                                    log 'MonacoEditor.updateFiles', document
+                                    _ wz.production.updateItem
+                                        @ 'artifact'
+                                        @ selectedArtifact._id
+                                        @ selectedArtifact.wizziSchema
+                                        @ selectedArtifact.mainIttf
+                                        @ document
+                                        f_cb( result )
+                                            _ alert(JSON.stringify(result, null, 4))
+                        
+                        < IFrame
+                            @ src {iframeSrc}

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\App.tsx.ittf
-    utc time: Tue, 12 Jul 2022 16:15:51 GMT
+    utc time: Wed, 13 Jul 2022 18:16:24 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -21,6 +21,10 @@ import ListPackageProduction from './pageforms/ListPackageProduction';
 import CreatePackageProduction from './pageforms/CreatePackageProduction';
 import UpdatePackageProduction from './pageforms/UpdatePackageProduction';
 import DeletePackageProduction from './pageforms/DeletePackageProduction';
+import ListPluginProduction from './pageforms/ListPluginProduction';
+import CreatePluginProduction from './pageforms/CreatePluginProduction';
+import UpdatePluginProduction from './pageforms/UpdatePluginProduction';
+import DeletePluginProduction from './pageforms/DeletePluginProduction';
 import ListMetaProduction from './pageforms/ListMetaProduction';
 import CreateMetaProduction from './pageforms/CreateMetaProduction';
 import UpdateMetaProduction from './pageforms/UpdateMetaProduction';
@@ -51,6 +55,7 @@ export class App extends Component<AppProps, {}> {
     constructor(props: AppProps) {
         super(props);
     }
+    state: AppState = {};
     render() {
         console.log('App.render', 'props', this.props, 'state', this.state);
         let Comp;
@@ -92,6 +97,18 @@ export class App extends Component<AppProps, {}> {
         }
         else if (this.props.formName == 'UpdatePackageProduction') {
             Comp = UpdatePackageProduction;
+        }
+        else if (this.props.formName == 'ListPluginProduction') {
+            Comp = ListPluginProduction;
+        }
+        else if (this.props.formName == 'CreatePluginProduction') {
+            Comp = CreatePluginProduction;
+        }
+        else if (this.props.formName == 'DeletePluginProduction') {
+            Comp = DeletePluginProduction;
+        }
+        else if (this.props.formName == 'UpdatePluginProduction') {
+            Comp = UpdatePluginProduction;
         }
         else if (this.props.formName == 'ListMetaProduction') {
             Comp = ListMetaProduction;

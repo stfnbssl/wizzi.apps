@@ -53,9 +53,14 @@ $group
                     => 
                         param resolve
                         param reject
-                        let tfValue = tfolderCache.get(cacheKey)
-                        if tfValue
-                            return resolve(tfValue)
+                        $if useCachedProductions
+                            let tfValue = tfolderCache.get(cacheKey)
+                            if tfValue
+                                return resolve(tfValue)
+                        $else
+                            let tfValue
+                                { 
+                                    { packiFiles
                         _ getTFolder
                             @ owner
                             @ name
@@ -73,7 +78,8 @@ $group
                                     set tfValue
                                         { 
                                             @ packiFiles tf_packiFiles_object
-                                    _ tfolderCache.set(cacheKey, tfValue)
+                                    $if useCachedProductions
+                                        _ tfolderCache.set(cacheKey, tfValue)
                                     return resolve(tfValue)
                             catch_reject( getTFolder_withCache.getArtifactProduction )
 

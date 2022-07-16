@@ -7,13 +7,12 @@
                     + text-decoration: none;
                 + }
             @style
-                css
-                    < body
-                        margin 0
-                    # container
-                        margin 0 auto
-                        maxWidth 1000
-                        padding 20px
+                < body
+                    margin 0
+                # container
+                    margin 0 auto
+                    maxWidth 1000
+                    padding 20px
 		
     # container
 	

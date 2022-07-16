@@ -9,7 +9,7 @@
 			
 			return
 				p { text }
-					@style { this.style(elementStyle) }
+					@ style { this.style(elementStyle) }
 						
 		m style
 			param elementStyle

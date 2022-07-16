@@ -4,9 +4,13 @@ $group
     +
     export
         async-function delete${md.Name}
-            $foreach item in md.query
+            $if md.update_delete_by_id
+                param id
+                    :string
+            $foreach item in md.fields
                 param ${item.name}
                     :${item.type}
+                    :optional
             :return
                 :ref Promise
                     :param
@@ -28,8 +32,11 @@ $group
                         +
                         let query
                             { 
-                                $foreach item in md.query
-                                    @ ${item.name} ${item.name}
+                                $if md.update_delete_by_id
+                                    @ _id id
+                                $else
+                                    $foreach item in md.query
+                                        @ ${item.name} ${item.name}
                         +
                         _ ${md.Name}.deleteOne
                             @ query

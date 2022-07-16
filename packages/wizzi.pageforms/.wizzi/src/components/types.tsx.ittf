@@ -1,0 +1,13 @@
+module
+    +
+    export
+        :type TFolderRef
+            :{ 
+                :p name
+                    :string
+    +
+    export
+        :type ContextRef
+            :{ 
+                :p name
+                    :string

@@ -8,6 +8,8 @@ module
             ],
             stateProps: [
                 { name: "tf_name", type: "string" },
+                { name: "tf_name_available", type: "boolean" },
+                { name: "tf_name_checked", type: "string" },
                 { name: "tf_description", type: "string" },
                 { name: "tf_schema", type: "string" },
                 { name: "tf_type", type: "string" },

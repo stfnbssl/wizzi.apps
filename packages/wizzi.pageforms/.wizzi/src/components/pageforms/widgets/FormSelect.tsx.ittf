@@ -7,10 +7,10 @@ module
                 { name: 'id', type: 'string'},
                 { name: 'name', type: 'string'},
                 { name: 'label', type: 'string' },
-                { name: 'required', type: 'boolean'},
+                { name: 'required', type: 'boolean', optional: true},
                 { name: 'value', type: 'string'},
                 { name: 'options', type: 'any'},
-                { name: 'onChange', type: 'input-event' },
+                { name: 'onChange', type: 'input-event', optional: true },
             ]
         }
         

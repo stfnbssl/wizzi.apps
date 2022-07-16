@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\widgets\FormObject.tsx.ittf
-    utc time: Tue, 12 Jul 2022 16:15:51 GMT
+    utc time: Wed, 13 Jul 2022 18:16:24 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -31,10 +31,11 @@ import Box from './styles/Box';
 export interface FormObjectProps {
     id: string;
     name: string;
+    label: string;
     path: string;
     properties: any;
     values: any;
-    onChange: any;
+    onChange?: any;
 }
 
 type FormObjectState = { 
@@ -68,6 +69,11 @@ export class FormObject extends Component<FormObjectProps, FormObjectState> {
             objProperties: objProperties
          };
     }
+    state: FormObjectState = {
+        objProperties: null, 
+        condProperty: null
+    }
+    ;
     render() {
         const cp = this.state.condProperty;
         console.log('FormObject.render', cp.name, this.props.values[cp.name], this.props.values, this.state);

@@ -46,28 +46,6 @@ $group
                             _ link.setAttribute('href', href)
                             _ head.appendChild(link)
         
-        $* 
-        m _updateCss
-            param css
-            const document = this.ifr.contentDocument
-            if document
-                const head = document.getElementsByTagName('head')[0]
-                if !this.styleEl
-                    const el = document.createElement('style')
-                    set el.type = 'text/css'
-                    _ head.appendChild(el)
-                    set this.styleEl = el
-                const el = this.styleEl
-                if el.styleSheet
-                    set el.styleSheet.cssText = css
-                else
-                    const cssNode = document.createTextNode(css)
-                    if this.cssNode
-                        _ el.removeChild(this.cssNode)
-                    _ el.appendChild(cssNode)
-                    set this.cssNode = cssNode
-        *$
-        
         render
             return
                 div

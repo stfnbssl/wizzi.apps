@@ -2,13 +2,13 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\site\controllers\productions.ts.ittf
-    utc time: Mon, 11 Jul 2022 18:32:54 GMT
+    utc time: Fri, 15 Jul 2022 15:38:03 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../features/app/types';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../utils/sendResponse';
 import jsesc from 'jsesc';
-import {artifactApi, packageApi, metaApi, tFolderApi} from '../../features/production';
+import {artifactApi, packageApi, pluginApi, metaApi, tFolderApi} from '../../features/production';
 
 export class ProductionsController implements ControllerType {
     
@@ -21,6 +21,7 @@ export class ProductionsController implements ControllerType {
         console.log('Entering ProductionsController.initialize');
         this.router.get('/artifacts', this.artifacts);
         this.router.get('/packages', this.packages);
+        this.router.get('/plugins', this.plugins);
         this.router.get('/metas', this.metas);
         this.router.get('/tfolders', this.tfolders);
     };
@@ -85,6 +86,40 @@ export class ProductionsController implements ControllerType {
         ).catch((err) => {
         
             console.log('package productions.err', err);
+            sendFailure(response, {
+                err: err
+             }, 501)
+        }
+        )
+    
+    ;
+    
+    private plugins = async (request: Request, response: Response) => 
+    
+        pluginApi.getListPluginProduction().then(result => 
+        
+            response.render('productions/plugins.html.ittf', {
+                title: 'Plugin productions · Wizzi', 
+                plugins: result.item, 
+                __INITIAL_DATA__: `  window.__INITIAL_DATA__ = ${jsesc({
+                    data: {
+                        type: 'success', 
+                        formName: 'ListPluginProduction', 
+                        formData: {
+                            plugins: result.item
+                         }
+                     }, 
+                    queryParams: {
+                        
+                     }
+                 }, {
+                    quotes: 'double', 
+                    isScriptContext: true
+                 })}`
+             })
+        ).catch((err) => {
+        
+            console.log('plugin productions.err', err);
             sendFailure(response, {
                 err: err
              }, 501)

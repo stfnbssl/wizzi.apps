@@ -8,7 +8,7 @@ $group
 	style
         . prods-tn
             display grid
-            grid-template-columns repeat(4, 1fr)
+            grid-template-columns repeat(5, 1fr)
             justify-items center
             margin 10px auto
             width 25vw
@@ -18,8 +18,8 @@ $group
             font-size 24px
         . prods-tn-item
             min-width 100px
-            padding 10px
-            font-size 24px
+            padding 10px 10px 30px 10px
+            font-size 18px
 
     . prods-tn
         . prods-title font-m font-w-x
@@ -27,6 +27,8 @@ $group
                 + Artifact productions
             $elif current == 'packages'
                 + Package productions
+            $elif current == 'plugins'
+                + Plugin productions
             $elif current == 'metas'
                 + Meta productions
             $else
@@ -37,6 +39,9 @@ $group
         $if current != 'packages'
             . prods-tn-item ${ca}
                 html/a( Packages, /productions/packages, ${ca2}
+        $if current != 'plugins'
+            . prods-tn-item ${ca}
+                html/a( Plugins, /productions/plugins, ${ca2}
         $if current != 'metas'
             . prods-tn-item ${ca}
                 html/a( Metas, /productions/metas, ${ca2}

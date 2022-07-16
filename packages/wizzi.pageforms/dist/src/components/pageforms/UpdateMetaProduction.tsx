@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdateMetaProduction.tsx.ittf
-    utc time: Tue, 12 Jul 2022 16:15:51 GMT
+    utc time: Wed, 13 Jul 2022 18:16:24 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import styled, {keyframes, css} from 'styled-components';
 import debounce from 'lodash/debounce';
 import nullthrows from 'nullthrows';
+import {ContextRef, TFolderRef} from '../types';
 import FormContainer from './widgets/FormContainer';
 import FormTitle from './widgets/FormTitle';
 import FormGroup from './widgets/FormGroup';
@@ -60,6 +61,23 @@ export class UpdateMetaProduction extends Component<UpdateMetaProductionProps, U
     constructor(props: UpdateMetaProductionProps) {
         super(props);
     }
+    state: UpdateMetaProductionState = {
+        mp_id: "", 
+        mp_userid: "", 
+        mp_name_old: "", 
+        mp_name_new: "", 
+        mp_description: "", 
+        mp_add_context: false, 
+        mp_contexts: [
+            
+        ], 
+        mp_add_tfolder: false, 
+        mp_dependencies: [
+            
+        ], 
+        mp_name_new_available: false
+    }
+    ;
     async _checkAvalibleMetaName() {
         const mp_name_new_checked = this.state.mp_name_new;
         const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/meta/checkname/${mp_name_new_checked}`;

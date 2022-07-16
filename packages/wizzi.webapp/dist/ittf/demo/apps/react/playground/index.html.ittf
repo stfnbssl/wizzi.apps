@@ -21,7 +21,7 @@ html
     html/layouts/basic_opt(&opt)
 
         $append head-styles
-            @style 
+            style 
                 type text-css
                 data-noprefix 
                 class demo-styles

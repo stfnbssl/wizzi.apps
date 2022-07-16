@@ -8,6 +8,8 @@ module
             ],
             stateProps: [
                 { name: "ap_name", type: "string" },
+                { name: "ap_name_available", type: "boolean" },
+                { name: "ap_name_checked", type: "string" },
                 { name: "ap_description", type: "string" },
                 { name: "ap_wizzi_schema", type: "string" },
                 { name: "ap_main_ittf", type: "string" },

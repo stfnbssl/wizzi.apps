@@ -2,14 +2,14 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\pages\PageFormDocument.tsx.ittf
-    utc time: Mon, 11 Jul 2022 18:32:55 GMT
+    utc time: Fri, 15 Jul 2022 15:38:04 GMT
 */
 import jsesc from 'jsesc';
 import React from 'react';
 const css = String.raw;
 const PageCss = css`
               :root {
-                --font-normal: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                --font-normal: -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                 --font-monospace: 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New',
                   monospace;
               }
@@ -114,7 +114,7 @@ export default function PageFormDocument(props: PageFormDocumentProps) {
                     <link
                      rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css" />
                     <link
-                     rel="stylesheet" href="/ittf/views/css/main.css.ittf" />
+                     rel="stylesheet" href="/ittf/styles/main.css.ittf" />
                     <style
                      type="text/css" dangerouslySetInnerHTML={{
                             __html: PageCss
@@ -133,7 +133,7 @@ export default function PageFormDocument(props: PageFormDocumentProps) {
                 <body
                 >
                     <div
-                     className="flex-row space-between bg-color-header color-header">
+                     className="flex-row space-between bg-color-header color-header align-items-center" id="__main_navbar">
                         <div
                          className="flex-row">
                             <div
@@ -196,6 +196,57 @@ export default function PageFormDocument(props: PageFormDocumentProps) {
                                              />
                                         </svg>
                                     </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div
+                         className="flex-row">
+                            <div
+                             className="flex-column">
+                                <a
+                                 className="m-s color-header font-l font-w-xxl" href="/ittf/site/starter.html.ittf">
+                                Starter
+                                </a>
+                            </div>
+                            <div
+                             className="flex-column">
+                                <a
+                                 className="m-s color-header font-l font-w-xxl" href="/ittf/site/playground.html.ittf">
+                                Playground
+                                </a>
+                            </div>
+                            <div
+                             className="flex-column">
+                                <a
+                                 className="m-s color-header font-l font-w-xxl" href="/ittf/site/project.html.ittf">
+                                Project
+                                </a>
+                            </div>
+                        </div>
+                        <div
+                         className="flex-row">
+                            <div
+                             className="flex-column">
+                                <a
+                                 className="m-s color-header font-l font-w-xxl" href="/ittf/site/docs.html.ittf">
+                                Docs
+                                </a>
+                            </div>
+                        </div>
+                        <div
+                         className="flex-row m-r-x">
+                            <div
+                             className="flex-column">
+                                <a
+                                 className="m-s color-header font-l font-w-xxl" href="/profile">
+                                Profile
+                                </a>
+                            </div>
+                            <div
+                             className="flex-column">
+                                <a
+                                 className="m-s color-header font-l font-w-xxl" href="/logout">
+                                Log Out
                                 </a>
                             </div>
                         </div>

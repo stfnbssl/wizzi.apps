@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateArtifactProduction.tsx.ittf
-    utc time: Tue, 12 Jul 2022 16:15:51 GMT
+    utc time: Wed, 13 Jul 2022 18:16:24 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import styled, {keyframes, css} from 'styled-components';
 import debounce from 'lodash/debounce';
 import nullthrows from 'nullthrows';
+import {ContextRef, TFolderRef} from '../types';
 import FormContainer from './widgets/FormContainer';
 import FormTitle from './widgets/FormTitle';
 import FormGroup from './widgets/FormGroup';
@@ -35,6 +36,8 @@ export interface CreateArtifactProductionProps {
 
 type CreateArtifactProductionState = { 
     ap_name: string;
+    ap_name_available: boolean;
+    ap_name_checked: string;
     ap_description: string;
     ap_wizzi_schema: string;
     ap_main_ittf: string;
@@ -60,6 +63,27 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
     constructor(props: CreateArtifactProductionProps) {
         super(props);
     }
+    state: CreateArtifactProductionState = {
+        ap_name: "", 
+        ap_name_available: false, 
+        ap_name_checked: "", 
+        ap_description: "", 
+        ap_wizzi_schema: "", 
+        ap_main_ittf: "", 
+        ap_type: "", 
+        ap_add_context: false, 
+        ap_contexts: [
+            
+        ], 
+        ap_add_tfolder: false, 
+        ap_dependencies: [
+            
+        ], 
+        ap_upload_files: [
+            
+        ]
+    }
+    ;
     formRef = React.createRef();
     
     async _checkAvalibleArtifactName() {
@@ -87,14 +111,14 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
     };
-    handleContextAdd = context => 
+    handleContextAdd = (context: ContextRef) => 
         this.setState((state) => 
         
             ({
                 ap_contexts: [context, ...state.ap_contexts]
              })
         );
-    handleContextDelete = delcontext => 
+    handleContextDelete = (delcontext: ContextRef) => 
         this.setState((state) => {
         
             const contexts = [];
@@ -110,14 +134,14 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
                  };
         }
         );
-    handleTFolderAdd = tfolder => 
+    handleTFolderAdd = (tfolder: TFolderRef) => 
         this.setState((state) => 
         
             ({
                 ap_dependencies: [tfolder, ...state.ap_dependencies]
              })
         );
-    handleTFolderDelete = deltfolder => 
+    handleTFolderDelete = (deltfolder: TFolderRef) => 
         this.setState((state) => {
         
             const tfolders = [];

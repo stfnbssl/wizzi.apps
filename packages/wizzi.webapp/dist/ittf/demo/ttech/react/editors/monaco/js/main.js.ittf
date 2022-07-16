@@ -10,7 +10,7 @@
 		\b MuiThemeProvider,
 		\b withStyles,
 		\b SvgIcon,
-		\b } = window['material-ui']
+		\b } = MaterialUI
 
 	const theme
 		_ createMuiTheme

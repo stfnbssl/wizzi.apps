@@ -13,6 +13,7 @@ module.exports = {
     schemas: [
     ], 
     globalContext: {
-        wzConfigIsDevelopment: true
+        wzConfigIsDevelopment: true,
+        useCachedProductions: false
     }
 };

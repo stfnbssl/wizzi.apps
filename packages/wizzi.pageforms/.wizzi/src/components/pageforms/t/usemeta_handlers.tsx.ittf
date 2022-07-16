@@ -2,6 +2,7 @@ $group
 
     async=> handleMetaChange
         param value
+            :string
         const parts = value.split('|')
         if parts.length == 2
             const result
@@ -34,7 +35,9 @@ $group
 
     => handleMetaPropsValuesChange
         param valuePath
+            :string
         param value
+            :any
         _ this.setState
             =>
                 param state

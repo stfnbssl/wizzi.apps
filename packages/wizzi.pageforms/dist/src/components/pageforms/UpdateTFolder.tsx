@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdateTFolder.tsx.ittf
-    utc time: Tue, 12 Jul 2022 16:15:51 GMT
+    utc time: Wed, 13 Jul 2022 18:16:24 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import styled, {keyframes, css} from 'styled-components';
 import debounce from 'lodash/debounce';
 import nullthrows from 'nullthrows';
+import {ContextRef, TFolderRef} from '../types';
 import FormContainer from './widgets/FormContainer';
 import FormTitle from './widgets/FormTitle';
 import FormGroup from './widgets/FormGroup';
@@ -60,6 +61,23 @@ export class UpdateTFolderProduction extends Component<UpdateTFolderProductionPr
     constructor(props: UpdateTFolderProductionProps) {
         super(props);
     }
+    state: UpdateTFolderProductionState = {
+        tf_id: "", 
+        tf_userid: "", 
+        tf_name_old: "", 
+        tf_name_new: "", 
+        tf_description: "", 
+        tf_add_context: false, 
+        tf_contexts: [
+            
+        ], 
+        tf_add_tfolder: false, 
+        tf_dependencies: [
+            
+        ], 
+        tf_name_new_available: false
+    }
+    ;
     async _checkAvalibleTFolderName() {
         const tf_name_new_checked = this.state.tf_name_new;
         const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/tFolder/checkname/${tf_name_new_checked}`;

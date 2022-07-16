@@ -12,7 +12,7 @@ module
                 { name: 'sublabelid', type: 'string', optional:true },
                 { name: 'checked', type: 'boolean'},
                 { name: 'value', type: 'any'},
-                { name: 'onChange', type: 'input-event' },
+                { name: 'onChange', type: 'input-event', optional: true },
             ]
         }
 

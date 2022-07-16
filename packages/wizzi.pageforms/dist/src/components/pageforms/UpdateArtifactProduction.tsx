@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdateArtifactProduction.tsx.ittf
-    utc time: Tue, 12 Jul 2022 16:15:51 GMT
+    utc time: Wed, 13 Jul 2022 18:16:24 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import styled, {keyframes, css} from 'styled-components';
 import debounce from 'lodash/debounce';
 import nullthrows from 'nullthrows';
+import {ContextRef, TFolderRef} from '../types';
 import FormContainer from './widgets/FormContainer';
 import FormTitle from './widgets/FormTitle';
 import FormGroup from './widgets/FormGroup';
@@ -60,6 +61,23 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
     constructor(props: UpdateArtifactProductionProps) {
         super(props);
     }
+    state: UpdateArtifactProductionState = {
+        ap_id: "", 
+        ap_userid: "", 
+        ap_name_old: "", 
+        ap_name_new: "", 
+        ap_description: "", 
+        ap_add_context: false, 
+        ap_contexts: [
+            
+        ], 
+        ap_add_tfolder: false, 
+        ap_dependencies: [
+            
+        ], 
+        ap_name_new_available: false
+    }
+    ;
     async _checkAvalibleArtifactName() {
         const ap_name_new_checked = this.state.ap_name_new;
         const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/artifact/checkname/${ap_name_new_checked}`;

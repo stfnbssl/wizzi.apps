@@ -14,6 +14,7 @@ module
                 @ validateTFolder
                 @ getTFolder
                 @ updateTFolder
+                @ createTFolder
                 @ invalidateCache
                 from '../api/tfolder'
             +
@@ -23,6 +24,7 @@ module
         _ this.router.get('/checkname/:name', this.getCheckTFolderName)
         _ this.router.get('/:owner/:name', this.getTFolder)
         _ this.router.put('/:id', this.putTFolder)
+        _ this.router.post('/:owner/:name', this.postTFolder)
         
         $append handlers
 
@@ -30,7 +32,9 @@ module
 
                 # loog 'getTFolderList.request.params', request.params
                 _ getListTFolder
-                    @ request.params.owner
+                    {
+                        { query
+                            @ owner request.params.owner
                     ._ then
                         =>
                             param result
@@ -74,14 +78,34 @@ module
                                 @ result
                     catch_fail( getTFolder )
 
+            handler( postTFolder )
+
+                # loog 'postTFolder.request.params', request.params
+                # loog 'postTFolder.request.body', request.body
+                _ createTFolder
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'postTFolder.result', result
+                            _ invalidateCache
+                                @ request.params.owner
+                                @ request.params.name
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    catch_fail( postTFolder )                    
+
             handler( putTFolder )
 
                 # loog 'putTFolder.request.params', request.params
                 # loog 'putTFolder.request.body', request.body
                 _ updateTFolder
                     @ request.params.id
-                    @ request.params.owner
-                    @ request.params.name
                     @ request.body.description
                     @ JSON.stringify(request.body.packiFiles)
                     ._ then

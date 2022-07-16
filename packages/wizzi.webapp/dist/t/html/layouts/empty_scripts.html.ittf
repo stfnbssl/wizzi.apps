@@ -110,9 +110,6 @@ $group
     $if opt.useMathJax
         j( https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML
 
-    $if opt.useMonaco
-        j( /static/lib/monaco-editor/min/vs/loader.js
-
     $if opt.usePopper
         j( /static/lib/popper/popper.js
 
@@ -169,14 +166,6 @@ $group
         $if opt.useReactGrid
             j( /static/lib/react/react-grid-layout.min.js
 
-        $if opt.useMonaco
-            j( /static/lib/monaco-editor/package/min/vs/loader.js
-            $*
-                j( /static/lib/monaco-editor/package/min/vs/editor/editor.main.nls.js
-                j( /static/lib/monaco-editor/package/min/vs/editor/editor.main.js
-                script
-                    + var require = { paths: { 'vs': '/static/lib/monaco-editor/package/min/vs' } }
-            *$
         $if opt.useDownshift
             $if opt.local || isWizziStudio
                 $$ j( /static/lib/react/downshift.umd.min.2.0.10.js
@@ -190,6 +179,13 @@ $group
                 j( https://unpkg.com/react-grid-layout@latest/dist/react-grid-layout.min.js
             $else
                 j( https://unpkg.com/react-grid-layout@1.3.4/dist/react-grid-layout.min.js
+
+        $if opt.react.useStyledComponents
+            js //unpkg.com/styled-components@4.0.1/dist/styled-components.min.js
+        
+        $if opt.react.useTransitionGroup
+            js https://cdnjs.cloudflare.com/ajax/libs/react-transition-group/4.4.1/react-transition-group.min.js
+
     
     $if opt.useRxJs
         j( /static/lib/rxjs/rxjs.umd.min.js
@@ -224,9 +220,12 @@ $group
                             {
                                 @ inlineMath [['$','$'], ['\\(','\\)']]
                                 @ processEscapes true
-
+    
     $if useBabel
         j( https://unpkg.com/babel-standalone@latest/babel.min.js
+
+    $if opt.useMonaco
+        j( /static/lib/monaco-editor/min/vs/loader.js
 
     $if opt.mainJs && opt.mainJs.length > 0
         $if useBabel

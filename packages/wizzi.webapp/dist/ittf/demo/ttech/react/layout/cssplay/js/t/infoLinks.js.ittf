@@ -21,11 +21,12 @@
 			if format === 'p.[text.a]+'
 				return
 					p
-						@style { this.style(elementStyle) }
+						@ style { this.style(elementStyle) }
 						+ {childLinks}
 			else
 				return
-					div { 'Unknown InfoLinks format ' + format }
+					div
+                        + { 'Unknown InfoLinks format ' + format }
 						
 		m style
 			param elementStyle

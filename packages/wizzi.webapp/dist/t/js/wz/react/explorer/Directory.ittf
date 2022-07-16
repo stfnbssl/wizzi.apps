@@ -1,0 +1,39 @@
+$group
+    
+    const Directory
+        => 
+            { 
+                @ files
+                @ onSelect
+            const [isExpanded, toggleExpanded] = React.useState(false)
+            if files.type === 'folder'
+                return 
+                    div 
+                        @ className "folder"
+                        h2 
+                            @ className "folder-title"
+                            @ onClick
+                                => 
+                                    _ toggleExpanded(!isExpanded)
+                            + {files.name}
+                        br 
+                        { 
+                            && 
+                                + isExpanded
+                                _ files.items.map
+                                    => 
+                                        param item
+                                        < Directory 
+                                            @ key {item.name}
+                                            @ files {item}
+                                            @ onSelect {onSelect}
+
+            return 
+                < React.Fragment
+                    h3 
+                        @ className "file-name"
+                        @ onClick
+                            => 
+                                if onSelect
+                                    _ onSelect(files)
+                        + {files.name}

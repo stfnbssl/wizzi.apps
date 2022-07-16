@@ -1,0 +1,35 @@
+$group
+    
+    react IFrame
+        ctor
+            set this.ifr = null
+        
+        did-mount
+            if this.props.src
+                _ this._updateSrc
+        
+        did-update
+            if this.props.src
+                _ this._updateSrc
+        
+        m _updateSrc
+            set this.ifr.src = this.props.src
+
+        render
+            return
+                div
+                    @ style
+                        {
+                            @ width '100%'
+                            @ height '100%'
+                    iframe
+                        @ frameBorder {0}
+                        @ sandbox "allow-scripts"
+                        @ style
+                            {
+                                @ width '100%'
+                                @ height '100%'
+                        @ ref
+                            =>
+                                param f
+                                set this.ifr = f
