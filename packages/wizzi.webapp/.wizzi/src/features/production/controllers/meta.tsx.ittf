@@ -20,6 +20,7 @@ module
                 @ updateMetaProduction
                 @ deleteMetaProduction
                 @ getMetaProductionObject
+                @ getMetaProductionObjectById
                 from '../api/meta'
             +
             const myname = 'features/production/controllers/meta'

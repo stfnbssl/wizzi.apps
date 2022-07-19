@@ -23,6 +23,7 @@ module
             log 'DeleteArtifactProduction.componentDidMount.props', this.props
             const
                 {
+                    @ _id
                     @ userid
                     @ name
                     @ description
@@ -30,6 +31,7 @@ module
             
             _ this.setState
                 {
+                    @ ap_id _id
                     @ ap_userid userid
                     @ ap_name name
                     @ ap_description description
@@ -57,7 +59,13 @@ module
                             =>
                                 param ref
                                 set this.formRef = ref                        
-                        < FormHidden
+                        < FormStatic
+                            @ label 'Artifact id'
+                            @ name 'ap_id'
+                            @ id 'ap_id'
+                            @ value {this.state.ap_id}
+                        < FormStatic
+                            @ label 'Artifact owner'
                             @ name 'ap_userid'
                             @ id 'ap_userid'
                             @ value {this.state.ap_userid}

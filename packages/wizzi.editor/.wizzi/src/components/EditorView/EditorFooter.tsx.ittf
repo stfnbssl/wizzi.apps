@@ -67,13 +67,7 @@ module
                     :p onTogglePreview
                         :=> 
                             :void 
-                    :p onToggleSendCode
-                        :=> 
-                            :void 
                     :p onShowShortcuts
-                        :=> 
-                            :void 
-                    :p onSendCode
                         :=> 
                             :void 
                     :p theme
@@ -95,12 +89,10 @@ module
                 @ panelsShown
                 @ sendCodeOnChangeEnabled
                 @ isLocalWebPreview
-                @ onSendCode
                 @ onToggleTheme
                 @ onTogglePanels
                 @ onToggleFileTree
                 @ onTogglePreview
-                @ onToggleSendCode
                 @ onShowShortcuts
                 @ theme
                 $if wzCtx.Build.usePackiAspects

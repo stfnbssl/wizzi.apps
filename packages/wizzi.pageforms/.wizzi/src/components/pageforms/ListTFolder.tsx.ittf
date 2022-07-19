@@ -96,7 +96,7 @@ module
                             @ className flex-row m-xxl
                             div
                                 @ className flex-column m-s
-                                a_icon( New, /artifact/new
+                                a_icon( New, /tfolder/new
                                     < AddDocumentIcon
                                         @ height 16
                                         @ width 16

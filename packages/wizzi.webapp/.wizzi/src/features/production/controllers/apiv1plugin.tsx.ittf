@@ -102,6 +102,8 @@ module
                 # loog 'putPluginProduction.request.body', request.body
                 _ updatePluginProduction
                     @ request.params.id
+                    @ request.body.owner
+                    @ request.body.name
                     @ request.body.description
                     @ JSON.stringify(request.body.packiFiles)
                     ._ then

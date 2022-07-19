@@ -56,6 +56,9 @@ $group
                 {
                     name "BUILD_TIMESTAMP"
                     value "Date.now()"
+        useNodePolifills true
+        { nodePolifills
+            useBuffer true
         useDevServer true
         { devServer
             contentBase "path.join(__dirname, 'src')"

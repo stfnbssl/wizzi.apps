@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\pages\PageFormDocument.tsx.ittf
-    utc time: Fri, 15 Jul 2022 15:38:04 GMT
+    utc time: Tue, 19 Jul 2022 19:18:05 GMT
 */
 import jsesc from 'jsesc';
 import React from 'react';
@@ -115,6 +115,8 @@ export default function PageFormDocument(props: PageFormDocumentProps) {
                      rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css" />
                     <link
                      rel="stylesheet" href="/ittf/styles/main.css.ittf" />
+                    <script
+                     src="https://bundle.run/buffer@6.0.3" />
                     <style
                      type="text/css" dangerouslySetInnerHTML={{
                             __html: PageCss

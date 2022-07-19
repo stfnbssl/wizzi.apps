@@ -38,6 +38,16 @@ $group
             set this._disposables = []
             set this._editor = null
             set this._node = React.createRef()
+            set this.updateDebounced
+                _ wz.debounce
+                    => 
+                        param value
+                        _ this.props.updateFiles
+                            { 
+                                { [this.props.selectedFile]
+                                    @ type 'CODE'
+                                    @ contents value
+                    @ 1000
 
         $include monacoEditor/component
         $include monacoEditor/methods

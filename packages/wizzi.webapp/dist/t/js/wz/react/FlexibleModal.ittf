@@ -24,11 +24,11 @@ $group
                     @ width
                         iif this.props.initWidth
                             then this.props.initWidth
-                            else 800
+                            else "inherit"
                     @ height
                         iif this.props.initHeight
                             then this.props.initHeight
-                            else 400
+                            else "inherit"
                     @ rel null
             set this.updateStateResizing = this.updateStateResizing.bind(this)
             set this.funcResizing = this.funcResizing.bind(this)

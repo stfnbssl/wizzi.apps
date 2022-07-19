@@ -87,7 +87,7 @@ module
                     @ request.params.name
                     @ request.body.description
                     @ request.body.mainIttf
-                    @ request.body.schema
+                    @ request.body.wizziSchema
                     @ JSON.stringify(request.body.packiFiles)
                     ._ then
                         =>
@@ -112,7 +112,7 @@ module
                     @ request.body.name
                     @ request.body.description
                     @ request.body.mainIttf
-                    @ request.body.schema
+                    @ request.body.wizziSchema
                     @ JSON.stringify(request.body.packiFiles)
                     ._ then
                         =>

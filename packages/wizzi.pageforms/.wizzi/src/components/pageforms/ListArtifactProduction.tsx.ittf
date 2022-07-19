@@ -115,8 +115,11 @@ module
                                                         =>
                                                             param ws
                                                                 :string
+                                                            param ndx
+                                                                :number
                                                             (
                                                                 option {ws}
+                                                                    @ key {ndx}
                                                                     value {ws}
                                     div
                                         @ className flex-column

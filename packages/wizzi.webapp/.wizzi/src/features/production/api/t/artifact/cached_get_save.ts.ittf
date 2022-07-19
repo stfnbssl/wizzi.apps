@@ -51,8 +51,44 @@ $group
                                     return 
                                         _ resolve
                                             @ obj
-                            catch_reject( getArtifactProduction_withCache.getTFolder )
+                            catch_reject( getArtifactProductionObject.getArtifactProduction )
     
+    +
+    export
+        async-function getArtifactProductionObjectById
+            param id
+                :string
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ getArtifactProductionById
+                            @ id
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const ap
+                                        :ref IArtifactProductionModel
+                                        = result.item
+                                    # loog 'myname', 'getArtifactProductionObjectById.ap', ap
+                                    const ap_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(ap.packiFiles)
+                                    # loog 'myname', 'getArtifactProductionObjectById.ap_packiFiles_object', ap_packiFiles_object
+                                    const obj
+                                        { 
+                                            @ ...ap._doc
+                                            @ packiFiles ap_packiFiles_object
+                                            @ _id ap._id.toString()
+                                    # loog 'myname', 'getArtifactProductionObjectById', obj
+                                    return 
+                                        _ resolve
+                                            @ obj
+                            catch_reject( getArtifactProductionObjectById.getArtifactProductionById )
+
     $*
     +
     export

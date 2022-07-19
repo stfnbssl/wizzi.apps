@@ -37,7 +37,43 @@ $group
                                     return 
                                         _ resolve
                                             @ obj
-                            catch_reject( getTFolder_withCache.getTFolder )
+                            catch_reject( getTFolderObject.getTFolder )
+
+    +
+    export
+        async-function getTFolderObjectById
+            param id
+                :string
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ getTFolderById
+                            @ id
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const tf
+                                        :ref ITFolderModel
+                                        = result.item
+                                    # loog 'myname', 'getTFolderObjectById.tf', tf
+                                    const tf_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(tf.packiFiles)
+                                    # loog 'myname', 'getTFolderObjectById.tf_packiFiles_object', tf_packiFiles_object
+                                    const obj
+                                        { 
+                                            @ ...tf._doc
+                                            @ packiFiles tf_packiFiles_object
+                                            @ _id tf._id.toString()
+                                    # loog 'myname', 'getTFolderObjectById', obj
+                                    return 
+                                        _ resolve
+                                            @ obj
+                            catch_reject( getTFolderObjectById.getTFolderById )
 
     +
     export

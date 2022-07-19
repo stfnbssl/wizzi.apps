@@ -24,7 +24,15 @@ html
                 module
                     kind react
 
+                    
+                    $include js/wz/react/Modal
+                    $include js/wz/react/FlexibleModal
+                    $include js/wz/react/ReactAce
+                    $include common/styled
                     $include Main
+
+                    const userId = 'stfnbssl'
+                    const labPath = 'ittf/lab/samples'
 
                     const AppRoot
                         _ styled.div

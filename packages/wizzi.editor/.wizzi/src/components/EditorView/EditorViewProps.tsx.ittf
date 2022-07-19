@@ -77,12 +77,6 @@ module
                     :string 
                 :p sendCodeOnChangeEnabled
                     :boolean 
-                :p onSendCode
-                    :=> 
-                        :void 
-                :p onToggleSendCode
-                    :=> 
-                        :void 
                 :p onTogglePreview
                     :=> 
                         :void 

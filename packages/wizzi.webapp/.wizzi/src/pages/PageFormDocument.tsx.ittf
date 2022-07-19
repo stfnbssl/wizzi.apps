@@ -80,6 +80,8 @@ module
                         link 
                             @ rel "stylesheet"
                             @ href "/ittf/styles/main.css.ittf"
+                        script
+                            src https://bundle.run/buffer@6.0.3
                         < style 
                             @ type "text/css"
                             @ dangerouslySetInnerHTML

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\ListTFolder.tsx.ittf
-    utc time: Wed, 13 Jul 2022 18:16:24 GMT
+    utc time: Tue, 19 Jul 2022 18:40:05 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -154,7 +154,7 @@ export class ListTFolder extends Component<ListTFolderProps, ListTFolderState> {
                         <div
                          className="flex-column m-s">
                             <a
-                             className="button p-s radius-m bg-success color-white border-s font-m font-w-xxl" href="/artifact/new">
+                             className="button p-s radius-m bg-success color-white border-s font-m font-w-xxl" href="/tfolder/new">
                                 <div
                                  className="flex-row">
                                     <AddDocumentIcon
@@ -190,7 +190,7 @@ export class ListTFolder extends Component<ListTFolderProps, ListTFolderState> {
                                             <div
                                              className="flex-column m-s">
                                                 <a
-                                                 className="button p-s radius-m bg-warning color-white border-s font-m font-w-xxl" href={'/tfolder/update/' + item.owner + '/' + item.name}>
+                                                 className="button p-s radius-m bg-warning color-white border-s font-m font-w-xxl" href={'/tfolder/update/' + item.id}>
                                                     <div
                                                      className="flex-row">
                                                         <AddDocumentIcon
@@ -202,7 +202,7 @@ export class ListTFolder extends Component<ListTFolderProps, ListTFolderState> {
                                             <div
                                              className="flex-column m-s">
                                                 <a
-                                                 className="button p-s radius-m bg-error color-white border-s font-m font-w-xxl" href={'/tfolder/delete/' + item.owner + '/' + item.name}>
+                                                 className="button p-s radius-m bg-error color-white border-s font-m font-w-xxl" href={'/tfolder/delete/' + item.id}>
                                                     <div
                                                      className="flex-row">
                                                         <AddDocumentIcon

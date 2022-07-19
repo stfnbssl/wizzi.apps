@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\root\webpack.config.js.ittf
-    utc time: Wed, 13 Jul 2022 18:16:22 GMT
+    utc time: Tue, 19 Jul 2022 18:40:03 GMT
 */
 'use strict';
 const path = require('path');
@@ -107,10 +107,18 @@ module.exports = {
         
         // https://github.com/Khan/aphrodite#disabling-important
         alias: {
+            constants: false, 
+            fs: false, 
+            'fs-extra': false, 
+            'fs-graceful': false, 
+            'graceful-fs': false, 
+            'mongodb': false, 
+            'mongodb-core': false, 
+            os: false, 
             aphrodite: 'aphrodite/no-important'
          }, 
         fallback: {
-            
+            buffer: require.resolve("buffer")
          }
      }, 
     output: {
@@ -140,6 +148,12 @@ module.exports = {
              }
          }), 
         new webpack.IgnorePlugin(/^((fs)|(path)|(os)|(crypto)|(source-map-support))$/, /vs(\/|\\)language(\/|\\)typescript(\/|\\)lib/), 
+        new webpack.ProvidePlugin({
+            Buffer: [
+                'buffer', 
+                'Buffer'
+            ]
+         }), 
         new webpack.ContextReplacementPlugin(/monaco-editor(\\|\/)esm(\\|\/)vs(\\|\/)editor(\\|\/)common(\\|\/)services/), 
         new MiniCssExtractPlugin(), 
         new HtmlWebpackPlugin({

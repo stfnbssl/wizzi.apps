@@ -122,6 +122,10 @@
                     }
                 ]
             },
+            "useNodePolifills": true,
+            "nodePolifills": {
+                "useBuffer": true
+            },
             "useDevServer": true,
             "devServer": {
                 "contentBase": "path.join(__dirname, 'src')"

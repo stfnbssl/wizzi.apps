@@ -20,6 +20,7 @@ module
                 @ updateTFolder
                 @ deleteTFolder
                 @ getTFolderObject
+                @ getTFolderObjectById
                 from '../api/tfolder'
             +
             const myname = 'features/production/controllers/tfolder'
@@ -56,9 +57,9 @@ module
 
         _ this.router.get('/new', this.getNewTFolderForm)
         _ this.router.post('/new', this.postTFolder)
-        _ this.router.get('/update/:userid/*', this.getUpdateTFolderForm)
+        _ this.router.get('/update/:id', this.getUpdateTFolderForm)
         _ this.router.post('/update', this.putTFolder)
-        _ this.router.get('/delete/:userid/*', this.getDeleteTFolderForm)
+        _ this.router.get('/delete/:id', this.getDeleteTFolderForm)
         _ this.router.post('/delete', this.deleteTFolder)
         
         $append handlers
@@ -81,8 +82,8 @@ module
                 # loog myname + '.postNewTFolder.request.session.user', JSON.stringify((request.session as any).user, null, 2)
                 _ createTFolder
                     @ (request.session as any).user.username
-                    @ request.body.ap_name
-                    @ request.body.ap_description
+                    @ request.body.tf_name
+                    @ request.body.tf_description
                     @ JSON.stringify(getPackiFiles('readme.md.ittf'))
                     ._ then
                         =>
@@ -90,7 +91,7 @@ module
                                 :ref CRUDResult
                             # loog myname + '.postNewTFolder.createTFolder.result', JSON.stringify(result, null, 2)
                             if result.ok
-                                _ response.redirect('/tfolders')
+                                _ response.redirect('/productions/tfolders')
                             else
                                 _ response.render
                                     @ 'error.html.ittf'

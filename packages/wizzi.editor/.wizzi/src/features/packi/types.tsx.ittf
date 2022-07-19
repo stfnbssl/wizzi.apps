@@ -317,9 +317,6 @@ module
                 :p disabled
                     :optional
                     :boolean
-                :p codeChangesDelay
-                    :optional
-                    :number
                 :p user
                     :optional
                     :ref PackiUser

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\apiv1tfolder.tsx.ittf
-    utc time: Fri, 15 Jul 2022 15:38:04 GMT
+    utc time: Tue, 19 Jul 2022 19:18:05 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -123,7 +123,7 @@ export class ApiV1TFolderController implements ControllerType {
     // loog 'putTFolder.request.body', request.body
     async (request: Request, response: Response) => 
     
-        updateTFolder(request.params.id, request.body.description, JSON.stringify(request.body.packiFiles)).then(
+        updateTFolder(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(request.body.packiFiles)).then(
         // loog 'putTFolder.result', result
         (result: any) => {
         

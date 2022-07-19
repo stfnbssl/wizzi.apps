@@ -5,13 +5,10 @@ $group
         const model = this._editor.getModel()
         if model
             const value = model.getValue()
-            log 'MonacoEditor._handleEditFile', value
+            # log 'MonacoEditor._handleEditFile', value
             if value !== this.props.files[this.props.selectedFile].contents
-                _ this.props.updateFiles
-                    { 
-                        { [this.props.selectedFile]
-                            @ type 'CODE'
-                            @ contents value
+                _ this.updateDebounced
+                    @ value
     +
     => _handleResize
         _ wz.debounce

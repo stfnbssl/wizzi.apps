@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\widgets\FormObject.tsx.ittf
-    utc time: Wed, 13 Jul 2022 18:16:24 GMT
+    utc time: Tue, 19 Jul 2022 18:40:05 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';

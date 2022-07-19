@@ -37,12 +37,5 @@ $group
     { fallback
         $if wzCtx.Build.useWebpack
             $if wzCtx.Build.webpack.useNodePolifills
-                @ assert require.resolve("assert/")
-                @ buffer require.resolve("buffer/")
-                @ crypto require.resolve("crypto-browserify")
-                @ events require.resolve("events/")
-                @ path require.resolve("path-browserify")
-                @ stream require.resolve("stream-browserify")
-                @ process require.resolve("process/browser.js")
-                @ url require.resolve("url/")
-                @ util require.resolve("util/")
+                $if wzCtx.Build.webpack.nodePolifills.useBuffer
+                    @ buffer require.resolve("buffer")

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\api\artifact.ts.ittf
-    utc time: Fri, 15 Jul 2022 15:38:03 GMT
+    utc time: Tue, 19 Jul 2022 19:18:03 GMT
 */
 import path from 'path';
 import NodeCache from 'node-cache';
@@ -359,7 +359,41 @@ export async function getArtifactProductionObject(owner: string, name: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getArtifactProduction_withCache.getTFolder.error', err);
+                console.log('getArtifactProductionObject.getArtifactProduction.error', err);
+                return reject(err);
+            }
+            )
+        
+        );
+}
+
+export async function getArtifactProductionObjectById(id: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            getArtifactProductionById(id).then(
+            // loog 'myname', 'getArtifactProductionObjectById.ap', ap
+            
+            // loog 'myname', 'getArtifactProductionObjectById.ap_packiFiles_object', ap_packiFiles_object
+            
+            // loog 'myname', 'getArtifactProductionObjectById', obj
+            (result) => {
+            
+                if (!result.ok) {
+                    return reject(result);
+                }
+                const ap: IArtifactProductionModel = result.item;
+                const ap_packiFiles_object: packiTypes.PackiFiles = JSON.parse(ap.packiFiles);
+                const obj = {
+                    ...ap._doc, 
+                    packiFiles: ap_packiFiles_object, 
+                    _id: ap._id.toString()
+                 };
+                return resolve(obj);
+            }
+            ).catch((err: any) => {
+            
+                console.log('getArtifactProductionObjectById.getArtifactProductionById.error', err);
                 return reject(err);
             }
             )
@@ -666,6 +700,73 @@ function contentTypeFor(file: string) {
         return extContentTypeMap['.' + ittfSchema];
     }
     return undefined;
+}
+
+export async function getArtifactMTree(owner: string, name: string, context: any) {
+
+    return new Promise((resolve, reject) => 
+        
+            getArtifactProduction_withCache(owner, name).then((ap: any) => 
+            
+                wizziProds.mTree(ap.mainIttf, ap.packiFiles, context).then((result: any) => {
+                
+                    console.log('getArtifactMTree', name, result.mTreeIttf.length);
+                    console.log('getArtifactMTree', name, result.mTreeIttf.substring(0, 500) + '...');
+                    const response = {
+                        content: result.mTreeIttf, 
+                        contentLength: result.mTreeIttf.length, 
+                        contentType: contentTypeFor('x.ittf.ittf')
+                     };
+                    return resolve(response);
+                }
+                ).catch((err: any) => {
+                
+                    console.log('getArtifactMTree.mTree.error', err);
+                    return reject(err);
+                }
+                )
+            
+            ).catch((err: any) => {
+            
+                console.log('getArtifactMTree.getArtifactProduction.error', err);
+                return reject(err);
+            }
+            )
+        
+        );
+}
+
+export async function getArtifactMTreeBuildupScript(owner: string, name: string, context: any) {
+
+    return new Promise((resolve, reject) => 
+        
+            getArtifactProduction_withCache(owner, name).then((ap: any) => 
+            
+                wizziProds.mTreeDebugInfo(ap.mainIttf, ap.packiFiles, context).then((result: any) => {
+                
+                    console.log('getArtifactMTreeBuildupScript', name, result.mTreeBuildUpScript);
+                    const response = {
+                        content: result.mTreeBuildUpScript, 
+                        contentLength: result.mTreeBuildUpScript.length, 
+                        contentType: contentTypeFor('x.ittf.ittf')
+                     };
+                    return resolve(response);
+                }
+                ).catch((err: any) => {
+                
+                    console.log('getArtifactMTreeBuildupScript.mTree.error', err);
+                    return reject(err);
+                }
+                )
+            
+            ).catch((err: any) => {
+            
+                console.log('getArtifactMTreeBuildupScript.getArtifactProduction.error', err);
+                return reject(err);
+            }
+            )
+        
+        );
 }
 
 export async function prepareGenerationFromWizziJson(req_files: packiTypes.PackiFiles):  Promise<any> {

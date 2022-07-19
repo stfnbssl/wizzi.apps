@@ -5,12 +5,10 @@
     @ previewShown {previewShown}
     @ panelsShown {preferences.panelsShown}
     @ sendCodeOnChangeEnabled {sendCodeOnChangeEnabled}
-    @ onSendCode {onSendCode}
     @ onToggleTheme {this._toggleTheme}
     @ onTogglePanels {this._togglePanels}
     @ onToggleFileTree {this._toggleFileTree}
     @ onTogglePreview {onTogglePreview}
-    @ onToggleSendCode {onToggleSendCode}
     @ onShowShortcuts {this._handleShowShortcuts}
     @ theme {this.props.preferences.theme}
     $if wzCtx.Build.usePackiAspects

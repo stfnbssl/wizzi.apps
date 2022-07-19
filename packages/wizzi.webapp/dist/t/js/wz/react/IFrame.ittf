@@ -7,7 +7,19 @@ $group
         did-mount
             if this.props.src
                 _ this._updateSrc
-        
+            $*
+            _ window.setInterval
+                =>
+                    _ this._updateSrc
+                    $$
+                    if this.ifr && this.ifr.contentWindow && this.ifr.contentWindow.location
+                        log this.ifr.contentWindow.location
+                        log this.props.src
+                        _ this.ifr.contentWindow.location.reload()
+                    $$
+                @ 2000
+            *$
+       
         did-update
             if this.props.src
                 _ this._updateSrc

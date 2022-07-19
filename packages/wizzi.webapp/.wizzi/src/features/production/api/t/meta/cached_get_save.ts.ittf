@@ -37,7 +37,43 @@ $group
                                     return 
                                         _ resolve
                                             @ obj
-                            catch_reject( getMetaProduction_withCache.getMetaProduction )
+                            catch_reject( getMetaProductionObject.getMetaProduction )
+
+    +
+    export
+        async-function getMetaProductionObjectById
+            param id
+                :string
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ getMetaProductionById
+                            @ id
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const tf
+                                        :ref IMetaProductionModel
+                                        = result.item
+                                    # loog 'myname', 'getMetaProductionObjectById.tf', tf
+                                    const tf_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(tf.packiFiles)
+                                    # loog 'myname', 'getMetaProductionObjectById.tf_packiFiles_object', tf_packiFiles_object
+                                    const obj
+                                        { 
+                                            @ ...tf._doc
+                                            @ packiFiles tf_packiFiles_object
+                                            @ _id tf._id.toString()
+                                    # loog 'myname', 'getMetaProductionObjectById', obj
+                                    return 
+                                        _ resolve
+                                            @ obj
+                            catch_reject( getMetaProductionObjectById.getMetaProductionById )
 
     +
     export

@@ -23,6 +23,7 @@ module
                 @ updatePackageProduction
                 @ deletePackageProduction
                 @ getPackageProductionObject
+                @ getPackageProductionObjectById
                 from '../api/package'
             import
                 @ packiTypes

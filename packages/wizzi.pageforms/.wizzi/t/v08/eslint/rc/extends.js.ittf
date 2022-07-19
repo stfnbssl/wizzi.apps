@@ -1,5 +1,11 @@
 $group
-    @ 'standard'
-    @ 'eslint:recommended'
-    @ 'plugin:@typescript-eslint/eslint-recommended'
-    @ 'plugin:@typescript-eslint/recommended'
+    $if wzCtx.Build.useExpo
+        @ 'universe/native'
+        @ 'universe/node'
+        @ 'universe/web'
+        @ 'universe/shared/typescript-analysis'
+    $else
+        @ 'standard'
+        @ 'eslint:recommended'
+        @ 'plugin:@typescript-eslint/eslint-recommended'
+        @ 'plugin:@typescript-eslint/recommended'

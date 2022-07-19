@@ -89,7 +89,7 @@ module
                             @ className flex-row m-xxl
                             div
                                 @ className flex-column m-s
-                                a_icon( New, /artifact/new
+                                a_icon( New, /user/new
                                     < AddIcon
                     
                     {

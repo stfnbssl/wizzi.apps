@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\api\plugin.ts.ittf
-    utc time: Fri, 15 Jul 2022 15:38:03 GMT
+    utc time: Tue, 19 Jul 2022 19:18:03 GMT
 */
 import NodeCache from 'node-cache';
 import {GetPluginProductionModel} from '../mongo/plugin';
@@ -334,7 +334,41 @@ export async function getPluginProductionObject(owner: string, name: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getPluginProduction_withCache.getPluginProduction.error', err);
+                console.log('getPluginProductionObject.getPluginProduction.error', err);
+                return reject(err);
+            }
+            )
+        
+        );
+}
+
+export async function getPluginProductionObjectById(id: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            getPluginProductionById(id).then(
+            // loog 'myname', 'getPluginProductionObjectById.tf', tf
+            
+            // loog 'myname', 'getPluginProductionObjectById.tf_packiFiles_object', tf_packiFiles_object
+            
+            // loog 'myname', 'getPluginProductionObjectById', obj
+            (result) => {
+            
+                if (!result.ok) {
+                    return reject(result);
+                }
+                const tf: IPluginProductionModel = result.item;
+                const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
+                const obj = {
+                    ...tf._doc, 
+                    packiFiles: tf_packiFiles_object, 
+                    _id: tf._id.toString()
+                 };
+                return resolve(obj);
+            }
+            ).catch((err: any) => {
+            
+                console.log('getPluginProductionObjectById.getPluginProductionById.error', err);
                 return reject(err);
             }
             )

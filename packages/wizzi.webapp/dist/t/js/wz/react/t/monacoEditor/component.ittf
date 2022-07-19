@@ -85,41 +85,42 @@ $group
                 ... rest
             = this.props
         
-        const options
-            {
-                @ ...rest
-                @ theme this.getTheme(theme, selectedFile)
-        
-        if this._editor
-            _ this._editor.updateOptions(options)
-            log "MonacoEditor.ComponentDidUpdate, selectedFile, files", selectedFile, files
-            const model = this._editor.getModel()
-            const value = files[selectedFile].contents
-            if selectedFile !== prevProps.selectedFile
-                _ MonacoEditor_editorStates.set(prevProps.selectedFile, this._editor.saveViewState())
-                    # Save the editor state for the previous file so we can restore it when it's re-opened
-                _ this._openDocument(selectedFile, value, autoFocus)
-            else
-                if model && value !== model.getValue()
-                    _ this._editor.executeEdits
-                        @ null
-                        [ 
-                            { 
-                                @ range model.getFullModelRange()
-                                @ text value
-                        # @ts-ignore
-        
-        if theme !== prevProps.theme || selectedFile !== prevProps.selectedFile
-            _ monaco.editor.setTheme
-                _ this.getTheme
-                    @ theme
-                    @ selectedFile
-        
-        if prevProps.files !== this.props.files
-            for const path in this.props.files
-                const file = this.props.files[path]
-                log 'MonacoEditor.ComponentDidUpdate, path, file', path, file
-                const prevContents = prevProps.files && prevProps.files[path] ? prevProps.files[path].contents : null
-                if file.type === 'CODE' && file.contents !== prevContents && path !== selectedFile
-                    _ this._initializeDocument(path, file.contents)
-                    # Load the file so the editor can provide proper intellisense
+        if files && selectedFile
+            const options
+                {
+                    @ ...rest
+                    @ theme this.getTheme(theme, selectedFile)
+            
+            if this._editor
+                _ this._editor.updateOptions(options)
+                log "MonacoEditor.ComponentDidUpdate, selectedFile, files", selectedFile, files
+                const model = this._editor.getModel()
+                const value = files[selectedFile].contents
+                if selectedFile !== prevProps.selectedFile
+                    _ MonacoEditor_editorStates.set(prevProps.selectedFile, this._editor.saveViewState())
+                        # Save the editor state for the previous file so we can restore it when it's re-opened
+                    _ this._openDocument(selectedFile, value, autoFocus)
+                else
+                    if model && value !== model.getValue()
+                        _ this._editor.executeEdits
+                            @ null
+                            [ 
+                                { 
+                                    @ range model.getFullModelRange()
+                                    @ text value
+                            # @ts-ignore
+            
+            if theme !== prevProps.theme || selectedFile !== prevProps.selectedFile
+                _ monaco.editor.setTheme
+                    _ this.getTheme
+                        @ theme
+                        @ selectedFile
+            
+            if this.props.files && prevProps.files !== this.props.files
+                for const path in this.props.files
+                    const file = this.props.files[path]
+                    log 'MonacoEditor.ComponentDidUpdate, path, file', path, file
+                    const prevContents = prevProps.files && prevProps.files[path] ? prevProps.files[path].contents : null
+                    if file.type === 'CODE' && file.contents !== prevContents && path !== selectedFile
+                        _ this._initializeDocument(path, file.contents)
+                        # Load the file so the editor can provide proper intellisense

@@ -35,10 +35,6 @@ $group
                     @ files
                     @ packiProduction
                     @ verbose
-                    @ codeChangesDelay
-                        iif sendCodeOnChangeEnabled
-                            then 1000
-                            else -1
                     @ user props.loggedUser
                     @ apiURL nullthrows(process.env.API_SERVER_URL)
                     @ host new URL(nullthrows(process.env.SERVER_URL)).host

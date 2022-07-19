@@ -23,6 +23,7 @@ module
                 @ updatePluginProduction
                 @ deletePluginProduction
                 @ getPluginProductionObject
+                @ getPluginProductionObjectById
                 from '../api/plugin'
             import
                 @ packiTypes

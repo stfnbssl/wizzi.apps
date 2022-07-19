@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\artifact.tsx.ittf
-    utc time: Fri, 15 Jul 2022 15:38:04 GMT
+    utc time: Tue, 19 Jul 2022 19:18:05 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -11,7 +11,7 @@ import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../ut
 import ReactDOMServer from 'react-dom/server';
 import PageFormDocument from '../../../pages/PageFormDocument';
 import {CRUDResult} from '../../types';
-import {createArtifactProduction, updateArtifactProduction, deleteArtifactProduction, getArtifactProductionObject} from '../api/artifact';
+import {createArtifactProduction, updateArtifactProduction, deleteArtifactProduction, getArtifactProductionObject, getArtifactProductionObjectById} from '../api/artifact';
 
 const myname = 'features/production/controllers/artifact';
 
@@ -101,22 +101,19 @@ export class ArtifactProductionController implements ControllerType {
     
     private getUpdateArtifactForm = 
     // loog myname + '.getUpdateArtifactForm', request.path
-    
-    // loog myname + '.getUpdateArtifactForm', parts[2], parts.slice(3).join('/')
     async (request: Request, response: Response) => {
     
-        const parts = request.path.split('/');
-        const userid = parts[2];
-        const name = parts.slice(3).join('/');
-        getArtifactProductionObject(userid, name).then((result: any) => 
+        const id = request.params.id;
+        console.log(myname + '.getUpdateArtifactForm.id', id);
+        getArtifactProductionObjectById(id).then((result: any) => 
         
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'UpdateArtifactProduction', 
                 formData: {
-                    _id: result._id, 
-                    userid: userid, 
-                    name: name, 
+                    _id: id, 
+                    userid: result.owner, 
+                    name: result.name, 
                     description: result.description, 
                     mainIttf: result.mainIttf, 
                     wizziSchema: result.wizziSchema
@@ -138,10 +135,12 @@ export class ArtifactProductionController implements ControllerType {
         updateArtifactProduction(obj.ap_id, obj.ap_owner, obj.ap_name, obj.ap_description, obj.ap_mainIttf, obj.ap_wizziSchema).then((result: any) => {
         
             if (result.ok) {
-                sendSuccess(response, {
-                    body: request.body, 
-                    user: (request.session as any).user, 
-                    result: result
+                response.redirect('/productions/artifacts');
+            }
+            else {
+                response.render('error.html.ittf', {
+                    message: 'updating a artifact production', 
+                    error: result
                  })
             }
         }
@@ -151,22 +150,19 @@ export class ArtifactProductionController implements ControllerType {
     
     private getDeleteArtifactForm = 
     // loog myname + '.getDeleteArtifactForm', request.path
-    
-    // loog myname + '.getDeleteArtifactForm', parts[2], parts.slice(3).join('/')
     async (request: Request, response: Response) => {
     
-        const parts = request.path.split('/');
-        const userid = parts[2];
-        const name = parts.slice(3).join('/');
-        getArtifactProductionObject(userid, name).then((result: any) => 
+        const id = request.params.id;
+        console.log(myname + '.getDeleteArtifactForm.id', id);
+        getArtifactProductionObjectById(id).then((result: any) => 
         
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'DeleteArtifactProduction', 
                 formData: {
                     _id: result._id, 
-                    userid: userid, 
-                    name: name, 
+                    userid: result.owner, 
+                    name: result.name, 
                     description: result.description, 
                     mainIttf: result.mainIttf, 
                     wizziSchema: result.wizziSchema
@@ -182,11 +178,28 @@ export class ArtifactProductionController implements ControllerType {
     // loog myname + '.deleteArtifact.request.session.user', JSON.stringify((request.session as any).user, null, 2)
     async (request: Request, response: Response) => {
     
-        console.log(myname + '.deleteArtifact', request.path);
-        sendSuccess(response, {
-            body: request.body, 
-            user: (request.session as any).user
-         })
+        console.log(myname + '.deleteArtifact.request.path', request.path);
+        const obj = request.body;
+        deleteArtifactProduction(obj.ap_id, obj.ap_owner, obj.ap_name, obj.ap_description, obj.ap_mainIttf, obj.ap_wizziSchema).then((result: any) => {
+        
+            if (result.ok) {
+                return sendSuccess(response, {
+                        body: request.body, 
+                        user: (request.session as any).user, 
+                        result: result
+                     });
+            }
+            if (result.ok) {
+                response.redirect('/productions/artifacts');
+            }
+            else {
+                response.render('error.html.ittf', {
+                    message: 'deleting a artifact production', 
+                    error: result
+                 })
+            }
+        }
+        )
     }
     ;
 }

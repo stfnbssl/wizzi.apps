@@ -12,16 +12,21 @@ $group
     m _generateArtifact
         param filePath
             :string
-        const files = this.state.session.files
-        if Object.keys(files).length
-            set filePath = filePath || this.state.selectedFile || Object.keys(files)[0]
-            if filePath.endsWith('.ittf')
-                log '_generateArtifact.filePath', filePath
-                log '_generateArtifact', 'state.session.files', files
-                _ this.props.dispatchGenerateArtifact
-                    @ filePath
-                    _ fileConversions.packiFilterIttf
-                        @ this.state.session.files
+        log '_generateArtifact, filePath, this.state.session.packiProduction', filePath, this.state.session.packiProduction
+        if this.state.session.packiProduction == 'artifact'
+            const files = this.state.session.files
+            if Object.keys(files).length
+                set filePath = filePath || this.state.selectedFile || Object.keys(files)[0]
+                if filePath.endsWith('.ittf')
+                    log '_generateArtifact filePath.startsWith("t/")', filePath.startsWith('t/')
+                    log '_generateArtifact filePath.indexOf("/t/") > -1', filePath.indexOf('/t/') > -1
+                    if !(filePath.startsWith('t/') || filePath.indexOf('/t/') > -1)
+                        log '_generateArtifact.filePath', filePath
+                        log '_generateArtifact', 'state.session.files', files
+                        _ this.props.dispatchGenerateArtifact
+                            @ filePath
+                            _ fileConversions.packiFilterIttf
+                                @ this.state.session.files
 
     +
     => _executeJobNotDebounced

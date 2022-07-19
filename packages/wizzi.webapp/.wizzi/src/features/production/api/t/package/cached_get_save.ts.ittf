@@ -37,7 +37,43 @@ $group
                                     return 
                                         _ resolve
                                             @ obj
-                            catch_reject( getPackageProduction_withCache.getPackageProduction )
+                            catch_reject( getPackageProductionObject.getPackageProduction )
+
+    +
+    export
+        async-function getPackageProductionObjectById
+            param id
+                :string
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ getPackageProductionById
+                            @ id
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const tf
+                                        :ref IPackageProductionModel
+                                        = result.item
+                                    # loog 'myname', 'getPackageProductionObjectById.tf', tf
+                                    const tf_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(tf.packiFiles)
+                                    # loog 'myname', 'getPackageProductionObjectById.tf_packiFiles_object', tf_packiFiles_object
+                                    const obj
+                                        { 
+                                            @ ...tf._doc
+                                            @ packiFiles tf_packiFiles_object
+                                            @ _id tf._id.toString()
+                                    # loog 'myname', 'getPackageProductionObjectById', obj
+                                    return 
+                                        _ resolve
+                                            @ obj
+                            catch_reject( getPackageProductionObjectById.getPackageProductionById )
 
     +
     export

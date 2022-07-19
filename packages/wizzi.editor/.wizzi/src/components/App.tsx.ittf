@@ -211,10 +211,7 @@ module
                                             @ name {this.state.session.name}
                                             @ id {this.state.session.id}
                                             @ onDownloadAsync {this._handleDownloadAsync}
-                                            @ onPublishAsync {this._saveAsync}
-                                            @ onSendCode {this._handleSendCode}
                                             @ onSubmitMetadata {this._handleSubmitMetadata}
-                                            @ onToggleSendCode {this._handleToggleSendCode}
                                             @ onTogglePreview {this._handleTogglePreview}
                                             @ onSelectFile {this._handleSelectFile}
                                             @ previewRef {this._previewRef}

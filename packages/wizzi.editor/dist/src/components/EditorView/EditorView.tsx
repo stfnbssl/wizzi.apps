@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorView.tsx.ittf
-    utc time: Tue, 12 Jul 2022 15:10:51 GMT
+    utc time: Tue, 19 Jul 2022 16:44:54 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import debounce from 'lodash/debounce';
@@ -227,9 +227,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
             selectedFile, 
             sendCodeOnChangeEnabled, 
             userAgent, 
-            onSendCode, 
             onPublishAsync, 
-            onToggleSendCode, 
             onTogglePreview, 
             uploadFileAsync, 
             preferences, 
@@ -275,8 +273,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                         } = {
                             tree: this._toggleFileTree, 
                             panels: this._togglePanels, 
-                            shortcuts: this._handleShowShortcuts, 
-                            update: onSendCode
+                            shortcuts: this._handleShowShortcuts
                          };
                         const fn = commands[type];
                         if (fn) {
@@ -575,12 +572,10 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                     previewShown={previewShown}
                     panelsShown={preferences.panelsShown}
                     sendCodeOnChangeEnabled={sendCodeOnChangeEnabled}
-                    onSendCode={onSendCode}
                     onToggleTheme={this._toggleTheme}
                     onTogglePanels={this._togglePanels}
                     onToggleFileTree={this._toggleFileTree}
                     onTogglePreview={onTogglePreview}
-                    onToggleSendCode={onToggleSendCode}
                     onShowShortcuts={this._handleShowShortcuts}
                     theme={this.props.preferences.theme}
                     autoGenSingleDoc={preferences.autoGenSingleDoc}

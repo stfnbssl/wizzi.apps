@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\plugin.tsx.ittf
-    utc time: Fri, 15 Jul 2022 15:38:04 GMT
+    utc time: Tue, 19 Jul 2022 19:18:05 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -12,7 +12,7 @@ import ReactDOMServer from 'react-dom/server';
 import PageFormDocument from '../../../pages/PageFormDocument';
 import {CRUDResult} from '../../types';
 import {getTemplatePackiFiles} from '../api/meta';
-import {createPluginProduction, updatePluginProduction, deletePluginProduction, getPluginProductionObject} from '../api/plugin';
+import {createPluginProduction, updatePluginProduction, deletePluginProduction, getPluginProductionObject, getPluginProductionObjectById} from '../api/plugin';
 import {packiTypes} from '../../packi';
 
 const myname = 'features/production/controllers/plugin';
@@ -144,13 +144,15 @@ export class PluginProductionController implements ControllerType {
     async (request: Request, response: Response) => {
     
         const obj = request.body;
-        updatePluginProduction(obj.ap_id, obj.ap_owner, obj.ap_name, obj.ap_description).then((result: any) => {
+        updatePluginProduction(obj.pp_id, obj.pp_owner, obj.pp_name, obj.pp_description).then((result: any) => {
         
             if (result.ok) {
-                sendSuccess(response, {
-                    body: request.body, 
-                    user: (request.session as any).user, 
-                    result: result
+                response.redirect('/productions/plugins');
+            }
+            else {
+                response.render('error.html.ittf', {
+                    message: 'updating a plugin production', 
+                    error: result
                  })
             }
         }
@@ -189,11 +191,28 @@ export class PluginProductionController implements ControllerType {
     // loog myname + '.deletePlugin.request.session.user', JSON.stringify((request.session as any).user, null, 2)
     async (request: Request, response: Response) => {
     
-        console.log(myname + '.deletePlugin', request.path);
-        sendSuccess(response, {
-            body: request.body, 
-            user: (request.session as any).user
-         })
+        console.log(myname + '.deletePlugin.request.path', request.path);
+        const obj = request.body;
+        deletePluginProduction(obj.pp_id, obj.pp_owner, obj.pp_name, obj.pp_description).then((result: any) => {
+        
+            if (result.ok) {
+                return sendSuccess(response, {
+                        body: request.body, 
+                        user: (request.session as any).user, 
+                        result: result
+                     });
+            }
+            if (result.ok) {
+                response.redirect('/productions/plugins');
+            }
+            else {
+                response.render('error.html.ittf', {
+                    message: 'deleting a plugin production', 
+                    error: result
+                 })
+            }
+        }
+        )
     }
     ;
     

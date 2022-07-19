@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\package.tsx.ittf
-    utc time: Fri, 15 Jul 2022 15:38:04 GMT
+    utc time: Tue, 19 Jul 2022 19:18:05 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -12,7 +12,7 @@ import ReactDOMServer from 'react-dom/server';
 import PageFormDocument from '../../../pages/PageFormDocument';
 import {CRUDResult} from '../../types';
 import {getTemplatePackiFiles} from '../api/meta';
-import {createPackageProduction, updatePackageProduction, deletePackageProduction, getPackageProductionObject} from '../api/package';
+import {createPackageProduction, updatePackageProduction, deletePackageProduction, getPackageProductionObject, getPackageProductionObjectById} from '../api/package';
 import {packiTypes} from '../../packi';
 
 const myname = 'features/production/controllers/package';
@@ -147,10 +147,12 @@ export class PackageProductionController implements ControllerType {
         updatePackageProduction(obj.pp_id, obj.pp_owner, obj.pp_name, obj.pp_description).then((result: any) => {
         
             if (result.ok) {
-                sendSuccess(response, {
-                    body: request.body, 
-                    user: (request.session as any).user, 
-                    result: result
+                response.redirect('/productions/packages');
+            }
+            else {
+                response.render('error.html.ittf', {
+                    message: 'updating a package production', 
+                    error: result
                  })
             }
         }
@@ -189,11 +191,28 @@ export class PackageProductionController implements ControllerType {
     // loog myname + '.deletePackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
     async (request: Request, response: Response) => {
     
-        console.log(myname + '.deletePackage', request.path);
-        sendSuccess(response, {
-            body: request.body, 
-            user: (request.session as any).user
-         })
+        console.log(myname + '.deletePackage.request.path', request.path);
+        const obj = request.body;
+        deletePackageProduction(obj.pp_id, obj.pp_owner, obj.pp_name, obj.pp_description).then((result: any) => {
+        
+            if (result.ok) {
+                return sendSuccess(response, {
+                        body: request.body, 
+                        user: (request.session as any).user, 
+                        result: result
+                     });
+            }
+            if (result.ok) {
+                response.redirect('/productions/packages');
+            }
+            else {
+                response.render('error.html.ittf', {
+                    message: 'deleting a package production', 
+                    error: result
+                 })
+            }
+        }
+        )
     }
     ;
     

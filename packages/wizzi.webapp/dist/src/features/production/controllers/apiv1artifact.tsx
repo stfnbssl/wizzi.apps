@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\apiv1artifact.tsx.ittf
-    utc time: Fri, 15 Jul 2022 15:38:04 GMT
+    utc time: Tue, 19 Jul 2022 19:18:05 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -98,7 +98,7 @@ export class ApiV1ArtifactProductionController implements ControllerType {
     
         console.log('postArtifactProduction.request.params', request.params);
         console.log('postArtifactProduction.request.body', request.body);
-        createArtifactProduction(request.params.owner, request.params.name, request.body.description, request.body.mainIttf, request.body.schema, JSON.stringify(request.body.packiFiles)).then((result: any) => {
+        createArtifactProduction(request.params.owner, request.params.name, request.body.description, request.body.mainIttf, request.body.wizziSchema, JSON.stringify(request.body.packiFiles)).then((result: any) => {
         
             console.log('postArtifactProduction.create.result', result);
             invalidateCache(request.params.owner, request.params.name)
@@ -119,7 +119,7 @@ export class ApiV1ArtifactProductionController implements ControllerType {
     
         console.log('putArtifactProduction.request.params', request.params);
         console.log('putArtifactProduction.request.body', request.body);
-        updateArtifactProduction(request.params.id, request.body.owner, request.body.name, request.body.description, request.body.mainIttf, request.body.schema, JSON.stringify(request.body.packiFiles)).then((result: any) => {
+        updateArtifactProduction(request.params.id, request.body.owner, request.body.name, request.body.description, request.body.mainIttf, request.body.wizziSchema, JSON.stringify(request.body.packiFiles)).then((result: any) => {
         
             console.log('putArtifactProduction.update.result', result);
             invalidateCache(request.params.owner, request.params.name)

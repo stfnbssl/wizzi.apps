@@ -23,6 +23,7 @@ module
             log 'DeleteMetaProduction.componentDidMount.props', this.props
             const
                 {
+                    @ _id
                     @ userid
                     @ name
                     @ description
@@ -30,6 +31,7 @@ module
             
             _ this.setState
                 {
+                    @ mp_id _id
                     @ mp_userid userid
                     @ mp_name name
                     @ mp_description description
@@ -57,7 +59,13 @@ module
                             =>
                                 param ref
                                 set this.formRef = ref                        
-                        < FormHidden
+                        < FormStatic
+                            @ label 'Meta id'
+                            @ name 'mp_id'
+                            @ id 'mp_id'
+                            @ value {this.state.mp_id}
+                        < FormStatic
+                            @ label 'Meta owner'
                             @ name 'mp_userid'
                             @ id 'mp_userid'
                             @ value {this.state.mp_userid}

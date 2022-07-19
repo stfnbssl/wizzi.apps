@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\middlewares\ittfStatic.ts.ittf
-    utc time: Fri, 15 Jul 2022 15:38:03 GMT
+    utc time: Tue, 19 Jul 2022 19:18:03 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -63,17 +63,17 @@ function contentTypeFor(file: string):  string | undefined {
 
 /**
     // 
-    // req.query._context contains a semicolon separated list of context models export names.
-    // For each <export-name> must exists a req.query._<export-name> parameter
+    // request.query._context contains a semicolon separated list of context models export names.
+    // For each <export-name> must exists a request.query._<export-name> parameter
     // with a type;path value pair.
     // The type is the model knwon type or a wizzi schema, the path is the
     // relative path of the ittf document of the model, relative to the
     // filepath of the requested resource.
     // 
     // Example (two context models, export names: cs and info)
-    // req.query._context = 'cs;info'
-    // req.query._cs = 'cheatsheet;html'
-    // req.query._info = 'json;../cslayout.json.ittf'
+    // request.query._context = 'cs;info'
+    // request.query._cs = 'cheatsheet;html'
+    // request.query._info = 'json;../cslayout.json.ittf'
     // 
     // If the path value is missing it defaults to ./index.<type>.ittf
     // 
@@ -81,12 +81,12 @@ function contentTypeFor(file: string):  string | undefined {
 */
 function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
 
-    return async (req: Request, res: Response, next: Function) => {
+    return async (request: Request, response: Response, next: Function) => {
         
-            if (req.method !== 'GET' && req.method !== 'HEAD') {
+            if (request.method !== 'GET' && request.method !== 'HEAD') {
                 return next();
             }
-            const parsedUrl = parseUrl(req);
+            const parsedUrl = parseUrl(request);
             if (!parsedUrl || !parsedUrl.pathname) {
                 return next();
             }
@@ -98,8 +98,8 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
             // ??? urlPathName.substr(routePath.length);
             const filePath = path.join(basePath, pathname);
             const extname = path.extname(filePath);
-            var queryMeta = (req.query.meta as string);
-            var queryTransform = (req.query.transform as string);
+            var queryMeta = (request.query.meta as string);
+            var queryTransform = (request.query.transform as string);
             console.log('middleware.ittfStatic', 'urlPathName', urlPathName, 'pathname', pathname, 'filePath', filePath, 'path.extname(filePath)', path.extname(filePath), 'queryMeta', queryMeta);
             if (fs.existsSync(filePath) === false) {
                 console.log('filePath do not exists', filePath);
@@ -107,10 +107,10 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
             }
             if (fs.statSync(filePath).isDirectory()) {
                 console.log('filePath is directory', filePath);
-                return sendFolderScan(filePath, basePath, queryMeta, res);
+                return sendFolderScan(filePath, basePath, queryMeta, request, response);
             }
             if (queryTransform && queryTransform.indexOf('/') > 0) {
-                return sendTransform(filePath, queryTransform, res);
+                return sendTransform(filePath, queryTransform, response);
             }
             let ittfSchema = ittfSchemaOf(filePath);
             let contentType = contentTypeFor(filePath);
@@ -124,63 +124,76 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                         const generated = await wizziProds.generateArtifactFs(config.metaHtmlIttfPath, {
                                 wizzischema: 'html', 
                                 path: filePath, 
-                                req, 
-                                ds: documentState
+                                request, 
+                                ds: documentState, 
+                                locals: {
+                                    user: (request.session as any).user
+                                 }
                              });
                         // console.log('generated.meta.document', generated.artifactContent);
-                        res.writeHead(200, {
+                        response.writeHead(200, {
                             'Content-Type': 'text/html', 
                             'Content-Length': generated.artifactContent.length
                          })
-                        res.end(generated.artifactContent);
+                        response.end(generated.artifactContent);
                     } 
                     catch (ex) {
-                        sendError(res, ex, {
+                        sendError(response, ex, {
                             format: 'json'
                          })
                     } 
                 }
                 else if (queryMeta && queryMeta === 'json' && ittfSchema == 'ittf') {
-                    wizziProds.generateArtifactFs(filePath, {}, {
+                    wizziProds.generateArtifactFs(filePath, {
+                        locals: {
+                            user: (request.session as any).user
+                         }
+                     }, {
                         generator: 'ittf/tojson'
                      }).then((generated) => {
                     
                         console.log('generated.meta.ittf.json', filePath);
-                        res.writeHead(200, {
+                        response.writeHead(200, {
                             'Content-Type': 'application/json', 
                             'Content-Length': generated.artifactContent.length
                          })
-                        res.end(generated.artifactContent);
+                        response.end(generated.artifactContent);
                     }
                     ).catch((err) => {
                     
-                        return sendError(res, err, {
+                        return sendError(response, err, {
                                 format: 'json'
                              });
                     }
                     )
                 }
                 else {
-                    return contextLoader(filePath, req, function(err: any, modelContext: WizziModel) {
+                    return contextLoader(filePath, request, function(err: any, modelContext: WizziModel) {
                         
                             if (err) {
-                                return sendError(res, err, {
+                                return sendError(response, err, {
                                         format: 'json'
                                      });
                             }
+                            modelContext = Object.assign({}, modelContext, {
+                                locals: {
+                                    user: (request.session as any).user
+                                 }
+                             })
+                            ;
                             wizziProds.generateArtifactFs(filePath, modelContext).then(
                             // loog 'generated.artifactContent', generated.artifactContent
                             (generated) => {
                             
-                                res.writeHead(200, {
+                                response.writeHead(200, {
                                     'Content-Type': contentType, 
                                     'Content-Length': generated.artifactContent.length
                                  })
-                                res.end(generated.artifactContent);
+                                response.end(generated.artifactContent);
                             }
                             ).catch((err) => {
                             
-                                return sendError(res, err, {
+                                return sendError(response, err, {
                                         format: 'json'
                                      });
                             }
@@ -196,17 +209,17 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
 }
 /**
     // 
-    // req.query._context contains a semicolon separated list of context models export names.
-    // For each <export-name> must exists a req.query._<export-name> parameter
+    // request.query._context contains a semicolon separated list of context models export names.
+    // For each <export-name> must exists a request.query._<export-name> parameter
     // with a type;path value pair.
     // The type is the model knwon type or a wizzi schema, the path is the
     // relative path of the ittf document of the model, relative to the
     // filepath of the requested resource.
     // 
     // Example (two context models, export names: cs and info)
-    // req.query._context = 'cs;info'
-    // req.query._cs = 'cheatsheet;html'
-    // req.query._info = 'json;../cslayout.json.ittf'
+    // request.query._context = 'cs;info'
+    // request.query._cs = 'cheatsheet;html'
+    // request.query._info = 'json;../cslayout.json.ittf'
     // 
     // If the path value is missing it defaults to ./index.<type>.ittf
     // 
@@ -219,20 +232,20 @@ type contextRequest = {
     fullPath: any;
     relPath: any;
 };
-async function contextLoader(resourceFilePath: string, req: Request, callback: any) {
+async function contextLoader(resourceFilePath: string, request: Request, callback: any) {
 
-    const contextRequest: string = (req.query._context as string);
+    const contextRequest: string = (request.query._context as string);
     if (contextRequest && contextRequest.length > 0) {
         const ss = contextRequest.split(';');
-        const requests: contextRequest[] = [];
+        const ctxRequests: contextRequest[] = [];
         ss.forEach((element) => {
         
-            const request: contextRequest = {
+            const ctxRequest: contextRequest = {
                 exportName: element, 
                 fullPath: undefined, 
                 relPath: undefined
              };
-            const type_path = (req.query['_' + element] as string);
+            const type_path = (request.query['_' + element] as string);
             console.log('contextLoader exportName, type_path', element, type_path);
             if (!type_path) {
                 return (callback({
@@ -241,43 +254,43 @@ async function contextLoader(resourceFilePath: string, req: Request, callback: a
                      }));
             }
             const tp = type_path.split(';');
-            request.type = tp[0];
+            ctxRequest.type = tp[0];
             if (tp.length < 2) {
-                request.relPath = './index.' + tp[0] + '.ittf';
+                ctxRequest.relPath = './index.' + tp[0] + '.ittf';
             }
             else {
-                request.relPath = tp[1];
+                ctxRequest.relPath = tp[1];
             }
-            console.log('contextLoader exportName, type_path, relPath', element, type_path, request.relPath);
-            if (request.type === 'cheatsheet') {
-                request.name = request.relPath;
-                requests.push(request);
+            console.log('contextLoader exportName, type_path, relPath', element, type_path, ctxRequest.relPath);
+            if (ctxRequest.type === 'cheatsheet') {
+                ctxRequest.name = ctxRequest.relPath;
+                ctxRequests.push(ctxRequest);
             }
             else {
-                request.fullPath = path.join(path.dirname(resourceFilePath), request.relPath);
-                requests.push(request);
+                ctxRequest.fullPath = path.join(path.dirname(resourceFilePath), ctxRequest.relPath);
+                ctxRequests.push(ctxRequest);
             }
-            console.log('contextLoader request', request);
+            console.log('contextLoader ctxRequest', ctxRequest);
         }
         )
-        console.log('contextLoader.requests', requests);
+        console.log('contextLoader.ctxRequests', ctxRequests);
         const resultContext: { 
             [k: string]: WizziModel;
         } = {};
-        const repeatCount = requests.length;
+        const repeatCount = ctxRequests.length;
         const repeat = (index: number) => {
         
             if (index == repeatCount) {
                 return callback(null, resultContext);
             }
-            const request = requests[index];
-            if (request.type === 'cheatsheet') {
+            const ctxRequest = ctxRequests[index];
+            if (ctxRequest.type === 'cheatsheet') {
                 return callback('Context loader for cheatsheet type not implemented.');
             }
             else {
-                wizziProds.loadModelFs(request.fullPath, {}).then((model) => {
+                wizziProds.loadModelFs(ctxRequest.fullPath, {}).then((model) => {
                 
-                    resultContext[request.exportName] = model;
+                    resultContext[ctxRequest.exportName] = model;
                     repeat(index + 1);
                 }
                 ).catch(err => 
@@ -300,13 +313,13 @@ async function contextLoader(resourceFilePath: string, req: Request, callback: a
     }
 }
 
-async function sendFolderScan(folderPath: string, root: string, meta: string, res: Response) {
+async function sendFolderScan(folderPath: string, root: string, meta: string, request: Request, response: Response) {
 
     try {
         const folderState = await wizziProds.scanIttfFolder(folderPath, path.dirname(root));
         console.log('sendFolderScan', 'folderState.keys', Object.keys(folderState));
         if (meta === 'json') {
-            return sendJSONStringified(res, folderState);
+            return sendJSONStringified(response, folderState);
         }
         else {
             
@@ -314,42 +327,45 @@ async function sendFolderScan(folderPath: string, root: string, meta: string, re
             const generated = await wizziProds.generateArtifactFs(config.metaFolderIttfPath, {
                     wizzischema: 'html', 
                     path: folderPath, 
-                    fs: folderState
+                    fs: folderState, 
+                    locals: {
+                        user: (request.session as any).user
+                     }
                  });
             // console.log('generated.meta.document', generated.artifactContent);
-            res.writeHead(200, {
+            response.writeHead(200, {
                 'Content-Type': 'text/html', 
                 'Content-Length': generated.artifactContent.length
              })
-            res.end(generated.artifactContent);
+            response.end(generated.artifactContent);
         }
     } 
     catch (ex) {
         console.log('sendFolderScan.exception', ex);
-        sendError(res, ex, {
+        sendError(response, ex, {
             format: 'json'
          })
     } 
 }
 
-function sendTransform(filePath: string, transformer: string, res: Response) {
+function sendTransform(filePath: string, transformer: string, response: Response) {
 
     wizziProds.transformModelFs(filePath, {}, {
         transformer: transformer
      }).then(model => 
     
-        res.send(stringify(model, null, 2))
+        response.send(stringify(model, null, 2))
     ).catch(err => 
     
-        sendError(res, err, {
+        sendError(response, err, {
             format: 'json'
          })
     )
 }
 
-function sendJSONStringified(res: Response, wizziModelInstance: any) {
+function sendJSONStringified(response: Response, wizziModelInstance: any) {
 
-    res.send('<pre>' + stringify(cleanCircular(wizziModelInstance, []), null, 2) + '</pre>');
+    response.send('<pre>' + stringify(cleanCircular(wizziModelInstance, []), null, 2) + '</pre>');
 }
 
 function cleanCircular(obj: any, stock: any[]) {
@@ -404,7 +420,7 @@ function cleanCircular(obj: any, stock: any[]) {
     return obj;
 }
 
-function sendError(res: Response, err: any, options: any) {
+function sendError(response: Response, err: any, options: any) {
 
     options = options || {};
     const code = options.code || 999;
@@ -429,8 +445,8 @@ function sendError(res: Response, err: any, options: any) {
             errEmit.stack = stackArray;
         }
     }
-    res.setHeader('Content-Type', 'application/json');
-    res.send(stringify({
+    response.setHeader('Content-Type', 'application/json');
+    response.send(stringify({
         code, 
         error: errEmit
      }, null, 4))

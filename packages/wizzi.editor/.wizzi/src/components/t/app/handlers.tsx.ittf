@@ -8,21 +8,6 @@ $group
                 _ this._PackiSession.setFocus()
     p _handleUnload
         async=> 
-    => _handleToggleSendCode
-        _ this.setState
-            => 
-                { 
-                    @ sendCodeOnChangeEnabled
-                _ this._PackiSession.setCodeChangesDelay
-                    iif sendCodeOnChangeEnabled
-                        then -1
-                        else 1000
-                return 
-                    { 
-                        @ sendCodeOnChangeEnabled !sendCodeOnChangeEnabled
-    => _handleSendCode
-        _ this._PackiSession.sendCodeChanges()
-    
     => _handleSessionStateChange
         param packiState
             :ref PackiState
@@ -59,9 +44,6 @@ $group
                 # for changes uploaded see
                 # - _PackiSession.updatePackiData
                 # - _PackiSession.updatePackiFiles
-                $if false
-                    log 'App._handleSessionStateChange', 'calling _saveDraftIfNeeded'
-                    _ this._saveDraftIfNeeded(true)
             # log 'Session state change: ', diff(prevPackiState, packiState), packiState $$ deep-object-diff
     +
     => _handleSubmitMetadata
@@ -91,12 +73,6 @@ $group
                     @ saveStatus
                 = this.state
                 # Make sure file is saved before downloading
-            if saveStatus !== 'published'
-                await 
-                    _ this._saveAsync
-                        { 
-                            @ ignoreUser true
-                            @ excludeFromHistory true
             let once = true
             _ this.setState
                 => 
@@ -131,86 +107,6 @@ $group
                         { 
                             @ saveStatus
                             @ isDownloading false
-    +
-    => _saveDraftIfNeeded
-        param debounced
-            :boolean 
-            :optional 
-        log 'App._saveDraftIfNeeded', 'this.state.session.user', this.state.session.user,
-            \b 'this.state.autosaveEnabled', this.state.autosaveEnabled,
-            \b 'this.state.saveStatus', this.state.saveStatus
-        if true $$ TODO this.state.session.user && this.state.session.unsaved && this.state.autosaveEnabled && this.state.saveStatus === 'edited'
-            if debounced
-                _ this._saveDraftIfNeededDebounced()
-            else
-                _ this._saveAsync
-                    { 
-                        @ isDraft true
-    p _saveDraftIfNeededDebounced
-        _ debounce(this._saveDraftIfNeeded, 3000)
-    +
-    p _saveAsync
-        async=> 
-            param options
-                :ref PackiSaveOptions
-                = 
-                    { 
-            const 
-                { 
-                    @ isDraft
-                    @ ignoreUser
-                    @ excludeFromHistory
-                = options
-            _ this.setState
-                { 
-                    @ saveStatus
-                        iif isDraft || excludeFromHistory
-                            then 'saving-draft'
-                            else 'publishing'
-            if !isDraft
-                let cntCodeFile = 0
-                let cntAssetFile = 0
-                let codeSize = 0
-                for 
-                    left
-                        const path
-                    in this.state.session.files
-                    const file = this.state.session.files[path]
-                    if file.type === 'CODE'
-                        set cntCodeFile++
-                        set codeSize += file.contents.length
-                    else
-                        set cntAssetFile++
-            try 
-                set this.edited = false
-                const saveResult
-                    await 
-                        _ this._PackiSession.saveAsync
-                            { 
-                                @ isDraft
-                                @ ignoreUser
-                _ this.setState
-                    => 
-                        param state
-                        (
-                            { 
-                                @ isSavedOnce true
-                                @ saveStatus
-                                    iif state.session.unsaved
-                                        then
-                                            iif this.edited
-                                                then 'edited'
-                                                else 'unsaved'
-                                        else
-                                            iif isDraft
-                                                then 'saved-draft'
-                                                else 'published'
-            catch e
-                set this.edited = true
-                _ this.setState
-                    { 
-                        @ saveStatus 'edited'
-                throw e
     => _uploadAssetAsync
         param asset
             :ref File

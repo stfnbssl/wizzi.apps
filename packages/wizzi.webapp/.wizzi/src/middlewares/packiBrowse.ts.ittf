@@ -61,6 +61,12 @@ module
                 const packiName = parts.slice(2).join('/')
                 $$ # loog myname + '.owner', owner, 'packiName', packiName, 'context', request.query.context
                 +
+                _ _executeBrowse
+                    @ owner
+                    @ packiName
+                    @ request
+                    @ response
+                $*
                 _ artifactApi.getDefaultContext_withCache
                     @ owner
                     ._ then
@@ -96,6 +102,7 @@ module
                                             catch_fail( artifactApi.getPackiGeneration )
                                 catch_fail( artifactApi.getArtifactContext )
                     catch_fail( artifactApi.getDefaultContext )
+                *$
     
     function packiSiteBrowseMiddleware
         :return
@@ -121,6 +128,12 @@ module
                 const packiName = parts.slice(1).join('/')
                 $$ # loog myname + '.owner', owner, 'packiName', packiName, 'context', request.query.context
                 +
+                _ _executeBrowse
+                    @ owner
+                    @ packiName
+                    @ request
+                    @ response
+                $*
                 _ artifactApi.getDefaultContext_withCache
                     @ owner
                     ._ then
@@ -156,3 +169,104 @@ module
                                             catch_fail( artifactApi.getPackiGeneration )
                                 catch_fail( artifactApi.getArtifactContext )
                     catch_fail( artifactApi.getDefaultContext )
+            *$
+
+    function _executeBrowse
+        param owner
+            :string
+        param packiName
+            :string
+        param request
+            :ref Request
+        param response
+            :ref Response
+        _ artifactApi.getDefaultContext_withCache
+            @ owner
+            ._ then
+                => 
+                    param defaultContext
+                        :any
+                    log myname + '.defaultContext:', Object.keys(defaultContext)
+                    _ artifactApi.getArtifactContext
+                        @ owner
+                        @ request.query.context as string
+                        @ defaultContext
+                        ._ then
+                            => 
+                                param resultContext
+                                    :any
+                                log myname + '.resultContext:', Object.keys(resultContext)
+                                if request.query.meta && (request.query.meta as string).toLowerCase() == 'mtree'
+                                    _ artifactApi.getArtifactMTree
+                                        @ owner
+                                        @ packiName
+                                        @ resultContext
+                                        ._ then
+                                            => 
+                                                param result
+                                                    :any
+                                                $$ # loog myname + '.result.length:', result.length
+                                                _ response.status(200)
+                                                _ response.set('Content-Type', result.contentType)
+                                                _ response.set('Content-Length', result.contentLength.toString())
+                                                _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+                                                _ response.set('Expires', '-1')
+                                                _ response.set('Pragma', 'no-cache')
+                                                _ response.send(result.content)
+                                        catch_fail( artifactApi.getArtifactMTree )
+                                elif request.query.meta && (request.query.meta as string).toLowerCase() == 'script'
+                                    _ artifactApi.getArtifactMTreeBuildupScript
+                                        @ owner
+                                        @ packiName
+                                        @ resultContext
+                                        ._ then
+                                            => 
+                                                param result
+                                                    :any
+                                                $$ # loog myname + '.result.length:', result.length
+                                                _ response.status(200)
+                                                _ response.set('Content-Type', result.contentType)
+                                                _ response.set('Content-Length', result.contentLength.toString())
+                                                _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+                                                _ response.set('Expires', '-1')
+                                                _ response.set('Pragma', 'no-cache')
+                                                _ response.send(result.content)
+                                        catch_fail( artifactApi.getArtifactMTree )
+                                elif request.query.meta && (request.query.meta as string).toLowerCase() == 'raw'
+                                    _ artifactApi.getArtifactGeneration
+                                        @ owner
+                                        @ packiName
+                                        @ resultContext
+                                        ._ then
+                                            => 
+                                                param result
+                                                    :any
+                                                $$ # loog myname + '.result.length:', result.length
+                                                _ response.status(200)
+                                                _ response.set('Content-Type', 'text/plain')
+                                                _ response.set('Content-Length', result.contentLength.toString())
+                                                _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+                                                _ response.set('Expires', '-1')
+                                                _ response.set('Pragma', 'no-cache')
+                                                _ response.send(result.content)
+                                        catch_fail( artifactApi.getArtifactGeneration )
+                                else
+                                    _ artifactApi.getArtifactGeneration
+                                        @ owner
+                                        @ packiName
+                                        @ resultContext
+                                        ._ then
+                                            => 
+                                                param result
+                                                    :any
+                                                $$ # loog myname + '.result.length:', result.length
+                                                _ response.status(200)
+                                                _ response.set('Content-Type', result.contentType)
+                                                _ response.set('Content-Length', result.contentLength.toString())
+                                                _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+                                                _ response.set('Expires', '-1')
+                                                _ response.set('Pragma', 'no-cache')
+                                                _ response.send(result.content)
+                                        catch_fail( artifactApi.getArtifactGeneration )
+                        catch_fail( artifactApi.getArtifactContext )
+            catch_fail( artifactApi.getDefaultContext )

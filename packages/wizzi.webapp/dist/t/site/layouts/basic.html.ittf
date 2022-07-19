@@ -35,7 +35,7 @@ $group
                         style width: 80px; margin-top: 5px; margin-left: 20px;
                         html/images/logo(#efefef, #434343)
             . flex-row
-                $if opt.user
+                $if locals.user
                     $if opt.section != 'Starter'
                         html/a( Starter, /ittf/site/starter.html.ittf, ${ca}
                     $if opt.section != 'Playground'
@@ -48,11 +48,18 @@ $group
                 $if opt.section != 'Docs'
                     html/a( Docs, /ittf/site/docs.html.ittf, ${ca}
             . flex-row m-r-x
-                $if opt.user
+                $if locals.user
                     html/a( Profile, /profile, ${ca}
                     html/a( Log Out, /logout, ${ca}
                 $else
                     html/a( Log In, /login, ${ca}
+        
+        $*
+        div
+            pre
+                code
+                    + ${_.inspect(locals)}
+        *$
         
         $hook
 

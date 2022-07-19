@@ -122,6 +122,6 @@ module
                                                         div
                                                             @ className font-xl
                                                             a {item.name}
-                                                                href {'/~~/p/stfnbssl/' + item.name}
+                                                                href {'/~~/l/stfnbssl/' + item.name}
                                                                 title {item.description}
                                                     list_update_delete_icons( plugin )

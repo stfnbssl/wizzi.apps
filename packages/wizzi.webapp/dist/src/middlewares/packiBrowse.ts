@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\middlewares\packiBrowse.ts.ittf
-    utc time: Fri, 15 Jul 2022 15:38:03 GMT
+    utc time: Tue, 19 Jul 2022 19:18:03 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -40,47 +40,7 @@ function packiUserBrowseMiddleware():  RequestHandler {
             const owner = parts[1];
             const packiName = parts.slice(2).join('/');
             
-            artifactApi.getDefaultContext_withCache(owner).then((defaultContext: any) => 
-            
-                artifactApi.getArtifactContext(owner, request.query.context as string, defaultContext).then((resultContext: any) => 
-                
-                    artifactApi.getArtifactGeneration(owner, packiName, resultContext).then((result: any) => {
-                    
-                        console.log(myname + '.result.length:', result.length, result);
-                        response.status(200);
-                        response.set('Content-Type', result.contentType);
-                        response.set('Content-Length', result.contentLength.toString());
-                        response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-                        response.set('Expires', '-1');
-                        response.set('Pragma', 'no-cache');
-                        response.send(result.content);
-                    }
-                    ).catch((err: any) => {
-                    
-                        console.log('artifactApi.getPackiGeneration.error', err);
-                        sendFailure(response, {
-                            err: err
-                         }, 501)
-                    }
-                    )
-                
-                ).catch((err: any) => {
-                
-                    console.log('artifactApi.getArtifactContext.error', err);
-                    sendFailure(response, {
-                        err: err
-                     }, 501)
-                }
-                )
-            
-            ).catch((err: any) => {
-            
-                console.log('artifactApi.getDefaultContext.error', err);
-                sendFailure(response, {
-                    err: err
-                 }, 501)
-            }
-            )
+            _executeBrowse(owner, packiName, request, response)
         }
     ;
 }
@@ -100,46 +60,114 @@ function packiSiteBrowseMiddleware():  RequestHandler {
             const owner = "stfnbssl";
             const packiName = parts.slice(1).join('/');
             
-            artifactApi.getDefaultContext_withCache(owner).then((defaultContext: any) => 
-            
-                artifactApi.getArtifactContext(owner, request.query.context as string, defaultContext).then((resultContext: any) => 
+            _executeBrowse(owner, packiName, request, response)
+        }
+    ;
+}
+function _executeBrowse(owner: string, packiName: string, request: Request, response: Response) {
+
+    artifactApi.getDefaultContext_withCache(owner).then((defaultContext: any) => {
+    
+        console.log(myname + '.defaultContext:', Object.keys(defaultContext));
+        artifactApi.getArtifactContext(owner, request.query.context as string, defaultContext).then((resultContext: any) => {
+        
+            console.log(myname + '.resultContext:', Object.keys(resultContext));
+            if (request.query.meta && (request.query.meta as string).toLowerCase() == 'mtree') {
+                artifactApi.getArtifactMTree(owner, packiName, resultContext).then((result: any) => {
                 
-                    artifactApi.getArtifactGeneration(owner, packiName, resultContext).then((result: any) => {
-                    
-                        response.status(200);
-                        response.set('Content-Type', result.contentType);
-                        response.set('Content-Length', result.contentLength.toString());
-                        response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-                        response.set('Expires', '-1');
-                        response.set('Pragma', 'no-cache');
-                        response.send(result.content);
-                    }
-                    ).catch((err: any) => {
-                    
-                        console.log('artifactApi.getPackiGeneration.error', err);
-                        sendFailure(response, {
-                            err: err
-                         }, 501)
-                    }
-                    )
-                
+                    response.status(200);
+                    response.set('Content-Type', result.contentType);
+                    response.set('Content-Length', result.contentLength.toString());
+                    response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+                    response.set('Expires', '-1');
+                    response.set('Pragma', 'no-cache');
+                    response.send(result.content);
+                }
                 ).catch((err: any) => {
                 
-                    console.log('artifactApi.getArtifactContext.error', err);
+                    console.log('artifactApi.getArtifactMTree.error', err);
                     sendFailure(response, {
                         err: err
                      }, 501)
                 }
                 )
-            
-            ).catch((err: any) => {
-            
-                console.log('artifactApi.getDefaultContext.error', err);
-                sendFailure(response, {
-                    err: err
-                 }, 501)
             }
-            )
+            else if (request.query.meta && (request.query.meta as string).toLowerCase() == 'script') {
+                artifactApi.getArtifactMTreeBuildupScript(owner, packiName, resultContext).then((result: any) => {
+                
+                    response.status(200);
+                    response.set('Content-Type', result.contentType);
+                    response.set('Content-Length', result.contentLength.toString());
+                    response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+                    response.set('Expires', '-1');
+                    response.set('Pragma', 'no-cache');
+                    response.send(result.content);
+                }
+                ).catch((err: any) => {
+                
+                    console.log('artifactApi.getArtifactMTree.error', err);
+                    sendFailure(response, {
+                        err: err
+                     }, 501)
+                }
+                )
+            }
+            else if (request.query.meta && (request.query.meta as string).toLowerCase() == 'raw') {
+                artifactApi.getArtifactGeneration(owner, packiName, resultContext).then((result: any) => {
+                
+                    response.status(200);
+                    response.set('Content-Type', 'text/plain');
+                    response.set('Content-Length', result.contentLength.toString());
+                    response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+                    response.set('Expires', '-1');
+                    response.set('Pragma', 'no-cache');
+                    response.send(result.content);
+                }
+                ).catch((err: any) => {
+                
+                    console.log('artifactApi.getArtifactGeneration.error', err);
+                    sendFailure(response, {
+                        err: err
+                     }, 501)
+                }
+                )
+            }
+            else {
+                artifactApi.getArtifactGeneration(owner, packiName, resultContext).then((result: any) => {
+                
+                    response.status(200);
+                    response.set('Content-Type', result.contentType);
+                    response.set('Content-Length', result.contentLength.toString());
+                    response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+                    response.set('Expires', '-1');
+                    response.set('Pragma', 'no-cache');
+                    response.send(result.content);
+                }
+                ).catch((err: any) => {
+                
+                    console.log('artifactApi.getArtifactGeneration.error', err);
+                    sendFailure(response, {
+                        err: err
+                     }, 501)
+                }
+                )
+            }
         }
-    ;
+        ).catch((err: any) => {
+        
+            console.log('artifactApi.getArtifactContext.error', err);
+            sendFailure(response, {
+                err: err
+             }, 501)
+        }
+        )
+    }
+    ).catch((err: any) => {
+    
+        console.log('artifactApi.getDefaultContext.error', err);
+        sendFailure(response, {
+            err: err
+         }, 501)
+    }
+    )
 }

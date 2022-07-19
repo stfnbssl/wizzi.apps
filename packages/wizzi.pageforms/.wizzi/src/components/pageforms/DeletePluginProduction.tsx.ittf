@@ -23,6 +23,7 @@ module
             log 'DeletePluginProduction.componentDidMount.props', this.props
             const
                 {
+                    @ _id
                     @ userid
                     @ name
                     @ description
@@ -30,6 +31,7 @@ module
             
             _ this.setState
                 {
+                    @ pp_id _id
                     @ pp_userid userid
                     @ pp_name name
                     @ pp_description description
@@ -57,7 +59,13 @@ module
                             =>
                                 param ref
                                 set this.formRef = ref                        
-                        < FormHidden
+                        < FormStatic
+                            @ label 'Plugin id'
+                            @ name 'pp_id'
+                            @ id 'pp_id'
+                            @ value {this.state.pp_id}
+                        < FormStatic
+                            @ label 'Plugin owner'
                             @ name 'pp_userid'
                             @ id 'pp_userid'
                             @ value {this.state.pp_userid}

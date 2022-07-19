@@ -2,14 +2,14 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\packi\controllers\packiEditing.tsx.ittf
-    utc time: Fri, 15 Jul 2022 15:38:04 GMT
+    utc time: Tue, 19 Jul 2022 19:18:05 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
 import {paramsCheck} from '../../../utils/rest';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
 import ReactDOMServer from 'react-dom/server';
-import {artifactApi, packageApi, metaApi, tFolderApi} from '../../production';
+import {artifactApi, packageApi, metaApi, pluginApi, tFolderApi} from '../../production';
 import EditorDocument from '../../../pages/EditorDocument';
 import PackiItemList from '../components/PackiItemList';
 const myname = 'features/packi/controller/packiEditing';
@@ -41,6 +41,8 @@ export class PackiEditingController implements ControllerType {
         this.router.get('/p/:userid/:name/*', this.getPackiPackageProductionByUsername_Name);
         this.router.get('/m/:userid/:name', this.getPackiMetaProductionByUsername_Name);
         this.router.get('/m/:userid/:name/*', this.getPackiMetaProductionByUsername_Name);
+        this.router.get('/l/:userid/:name', this.getPackiPluginProductionByUsername_Name);
+        this.router.get('/l/:userid/:name/*', this.getPackiPluginProductionByUsername_Name);
         this.router.get('/t/:userid/:name', this.getPackiTFolderByUsername_Name);
         this.router.get('/t/:userid/:name/*', this.getPackiTFolderByUsername_Name);
     };
@@ -177,6 +179,50 @@ export class PackiEditingController implements ControllerType {
         ).catch((err: any) => {
         
             console.log('getPackiMetaProductionByUsername_Name.error', err);
+            sendFailure(response, {
+                err: err
+             }, 501)
+        }
+        )
+    }
+    ;
+    
+    private getPackiPluginProductionByUsername_Name = 
+    // TODO
+    
+    // loog myname + '.getPackiPluginProductionByUsername_Name', request.path
+    
+    // loog myname + '.getPackiPluginProductionByUsername_Name', parts[1], parts.slice(2).join('/')
+    async (request: Request, response: Response) => {
+    
+        const queryParams = {};
+        const parts = request.path.split('/');
+        pluginApi.getPluginProductionObject(parts[2], parts.slice(3).join('/')).then(
+        // loog myname + '.getPackiPluginProductionByUsername_Name.result', result
+        (result: any) => {
+        
+            const user = (request.session as any).user;
+            const loggedUser = {
+                id: user._id, 
+                username: user.username, 
+                displayName: user.name, 
+                picture: user.avatar_url
+             };
+            renderPackiEditor(request, response, {
+                type: 'success', 
+                packi: {
+                    _id: result._id, 
+                    owner: result.owner, 
+                    name: result.name, 
+                    description: result.description, 
+                    packiFiles: result.packiFiles, 
+                    packiProduction: 'plugin'
+                 }
+             }, loggedUser, queryParams)
+        }
+        ).catch((err: any) => {
+        
+            console.log('getPackiPluginProductionByUsername_Name.error', err);
             sendFailure(response, {
                 err: err
              }, 501)

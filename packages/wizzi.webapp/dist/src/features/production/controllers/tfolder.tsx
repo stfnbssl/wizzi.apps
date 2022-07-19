@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\tfolder.tsx.ittf
-    utc time: Fri, 15 Jul 2022 15:38:04 GMT
+    utc time: Tue, 19 Jul 2022 19:18:05 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -11,7 +11,7 @@ import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../ut
 import ReactDOMServer from 'react-dom/server';
 import PageFormDocument from '../../../pages/PageFormDocument';
 import {CRUDResult} from '../../types';
-import {createTFolder, updateTFolder, deleteTFolder, getTFolderObject} from '../api/tfolder';
+import {createTFolder, updateTFolder, deleteTFolder, getTFolderObject, getTFolderObjectById} from '../api/tfolder';
 
 const myname = 'features/production/controllers/tfolder';
 
@@ -46,9 +46,9 @@ export class TFolderController implements ControllerType {
         console.log('Entering TFolderController.initialize');
         this.router.get('/new', this.getNewTFolderForm);
         this.router.post('/new', this.postTFolder);
-        this.router.get('/update/:userid/*', this.getUpdateTFolderForm);
+        this.router.get('/update/:id', this.getUpdateTFolderForm);
         this.router.post('/update', this.putTFolder);
-        this.router.get('/delete/:userid/*', this.getDeleteTFolderForm);
+        this.router.get('/delete/:id', this.getDeleteTFolderForm);
         this.router.post('/delete', this.deleteTFolder);
     };
     
@@ -73,12 +73,12 @@ export class TFolderController implements ControllerType {
     // loog myname + '.postNewTFolder.request.session.user', JSON.stringify((request.session as any).user, null, 2)
     async (request: Request, response: Response) => 
     
-        createTFolder((request.session as any).user.username, request.body.ap_name, request.body.ap_description, JSON.stringify(getPackiFiles('readme.md.ittf'))).then(
+        createTFolder((request.session as any).user.username, request.body.tf_name, request.body.tf_description, JSON.stringify(getPackiFiles('readme.md.ittf'))).then(
         // loog myname + '.postNewTFolder.createTFolder.result', JSON.stringify(result, null, 2)
         (result: CRUDResult) => {
         
             if (result.ok) {
-                response.redirect('/tfolders');
+                response.redirect('/productions/tfolders');
             }
             else {
                 response.render('error.html.ittf', {
@@ -99,22 +99,19 @@ export class TFolderController implements ControllerType {
     
     private getUpdateTFolderForm = 
     // loog myname + '.getUpdateTFolderForm', request.path
-    
-    // loog myname + '.getUpdateTFolderForm', parts[2], parts.slice(3).join('/')
     async (request: Request, response: Response) => {
     
-        const parts = request.path.split('/');
-        const userid = parts[2];
-        const name = parts.slice(3).join('/');
-        getTFolderObject(userid, name).then((result: any) => 
+        const id = request.params.id;
+        console.log(myname + '.getUpdateTFolderForm.id', id);
+        getTFolderObjectById(id).then((result: any) => 
         
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'UpdateTFolder', 
                 formData: {
-                    _id: result._id, 
-                    userid: userid, 
-                    name: name, 
+                    _id: id, 
+                    userid: result.owner, 
+                    name: result.name, 
                     description: result.description
                  }
              }, {})
@@ -134,10 +131,12 @@ export class TFolderController implements ControllerType {
         updateTFolder(obj.tf_id, obj.tf_owner, obj.tf_name, obj.tf_description).then((result: any) => {
         
             if (result.ok) {
-                sendSuccess(response, {
-                    body: request.body, 
-                    user: (request.session as any).user, 
-                    result: result
+                response.redirect('/productions/tfolders');
+            }
+            else {
+                response.render('error.html.ittf', {
+                    message: 'updating a tFolder production', 
+                    error: result
                  })
             }
         }
@@ -147,22 +146,19 @@ export class TFolderController implements ControllerType {
     
     private getDeleteTFolderForm = 
     // loog myname + '.getDeleteTFolderForm', request.path
-    
-    // loog myname + '.getDeleteTFolderForm', parts[2], parts.slice(3).join('/')
     async (request: Request, response: Response) => {
     
-        const parts = request.path.split('/');
-        const userid = parts[2];
-        const name = parts.slice(3).join('/');
-        getTFolderObject(userid, name).then((result: any) => 
+        const id = request.params.id;
+        console.log(myname + '.getDeleteTFolderForm.id', id);
+        getTFolderObjectById(id).then((result: any) => 
         
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'DeleteTFolder', 
                 formData: {
                     _id: result._id, 
-                    userid: userid, 
-                    name: name, 
+                    userid: result.owner, 
+                    name: result.name, 
                     description: result.description
                  }
              }, {})
@@ -176,11 +172,28 @@ export class TFolderController implements ControllerType {
     // loog myname + '.deleteTFolder.request.session.user', JSON.stringify((request.session as any).user, null, 2)
     async (request: Request, response: Response) => {
     
-        console.log(myname + '.deleteTFolder', request.path);
-        sendSuccess(response, {
-            body: request.body, 
-            user: (request.session as any).user
-         })
+        console.log(myname + '.deleteTFolder.request.path', request.path);
+        const obj = request.body;
+        deleteTFolder(obj.tf_id, obj.tf_owner, obj.tf_name, obj.tf_description).then((result: any) => {
+        
+            if (result.ok) {
+                return sendSuccess(response, {
+                        body: request.body, 
+                        user: (request.session as any).user, 
+                        result: result
+                     });
+            }
+            if (result.ok) {
+                response.redirect('/productions/tfolders');
+            }
+            else {
+                response.render('error.html.ittf', {
+                    message: 'deleting a tFolder production', 
+                    error: result
+                 })
+            }
+        }
+        )
     }
     ;
 }

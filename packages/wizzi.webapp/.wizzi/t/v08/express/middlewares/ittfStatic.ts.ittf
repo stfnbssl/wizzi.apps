@@ -92,15 +92,15 @@ $group
             :ref RequestHandler
         return
             async=>
-                param req
+                param request
                     :ref Request
-                param res
+                param response
                     :ref Response
                 param next
                     :ref Function
-                if req.method !== 'GET' && req.method !== 'HEAD'
+                if request.method !== 'GET' && request.method !== 'HEAD'
                     return next()
-                const parsedUrl = parseUrl(req)
+                const parsedUrl = parseUrl(request)
                 if !parsedUrl || !parsedUrl.pathname
                     return next()
                 const urlPathName = decodeURIComponent(parsedUrl.pathname)
@@ -109,17 +109,17 @@ $group
                 const filePath = path.join(basePath, pathname)
                     # ??? urlPathName.substr(routePath.length);
                 const extname = path.extname(filePath)
-                var queryMeta = (req.query.meta as string)
-                var queryTransform = (req.query.transform as string)
+                var queryMeta = (request.query.meta as string)
+                var queryTransform = (request.query.transform as string)
                 log 'middleware.ittfStatic', 'urlPathName', urlPathName, 'pathname', pathname, 'filePath', filePath, 'path.extname(filePath)', path.extname(filePath), 'queryMeta', queryMeta
                 if fs.existsSync(filePath) === false
                     log 'filePath do not exists', filePath
                     return next()
                 if fs.statSync(filePath).isDirectory()
                     log 'filePath is directory', filePath
-                    return sendFolderScan(filePath, basePath, queryMeta, res)
+                    return sendFolderScan(filePath, basePath, queryMeta, request, response)
                 if queryTransform && queryTransform.indexOf('/') > 0
-                    return sendTransform(filePath, queryTransform, res)
+                    return sendTransform(filePath, queryTransform, response)
                 let ittfSchema = ittfSchemaOf(filePath)
                 let contentType = contentTypeFor(filePath)
                 log 'contentType', contentType, 'ittfSchema', ittfSchema, 'queryMeta', queryMeta
@@ -136,19 +136,21 @@ $group
                                         {
                                             @ wizzischema 'html'
                                             @ path filePath
-                                            @ req
+                                            @ request
                                             @ ds documentState
+                                            { locals
+                                                @ user (request.session as any).user
                                 # console.log('generated.meta.document', generated.artifactContent);
-                            _ res.writeHead
+                            _ response.writeHead
                                 @ 200
                                 {
                                     @ 'Content-Type' 'text/html'
                                     @ 'Content-Length' generated.artifactContent.length
                                 # console.log('generated.meta.document', generated.artifactContent);
-                            _ res.end(generated.artifactContent)
+                            _ response.end(generated.artifactContent)
                         catch ex
                             _ sendError
-                                @ res
+                                @ response
                                 @ ex
                                 {
                                     @ format 'json'
@@ -156,24 +158,26 @@ $group
                         _ wizziProds.generateArtifactFs
                             @ filePath
                             {
+                                { locals
+                                    @ user (request.session as any).user
                             {
                                 @ generator 'ittf/tojson'
                             ._ then
                                 =>
                                     param generated
                                     log 'generated.meta.ittf.json', filePath
-                                    _ res.writeHead
+                                    _ response.writeHead
                                         @ 200
                                         {
                                             @ 'Content-Type' 'application/json'
                                             @ 'Content-Length' generated.artifactContent.length
-                                    _ res.end(generated.artifactContent)
+                                    _ response.end(generated.artifactContent)
                             ._ catch
                                 =>
                                     param err
                                     return
                                         _ sendError
-                                            @ res
+                                            @ response
                                             @ err
                                             {
                                                 @ format 'json'
@@ -181,7 +185,7 @@ $group
                         return
                             _ contextLoader
                                 @ filePath
-                                @ req
+                                @ request
                                 function
                                     param err
                                         :any
@@ -190,26 +194,33 @@ $group
                                     if err
                                         return
                                             _ sendError
-                                                @ res
+                                                @ response
                                                 @ err
                                                 {
                                                     @ format 'json'
+                                    set modelContext
+                                        _ Object.assign
+                                            {
+                                            @ modelContext
+                                            {
+                                                { locals
+                                                    @ user (request.session as any).user 
                                     _ wizziProds.generateArtifactFs(filePath, modelContext).then
                                         =>
                                             param generated
                                             # loog 'generated.artifactContent', generated.artifactContent
-                                            _ res.writeHead
+                                            _ response.writeHead
                                                 @ 200
                                                 {
                                                     @ 'Content-Type' contentType
                                                     @ 'Content-Length' generated.artifactContent.length
-                                            _ res.end(generated.artifactContent)
+                                            _ response.end(generated.artifactContent)
                                         ._ catch
                                             =>
                                                 param err
                                                 return
                                                     _ sendError
-                                                        @ res
+                                                        @ response
                                                         @ err
                                                         {
                                                             @ format 'json'
@@ -217,17 +228,17 @@ $group
                     _ next()
         #
             #
-            # req.query._context contains a semicolon separated list of context models export names.
-            # For each <export-name> must exists a req.query._<export-name> parameter
+            # request.query._context contains a semicolon separated list of context models export names.
+            # For each <export-name> must exists a request.query._<export-name> parameter
             # with a type;path value pair.
             # The type is the model knwon type or a wizzi schema, the path is the
             # relative path of the ittf document of the model, relative to the
             # filepath of the requested resource.
             #
             # Example (two context models, export names: cs and info)
-            # req.query._context = 'cs;info'
-            # req.query._cs = 'cheatsheet;html'
-            # req.query._info = 'json;../cslayout.json.ittf'
+            # request.query._context = 'cs;info'
+            # request.query._cs = 'cheatsheet;html'
+            # request.query._info = 'json;../cslayout.json.ittf'
             #
             # If the path value is missing it defaults to ./index.<type>.ittf
             #
@@ -248,17 +259,17 @@ $group
                 :any
         #
             #
-            # req.query._context contains a semicolon separated list of context models export names.
-            # For each <export-name> must exists a req.query._<export-name> parameter
+            # request.query._context contains a semicolon separated list of context models export names.
+            # For each <export-name> must exists a request.query._<export-name> parameter
             # with a type;path value pair.
             # The type is the model knwon type or a wizzi schema, the path is the
             # relative path of the ittf document of the model, relative to the
             # filepath of the requested resource.
             #
             # Example (two context models, export names: cs and info)
-            # req.query._context = 'cs;info'
-            # req.query._cs = 'cheatsheet;html'
-            # req.query._info = 'json;../cslayout.json.ittf'
+            # request.query._context = 'cs;info'
+            # request.query._cs = 'cheatsheet;html'
+            # request.query._info = 'json;../cslayout.json.ittf'
             #
             # If the path value is missing it defaults to ./index.<type>.ittf
             #
@@ -266,30 +277,30 @@ $group
     async-function contextLoader
         param resourceFilePath
             :string
-        param req
+        param request
             :ref Request
         param callback
             :any
         const contextRequest
             :string
-            = (req.query._context as string)
+            = (request.query._context as string)
         if contextRequest && contextRequest.length > 0
             const ss = contextRequest.split(';')
-            const requests
+            const ctxRequests
                 :[
                     :ref contextRequest
                 = []
             _ ss.forEach
                 =>
                     param element
-                    const request
+                    const ctxRequest
                         :ref contextRequest
                         =
                             {
                                 @ exportName element
                                 @ fullPath undefined
                                 @ relPath undefined
-                    const type_path = (req.query['_' + element] as string)
+                    const type_path = (request.query['_' + element] as string)
                     log 'contextLoader exportName, type_path', element, type_path
                     if !type_path
                         return
@@ -299,20 +310,20 @@ $group
                                         @ requestedResource resourceFilePath
                                         @ message 'Missing query param for requested context model: ' + element
                     const tp = type_path.split(';')
-                    set request.type = tp[0]
+                    set ctxRequest.type = tp[0]
                     if tp.length < 2
-                        set request.relPath = './index.' + tp[0] + '.ittf'
+                        set ctxRequest.relPath = './index.' + tp[0] + '.ittf'
                     else
-                        set request.relPath = tp[1]
-                    log 'contextLoader exportName, type_path, relPath', element, type_path, request.relPath
-                    if request.type === 'cheatsheet'
-                        set request.name = request.relPath
-                        _ requests.push(request)
+                        set ctxRequest.relPath = tp[1]
+                    log 'contextLoader exportName, type_path, relPath', element, type_path, ctxRequest.relPath
+                    if ctxRequest.type === 'cheatsheet'
+                        set ctxRequest.name = ctxRequest.relPath
+                        _ ctxRequests.push(ctxRequest)
                     else
-                        set request.fullPath = path.join(path.dirname(resourceFilePath), request.relPath)
-                        _ requests.push(request)
-                    log 'contextLoader request', request
-            log 'contextLoader.requests', requests
+                        set ctxRequest.fullPath = path.join(path.dirname(resourceFilePath), ctxRequest.relPath)
+                        _ ctxRequests.push(ctxRequest)
+                    log 'contextLoader ctxRequest', ctxRequest
+            log 'contextLoader.ctxRequests', ctxRequests
             const resultContext
                 :{
                     :index
@@ -321,24 +332,24 @@ $group
                             :string
                 =
                     {
-            const repeatCount = requests.length
+            const repeatCount = ctxRequests.length
             const repeat
                 =>
                     param index
                         :number
                     if index == repeatCount
                         return callback(null, resultContext)
-                    const request = requests[index]
-                    if request.type === 'cheatsheet'
+                    const ctxRequest = ctxRequests[index]
+                    if ctxRequest.type === 'cheatsheet'
                         return callback('Context loader for cheatsheet type not implemented.')
                     else
                         _ wizziProds.loadModelFs
-                            @expr request.fullPath
+                            @expr ctxRequest.fullPath
                             {
                             ._ then
                                 =>
                                     param model
-                                    set resultContext[request.exportName] = model
+                                    set resultContext[ctxRequest.exportName] = model
                                     _ repeat(index + 1)
                             ._ catch
                                 =>
@@ -361,7 +372,9 @@ $group
             :string
         param meta
             :string
-        param res
+        param request
+            :ref Request
+        param response
             :ref Response
         try
             const folderState
@@ -369,7 +382,7 @@ $group
                     _ wizziProds.scanIttfFolder(folderPath, path.dirname(root))
             log 'sendFolderScan', 'folderState.keys', Object.keys(folderState)
             if meta === 'json'
-                return sendJSONStringified(res, folderState)
+                return sendJSONStringified(response, folderState)
             else
                 const generated
                     await
@@ -379,18 +392,20 @@ $group
                                 @ wizzischema 'html'
                                 @ path folderPath
                                 @ fs folderState
+                                { locals
+                                    @ user (request.session as any).user
                     # console.log('generated.meta.document', generated.artifactContent);
-                _ res.writeHead
+                _ response.writeHead
                     @ 200
                     {
                         @ 'Content-Type' 'text/html'
                         @ 'Content-Length' generated.artifactContent.length
                     # console.log('generated.meta.document', generated.artifactContent);
-                _ res.end(generated.artifactContent)
+                _ response.end(generated.artifactContent)
         catch ex
             log 'sendFolderScan.exception', ex
             _ sendError
-                @ res
+                @ response
                 @ ex
                 {
                     @ format 'json'
@@ -400,7 +415,7 @@ $group
             :string
         param transformer
             :string
-        param res
+        param response
             :ref Response
         _ wizziProds.transformModelFs
             @ filePath
@@ -410,7 +425,7 @@ $group
             ._ then
                 =>
                     param model
-                    _ res.send
+                    _ response.send
                         _ stringify
                             @ model
                             @ null
@@ -419,17 +434,17 @@ $group
                 =>
                     param err
                     _ sendError
-                        @ res
+                        @ response
                         @ err
                         {
                             @ format 'json'
     +
     function sendJSONStringified
-        param res
+        param response
             :ref Response
         param wizziModelInstance
             :any
-        _ res.send('<pre>' + stringify(cleanCircular(wizziModelInstance, []), null, 2) + '</pre>')
+        _ response.send('<pre>' + stringify(cleanCircular(wizziModelInstance, []), null, 2) + '</pre>')
     +
     function cleanCircular
         param obj
@@ -480,7 +495,7 @@ $group
         return obj
     +
     function sendError
-        param res
+        param response
             :ref Response
         param err
             :any
@@ -521,8 +536,8 @@ $group
                             param element
                             _ stackArray.push('    ' + element)
                 set errEmit.stack = stackArray
-        _ res.setHeader('Content-Type', 'application/json')
-        _ res.send
+        _ response.setHeader('Content-Type', 'application/json')
+        _ response.send
             _ stringify
                 {
                     @ code

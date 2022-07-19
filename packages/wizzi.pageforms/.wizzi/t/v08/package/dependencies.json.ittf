@@ -47,6 +47,8 @@ $group
     
     $if wzCtx.Build.useReact && !!wzCtx.Build.useReactCreateApp == false
         classnames "^2.2.6"
+    $if wzCtx.Build.useExpress && wzCtx.Build.useFlash
+        connect-flash "^0.1.1"
     $if wzCtx.Build.useMongoDb
         connect-mongo "^4.4.1"
     $if wzCtx.Build.useReact && wzCtx.Build.react.useRouter && wzCtx.Build.react.useRedux
@@ -58,9 +60,8 @@ $group
             cookie "^0.4.1"
     $if wzCtx.Build.useVExpo
         core-js "^3.6.5"
-    $if wzCtx.Build.useExpress
-        $if wzCtx.Build.useCors
-            cors "^2.8.4"
+    $if wzCtx.Build.useExpress && wzCtx.Build.useCors
+        cors "^2.8.4"
     $if wzCtx.Build.useCrypto
         crypto "^1.0.1"
     
@@ -113,6 +114,9 @@ $group
     $if wzCtx.Build.useReact
         $if wzCtx.Build.useHoistNonReactStatic
             hoist-non-react-statics "^3.3.2"
+    $if wzCtx.Build.useExpress
+        $if wzCtx.Build.express.useErrors
+            http-errors "^2.0.0"
     
     $if wzCtx.Build.useFetch
         isomorphic-fetch "^2.2.1"
@@ -148,10 +152,9 @@ $group
         moment "^2.24.0"
     $if wzCtx.Build.useMongoDb
         mongoose "^5.4.2"
-    $if wzCtx.Build.useExpress
-        $if wzCtx.Build.useLogger
-            $if wzCtx.Build.logger.useMorgan
-                morgan "^1.9.0"
+    $if wzCtx.Build.useExpress && wzCtx.Build.useLogger
+        $if wzCtx.Build.logger.useMorgan
+            morgan "^1.10.0"
     
     $if wzCtx.Build.utils.useNanoId
         nanoid "^3.1.22"
@@ -283,9 +286,10 @@ $group
     $if wzCtx.Build.utils.useWebVitals
         web-vitals "^1.0.1"
     $if wzCtx.Build.useWizzi
-        wizzi "^0.7.22"
+        wizzi "^0.7.24"
         wizzi.proto "^0.0.1"
         wizzi-tools "^0.7.4"
+        wizzi-utils "^0.7.16"
     
     $if wzCtx.Build.useYup
         yup "^0.27.0"

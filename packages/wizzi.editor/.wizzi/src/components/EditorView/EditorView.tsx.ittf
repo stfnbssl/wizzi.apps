@@ -384,9 +384,7 @@ module
                     @ selectedFile
                     @ sendCodeOnChangeEnabled
                     @ userAgent
-                    @ onSendCode
                     @ onPublishAsync
-                    @ onToggleSendCode
                     @ onTogglePreview
                     @ uploadFileAsync
                     @ preferences
@@ -458,7 +456,6 @@ module
                                             @ tree this._toggleFileTree
                                             @ panels this._togglePanels
                                             @ shortcuts this._handleShowShortcuts
-                                            @ update onSendCode
                                 const fn = commands[type]
                                 if fn
                                     _ fn()

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\session.tsx.ittf
-    utc time: Tue, 12 Jul 2022 15:10:51 GMT
+    utc time: Tue, 19 Jul 2022 16:44:54 GMT
 */
 import mapValues from 'lodash/mapValues';
 import nullthrows from 'nullthrows';
@@ -30,7 +30,6 @@ export default class PackiSession {
         constructor(options: PackiOptions) {
             this.apiURL = options.apiURL ?? defaultConfig.apiURL;
             this.host = options.host ?? defaultConfig.host;
-            this.codeChangesDelay = options.codeChangesDelay ?? 2000;
             this.state = this.updateDerivedState({
                 disabled: !!options.disabled, 
                 unsaved: false, 
@@ -250,61 +249,6 @@ export default class PackiSession {
              } = state;
         }
         
-        
-        /**
-            * 
-            * Sets the delay that is used before sending code updates to the connected clients.
-            * Use this method to set the "debounce" timeout to use for sending code changes
-            * over pubnub.
-            * 
-            * ```
-            * -1 = Disable automatic sending of code changes (use `sendCodeChanges` to trigger the send)
-            * 0 = Code changes are sent immediately to the connected clients
-            * 1..n = Code changes are debounced and sent after the wait time
-            * ```
-            * 
-            * @param delay Timeout in milliseconds (or -1 to disable automatic code updates)
-            * 
-        */
-        setCodeChangesDelay(delay: number) {
-            if (this.codeChangesDelay !== delay) {
-                this.codeChangesDelay = delay;
-                this._sendCodeChangesDebounced(this.state);
-            }
-        }
-        
-        
-        /**
-            * 
-            * Sends any pending code changes to the connected clients.
-            * No changes are send if all clients are already up to date.
-            * 
-        */
-        sendCodeChanges() {
-            this._sendCodeChangesDebounced(this.state, true);
-        }
-        
-        private _sendCodeChangesDebounced(state: PackiState, immediate?: boolean) {
-            if (this.codeChangesTimer) {
-                clearTimeout(this.codeChangesTimer);
-                this.codeChangesTimer = undefined;
-            }
-            if (!immediate && this.codeChangesDelay > 0) {
-                this.codeChangesTimer = setTimeout(() => 
-                
-                    this._sendCodeChangesDebounced(state, true)
-                , this.codeChangesDelay)
-                ;
-                return ;
-            }
-            else {
-                if (!immediate && this.codeChangesDelay < 0) {
-                    return ;
-                }
-            }
-        }
-        
-        
         // 
         
         // Files (code & assets)
@@ -448,44 +392,6 @@ export default class PackiSession {
             )
         ;
         
-        async saveAsync(options?: PackiSaveOptions) {
-            console.log('PackiSession.saveAsync.options', options);
-            const prevState = this.state;
-            
-            // Wait for any pending asset uploads to complete before saving
-            await this.fileUploader.waitForCompletion();
-            const {
-                id, 
-                owner, 
-                name, 
-                description, 
-                mainIttf, 
-                wizziSchema, 
-                files, 
-                user, 
-                packiProduction
-             } = this.state;
-            const payload: any = {
-                description, 
-                mainIttf, 
-                schema: wizziSchema, 
-                packiFiles: files
-             };
-            const url = `${this.apiURL}/api/v1/production/artifact/${encodeURIComponent(id)}`;
-            console.log('PackiSession.saveAsync', url);
-            const response = await fetch(url, {
-                    method: 'PUT', 
-                    body: JSON.stringify(payload), 
-                    headers: {
-                        'Content-Type': 'application/json'
-                     }
-                 });
-            const data = await response.json();
-            this.state.saveCount++;
-            this.setPreviewUrl();
-            console.log('PackiSession.saveAsync.response.data', data);
-        }
-        
         
         /**
             * 
@@ -496,12 +402,9 @@ export default class PackiSession {
         async getDownloadURLAsync(saveOptions?: PackiSaveOptions) {
             await this.fileUploader.waitForCompletion();
             let state = this.getState();
-            if (!state.id || state.unsaved) {
-                await this.saveAsync(saveOptions);
-                state = this.getState();
-            }
             return `${this.apiURL}/--/api/v2/packi/download/${state.id}`;
         }
+        
         updatePackiData(packiData: PackiData) {
             return this.setState((state) => {
                 

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\api\package.ts.ittf
-    utc time: Fri, 15 Jul 2022 15:38:03 GMT
+    utc time: Tue, 19 Jul 2022 19:18:03 GMT
 */
 import NodeCache from 'node-cache';
 import {GetPackageProductionModel} from '../mongo/package';
@@ -334,7 +334,41 @@ export async function getPackageProductionObject(owner: string, name: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getPackageProduction_withCache.getPackageProduction.error', err);
+                console.log('getPackageProductionObject.getPackageProduction.error', err);
+                return reject(err);
+            }
+            )
+        
+        );
+}
+
+export async function getPackageProductionObjectById(id: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            getPackageProductionById(id).then(
+            // loog 'myname', 'getPackageProductionObjectById.tf', tf
+            
+            // loog 'myname', 'getPackageProductionObjectById.tf_packiFiles_object', tf_packiFiles_object
+            
+            // loog 'myname', 'getPackageProductionObjectById', obj
+            (result) => {
+            
+                if (!result.ok) {
+                    return reject(result);
+                }
+                const tf: IPackageProductionModel = result.item;
+                const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
+                const obj = {
+                    ...tf._doc, 
+                    packiFiles: tf_packiFiles_object, 
+                    _id: tf._id.toString()
+                 };
+                return resolve(obj);
+            }
+            ).catch((err: any) => {
+            
+                console.log('getPackageProductionObjectById.getPackageProductionById.error', err);
                 return reject(err);
             }
             )

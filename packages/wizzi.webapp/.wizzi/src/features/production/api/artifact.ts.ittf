@@ -94,4 +94,6 @@ module
     $include artifact/get_context
     $include artifact/transformation
     $include artifact/generation
+    $include artifact/mtree
+    $include artifact/mtreeBuildupScript
     $include artifact/prepare

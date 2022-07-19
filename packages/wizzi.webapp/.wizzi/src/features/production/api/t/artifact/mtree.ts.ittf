@@ -1,0 +1,42 @@
+$group
+
+    +
+    export
+        async-function getArtifactMTree
+            param owner
+                :string
+            param name
+                :string
+            param context
+                :any
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ getArtifactProduction_withCache
+                            @ owner
+                            @ name
+                            ._ then
+                                => 
+                                    param ap
+                                        :any
+                                    _ wizziProds.mTree
+                                        @ ap.mainIttf
+                                        @ ap.packiFiles
+                                        @ context
+                                        ._ then
+                                            => 
+                                                param result
+                                                    :any
+                                                log 'getArtifactMTree', name, result.mTreeIttf.length
+                                                log 'getArtifactMTree', name, result.mTreeIttf.substring(0, 500) + '...'
+                                                const response
+                                                    { 
+                                                        @ content result.mTreeIttf
+                                                        @ contentLength result.mTreeIttf.length
+                                                        @ contentType contentTypeFor('x.ittf.ittf')
+                                                return resolve(response)
+                                        catch_reject( getArtifactMTree.mTree )
+                            catch_reject( getArtifactMTree.getArtifactProduction )
+

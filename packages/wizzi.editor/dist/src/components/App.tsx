@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\App.tsx.ittf
-    utc time: Tue, 12 Jul 2022 15:10:51 GMT
+    utc time: Tue, 19 Jul 2022 16:44:54 GMT
 */
 import * as React from 'react';
 // Redux
@@ -208,7 +208,6 @@ class AppMain extends React.Component<AppProps, State> {
             files, 
             packiProduction, 
             verbose, 
-            codeChangesDelay: sendCodeOnChangeEnabled ? 1000 : -1, 
             user: props.loggedUser, 
             apiURL: nullthrows(process.env.API_SERVER_URL), 
             host: new URL(nullthrows(process.env.SERVER_URL)).host, 
@@ -259,13 +258,20 @@ class AppMain extends React.Component<AppProps, State> {
     }
     
     _generateArtifact(filePath: string) {
-        const files = this.state.session.files;
-        if (Object.keys(files).length) {
-            filePath = filePath || this.state.selectedFile || Object.keys(files)[0];
-            if (filePath.endsWith('.ittf')) {
-                console.log('_generateArtifact.filePath', filePath);
-                console.log('_generateArtifact', 'state.session.files', files);
-                this.props.dispatchGenerateArtifact(filePath, fileConversions.packiFilterIttf(this.state.session.files))
+        console.log('_generateArtifact, filePath, this.state.session.packiProduction', filePath, this.state.session.packiProduction);
+        if (this.state.session.packiProduction == 'artifact') {
+            const files = this.state.session.files;
+            if (Object.keys(files).length) {
+                filePath = filePath || this.state.selectedFile || Object.keys(files)[0];
+                if (filePath.endsWith('.ittf')) {
+                    console.log('_generateArtifact filePath.startsWith("t/")', filePath.startsWith('t/'));
+                    console.log('_generateArtifact filePath.indexOf("/t/") > -1', filePath.indexOf('/t/') > -1);
+                    if (!(filePath.startsWith('t/') || filePath.indexOf('/t/') > -1)) {
+                        console.log('_generateArtifact.filePath', filePath);
+                        console.log('_generateArtifact', 'state.session.files', files);
+                        this.props.dispatchGenerateArtifact(filePath, fileConversions.packiFilterIttf(this.state.session.files))
+                    }
+                }
             }
         }
     }
@@ -318,19 +324,6 @@ class AppMain extends React.Component<AppProps, State> {
     
     }
     ;
-    _handleToggleSendCode = () => 
-        this.setState(({
-            sendCodeOnChangeEnabled
-         }) => {
-        
-            this._PackiSession.setCodeChangesDelay(sendCodeOnChangeEnabled ? -1 : 1000)
-            return {
-                    sendCodeOnChangeEnabled: !sendCodeOnChangeEnabled
-                 };
-        }
-        );
-    _handleSendCode = () => 
-        this._PackiSession.sendCodeChanges();
     _handleSessionStateChange = (packiState: PackiState, prevPackiState: PackiState) => 
         // log 'Session state change: ', diff(prevPackiState, packiState), packiState
         this.setState((state) => {
@@ -384,12 +377,6 @@ class AppMain extends React.Component<AppProps, State> {
         const {
             saveStatus
          } = this.state;
-        if (saveStatus !== 'published') {
-            await this._saveAsync({
-                    ignoreUser: true, 
-                    excludeFromHistory: true
-                 });
-        }
         let once = true;
         this.setState((state) => {
         
@@ -425,70 +412,6 @@ class AppMain extends React.Component<AppProps, State> {
                  };
         }
         )
-    }
-    ;
-    
-    _saveDraftIfNeeded = (debounced?: boolean) => {
-        console.log('App._saveDraftIfNeeded', 'this.state.session.user', this.state.session.user, 'this.state.autosaveEnabled', this.state.autosaveEnabled, 'this.state.saveStatus', this.state.saveStatus);
-        if (true) {
-            if (debounced) {
-                this._saveDraftIfNeededDebounced();
-            }
-            else {
-                this._saveAsync({
-                    isDraft: true
-                 })
-            }
-        }
-    };
-    _saveDraftIfNeededDebounced = debounce(this._saveDraftIfNeeded, 3000);
-    
-    _saveAsync = async (options: PackiSaveOptions = {}) => {
-    
-        const {
-            isDraft, 
-            ignoreUser, 
-            excludeFromHistory
-         } = options;
-        this.setState({
-            saveStatus: isDraft || excludeFromHistory ? 'saving-draft' : 'publishing'
-         })
-        if (!isDraft) {
-            let cntCodeFile = 0;
-            let cntAssetFile = 0;
-            let codeSize = 0;
-            for (const path in this.state.session.files) {
-                const file = this.state.session.files[path];
-                if (file.type === 'CODE') {
-                    cntCodeFile++;
-                    codeSize += file.contents.length;
-                }
-                else {
-                    cntAssetFile++;
-                }
-            }
-        }
-        try {
-            this.edited = false;
-            const saveResult = await this._PackiSession.saveAsync({
-                    isDraft, 
-                    ignoreUser
-                 });
-            this.setState((state) => 
-            
-                ({
-                    isSavedOnce: true, 
-                    saveStatus: state.session.unsaved ? this.edited ? 'edited' : 'unsaved' : isDraft ? 'saved-draft' : 'published'
-                 })
-            )
-        } 
-        catch (e) {
-            this.edited = true;
-            this.setState({
-                saveStatus: 'edited'
-             })
-            throw e;
-        } 
     }
     ;
     _uploadAssetAsync = (asset: File) => {
@@ -605,10 +528,7 @@ class AppMain extends React.Component<AppProps, State> {
                                     name={this.state.session.name}
                                     id={this.state.session.id}
                                     onDownloadAsync={this._handleDownloadAsync}
-                                    onPublishAsync={this._saveAsync}
-                                    onSendCode={this._handleSendCode}
                                     onSubmitMetadata={this._handleSubmitMetadata}
-                                    onToggleSendCode={this._handleToggleSendCode}
                                     onTogglePreview={this._handleTogglePreview}
                                     onSelectFile={this._handleSelectFile}
                                     previewRef={this._previewRef}

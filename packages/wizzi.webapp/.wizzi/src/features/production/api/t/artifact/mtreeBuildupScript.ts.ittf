@@ -1,0 +1,41 @@
+$group
+
+    +
+    export
+        async-function getArtifactMTreeBuildupScript
+            param owner
+                :string
+            param name
+                :string
+            param context
+                :any
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ getArtifactProduction_withCache
+                            @ owner
+                            @ name
+                            ._ then
+                                => 
+                                    param ap
+                                        :any
+                                    _ wizziProds.mTreeDebugInfo
+                                        @ ap.mainIttf
+                                        @ ap.packiFiles
+                                        @ context
+                                        ._ then
+                                            => 
+                                                param result
+                                                    :any
+                                                log 'getArtifactMTreeBuildupScript', name, result.mTreeBuildUpScript
+                                                const response
+                                                    { 
+                                                        @ content result.mTreeBuildUpScript
+                                                        @ contentLength result.mTreeBuildUpScript.length
+                                                        @ contentType contentTypeFor('x.ittf.ittf')
+                                                return resolve(response)
+                                        catch_reject( getArtifactMTreeBuildupScript.mTree )
+                            catch_reject( getArtifactMTreeBuildupScript.getArtifactProduction )
+

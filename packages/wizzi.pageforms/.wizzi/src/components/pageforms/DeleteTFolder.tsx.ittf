@@ -7,6 +7,7 @@ module
                 { name: "data", type: "any", ref: true },
             ],
             stateProps: [
+                { name: "tf_id", type: "string" },
                 { name: "tf_userid", type: "string" },
                 { name: "tf_name", type: "string" },
                 { name: "tf_description", type: "string" },
@@ -23,6 +24,7 @@ module
             log 'DeleteTFolderProduction.componentDidMount.props', this.props
             const
                 {
+                    @ _id
                     @ userid
                     @ name
                     @ description
@@ -30,6 +32,7 @@ module
             
             _ this.setState
                 {
+                    @ tf_id _id
                     @ tf_userid userid
                     @ tf_name name
                     @ tf_description description
@@ -57,7 +60,13 @@ module
                             =>
                                 param ref
                                 set this.formRef = ref                        
-                        < FormHidden
+                        < FormStatic
+                            @ label 'TFolder id'
+                            @ name 'tf_id'
+                            @ id 'tf_id'
+                            @ value {this.state.tf_id}
+                        < FormStatic
+                            @ label 'TFolder owner'
                             @ name 'tf_userid'
                             @ id 'tf_userid'
                             @ value {this.state.tf_userid}

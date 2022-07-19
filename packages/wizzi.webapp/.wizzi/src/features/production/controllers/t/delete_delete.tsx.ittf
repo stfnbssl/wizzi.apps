@@ -3,13 +3,57 @@ $group
 
     $
         var suffix = prod == 'tFolder' ? '' : 'Production';
-    
-    log myname + '.delete${_.capitalize(prod)}', request.path 
-    # loog myname + '.delete${_.capitalize(prod)}.request.body', JSON.stringify(request.body, null, 2)
-    # loog myname + '.delete${_.capitalize(prod)}.request.session.user', JSON.stringify((request.session as any).user, null, 2)    
+        var prefix = 
+            prod == 'tFolder' ? 'tf' 
+            : prod == 'meta' ? 'mp' 
+            : prod == 'package' ? 'pp' 
+            : prod == 'plugin' ? 'pp' 
+            : 'ap';
+        var redirect = 
+            prod == 'tFolder' ? '/productions/tfolders' 
+            : prod == 'meta' ? '/productions/metas' 
+            : prod == 'package' ? '/productions/packages' 
+            : prod == 'plugin' ? '/productions/plugins' 
+            : '/productions/artifacts';
 
+    log myname + '.delete${_.capitalize(prod)}.request.path', request.path
+    # loog myname + '.delete${_.capitalize(prod)}.request.body', JSON.stringify(request.body, null, 2)
+    # loog myname + '.delete${_.capitalize(prod)}.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+    
+    $*
     _ sendSuccess
         @ response
         {
             @ body request.body
             @ user (request.session as any).user
+    *$
+
+    const obj = request.body
+    _ delete${_.capitalize(prod)}${suffix}
+        @ obj.${prefix}_id
+        @ obj.${prefix}_owner
+        @ obj.${prefix}_name
+        @ obj.${prefix}_description
+        $if prod == 'artifact'
+            @ obj.${prefix}_mainIttf
+            @ obj.${prefix}_wizziSchema
+        ._ then
+            =>
+                param result
+                    :any
+                if result.ok
+                    return
+                        _ sendSuccess
+                            @ response
+                            {
+                                @ body request.body
+                                @ user (request.session as any).user
+                                @ result result
+                if result.ok
+                    _ response.redirect('${redirect}')
+                else
+                    _ response.render
+                        @ 'error.html.ittf'
+                        {
+                            @ message 'deleting a ${prod} production'
+                            @ error result

@@ -10,30 +10,49 @@ $group
                 return 
                     div 
                         @ className "folder"
-                        h2 
+                        div 
                             @ className "folder-title"
+                            @ style
+                                {
+                                    @ padding "4px"
+                                    @ fontSize "14px"
+                                    @ cursor "pointer"
                             @ onClick
                                 => 
+                                    param ev
                                     _ toggleExpanded(!isExpanded)
-                            + {files.name}
-                        br 
-                        { 
-                            && 
-                                + isExpanded
-                                _ files.items.map
-                                    => 
-                                        param item
-                                        < Directory 
-                                            @ key {item.name}
-                                            @ files {item}
-                                            @ onSelect {onSelect}
+                                    _ ev.preventDefault
+                                    _ ev.stopPropagation 
+                            + {files.explorerName || files.name}
+                            div
+                                @ style
+                                    {
+                                        @ padding "4px 16px"
+                                { 
+                                    && 
+                                        + isExpanded
+                                        _ files.items.map
+                                            => 
+                                                param item
+                                                < Directory 
+                                                    @ key {item.name}
+                                                    @ files {item}
+                                                    @ onSelect {onSelect}
 
             return 
                 < React.Fragment
-                    h3 
+                    div 
                         @ className "file-name"
+                        @ style
+                            {
+                                @ padding "4px"
+                                @ fontSize "14px"
+                                @ cursor "pointer"
                         @ onClick
                             => 
+                                param ev
                                 if onSelect
                                     _ onSelect(files)
-                        + {files.name}
+                                _ ev.preventDefault
+                                _ ev.stopPropagation 
+                        + {files.explorerName || files.name}

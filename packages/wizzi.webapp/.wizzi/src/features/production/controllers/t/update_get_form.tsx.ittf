@@ -5,13 +5,21 @@ $group
         var suffix = prod == 'tFolder' ? '' : 'Production';
     
     # loog myname + '.getUpdate${_.capitalize(prod)}Form', request.path 
+
+    $*
     const parts = request.path.split('/')
     # loog myname + '.getUpdate${_.capitalize(prod)}Form', parts[2], parts.slice(3).join('/')
     const userid = parts[2]
     const name = parts.slice(3).join('/')
-    _ get${_.capitalize(prod)}${suffix}Object
+    *$
+    const id = request.params.id
+    log myname + '.getUpdate${_.capitalize(prod)}Form.id', id
+    _ get${_.capitalize(prod)}${suffix}ObjectById
+        $*
         @ userid
         @ name
+        *$
+        @ id
         ._ then
             =>
                 param result
@@ -23,9 +31,9 @@ $group
                         @ type 'success'
                         @ formName 'Update${_.capitalize(prod)}${suffix}'
                         { formData 
-                            @ _id result._id
-                            @ userid userid
-                            @ name name
+                            @ _id id
+                            @ userid result.owner
+                            @ name result.name
                             @ description result.description
                             $hook
                     {

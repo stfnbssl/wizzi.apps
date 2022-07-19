@@ -1,0 +1,36 @@
+$group
+
+    m loadArtifactList
+        _ wz.production.getList
+            @ 'artifact'
+            @ userId
+            a_cb( result )
+                var items = []
+                foreach item in result.item
+                    if item.name.startsWith(labPath + '/')
+                        set item.packiFilesJson = JSON.parse(item.packiFiles)
+                        set item.explorerName = item.wizziSchema + '/' + item.name.substring(labPath.length + 1)
+                        _ items.push
+                            @ item
+                        log 'wz.production.getList.item', item
+                _ this.setState
+                    {
+                        @ artifactProductions items
+
+    m addArtifact
+        param name
+        param wizziSchema
+        _ wz.production.createItem
+            @ "artifact"
+            @ "stfnbssl"
+            @ labPath + "/" + name
+            @ wizziSchema
+            @ "index." + wizziSchema + ".ittf"
+            {
+                @ ["index." + wizziSchema + ".ittf"] 
+                    {
+                        @ type "CODE"
+                        @ contents wizziSchema
+            a_cb( result )
+                log 'addArtifact.result', result
+                _ this.loadArtifactList

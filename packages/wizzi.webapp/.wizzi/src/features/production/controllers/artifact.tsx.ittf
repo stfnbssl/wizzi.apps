@@ -20,6 +20,7 @@ module
                 @ updateArtifactProduction
                 @ deleteArtifactProduction
                 @ getArtifactProductionObject
+                @ getArtifactProductionObjectById
                 from '../api/artifact'
             +
             const myname = 'features/production/controllers/artifact'

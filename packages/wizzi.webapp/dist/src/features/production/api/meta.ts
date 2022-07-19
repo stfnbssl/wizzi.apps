@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\api\meta.ts.ittf
-    utc time: Fri, 15 Jul 2022 15:38:03 GMT
+    utc time: Tue, 19 Jul 2022 19:18:03 GMT
 */
 import NodeCache from 'node-cache';
 import {GetMetaProductionModel} from '../mongo/meta';
@@ -336,7 +336,41 @@ export async function getMetaProductionObject(owner: string, name: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getMetaProduction_withCache.getMetaProduction.error', err);
+                console.log('getMetaProductionObject.getMetaProduction.error', err);
+                return reject(err);
+            }
+            )
+        
+        );
+}
+
+export async function getMetaProductionObjectById(id: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            getMetaProductionById(id).then(
+            // loog 'myname', 'getMetaProductionObjectById.tf', tf
+            
+            // loog 'myname', 'getMetaProductionObjectById.tf_packiFiles_object', tf_packiFiles_object
+            
+            // loog 'myname', 'getMetaProductionObjectById', obj
+            (result) => {
+            
+                if (!result.ok) {
+                    return reject(result);
+                }
+                const tf: IMetaProductionModel = result.item;
+                const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
+                const obj = {
+                    ...tf._doc, 
+                    packiFiles: tf_packiFiles_object, 
+                    _id: tf._id.toString()
+                 };
+                return resolve(obj);
+            }
+            ).catch((err: any) => {
+            
+                console.log('getMetaProductionObjectById.getMetaProductionById.error', err);
                 return reject(err);
             }
             )

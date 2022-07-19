@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorViewProps.tsx.ittf
-    utc time: Tue, 12 Jul 2022 15:10:51 GMT
+    utc time: Tue, 19 Jul 2022 16:44:54 GMT
 */
 import {SaveStatus, SaveHistory, PackiSaveOptions, PackiFiles, PackiFile} from '../../features/packi';
 import {GeneratedArtifact, JobError} from '../../features/wizzi';
@@ -26,8 +26,6 @@ export type EditorViewProps = {
     annotations: Annotation[];
     experienceURL: string;
     sendCodeOnChangeEnabled: boolean;
-    onSendCode: () => void;
-    onToggleSendCode: () => void;
     onTogglePreview: () => void;
     onSubmitMetadata: (details: { 
         name: string;
