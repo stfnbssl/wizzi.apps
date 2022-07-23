@@ -87,8 +87,10 @@ module
                 set this.state =
                     _ this.updateDerivedState
                         {
-                            @ disabled !!options.disabled
+                            @ readOnly !!options.readOnly
+                            @ generated !!options.generated
                             @ unsaved false
+                            @ id options.id
                             @ owner options.owner ?? ''
                             @ name options.name ?? ''
                             @ description options.description ?? ''
@@ -100,7 +102,7 @@ module
                                     {
                             @ user options.user
                             @ packiProduction options.packiProduction
-                            @ id options.id
+                            
                             @ saveCount 0
                             @ saveURL
                                 iif options.id

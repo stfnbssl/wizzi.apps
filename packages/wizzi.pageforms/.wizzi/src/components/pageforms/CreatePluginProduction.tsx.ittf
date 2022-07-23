@@ -49,6 +49,8 @@ module
         p formRef 
             = React.createRef()
         +
+        check_name_create( plugin )
+        $*
         m _checkAvaliblePluginName
             async
             const pp_checked = this.state.pp_name
@@ -78,6 +80,7 @@ module
                 {
                     @ pp_name_available result.isValid
                     @ pp_name_checked pp_checked
+        *$
         
         m componentDidMount
             async

@@ -4,6 +4,7 @@ module
         var md = {
             Name: 'PackageProduction',
             descr: 'package production',
+            prefix: 'pp',
             query: [
                 { name: 'owner', type: 'string' },
                 { name: 'name', type: 'string' },

@@ -4,6 +4,7 @@ module
         var md = {
             Name: 'MetaProduction',
             descr: 'meta production',
+            prefix: 'mp',
             query: [
                 { name: 'owner', type: 'string' },
                 { name: 'name', type: 'string' },
@@ -36,6 +37,10 @@ module
     import
         @ wizziProds
         from '../../wizzi'
+    import
+        @ tFolderApi
+        @ productionApi
+        from '../index'
     import
         @ prepareGenerationFromWizziJson
         from './artifact'

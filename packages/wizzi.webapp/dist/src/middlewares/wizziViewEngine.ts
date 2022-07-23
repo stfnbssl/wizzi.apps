@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\middlewares\wizziViewEngine.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import path from 'path';
 import {Application} from 'express';
@@ -19,8 +19,8 @@ export const WizziViewEngineMiddleware: MiddlewareType = (app: Application) => {
                 locals: options._locals, 
                 ...twinJsonContext
              };
-            console.log('WizziViewEngineMiddleware.filePath', filePath);
-            console.log('WizziViewEngineMiddleware.options', JSON.stringify(options, null, 2));
+            // loog 'WizziViewEngineMiddleware.filePath', filePath
+            // loog 'WizziViewEngineMiddleware.options', JSON.stringify(options, null, 2)
             wizziProds.generateArtifactFs(filePath, context).then((generated) => {
             
                 return callback(null, generated.artifactContent);
@@ -40,6 +40,6 @@ export const WizziViewEngineMiddleware: MiddlewareType = (app: Application) => {
     app.set('views', viewsFolder);
     // register the template engine
     app.set('view engine', 'ittf');
-    console.log('WizziViewEngineMiddleware installed, on folder', viewsFolder);
+    console.log('WizziViewEngineMiddleware installed, on folder', viewsFolder, __filename);
 }
 ;

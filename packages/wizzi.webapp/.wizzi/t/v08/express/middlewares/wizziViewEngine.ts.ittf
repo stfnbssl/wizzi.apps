@@ -35,8 +35,8 @@ $group
                                         @ ...options
                                         @ locals options._locals
                                         @ ...twinJsonContext
-                                log 'WizziViewEngineMiddleware.filePath', filePath
-                                log 'WizziViewEngineMiddleware.options', JSON.stringify(options, null, 2)
+                                # loog 'WizziViewEngineMiddleware.filePath', filePath
+                                # loog 'WizziViewEngineMiddleware.options', JSON.stringify(options, null, 2)
                                 _ wizziProds.generateArtifactFs(filePath, context).then
                                     =>
                                         param generated

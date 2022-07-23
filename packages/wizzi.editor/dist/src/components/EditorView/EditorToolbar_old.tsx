@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorToolbar_old.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -81,7 +81,7 @@ export function EditorToolbar(props: EditorToolbarProps) {
      } = preferences;
     const isPublishing = saveStatus === 'publishing';
     const isPublished = saveStatus === 'published';
-    console.log('EditorToolbar.props', props, mainIttf, wizziSchema);
+    console.log('EditorToolbar.props', props, mainIttf, wizziSchema, __filename);
     return  (
         <ToolbarShell
         >

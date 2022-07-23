@@ -41,6 +41,60 @@ $group
                             catch_reject( getArtifactGeneration.getArtifactProduction )
 
     +
+    export
+        async-function getArtifactGeneration_withPrepare
+            param owner
+                :string
+            param productionName
+                :string
+            param queryContext
+                :string
+            param rootContext
+                :any
+            log 'getArtifactGeneration_withPrepare',
+                \b 'owner', owner,
+                \b 'productionName', productionName,
+                \b 'queryContext', queryContext,
+                \b 'rootContext', Object.keys(rootContext)
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ productionApi.prepareProduction
+                            @ 'artifact'
+                            @ owner
+                            @ productionName
+                            @ queryContext
+                            @ rootContext
+                            ._ then
+                                => 
+                                    param productionObj
+                                        :any
+                                    log 'getArtifactGeneration_withPrepare.productionObj',
+                                        \b 'mainIttf', productionObj.mainIttf,
+                                        \b 'packiFiles', Object.keys(productionObj.packiFiles),
+                                        \b 'context', Object.keys(productionObj.context),
+                                    _ wizziProds.generateArtifact
+                                        @ productionObj.mainIttf
+                                        @ productionObj.packiFiles
+                                        @ productionObj.context
+                                        ._ then
+                                            => 
+                                                param result
+                                                    :any
+                                                log 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.length
+                                                log 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.substring(0, 200) + '...'
+                                                const response
+                                                    { 
+                                                        @ content result.artifactContent
+                                                        @ contentLength result.artifactContent.length
+                                                        @ contentType contentTypeFor(productionObj.mainIttf)
+                                                return resolve(response)
+                                        catch_reject( getArtifactGeneration_withPrepare.generateArtifact )
+                            catch_reject( getArtifactGeneration_withPrepare.prepareProduction )
+
+    +
     const extContentTypeMap
         :{
             :index

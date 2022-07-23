@@ -4,6 +4,7 @@ module
         var md = {
             Name: 'PluginProduction',
             descr: 'plugin production',
+            prefix: 'lp',
             query: [
                 { name: 'owner', type: 'string' },
                 { name: 'name', type: 'string' },

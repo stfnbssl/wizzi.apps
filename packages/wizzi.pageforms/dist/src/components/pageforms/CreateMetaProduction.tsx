@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateMetaProduction.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -83,18 +83,21 @@ export class CreateMetaProduction extends Component<CreateMetaProductionProps, C
     formRef = React.createRef();
     
     async _checkAvalibleMetaName() {
+        const {
+            owner
+         } = this.props.data;
         const mp_checked = this.state.mp_name;
-        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/meta/checkname/${mp_checked}`;
-        console.log('CreateMeta._checkAvalibleMetaName.endpoint', endpoint);
+        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/artifact/checkname/${encodeURIComponent(owner)}/${encodeURIComponent(mp_checked)}`;
+        console.log('CreateMeta._checkAvalibleMetaName.endpoint', endpoint, __filename);
         const response = await fetch(endpoint);
         if (!response.ok) {
             throw new Error(`checkAvalibleMetaName error - ${response.status} - ${response.statusText}`);
         }
         const result = await response.json();
-        console.log('CreateMeta._checkAvalibleMetaName.result', result);
+        console.log('CreateMeta._checkAvalibleMetaName.result', result, __filename);
         this.setState({
-            mp_name_available: result.isValid, 
-            mp_name_checked: mp_checked
+            mp_available: result.isValid, 
+            mp_checked: mp_checked
          })
     }
     componentDidMount() {
@@ -102,7 +105,7 @@ export class CreateMetaProduction extends Component<CreateMetaProductionProps, C
         ;
     }
     handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
@@ -155,7 +158,7 @@ export class CreateMetaProduction extends Component<CreateMetaProductionProps, C
         );
     
     handleMetaNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleMetaNameChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleMetaNameChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             mp_name: ev.target.value
          })
@@ -170,7 +173,7 @@ export class CreateMetaProduction extends Component<CreateMetaProductionProps, C
     };
     
     render() {
-        console.log('CreateMetaProduction.render', 'state', this.state);
+        console.log('CreateMetaProduction.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >
@@ -242,7 +245,7 @@ export class CreateMetaProduction extends Component<CreateMetaProductionProps, C
                                 {
                                     this.state.mp_contexts.map((context, ndx) => {
                                     
-                                        console.log('Createmp.context', context);
+                                        console.log('Createmp.context', context, __filename);
                                         return  (
                                             <div
                                              key={ndx}>
@@ -277,7 +280,7 @@ export class CreateMetaProduction extends Component<CreateMetaProductionProps, C
                                 {
                                     this.state.mp_dependencies.map((tfolder, ndx) => {
                                     
-                                        console.log('Createmp.tfolder', tfolder);
+                                        console.log('Createmp.tfolder', tfolder, __filename);
                                         return  (
                                             <div
                                              key={ndx}>

@@ -57,9 +57,9 @@ module
 
         _ this.router.get('/new', this.getNewArtifactForm)
         _ this.router.post('/new', this.postArtifact)
-        _ this.router.get('/update/:userid/*', this.getUpdateArtifactForm)
+        _ this.router.get('/update/:id', this.getUpdateArtifactForm)
         _ this.router.post('/update', this.putArtifact)
-        _ this.router.get('/delete/:userid/*', this.getDeleteArtifactForm)
+        _ this.router.get('/delete/:id', this.getDeleteArtifactForm)
         _ this.router.post('/delete', this.deleteArtifact)
         
         $append handlers
@@ -73,7 +73,7 @@ module
                         @ type 'success'
                         @ formName 'CreateArtifactProduction'
                         { formData 
-                            @ owner request.query.owner
+                            @ owner username
                             @ name request.query.name
                             @ mainIttf request.query.mainIttf
                             @ schema request.query.schema

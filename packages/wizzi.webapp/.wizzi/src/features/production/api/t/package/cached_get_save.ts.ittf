@@ -2,7 +2,7 @@ $group
 
     +
     export
-        async-function getPackageProductionObject
+        async-function getPackageProductionObject_stop
             param owner
                 :string
             param name
@@ -41,7 +41,7 @@ $group
 
     +
     export
-        async-function getPackageProductionObjectById
+        async-function getPackageProductionObjectById_stop
             param id
                 :string
             return 

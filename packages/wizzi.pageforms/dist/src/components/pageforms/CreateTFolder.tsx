@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateTFolder.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -85,18 +85,21 @@ export class CreateTFolder extends Component<CreateTFolderProps, CreateTFolderSt
     formRef = React.createRef();
     
     async _checkAvalibleTFolderName() {
+        const {
+            owner
+         } = this.props.data;
         const tf_checked = this.state.tf_name;
-        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/tfolder/checkname/${tf_checked}`;
-        console.log('CreateTFolder._checkAvalibleTFolderName.endpoint', endpoint);
+        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/artifact/checkname/${encodeURIComponent(owner)}/${encodeURIComponent(tf_checked)}`;
+        console.log('CreateTFolder._checkAvalibleTFolderName.endpoint', endpoint, __filename);
         const response = await fetch(endpoint);
         if (!response.ok) {
             throw new Error(`checkAvalibleTFolderName error - ${response.status} - ${response.statusText}`);
         }
         const result = await response.json();
-        console.log('CreateTFolder._checkAvalibleTFolderName.result', result);
+        console.log('CreateTFolder._checkAvalibleTFolderName.result', result, __filename);
         this.setState({
-            tf_name_available: result.isValid, 
-            tf_name_checked: tf_checked
+            tf_available: result.isValid, 
+            tf_checked: tf_checked
          })
     }
     componentDidMount() {
@@ -108,7 +111,7 @@ export class CreateTFolder extends Component<CreateTFolderProps, CreateTFolderSt
     }
     
     handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
@@ -161,7 +164,7 @@ export class CreateTFolder extends Component<CreateTFolderProps, CreateTFolderSt
         );
     
     handleTFolderNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleTFolderNameChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleTFolderNameChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             tf_name: ev.target.value
          })
@@ -175,7 +178,7 @@ export class CreateTFolder extends Component<CreateTFolderProps, CreateTFolderSt
         }
     };
     handleTFolderUploadChange = files => {
-        console.log('CreateTFolder.handleTFolderUploadChange', files);
+        console.log('CreateTFolder.handleTFolderUploadChange', files, __filename);
         const uploadfiles = [];
         var i, i_items=files, i_len=files.length, file;
         for (i=0; i<i_len; i++) {
@@ -193,7 +196,7 @@ export class CreateTFolder extends Component<CreateTFolderProps, CreateTFolderSt
     };
     
     render() {
-        console.log('CreatePacki.render', 'state', this.state);
+        console.log('CreatePacki.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >
@@ -247,7 +250,7 @@ export class CreateTFolder extends Component<CreateTFolderProps, CreateTFolderSt
                                 {
                                     this.state.tfolder_contexts.map((context, ndx) => {
                                     
-                                        console.log('Createtfolder.context', context);
+                                        console.log('Createtfolder.context', context, __filename);
                                         return  (
                                             <div
                                              key={ndx}>
@@ -282,7 +285,7 @@ export class CreateTFolder extends Component<CreateTFolderProps, CreateTFolderSt
                                 {
                                     this.state.tfolder_dependencies.map((tfolder, ndx) => {
                                     
-                                        console.log('Createtfolder.tfolder', tfolder);
+                                        console.log('Createtfolder.tfolder', tfolder, __filename);
                                         return  (
                                             <div
                                              key={ndx}>

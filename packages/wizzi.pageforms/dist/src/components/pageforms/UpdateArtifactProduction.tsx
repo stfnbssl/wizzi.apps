@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdateArtifactProduction.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -36,7 +36,7 @@ export interface UpdateArtifactProductionProps {
 
 type UpdateArtifactProductionState = { 
     ap_id: string;
-    ap_userid: string;
+    ap_owner: string;
     ap_name_old: string;
     ap_name_new: string;
     ap_description: string;
@@ -63,7 +63,7 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
     }
     state: UpdateArtifactProductionState = {
         ap_id: "", 
-        ap_userid: "", 
+        ap_owner: "", 
         ap_name_old: "", 
         ap_name_new: "", 
         ap_description: "", 
@@ -79,15 +79,18 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
     }
     ;
     async _checkAvalibleArtifactName() {
+        const {
+            owner
+         } = this.props.data;
         const ap_name_new_checked = this.state.ap_name_new;
-        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/artifact/checkname/${ap_name_new_checked}`;
-        console.log('CreateArtifact._checkAvalibleArtifactName.endpoint', endpoint);
+        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/artifact/checkname/${encodeURIComponent(owner)}/${encodeURIComponent(ap_name_new_checked)}`;
+        console.log('CreateArtifact._checkAvalibleArtifactName.endpoint', endpoint, __filename);
         const response = await fetch(endpoint);
         if (!response.ok) {
             throw new Error(`checkAvalible_artifact_Name error - ${response.status} - ${response.statusText}`);
         }
         const result = await response.json();
-        console.log('CreateArtifact._checkAvalibleArtifactName.result', result);
+        console.log('CreateArtifact._checkAvalibleArtifactName.result', result, __filename);
         this.setState({
             ap_name_new_available: result.isValid, 
             ap_name_new_checked: ap_name_new_checked
@@ -95,14 +98,14 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
     }
     
     handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
     };
     
     handleArtifactNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleArtifactNameChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleArtifactNameChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             ap_name_new: ev.target.value
          }, () => {
@@ -121,10 +124,10 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
         }
     };
     componentDidMount() {
-        console.log('UpdateArtifactProduction.componentDidMount.props', this.props);
+        console.log('UpdateArtifactProduction.componentDidMount.props', this.props, __filename);
         const {
             _id, 
-            userid, 
+            owner, 
             name, 
             description, 
             mainIttf, 
@@ -136,7 +139,7 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
         const ap_dependencies = dependencies || [];
         this.setState({
             ap_id: _id, 
-            ap_userid: userid, 
+            ap_owner: owner, 
             ap_name_old: name, 
             ap_name_new: name, 
             ap_description: description, 
@@ -150,7 +153,7 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
     }
     
     render() {
-        console.log('UpdatePacki.render', 'state', this.state);
+        console.log('UpdatePacki.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >
@@ -170,7 +173,7 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
                     <FormHidden
                      name='ap_id' id='ap_id' value={this.state.ap_id} />
                     <FormHidden
-                     name='ap_userid' id='ap_userid' value={this.state.ap_userid} />
+                     name='ap_owner' id='ap_owner' value={this.state.ap_owner} />
                     <FormHidden
                      name='ap_name_old' id='ap_name_old' value={this.state.ap_name_old} />
                     <FormGroup 

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\ListMetaProduction.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -64,7 +64,7 @@ export class ListMetaProduction extends Component<ListMetaProductionProps, ListM
     }
     ;
     componentDidMount() {
-        console.log('ListMetaProduction.componentDidMount', this.props.data);
+        console.log('ListMetaProduction.componentDidMount', this.props.data, __filename);
         this.setState({
             l_metas: this.props.data.metas, 
             l_search: '', 
@@ -80,13 +80,13 @@ export class ListMetaProduction extends Component<ListMetaProductionProps, ListM
         return true;
     }
     handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
     };
     render() {
-        console.log('ListMetaProduction.render', this.state);
+        console.log('ListMetaProduction.render', this.state, __filename);
         if (!this.state) {
             return  (
                 <div

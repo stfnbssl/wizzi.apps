@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\services\mongodb.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import mongoose from 'mongoose';
 import {ModelBuilderType} from '../features/app';
@@ -27,7 +27,7 @@ export function mongodbStart(config: ConfigType, modelBuilders: ModelBuilderType
             useUnifiedTopology: true
          }).then(() => {
         
-            console.log('Mongodb. Connected to', mongoPath);
+            console.log('Mongodb. Connected to', mongoPath, __filename);
             mongoose.set('useFindAndModify', false);
             modelBuilders.forEach(builder => 
             

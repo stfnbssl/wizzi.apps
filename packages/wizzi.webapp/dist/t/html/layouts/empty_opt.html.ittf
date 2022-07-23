@@ -26,9 +26,10 @@ $group
             @ rel "stylesheet"
             @ href "https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
 		
-		$if isWizziStudio && !opt.useFirebase
-    		script
-    			module
+		script
+            module
+                set window.__filename = 'browser'
+                $if isWizziStudio && !opt.useFirebase
     				var WizziBrowser
     					{ 
     						@ log

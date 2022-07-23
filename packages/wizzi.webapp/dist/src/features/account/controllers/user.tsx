@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\account\controllers\user.tsx.ittf
-    utc time: Tue, 19 Jul 2022 19:18:05 GMT
+    utc time: Sat, 23 Jul 2022 04:18:24 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -34,7 +34,7 @@ export class UserController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering UserController.initialize');
+        console.log('Entering UserController.initialize', __filename);
         this.router.get('/new', this.getNewUserForm);
         this.router.post('/new', this.postNewUser);
         this.router.get('/update', this.getUpdateUserForm);
@@ -45,8 +45,10 @@ export class UserController implements ControllerType {
     
     private getNewUserForm = 
     // loog myname, 'getNewUserForm', JSON.stringify(request.query, null, 2)
-    async (request: Request, response: Response) => 
+    async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         renderPackiPageForm(request, response, {
             type: 'success', 
             formName: 'CreateUser', 
@@ -57,13 +59,15 @@ export class UserController implements ControllerType {
                 openid_provider: request.query.openid_provider
              }
          }, {})
-    
+    }
     ;
     
     private postNewUser = 
     // loog myname + '.postNewUser.request.body', JSON.stringify(request.body, null, 2)
-    async (request: Request, response: Response) => 
+    async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         createUserFromSignup({
             name: request.body.u_name, 
             email: request.body.u_email, 
@@ -92,13 +96,15 @@ export class UserController implements ControllerType {
                 error: err
              })
         )
-    
+    }
     ;
     
     private getUpdateUserForm = 
     // # loog myname + '.getUpdateUserForm',
-    async (request: Request, response: Response) => 
+    async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         renderPackiPageForm(request, response, {
             type: 'success', 
             formName: 'UpdateUser', 
@@ -106,13 +112,15 @@ export class UserController implements ControllerType {
                 website: 'http://dummy.com'
              }
          }, {})
-    
+    }
     ;
     
     private postUpdateUser = 
     // loog myname + '.postUpdateUser',
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
     }
     ;
     
@@ -120,6 +128,8 @@ export class UserController implements ControllerType {
     // loog myname + '.getDeleteUserForm',
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
     }
     ;
     
@@ -127,6 +137,8 @@ export class UserController implements ControllerType {
     // loog myname + '.deleteUser',
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
     }
     ;
 }

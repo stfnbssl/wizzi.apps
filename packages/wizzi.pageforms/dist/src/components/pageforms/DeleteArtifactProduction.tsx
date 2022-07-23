@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\DeleteArtifactProduction.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -33,7 +33,7 @@ export interface DeleteArtifactProductionProps {
 }
 
 type DeleteArtifactProductionState = { 
-    ap_userid: string;
+    ap_owner: string;
     ap_name: string;
     ap_description: string;
 };
@@ -44,21 +44,23 @@ export class DeleteArtifactProduction extends Component<DeleteArtifactProduction
         super(props);
     }
     state: DeleteArtifactProductionState = {
-        ap_userid: "", 
+        ap_owner: "", 
         ap_name: "", 
         ap_description: ""
     }
     ;
     
     componentDidMount() {
-        console.log('DeleteArtifactProduction.componentDidMount.props', this.props);
+        console.log('DeleteArtifactProduction.componentDidMount.props', this.props, __filename);
         const {
-            userid, 
+            _id, 
+            owner, 
             name, 
             description
          } = this.props.data;
         this.setState({
-            ap_userid: userid, 
+            ap_id: _id, 
+            ap_owner: owner, 
             ap_name: name, 
             ap_description: description
          })
@@ -70,7 +72,7 @@ export class DeleteArtifactProduction extends Component<DeleteArtifactProduction
     };
     
     render() {
-        console.log('DeleteArtifactProduction.render', 'state', this.state);
+        console.log('DeleteArtifactProduction.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >
@@ -87,8 +89,18 @@ export class DeleteArtifactProduction extends Component<DeleteArtifactProduction
                             this.formRef = ref
                     }
                 >
-                    <FormHidden
-                     name='ap_userid' id='ap_userid' value={this.state.ap_userid} />
+                    <FormStatic 
+                        label='Artifact id'
+                        name='ap_id'
+                        id='ap_id'
+                        value={this.state.ap_id}
+                     />
+                    <FormStatic 
+                        label='Artifact owner'
+                        name='ap_owner'
+                        id='ap_owner'
+                        value={this.state.ap_owner}
+                     />
                     <FormStatic 
                         label='Artifact name'
                         name='ap_name'

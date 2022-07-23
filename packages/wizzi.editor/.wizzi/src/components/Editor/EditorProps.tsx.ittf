@@ -25,6 +25,8 @@ module
                                             :string 
                                 param files
                                     :ref PackiFiles
+                :p readonly
+                    :boolean 
                 :p selectedFile
                     :string 
                 :p onSelectFile

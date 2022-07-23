@@ -134,6 +134,7 @@
                                 @ files {files}
                                 @ autoFocus {!/Untitled file.*\.(js|tsx?)$/.test(selectedFile)}
                                 @ annotations {annotations}
+                                @ readOnly {this.props.readOnly}
                                 @ updateFiles {this.props.updateFiles}
                                 @ onSelectFile {this.props.onSelectFile}
                                 @ lineNumbers undefined

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\DeleteMetaProduction.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -33,7 +33,7 @@ export interface DeleteMetaProductionProps {
 }
 
 type DeleteMetaProductionState = { 
-    mp_userid: string;
+    mp_owner: string;
     mp_name: string;
     mp_description: string;
 };
@@ -44,21 +44,23 @@ export class DeleteMetaProduction extends Component<DeleteMetaProductionProps, D
         super(props);
     }
     state: DeleteMetaProductionState = {
-        mp_userid: "", 
+        mp_owner: "", 
         mp_name: "", 
         mp_description: ""
     }
     ;
     
     componentDidMount() {
-        console.log('DeleteMetaProduction.componentDidMount.props', this.props);
+        console.log('DeleteMetaProduction.componentDidMount.props', this.props, __filename);
         const {
-            userid, 
+            _id, 
+            owner, 
             name, 
             description
          } = this.props.data;
         this.setState({
-            mp_userid: userid, 
+            mp_id: _id, 
+            mp_owner: owner, 
             mp_name: name, 
             mp_description: description
          })
@@ -70,7 +72,7 @@ export class DeleteMetaProduction extends Component<DeleteMetaProductionProps, D
     };
     
     render() {
-        console.log('DeleteMetaProduction.render', 'state', this.state);
+        console.log('DeleteMetaProduction.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >
@@ -87,8 +89,18 @@ export class DeleteMetaProduction extends Component<DeleteMetaProductionProps, D
                             this.formRef = ref
                     }
                 >
-                    <FormHidden
-                     name='mp_userid' id='mp_userid' value={this.state.mp_userid} />
+                    <FormStatic 
+                        label='Meta id'
+                        name='mp_id'
+                        id='mp_id'
+                        value={this.state.mp_id}
+                     />
+                    <FormStatic 
+                        label='Meta owner'
+                        name='mp_owner'
+                        id='mp_owner'
+                        value={this.state.mp_owner}
+                     />
                     <FormStatic 
                         label='Meta name'
                         name='mp_name'

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\wizzi\productions.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import path from 'path';
 import fs from 'fs';
@@ -406,22 +406,22 @@ export async function transformModelFs(filePath: string, context?: any, options?
         );
 }
 
-export async function executeJob(filePath: string, files: packiTypes.PackiFiles, context: any):  Promise<FsJson> {
+export async function executeJob(wfjobFilePath: string, packiFiles: packiTypes.PackiFiles, context: any):  Promise<FsJson> {
 
     return new Promise(async (resolve, reject) => {
         
-            if (!verify.isObject(files)) {
+            if (!verify.isObject(packiFiles)) {
                 return reject({
                         action: 'wizzi.productions.executeJob', 
-                        message: 'files parameter must be an object of type PackiFiles', 
-                        files
+                        message: 'packiFiles parameter must be an object of type PackiFiles', 
+                        packiFiles
                      });
             }
-            const ittfDocumentUri = ensurePackiFilePrefix(filePath);
-            const jsonwf = await createFsJsonAndFactory(files);
+            wfjobFilePath = ensurePackiFilePrefix(wfjobFilePath);
+            const jsonwf = await createFsJsonAndFactory(packiFiles);
             jsonwf.wf.executeJob({
                 name: '', 
-                path: ittfDocumentUri, 
+                path: wfjobFilePath, 
                 productionOptions: {
                     
                  }, 
@@ -440,30 +440,30 @@ export async function executeJob(filePath: string, files: packiTypes.PackiFiles,
         );
 }
 
-export async function executeJobs(files: packiTypes.PackiFiles, context: any):  Promise<FsJson> {
+export async function executeJobs(packiFiles: packiTypes.PackiFiles, context: any):  Promise<FsJson> {
 
     return new Promise(
-        // loog 'Executing jobs', jobDocumentUris, 'files', Object.keys(files)
+        // loog 'Executing jobs', wfjobFilePaths, 'packiFiles', Object.keys(packiFiles)
         async (resolve, reject) => {
         
-            const jobDocumentUris = Object.keys(files).filter(k => 
+            const wfjobFilePaths = Object.keys(packiFiles).filter(k => 
             
                 k.endsWith('.wfjob.ittf')
             );
-            const jsonwf = await createFsJsonAndFactory(files);
+            const jsonwf = await createFsJsonAndFactory(packiFiles);
             const execJob = 
-            // loog 'Executing job', ittfDocumentUri
+            // loog 'Executing job', wfjobFilePath
             (index: number):  void => {
             
                 
                 // loog 'Jobs executed.'
-                if (index == jobDocumentUris.length) {
+                if (index == wfjobFilePaths.length) {
                     return resolve(jsonwf.fsJson);
                 }
-                const ittfDocumentUri = ensurePackiFilePrefix(jobDocumentUris[index]);
+                const wfjobFilePath = ensurePackiFilePrefix(wfjobFilePaths[index]);
                 jsonwf.wf.executeJob({
                     name: '', 
-                    path: ittfDocumentUri, 
+                    path: wfjobFilePath, 
                     productionOptions: {
                         
                      }, 

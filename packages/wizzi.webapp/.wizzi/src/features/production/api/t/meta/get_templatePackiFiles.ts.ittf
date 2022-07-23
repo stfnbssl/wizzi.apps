@@ -7,11 +7,19 @@ $group
                 :string
             param cliCtx
                 :any
+            param queryString
+                :string
+            param rootContext
+                :any
             :return
                 :ref Promise
                     :param 
                         :ref packiTypes.PackiFiles
-            # loog myname, 'getTemplatePackiFiles', metaId, cliCtx
+            log myname, 'getTemplatePackiFiles', 
+                \b 'metaId', metaId, 
+                \b 'cliCtx', Object.keys(cliCtx),
+                \b 'queryString', queryString, 
+                \b 'rootContext', Object.keys(rootContext)
             function getPackiFiles
                 param mainIttf
                     :string
@@ -30,50 +38,41 @@ $group
                     => 
                         param resolve
                         param reject
-                        if metaId.length == 0 || metaId.split('|').length != 2
+                        if !metaId || metaId.length < 1
                             return
                                 _ resolve
                                     _ getPackiFiles
                                         @ 'index.js.ittf'
-                        const parts = metaId.split('|')
-                        _ getMetaProduction
-                            @ parts[0]
-                            @ parts[1]
+                        _ productionApi.prepareProductionById
+                            @ 'meta'
+                            @ metaId
+                            @ queryString
+                            @ rootContext
                             ._ then
-                                =>
-                                    param result
-                                    if !result.ok
-                                        return reject(result)
-                                    const tf
-                                        :ref IMetaProductionModel
-                                        = result.item
-                                    # loog myname, 'getTemplatePackiFiles.getMetaProduction.tf', tf
-                                    const tf_packiFiles_object
-                                        :ref packiTypes.PackiFiles
-                                        _ JSON.parse(tf.packiFiles)
-                                    _ prepareGenerationFromWizziJson
-                                        @ tf_packiFiles_object
+                                => 
+                                    param metaProductionSet
+                                        :any
+                                    log 'getTemplatePackiFiles.metaProductionSet',
+                                        \b 'packiFiles', Object.keys(metaProductionSet.packiFiles),
+                                        \b 'context', Object.keys(metaProductionSet.context),
+                                    const context
+                                        _ Object.assign
+                                            {
+                                            @ metaProductionSet.context
+                                            {
+                                                @ cliCtx cliCtx
+                                    _ wizziProds.generateFolderArtifacts
+                                        @ 'template'
+                                        @ 'output'
+                                        @ metaProductionSet.packiFiles
+                                        @ context
                                         ._ then
                                             =>
-                                                param result
-                                                    :any
-                                                const context
-                                                    _ Object.assign
-                                                        {
-                                                        @ result.context
-                                                        {
-                                                            @ cliCtx cliCtx
-                                                _ wizziProds.generateFolderArtifacts
-                                                    @ 'template'
-                                                    @ 'output'
-                                                    @ result.packiFiles
-                                                    @ context
-                                                    ._ then
-                                                        =>
-                                                            param packiFiles
-                                                                :ref packiTypes.PackiFiles
-                                                            _ resolve
-                                                                @ packiFiles
-                                                catch_reject( getTemplatePackiFiles.generateFolderArtifacts )
-                                        catch_reject( getTemplatePackiFiles.prepareGenerationFromWizziJson )
-                            catch_reject( getTemplatePackiFiles.getMetaProduction )
+                                                param packiFiles
+                                                    :ref packiTypes.PackiFiles
+                                                log 'getTemplatePackiFiles.generatedFolderArtifacts',
+                                                    \b 'packiFiles', Object.keys(packiFiles),
+                                                _ resolve
+                                                    @ packiFiles
+                                        catch_reject( getTemplatePackiFiles.generateFolderArtifacts )
+                            catch_reject( getTemplatePackiFiles.prepareProduction )

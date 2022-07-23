@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\ittf\controllers\apiv1ittf.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -20,14 +20,16 @@ export class ApiV1IttfFsController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering ApiV1IttfFsController.initialize');
+        console.log('Entering ApiV1IttfFsController.initialize', __filename);
         this.router.get('', this.getIttfDocument);
         this.router.put('', this.putIttfDocument);
     };
     
     private getIttfDocument = async (request: Request, response: Response) => {
     
-        console.log('getIttfDocument.request.params', request.params);
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
+        console.log('getIttfDocument.request.params', request.params, __filename);
         var check = paramsCheck(request);
         var hash = check.notEmpty('body', 'hash');
         if (check.errors.length > 0) {
@@ -39,12 +41,12 @@ export class ApiV1IttfFsController implements ControllerType {
             hash: request.body.hash
          }).then((result: any) => {
         
-            console.log('getIttfDocument.result', result);
+            console.log('getIttfDocument.result', result, __filename);
             sendSuccess(response, result)
         }
         ).catch((err: any) => {
         
-            console.log('getIttfDocument.error', err);
+            console.log('getIttfDocument.error', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -55,8 +57,10 @@ export class ApiV1IttfFsController implements ControllerType {
     
     private putIttfDocument = async (request: Request, response: Response) => {
     
-        console.log('putIttfDocument.request.params', request.params);
-        console.log('putIttfDocument.request.body', request.body);
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
+        console.log('putIttfDocument.request.params', request.params, __filename);
+        console.log('putIttfDocument.request.body', request.body, __filename);
         var check = paramsCheck(request);
         var hash = check.notEmpty('body', 'hash');
         var content = check.notEmpty('body', 'content');
@@ -72,12 +76,12 @@ export class ApiV1IttfFsController implements ControllerType {
             prettify: request.body.prettify
          }).then((result: any) => {
         
-            console.log('putIttfDocument.result', result);
+            console.log('putIttfDocument.result', result, __filename);
             sendSuccess(response, result)
         }
         ).catch((err: any) => {
         
-            console.log('putIttfDocument.error', err);
+            console.log('putIttfDocument.error', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)

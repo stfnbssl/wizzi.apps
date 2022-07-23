@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\packi\controllers\proxy.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -19,12 +19,14 @@ export class ProxyController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering ProxyController.initialize');
+        console.log('Entering ProxyController.initialize', __filename);
         this.router.post('/packiitem', this.packiItem);
     };
     
-    private packiItem = async (request: Request, response: Response) => 
+    private packiItem = async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         axios.post('http://localhost:3000/api/v1/packiitem', request.body).then(
         // loog myname + '.packiItem res', Object.keys(res), 'res.data', res.data
         (res: any) => {
@@ -36,10 +38,10 @@ export class ProxyController implements ControllerType {
         }
         ).catch((err: any) => {
         
-            console.log(myname + '.packiItem.err', Object.keys(err));
+            console.log(myname + '.packiItem.err', Object.keys(err), __filename);
             sendFailure(response, err, 501);
         }
         )
-    
+    }
     ;
 }

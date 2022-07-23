@@ -5,6 +5,16 @@ module
         @ Document
         from "mongoose"
 
+    +
+    export
+        :type PackiProduction
+            :union
+                :literal 'artifact'
+                :literal 'package'
+                :literal 'meta'
+                :literal 'plugin'
+                :literal 'tfolder'
+
     $
         var md = {
             Name: 'ArtifactProduction'

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\index.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {ModelBuilderType, ControllerType} from '../app/types';
 import * as productionTypes from './types';
@@ -26,6 +26,7 @@ import * as packageApi from './api/package';
 import * as pluginApi from './api/plugin';
 import * as metaApi from './api/meta';
 import * as tFolderApi from './api/tfolder';
+import * as productionApi from './api/production';
 
 const productionModelGetters = {
     GetArtifactProductionModel, 
@@ -55,4 +56,4 @@ const productionControllers: ControllerType[] = [
     new TFolderController(), 
     new ApiV1TFolderController()
 ];
-export {productionTypes, productionModelGetters, productionModelBuilders, productionControllers, artifactApi, packageApi, pluginApi, metaApi, tFolderApi};
+export {productionTypes, productionModelGetters, productionModelBuilders, productionControllers, artifactApi, packageApi, pluginApi, metaApi, tFolderApi, productionApi};

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\DeletePackageProduction.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -33,7 +33,7 @@ export interface DeletePackageProductionProps {
 }
 
 type DeletePackageProductionState = { 
-    pp_userid: string;
+    pp_owner: string;
     pp_name: string;
     pp_description: string;
 };
@@ -44,21 +44,23 @@ export class DeletePackageProduction extends Component<DeletePackageProductionPr
         super(props);
     }
     state: DeletePackageProductionState = {
-        pp_userid: "", 
+        pp_owner: "", 
         pp_name: "", 
         pp_description: ""
     }
     ;
     
     componentDidMount() {
-        console.log('DeletePackageProduction.componentDidMount.props', this.props);
+        console.log('DeletePackageProduction.componentDidMount.props', this.props, __filename);
         const {
-            userid, 
+            _id, 
+            owner, 
             name, 
             description
          } = this.props.data;
         this.setState({
-            pp_userid: userid, 
+            pp_id: _id, 
+            pp_owner: owner, 
             pp_name: name, 
             pp_description: description
          })
@@ -70,7 +72,7 @@ export class DeletePackageProduction extends Component<DeletePackageProductionPr
     };
     
     render() {
-        console.log('DeletePackageProduction.render', 'state', this.state);
+        console.log('DeletePackageProduction.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >
@@ -87,8 +89,18 @@ export class DeletePackageProduction extends Component<DeletePackageProductionPr
                             this.formRef = ref
                     }
                 >
-                    <FormHidden
-                     name='pp_userid' id='pp_userid' value={this.state.pp_userid} />
+                    <FormStatic 
+                        label='Package id'
+                        name='pp_id'
+                        id='pp_id'
+                        value={this.state.pp_id}
+                     />
+                    <FormStatic 
+                        label='Package owner'
+                        name='pp_owner'
+                        id='pp_owner'
+                        value={this.state.pp_owner}
+                     />
                     <FormStatic 
                         label='Package name'
                         name='pp_name'

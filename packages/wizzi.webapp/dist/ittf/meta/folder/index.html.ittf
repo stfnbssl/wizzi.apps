@@ -3,7 +3,6 @@
 	$
         var opt = {
 		    title: 'ITTF explorer',
-            user: {},
         }
         var ca = 'm-s color-header font-x font-w-s';
         var ca2 = 'color-header font-x font-w-s';

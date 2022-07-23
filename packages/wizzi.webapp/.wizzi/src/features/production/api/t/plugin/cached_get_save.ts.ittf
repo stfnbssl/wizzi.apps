@@ -2,7 +2,7 @@ $group
 
     +
     export
-        async-function getPluginProductionObject
+        async-function getPluginProductionObject_stop
             param owner
                 :string
             param name
@@ -41,7 +41,7 @@ $group
 
     +
     export
-        async-function getPluginProductionObjectById
+        async-function getPluginProductionObjectById_stop
             param id
                 :string
             return 

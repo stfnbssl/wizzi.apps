@@ -8,7 +8,7 @@ module
             ],
             stateProps: [
                 { name: "tf_id", type: "string" },
-                { name: "tf_userid", type: "string" },
+                { name: "tf_owner", type: "string" },
                 { name: "tf_name", type: "string" },
                 { name: "tf_description", type: "string" },
             ]
@@ -25,7 +25,7 @@ module
             const
                 {
                     @ _id
-                    @ userid
+                    @ owner
                     @ name
                     @ description
                 = this.props.data
@@ -33,7 +33,7 @@ module
             _ this.setState
                 {
                     @ tf_id _id
-                    @ tf_userid userid
+                    @ tf_owner owner
                     @ tf_name name
                     @ tf_description description
         +
@@ -67,9 +67,9 @@ module
                             @ value {this.state.tf_id}
                         < FormStatic
                             @ label 'TFolder owner'
-                            @ name 'tf_userid'
-                            @ id 'tf_userid'
-                            @ value {this.state.tf_userid}
+                            @ name 'tf_owner'
+                            @ id 'tf_owner'
+                            @ value {this.state.tf_owner}
                         < FormStatic
                             @ label 'TFolder name'
                             @ name 'tf_name'

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\config\env.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import path from 'path';
 import dotenv from 'dotenv';
@@ -44,7 +44,7 @@ function validateEnv() {
         PACKI_API_ENDPOINT: str()
      });
     process.env.PACKI_API_ENDPOINT = checkedEnv.PACKI_API_ENDPOINT;
-    console.log('config/env.ts, PACKI_API_ENDPOINT after', process.env.PACKI_API_ENDPOINT);
+    console.log('config/env.ts, PACKI_API_ENDPOINT after', process.env.PACKI_API_ENDPOINT, __filename);
     return checkedEnv;
 }
 export const packiFilePrefix = 'json://';

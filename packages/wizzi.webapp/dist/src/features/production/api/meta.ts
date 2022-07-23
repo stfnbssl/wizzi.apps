@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\api\meta.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import NodeCache from 'node-cache';
 import {GetMetaProductionModel} from '../mongo/meta';
@@ -10,6 +10,7 @@ import {IMetaProductionModel} from '../types';
 import {ValidateResult, CRUDResult} from '../../types';
 import {packiTypes} from '../../packi';
 import {wizziProds} from '../../wizzi';
+import {tFolderApi, productionApi} from '../index';
 import {prepareGenerationFromWizziJson} from './artifact';
 
 const myname = 'features.production.api.meta';
@@ -70,7 +71,7 @@ export async function getListMetaProduction(options?: any):  Promise<CRUDResult>
             (err, result) => {
             
                 if (err) {
-                    console.log(myname, 'getListMetaProduction', 'MetaProduction.find', 'error', err);
+                    console.log(myname, 'getListMetaProduction', 'MetaProduction.find', 'error', err, __filename);
                     return reject(err);
                 }
                 const resultItem = [];
@@ -116,7 +117,7 @@ export async function getMetaProduction(owner: string, name: string):  Promise<C
             MetaProduction.find(query, (err, result) => {
             
                 if (err) {
-                    console.log(myname, 'getMetaProduction', 'MetaProduction.find', 'error', err);
+                    console.log(myname, 'getMetaProduction', 'MetaProduction.find', 'error', err, __filename);
                     return reject(err);
                 }
                 if (result.length == 1) {
@@ -152,7 +153,7 @@ export async function getMetaProductionById(id: string):  Promise<CRUDResult> {
              }, (err: any, result: IMetaProductionModel[]) => {
             
                 if (err) {
-                    console.log(myname, 'getMetaProduction', 'MetaProduction.find', 'error', err);
+                    console.log(myname, 'getMetaProduction', 'MetaProduction.find', 'error', err, __filename);
                     return reject(err);
                 }
                 if (result.length == 1) {
@@ -170,6 +171,74 @@ export async function getMetaProductionById(id: string):  Promise<CRUDResult> {
             }
             )
         }
+        );
+}
+
+export async function getMetaProductionObject(owner: string, name: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            getMetaProduction(owner, name).then(
+            // loog 'myname', 'getMetaProductionObject.mp', mp
+            
+            // loog 'myname', 'getMetaProductionObject.mp_packiFiles_object', mp_packiFiles_object
+            
+            // loog 'myname', 'getMetaProductionObject', obj
+            (result) => {
+            
+                if (!result.ok) {
+                    return reject(result);
+                }
+                const mp: IMetaProductionModel = result.item;
+                const mp_packiFiles_object: packiTypes.PackiFiles = JSON.parse(mp.packiFiles);
+                const obj = {
+                    ...mp._doc, 
+                    packiFiles: mp_packiFiles_object, 
+                    _id: mp._id.toString()
+                 };
+                return resolve(obj);
+            }
+            ).catch((err: any) => {
+            
+                console.log('getMetaProductionObject.getMetaProduction.error', err, __filename);
+                return reject(err);
+            }
+            )
+        
+        );
+}
+
+export async function getMetaProductionObjectById(id: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            getMetaProductionById(id).then(
+            // loog 'myname', 'getMetaProductionObjectById.mp', mp
+            
+            // loog 'myname', 'getMetaProductionObjectById.mp_packiFiles_object', mp_packiFiles_object
+            
+            // loog 'myname', 'getMetaProductionObjectById', obj
+            (result) => {
+            
+                if (!result.ok) {
+                    return reject(result);
+                }
+                const mp: IMetaProductionModel = result.item;
+                const mp_packiFiles_object: packiTypes.PackiFiles = JSON.parse(mp.packiFiles);
+                const obj = {
+                    ...mp._doc, 
+                    packiFiles: mp_packiFiles_object, 
+                    _id: mp._id.toString()
+                 };
+                return resolve(obj);
+            }
+            ).catch((err: any) => {
+            
+                console.log('getMetaProductionObjectById.getMetaProductionById.error', err, __filename);
+                return reject(err);
+            }
+            )
+        
         );
 }
 
@@ -191,10 +260,10 @@ export async function createMetaProduction(owner: string, name: string, descript
             MetaProduction.find(query, (err, result) => {
             
                 if (err) {
-                    console.log(myname, 'getMetaProduction', 'MetaProduction.find', 'error', err);
+                    console.log(myname, 'getMetaProduction', 'MetaProduction.find', 'error', err, __filename);
                     return reject(err);
                 }
-                console.log(myname, 'getMetaProduction', 'MetaProduction.find', 'result', result);
+                console.log(myname, 'getMetaProduction', 'MetaProduction.find', 'result', result, __filename);
                 if (result.length > 0) {
                     return resolve({
                             oper: 'create', 
@@ -213,7 +282,7 @@ export async function createMetaProduction(owner: string, name: string, descript
                 newMetaProduction.save(function(err, doc) {
                 
                     if (err) {
-                        console.log(myname, 'createMetaProduction', 'newMetaProduction.save', 'error', err);
+                        console.log(myname, 'createMetaProduction', 'newMetaProduction.save', 'error', err, __filename);
                         return reject(err);
                     }
                     return resolve({
@@ -262,7 +331,7 @@ export async function updateMetaProduction(id: string, owner?: string, name?: st
             (err: any, result: any) => {
             
                 if (err) {
-                    console.log(myname, 'updateMetaProduction', 'MetaProduction.findOneAndUpdate', 'error', err);
+                    console.log(myname, 'updateMetaProduction', 'MetaProduction.findOneAndUpdate', 'error', err, __filename);
                     return reject(err);
                 }
                 
@@ -296,7 +365,7 @@ export async function deleteMetaProduction(id: string, owner?: string, name?: st
             (err: any) => {
             
                 if (err) {
-                    console.log(myname, 'deleteMetaProduction', 'MetaProduction.deleteOne', 'error', err);
+                    console.log(myname, 'deleteMetaProduction', 'MetaProduction.deleteOne', 'error', err, __filename);
                     return reject(err);
                 }
                 resolve({
@@ -310,7 +379,7 @@ export async function deleteMetaProduction(id: string, owner?: string, name?: st
         );
 }
 
-export async function getMetaProductionObject(owner: string, name: string) {
+export async function getMetaProductionObject_stop(owner: string, name: string) {
 
     return new Promise((resolve, reject) => 
         
@@ -336,7 +405,7 @@ export async function getMetaProductionObject(owner: string, name: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getMetaProductionObject.getMetaProduction.error', err);
+                console.log('getMetaProductionObject.getMetaProduction.error', err, __filename);
                 return reject(err);
             }
             )
@@ -344,7 +413,7 @@ export async function getMetaProductionObject(owner: string, name: string) {
         );
 }
 
-export async function getMetaProductionObjectById(id: string) {
+export async function getMetaProductionObjectById_stop(id: string) {
 
     return new Promise((resolve, reject) => 
         
@@ -370,7 +439,7 @@ export async function getMetaProductionObjectById(id: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getMetaProductionObjectById.getMetaProductionById.error', err);
+                console.log('getMetaProductionObjectById.getMetaProductionById.error', err, __filename);
                 return reject(err);
             }
             )
@@ -381,7 +450,7 @@ export async function getMetaProductionObjectById(id: string) {
 export async function getMetaProduction_withCache(owner: string, name: string) {
 
     var cacheKey = owner + '|' + name;
-    console.log('getMetaProduction_withCache.cacheKey', cacheKey);
+    console.log('getMetaProduction_withCache.cacheKey', cacheKey, __filename);
     return new Promise((resolve, reject) => {
         
             let mpValue = {
@@ -403,7 +472,7 @@ export async function getMetaProduction_withCache(owner: string, name: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getMetaProduction_withCache.getArtifactProduction.error', err);
+                console.log('getMetaProduction_withCache.getArtifactProduction.error', err, __filename);
                 return reject(err);
             }
             )
@@ -417,9 +486,9 @@ export function invalidateCache(owner: string, name: string) {
     metaCache.del(cacheKey);
 }
 
-export // loog myname, 'getTemplatePackiFiles', metaId, cliCtx
-async function getTemplatePackiFiles(metaId: string, cliCtx: any):  Promise<packiTypes.PackiFiles> {
+export async function getTemplatePackiFiles(metaId: string, cliCtx: any, queryString: string, rootContext: any):  Promise<packiTypes.PackiFiles> {
 
+    console.log(myname, 'getTemplatePackiFiles', 'metaId', metaId, 'cliCtx', Object.keys(cliCtx), 'queryString', queryString, 'rootContext', Object.keys(rootContext), __filename);
     function getPackiFiles(mainIttf: string):  packiTypes.PackiFiles {
     
         const ret: packiTypes.PackiFiles = {};
@@ -431,45 +500,30 @@ async function getTemplatePackiFiles(metaId: string, cliCtx: any):  Promise<pack
     }
     return new Promise((resolve, reject) => {
         
-            if (metaId.length == 0 || metaId.split('|').length != 2) {
+            if (!metaId || metaId.length < 1) {
                 return resolve(getPackiFiles('index.js.ittf'));
             }
-            const parts = metaId.split('|');
-            getMetaProduction(parts[0], parts[1]).then(
-            // loog myname, 'getTemplatePackiFiles.getMetaProduction.tf', tf
-            (result) => {
+            productionApi.prepareProductionById('meta', metaId, queryString, rootContext).then((metaProductionSet: any) => {
             
-                if (!result.ok) {
-                    return reject(result);
-                }
-                const tf: IMetaProductionModel = result.item;
-                const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
-                prepareGenerationFromWizziJson(tf_packiFiles_object).then((result: any) => {
+                console.log('getTemplatePackiFiles.metaProductionSet', 'packiFiles', Object.keys(metaProductionSet.packiFiles), 'context', Object.keys(metaProductionSet.context),__filename);
+                const context = Object.assign({}, metaProductionSet.context, {
+                    cliCtx: cliCtx
+                 });
+                wizziProds.generateFolderArtifacts('template', 'output', metaProductionSet.packiFiles, context).then((packiFiles: packiTypes.PackiFiles) => {
                 
-                    const context = Object.assign({}, result.context, {
-                        cliCtx: cliCtx
-                     });
-                    wizziProds.generateFolderArtifacts('template', 'output', result.packiFiles, context).then((packiFiles: packiTypes.PackiFiles) => 
-                    
-                        resolve(packiFiles)
-                    )
-                    .catch((err: any) => {
-                    
-                        console.log('getTemplatePackiFiles.generateFolderArtifacts.error', err);
-                        return reject(err);
-                    }
-                    )
+                    console.log('getTemplatePackiFiles.generatedFolderArtifacts', 'packiFiles', Object.keys(packiFiles),__filename);
+                    resolve(packiFiles)
                 }
                 ).catch((err: any) => {
                 
-                    console.log('getTemplatePackiFiles.prepareGenerationFromWizziJson.error', err);
+                    console.log('getTemplatePackiFiles.generateFolderArtifacts.error', err, __filename);
                     return reject(err);
                 }
                 )
             }
             ).catch((err: any) => {
             
-                console.log('getTemplatePackiFiles.getMetaProduction.error', err);
+                console.log('getTemplatePackiFiles.prepareProduction.error', err, __filename);
                 return reject(err);
             }
             )

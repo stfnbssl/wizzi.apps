@@ -53,56 +53,19 @@ module
                 const parsedUrl = parseUrl(request)
                 if !parsedUrl || !parsedUrl.pathname
                     return next()
-                $$ # loog myname + '.parsedUrl', parsedUrl
+                log myname + '.parsedUrl', parsedUrl
                 const pathname = decodeURIComponent(parsedUrl.pathname)
 
                 const parts = pathname.split('/')
                 const owner = parts[1] 
-                const packiName = parts.slice(2).join('/')
-                $$ # loog myname + '.owner', owner, 'packiName', packiName, 'context', request.query.context
+                const productionName = parts.slice(2).join('/')
+                log myname + '.owner', owner, 'productionName', productionName, 'context', request.query.context
                 +
                 _ _executeBrowse
                     @ owner
-                    @ packiName
+                    @ productionName
                     @ request
                     @ response
-                $*
-                _ artifactApi.getDefaultContext_withCache
-                    @ owner
-                    ._ then
-                        => 
-                            param defaultContext
-                                :any
-                            $$ # loog myname + '.defaultContext:', Object.keys(defaultContext)
-                            _ artifactApi.getArtifactContext
-                                @ owner
-                                @ request.query.context as string
-                                @ defaultContext
-                                ._ then
-                                    => 
-                                        param resultContext
-                                            :any
-                                        $$ # loog myname + '.resultContext:', Object.keys(resultContext)
-                                        _ artifactApi.getArtifactGeneration
-                                            @ owner
-                                            @ packiName
-                                            @ resultContext
-                                            ._ then
-                                                => 
-                                                    param result
-                                                        :any
-                                                    log myname + '.result.length:', result.length, result
-                                                    _ response.status(200)
-                                                    _ response.set('Content-Type', result.contentType)
-                                                    _ response.set('Content-Length', result.contentLength.toString())
-                                                    _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
-                                                    _ response.set('Expires', '-1')
-                                                    _ response.set('Pragma', 'no-cache')
-                                                    _ response.send(result.content)
-                                            catch_fail( artifactApi.getPackiGeneration )
-                                catch_fail( artifactApi.getArtifactContext )
-                    catch_fail( artifactApi.getDefaultContext )
-                *$
     
     function packiSiteBrowseMiddleware
         :return
@@ -120,61 +83,110 @@ module
                 const parsedUrl = parseUrl(request)
                 if !parsedUrl || !parsedUrl.pathname
                     return next()
-                $$ # loog myname + '.parsedUrl', parsedUrl
+                log myname + '.parsedUrl', parsedUrl
                 const pathname = decodeURIComponent(parsedUrl.pathname)
 
                 const parts = pathname.split('/')
                 const owner = "stfnbssl"
-                const packiName = parts.slice(1).join('/')
-                $$ # loog myname + '.owner', owner, 'packiName', packiName, 'context', request.query.context
+                const productionName = parts.slice(1).join('/')
+                log myname + '.owner', owner, 'productionName', productionName, 'context', request.query.context
                 +
                 _ _executeBrowse
                     @ owner
-                    @ packiName
+                    @ productionName
                     @ request
                     @ response
-                $*
-                _ artifactApi.getDefaultContext_withCache
-                    @ owner
-                    ._ then
-                        => 
-                            param defaultContext
-                                :any
-                            $$ # loog myname + '.defaultContext:', Object.keys(defaultContext)
-                            _ artifactApi.getArtifactContext
-                                @ owner
-                                @ request.query.context as string
-                                @ defaultContext
-                                ._ then
-                                    => 
-                                        param resultContext
-                                            :any
-                                        $$ # loog myname + '.resultContext:', Object.keys(resultContext)
-                                        _ artifactApi.getArtifactGeneration
-                                            @ owner
-                                            @ packiName
-                                            @ resultContext
-                                            ._ then
-                                                => 
-                                                    param result
-                                                        :any
-                                                    $$ # loog myname + '.result.length:', result.length
-                                                    _ response.status(200)
-                                                    _ response.set('Content-Type', result.contentType)
-                                                    _ response.set('Content-Length', result.contentLength.toString())
-                                                    _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
-                                                    _ response.set('Expires', '-1')
-                                                    _ response.set('Pragma', 'no-cache')
-                                                    _ response.send(result.content)
-                                            catch_fail( artifactApi.getPackiGeneration )
-                                catch_fail( artifactApi.getArtifactContext )
-                    catch_fail( artifactApi.getDefaultContext )
-            *$
-
+    
     function _executeBrowse
         param owner
             :string
-        param packiName
+        param productionName
+            :string
+        param request
+            :ref Request
+        param response
+            :ref Response
+        if request.query.meta && (request.query.meta as string).toLowerCase() == 'mtree'
+            _ artifactApi.getArtifactMTree_withPrepare
+                @ owner
+                @ productionName
+                @ request.query.context as string
+                {
+                ._ then
+                    => 
+                        param result
+                            :any
+                        log myname + 'getArtifactMTree_withPrepare.result.length:', result.length
+                        _ response.status(200)
+                        _ response.set('Content-Type', result.contentType)
+                        _ response.set('Content-Length', result.contentLength.toString())
+                        _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+                        _ response.set('Expires', '-1')
+                        _ response.set('Pragma', 'no-cache')
+                        _ response.send(result.content)
+                catch_fail( _executeBrowse.artifactApi.getArtifactMTree )
+        elif request.query.meta && (request.query.meta as string).toLowerCase() == 'script'
+            _ artifactApi.getArtifactMTreeBuildupScript_withPrepare
+                @ owner
+                @ productionName
+                @ request.query.context as string
+                {
+                ._ then
+                    => 
+                        param result
+                            :any
+                        log myname + 'getArtifactMTreeBuildupScript_withPrepare.result.length:', result.length
+                        _ response.status(200)
+                        _ response.set('Content-Type', result.contentType)
+                        _ response.set('Content-Length', result.contentLength.toString())
+                        _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+                        _ response.set('Expires', '-1')
+                        _ response.set('Pragma', 'no-cache')
+                        _ response.send(result.content)
+                catch_fail( _executeBrowse.artifactApi.getArtifactMTree )
+        elif request.query.meta && (request.query.meta as string).toLowerCase() == 'raw'
+            _ artifactApi.getArtifactGeneration_withPrepare
+                @ owner
+                @ productionName
+                @ request.query.context as string
+                {
+                ._ then
+                    => 
+                        param result
+                            :any
+                        log myname + 'getArtifactGeneration_withPrepare.result.length:', result.length
+                        _ response.status(200)
+                        _ response.set('Content-Type', 'text/plain')
+                        _ response.set('Content-Length', result.contentLength.toString())
+                        _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+                        _ response.set('Expires', '-1')
+                        _ response.set('Pragma', 'no-cache')
+                        _ response.send(result.content)
+                catch_fail( _executeBrowse.artifactApi.getArtifactGeneration )
+        else
+            _ artifactApi.getArtifactGeneration_withPrepare
+                @ owner
+                @ productionName
+                @ request.query.context as string
+                {
+                ._ then
+                    => 
+                        param result
+                            :any
+                        log myname + 'getArtifactGeneration_withPrepare.result.length:', result.length
+                        _ response.status(200)
+                        _ response.set('Content-Type', result.contentType)
+                        _ response.set('Content-Length', result.contentLength.toString())
+                        _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+                        _ response.set('Expires', '-1')
+                        _ response.set('Pragma', 'no-cache')
+                        _ response.send(result.content)
+                catch_fail( _executeBrowse.artifactApi.getArtifactGeneration )
+
+    function _executeBrowse_old
+        param owner
+            :string
+        param productionName
             :string
         param request
             :ref Request
@@ -199,7 +211,7 @@ module
                                 if request.query.meta && (request.query.meta as string).toLowerCase() == 'mtree'
                                     _ artifactApi.getArtifactMTree
                                         @ owner
-                                        @ packiName
+                                        @ productionName
                                         @ resultContext
                                         ._ then
                                             => 
@@ -217,7 +229,7 @@ module
                                 elif request.query.meta && (request.query.meta as string).toLowerCase() == 'script'
                                     _ artifactApi.getArtifactMTreeBuildupScript
                                         @ owner
-                                        @ packiName
+                                        @ productionName
                                         @ resultContext
                                         ._ then
                                             => 
@@ -235,7 +247,7 @@ module
                                 elif request.query.meta && (request.query.meta as string).toLowerCase() == 'raw'
                                     _ artifactApi.getArtifactGeneration
                                         @ owner
-                                        @ packiName
+                                        @ productionName
                                         @ resultContext
                                         ._ then
                                             => 
@@ -253,7 +265,7 @@ module
                                 else
                                     _ artifactApi.getArtifactGeneration
                                         @ owner
-                                        @ packiName
+                                        @ productionName
                                         @ resultContext
                                         ._ then
                                             => 

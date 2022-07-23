@@ -34,6 +34,8 @@ module
         p formRef 
             = React.createRef()
         +
+        check_name_create( meta )
+        $*
         m _checkAvalibleMetaName
             async
             const mp_checked = this.state.mp_name
@@ -63,6 +65,7 @@ module
                 {
                     @ mp_name_available result.isValid
                     @ mp_name_checked mp_checked
+        *$
         
         m componentDidMount
 

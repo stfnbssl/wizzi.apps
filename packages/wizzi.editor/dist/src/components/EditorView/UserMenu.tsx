@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\UserMenu.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -24,14 +24,14 @@ export class UserMenuComp extends React.Component<UserMenuProps, State> {
     componentDidMount() {
         document.addEventListener('click', this._handleDocumentClick);
         document.addEventListener('contextmenu', this._handleDocumentContextMenu);
-        console.log('UserMenu componentDidMount');
+        console.log('UserMenu componentDidMount', __filename);
     }
     componentWillUnmount() {
         document.removeEventListener('click', this._handleDocumentClick);
         document.removeEventListener('contextmenu', this._handleDocumentContextMenu);
     }
     _handleDocumentClick = (e: MouseEvent) => {
-        console.log('UserMenu _handleDocumentClick', this.state.visible);
+        console.log('UserMenu _handleDocumentClick', this.state.visible, __filename);
         if (this.state.visible) {
             if (this._menu.current && e.target !== this._menu.current && !this._menu.current.contains(e.target as HTMLElement)) {
                 this._hideMenu();

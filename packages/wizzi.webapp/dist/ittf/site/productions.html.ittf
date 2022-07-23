@@ -3,7 +3,6 @@ html
     $
         var opt = {
             /* TODO For ittf(s) documents, user SHOULD BE set in the global Artifact Generation Context */
-            user: {},
             section: 'Productions',
             stickyNav: 'stickyNavbar',
             stickyNavOffset: 50,

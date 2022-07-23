@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\packi\controllers\packiEditing.tsx.ittf
-    utc time: Tue, 19 Jul 2022 19:18:05 GMT
+    utc time: Sat, 23 Jul 2022 04:18:24 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -33,22 +33,24 @@ export class PackiEditingController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering PackiEditingController.initialize');
-        this.router.get('/:userid', this.getPackiItemList);
-        this.router.get('/a/:userid/:name', this.getPackiArtifactProductionByUsername_Name);
-        this.router.get('/a/:userid/:name/*', this.getPackiArtifactProductionByUsername_Name);
-        this.router.get('/p/:userid/:name', this.getPackiPackageProductionByUsername_Name);
-        this.router.get('/p/:userid/:name/*', this.getPackiPackageProductionByUsername_Name);
-        this.router.get('/m/:userid/:name', this.getPackiMetaProductionByUsername_Name);
-        this.router.get('/m/:userid/:name/*', this.getPackiMetaProductionByUsername_Name);
-        this.router.get('/l/:userid/:name', this.getPackiPluginProductionByUsername_Name);
-        this.router.get('/l/:userid/:name/*', this.getPackiPluginProductionByUsername_Name);
-        this.router.get('/t/:userid/:name', this.getPackiTFolderByUsername_Name);
-        this.router.get('/t/:userid/:name/*', this.getPackiTFolderByUsername_Name);
+        console.log('Entering PackiEditingController.initialize', __filename);
+        this.router.get('/:owner', this.getPackiItemList);
+        this.router.get('/a/:owner/:name', this.getPackiArtifactProductionByUsername_Name);
+        this.router.get('/a/:owner/:name/*', this.getPackiArtifactProductionByUsername_Name);
+        this.router.get('/p/:owner/:name', this.getPackiPackageProductionByUsername_Name);
+        this.router.get('/p/:owner/:name/*', this.getPackiPackageProductionByUsername_Name);
+        this.router.get('/m/:owner/:name', this.getPackiMetaProductionByUsername_Name);
+        this.router.get('/m/:owner/:name/*', this.getPackiMetaProductionByUsername_Name);
+        this.router.get('/l/:owner/:name', this.getPackiPluginProductionByUsername_Name);
+        this.router.get('/l/:owner/:name/*', this.getPackiPluginProductionByUsername_Name);
+        this.router.get('/t/:owner/:name', this.getPackiTFolderByUsername_Name);
+        this.router.get('/t/:owner/:name/*', this.getPackiTFolderByUsername_Name);
     };
     
     private getPackiItemList = async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         return response.redirect('/productions/artifacts');
     }
     ;
@@ -61,6 +63,8 @@ export class PackiEditingController implements ControllerType {
     // loog myname + '.getPackiArtifactProductionByUsername_Name', parts[1], parts.slice(2).join('/')
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const queryParams = {};
         const parts = request.path.split('/');
         artifactApi.getArtifactProductionObject(parts[2], parts.slice(3).join('/')).then(
@@ -90,7 +94,7 @@ export class PackiEditingController implements ControllerType {
         }
         ).catch((err: any) => {
         
-            console.log('getPackiArtifactProductionByUsername_Name.error', err);
+            console.log('getPackiArtifactProductionByUsername_Name.error', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -107,6 +111,8 @@ export class PackiEditingController implements ControllerType {
     // loog myname + '.getPackiPackageProductionByUsername_Name', parts[1], parts.slice(2).join('/')
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const queryParams = {};
         const parts = request.path.split('/');
         packageApi.getPackageProductionObject(parts[2], parts.slice(3).join('/')).then(
@@ -134,7 +140,7 @@ export class PackiEditingController implements ControllerType {
         }
         ).catch((err: any) => {
         
-            console.log('getPackiPackageProductionByUsername_Name.error', err);
+            console.log('getPackiPackageProductionByUsername_Name.error', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -151,6 +157,8 @@ export class PackiEditingController implements ControllerType {
     // loog myname + '.getPackiMetaProductionByUsername_Name', parts[1], parts.slice(2).join('/')
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const queryParams = {};
         const parts = request.path.split('/');
         metaApi.getMetaProductionObject(parts[2], parts.slice(3).join('/')).then(
@@ -178,7 +186,7 @@ export class PackiEditingController implements ControllerType {
         }
         ).catch((err: any) => {
         
-            console.log('getPackiMetaProductionByUsername_Name.error', err);
+            console.log('getPackiMetaProductionByUsername_Name.error', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -195,6 +203,8 @@ export class PackiEditingController implements ControllerType {
     // loog myname + '.getPackiPluginProductionByUsername_Name', parts[1], parts.slice(2).join('/')
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const queryParams = {};
         const parts = request.path.split('/');
         pluginApi.getPluginProductionObject(parts[2], parts.slice(3).join('/')).then(
@@ -222,7 +232,7 @@ export class PackiEditingController implements ControllerType {
         }
         ).catch((err: any) => {
         
-            console.log('getPackiPluginProductionByUsername_Name.error', err);
+            console.log('getPackiPluginProductionByUsername_Name.error', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -239,6 +249,8 @@ export class PackiEditingController implements ControllerType {
     // loog myname + '.getPackiTFolderByUsername_Name', parts[1], parts.slice(2).join('/')
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const queryParams = {};
         const parts = request.path.split('/');
         tFolderApi.getTFolderObject(parts[2], parts.slice(3).join('/')).then(
@@ -266,7 +278,7 @@ export class PackiEditingController implements ControllerType {
         }
         ).catch((err: any) => {
         
-            console.log('getPackiTFolderByUsername_Name.error', err);
+            console.log('getPackiTFolderByUsername_Name.error', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)

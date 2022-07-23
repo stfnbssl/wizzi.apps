@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreatePackageProduction.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -103,25 +103,31 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
     formRef = React.createRef();
     
     async _checkAvaliblePackageName() {
+        const {
+            owner
+         } = this.props.data;
         const pp_checked = this.state.pp_name;
-        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/package/checkname/${pp_checked}`;
-        console.log('CreatePackage._checkAvaliblePackageName.endpoint', endpoint);
+        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/artifact/checkname/${encodeURIComponent(owner)}/${encodeURIComponent(pp_checked)}`;
+        console.log('CreatePackage._checkAvaliblePackageName.endpoint', endpoint, __filename);
         const response = await fetch(endpoint);
         if (!response.ok) {
             throw new Error(`checkAvaliblePackageName error - ${response.status} - ${response.statusText}`);
         }
         const result = await response.json();
-        console.log('CreatePackage._checkAvaliblePackageName.result', result);
+        console.log('CreatePackage._checkAvaliblePackageName.result', result, __filename);
         this.setState({
-            pp_name_available: result.isValid, 
-            pp_name_checked: pp_checked
+            pp_available: result.isValid, 
+            pp_checked: pp_checked
          })
     }
     async componentDidMount() {
         this._checkAvaliblePackageName = debounce(this._checkAvaliblePackageName, 100)
         ;
-        const metas = await getData('production/meta/list');
-        console.log('componentDidMount.metas', metas);
+        const {
+            owner
+         } = this.props.data;
+        const metas = await getData('production/meta/' + encodeURIComponent(owner));
+        console.log('componentDidMount.metas', metas, __filename);
         const options = [
             {
                 name: '', 
@@ -133,7 +139,7 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
             item = metas[i];
             options.push({
                 name: item.owner + '/' + item.name, 
-                value: item.owner + '|' + item.name
+                value: item.id
              })
         }
         this.setState({
@@ -141,7 +147,7 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
          })
     }
     handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
@@ -192,12 +198,14 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
                  };
         }
         );
+    
+    // value is the meta id
     handleMetaChange = async (value: string) => {
     
-        const parts = value.split('|');
-        if (parts.length == 2) {
-            const result = await getData('production/meta/props/' + parts[0] + '/' + parts[1]);
-            console.log('handleMetaChange.result', result, result.meta.properties);
+        console.log('handleMetaChange.value', value, __filename);
+        if (value && value.length > 0) {
+            const result = await getData('production/meta/props/' + encodeURIComponent(value));
+            console.log('handleMetaChange.result', result, result.meta.properties, __filename);
             const properties = result.meta.properties;
             const values: any = {};
             var i, i_items=properties, i_len=properties.length, prop;
@@ -238,7 +246,7 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
         );
     
     handlePackageNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handlePackageNameChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handlePackageNameChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             pp_name: ev.target.value
          })
@@ -253,7 +261,7 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
     };
     
     render() {
-        console.log('CreatePackageProduction.render', 'state', this.state);
+        console.log('CreatePackageProduction.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >
@@ -325,7 +333,7 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
                                 {
                                     this.state.pp_contexts.map((context, ndx) => {
                                     
-                                        console.log('Createpp.context', context);
+                                        console.log('Createpp.context', context, __filename);
                                         return  (
                                             <div
                                              key={ndx}>
@@ -360,7 +368,7 @@ export class CreatePackageProduction extends Component<CreatePackageProductionPr
                                 {
                                     this.state.pp_dependencies.map((tfolder, ndx) => {
                                     
-                                        console.log('Createpp.tfolder', tfolder);
+                                        console.log('Createpp.tfolder', tfolder, __filename);
                                         return  (
                                             <div
                                              key={ndx}>

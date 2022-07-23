@@ -51,23 +51,27 @@ module
                     :ref SaveStatus
                 :p selectedFile
                     :string 
-                :p files
-                    :ref PackiFiles
+                :p id
+                    :optional 
+                    :string 
                 :p owner
                     :string 
                 :p name
                     :string 
                 :p description
                     :string
+                :p files
+                    :ref PackiFiles
                 :p mainIttf
                     :string
                 :p wizziSchema
                     :string
                 :p packiProduction
                     :ref PackiProduction                    
-                :p id
-                    :optional 
-                    :string 
+                :p readOnly
+                    :boolean 
+                :p generated
+                    :boolean 
                 :p isDownloading
                     :boolean 
                 :p annotations

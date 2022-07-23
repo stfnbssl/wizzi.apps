@@ -25,3 +25,4 @@ $group
             $else
                 @ sw './src/sw.js'
                     # Service worker
+    $$ @ ['editor.worker'] 'monaco-editor/esm/vs/editor/editor.worker.js'

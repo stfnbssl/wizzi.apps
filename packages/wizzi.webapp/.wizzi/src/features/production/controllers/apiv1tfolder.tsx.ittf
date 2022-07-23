@@ -21,7 +21,7 @@ module
             const myname = 'features/production/controllers/apiv1tfolder'
 
         _ this.router.get('/:owner', this.getTFolderList)
-        _ this.router.get('/checkname/:name', this.getCheckTFolderName)
+        _ this.router.get('/checkname/:owner/:name', this.getCheckTFolderName)
         _ this.router.get('/:owner/:name', this.getTFolder)
         _ this.router.put('/:id', this.putTFolder)
         _ this.router.post('/:owner/:name', this.postTFolder)
@@ -46,21 +46,7 @@ module
                     catch_fail( getTFolderList )
             
             handler( getCheckTFolderName )
-
-                log 'getCheckTFolderName.request.params', request.params
-                # loog 'getCheckTFolderName.request.session.user.username', (request.session as any).user.username
-                _ validateTFolder
-                    @ (request.session as any).user.username
-                    @ request.params.name
-                    ._ then
-                        =>
-                            param result
-                                :any
-                            # loog 'getCheckTFolderName.result', result
-                            _ sendSuccess
-                                @ response
-                                @ result
-                    catch_fail( getCheckTFolderName )
+                check_name( tFolder )
 
             handler( getTFolder )
 

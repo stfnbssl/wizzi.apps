@@ -9,7 +9,7 @@ module
             ],
             stateProps: [
                 { name: "mp_id", type: "string" },
-                { name: "mp_userid", type: "string" },
+                { name: "mp_owner", type: "string" },
                 { name: "mp_name_old", type: "string" },
                 { name: "mp_name_new", type: "string" },
                 { name: "mp_description", type: "string" },
@@ -64,7 +64,7 @@ module
             const
                 {
                     @ _id
-                    @ userid
+                    @ owner
                     @ name
                     @ description
                     @ contexts
@@ -77,7 +77,7 @@ module
             _ this.setState
                 {
                     @ mp_id _id
-                    @ mp_userid userid
+                    @ mp_owner owner
                     @ mp_name_old name
                     @ mp_name_new name
                     @ mp_description description
@@ -109,9 +109,9 @@ module
                             @ id 'mp_id'
                             @ value {this.state.mp_id}
                         < FormHidden
-                            @ name 'mp_userid'
-                            @ id 'mp_userid'
-                            @ value {this.state.mp_userid}
+                            @ name 'mp_owner'
+                            @ id 'mp_owner'
+                            @ value {this.state.mp_owner}
                         < FormHidden
                             @ name 'mp_name_old'
                             @ id 'mp_name_old'

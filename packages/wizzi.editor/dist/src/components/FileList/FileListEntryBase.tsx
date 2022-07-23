@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListEntryBase.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -22,6 +22,7 @@ type Props = {
     renderTree?: () => React.ReactNode;
     actions: (Action | undefined)[];
     draggable?: boolean;
+    readOnly: boolean;
     theme: string | undefined;
 };
 type State = { 
@@ -148,6 +149,7 @@ export default class FileListEntry extends React.Component<Props, State> {
                 entry, 
                 rest, 
                 draggable, 
+                readOnly, 
                 onRename, 
                 onExpand, 
                 theme, 
@@ -182,13 +184,19 @@ export default class FileListEntry extends React.Component<Props, State> {
                     </div>
                     <div
                      className={css(styles.highlight, theme === 'dark' ? styles.highlightDark : styles.highlightLight, entry.state.isSelected ? styles.highlightActive : null)} />
-                    <ContextMenu 
-                        ref={this._menu}
-                        visible={Boolean(menu)}
-                        position={menu}
-                        actions={actions}
-                        onHide={this._hideContextMenu}
-                     />
+                    {
+                        !readOnly
+                         &&  (
+                            <ContextMenu 
+                                ref={this._menu}
+                                visible={Boolean(menu)}
+                                position={menu}
+                                actions={actions}
+                                onHide={this._hideContextMenu}
+                             />
+                            )
+                        
+                    }
                     <button
                      ref={this._more} tabIndex={-1} className={css(styles.more, isHovered || menu ? styles.moreVisible : styles.moreInvisible)}>
                         {this.props.renderMenuIcon()}

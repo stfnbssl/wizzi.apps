@@ -7,7 +7,7 @@ module
                 { name: "data", type: "any", ref: true },
             ],
             stateProps: [
-                { name: "ap_userid", type: "string" },
+                { name: "ap_owner", type: "string" },
                 { name: "ap_name", type: "string" },
                 { name: "ap_description", type: "string" },
             ]
@@ -24,7 +24,7 @@ module
             const
                 {
                     @ _id
-                    @ userid
+                    @ owner
                     @ name
                     @ description
                 = this.props.data
@@ -32,7 +32,7 @@ module
             _ this.setState
                 {
                     @ ap_id _id
-                    @ ap_userid userid
+                    @ ap_owner owner
                     @ ap_name name
                     @ ap_description description
         +
@@ -66,9 +66,9 @@ module
                             @ value {this.state.ap_id}
                         < FormStatic
                             @ label 'Artifact owner'
-                            @ name 'ap_userid'
-                            @ id 'ap_userid'
-                            @ value {this.state.ap_userid}
+                            @ name 'ap_owner'
+                            @ id 'ap_owner'
+                            @ value {this.state.ap_owner}
                         < FormStatic
                             @ label 'Artifact name'
                             @ name 'ap_name'

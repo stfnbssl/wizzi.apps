@@ -98,3 +98,76 @@ $group
                                         @ oper 'get'
                                         @ ok false
                                         @ message '${md.descr} not found'                                        
+    +
+    export
+        async-function get${md.Name}Object
+            param owner
+                :string
+            param name
+                :string
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ get${md.Name}
+                            @ owner
+                            @ name
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const ${md.prefix}
+                                        :ref I${md.Name}Model
+                                        = result.item
+                                    # loog 'myname', 'get${md.Name}Object.${md.prefix}', ${md.prefix}
+                                    const ${md.prefix}_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(${md.prefix}.packiFiles)
+                                    # loog 'myname', 'get${md.Name}Object.${md.prefix}_packiFiles_object', ${md.prefix}_packiFiles_object
+                                    const obj
+                                        { 
+                                            @ ...${md.prefix}._doc
+                                            @ packiFiles ${md.prefix}_packiFiles_object
+                                            @ _id ${md.prefix}._id.toString()
+                                    # loog 'myname', 'get${md.Name}Object', obj
+                                    return 
+                                        _ resolve
+                                            @ obj
+                            catch_reject( get${md.Name}Object.get${md.Name} )
+    +
+    export
+        async-function get${md.Name}ObjectById
+            param id
+                :string
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ get${md.Name}ById
+                            @ id
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const ${md.prefix}
+                                        :ref I${md.Name}Model
+                                        = result.item
+                                    # loog 'myname', 'get${md.Name}ObjectById.${md.prefix}', ${md.prefix}
+                                    const ${md.prefix}_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(${md.prefix}.packiFiles)
+                                    # loog 'myname', 'get${md.Name}ObjectById.${md.prefix}_packiFiles_object', ${md.prefix}_packiFiles_object
+                                    const obj
+                                        { 
+                                            @ ...${md.prefix}._doc
+                                            @ packiFiles ${md.prefix}_packiFiles_object
+                                            @ _id ${md.prefix}._id.toString()
+                                    # loog 'myname', 'get${md.Name}ObjectById', obj
+                                    return 
+                                        _ resolve
+                                            @ obj
+                            catch_reject( get${md.Name}ObjectById.get${md.Name}ById )

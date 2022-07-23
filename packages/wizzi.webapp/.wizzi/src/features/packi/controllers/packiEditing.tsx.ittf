@@ -48,17 +48,17 @@ module
                 _ res.set('Content-Length', index.length.toString())
                 _ res.send(index)
         
-        _ this.router.get('/:userid', this.getPackiItemList)
-        _ this.router.get('/a/:userid/:name', this.getPackiArtifactProductionByUsername_Name)
-        _ this.router.get('/a/:userid/:name/*', this.getPackiArtifactProductionByUsername_Name)
-        _ this.router.get('/p/:userid/:name', this.getPackiPackageProductionByUsername_Name)
-        _ this.router.get('/p/:userid/:name/*', this.getPackiPackageProductionByUsername_Name)
-        _ this.router.get('/m/:userid/:name', this.getPackiMetaProductionByUsername_Name)
-        _ this.router.get('/m/:userid/:name/*', this.getPackiMetaProductionByUsername_Name)
-        _ this.router.get('/l/:userid/:name', this.getPackiPluginProductionByUsername_Name)
-        _ this.router.get('/l/:userid/:name/*', this.getPackiPluginProductionByUsername_Name)
-        _ this.router.get('/t/:userid/:name', this.getPackiTFolderByUsername_Name)
-        _ this.router.get('/t/:userid/:name/*', this.getPackiTFolderByUsername_Name)
+        _ this.router.get('/:owner', this.getPackiItemList)
+        _ this.router.get('/a/:owner/:name', this.getPackiArtifactProductionByUsername_Name)
+        _ this.router.get('/a/:owner/:name/*', this.getPackiArtifactProductionByUsername_Name)
+        _ this.router.get('/p/:owner/:name', this.getPackiPackageProductionByUsername_Name)
+        _ this.router.get('/p/:owner/:name/*', this.getPackiPackageProductionByUsername_Name)
+        _ this.router.get('/m/:owner/:name', this.getPackiMetaProductionByUsername_Name)
+        _ this.router.get('/m/:owner/:name/*', this.getPackiMetaProductionByUsername_Name)
+        _ this.router.get('/l/:owner/:name', this.getPackiPluginProductionByUsername_Name)
+        _ this.router.get('/l/:owner/:name/*', this.getPackiPluginProductionByUsername_Name)
+        _ this.router.get('/t/:owner/:name', this.getPackiTFolderByUsername_Name)
+        _ this.router.get('/t/:owner/:name/*', this.getPackiTFolderByUsername_Name)
         
         $append handlers
             

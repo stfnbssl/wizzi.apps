@@ -8,4 +8,6 @@ $group
                 :ref Request
             param response
                 :ref Response
+            const isLoggedOn = request.session && (request.session as any).user
+            const username = isLoggedOn ? (request.session as any).user.username : null
             $hook

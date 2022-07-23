@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\site\controllers\home.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../features/app/types';
@@ -22,7 +22,7 @@ export class HomeController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering HomeController.initialize');
+        console.log('Entering HomeController.initialize', __filename);
         this.router.get('/', this.home);
         this.router.get('/login', this.login);
         this.router.get('/login/github', this.loginGithub);
@@ -69,18 +69,18 @@ export class HomeController implements ControllerType {
         const options = { headers: { accept: 'application/json' } };
         axios.post(`https://github.com/login/oauth/access_token`, body, options).then((result: any) => {
         
-            console.log(myname, 'site.controllers.home.githubCallback', 'result', JSON.stringify(result.data,null,2));
+            console.log(myname, 'site.controllers.home.githubCallback', 'result', JSON.stringify(result.data,null,2), __filename);
             return result.data['access_token'];
         }
         ).then((_token: string) => {
         
-            console.log(myname, 'site.controllers.home.githubCallback', '_token', _token);
+            console.log(myname, 'site.controllers.home.githubCallback', '_token', _token, __filename);
             (request.session as any).github_access_token = _token;
             response.redirect('/profile/github');
         }
         ).catch((err: any) => {
         
-            console.log(myname, 'githubCallback', 'error', err);
+            console.log(myname, 'githubCallback', 'error', err, __filename);
             response.status(500).json({ message: err.message });
         }
         )
@@ -99,7 +99,7 @@ export class HomeController implements ControllerType {
              }
          }).then((githubResult: any) => {
         
-            console.log(myname, 'profileGithub', 'githubResult.data', githubResult.data);
+            console.log(myname, 'profileGithub', 'githubResult.data', githubResult.data, __filename);
             if (githubResult.data.email == null) {
                 response.render('account/error-github-email-private.html.ittf', {
                     profile: githubResult.data, 
@@ -109,7 +109,7 @@ export class HomeController implements ControllerType {
             else {
                 userApi.getUserByEmail(githubResult.data.email).then((wizziresult: any) => {
                 
-                    console.log(myname, 'profileGithub', 'getUserByEmail', 'wizziresult', wizziresult);
+                    console.log(myname, 'profileGithub', 'getUserByEmail', 'wizziresult', wizziresult, __filename);
                     
                     // _ response.send('<pre><code>' +  JSON.stringify({ userData: user /*result.data*/ }, null, 2) + '</code></pre>')
                     if (wizziresult.found) {

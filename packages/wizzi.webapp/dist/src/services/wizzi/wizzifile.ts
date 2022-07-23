@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\services\wizzi\wizzifile.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -24,14 +24,14 @@ md.setAppConfig = function(config: ConfigType) {
     appConfig = config;
     wizziConfig = getConfigValues(appConfig.ittfPath, appConfig.dataPath)
     ;
-    console.log('wizziConfig', wizziConfig);
+    console.log('wizziConfig', wizziConfig, __filename);
     runnerModelsFolder = path.join(appConfig.ittfPath, 'meta', 'models')
     ;
     watcher = chokidar.watch(runnerModelsFolder + '/**/*.ittf', {
         persistent: true
      })
     ;
-    console.log('wizzifile is watching', runnerModelsFolder + '/**/*.ittf');
+    console.log('wizzifile is watching', runnerModelsFolder + '/**/*.ittf', __filename);
 }
 ;
 md.models = {};
@@ -71,14 +71,14 @@ md.onConfig = function(wizziConfig: any, callback: Function) {
         // 
     */
     wizziConfig.set('meta-html-text-path', path.join(appConfig.ittfPath, 'meta', 'text', 'index.html.ittf'))
-    console.log('wizzifile.onConfig');
+    console.log('wizzifile.onConfig', __filename);
     callback(null);
 }
 ;
 
 md.onStart = function(runnerServer: any, wizziConfig: any, callback: Function) {
 
-    console.log('wizzifile.onStart.enter');
+    console.log('wizzifile.onStart.enter', __filename);
     runnerServerInstance = runnerServer;
     runnerServer.registerfsFactory(FACTORY_SITE, {
         plugins: {
@@ -92,7 +92,7 @@ md.onStart = function(runnerServer: any, wizziConfig: any, callback: Function) {
          }
      })
     runnerServer.registerApi('default', md.defaultApi);
-    console.log('wizzifile.onStart.exit');
+    console.log('wizzifile.onStart.exit', __filename);
     callback(null);
 }
 ;
@@ -131,7 +131,7 @@ function(factoryName: string, runnerServer: any, wizziConfig: any, callback: Fun
 
 md.defaultApi = function(name: string, query: string) {
 
-    console.log('wizzifile.defaultApi.request', name, query);
+    console.log('wizzifile.defaultApi.request', name, query, __filename);
     if (name === 'demos') {
         const model = md.models['mainsite'];
         return model.getDemosByPath(query);
@@ -155,7 +155,7 @@ md.defaultApi = function(name: string, query: string) {
 function loadRuntimeModels(callback?: Function) {
 
     var mainSiteIttfPath = path.join(runnerModelsFolder, 'main.site.ittf');
-    console.log('wizzifile loading', mainSiteIttfPath);
+    console.log('wizzifile loading', mainSiteIttfPath, __filename);
     runnerServerInstance.loadModel(FACTORY_SITE, MODEL_TICKET_MAINSITE, 'site', mainSiteIttfPath, {}, function(err: any, wizziModel: any) {
     
         if (err) {
@@ -167,7 +167,7 @@ function loadRuntimeModels(callback?: Function) {
             }
         }
         md.models[MODEL_TICKET_MAINSITE] = wizziModel;
-        console.log('wizzifile loaded', mainSiteIttfPath);
+        console.log('wizzifile loaded', mainSiteIttfPath, __filename);
         if (callback) {
             callback(null);
         }

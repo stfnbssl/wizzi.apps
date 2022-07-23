@@ -63,9 +63,9 @@ module
 
         _ this.router.get('/new', this.getNewPluginForm)
         _ this.router.post('/new', this.postPlugin)
-        _ this.router.get('/update/:userid/*', this.getUpdatePluginForm)
+        _ this.router.get('/update/:id', this.getUpdatePluginForm)
         _ this.router.post('/update', this.putPlugin)
-        _ this.router.get('/delete/:userid/*', this.getDeletePluginForm)
+        _ this.router.get('/delete/:id', this.getDeletePluginForm)
         _ this.router.post('/delete', this.deletePlugin)
         _ this.router.get('/props', this.getPluginProperties)
         
@@ -80,8 +80,7 @@ module
                         @ type 'success'
                         @ formName 'CreatePluginProduction'
                         { formData 
-                            @ owner request.query.owner
-                            @ name request.query.name
+                            @ owner username
                     {
 
             handler( postPlugin )
@@ -90,6 +89,8 @@ module
                 _ getTemplatePackiFiles
                     @ request.body.meta_id
                     @ request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}
+                    @ request.query.context as string
+                    @ request.body.context ? JSON.parse(request.body.context) : {}
                     ._ then
                         =>
                             param packiFiles
@@ -116,13 +117,15 @@ module
                     catch_error_page( getting template packi files while creating a new plugin production )
 
             handler( getUpdatePluginForm )
+                update_get_form( plugin )
+                $*
                 # loog myname + '.getUpdatePluginForm', request.path 
                 const parts = request.path.split('/')
                 # loog myname + '.getUpdatePluginForm', parts[2], parts.slice(3).join('/')
-                const userid = parts[2]
+                const owner = parts[2]
                 const name = parts.slice(3).join('/')
                 _ getPluginProductionObject
-                    @ userid
+                    @ owner
                     @ name
                     ._ then
                         =>
@@ -135,23 +138,26 @@ module
                                     @ type 'success'
                                     @ formName 'UpdatePluginProduction'
                                     { formData 
-                                        @ userid userid
+                                        @ owner owner
                                         @ name name
                                         @ description result.description
                                         @ _id result._id
                                 {
+                *$
 
             handler( putPlugin )
                 update_put( plugin )
 
             handler( getDeletePluginForm )
+                delete_get_form( plugin )
+                $*
                 # loog myname + '.getDeletePluginForm', request.path 
                 const parts = request.path.split('/')
                 # loog myname + '.getDeletePluginForm', parts[2], parts.slice(3).join('/')
-                const userid = parts[2]
+                const owner = parts[2]
                 const name = parts.slice(3).join('/')
                 _ getPluginProductionObject
-                    @ userid
+                    @ owner
                     @ name
                     ._ then
                         =>
@@ -164,11 +170,12 @@ module
                                     @ type 'success'
                                     @ formName 'DeletePluginProduction'
                                     { formData 
-                                        @ userid userid
+                                        @ owner owner
                                         @ name name
                                         @ description result.description
                                         @ _id result._id
                                 {
+                *$
 
             handler( deletePlugin )
                 delete_delete( plugin )

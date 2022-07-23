@@ -4,6 +4,7 @@
     @ mainIttf {mainIttf}
     @ wizziSchema {wizziSchema}
     @ packiProduction {packiProduction}
+    @ readOnly {this.props.readOnly}
     @ createdAt {createdAt}
     @ saveHistory {saveHistory}
     @ saveStatus {saveStatus}

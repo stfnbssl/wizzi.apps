@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\utils\sendResponse.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {Response} from 'express';
 import HttpException from '../httpException';
@@ -40,7 +40,7 @@ export function sendPromiseResult<T>(res: Response, message: Promise<T>) {
         sendSuccess(res, result)
     ).catch((err: any) => {
     
-        console.log('sendPromiseResult.err', err);
+        console.log('sendPromiseResult.err', err, __filename);
         sendFailure(res, err, 500);
     }
     )

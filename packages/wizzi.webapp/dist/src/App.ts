@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\App.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import express from 'express';
 import {AppInitializerType} from './features/app';
@@ -23,7 +23,7 @@ class App {
         
         initValues.apis.forEach((api) => {
         
-            console.log('installing api: ', api.name);
+            console.log('installing api: ', api.name, __filename);
             api.initialize(initValues);
             initValues.globalApi[api.name] = api;
         }
@@ -31,7 +31,7 @@ class App {
         
         initValues.controllers.forEach((controller) => {
         
-            console.log('installing router on path: ', controller.path);
+            console.log('installing router on path: ', controller.path, __filename);
             controller.initialize(initValues);
             this.app.use(controller.path, controller.router);
         }

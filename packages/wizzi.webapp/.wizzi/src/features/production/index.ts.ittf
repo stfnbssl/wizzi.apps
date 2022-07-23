@@ -71,6 +71,9 @@ module
     import
         as tFolderApi
         from './api/tfolder'
+    import
+        as productionApi
+        from './api/production'
     +
     const productionModelGetters
         {
@@ -117,3 +120,4 @@ module
         @ pluginApi
         @ metaApi
         @ tFolderApi
+        @ productionApi

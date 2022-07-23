@@ -196,20 +196,22 @@ module
                                 iif loaded && Comp
                                     then
                                         < Comp 
+                                            @ id {this.state.session.id}
+                                            @ owner {this.state.session.owner}
+                                            @ name {this.state.session.name}
+                                            @ description {this.state.session.description}
+                                            @ files {this.state.session.files}
+                                            @ mainIttf {this.state.session.mainIttf}
+                                            @ wizziSchema {this.state.session.wizziSchema}
+                                            @ packiProduction {this.state.session.packiProduction}
+                                            @ readOnly {this.state.session.readOnly}
+                                            @ generated {this.state.session.generated}
                                             @ annotations {this.state.annotations}
                                             @ loggedUser {this.props.loggedUser}
                                             @ autosaveEnabled {this.state.autosaveEnabled}
                                             @ createdAt {this.props.packi.created}
-                                            @ description {this.state.session.description}
-                                            @ mainIttf {this.state.session.mainIttf}
-                                            @ wizziSchema {this.state.session.wizziSchema}
-                                            @ packiProduction {this.state.session.packiProduction}
                                             @ experienceURL {experienceURL}
-                                            @ files {this.state.session.files}
                                             @ isDownloading {this.state.isDownloading}
-                                            @ owner {this.state.session.owner}
-                                            @ name {this.state.session.name}
-                                            @ id {this.state.session.id}
                                             @ onDownloadAsync {this._handleDownloadAsync}
                                             @ onSubmitMetadata {this._handleSubmitMetadata}
                                             @ onTogglePreview {this._handleTogglePreview}
@@ -232,7 +234,6 @@ module
                                             @ jobError {this.state.jobError}
                                             @ onSelectPacki {this._handleSelectPacki}
                                             @ onExecuteWizziJob {this._executeJobNotDebounced}
-                                            $$ @ onSaveCode {this._saveCode}
                                             @ onMTreePreview {this._handleMTreePreview}
                                             @ onMTreeDebugInfoPreview {this._handleMTreeDebugInfoPreview}
                                     else

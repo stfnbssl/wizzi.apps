@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\wizzi\reducer.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {Reducer} from 'redux';
 import {ActionType, getType} from 'typesafe-actions';
@@ -42,7 +42,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
 
     switch (action.type) {
         case getType(wizziActions.generateArtifactRequest): {
-            console.log("wizziActions.generateArtifactRequest");
+            console.log("wizziActions.generateArtifactRequest", __filename);
             return {
                     ...state, 
                     generatedArtifact: undefined, 
@@ -50,7 +50,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.generateArtifactSuccess): {
-            console.log("wizziActions.generateArtifactSuccess", action);
+            console.log("wizziActions.generateArtifactSuccess", action, __filename);
             if (action.payload.error) {
                 return {
                         ...state, 
@@ -77,7 +77,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
             }
         }
         case getType(wizziActions.generateArtifactError): {
-            console.log("wizziActions.generateArtifactError", action);
+            console.log("wizziActions.generateArtifactError", action, __filename);
             return {
                     ...state, 
                     loading: false, 
@@ -85,7 +85,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.mTreeDebugInfoRequest): {
-            console.log("wizziActions.mTreeDebugInfoRequest");
+            console.log("wizziActions.mTreeDebugInfoRequest", __filename);
             return {
                     ...state, 
                     mTreeBuildUpScript: undefined, 
@@ -93,7 +93,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.mTreeDebugInfoSuccess): {
-            console.log("wizziActions.mTreeDebugInfoSuccess", action);
+            console.log("wizziActions.mTreeDebugInfoSuccess", action, __filename);
             return {
                     ...state, 
                     loading: false, 
@@ -101,7 +101,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.mTreeDebugInfoError): {
-            console.log("wizziActions.mTreeDebugInfoError", action);
+            console.log("wizziActions.mTreeDebugInfoError", action, __filename);
             return {
                     ...state, 
                     loading: false, 
@@ -109,7 +109,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.mTreeRequest): {
-            console.log("wizziActions.mTreeRequest");
+            console.log("wizziActions.mTreeRequest", __filename);
             return {
                     ...state, 
                     mTreeIttf: undefined, 
@@ -117,7 +117,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.mTreeSuccess): {
-            console.log("wizziActions.mTreeSuccess", action);
+            console.log("wizziActions.mTreeSuccess", action, __filename);
             return {
                     ...state, 
                     loading: false, 
@@ -125,7 +125,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.mTreeError): {
-            console.log("wizziActions.mTreeError", action);
+            console.log("wizziActions.mTreeError", action, __filename);
             return {
                     ...state, 
                     loading: false, 
@@ -133,14 +133,14 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.executeJobRequest): {
-            console.log("wizziActions.executeJobRequest");
+            console.log("wizziActions.executeJobRequest", __filename);
             return {
                     ...state, 
                     loading: true
                  };
         }
         case getType(wizziActions.executeJobSuccess): {
-            console.log("wizziActions.executeJobSuccess", action);
+            console.log("wizziActions.executeJobSuccess", action, __filename);
             if (action.payload.error) {
                 return {
                         ...state, 
@@ -165,7 +165,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
             }
         }
         case getType(wizziActions.executeJobError): {
-            console.log("wizziActions.executeJobError", action);
+            console.log("wizziActions.executeJobError", action, __filename);
             return {
                     ...state, 
                     loading: false, 
@@ -173,7 +173,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.setTimedService): {
-            console.log("wizziActions.setTimedService", action);
+            console.log("wizziActions.setTimedService", action, __filename);
             getEventServiceInstance().setTimed(action.payload.serviceName, action.payload.onOff, action.payload.payload, action.payload.frequence);
             return {
                     ...state, 

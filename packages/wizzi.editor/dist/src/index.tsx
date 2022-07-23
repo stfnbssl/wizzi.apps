@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\index.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import cookies from 'js-cookie';
 import * as React from 'react';
@@ -53,7 +53,7 @@ function AppContainer(props: any) {
             packi: data.packi, 
             defaults: data.defaults
          };
-        console.log('index.data.loggedUser', data.loggedUser);
+        console.log('index.data.loggedUser', data.loggedUser, __filename);
         return  (
             <App
              {...appProps} />

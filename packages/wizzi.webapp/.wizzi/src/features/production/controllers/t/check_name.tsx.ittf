@@ -1,0 +1,20 @@
+$group
+    $params prod
+
+    $
+        var Prod = _.capitalize(prod);
+        var suffix = prod == 'tFolder' ? '' : 'Production';
+
+    log 'getCheck${Prod}Name.request.params', request.params
+    _ validate${Prod}${suffix}
+        @ request.params.owner
+        @ request.params.name
+        ._ then
+            =>
+                param result
+                    :any
+                log 'getCheck${Prod}Name.result', result
+                _ sendSuccess
+                    @ response
+                    @ result
+        catch_fail( getCheck${Prod}Name )

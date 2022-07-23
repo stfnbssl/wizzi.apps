@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\store\createStore.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {createStore, compose, applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga';
@@ -12,7 +12,7 @@ import {createRootSaga} from './sagas';
 
 export default function createStoreWithPreloadedState(preloadedState: StoreState) {
     
-        console.log('createStoreWithPreloadedState', 'preloadedState', preloadedState);
+        console.log('createStoreWithPreloadedState', 'preloadedState', preloadedState, __filename);
         let composeEnhancer: typeof compose;
         if (typeof window !== 'undefined') {
             composeEnhancer = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

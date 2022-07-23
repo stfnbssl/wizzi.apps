@@ -4,7 +4,6 @@ html
         var opt = {
             section: 'Productions',
 		    title: 'Plugin productions',
-            user: {},
         }
 
     site/layouts/basic( &opt )

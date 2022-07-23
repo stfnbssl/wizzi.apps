@@ -20,7 +20,7 @@ module
             const myname = 'features/production/controllers/apiv1pluginproduction'
 
         _ this.router.get('/:owner', this.getPluginProductionList)
-        _ this.router.get('/checkname/:name', this.getCheckPluginName)
+        _ this.router.get('/checkname/:owner/:name', this.getCheckPluginName)
         _ this.router.get('/:owner/:name', this.getPluginProduction)
         _ this.router.put('/:id', this.putPluginProduction)
         _ this.router.post('/:post', this.postPluginProduction)
@@ -45,21 +45,7 @@ module
                     catch_fail( getPluginProductionList )
             
             handler( getCheckPluginName )
-
-                # loog 'getCheckPluginName.request.params', request.params
-                # loog 'getCheckPluginName.request.session.user.username', (request.session as any).user.username
-                _ validatePluginProduction
-                    @ (request.session as any).user.username
-                    @ request.params.name
-                    ._ then
-                        =>
-                            param result
-                                :any
-                            # loog 'getCheckPluginName.result', result
-                            _ sendSuccess
-                                @ response
-                                @ result
-                    catch_fail( getCheckPluginName )
+                check_name( plugin )
 
             handler( getPluginProduction )
 

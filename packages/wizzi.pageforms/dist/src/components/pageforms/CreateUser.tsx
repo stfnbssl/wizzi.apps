@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateUser.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -66,13 +66,13 @@ export class CreateUser extends Component<CreateUserProps, CreateUserState> {
     async _checkAvalibleUserName() {
         const u_checked = this.state.u_username;
         const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/user/checkusername/${u_checked}`;
-        console.log('CreateUser.checkAvalibleUserName.endpoint', endpoint);
+        console.log('CreateUser.checkAvalibleUserName.endpoint', endpoint, __filename);
         const response = await fetch(endpoint);
         if (!response.ok) {
             throw new Error(`checkAvalibleUserName error - ${response.status} - ${response.statusText}`);
         }
         const result = await response.json();
-        console.log('CreateUser.checkAvalibleUserName.result', result);
+        console.log('CreateUser.checkAvalibleUserName.result', result, __filename);
         this.setState({
             u_username_available: result.isValid, 
             u_username_checked: u_checked
@@ -84,14 +84,14 @@ export class CreateUser extends Component<CreateUserProps, CreateUserState> {
     }
     
     handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
     };
     
     handleUsernameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleUsernameChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleUsernameChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             u_username: ev.target.value
          })
@@ -106,7 +106,7 @@ export class CreateUser extends Component<CreateUserProps, CreateUserState> {
     };
     
     render() {
-        console.log('CreateUser.render', 'state', this.state);
+        console.log('CreateUser.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >

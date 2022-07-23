@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\packi\controllers\packiAdmin.tsx.ittf
-    utc time: Tue, 19 Jul 2022 19:18:05 GMT
+    utc time: Sat, 23 Jul 2022 04:18:24 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -32,7 +32,7 @@ export class PackiAdminController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering PackiAdminController.initialize');
+        console.log('Entering PackiAdminController.initialize', __filename);
         wizziProto.start('stfnbssl', {}, () => {
         
         }
@@ -44,8 +44,10 @@ export class PackiAdminController implements ControllerType {
     // TODO
     
     // loog myname + '.getThemesDemo',
-    async (request: Request, response: Response) => 
+    async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         renderPackiPageForm(request, response, {
             type: 'success', 
             formName: 'ThemeDemo', 
@@ -53,6 +55,6 @@ export class PackiAdminController implements ControllerType {
                 
              }
          }, {})
-    
+    }
     ;
 }

@@ -63,9 +63,9 @@ module
 
         _ this.router.get('/new', this.getNewPackageForm)
         _ this.router.post('/new', this.postPackage)
-        _ this.router.get('/update/:userid/*', this.getUpdatePackageForm)
+        _ this.router.get('/update/:id', this.getUpdatePackageForm)
         _ this.router.post('/update', this.putPackage)
-        _ this.router.get('/delete/:userid/*', this.getDeletePackageForm)
+        _ this.router.get('/delete/:id', this.getDeletePackageForm)
         _ this.router.post('/delete', this.deletePackage)
         _ this.router.get('/props', this.getPackageProperties)
         
@@ -73,6 +73,7 @@ module
             
             handler( getNewPackageForm )
                 # loog myname, 'getNewPackageForm', JSON.stringify(request.query, null, 2)
+                
                 _ renderPageForm
                     @ request
                     @ response
@@ -80,16 +81,17 @@ module
                         @ type 'success'
                         @ formName 'CreatePackageProduction'
                         { formData 
-                            @ owner request.query.owner
-                            @ name request.query.name
+                            @ owner username
                     {
 
             handler( postPackage )
-                # loog myname + '.postNewPackage.request.body', JSON.stringify(request.body, null, 2)
-                # loog myname + '.postNewPackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+                log myname + '.postNewPackage.request.body', JSON.stringify(request.body, null, 2)
+                log myname + '.postNewPackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
                 _ getTemplatePackiFiles
                     @ request.body.meta_id
                     @ request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}
+                    @ request.query.context as string
+                    @ request.body.context ? JSON.parse(request.body.context) : {}
                     ._ then
                         =>
                             param packiFiles
@@ -116,13 +118,15 @@ module
                     catch_error_page( getting template packi files while creating a new package production )
 
             handler( getUpdatePackageForm )
-                # loog myname + '.getUpdatePackageForm', request.path 
+                update_get_form( package )
+                $*
+                $$ # loog myname + '.getUpdatePackageForm', request.path 
                 const parts = request.path.split('/')
-                # loog myname + '.getUpdatePackageForm', parts[2], parts.slice(3).join('/')
-                const userid = parts[2]
+                $$ # loog myname + '.getUpdatePackageForm', parts[2], parts.slice(3).join('/')
+                const owner = parts[2]
                 const name = parts.slice(3).join('/')
                 _ getPackageProductionObject
-                    @ userid
+                    @ owner
                     @ name
                     ._ then
                         =>
@@ -135,23 +139,26 @@ module
                                     @ type 'success'
                                     @ formName 'UpdatePackageProduction'
                                     { formData 
-                                        @ userid userid
+                                        @ owner owner
                                         @ name name
                                         @ description result.description
                                         @ _id result._id
                                 {
+                *$
 
             handler( putPackage )
                 update_put( package )
 
             handler( getDeletePackageForm )
+                delete_get_form( package )
+                $*
                 # loog myname + '.getDeletePackageForm', request.path 
                 const parts = request.path.split('/')
                 # loog myname + '.getDeletePackageForm', parts[2], parts.slice(3).join('/')
-                const userid = parts[2]
+                const owner = parts[2]
                 const name = parts.slice(3).join('/')
                 _ getPackageProductionObject
-                    @ userid
+                    @ owner
                     @ name
                     ._ then
                         =>
@@ -164,11 +171,12 @@ module
                                     @ type 'success'
                                     @ formName 'DeletePackageProduction'
                                     { formData 
-                                        @ userid userid
+                                        @ owner owner
                                         @ name name
                                         @ description result.description
                                         @ _id result._id
                                 {
+                *$
 
             handler( deletePackage )
                 delete_delete( package )

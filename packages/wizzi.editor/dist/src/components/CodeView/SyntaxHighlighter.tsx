@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\CodeView\SyntaxHighlighter.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import React, {FunctionComponent} from 'react';
 import './SyntaxHighlighter.css';
@@ -16,7 +16,7 @@ export type SyntaxHighlighterProps = {
 export class SyntaxHighlighter extends React.Component<SyntaxHighlighterProps> {
     componentDidMount() {
         const el1 = document.querySelector('.syntax-highlight-container > pre');
-        console.log('SyntaxHighlighter.el1', el1);
+        console.log('SyntaxHighlighter.el1', el1, __filename);
         if (el1 && el1.style) {
             el1.style.margin = 0;
             el1.style.padding = 0;

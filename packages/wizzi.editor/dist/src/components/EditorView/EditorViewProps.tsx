@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorViewProps.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {SaveStatus, SaveHistory, PackiSaveOptions, PackiFiles, PackiFile} from '../../features/packi';
 import {GeneratedArtifact, JobError} from '../../features/wizzi';
@@ -14,14 +14,16 @@ export type EditorViewProps = {
     saveHistory: SaveHistory;
     saveStatus: SaveStatus;
     selectedFile: string;
-    files: PackiFiles;
+    id?: string;
     owner: string;
     name: string;
     description: string;
+    files: PackiFiles;
     mainIttf: string;
     wizziSchema: string;
     packiProduction: PackiProduction;
-    id?: string;
+    readOnly: boolean;
+    generated: boolean;
     isDownloading: boolean;
     annotations: Annotation[];
     experienceURL: string;

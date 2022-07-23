@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdateTFolder.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -36,7 +36,7 @@ export interface UpdateTFolderProductionProps {
 
 type UpdateTFolderProductionState = { 
     tf_id: string;
-    tf_userid: string;
+    tf_owner: string;
     tf_name_old: string;
     tf_name_new: string;
     tf_description: string;
@@ -63,7 +63,7 @@ export class UpdateTFolderProduction extends Component<UpdateTFolderProductionPr
     }
     state: UpdateTFolderProductionState = {
         tf_id: "", 
-        tf_userid: "", 
+        tf_owner: "", 
         tf_name_old: "", 
         tf_name_new: "", 
         tf_description: "", 
@@ -79,15 +79,18 @@ export class UpdateTFolderProduction extends Component<UpdateTFolderProductionPr
     }
     ;
     async _checkAvalibleTFolderName() {
+        const {
+            owner
+         } = this.props.data;
         const tf_name_new_checked = this.state.tf_name_new;
-        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/tFolder/checkname/${tf_name_new_checked}`;
-        console.log('CreateTFolder._checkAvalibleTFolderName.endpoint', endpoint);
+        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/tFolder/checkname/${encodeURIComponent(owner)}/${encodeURIComponent(tf_name_new_checked)}`;
+        console.log('CreateTFolder._checkAvalibleTFolderName.endpoint', endpoint, __filename);
         const response = await fetch(endpoint);
         if (!response.ok) {
             throw new Error(`checkAvalible_tFolder_Name error - ${response.status} - ${response.statusText}`);
         }
         const result = await response.json();
-        console.log('CreateTFolder._checkAvalibleTFolderName.result', result);
+        console.log('CreateTFolder._checkAvalibleTFolderName.result', result, __filename);
         this.setState({
             tf_name_new_available: result.isValid, 
             tf_name_new_checked: tf_name_new_checked
@@ -95,14 +98,14 @@ export class UpdateTFolderProduction extends Component<UpdateTFolderProductionPr
     }
     
     handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
     };
     
     handleTFolderNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleTFolderNameChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleTFolderNameChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             tf_name_new: ev.target.value
          }, () => {
@@ -121,10 +124,10 @@ export class UpdateTFolderProduction extends Component<UpdateTFolderProductionPr
         }
     };
     componentDidMount() {
-        console.log('UpdateTFolderProduction.componentDidMount.props', this.props);
+        console.log('UpdateTFolderProduction.componentDidMount.props', this.props, __filename);
         const {
             _id, 
-            userid, 
+            owner, 
             name, 
             description, 
             contexts, 
@@ -134,7 +137,7 @@ export class UpdateTFolderProduction extends Component<UpdateTFolderProductionPr
         const tf_dependencies = dependencies || [];
         this.setState({
             tf_id: _id, 
-            tf_userid: userid, 
+            tf_owner: owner, 
             tf_name_old: name, 
             tf_name_new: name, 
             tf_description: description, 
@@ -146,7 +149,7 @@ export class UpdateTFolderProduction extends Component<UpdateTFolderProductionPr
     }
     
     render() {
-        console.log('UpdatePacki.render', 'state', this.state);
+        console.log('UpdatePacki.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >
@@ -166,7 +169,7 @@ export class UpdateTFolderProduction extends Component<UpdateTFolderProductionPr
                     <FormHidden
                      name='tf_id' id='tf_id' value={this.state.tf_id} />
                     <FormHidden
-                     name='tf_userid' id='tf_userid' value={this.state.tf_userid} />
+                     name='tf_owner' id='tf_owner' value={this.state.tf_owner} />
                     <FormHidden
                      name='tf_name_old' id='tf_name_old' value={this.state.tf_name_old} />
                     <FormGroup 

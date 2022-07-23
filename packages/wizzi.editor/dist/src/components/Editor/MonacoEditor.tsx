@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Editor\MonacoEditor.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import classnames from 'classnames';
@@ -40,9 +40,6 @@ SimpleEditorModelResolverService.prototype.findModel = function(_: any, resource
 }
 ;
 
-
-// @ts-ignore
-global.MonacoEnvironment = { getWorkerUrl(moduleId: string, label: string) { switch (label) { case 'json': { return '/static/packi/json.worker.bundle.js'; } case 'html': { return '/static/packi/html.worker.bundle.js'; } case 'css': case 'scss': case 'less': { return '/static/packi/css.worker.bundle.js'; } case 'typescript': case 'javascript': { return '/static/packi/ts.worker.bundle.js'; } default: { return '/static/packi/editor.worker.bundle.js'; } } }   }; 
 monaco.languages.register({
     id: 'ittf'
  })
@@ -135,6 +132,7 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
             autoFocus, 
             updateFiles, 
             onSelectFile, 
+            readOnly, 
             ...rest
          } = this.props;
         
@@ -160,7 +158,8 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
         ;
         const options = {
             ...rest, 
-            theme: this.getTheme(rest.theme, selectedFile)
+            theme: this.getTheme(rest.theme, selectedFile), 
+            readOnly: readOnly
          };
         const editor = monaco.editor.create(this._node.current as HTMLDivElement, options, codeEditorService);
         this._editor = editor;
@@ -268,7 +267,7 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
     };
     
     _openFile = (path: string, value: string, focus?: boolean) => {
-        console.log('MonacoEditor', '_openFile', path, value);
+        console.log('MonacoEditor', '_openFile', path, value, __filename);
         this._initializeFile(path, value);
         const model = findModel(path);
         if (this._editor && model) {
@@ -289,7 +288,7 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
         const model = this._editor?.getModel?.();
         if (model) {
             const value = model.getValue();
-            console.log('MonacoEditor', '_handleEditFile', value);
+            console.log('MonacoEditor', '_handleEditFile', value, __filename);
             if (value !== this.props.files[this.props.selectedFile]?.contents) {
                 this.props.updateFiles(() => 
                 

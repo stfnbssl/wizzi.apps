@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateArtifactProduction.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -87,18 +87,21 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
     formRef = React.createRef();
     
     async _checkAvalibleArtifactName() {
+        const {
+            owner
+         } = this.props.data;
         const ap_checked = this.state.ap_name;
-        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/artifact/checkname/${ap_checked}`;
-        console.log('CreateArtifact._checkAvalibleArtifactName.endpoint', endpoint);
+        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/artifact/checkname/${encodeURIComponent(owner)}/${encodeURIComponent(ap_checked)}`;
+        console.log('CreateArtifact._checkAvalibleArtifactName.endpoint', endpoint, __filename);
         const response = await fetch(endpoint);
         if (!response.ok) {
             throw new Error(`checkAvalibleArtifactName error - ${response.status} - ${response.statusText}`);
         }
         const result = await response.json();
-        console.log('CreateArtifact._checkAvalibleArtifactName.result', result);
+        console.log('CreateArtifact._checkAvalibleArtifactName.result', result, __filename);
         this.setState({
-            ap_name_available: result.isValid, 
-            ap_name_checked: ap_checked
+            ap_available: result.isValid, 
+            ap_checked: ap_checked
          })
     }
     componentDidMount() {
@@ -106,7 +109,7 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
         ;
     }
     handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
@@ -159,7 +162,7 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
         );
     
     handleArtifactNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleArtifactNameChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleArtifactNameChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             ap_name: ev.target.value
          })
@@ -174,7 +177,7 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
     };
     
     render() {
-        console.log('CreateArtifactProduction.render', 'state', this.state);
+        console.log('CreateArtifactProduction.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >
@@ -266,7 +269,7 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
                                 {
                                     this.state.ap_contexts.map((context, ndx) => {
                                     
-                                        console.log('Createap.context', context);
+                                        console.log('Createap.context', context, __filename);
                                         return  (
                                             <div
                                              key={ndx}>
@@ -301,7 +304,7 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
                                 {
                                     this.state.ap_dependencies.map((tfolder, ndx) => {
                                     
-                                        console.log('Createap.tfolder', tfolder);
+                                        console.log('Createap.tfolder', tfolder, __filename);
                                         return  (
                                             <div
                                              key={ndx}>

@@ -37,3 +37,55 @@ $group
                                                 return resolve(result)
                                         catch_reject( getArtifactTransformation.transformModel )
                             catch_reject( getArtifactTransformation.getArtifactProduction )
+    +
+    export
+        async-function getArtifactTransformation_withPrepare
+            param owner
+                :string
+            param productionName
+                :string
+            param queryContext
+                :string
+            param rootContext
+                :any
+            param transformerName
+                :string
+            log 'getArtifactMTree_withPrepare',
+                \b 'owner', owner,
+                \b 'productionName', productionName,
+                \b 'queryContext', queryContext,
+                \b 'rootContext', Object.keys(rootContext),
+                \b 'transformerName', transformerName
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ productionApi.prepareProduction
+                            @ 'artifact'
+                            @ owner
+                            @ productionName
+                            @ queryContext
+                            @ rootContext
+                            ._ then
+                                => 
+                                    param productionObj
+                                        :any
+                                    log 'getArtifactTransformation_withPrepare.productionObj',
+                                        \b 'mainIttf', productionObj.mainIttf,
+                                        \b 'packiFiles', Object.keys(productionObj.packiFiles),
+                                        \b 'context', Object.keys(productionObj.context),
+                                    _ wizziProds.transformModel
+                                        @ productionObj.mainIttf
+                                        @ productionObj.packiFiles
+                                        @ productionObj.context
+                                        { 
+                                            @ transformer transformerName
+                                        ._ then
+                                            => 
+                                                param result
+                                                    :any
+                                                # loog 'getArtifactTransformation_withPrepare.transformModel.keys', Object.keys(result)
+                                                return resolve(result)
+                                        catch_reject( getArtifactTransformation_withPrepare.transformModel )
+                            catch_reject( getArtifactTransformation_withPrepare.getArtifactProduction )                            

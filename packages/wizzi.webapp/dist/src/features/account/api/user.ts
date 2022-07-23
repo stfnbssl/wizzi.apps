@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\account\api\user.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {GetUserModel} from '../mongo/user';
 import {IUserModel, SignupData, ValidateUserNotUsedResult, CreateUserResult} from '../types';
@@ -50,7 +50,7 @@ export async function getUserByEmail(email: string) {
             User.find(query, function(err, result) {
             
                 if (err) {
-                    console.log(myname, 'getUserByEmail', 'User.find', 'error', err);
+                    console.log(myname, 'getUserByEmail', 'User.find', 'error', err, __filename);
                     return reject(err);
                 }
                 if (result.length == 1) {
@@ -80,7 +80,7 @@ export async function validateUserNotUsed(chosenUsername: string, email: string)
             User.find(query, function(err, result) {
             
                 if (err) {
-                    console.log(myname, 'validateUserNotUsed', 'User.find', 'error', err);
+                    console.log(myname, 'validateUserNotUsed', 'User.find', 'error', err, __filename);
                     return reject(err);
                 }
                 if (result.length == 1) {
@@ -98,7 +98,7 @@ export async function validateUserNotUsed(chosenUsername: string, email: string)
                 User.find(query, function(err, result) {
                 
                     if (err) {
-                        console.log(myname, 'validateUserNotUsed', 'User.find', 'error', err);
+                        console.log(myname, 'validateUserNotUsed', 'User.find', 'error', err, __filename);
                         return reject(err);
                     }
                     if (result.length == 1) {
@@ -140,7 +140,7 @@ async function createUserFromSignup(signupData: SignupData):  Promise<CreateUser
                     newUser.save(function(err, doc) {
                     
                         if (err) {
-                            console.log(myname, 'createUserFromSignup', 'newUser.save', newUser, 'error', err);
+                            console.log(myname, 'createUserFromSignup', 'newUser.save', newUser, 'error', err, __filename);
                             return reject(err);
                         }
                         return resolve({

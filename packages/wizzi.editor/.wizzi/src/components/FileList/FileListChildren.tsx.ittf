@@ -22,6 +22,8 @@ module
             :p entries
                 :[ 
                     :ref FileSystemEntry
+            :p readOnly
+                :boolean 
             :p clipboard
                 :[ 
                     :ref FileSystemEntry
@@ -121,6 +123,7 @@ module
                 const 
                     { 
                         @ entries
+                        @ readOnly
                         @ clipboard
                         @ onCreateFile
                         @ onCreateFolder
@@ -172,6 +175,7 @@ module
                                                     => 
                                                         param en
                                                         _ isInsideFolder(en.item.path, e.item.path)
+                                            @ readOnly {readOnly}
                                             @ clipboard {clipboard}
                                             @ onCreateFile {onCreateFile}
                                             @ onCreateFolder {onCreateFolder}

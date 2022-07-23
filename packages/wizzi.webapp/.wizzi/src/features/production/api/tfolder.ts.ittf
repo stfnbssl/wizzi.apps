@@ -4,6 +4,7 @@ module
         var md = {
             Name: 'TFolder',
             descr: 'tFolder',
+            prefix: 'tf',
             query: [
                 { name: 'owner', type: 'string' },
                 { name: 'name', type: 'string' },

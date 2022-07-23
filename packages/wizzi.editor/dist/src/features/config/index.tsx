@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\config\index.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import * as defaults from './defaults';
 import {PackiFile} from '../packi';
@@ -37,7 +37,7 @@ function getConfig() {
             DEFAULT_PACKI_CODE: defaults.DEFAULT_PACKI_CODE, 
             PREFERENCES_KEY: 'packi.preferences.config'
          };
-        console.log('features.config', _config);
+        console.log('features.config', _config, __filename);
     }
     return _config;
 }

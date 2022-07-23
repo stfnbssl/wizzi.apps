@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\site\controllers\productions.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../features/app/types';
@@ -18,7 +18,7 @@ export class ProductionsController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering ProductionsController.initialize');
+        console.log('Entering ProductionsController.initialize', __filename);
         this.router.get('/artifacts', this.artifacts);
         this.router.get('/packages', this.packages);
         this.router.get('/plugins', this.plugins);
@@ -51,7 +51,7 @@ export class ProductionsController implements ControllerType {
              })
         ).catch((err) => {
         
-            console.log('artifact productions.err', err);
+            console.log('artifact productions.err', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -85,7 +85,7 @@ export class ProductionsController implements ControllerType {
              })
         ).catch((err) => {
         
-            console.log('package productions.err', err);
+            console.log('package productions.err', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -119,7 +119,7 @@ export class ProductionsController implements ControllerType {
              })
         ).catch((err) => {
         
-            console.log('plugin productions.err', err);
+            console.log('plugin productions.err', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -153,7 +153,7 @@ export class ProductionsController implements ControllerType {
              })
         ).catch((err) => {
         
-            console.log('meta productions.err', err);
+            console.log('meta productions.err', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -187,7 +187,7 @@ export class ProductionsController implements ControllerType {
              })
         ).catch((err) => {
         
-            console.log('tFolders.err', err);
+            console.log('tFolders.err', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)

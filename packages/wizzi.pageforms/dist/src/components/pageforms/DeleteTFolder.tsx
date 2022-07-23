@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\DeleteTFolder.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -34,7 +34,7 @@ export interface DeleteTFolderProductionProps {
 
 type DeleteTFolderProductionState = { 
     tf_id: string;
-    tf_userid: string;
+    tf_owner: string;
     tf_name: string;
     tf_description: string;
 };
@@ -46,23 +46,23 @@ export class DeleteTFolderProduction extends Component<DeleteTFolderProductionPr
     }
     state: DeleteTFolderProductionState = {
         tf_id: "", 
-        tf_userid: "", 
+        tf_owner: "", 
         tf_name: "", 
         tf_description: ""
     }
     ;
     
     componentDidMount() {
-        console.log('DeleteTFolderProduction.componentDidMount.props', this.props);
+        console.log('DeleteTFolderProduction.componentDidMount.props', this.props, __filename);
         const {
             _id, 
-            userid, 
+            owner, 
             name, 
             description
          } = this.props.data;
         this.setState({
             tf_id: _id, 
-            tf_userid: userid, 
+            tf_owner: owner, 
             tf_name: name, 
             tf_description: description
          })
@@ -74,7 +74,7 @@ export class DeleteTFolderProduction extends Component<DeleteTFolderProductionPr
     };
     
     render() {
-        console.log('DeleteTFolderProduction.render', 'state', this.state);
+        console.log('DeleteTFolderProduction.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >
@@ -99,9 +99,9 @@ export class DeleteTFolderProduction extends Component<DeleteTFolderProductionPr
                      />
                     <FormStatic 
                         label='TFolder owner'
-                        name='tf_userid'
-                        id='tf_userid'
-                        value={this.state.tf_userid}
+                        name='tf_owner'
+                        id='tf_owner'
+                        value={this.state.tf_owner}
                      />
                     <FormStatic 
                         label='TFolder name'

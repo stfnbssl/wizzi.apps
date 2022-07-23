@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\api\plugin.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import NodeCache from 'node-cache';
 import {GetPluginProductionModel} from '../mongo/plugin';
@@ -68,7 +68,7 @@ export async function getListPluginProduction(options?: any):  Promise<CRUDResul
             (err, result) => {
             
                 if (err) {
-                    console.log(myname, 'getListPluginProduction', 'PluginProduction.find', 'error', err);
+                    console.log(myname, 'getListPluginProduction', 'PluginProduction.find', 'error', err, __filename);
                     return reject(err);
                 }
                 const resultItem = [];
@@ -114,7 +114,7 @@ export async function getPluginProduction(owner: string, name: string):  Promise
             PluginProduction.find(query, (err, result) => {
             
                 if (err) {
-                    console.log(myname, 'getPluginProduction', 'PluginProduction.find', 'error', err);
+                    console.log(myname, 'getPluginProduction', 'PluginProduction.find', 'error', err, __filename);
                     return reject(err);
                 }
                 if (result.length == 1) {
@@ -150,7 +150,7 @@ export async function getPluginProductionById(id: string):  Promise<CRUDResult> 
              }, (err: any, result: IPluginProductionModel[]) => {
             
                 if (err) {
-                    console.log(myname, 'getPluginProduction', 'PluginProduction.find', 'error', err);
+                    console.log(myname, 'getPluginProduction', 'PluginProduction.find', 'error', err, __filename);
                     return reject(err);
                 }
                 if (result.length == 1) {
@@ -168,6 +168,74 @@ export async function getPluginProductionById(id: string):  Promise<CRUDResult> 
             }
             )
         }
+        );
+}
+
+export async function getPluginProductionObject(owner: string, name: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            getPluginProduction(owner, name).then(
+            // loog 'myname', 'getPluginProductionObject.lp', lp
+            
+            // loog 'myname', 'getPluginProductionObject.lp_packiFiles_object', lp_packiFiles_object
+            
+            // loog 'myname', 'getPluginProductionObject', obj
+            (result) => {
+            
+                if (!result.ok) {
+                    return reject(result);
+                }
+                const lp: IPluginProductionModel = result.item;
+                const lp_packiFiles_object: packiTypes.PackiFiles = JSON.parse(lp.packiFiles);
+                const obj = {
+                    ...lp._doc, 
+                    packiFiles: lp_packiFiles_object, 
+                    _id: lp._id.toString()
+                 };
+                return resolve(obj);
+            }
+            ).catch((err: any) => {
+            
+                console.log('getPluginProductionObject.getPluginProduction.error', err, __filename);
+                return reject(err);
+            }
+            )
+        
+        );
+}
+
+export async function getPluginProductionObjectById(id: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            getPluginProductionById(id).then(
+            // loog 'myname', 'getPluginProductionObjectById.lp', lp
+            
+            // loog 'myname', 'getPluginProductionObjectById.lp_packiFiles_object', lp_packiFiles_object
+            
+            // loog 'myname', 'getPluginProductionObjectById', obj
+            (result) => {
+            
+                if (!result.ok) {
+                    return reject(result);
+                }
+                const lp: IPluginProductionModel = result.item;
+                const lp_packiFiles_object: packiTypes.PackiFiles = JSON.parse(lp.packiFiles);
+                const obj = {
+                    ...lp._doc, 
+                    packiFiles: lp_packiFiles_object, 
+                    _id: lp._id.toString()
+                 };
+                return resolve(obj);
+            }
+            ).catch((err: any) => {
+            
+                console.log('getPluginProductionObjectById.getPluginProductionById.error', err, __filename);
+                return reject(err);
+            }
+            )
+        
         );
 }
 
@@ -189,10 +257,10 @@ export async function createPluginProduction(owner: string, name: string, descri
             PluginProduction.find(query, (err, result) => {
             
                 if (err) {
-                    console.log(myname, 'getPluginProduction', 'PluginProduction.find', 'error', err);
+                    console.log(myname, 'getPluginProduction', 'PluginProduction.find', 'error', err, __filename);
                     return reject(err);
                 }
-                console.log(myname, 'getPluginProduction', 'PluginProduction.find', 'result', result);
+                console.log(myname, 'getPluginProduction', 'PluginProduction.find', 'result', result, __filename);
                 if (result.length > 0) {
                     return resolve({
                             oper: 'create', 
@@ -211,7 +279,7 @@ export async function createPluginProduction(owner: string, name: string, descri
                 newPluginProduction.save(function(err, doc) {
                 
                     if (err) {
-                        console.log(myname, 'createPluginProduction', 'newPluginProduction.save', 'error', err);
+                        console.log(myname, 'createPluginProduction', 'newPluginProduction.save', 'error', err, __filename);
                         return reject(err);
                     }
                     return resolve({
@@ -260,7 +328,7 @@ export async function updatePluginProduction(id: string, owner?: string, name?: 
             (err: any, result: any) => {
             
                 if (err) {
-                    console.log(myname, 'updatePluginProduction', 'PluginProduction.findOneAndUpdate', 'error', err);
+                    console.log(myname, 'updatePluginProduction', 'PluginProduction.findOneAndUpdate', 'error', err, __filename);
                     return reject(err);
                 }
                 
@@ -294,7 +362,7 @@ export async function deletePluginProduction(id: string, owner?: string, name?: 
             (err: any) => {
             
                 if (err) {
-                    console.log(myname, 'deletePluginProduction', 'PluginProduction.deleteOne', 'error', err);
+                    console.log(myname, 'deletePluginProduction', 'PluginProduction.deleteOne', 'error', err, __filename);
                     return reject(err);
                 }
                 resolve({
@@ -308,7 +376,7 @@ export async function deletePluginProduction(id: string, owner?: string, name?: 
         );
 }
 
-export async function getPluginProductionObject(owner: string, name: string) {
+export async function getPluginProductionObject_stop(owner: string, name: string) {
 
     return new Promise((resolve, reject) => 
         
@@ -334,7 +402,7 @@ export async function getPluginProductionObject(owner: string, name: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getPluginProductionObject.getPluginProduction.error', err);
+                console.log('getPluginProductionObject.getPluginProduction.error', err, __filename);
                 return reject(err);
             }
             )
@@ -342,7 +410,7 @@ export async function getPluginProductionObject(owner: string, name: string) {
         );
 }
 
-export async function getPluginProductionObjectById(id: string) {
+export async function getPluginProductionObjectById_stop(id: string) {
 
     return new Promise((resolve, reject) => 
         
@@ -368,7 +436,7 @@ export async function getPluginProductionObjectById(id: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getPluginProductionObjectById.getPluginProductionById.error', err);
+                console.log('getPluginProductionObjectById.getPluginProductionById.error', err, __filename);
                 return reject(err);
             }
             )
@@ -401,7 +469,7 @@ async function getPluginProduction_withCache(owner: string, name: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getPluginProduction_withCache.getArtifactProduction.error', err);
+                console.log('getPluginProduction_withCache.getArtifactProduction.error', err, __filename);
                 return reject(err);
             }
             )

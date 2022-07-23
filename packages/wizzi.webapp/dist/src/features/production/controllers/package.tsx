@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\package.tsx.ittf
-    utc time: Tue, 19 Jul 2022 19:18:05 GMT
+    utc time: Sat, 23 Jul 2022 04:18:24 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -45,38 +45,39 @@ export class PackageProductionController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering PackageProductionController.initialize');
+        console.log('Entering PackageProductionController.initialize', __filename);
         this.router.get('/new', this.getNewPackageForm);
         this.router.post('/new', this.postPackage);
-        this.router.get('/update/:userid/*', this.getUpdatePackageForm);
+        this.router.get('/update/:id', this.getUpdatePackageForm);
         this.router.post('/update', this.putPackage);
-        this.router.get('/delete/:userid/*', this.getDeletePackageForm);
+        this.router.get('/delete/:id', this.getDeletePackageForm);
         this.router.post('/delete', this.deletePackage);
         this.router.get('/props', this.getPackageProperties);
     };
     
     private getNewPackageForm = 
     // loog myname, 'getNewPackageForm', JSON.stringify(request.query, null, 2)
-    async (request: Request, response: Response) => 
+    async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         renderPageForm(request, response, {
             type: 'success', 
             formName: 'CreatePackageProduction', 
             formData: {
-                owner: request.query.owner, 
-                name: request.query.name
+                owner: username
              }
          }, {})
-    
+    }
     ;
     
-    private postPackage = 
-    // loog myname + '.postNewPackage.request.body', JSON.stringify(request.body, null, 2)
+    private postPackage = async (request: Request, response: Response) => {
     
-    // loog myname + '.postNewPackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
-    async (request: Request, response: Response) => 
-    
-        getTemplatePackiFiles(request.body.meta_id, request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}).then((packiFiles: packiTypes.PackiFiles) => 
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
+        console.log(myname + '.postNewPackage.request.body', JSON.stringify(request.body, null, 2), __filename);
+        console.log(myname + '.postNewPackage.request.session.user', JSON.stringify((request.session as any).user, null, 2), __filename);
+        getTemplatePackiFiles(request.body.meta_id, request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}, request.query.context as string, request.body.context ? JSON.parse(request.body.context) : {}).then((packiFiles: packiTypes.PackiFiles) => 
         
             createPackageProduction((request.session as any).user.username, request.body.pp_name, request.body.pp_description, JSON.stringify(packiFiles)).then(
             // loog myname + '.postNewPackage.createPackageProduction.result', JSON.stringify(result, null, 2)
@@ -107,28 +108,27 @@ export class PackageProductionController implements ControllerType {
                 error: err
              })
         )
-    
+    }
     ;
     
     private getUpdatePackageForm = 
     // loog myname + '.getUpdatePackageForm', request.path
-    
-    // loog myname + '.getUpdatePackageForm', parts[2], parts.slice(3).join('/')
     async (request: Request, response: Response) => {
     
-        const parts = request.path.split('/');
-        const userid = parts[2];
-        const name = parts.slice(3).join('/');
-        getPackageProductionObject(userid, name).then((result: any) => 
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
+        const id = request.params.id;
+        console.log(myname + '.getUpdatePackageForm.id', id, __filename);
+        getPackageProductionObjectById(id).then((result: any) => 
         
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'UpdatePackageProduction', 
                 formData: {
-                    userid: userid, 
-                    name: name, 
-                    description: result.description, 
-                    _id: result._id
+                    _id: id, 
+                    owner: result.owner, 
+                    name: result.name, 
+                    description: result.description
                  }
              }, {})
         )
@@ -143,6 +143,8 @@ export class PackageProductionController implements ControllerType {
     // loog myname + '.putPackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const obj = request.body;
         updatePackageProduction(obj.pp_id, obj.pp_owner, obj.pp_name, obj.pp_description).then((result: any) => {
         
@@ -162,23 +164,22 @@ export class PackageProductionController implements ControllerType {
     
     private getDeletePackageForm = 
     // loog myname + '.getDeletePackageForm', request.path
-    
-    // loog myname + '.getDeletePackageForm', parts[2], parts.slice(3).join('/')
     async (request: Request, response: Response) => {
     
-        const parts = request.path.split('/');
-        const userid = parts[2];
-        const name = parts.slice(3).join('/');
-        getPackageProductionObject(userid, name).then((result: any) => 
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
+        const id = request.params.id;
+        console.log(myname + '.getDeletePackageForm.id', id, __filename);
+        getPackageProductionObjectById(id).then((result: any) => 
         
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'DeletePackageProduction', 
                 formData: {
-                    userid: userid, 
-                    name: name, 
-                    description: result.description, 
-                    _id: result._id
+                    _id: result._id, 
+                    owner: result.owner, 
+                    name: result.name, 
+                    description: result.description
                  }
              }, {})
         )
@@ -191,17 +192,12 @@ export class PackageProductionController implements ControllerType {
     // loog myname + '.deletePackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
     async (request: Request, response: Response) => {
     
-        console.log(myname + '.deletePackage.request.path', request.path);
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
+        console.log(myname + '.deletePackage.request.path', request.path, __filename);
         const obj = request.body;
         deletePackageProduction(obj.pp_id, obj.pp_owner, obj.pp_name, obj.pp_description).then((result: any) => {
         
-            if (result.ok) {
-                return sendSuccess(response, {
-                        body: request.body, 
-                        user: (request.session as any).user, 
-                        result: result
-                     });
-            }
             if (result.ok) {
                 response.redirect('/productions/packages');
             }
@@ -218,8 +214,10 @@ export class PackageProductionController implements ControllerType {
     
     private getPackageProperties = 
     // loog myname, 'getPackageProperties', JSON.stringify(request.query, null, 2)
-    async (request: Request, response: Response) => 
+    async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         renderPageForm(request, response, {
             type: 'success', 
             formName: 'PropertyEditor', 
@@ -273,6 +271,6 @@ export class PackageProductionController implements ControllerType {
                  }
              }
          }, {})
-    
+    }
     ;
 }

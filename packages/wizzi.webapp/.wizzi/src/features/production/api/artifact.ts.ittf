@@ -4,6 +4,7 @@ module
         var md = {
             Name: 'ArtifactProduction',
             descr: 'artifact production',
+            prefix: 'ap',
             query: [
                 { name: 'owner', type: 'string' },
                 { name: 'name', type: 'string' },
@@ -38,6 +39,7 @@ module
         from '../../packi'
     import
         @ tFolderApi
+        @ productionApi
         from '../index'
     import
         @ ITFolderModel

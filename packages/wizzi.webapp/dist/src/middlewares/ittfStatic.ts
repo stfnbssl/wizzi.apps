@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\middlewares\ittfStatic.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -16,7 +16,7 @@ import {wizziProds} from '../features/wizzi';
 import {WizziModel} from 'wizzi';
 export const IttfStaticMiddleware: MiddlewareType = (app: Application) => {
 
-    console.log('IttfStaticMiddleware. Folder served from ', path.resolve(__dirname, '..', '..', 'ittf'));
+    console.log('IttfStaticMiddleware. Folder served from ', path.resolve(__dirname, '..', '..', 'ittf'), __filename);
     app.use('/ittf', ittfMiddleware(path.resolve(__dirname, '..', '..', 'ittf'), '/ittf'));
 }
 ;
@@ -100,13 +100,14 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
             const extname = path.extname(filePath);
             var queryMeta = (request.query.meta as string);
             var queryTransform = (request.query.transform as string);
-            console.log('middleware.ittfStatic', 'urlPathName', urlPathName, 'pathname', pathname, 'filePath', filePath, 'path.extname(filePath)', path.extname(filePath), 'queryMeta', queryMeta);
+            
+            // loog 'filePath do not exists', filePath
             if (fs.existsSync(filePath) === false) {
-                console.log('filePath do not exists', filePath);
                 return next();
             }
+            
+            // loog 'filePath is directory', filePath
             if (fs.statSync(filePath).isDirectory()) {
-                console.log('filePath is directory', filePath);
                 return sendFolderScan(filePath, basePath, queryMeta, request, response);
             }
             if (queryTransform && queryTransform.indexOf('/') > 0) {
@@ -114,13 +115,12 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
             }
             let ittfSchema = ittfSchemaOf(filePath);
             let contentType = contentTypeFor(filePath);
-            console.log('contentType', contentType, 'ittfSchema', ittfSchema, 'queryMeta', queryMeta);
             if (contentType) {
                 if (queryMeta && queryMeta === 'html') {
                     try {
                         const documentState = await wizziProds.scanIttfDocument(filePath, path.dirname(basePath));
                         
-                        // console.log('generated.meta.document', generated.artifactContent);
+                        // loog 'generated.meta.document', generated.artifactContent
                         const generated = await wizziProds.generateArtifactFs(config.metaHtmlIttfPath, {
                                 wizzischema: 'html', 
                                 path: filePath, 
@@ -130,7 +130,7 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                                     user: (request.session as any).user
                                  }
                              });
-                        // console.log('generated.meta.document', generated.artifactContent);
+                        // loog 'generated.meta.document', generated.artifactContent
                         response.writeHead(200, {
                             'Content-Type': 'text/html', 
                             'Content-Length': generated.artifactContent.length
@@ -150,9 +150,10 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                          }
                      }, {
                         generator: 'ittf/tojson'
-                     }).then((generated) => {
+                     }).then(
+                    // loog 'generated.meta.ittf.json', filePath
+                    (generated) => {
                     
-                        console.log('generated.meta.ittf.json', filePath);
                         response.writeHead(200, {
                             'Content-Type': 'application/json', 
                             'Content-Length': generated.artifactContent.length
@@ -235,10 +236,18 @@ type contextRequest = {
 async function contextLoader(resourceFilePath: string, request: Request, callback: any) {
 
     const contextRequest: string = (request.query._context as string);
+    
+    // loog 'contextLoader.ctxRequests', ctxRequests
     if (contextRequest && contextRequest.length > 0) {
         const ss = contextRequest.split(';');
         const ctxRequests: contextRequest[] = [];
-        ss.forEach((element) => {
+        ss.forEach(
+        // loog 'contextLoader exportName, type_path', element, type_path
+        
+        // loog 'contextLoader exportName, type_path, relPath', element, type_path, ctxRequest.relPath
+        
+        // loog 'contextLoader ctxRequest', ctxRequest
+        (element) => {
         
             const ctxRequest: contextRequest = {
                 exportName: element, 
@@ -246,7 +255,6 @@ async function contextLoader(resourceFilePath: string, request: Request, callbac
                 relPath: undefined
              };
             const type_path = (request.query['_' + element] as string);
-            console.log('contextLoader exportName, type_path', element, type_path);
             if (!type_path) {
                 return (callback({
                         requestedResource: resourceFilePath, 
@@ -261,7 +269,6 @@ async function contextLoader(resourceFilePath: string, request: Request, callbac
             else {
                 ctxRequest.relPath = tp[1];
             }
-            console.log('contextLoader exportName, type_path, relPath', element, type_path, ctxRequest.relPath);
             if (ctxRequest.type === 'cheatsheet') {
                 ctxRequest.name = ctxRequest.relPath;
                 ctxRequests.push(ctxRequest);
@@ -270,10 +277,8 @@ async function contextLoader(resourceFilePath: string, request: Request, callbac
                 ctxRequest.fullPath = path.join(path.dirname(resourceFilePath), ctxRequest.relPath);
                 ctxRequests.push(ctxRequest);
             }
-            console.log('contextLoader ctxRequest', ctxRequest);
         }
         )
-        console.log('contextLoader.ctxRequests', ctxRequests);
         const resultContext: { 
             [k: string]: WizziModel;
         } = {};
@@ -317,13 +322,13 @@ async function sendFolderScan(folderPath: string, root: string, meta: string, re
 
     try {
         const folderState = await wizziProds.scanIttfFolder(folderPath, path.dirname(root));
-        console.log('sendFolderScan', 'folderState.keys', Object.keys(folderState));
+        // loog 'sendFolderScan', 'folderState.keys', Object.keys(folderState)
         if (meta === 'json') {
             return sendJSONStringified(response, folderState);
         }
         else {
             
-            // console.log('generated.meta.document', generated.artifactContent);
+            // loog 'generated.meta.document', generated.artifactContent
             const generated = await wizziProds.generateArtifactFs(config.metaFolderIttfPath, {
                     wizzischema: 'html', 
                     path: folderPath, 
@@ -332,7 +337,7 @@ async function sendFolderScan(folderPath: string, root: string, meta: string, re
                         user: (request.session as any).user
                      }
                  });
-            // console.log('generated.meta.document', generated.artifactContent);
+            // loog 'generated.meta.document', generated.artifactContent
             response.writeHead(200, {
                 'Content-Type': 'text/html', 
                 'Content-Length': generated.artifactContent.length
@@ -341,7 +346,7 @@ async function sendFolderScan(folderPath: string, root: string, meta: string, re
         }
     } 
     catch (ex) {
-        console.log('sendFolderScan.exception', ex);
+        console.log('sendFolderScan.exception', ex, __filename);
         sendError(response, ex, {
             format: 'json'
          })

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\form\Form.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import * as React from 'react';
 import {Register, Unregister, Update, FormValidation} from './types';
@@ -65,15 +65,15 @@ export default class Form extends React.Component<FormProps, State> {
         _handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         
             e.preventDefault();
-            console.log('features.form._handleSubmit');
+            console.log('features.form._handleSubmit', __filename);
             for (const input of this._inputs) {
-                console.log('features.form._handleSubmit.input.validate()', input.validate());
+                console.log('features.form._handleSubmit.input.validate()', input.validate(), __filename);
                 if (input.validate()) {
                     input.focus();
                     return ;
                 }
             }
-            console.log('features.form._handleSubmit.onSubmit()');
+            console.log('features.form._handleSubmit.onSubmit()', __filename);
             this.props.onSubmit();
         }
         ;

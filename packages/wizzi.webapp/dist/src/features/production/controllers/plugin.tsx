@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\plugin.tsx.ittf
-    utc time: Tue, 19 Jul 2022 19:18:05 GMT
+    utc time: Sat, 23 Jul 2022 04:18:24 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -45,38 +45,41 @@ export class PluginProductionController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering PluginProductionController.initialize');
+        console.log('Entering PluginProductionController.initialize', __filename);
         this.router.get('/new', this.getNewPluginForm);
         this.router.post('/new', this.postPlugin);
-        this.router.get('/update/:userid/*', this.getUpdatePluginForm);
+        this.router.get('/update/:id', this.getUpdatePluginForm);
         this.router.post('/update', this.putPlugin);
-        this.router.get('/delete/:userid/*', this.getDeletePluginForm);
+        this.router.get('/delete/:id', this.getDeletePluginForm);
         this.router.post('/delete', this.deletePlugin);
         this.router.get('/props', this.getPluginProperties);
     };
     
     private getNewPluginForm = 
     // loog myname, 'getNewPluginForm', JSON.stringify(request.query, null, 2)
-    async (request: Request, response: Response) => 
+    async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         renderPageForm(request, response, {
             type: 'success', 
             formName: 'CreatePluginProduction', 
             formData: {
-                owner: request.query.owner, 
-                name: request.query.name
+                owner: username
              }
          }, {})
-    
+    }
     ;
     
     private postPlugin = 
     // loog myname + '.postNewPlugin.request.body', JSON.stringify(request.body, null, 2)
     
     // loog myname + '.postNewPlugin.request.session.user', JSON.stringify((request.session as any).user, null, 2)
-    async (request: Request, response: Response) => 
+    async (request: Request, response: Response) => {
     
-        getTemplatePackiFiles(request.body.meta_id, request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}).then((packiFiles: packiTypes.PackiFiles) => 
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
+        getTemplatePackiFiles(request.body.meta_id, request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}, request.query.context as string, request.body.context ? JSON.parse(request.body.context) : {}).then((packiFiles: packiTypes.PackiFiles) => 
         
             createPluginProduction((request.session as any).user.username, request.body.pp_name, request.body.pp_description, JSON.stringify(packiFiles)).then(
             // loog myname + '.postNewPlugin.createPluginProduction.result', JSON.stringify(result, null, 2)
@@ -107,28 +110,27 @@ export class PluginProductionController implements ControllerType {
                 error: err
              })
         )
-    
+    }
     ;
     
     private getUpdatePluginForm = 
     // loog myname + '.getUpdatePluginForm', request.path
-    
-    // loog myname + '.getUpdatePluginForm', parts[2], parts.slice(3).join('/')
     async (request: Request, response: Response) => {
     
-        const parts = request.path.split('/');
-        const userid = parts[2];
-        const name = parts.slice(3).join('/');
-        getPluginProductionObject(userid, name).then((result: any) => 
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
+        const id = request.params.id;
+        console.log(myname + '.getUpdatePluginForm.id', id, __filename);
+        getPluginProductionObjectById(id).then((result: any) => 
         
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'UpdatePluginProduction', 
                 formData: {
-                    userid: userid, 
-                    name: name, 
-                    description: result.description, 
-                    _id: result._id
+                    _id: id, 
+                    owner: result.owner, 
+                    name: result.name, 
+                    description: result.description
                  }
              }, {})
         )
@@ -143,8 +145,10 @@ export class PluginProductionController implements ControllerType {
     // loog myname + '.putPlugin.request.session.user', JSON.stringify((request.session as any).user, null, 2)
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const obj = request.body;
-        updatePluginProduction(obj.pp_id, obj.pp_owner, obj.pp_name, obj.pp_description).then((result: any) => {
+        updatePluginProduction(obj.pl_id, obj.pl_owner, obj.pl_name, obj.pl_description).then((result: any) => {
         
             if (result.ok) {
                 response.redirect('/productions/plugins');
@@ -162,23 +166,22 @@ export class PluginProductionController implements ControllerType {
     
     private getDeletePluginForm = 
     // loog myname + '.getDeletePluginForm', request.path
-    
-    // loog myname + '.getDeletePluginForm', parts[2], parts.slice(3).join('/')
     async (request: Request, response: Response) => {
     
-        const parts = request.path.split('/');
-        const userid = parts[2];
-        const name = parts.slice(3).join('/');
-        getPluginProductionObject(userid, name).then((result: any) => 
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
+        const id = request.params.id;
+        console.log(myname + '.getDeletePluginForm.id', id, __filename);
+        getPluginProductionObjectById(id).then((result: any) => 
         
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'DeletePluginProduction', 
                 formData: {
-                    userid: userid, 
-                    name: name, 
-                    description: result.description, 
-                    _id: result._id
+                    _id: result._id, 
+                    owner: result.owner, 
+                    name: result.name, 
+                    description: result.description
                  }
              }, {})
         )
@@ -191,17 +194,12 @@ export class PluginProductionController implements ControllerType {
     // loog myname + '.deletePlugin.request.session.user', JSON.stringify((request.session as any).user, null, 2)
     async (request: Request, response: Response) => {
     
-        console.log(myname + '.deletePlugin.request.path', request.path);
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
+        console.log(myname + '.deletePlugin.request.path', request.path, __filename);
         const obj = request.body;
-        deletePluginProduction(obj.pp_id, obj.pp_owner, obj.pp_name, obj.pp_description).then((result: any) => {
+        deletePluginProduction(obj.pl_id, obj.pl_owner, obj.pl_name, obj.pl_description).then((result: any) => {
         
-            if (result.ok) {
-                return sendSuccess(response, {
-                        body: request.body, 
-                        user: (request.session as any).user, 
-                        result: result
-                     });
-            }
             if (result.ok) {
                 response.redirect('/productions/plugins');
             }
@@ -218,8 +216,10 @@ export class PluginProductionController implements ControllerType {
     
     private getPluginProperties = 
     // loog myname, 'getPluginProperties', JSON.stringify(request.query, null, 2)
-    async (request: Request, response: Response) => 
+    async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         renderPageForm(request, response, {
             type: 'success', 
             formName: 'PropertyEditor', 
@@ -273,6 +273,6 @@ export class PluginProductionController implements ControllerType {
                  }
              }
          }, {})
-    
+    }
     ;
 }

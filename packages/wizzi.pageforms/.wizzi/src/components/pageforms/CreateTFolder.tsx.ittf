@@ -35,6 +35,8 @@ module
         p formRef 
             = React.createRef()
         +
+        check_name_create( tFolder )
+        $*
         m _checkAvalibleTFolderName
             async
             const tf_checked = this.state.tf_name
@@ -64,6 +66,7 @@ module
                 {
                     @ tf_name_available result.isValid
                     @ tf_name_checked tf_checked
+        *$
         
         m componentDidMount
 

@@ -73,8 +73,7 @@ module
                         @ type 'success'
                         @ formName 'CreateTFolder'
                         { formData 
-                            @ owner request.query.owner
-                            @ name request.query.name
+                            @ owner username
                     {
 
             handler( postTFolder )

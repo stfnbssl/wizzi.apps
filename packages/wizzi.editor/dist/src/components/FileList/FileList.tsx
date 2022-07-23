@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileList.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import pickBy from 'lodash/pickBy';
@@ -35,6 +35,7 @@ export type FileListProps = {
     visible: boolean;
     files: PackiFiles;
     selectedFile: string;
+    readOnly: boolean;
     updateFiles: (updateFn: (files: PackiFiles) => { 
         [path: string]: PackiFile | null;
     }) => void;
@@ -479,37 +480,38 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
                         </FileListPane>
                         <FileListPane 
                             className={css(styles.project)}
-                            title="Project"
+                            title={"Project" + (this.props.readOnly ? ' (readonly)': '')}
                             expanded={this.state.projectPane}
                             onClick={this._toggleProjectPane}
-                            buttons={[
-                                     (
-                                    <FileListPaneButton
-                                     key="create-file" onClick={() => 
+                            buttons={!this.props.readOnly ? [
+                                         (
+                                        <FileListPaneButton
+                                         key="create-file" onClick={() => 
+                                            
+                                                this._handleCreateFile()
+                                        }>
+                                            <path
+                                             fillOpacity="0.7" d="M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z" />
+                                            <AddIcon
+                                             />
+                                        </FileListPaneButton>
+                                        )
+                                        , 
+                                         (
+                                        <FileListPaneButton
+                                         key="create-folder" onClick={() => 
+                                            
+                                                this._handleCreateFolder()
+                                        }>
+                                            <path
+                                             fillOpacity="0.7" d="M7.25,4 L7.5,4 L7.5,3 L7,3.5 L7,2 L15,2 L15,4 L7.25,4 Z M6.75,4 L5,4 L7,2 L7,3.5 L6.5,4 L6.75,4 Z M1,4 L15,4 L15,14 L1,14 L1,4 Z M7.5,3 L7.5,4 L14,4 L14,3 L7.5,3 Z" />
+                                            <AddIcon
+                                             />
+                                        </FileListPaneButton>
+                                        )
                                         
-                                            this._handleCreateFile()
-                                    }>
-                                        <path
-                                         fillOpacity="0.7" d="M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z" />
-                                        <AddIcon
-                                         />
-                                    </FileListPaneButton>
-                                    )
-                                    , 
-                                     (
-                                    <FileListPaneButton
-                                     key="create-folder" onClick={() => 
-                                        
-                                            this._handleCreateFolder()
-                                    }>
-                                        <path
-                                         fillOpacity="0.7" d="M7.25,4 L7.5,4 L7.5,3 L7,3.5 L7,2 L15,2 L15,4 L7.25,4 Z M6.75,4 L5,4 L7,2 L7,3.5 L6.5,4 L6.75,4 Z M1,4 L15,4 L15,14 L1,14 L1,4 Z M7.5,3 L7.5,4 L14,4 L14,3 L7.5,3 Z" />
-                                        <AddIcon
-                                         />
-                                    </FileListPaneButton>
-                                    )
-                                    
-                                ]}
+                                    ] : []
+                            }
                         >
                             <FileListEntryDropTarget
                              className={css(styles.files)} rest={this.state.entries} onRename={this._handleEntryRename}>
@@ -518,6 +520,7 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
                                     <FileListChildren 
                                         parent=""
                                         entries={this.state.entries}
+                                        readOnly={this.props.readOnly}
                                         clipboard={this.state.clipboard}
                                         onCreateFile={this._handleCreateFile}
                                         onCreateFolder={this._handleCreateFolder}

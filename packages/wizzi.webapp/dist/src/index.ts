@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\index.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {ApiType, ControllerType, AppInitializerType, MiddlewareType} from './features/app/types';
 import {ModelBuilderType} from './features/app';
@@ -43,7 +43,7 @@ async function start() {
         ...wizziControllers, 
         ...ittfControllers
     ];
-    console.log('Starting app. Config:', config);
+    console.log('Starting app. Config:', config, __filename);
     await wizziStart(config);
     const appInitializer: AppInitializerType = {
         config, 
@@ -63,5 +63,5 @@ try {
     start();
 } 
 catch (ex) {
-    console.log(ex);
+    console.log(ex, __filename);
 } 

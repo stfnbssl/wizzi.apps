@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\packi\controllers\productions.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -24,7 +24,7 @@ export class ProductionsController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering ProductionsController.initialize');
+        console.log('Entering ProductionsController.initialize', __filename);
         this.router.post(`/mtree/:id`, this.mTree);
         this.router.post(`/mtreedebuginfo/:id`, this.mTreeDebugInfo);
         this.router.post(`/artifact/:id`, this.generateArtifact);
@@ -35,9 +35,11 @@ export class ProductionsController implements ControllerType {
     
     private mTree = async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const id = request.params.id;
         const req_files: PackiFiles = request.body;
-        console.log(myname, 'mTree.received files', Object.keys(req_files));
+        console.log(myname, 'mTree.received files', Object.keys(req_files), __filename);
         artifactApi.prepareGenerationFromWizziJson(req_files).then((result: any) => 
         
             wizziProds.mTree(id, result.packiFiles, result.context).then(
@@ -49,7 +51,7 @@ export class ProductionsController implements ControllerType {
                  })
             ).catch((err: any) => {
             
-                console.log('features.packi.controllers.productions.mTree.error', err);
+                console.log('features.packi.controllers.productions.mTree.error', err, __filename);
                 sendFailure(response, {
                     err: err
                  }, 501)
@@ -64,6 +66,8 @@ export class ProductionsController implements ControllerType {
     // loog myname, 'mTreeDebugInfo.received files', Object.keys(req_files)
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const id = request.params.id;
         const req_files: PackiFiles = request.body;
         artifactApi.prepareGenerationFromWizziJson(req_files).then((result: any) => 
@@ -77,7 +81,7 @@ export class ProductionsController implements ControllerType {
                  })
             ).catch((err: any) => {
             
-                console.log('features.packi.controllers.productions.mTreeDebugInfo.error', err);
+                console.log('features.packi.controllers.productions.mTreeDebugInfo.error', err, __filename);
                 sendFailure(response, {
                     err: err
                  }, 501)
@@ -92,6 +96,8 @@ export class ProductionsController implements ControllerType {
     // loog myname, 'generateArtifact.received files', Object.keys(req_files)
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const id = request.params.id;
         const req_files: PackiFiles = request.body;
         artifactApi.prepareGenerationFromWizziJson(req_files).then((result: any) => 
@@ -105,7 +111,7 @@ export class ProductionsController implements ControllerType {
                  })
             ).catch((err: any) => {
             
-                console.log('features.packi.controllers.production.generateArtifact.error', err);
+                console.log('features.packi.controllers.production.generateArtifact.error', err, __filename);
                 sendFailure(response, {
                     err: err
                  }, 501)
@@ -114,7 +120,7 @@ export class ProductionsController implements ControllerType {
         
         ).catch((err: any) => {
         
-            console.log('features.packi.controllers.production.prepareGenerationPackiFiles.error', err);
+            console.log('features.packi.controllers.production.prepareGenerationPackiFiles.error', err, __filename);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -127,6 +133,8 @@ export class ProductionsController implements ControllerType {
     // loog myname, 'transformModel.received files', Object.keys(req_files)
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const id = request.params.id;
         const transformer = request.params.transformer;
         const req_files: PackiFiles = request.body;
@@ -143,7 +151,7 @@ export class ProductionsController implements ControllerType {
                  })
             ).catch((err: any) => {
             
-                console.log('features.packi.controllers.production.transformModel.error', err);
+                console.log('features.packi.controllers.production.transformModel.error', err, __filename);
                 sendFailure(response, {
                     err: err
                  }, 501)
@@ -158,6 +166,8 @@ export class ProductionsController implements ControllerType {
     // loog 'ProductionsController.executeJob.received files', Object.keys(req_files)
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const req_files: PackiFiles = request.body;
         artifactApi.prepareGenerationFromWizziJson(req_files).then((result: any) => 
         
@@ -172,7 +182,7 @@ export class ProductionsController implements ControllerType {
             }
             ).catch((err: any) => {
             
-                console.log('features.packi.controllers.production.executeJob.error', err);
+                console.log('features.packi.controllers.production.executeJob.error', err, __filename);
                 sendFailure(response, {
                     err: err
                  }, 501)
@@ -187,6 +197,8 @@ export class ProductionsController implements ControllerType {
     // loog 'wizzify.received files', Object.keys(files)
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const id = request.params.id;
         const files: PackiFiles = request.body;
         wizziProds.wizzify(files).then(
@@ -199,7 +211,7 @@ export class ProductionsController implements ControllerType {
         
         ).catch((err) => {
         
-            console.log('features.packi.controllers.production.wizzify.err', err);
+            console.log('features.packi.controllers.production.wizzify.err', err, __filename);
             sendFailure(response, err, 501);
         }
         )

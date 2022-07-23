@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\session.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import mapValues from 'lodash/mapValues';
 import nullthrows from 'nullthrows';
@@ -31,8 +31,10 @@ export default class PackiSession {
             this.apiURL = options.apiURL ?? defaultConfig.apiURL;
             this.host = options.host ?? defaultConfig.host;
             this.state = this.updateDerivedState({
-                disabled: !!options.disabled, 
+                readOnly: !!options.readOnly, 
+                generated: !!options.generated, 
                 unsaved: false, 
+                id: options.id, 
                 owner: options.owner ?? '', 
                 name: options.name ?? '', 
                 description: options.description ?? '', 
@@ -41,7 +43,6 @@ export default class PackiSession {
                 files: options.files ?? {}, 
                 user: options.user, 
                 packiProduction: options.packiProduction, 
-                id: options.id, 
                 saveCount: 0, 
                 saveURL: options.id ? createURL(this.host, options.id) : undefined, 
                 url: createURL(this.host, options.id)
@@ -199,7 +200,7 @@ export default class PackiSession {
         }
         private setState(stateFn: (state: PackiState) => any) {
             const update = stateFn(this.state);
-            console.log('_PackiSession.setState.update', update);
+            console.log('_PackiSession.setState.update', update, __filename);
             if (update) {
                 const oldState = this.state;
                 const newState: PackiState = {
@@ -207,7 +208,7 @@ export default class PackiSession {
                     ...update
                  };
                 this.state = this.updateDerivedState(newState, oldState);
-                console.log('_PackiSession.setState.state', this.state);
+                console.log('_PackiSession.setState.state', this.state, __filename);
                 this.onStateChanged(newState, oldState);
                 this.stateListeners.forEach(listener => 
                 
@@ -414,19 +415,19 @@ export default class PackiSession {
                 );
         }
         updateJobGeneratedFiles(jobGeneratedFiles: PackiFiles) {
-            console.log('PackiSession.updateJobGeneratedFiles.jobGeneratedFiles', jobGeneratedFiles);
+            console.log('PackiSession.updateJobGeneratedFiles.jobGeneratedFiles', jobGeneratedFiles, __filename);
             this.updatePackiFiles(jobGeneratedFiles, () => {
             
             }
             )
         }
         updatePackiFiles(files: PackiFiles, done: () => any) {
-            console.log('PackiSession.updatePackiFiles.files', files);
+            console.log('PackiSession.updatePackiFiles.files', files, __filename);
             return this.setState((state) => {
                 
                     const newFiles = State.updateObjects(state.files, files);
                     if (newFiles !== state.files) {
-                        console.log('PackiSession.calling.debounce.uploadUpdates');
+                        console.log('PackiSession.calling.debounce.uploadUpdates', __filename);
                         this.debouncedUploadUpdates({
                             packiFiles: newFiles
                          }, done)
@@ -438,7 +439,7 @@ export default class PackiSession {
                 );
         }
         async uploadUpdates(payload: PackiUploadPayload, done: () => any) {
-            console.log('PackiSession.uploadUpdates.payload', payload);
+            console.log('PackiSession.uploadUpdates.payload', payload, __filename);
             
             // Wait for any pending asset uploads to complete before saving
             await this.fileUploader.waitForCompletion();
@@ -447,7 +448,7 @@ export default class PackiSession {
                 packiProduction
              } = this.state;
             const url = `${this.apiURL}/api/v1/production/${packiProduction}/${encodeURIComponent(id)}`;
-            console.log('PackiSession.uploadUpdates', url);
+            console.log('PackiSession.uploadUpdates', url, __filename);
             const response = await fetch(url, {
                     method: 'PUT', 
                     body: JSON.stringify(payload), 
@@ -456,7 +457,7 @@ export default class PackiSession {
                      }
                  });
             const data = await response.json();
-            console.log('PackiSession.uploadUpdates.response.data', data);
+            console.log('PackiSession.uploadUpdates.response.data', data, __filename);
             this.state.saveCount++;
             if (done) {
                 done();

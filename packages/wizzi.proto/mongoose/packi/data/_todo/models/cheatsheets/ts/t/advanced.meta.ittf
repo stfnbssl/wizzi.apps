@@ -1095,16 +1095,16 @@
 				+ name?: string;
 				+ age?: number;
 			+ }
-			+ // Or we might want a readonly version:
+			+ // Or we might want a readOnly version:
 			+ interface PersonReadonly {
-				+ readonly name: string;
-				+ readonly age: number;
+				+ readOnly name: string;
+				+ readOnly age: number;
 			+ }
 			+ // This happens often enough in Javascript that TypeScript provides a way to create new types based on old types — mapped types. 
 			+ // In a mapped type, the new type transforms each property in the old type in the same way.For example, you can make all properties 
-			+ // of a type readonly or optional.Here are a couple of examples:
+			+ // of a type readOnly or optional.Here are a couple of examples:
 			+ type Readonly<T> = {
-				+ readonly [P in keyof T]: T[P];
+				+ readOnly [P in keyof T]: T[P];
 			+ }
 			+ type Partial<T> = {
 				+ [P in keyof T]?: T[P];
@@ -1188,7 +1188,7 @@
 			+ // In these examples, the properties list is keyof T and the resulting type is some variant of T[P]. 
 			+ // This is a good template for any general use of mapped types. That’s because this kind of transformation is homomorphic, 
 			+ // which means that the mapping applies only to properties of T and no others. The compiler knows that it can copy all the existing property 
-			+ // modifiers before adding any new ones. For example, if Person.name was readonly, Partial<Person>.name would be readonly and optional.
+			+ // modifiers before adding any new ones. For example, if Person.name was readOnly, Partial<Person>.name would be readOnly and optional.
 			+ // Here’s one more example, in which T[P] is wrapped in a Proxy<T> class:
 			+ type Proxy<T> = {
 				+ get(): T;

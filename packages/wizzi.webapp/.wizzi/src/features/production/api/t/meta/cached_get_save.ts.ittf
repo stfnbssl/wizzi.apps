@@ -2,7 +2,7 @@ $group
 
     +
     export
-        async-function getMetaProductionObject
+        async-function getMetaProductionObject_stop
             param owner
                 :string
             param name
@@ -41,7 +41,7 @@ $group
 
     +
     export
-        async-function getMetaProductionObjectById
+        async-function getMetaProductionObjectById_stop
             param id
                 :string
             return 

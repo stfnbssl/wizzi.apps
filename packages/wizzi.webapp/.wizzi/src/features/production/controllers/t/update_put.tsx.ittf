@@ -2,12 +2,13 @@ $group
     $params prod
 
     $
+        var Prod = _.capitalize(prod);
         var suffix = prod == 'tFolder' ? '' : 'Production';
         var prefix = 
             prod == 'tFolder' ? 'tf' 
             : prod == 'meta' ? 'mp' 
             : prod == 'package' ? 'pp' 
-            : prod == 'plugin' ? 'pp' 
+            : prod == 'plugin' ? 'pl' 
             : 'ap';
         var redirect = 
             prod == 'tFolder' ? '/productions/tfolders' 
@@ -15,13 +16,13 @@ $group
             : prod == 'package' ? '/productions/packages' 
             : prod == 'plugin' ? '/productions/plugins' 
             : '/productions/artifacts';
-    
-    # loog myname + '.put${_.capitalize(prod)}.request.path', request.path
-    # loog myname + '.put${_.capitalize(prod)}.request.body', JSON.stringify(request.body, null, 2)
-    # loog myname + '.put${_.capitalize(prod)}.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+
+    # loog myname + '.put${Prod}.request.path', request.path
+    # loog myname + '.put${Prod}.request.body', JSON.stringify(request.body, null, 2)
+    # loog myname + '.put${Prod}.request.session.user', JSON.stringify((request.session as any).user, null, 2)
 
     const obj = request.body
-    _ update${_.capitalize(prod)}${suffix}
+    _ update${Prod}${suffix}
         @ obj.${prefix}_id
         @ obj.${prefix}_owner
         @ obj.${prefix}_name

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdateMetaProduction.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -36,7 +36,7 @@ export interface UpdateMetaProductionProps {
 
 type UpdateMetaProductionState = { 
     mp_id: string;
-    mp_userid: string;
+    mp_owner: string;
     mp_name_old: string;
     mp_name_new: string;
     mp_description: string;
@@ -63,7 +63,7 @@ export class UpdateMetaProduction extends Component<UpdateMetaProductionProps, U
     }
     state: UpdateMetaProductionState = {
         mp_id: "", 
-        mp_userid: "", 
+        mp_owner: "", 
         mp_name_old: "", 
         mp_name_new: "", 
         mp_description: "", 
@@ -79,15 +79,18 @@ export class UpdateMetaProduction extends Component<UpdateMetaProductionProps, U
     }
     ;
     async _checkAvalibleMetaName() {
+        const {
+            owner
+         } = this.props.data;
         const mp_name_new_checked = this.state.mp_name_new;
-        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/meta/checkname/${mp_name_new_checked}`;
-        console.log('CreateMeta._checkAvalibleMetaName.endpoint', endpoint);
+        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/meta/checkname/${encodeURIComponent(owner)}/${encodeURIComponent(mp_name_new_checked)}`;
+        console.log('CreateMeta._checkAvalibleMetaName.endpoint', endpoint, __filename);
         const response = await fetch(endpoint);
         if (!response.ok) {
             throw new Error(`checkAvalible_meta_Name error - ${response.status} - ${response.statusText}`);
         }
         const result = await response.json();
-        console.log('CreateMeta._checkAvalibleMetaName.result', result);
+        console.log('CreateMeta._checkAvalibleMetaName.result', result, __filename);
         this.setState({
             mp_name_new_available: result.isValid, 
             mp_name_new_checked: mp_name_new_checked
@@ -95,14 +98,14 @@ export class UpdateMetaProduction extends Component<UpdateMetaProductionProps, U
     }
     
     handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
     };
     
     handleMetaNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleMetaNameChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleMetaNameChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             mp_name_new: ev.target.value
          }, () => {
@@ -121,10 +124,10 @@ export class UpdateMetaProduction extends Component<UpdateMetaProductionProps, U
         }
     };
     componentDidMount() {
-        console.log('UpdateMetaProduction.componentDidMount.props', this.props);
+        console.log('UpdateMetaProduction.componentDidMount.props', this.props, __filename);
         const {
             _id, 
-            userid, 
+            owner, 
             name, 
             description, 
             contexts, 
@@ -134,7 +137,7 @@ export class UpdateMetaProduction extends Component<UpdateMetaProductionProps, U
         const mp_dependencies = dependencies || [];
         this.setState({
             mp_id: _id, 
-            mp_userid: userid, 
+            mp_owner: owner, 
             mp_name_old: name, 
             mp_name_new: name, 
             mp_description: description, 
@@ -146,7 +149,7 @@ export class UpdateMetaProduction extends Component<UpdateMetaProductionProps, U
     }
     
     render() {
-        console.log('UpdatePacki.render', 'state', this.state);
+        console.log('UpdatePacki.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >
@@ -166,7 +169,7 @@ export class UpdateMetaProduction extends Component<UpdateMetaProductionProps, U
                     <FormHidden
                      name='mp_id' id='mp_id' value={this.state.mp_id} />
                     <FormHidden
-                     name='mp_userid' id='mp_userid' value={this.state.mp_userid} />
+                     name='mp_owner' id='mp_owner' value={this.state.mp_owner} />
                     <FormHidden
                      name='mp_name_old' id='mp_name_old' value={this.state.mp_name_old} />
                     <FormGroup 

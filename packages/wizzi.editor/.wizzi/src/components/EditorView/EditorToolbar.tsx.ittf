@@ -46,12 +46,14 @@ module
                     :string 
                 :p description
                     :string 
-                :p  mainIttf
+                :p mainIttf
                     :string 
-                :p  wizziSchema
+                :p wizziSchema
                     :string 
                 :p packiProduction
                     :ref PackiProduction                    
+                :p readOnly
+                    :string 
                 :p createdAt
                     :union 
                         :string 
@@ -136,6 +138,7 @@ module
                     @ mainIttf
                     @ wizziSchema
                     @ packiProduction
+                    @ readOnly
                     @ createdAt
                     @ saveHistory
                     @ saveStatus
@@ -185,7 +188,7 @@ module
                             className {css(styles.ve_top_bar_field)}
                             div 
                                 className {css(styles.ve_top_bar_field_editor)}
-                                + {name}
+                                + {name + (readOnly ? ' (generated, readonly)': '')}
                             div 
                                 className {css(styles.ve_top_bar_field_button)}
                                 < IconButton 

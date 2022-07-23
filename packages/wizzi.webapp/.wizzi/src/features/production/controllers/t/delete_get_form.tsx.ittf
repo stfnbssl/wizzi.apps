@@ -2,21 +2,22 @@ $group
     $params prod
 
     $
+        var Prod = _.capitalize(prod);
         var suffix = prod == 'tFolder' ? '' : 'Production';
-    
-    # loog myname + '.getDelete${_.capitalize(prod)}Form', request.path 
+
+    # loog myname + '.getDelete${Prod}Form', request.path 
 
     $*
     const parts = request.path.split('/')
-    # loog myname + '.getDelete${_.capitalize(prod)}Form', parts[2], parts.slice(3).join('/')
-    const userid = parts[2]
+    # loog myname + '.getDelete${Prod}Form', parts[2], parts.slice(3).join('/')
+    const owner = parts[2]
     const name = parts.slice(3).join('/')
     *$
     const id = request.params.id
-    log myname + '.getDelete${_.capitalize(prod)}Form.id', id
-    _ get${_.capitalize(prod)}${suffix}ObjectById
+    log myname + '.getDelete${Prod}Form.id', id
+    _ get${Prod}${suffix}ObjectById
         $*
-        @ userid
+        @ owner
         @ name
         *$
         @ id
@@ -29,10 +30,10 @@ $group
                     @ response
                     {
                         @ type 'success'
-                        @ formName 'Delete${_.capitalize(prod)}${suffix}'
+                        @ formName 'Delete${Prod}${suffix}'
                         { formData 
                             @ _id result._id
-                            @ userid result.owner
+                            @ owner result.owner
                             @ name result.name
                             @ description result.description
                             $hook

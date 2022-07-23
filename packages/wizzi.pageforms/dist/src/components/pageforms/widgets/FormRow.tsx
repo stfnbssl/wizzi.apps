@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\widgets\FormRow.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -65,7 +65,7 @@ export class FormRow extends Component<FormRowProps, FormRowState> {
     ;
     componentDidMount() {
         if (this.props.type == 'delete') {
-            console.log('FormRow.componentDidMount.props.value.name', this.props.value.name);
+            console.log('FormRow.componentDidMount.props.value.name', this.props.value.name, __filename);
             this.setState({
                 name: this.props.value.name
              })
@@ -73,14 +73,14 @@ export class FormRow extends Component<FormRowProps, FormRowState> {
     }
     componentDidUpdate(prevProps: FormRowProps) {
         if (this.props.type == 'delete' && prevProps.value !== this.props.value) {
-            console.log('FormRow.componentDidUpdate.props.value.name', this.props.value.name);
+            console.log('FormRow.componentDidUpdate.props.value.name', this.props.value.name, __filename);
             this.setState({
                 name: this.props.value.name
              })
         }
     }
     handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
@@ -102,7 +102,7 @@ export class FormRow extends Component<FormRowProps, FormRowState> {
          })
     };
     render() {
-        console.log('FormRow.state', this.state, 'props', this.props);
+        console.log('FormRow.state', this.state, 'props', this.props, __filename);
         return  (
             <div
             >

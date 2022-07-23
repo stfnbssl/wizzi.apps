@@ -21,7 +21,7 @@ module
             const myname = 'features/production/controllers/apiv1artifactproduction'
 
         _ this.router.get('/:owner', this.getArtifactProductionList)
-        _ this.router.get('/checkname/:name', this.getCheckArtifactName)
+        _ this.router.get('/checkname/:owner/:name', this.getCheckArtifactName)
         _ this.router.get('/:owner/:name', this.getArtifactProduction)
         _ this.router.put('/:id', this.putArtifactProduction)
         _ this.router.post('/:owner/:name', this.postArtifactProduction)
@@ -46,21 +46,7 @@ module
                     catch_fail( getArtifactProductionList )
 
             handler( getCheckArtifactName )
-
-                # loog 'getCheckArtifactName.request.params', request.params
-                # loog 'getCheckArtifactName.request.session.user.username', (request.session as any).user.username
-                _ validateArtifactProduction
-                    @ (request.session as any).user.username
-                    @ request.params.name
-                    ._ then
-                        =>
-                            param result
-                                :any
-                            # loog 'getCheckArtifactName.result', result
-                            _ sendSuccess
-                                @ response
-                                @ result
-                    catch_fail( getCheckArtifactName )
+                check_name( artifact )
 
             handler( getArtifactProduction )
 

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\api\package.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import NodeCache from 'node-cache';
 import {GetPackageProductionModel} from '../mongo/package';
@@ -68,7 +68,7 @@ export async function getListPackageProduction(options?: any):  Promise<CRUDResu
             (err, result) => {
             
                 if (err) {
-                    console.log(myname, 'getListPackageProduction', 'PackageProduction.find', 'error', err);
+                    console.log(myname, 'getListPackageProduction', 'PackageProduction.find', 'error', err, __filename);
                     return reject(err);
                 }
                 const resultItem = [];
@@ -114,7 +114,7 @@ export async function getPackageProduction(owner: string, name: string):  Promis
             PackageProduction.find(query, (err, result) => {
             
                 if (err) {
-                    console.log(myname, 'getPackageProduction', 'PackageProduction.find', 'error', err);
+                    console.log(myname, 'getPackageProduction', 'PackageProduction.find', 'error', err, __filename);
                     return reject(err);
                 }
                 if (result.length == 1) {
@@ -150,7 +150,7 @@ export async function getPackageProductionById(id: string):  Promise<CRUDResult>
              }, (err: any, result: IPackageProductionModel[]) => {
             
                 if (err) {
-                    console.log(myname, 'getPackageProduction', 'PackageProduction.find', 'error', err);
+                    console.log(myname, 'getPackageProduction', 'PackageProduction.find', 'error', err, __filename);
                     return reject(err);
                 }
                 if (result.length == 1) {
@@ -168,6 +168,74 @@ export async function getPackageProductionById(id: string):  Promise<CRUDResult>
             }
             )
         }
+        );
+}
+
+export async function getPackageProductionObject(owner: string, name: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            getPackageProduction(owner, name).then(
+            // loog 'myname', 'getPackageProductionObject.pp', pp
+            
+            // loog 'myname', 'getPackageProductionObject.pp_packiFiles_object', pp_packiFiles_object
+            
+            // loog 'myname', 'getPackageProductionObject', obj
+            (result) => {
+            
+                if (!result.ok) {
+                    return reject(result);
+                }
+                const pp: IPackageProductionModel = result.item;
+                const pp_packiFiles_object: packiTypes.PackiFiles = JSON.parse(pp.packiFiles);
+                const obj = {
+                    ...pp._doc, 
+                    packiFiles: pp_packiFiles_object, 
+                    _id: pp._id.toString()
+                 };
+                return resolve(obj);
+            }
+            ).catch((err: any) => {
+            
+                console.log('getPackageProductionObject.getPackageProduction.error', err, __filename);
+                return reject(err);
+            }
+            )
+        
+        );
+}
+
+export async function getPackageProductionObjectById(id: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            getPackageProductionById(id).then(
+            // loog 'myname', 'getPackageProductionObjectById.pp', pp
+            
+            // loog 'myname', 'getPackageProductionObjectById.pp_packiFiles_object', pp_packiFiles_object
+            
+            // loog 'myname', 'getPackageProductionObjectById', obj
+            (result) => {
+            
+                if (!result.ok) {
+                    return reject(result);
+                }
+                const pp: IPackageProductionModel = result.item;
+                const pp_packiFiles_object: packiTypes.PackiFiles = JSON.parse(pp.packiFiles);
+                const obj = {
+                    ...pp._doc, 
+                    packiFiles: pp_packiFiles_object, 
+                    _id: pp._id.toString()
+                 };
+                return resolve(obj);
+            }
+            ).catch((err: any) => {
+            
+                console.log('getPackageProductionObjectById.getPackageProductionById.error', err, __filename);
+                return reject(err);
+            }
+            )
+        
         );
 }
 
@@ -189,10 +257,10 @@ export async function createPackageProduction(owner: string, name: string, descr
             PackageProduction.find(query, (err, result) => {
             
                 if (err) {
-                    console.log(myname, 'getPackageProduction', 'PackageProduction.find', 'error', err);
+                    console.log(myname, 'getPackageProduction', 'PackageProduction.find', 'error', err, __filename);
                     return reject(err);
                 }
-                console.log(myname, 'getPackageProduction', 'PackageProduction.find', 'result', result);
+                console.log(myname, 'getPackageProduction', 'PackageProduction.find', 'result', result, __filename);
                 if (result.length > 0) {
                     return resolve({
                             oper: 'create', 
@@ -211,7 +279,7 @@ export async function createPackageProduction(owner: string, name: string, descr
                 newPackageProduction.save(function(err, doc) {
                 
                     if (err) {
-                        console.log(myname, 'createPackageProduction', 'newPackageProduction.save', 'error', err);
+                        console.log(myname, 'createPackageProduction', 'newPackageProduction.save', 'error', err, __filename);
                         return reject(err);
                     }
                     return resolve({
@@ -260,7 +328,7 @@ export async function updatePackageProduction(id: string, owner?: string, name?:
             (err: any, result: any) => {
             
                 if (err) {
-                    console.log(myname, 'updatePackageProduction', 'PackageProduction.findOneAndUpdate', 'error', err);
+                    console.log(myname, 'updatePackageProduction', 'PackageProduction.findOneAndUpdate', 'error', err, __filename);
                     return reject(err);
                 }
                 
@@ -294,7 +362,7 @@ export async function deletePackageProduction(id: string, owner?: string, name?:
             (err: any) => {
             
                 if (err) {
-                    console.log(myname, 'deletePackageProduction', 'PackageProduction.deleteOne', 'error', err);
+                    console.log(myname, 'deletePackageProduction', 'PackageProduction.deleteOne', 'error', err, __filename);
                     return reject(err);
                 }
                 resolve({
@@ -308,7 +376,7 @@ export async function deletePackageProduction(id: string, owner?: string, name?:
         );
 }
 
-export async function getPackageProductionObject(owner: string, name: string) {
+export async function getPackageProductionObject_stop(owner: string, name: string) {
 
     return new Promise((resolve, reject) => 
         
@@ -334,7 +402,7 @@ export async function getPackageProductionObject(owner: string, name: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getPackageProductionObject.getPackageProduction.error', err);
+                console.log('getPackageProductionObject.getPackageProduction.error', err, __filename);
                 return reject(err);
             }
             )
@@ -342,7 +410,7 @@ export async function getPackageProductionObject(owner: string, name: string) {
         );
 }
 
-export async function getPackageProductionObjectById(id: string) {
+export async function getPackageProductionObjectById_stop(id: string) {
 
     return new Promise((resolve, reject) => 
         
@@ -368,7 +436,7 @@ export async function getPackageProductionObjectById(id: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getPackageProductionObjectById.getPackageProductionById.error', err);
+                console.log('getPackageProductionObjectById.getPackageProductionById.error', err, __filename);
                 return reject(err);
             }
             )
@@ -401,7 +469,7 @@ async function getPackageProduction_withCache(owner: string, name: string) {
             }
             ).catch((err: any) => {
             
-                console.log('getPackageProduction_withCache.getArtifactProduction.error', err);
+                console.log('getPackageProduction_withCache.getArtifactProduction.error', err, __filename);
                 return reject(err);
             }
             )

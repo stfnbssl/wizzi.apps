@@ -14,7 +14,7 @@ $group
     { socketIO
     useCookie true
     { cookie
-    useLogger true
+    useLogger false
     { logger
         useMorgan true
         { morgan

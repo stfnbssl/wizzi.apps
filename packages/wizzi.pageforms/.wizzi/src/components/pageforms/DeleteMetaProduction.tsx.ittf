@@ -7,7 +7,7 @@ module
                 { name: "data", type: "any", ref: true },
             ],
             stateProps: [
-                { name: "mp_userid", type: "string" },
+                { name: "mp_owner", type: "string" },
                 { name: "mp_name", type: "string" },
                 { name: "mp_description", type: "string" },
             ]
@@ -24,7 +24,7 @@ module
             const
                 {
                     @ _id
-                    @ userid
+                    @ owner
                     @ name
                     @ description
                 = this.props.data
@@ -32,7 +32,7 @@ module
             _ this.setState
                 {
                     @ mp_id _id
-                    @ mp_userid userid
+                    @ mp_owner owner
                     @ mp_name name
                     @ mp_description description
         +
@@ -66,9 +66,9 @@ module
                             @ value {this.state.mp_id}
                         < FormStatic
                             @ label 'Meta owner'
-                            @ name 'mp_userid'
-                            @ id 'mp_userid'
-                            @ value {this.state.mp_userid}
+                            @ name 'mp_owner'
+                            @ id 'mp_owner'
+                            @ value {this.state.mp_owner}
                         < FormStatic
                             @ label 'Meta name'
                             @ name 'mp_name'

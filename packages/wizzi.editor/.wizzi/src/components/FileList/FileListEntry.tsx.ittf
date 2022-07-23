@@ -36,6 +36,8 @@ module
                 :p rest
                     :[ 
                         :ref FileSystemEntry
+                :p readOnly
+                    :boolean
                 :p clipboard
                     :[ 
                         :ref FileSystemEntry
@@ -458,6 +460,7 @@ module
                         @ entry
                         @ rest
                         @ clipboard
+                        @ readOnly
                         @ onCreateFile
                         @ onCreateFolder
                         @ onOpen
@@ -480,6 +483,7 @@ module
                                     @ parent {entry.item.path}
                                     @ entries {rest}
                                     @ clipboard {clipboard}
+                                    @ readOnly {readOnly}
                                     @ onCreateFile {onCreateFile}
                                     @ onCreateFolder {onCreateFolder}
                                     @ onOpen {onOpen}
@@ -518,6 +522,7 @@ module
                         @ onFocus
                         @ onRename
                         @ onExpand
+                        @ readOnly
                         @ theme
                     = this.props
                     # Disable drag n drop for the entry file and virtual files
@@ -540,6 +545,7 @@ module
                         @ renderMenuIcon {this._renderMenuIcon}
                         @ actions {this._getActions()}
                         @ draggable {draggable}
+                        @ readOnly {readOnly}
                         @ theme {theme}
     +
     export-default FileListEntry

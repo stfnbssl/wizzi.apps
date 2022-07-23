@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\middlewares\packiStatic.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -15,7 +15,7 @@ import {config} from '../features/config';
 const myname = 'express.middleware.packiStatic';
 export const PackiStaticMiddleware: MiddlewareType = (app: Application) => {
 
-    console.log('PackiStaticMiddleware. Folder served from ', path.resolve(__dirname, '..', '..', 'ittf'));
+    console.log('PackiStaticMiddleware. Folder served from ', path.resolve(__dirname, '..', '..', 'ittf'), __filename);
     app.use('/packi', ittfMiddleware(path.resolve(__dirname, '..', '..', 'ittf'), '/ittf'));
 }
 ;
@@ -30,19 +30,19 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
             if (!parsedUrl || !parsedUrl.pathname) {
                 return next();
             }
-            console.log('packiStatic parsedUrl', parsedUrl);
-            console.log('packiStatic request.path', request.path);
+            console.log('packiStatic parsedUrl', parsedUrl, __filename);
+            console.log('packiStatic request.path', request.path, __filename);
             const reqpath = parsedUrl && parsedUrl.path;
             if (false) {
                 return response.redirect(307, 'http://localhost:3000/packi' + reqpath);
             }
             else {
-                console.log('packiStatic parsedUrl.path', reqpath);
+                console.log('packiStatic parsedUrl.path', reqpath, __filename);
                 axios.get('http://localhost:3000/packi' + reqpath).then((res: any) => {
                 
-                    console.log(myname + '. res', typeof res, Object.keys(res));
-                    console.log(myname + '. res.headers', res.headers);
-                    console.log(myname + '. res.data.length', res.data.length);
+                    console.log(myname + '. res', typeof res, Object.keys(res), __filename);
+                    console.log(myname + '. res.headers', res.headers, __filename);
+                    console.log(myname + '. res.data.length', res.data.length, __filename);
                     response.status(200);
                     response.set('Content-Type', res.headers['content-type']);
                     response.set('Content-Length', res.data.length);
@@ -53,7 +53,7 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                 }
                 ).catch((err: any) => {
                 
-                    console.log(myname + '.packiItem.err', err);
+                    console.log(myname + '.packiItem.err', err, __filename);
                     sendError(response, err, {
                         format: 'json'
                      })

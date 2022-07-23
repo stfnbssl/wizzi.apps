@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListEntry.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -17,6 +17,7 @@ import FileListEntryIcon from './FileListEntryIcon';
 export type FileListEntryProps = { 
     entry: FileSystemEntry;
     rest: FileSystemEntry[];
+    readOnly: boolean;
     clipboard: FileSystemEntry[];
     onOpen: (path: string) => void;
     onFocus: (path: string) => void;
@@ -309,6 +310,7 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
             entry, 
             rest, 
             clipboard, 
+            readOnly, 
             onCreateFile, 
             onCreateFolder, 
             onOpen, 
@@ -329,6 +331,7 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
                         parent={entry.item.path}
                         entries={rest}
                         clipboard={clipboard}
+                        readOnly={readOnly}
                         onCreateFile={onCreateFile}
                         onCreateFolder={onCreateFolder}
                         onOpen={onOpen}
@@ -373,6 +376,7 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
             onFocus, 
             onRename, 
             onExpand, 
+            readOnly, 
             theme
          } = this.props;
         
@@ -395,6 +399,7 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
                 renderMenuIcon={this._renderMenuIcon}
                 actions={this._getActions()}
                 draggable={draggable}
+                readOnly={readOnly}
                 theme={theme}
              />
             )

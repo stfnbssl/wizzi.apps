@@ -56,6 +56,6 @@ $group
                                     @ saveUninitialized false
                         _ app.use(session(sessionOptions))
                         $if wzCtx.Build.useMongoDb
-                            log "SessionMiddleware installed, using MongoStore", mongoose.connection.getClient()
+                            log "SessionMiddleware installed, using MongoStore" $$, mongoose.connection.getClient()
                         $else
                             log "SessionMiddleware installed"

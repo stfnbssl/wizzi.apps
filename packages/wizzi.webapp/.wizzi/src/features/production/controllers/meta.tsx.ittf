@@ -50,9 +50,9 @@ module
 
         _ this.router.get('/new', this.getNewMetaForm)
         _ this.router.post('/new', this.postMeta)
-        _ this.router.get('/update/:userid/*', this.getUpdateMetaForm)
+        _ this.router.get('/update/:id', this.getUpdateMetaForm)
         _ this.router.post('/update', this.putMeta)
-        _ this.router.get('/delete/:userid/*', this.getDeleteMetaForm)
+        _ this.router.get('/delete/:id', this.getDeleteMetaForm)
         _ this.router.post('/delete', this.deleteMeta)
         
         $append handlers
@@ -66,8 +66,7 @@ module
                         @ type 'success'
                         @ formName 'CreateMetaProduction'
                         { formData 
-                            @ owner request.query.owner
-                            @ name request.query.name
+                            @ owner username
                     {
 
             handler( postMeta )

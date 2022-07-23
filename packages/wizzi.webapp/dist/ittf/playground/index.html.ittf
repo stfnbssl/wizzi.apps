@@ -3,7 +3,6 @@ html
 	$
         var opt = {
 		    title: 'Wizzi playground',
-            user: {},
             useWizzi: true,
             useAce: true,
             useSweetalert: true,

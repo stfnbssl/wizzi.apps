@@ -2,8 +2,6 @@ html
 
     $
         var opt = {
-            /* TODO For ittf(s) documents, user SHOULD BE set in the global Artifact Generation Context */
-            user: {},
             section: 'Docs',
         }
         var ca = 'm-s color-header font-x font-w-s';

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorView.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import debounce from 'lodash/debounce';
@@ -252,7 +252,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
          } = this.props;
         const annotations = this.props.annotations;
         const testPreviewURL = `${process.env.API_SERVER_URL}/~/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
-        console.log('EditorView.props', this.props, mainIttf, wizziSchema);
+        console.log('EditorView.props', this.props, mainIttf, wizziSchema, __filename);
         return  (
             <ContentShell
             >
@@ -287,6 +287,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                     mainIttf={mainIttf}
                     wizziSchema={wizziSchema}
                     packiProduction={packiProduction}
+                    readOnly={this.props.readOnly}
                     createdAt={createdAt}
                     saveHistory={saveHistory}
                     saveStatus={saveStatus}
@@ -325,6 +326,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                     visible={preferences.fileTreeShown}
                                     files={files}
                                     selectedFile={selectedFile}
+                                    readOnly={this.props.readOnly}
                                     updateFiles={this.props.updateFiles}
                                     onSelectFile={this.props.onSelectFile}
                                     onRemoveFile={this._handleRemoveFile}
@@ -469,6 +471,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                                                     files={files}
                                                                     autoFocus={!/Untitled file.*\.(js|tsx?)$/.test(selectedFile)}
                                                                     annotations={annotations}
+                                                                    readOnly={this.props.readOnly}
                                                                     updateFiles={this.props.updateFiles}
                                                                     onSelectFile={this.props.onSelectFile}
                                                                     lineNumbers="undefined"

@@ -2,7 +2,7 @@ $group
 
     +
     export
-        async-function getTFolderObject
+        async-function getTFolderObject_stop
             param owner
                 :string
             param name
@@ -41,7 +41,7 @@ $group
 
     +
     export
-        async-function getTFolderObjectById
+        async-function getTFolderObjectById_stop
             param id
                 :string
             return 

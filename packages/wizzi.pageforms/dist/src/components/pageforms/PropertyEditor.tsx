@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\PropertyEditor.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -73,7 +73,7 @@ export class PropertyEditor extends Component<PropertyEditorProps, PropertyEdito
     ;
     async componentDidMount() {
         const metas = await getData('production/meta/list');
-        console.log('componentDidMount.metas', metas);
+        console.log('componentDidMount.metas', metas, __filename);
         const options = [
             {
                 name: '', 
@@ -97,7 +97,7 @@ export class PropertyEditor extends Component<PropertyEditorProps, PropertyEdito
         const parts = value.split('|');
         if (parts.length == 2) {
             const result = await getData('production/meta/props/' + parts[0] + '/' + parts[1]);
-            console.log('handleMetaChange.result', result, result.meta.properties);
+            console.log('handleMetaChange.result', result, result.meta.properties, __filename);
             const properties = result.meta.properties;
             const values: any = {};
             var i, i_items=properties, i_len=properties.length, prop;
@@ -139,7 +139,7 @@ export class PropertyEditor extends Component<PropertyEditorProps, PropertyEdito
     
     // const properties = this.props.data.schema.properties
     render() {
-        console.log('PropertyEditor.render', 'state', this.state);
+        console.log('PropertyEditor.render', 'state', this.state, __filename);
         const properties = this.state.pe_properties;
         return  (
             <FormContainer

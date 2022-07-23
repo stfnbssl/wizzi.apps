@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\IFramePage.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import React from 'react';
 import {connect} from 'react-redux';
@@ -16,8 +16,8 @@ export class IFramePage extends React.Component<IFramePageProps> {
     styleEl: any;
     cssNode: any;
     componentDidMount() {
-        console.log('componentDidMount.this.ifr', this.ifr);
-        console.log('_updateContent.this.ifr.contentWindow', this.ifr.contentWindow);
+        console.log('componentDidMount.this.ifr', this.ifr, __filename);
+        console.log('_updateContent.this.ifr.contentWindow', this.ifr.contentWindow, __filename);
         const prevSS = this.props.styleSheets || [];
         this._updateStylesheets(prevSS);
         if (this.props.css) {
@@ -45,9 +45,9 @@ export class IFramePage extends React.Component<IFramePageProps> {
     }
     _updateContent = (content?: string) => {
     
-        console.log('_updateContent.this.ifr', this.ifr);
-        console.log('_updateContent.this.ifr.contentWindow', this.ifr.contentWindow);
-        console.log('_updateContent.this.ifr.contentDocument', this.ifr.contentDocument);
+        console.log('_updateContent.this.ifr', this.ifr, __filename);
+        console.log('_updateContent.this.ifr.contentWindow', this.ifr.contentWindow, __filename);
+        console.log('_updateContent.this.ifr.contentDocument', this.ifr.contentDocument, __filename);
         /**
             // 
             // const document = this.ifr.contentDocument;

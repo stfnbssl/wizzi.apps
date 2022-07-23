@@ -68,6 +68,8 @@ module
             :p draggable
                 :optional 
                 :boolean 
+            :p readOnly
+                :boolean 
             :p theme
                 :union 
                     :string 
@@ -267,6 +269,7 @@ module
                         @ entry
                         @ rest
                         @ draggable
+                        @ readOnly
                         @ onRename
                         @ onExpand
                         @ theme
@@ -307,12 +310,15 @@ module
                                     iif entry.state.isSelected
                                         then styles.highlightActive
                                         else null
-                        < ContextMenu 
-                            @ ref {this._menu}
-                            @ visible {Boolean(menu)}
-                            @ position {menu}
-                            @ actions {actions}
-                            @ onHide {this._hideContextMenu}
+                        {
+                            &&
+                                + !readOnly
+                                < ContextMenu 
+                                    @ ref {this._menu}
+                                    @ visible {Boolean(menu)}
+                                    @ position {menu}
+                                    @ actions {actions}
+                                    @ onHide {this._hideContextMenu}
                         button 
                             @ ref {this._more}
                             @ tabIndex {-1}

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\types.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {ThemeName} from '../preferences/index';
 
@@ -64,50 +64,49 @@ export type PackiUser = {
 
 export type PackiState = { 
     /**
-        // 
-        // Files that make up the content (code & assets) of the Packi.
-        // 
+        // Files that make up the content of the packed Production.
     */
     files: PackiFiles;
+    /**
+        // The id of the Production
+    */
+    id?: string;
+    /**
+        // The owner of the Production
+    */
     owner: string;
     /**
-        // 
-        // Optional name. The name is used when saving or downloading the Packi; and is used
-        // for the onlineName property.
-        // 
+        // The name of the Production
     */
     name: string;
     /**
-        // 
-        // Additional description of the Packi. The description is used when saving the Packi
-        // and may also be used for searching purposes.
-        // 
+        // Additional description of the packed Production.
     */
     description: string;
+    /**
+        // The packed Production kind (artifact | package | meta | plugin | tfolder).
+    */
     packiProduction?: PackiProduction;
+    /**
+        // When the PackiProduction == 'artifact' is the main ITTF Document of the artifact.
+    */
     mainIttf?: string;
+    /**
+        // When the PackiProduction == 'artifact' is the Wizzi Schema of the main ITTF Document.
+    */
     wizziSchema?: string;
     /**
-        // 
-        // Unique experience url which can be used to open the Wizzi client and connect
-        // to the Packi (e.g. "exp://expo.io/@packi/sdk.38.0.0-78173941").
-        // 
+        // TODO ???
     */
     url: string;
     user?: PackiUser;
     /**
         // 
-        // Unsaved status of the Packi. Becomes `true` when the Packi code is changed and
-        // `false` whenever the Packi is saved.
+        // Unsaved status of the Packi.
+        // Becomes `true` when the Packi code is changed and `false` whenever the Packi is saved.
         // 
     */
     unsaved: boolean;
-    /**
-        // 
-        // Id of the saved Packi.
-        // 
-    */
-    id?: string;
     /**
         // 
         // URL of the saved Packi.
@@ -116,22 +115,17 @@ export type PackiState = {
     */
     saveURL?: string;
     /**
-        // 
         // URL to use to when loading the web-preview in an iframe.
-        // 
-        // Web-preview is supported from SDK 40 and higher.
-        // To enable it, set the `webPreviewRef` to the contentWindow
-        // of the iframe.
-        // 
     */
     previewURL?: string;
     /**
-        // 
-        // Disabled state. When the Packi is disabled it will not resolve any dependencies
-        // or upload any asset files. It also disables the ability to go online.
-        // 
+        // The packed Production cannot be changed
     */
-    disabled: boolean;
+    readOnly?: boolean;
+    /**
+        // The packed Production is generated can be viewed but not changed
+    */
+    generated?: boolean;
 };
 
 export type SaveStatus = 'unsaved' | 'edited' | 'saving-draft' | 'saved-draft' | 'publishing' | 'published' | 'changed';
@@ -167,17 +161,18 @@ export type PackiWindowRef = {
 };
 
 export type PackiOptions = { 
+    id?: string;
     name?: string;
     description?: string;
     mainIttf?: string;
     wizziSchema?: string;
     files?: PackiFiles;
+    readOnly?: boolean;
+    generated?: boolean;
     apiURL?: string;
     host?: string;
     verbose?: boolean;
-    disabled?: boolean;
     user?: PackiUser;
-    id?: string;
     webPreviewRef?: PackiWindowRef;
     packiProduction?: PackiProduction;
 };
@@ -224,7 +219,7 @@ export type RouterData = {
 
 export type PackiFilesOrKind = PackiFiles | string;
 
-export type PackiProduction = 'artifact' | 'package' | 'meta' | 'tfolder';
+export type PackiProduction = 'artifact' | 'package' | 'meta' | 'plugin' | 'tfolder';
 
 export type PackiUploadPayload = { 
     name?: string;

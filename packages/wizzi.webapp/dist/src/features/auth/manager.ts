@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\auth\manager.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import passport from 'passport';
 import jwt from 'express-jwt';
@@ -23,18 +23,18 @@ function initPassport() {
     passport.use(createGithubStrategy());
     passport.serializeUser(function(authuser: any, done: any) {
     
-        console.log('============================================================');
-        console.log('features.auth.manager.serializeUser', 'authuser', authuser);
+        console.log('============================================================', __filename);
+        console.log('features.auth.manager.serializeUser', 'authuser', authuser, __filename);
         done(null, authuser);
     })
     passport.deserializeUser(function(id: string, done: any) {
     
-        console.log('============================================================');
-        console.log('features.auth.manager.deserializeUser', 'id', id);
+        console.log('============================================================', __filename);
+        console.log('features.auth.manager.deserializeUser', 'id', id, __filename);
         return done(null, id);
         authUserModel.findById(id, function(err: any, authuser: any) {
         
-            console.log('features.auth.manager.deserializeUser', 'err', err, 'authuser', authuser);
+            console.log('features.auth.manager.deserializeUser', 'err', err, 'authuser', authuser, __filename);
             done(err, authuser || false);
         })
     })
@@ -64,8 +64,8 @@ export function getPassport() {
 
 export function authenticate(strategyName: string, options: passport.AuthenticateOptions, callback?: any) {
 
-    console.log('============================================================');
-    console.log('auth.manager.authenticate', 'strategyName', strategyName, 'options', options);
+    console.log('============================================================', __filename);
+    console.log('auth.manager.authenticate', 'strategyName', strategyName, 'options', options, __filename);
     return passport.authenticate(strategyName, options, callback);
 }
 

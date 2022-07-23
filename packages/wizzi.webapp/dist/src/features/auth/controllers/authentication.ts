@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\auth\controllers\authentication.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -19,12 +19,12 @@ export class AuthenticationController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering AuthenticationController.initialize');
+        console.log('Entering AuthenticationController.initialize', __filename);
         this.router.use(function(request: AuthRequest, res: Response, next: any) {
         
             if (request.query.socketId) {
-                console.log('features.auth.controllers.auth.middleware.request.originalUrl,query', request.originalUrl, request.query);
-                console.log('features.auth.controllers.auth.middleware.request.sessionID, session', request.sessionID, request.session);
+                console.log('features.auth.controllers.auth.middleware.request.originalUrl,query', request.originalUrl, request.query, __filename);
+                console.log('features.auth.controllers.auth.middleware.request.sessionID, session', request.sessionID, request.session, __filename);
                 request.session.socketId = request.query.socketId;
                 request.session.socketUserId = request.query.socketUserId;
             }
@@ -51,9 +51,9 @@ export class AuthenticationController implements ControllerType {
     // Successful authentication
     async (request: Request, response: Response) => {
     
-        console.log('============================================================');
-        console.log('Successful authentication');
-        console.log('features.auth.controllers.auth.githubCallback', 'request.sessionID', request.sessionID, 'request.session', request.session, 'request.user', request.user);
+        console.log('============================================================', __filename);
+        console.log('Successful authentication', __filename);
+        console.log('features.auth.controllers.auth.githubCallback', 'request.sessionID', request.sessionID, 'request.session', request.session, 'request.user', request.user, __filename);
         const ruser: any = (request.user as any);
         const user = {
             id: ruser._id, 
@@ -84,7 +84,7 @@ export class AuthenticationController implements ControllerType {
              }, account, {
                 upsert: true
              });
-        console.log('features.auth.controllers.auth.githubCallback.account.save', 'result', result);
+        console.log('features.auth.controllers.auth.githubCallback.account.save', 'result', result, __filename);
         response.redirect('/account/profile');
     }
     ;
@@ -93,7 +93,7 @@ export class AuthenticationController implements ControllerType {
     private getGithubLoggedIn = async (request: Request, response: Response) => {
     
         const uid = request.params.uid;
-        console.log('features.auth.controllers.auth.getGithubLoggedIn.uid', uid);
+        console.log('features.auth.controllers.auth.getGithubLoggedIn.uid', uid, __filename);
         const user = await getLoggedUserFromAccount(uid, 'github.com').then(user => 
             
                 sendSuccess(response, user)

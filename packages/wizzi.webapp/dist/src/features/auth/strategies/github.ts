@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\auth\strategies\github.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {Strategy} from 'passport-github2';
 import {GetAuthUserModel, AuthUserModelType} from '../mongo/authuser';
@@ -17,8 +17,8 @@ export function createStrategy() {
     
     // authUserModel = GetAuthUserModel();
     accountModel = GetAccountModel();
-    console.log('============================================================');
-    console.log('features.auth.strategies.github.createStrategy', 'config.githubClientId', config.githubClientId, 'config.clientSecret', config.githubClientSecret, 'config.githubCallbackURL', config.githubCallbackURL);
+    console.log('============================================================', __filename);
+    console.log('features.auth.strategies.github.createStrategy', 'config.githubClientId', config.githubClientId, 'config.clientSecret', config.githubClientSecret, 'config.githubCallbackURL', config.githubCallbackURL, __filename);
     return new Strategy({
             clientID: config.githubClientId, 
             clientSecret: config.githubClientSecret, 
@@ -26,8 +26,8 @@ export function createStrategy() {
             passReqToCallback: true
          }, function(req: AuthRequest, accessToken: string, refreshToken: string, profile: any, done: any) {
         
-            console.log('============================================================');
-            console.log('features.auth.strategies.github.callback', 'req.session.socketId', req.session.socketId, 'req.session.socketUserId', req.session.socketUserId, 'req.sessionID', req.sessionID, 'req.session', req.session, 'req.user', req.user, 'accessToken', accessToken, 'refreshToken', refreshToken, 'profile', profile);
+            console.log('============================================================', __filename);
+            console.log('features.auth.strategies.github.callback', 'req.session.socketId', req.session.socketId, 'req.session.socketUserId', req.session.socketUserId, 'req.sessionID', req.sessionID, 'req.session', req.session, 'req.user', req.user, 'accessToken', accessToken, 'refreshToken', refreshToken, 'profile', profile, __filename);
             var account = new accountModel();
             account.domain = 'github.com';
             account.uid = profile.id;

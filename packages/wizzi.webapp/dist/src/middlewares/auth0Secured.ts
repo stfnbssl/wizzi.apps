@@ -2,16 +2,16 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\middlewares\auth0Secured.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {Request, Response} from 'express';
 //
 export default function getSecured() {
     
-        console.log('Middleware auth0Secured.getSecured called');
+        console.log('Middleware auth0Secured.getSecured called', __filename);
         return function secured(req: Request, res: Response, next: Function) {
             
-                console.log('secured called', req.user);
+                console.log('secured called', req.user, __filename);
                 if (req.user) {
                     return next();
                 }

@@ -136,41 +136,43 @@ module
                 :p files
                     :ref PackiFiles
                     #
-                        #
-                        # Files that make up the content (code & assets) of the Packi. 
-                        #
+                        # Files that make up the content of the packed Production. 
+                :p id
+                    :optional
+                    :string
+                    #
+                        # The id of the Production
                 :p owner
                     :string
+                    #
+                        # The owner of the Production
                 :p name
                     :string
                     #
-                        #
-                        # Optional name. The name is used when saving or downloading the Packi; and is used
-                        # for the onlineName property.
-                        #
+                        # The name of the Production
                 :p description
                     :string
                     #
-                        #
-                        # Additional description of the Packi. The description is used when saving the Packi
-                        # and may also be used for searching purposes.
-                        #
+                        # Additional description of the packed Production. 
                 :p packiProduction
                     :optional
                     :ref PackiProduction
+                    #
+                        # The packed Production kind (artifact | package | meta | plugin | tfolder). 
                 :p mainIttf
                     :optional
                     :string
+                    #
+                        # When the PackiProduction == 'artifact' is the main ITTF Document of the artifact.
                 :p wizziSchema
                     :optional
                     :string
+                    #
+                        # When the PackiProduction == 'artifact' is the Wizzi Schema of the main ITTF Document.
                 :p url
                     :string
                     #
-                        #
-                        # Unique experience url which can be used to open the Wizzi client and connect
-                        # to the Packi (e.g. "exp://expo.io/@packi/sdk.38.0.0-78173941").
-                        #
+                        # TODO ???
                 :p user
                     :optional
                     :ref PackiUser
@@ -178,15 +180,8 @@ module
                     :boolean
                     #
                         #
-                        # Unsaved status of the Packi. Becomes `true` when the Packi code is changed and
-                        # `false` whenever the Packi is saved.
-                        #
-                :p id
-                    :optional
-                    :string
-                    #
-                        #
-                        # Id of the saved Packi.
+                        # Unsaved status of the Packi. 
+                        # Becomes `true` when the Packi code is changed and `false` whenever the Packi is saved.
                         #
                 :p saveURL
                     :optional
@@ -200,20 +195,17 @@ module
                     :optional
                     :string
                     #
-                        #
                         # URL to use to when loading the web-preview in an iframe.
-                        #
-                        # Web-preview is supported from SDK 40 and higher.
-                        # To enable it, set the `webPreviewRef` to the contentWindow
-                        # of the iframe.
-                        #
-                :p disabled
+                :p readOnly
+                    :optional
                     :boolean
                     #
-                        #
-                        # Disabled state. When the Packi is disabled it will not resolve any dependencies
-                        # or upload any asset files. It also disables the ability to go online.
-                        #
+                        # The packed Production cannot be changed
+                :p generated
+                    :optional
+                    :boolean
+                    #
+                        # The packed Production is generated can be viewed but not changed
     +
     export
         :type SaveStatus
@@ -290,6 +282,9 @@ module
     export
         :type PackiOptions
             :{
+                :p id
+                    :optional
+                    :string
                 :p name
                     :optional
                     :string
@@ -305,6 +300,12 @@ module
                 :p files
                     :optional
                     :ref PackiFiles
+                :p readOnly
+                    :optional
+                    :boolean
+                :p generated
+                    :optional
+                    :boolean
                 :p apiURL
                     :optional
                     :string
@@ -314,15 +315,9 @@ module
                 :p verbose
                     :optional
                     :boolean
-                :p disabled
-                    :optional
-                    :boolean
                 :p user
                     :optional
                     :ref PackiUser
-                :p id
-                    :optional
-                    :string
                 :p webPreviewRef
                     :optional
                     :ref PackiWindowRef
@@ -441,6 +436,7 @@ module
                 :literal 'artifact'
                 :literal 'package'
                 :literal 'meta'
+                :literal 'plugin'
                 :literal 'tfolder'
     +
     export

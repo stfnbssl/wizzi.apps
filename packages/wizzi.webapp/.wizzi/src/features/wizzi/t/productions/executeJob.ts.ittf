@@ -2,9 +2,9 @@ $group
     +
     export
         async-function executeJob
-            param filePath
+            param wfjobFilePath
                 :string
-            param files
+            param packiFiles
                 :ref packiTypes.PackiFiles
             param context
                 :any
@@ -17,21 +17,21 @@ $group
                     async=>
                         param resolve
                         param reject
-                        if !verify.isObject(files)
+                        if !verify.isObject(packiFiles)
                             return
                                 _ reject
                                     {
                                         @ action 'wizzi.productions.executeJob'
-                                        @ message 'files parameter must be an object of type PackiFiles'
-                                        @ files
-                        const ittfDocumentUri = ensurePackiFilePrefix(filePath)
+                                        @ message 'packiFiles parameter must be an object of type PackiFiles'
+                                        @ packiFiles
+                        set wfjobFilePath = ensurePackiFilePrefix(wfjobFilePath)
                         const jsonwf
                             await
-                                _ createFsJsonAndFactory(files)
+                                _ createFsJsonAndFactory(packiFiles)
                         _ jsonwf.wf.executeJob
                             {
                                 @ name ''
-                                @ path ittfDocumentUri
+                                @ path wfjobFilePath
                                 { productionOptions
                                 @ globalContext context || {}
                             =>
@@ -44,7 +44,7 @@ $group
     +
     export
         async-function executeJobs
-            param files
+            param packiFiles
                 :ref packiTypes.PackiFiles
             param context
                 :any
@@ -57,30 +57,30 @@ $group
                     async=>
                         param resolve
                         param reject
-                        const jobDocumentUris
-                            _ Object.keys(files).filter
+                        const wfjobFilePaths
+                            _ Object.keys(packiFiles).filter
                                 =>
                                     param k
                                     _ k.endsWith('.wfjob.ittf')
-                        # loog 'Executing jobs', jobDocumentUris, 'files', Object.keys(files)
+                        # loog 'Executing jobs', wfjobFilePaths, 'packiFiles', Object.keys(packiFiles)
                         const jsonwf
                             await
-                                _ createFsJsonAndFactory(files)
+                                _ createFsJsonAndFactory(packiFiles)
                         const execJob
                             =>
                                 param index
                                     :number
                                 :return
                                     :void
-                                if index == jobDocumentUris.length
+                                if index == wfjobFilePaths.length
                                     # loog 'Jobs executed.'
                                     return resolve(jsonwf.fsJson)
-                                const ittfDocumentUri = ensurePackiFilePrefix(jobDocumentUris[index])
-                                # loog 'Executing job', ittfDocumentUri
+                                const wfjobFilePath = ensurePackiFilePrefix(wfjobFilePaths[index])
+                                # loog 'Executing job', wfjobFilePath
                                 _ jsonwf.wf.executeJob
                                     {
                                         @ name ''
-                                        @ path ittfDocumentUri
+                                        @ path wfjobFilePath
                                         { productionOptions
                                         @ globalContext context || {}
                                     =>

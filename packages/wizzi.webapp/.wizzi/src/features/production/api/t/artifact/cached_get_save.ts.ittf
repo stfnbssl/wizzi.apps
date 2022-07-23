@@ -16,7 +16,7 @@ $group
 
     +
     export
-        async-function getArtifactProductionObject
+        async-function getArtifactProductionObject_stop
             param owner
                 :string
             param name
@@ -55,7 +55,7 @@ $group
     
     +
     export
-        async-function getArtifactProductionObjectById
+        async-function getArtifactProductionObjectById_stop
             param id
                 :string
             return 
@@ -88,40 +88,6 @@ $group
                                         _ resolve
                                             @ obj
                             catch_reject( getArtifactProductionObjectById.getArtifactProductionById )
-
-    $*
-    +
-    export
-        async-function getArtifactProductionObject_By_Id
-            param id
-            var query
-                { 
-                    @ _id id
-            # loog 'getArtifactProductionObject_By_Id', query
-            return 
-                new Promise
-                    => 
-                        param resolve
-                        param reject
-                        _ ArtifactProduction.find
-                            @ query
-                            function 
-                                param err
-                                param result
-                                if err
-                                    # loog 'getArtifactProductionObject_By_Id.ArtifactProduction.find', 'error', err
-                                    return reject(err)
-                                # loog 'getArtifactProductionObject_By_Id.result.length', result.length
-                                if result.length == 1
-                                    return resolve(result[0]._doc)
-                                return 
-                                    _ reject
-                                        { 
-                                            @ message "artifact production not found"
-                                            @ query
-
-    *$
-
     +
     export
         async-function getArtifactProduction_withCache

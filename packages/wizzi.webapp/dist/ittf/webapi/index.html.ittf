@@ -4,7 +4,6 @@ html
 
     $
         var opt = {
-            user: {}
         }
 		for (var i = 0; i < wzCtx.apis.length; i++) {
 			var api = wzCtx.apis[i];

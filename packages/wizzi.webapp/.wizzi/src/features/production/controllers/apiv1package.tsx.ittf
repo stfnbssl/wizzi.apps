@@ -20,7 +20,7 @@ module
             const myname = 'features/production/controllers/apiv1packageproduction'
 
         _ this.router.get('/:owner', this.getPackageProductionList)
-        _ this.router.get('/checkname/:name', this.getCheckPackageName)
+        _ this.router.get('/checkname/:owner/:name', this.getCheckPackageName)
         _ this.router.get('/:owner/:name', this.getPackageProduction)
         _ this.router.put('/:id', this.putPackageProduction)
         _ this.router.post('/:owner/:name', this.postPackageProduction)
@@ -45,21 +45,7 @@ module
                     catch_fail( getPackageProductionList )
             
             handler( getCheckPackageName )
-
-                # loog 'getCheckPackageName.request.params', request.params
-                # loog 'getCheckPackageName.request.session.user.username', (request.session as any).user.username
-                _ validatePackageProduction
-                    @ (request.session as any).user.username
-                    @ request.params.name
-                    ._ then
-                        =>
-                            param result
-                                :any
-                            # loog 'getCheckPackageName.result', result
-                            _ sendSuccess
-                                @ response
-                                @ result
-                    catch_fail( getCheckPackageName )
+                check_name( package )
 
             handler( getPackageProduction )
 

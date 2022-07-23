@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdatePluginProduction.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -36,7 +36,7 @@ export interface UpdatePluginProductionProps {
 
 type UpdatePluginProductionState = { 
     pp_id: string;
-    pp_userid: string;
+    pp_owner: string;
     pp_name_old: string;
     pp_name_new: string;
     pp_description: string;
@@ -63,7 +63,7 @@ export class UpdatePluginProduction extends Component<UpdatePluginProductionProp
     }
     state: UpdatePluginProductionState = {
         pp_id: "", 
-        pp_userid: "", 
+        pp_owner: "", 
         pp_name_old: "", 
         pp_name_new: "", 
         pp_description: "", 
@@ -79,15 +79,18 @@ export class UpdatePluginProduction extends Component<UpdatePluginProductionProp
     }
     ;
     async _checkAvaliblePluginName() {
+        const {
+            owner
+         } = this.props.data;
         const pp_name_new_checked = this.state.pp_name_new;
-        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/plugin/checkname/${pp_name_new_checked}`;
-        console.log('CreatePlugin._checkAvaliblePluginName.endpoint', endpoint);
+        const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/plugin/checkname/${encodeURIComponent(owner)}/${encodeURIComponent(pp_name_new_checked)}`;
+        console.log('CreatePlugin._checkAvaliblePluginName.endpoint', endpoint, __filename);
         const response = await fetch(endpoint);
         if (!response.ok) {
             throw new Error(`checkAvalible_plugin_Name error - ${response.status} - ${response.statusText}`);
         }
         const result = await response.json();
-        console.log('CreatePlugin._checkAvaliblePluginName.result', result);
+        console.log('CreatePlugin._checkAvaliblePluginName.result', result, __filename);
         this.setState({
             pp_name_new_available: result.isValid, 
             pp_name_new_checked: pp_name_new_checked
@@ -95,14 +98,14 @@ export class UpdatePluginProduction extends Component<UpdatePluginProductionProp
     }
     
     handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handleInputChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
     };
     
     handlePluginNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handlePluginNameChange', ev.target.type, ev.target.checked, ev.target.value);
+        console.log('handlePluginNameChange', ev.target.type, ev.target.checked, ev.target.value, __filename);
         this.setState({
             pp_name_new: ev.target.value
          }, () => {
@@ -121,10 +124,10 @@ export class UpdatePluginProduction extends Component<UpdatePluginProductionProp
         }
     };
     componentDidMount() {
-        console.log('UpdatePluginProduction.componentDidMount.props', this.props);
+        console.log('UpdatePluginProduction.componentDidMount.props', this.props, __filename);
         const {
             _id, 
-            userid, 
+            owner, 
             name, 
             description, 
             contexts, 
@@ -134,7 +137,7 @@ export class UpdatePluginProduction extends Component<UpdatePluginProductionProp
         const pp_dependencies = dependencies || [];
         this.setState({
             pp_id: _id, 
-            pp_userid: userid, 
+            pp_owner: owner, 
             pp_name_old: name, 
             pp_name_new: name, 
             pp_description: description, 
@@ -146,7 +149,7 @@ export class UpdatePluginProduction extends Component<UpdatePluginProductionProp
     }
     
     render() {
-        console.log('UpdatePacki.render', 'state', this.state);
+        console.log('UpdatePacki.render', 'state', this.state, __filename);
         return  (
             <FormContainer
             >
@@ -166,7 +169,7 @@ export class UpdatePluginProduction extends Component<UpdatePluginProductionProp
                     <FormHidden
                      name='pp_id' id='pp_id' value={this.state.pp_id} />
                     <FormHidden
-                     name='pp_userid' id='pp_userid' value={this.state.pp_userid} />
+                     name='pp_owner' id='pp_owner' value={this.state.pp_owner} />
                     <FormHidden
                      name='pp_name_old' id='pp_name_old' value={this.state.pp_name_old} />
                     <FormGroup 

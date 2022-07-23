@@ -3,7 +3,7 @@ $group
     const metas
         await
             _ getData
-                @ 'production/meta/list'
+                @ 'production/meta/' + encodeURIComponent(owner)
     log 'componentDidMount.metas', metas
     const options 
         [
@@ -14,7 +14,10 @@ $group
         _ options.push
             {
                 @ name item.owner + '/' + item.name
-                @ value item.owner + '|' + item.name
+                @ value item.id
     _ this.setState
         {
             @ meta_listOptions options
+
+
+    

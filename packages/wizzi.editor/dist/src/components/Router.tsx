@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Router.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import * as React from 'react';
 import {Switch, Route} from 'react-router-dom';
@@ -16,7 +16,7 @@ type Props = {
 };
 export default class Router extends React.Component<Props> {
         _renderRoute = (props: any) => {
-            console.log('Router._renderRoute.props', props);
+            console.log('Router._renderRoute.props', props, __filename);
             const {
                 data, 
                 ...rest

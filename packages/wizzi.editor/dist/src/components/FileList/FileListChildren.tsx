@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListChildren.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import escapeRegexp from 'escape-string-regexp';
@@ -13,6 +13,7 @@ import FileListEntry from './FileListEntry';
 type Props = { 
     parent: string;
     entries: FileSystemEntry[];
+    readOnly: boolean;
     clipboard: FileSystemEntry[];
     onOpen: (path: string) => void;
     onFocus: (path: string) => void;
@@ -39,6 +40,7 @@ export default class FileListChildren extends React.PureComponent<Props> {
         render() {
             const {
                 entries, 
+                readOnly, 
                 clipboard, 
                 onCreateFile, 
                 onCreateFolder, 
@@ -88,6 +90,7 @@ export default class FileListChildren extends React.PureComponent<Props> {
                                     
                                         isInsideFolder(en.item.path, e.item.path)
                                     )}
+                                readOnly={readOnly}
                                 clipboard={clipboard}
                                 onCreateFile={onCreateFile}
                                 onCreateFolder={onCreateFolder}

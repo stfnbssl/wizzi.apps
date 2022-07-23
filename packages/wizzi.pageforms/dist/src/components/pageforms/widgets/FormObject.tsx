@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\widgets\FormObject.tsx.ittf
-    utc time: Tue, 19 Jul 2022 18:40:05 GMT
+    utc time: Fri, 22 Jul 2022 13:18:43 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -76,7 +76,7 @@ export class FormObject extends Component<FormObjectProps, FormObjectState> {
     ;
     render() {
         const cp = this.state.condProperty;
-        console.log('FormObject.render', cp.name, this.props.values[cp.name], this.props.values, this.state);
+        console.log('FormObject.render', cp.name, this.props.values[cp.name], this.props.values, this.state, __filename);
         return  (
             <Box
              border='1px solid #bcbcbc' padding='10px'>
@@ -109,7 +109,7 @@ export class FormObject extends Component<FormObjectProps, FormObjectState> {
                             {
                                 this.state.objProperties.map((p: any, ndx) => {
                                 
-                                    console.log('p', p);
+                                    console.log('p', p, __filename);
                                     if (p.type == 'string' || p.type == 'number') {
                                         return  (
                                             <FormGroup 

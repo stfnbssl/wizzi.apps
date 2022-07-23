@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\packi\controllers\packi.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -21,7 +21,7 @@ export class PackiController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering PackiController.initialize');
+        console.log('Entering PackiController.initialize', __filename);
         
         this.router.post(`/save/:id`, this.savePacki)
         this.router.get(`/:id`, this.getPacki)
@@ -73,12 +73,12 @@ export class PackiController implements ControllerType {
             const files: PackiFiles = JSON.parse(data);
             wizziProds.generateArtifact(entry, files).then((generated) => {
             
-                console.log('generateArtifact.result', generated);
+                console.log('generateArtifact.result', generated, __filename);
                 sendHtml(response, generated.artifactContent)
             }
             ).catch((err) => {
             
-                console.log('features.packi.controllers.production.generateArtifact.err', err);
+                console.log('features.packi.controllers.production.generateArtifact.err', err, __filename);
                 sendFailure(response, err, 501);
             }
             )

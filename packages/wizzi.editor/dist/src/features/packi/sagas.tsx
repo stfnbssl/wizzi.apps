@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\sagas.tsx.ittf
-    utc time: Tue, 19 Jul 2022 16:44:54 GMT
+    utc time: Sat, 23 Jul 2022 13:15:35 GMT
 */
 import {all, fork, put, takeEvery, call} from 'redux-saga/effects';
 import {getType} from 'typesafe-actions';
@@ -15,9 +15,9 @@ import {callApi} from '../../utils/api';
 function* handleFetchPackiTemplateListRequest(action: ReturnType<typeof packiActions.fetchPackiTemplateListRequest>):  any {
 
     try {
-        console.log('sagas.handleFetchPackiTemplateListRequest.action', action);
+        console.log('sagas.handleFetchPackiTemplateListRequest.action', action, __filename);
         const res = yield call(callApi, 'get', config.API_URL, 'templates');
-        console.log('sagas.handleFetchPackiTemplateListRequest.res', res);
+        console.log('sagas.handleFetchPackiTemplateListRequest.res', res, __filename);
         yield put(packiActions.fetchPackiTemplateListSuccess({
                 packiNames: res
              }));
@@ -35,11 +35,11 @@ function* handleFetchPackiTemplateListRequest(action: ReturnType<typeof packiAct
 function* handleUploadPackiTemplateRequest(action: ReturnType<typeof packiActions.uploadPackiTemplateRequest>):  any {
 
     try {
-        console.log('sagas.handleUploadPackiTemplateRequest.action', action);
+        console.log('sagas.handleUploadPackiTemplateRequest.action', action, __filename);
         const res = yield call(callApi, 'post', config.API_URL, `templates/${action.payload.uid}/${action.payload.templateId}`, {
                 files: action.payload.files
              });
-        console.log('sagas.handleUploadPackiTemplateRequest.res', res);
+        console.log('sagas.handleUploadPackiTemplateRequest.res', res, __filename);
         yield put(packiActions.uploadPackiTemplateSuccess({}));
     } 
     catch (err) {

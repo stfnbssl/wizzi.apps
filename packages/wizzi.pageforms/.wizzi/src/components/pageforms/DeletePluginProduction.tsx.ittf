@@ -7,7 +7,7 @@ module
                 { name: "data", type: "any", ref: true },
             ],
             stateProps: [
-                { name: "pp_userid", type: "string" },
+                { name: "pp_owner", type: "string" },
                 { name: "pp_name", type: "string" },
                 { name: "pp_description", type: "string" },
             ]
@@ -24,7 +24,7 @@ module
             const
                 {
                     @ _id
-                    @ userid
+                    @ owner
                     @ name
                     @ description
                 = this.props.data
@@ -32,7 +32,7 @@ module
             _ this.setState
                 {
                     @ pp_id _id
-                    @ pp_userid userid
+                    @ pp_owner owner
                     @ pp_name name
                     @ pp_description description
         +
@@ -66,9 +66,9 @@ module
                             @ value {this.state.pp_id}
                         < FormStatic
                             @ label 'Plugin owner'
-                            @ name 'pp_userid'
-                            @ id 'pp_userid'
-                            @ value {this.state.pp_userid}
+                            @ name 'pp_owner'
+                            @ id 'pp_owner'
+                            @ value {this.state.pp_owner}
                         < FormStatic
                             @ label 'Plugin name'
                             @ name 'pp_name'

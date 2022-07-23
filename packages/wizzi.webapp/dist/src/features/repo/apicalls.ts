@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\repo\apicalls.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import fetch from 'node-fetch';
 
@@ -13,7 +13,7 @@ export async function getRepositories(accessToken: string):  Promise<any> {
             response.json()
         ).then((responseData) => {
         
-            console.log('getRepositories.responseData', responseData);
+            console.log('getRepositories.responseData', responseData, __filename);
             return responseData;
         }
         )

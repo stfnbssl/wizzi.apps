@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\wizzi\controllers\productions.ts.ittf
-    utc time: Tue, 19 Jul 2022 19:18:03 GMT
+    utc time: Sat, 23 Jul 2022 04:18:23 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -90,7 +90,7 @@ function resolveContext(contextItem: MetaContext) {
                     resolve(value)
                 ).catch((err) => {
                 
-                    console.log(myname + '.resolveContext', contextItem.type, 'err', err);
+                    console.log(myname + '.resolveContext', contextItem.type, 'err', err, __filename);
                     reject(err);
                 }
                 )
@@ -154,7 +154,7 @@ export class ProductionsController implements ControllerType {
     
     
     initialize = (initValues: AppInitializerType) => {
-        console.log('Entering ProductionsController.initialize');
+        console.log('Entering ProductionsController.initialize', __filename);
         this.router.post('/artifact', this.artifact);
     };
     
@@ -162,6 +162,8 @@ export class ProductionsController implements ControllerType {
     // loog myname + 'artifact.received request (keys)', Object.keys(artifactRequest)
     async (request: Request, response: Response) => {
     
+        const isLoggedOn = request.session && (request.session as any).user;
+        const username = isLoggedOn ? (request.session as any).user.username : null;
         const artifactRequest: ArtifactRequest = request.body;
         resolveContexts(artifactRequest.contextItems).then(
         // loog myname + '.artifact.handler.resolvedContext', context
@@ -177,7 +179,7 @@ export class ProductionsController implements ControllerType {
                      })
                 ).catch((err) => {
                 
-                    console.log(myname + '.generateArtifact.err', err);
+                    console.log(myname + '.generateArtifact.err', err, __filename);
                     sendFailure(response, err, 501);
                 }
                 )
@@ -192,7 +194,7 @@ export class ProductionsController implements ControllerType {
                      })
                 ).catch((err: any) => {
                 
-                    console.log(myname + '.generateArtifact.err', err);
+                    console.log(myname + '.generateArtifact.err', err, __filename);
                     sendFailure(response, err, 501);
                 }
                 )

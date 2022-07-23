@@ -9,7 +9,7 @@ module
             ],
             stateProps: [
                 { name: "ap_id", type: "string" },
-                { name: "ap_userid", type: "string" },
+                { name: "ap_owner", type: "string" },
                 { name: "ap_name_old", type: "string" },
                 { name: "ap_name_new", type: "string" },
                 { name: "ap_description", type: "string" },
@@ -64,7 +64,7 @@ module
             const
                 {
                     @ _id
-                    @ userid
+                    @ owner
                     @ name
                     @ description
                     @ mainIttf
@@ -79,7 +79,7 @@ module
             _ this.setState
                 {
                     @ ap_id _id
-                    @ ap_userid userid
+                    @ ap_owner owner
                     @ ap_name_old name
                     @ ap_name_new name
                     @ ap_description description
@@ -113,9 +113,9 @@ module
                             @ id 'ap_id'
                             @ value {this.state.ap_id}
                         < FormHidden
-                            @ name 'ap_userid'
-                            @ id 'ap_userid'
-                            @ value {this.state.ap_userid}
+                            @ name 'ap_owner'
+                            @ id 'ap_owner'
+                            @ value {this.state.ap_owner}
                         < FormHidden
                             @ name 'ap_name_old'
                             @ id 'ap_name_old'

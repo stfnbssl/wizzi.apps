@@ -3,12 +3,13 @@ $group
     async=> handleMetaChange
         param value
             :string
-        const parts = value.split('|')
-        if parts.length == 2
+        # value is the meta id
+        log 'handleMetaChange.value', value
+        if value && value.length > 0
             const result
                 await
                     _ getData
-                        @ 'production/meta/props/' + parts[0] + '/' + parts[1]
+                        @ 'production/meta/props/' + encodeURIComponent(value)
             log 'handleMetaChange.result', result, result.meta.properties
             const properties = result.meta.properties
             const values
