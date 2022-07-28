@@ -28,7 +28,7 @@ $group
                                         @ action 'wizzi.productions.transformModel'
                                         @ message 'files parameter must be an object of type PackiFiles'
                                         @ files
-                        const transformer = options && options.transformer ? options.transformer : transformerFor(filePath)
+                        const transformer = options && options.transformer ? options.transformer : wizziMaps.transformerFor(filePath)
                         # loog 'wizzi.productions.transformModel.using artifact transformer', transformer
                         if transformer
                             let jsonwf
@@ -109,7 +109,7 @@ $group
                     async=>
                         param resolve
                         param reject
-                        const transformer = options && options.transformer ? options.transformer : transformerFor(filePath)
+                        const transformer = options && options.transformer ? options.transformer : wizziMaps.transformerFor(filePath)
                         if transformer
                             # loog 'wizzi.productions.using model transformer', transformer
                             const wf

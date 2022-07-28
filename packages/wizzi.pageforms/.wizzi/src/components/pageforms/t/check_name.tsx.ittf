@@ -1,5 +1,5 @@
 $group
-    $params prod, name
+    $params prod, prefix
     
     $
         var Prod = _.capitalize(prod);
@@ -10,14 +10,14 @@ $group
             {
                 @ owner
             = this.props.data
-        const ${name}_checked = this.state.${name}
+        const ${prefix}_checked = this.state.${prefix}_name
         const endpoint
             `lit
                 _ nullthrows(process.env.API_SERVER_URL)
                 + /production/${prod}/checkname/
                 @ encodeURIComponent(owner)
                 + /
-                @ encodeURIComponent(${name}_checked)
+                @ encodeURIComponent(${prefix}_checked)
         log 'Create${Prod}._checkAvalible${Prod}Name.endpoint', endpoint
         const response
             await 
@@ -37,6 +37,6 @@ $group
         log 'Create${Prod}._checkAvalible${Prod}Name.result', result
         _ this.setState
             {
-                @ ${name}_available result.isValid
-                @ ${name}_checked ${name}_checked
+                @ ${prefix}_name_available result.isValid
+                @ ${prefix}_name_checked ${prefix}_checked
     

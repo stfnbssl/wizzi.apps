@@ -1,0 +1,6 @@
+$group
+    $params url
+    $if isWizziStudio
+        css ${url}.ittf
+    $else
+        css ${url}

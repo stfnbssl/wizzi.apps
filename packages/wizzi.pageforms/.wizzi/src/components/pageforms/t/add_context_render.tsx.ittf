@@ -2,6 +2,10 @@ $group
     $params stateProp|tfolder
         
     < HR
+    < FormHidden
+        @ id '${stateProp}_contexts'
+        @ name '${stateProp}_contexts'
+        @ value {JSON.stringify(this.state.${stateProp}_contexts)}
     < FormCheckBox
         @ label 'Add a data context'
         @ name '${stateProp}_add_context'

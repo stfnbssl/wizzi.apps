@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\wizzi\types.ts.ittf
-    utc time: Sat, 23 Jul 2022 04:18:23 GMT
+    utc time: Thu, 28 Jul 2022 09:18:21 GMT
 */
 import * as wizzi from 'wizzi';
 import {FsJson} from 'wizzi-repo';
@@ -26,21 +26,30 @@ export type TransformedModel = {
     modelTransformer: string;
 };
 
+export type IttfDocumentSource = 'fs' | 'packi' | 'db' | 'text';
+
+export type ContextSource = 'json-fsIttf' | 'json-packiIttf' | 'json-dbIttf' | 'json-fsFile' | 'json-value' | 'model-fsIttf' | 'model-packiIttf' | 'model-dbIttf';
+
 export type MetaIttfDocument = { 
-    sourceType: string;
-    sourcePath?: string;
-    sourceFiles?: packiTypes.PackiFiles;
+    source: IttfDocumentSource;
+    path?: string;
+    mainIttf?: string;
+    rootFolder?: string;
+    packiFiles?: packiTypes.PackiFiles;
+    wizziSchema?: string;
+    text?: string;
 };
 
 export type MetaContext = { 
-    name: string;
-    type: string;
-    sourcePath?: string;
-    sourceFiles?: packiTypes.PackiFiles;
+    name?: string;
+    source: ContextSource;
+    path?: string;
+    mainIttf?: string;
+    packiFiles?: packiTypes.PackiFiles;
     value?: object;
 };
 
 export type ArtifactRequest = { 
-    mainIttf: MetaIttfDocument;
+    ittfDocument: MetaIttfDocument;
     contextItems: MetaContext[];
 };

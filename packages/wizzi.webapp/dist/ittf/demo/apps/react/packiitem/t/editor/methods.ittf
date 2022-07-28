@@ -3,7 +3,7 @@ $group
     m generate
         param value
         if this.state.productionMode == 'production-mtree'
-            _ wz.mTreeDebugInfo
+            _ wz.mTreeBuildupScript
                 @ this.props.selectedMainIttfContentPath
                 @ this.props.packiFiles
                 =>

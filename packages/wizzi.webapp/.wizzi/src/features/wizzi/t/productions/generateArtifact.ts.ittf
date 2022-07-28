@@ -31,7 +31,7 @@ $group
                                         @ files
                         const generator = options && options.generator 
                             \b ? options.generator 
-                            \b : generatorFor(filePath)
+                            \b : wizziMaps.generatorFor(filePath)
                         # loog 'wizzi.productions.generateArtifact.using artifact generator', generator
                         if generator
                             let jsonwf
@@ -119,7 +119,7 @@ $group
                         param reject
                         const generator = options && options.generator 
                             \b ? options.generator 
-                            \b : generatorFor(filePath)
+                            \b : wizziMaps.generatorFor(filePath)
                         if generator
                             # loog 'wizzi.productions.using artifact generator', generator
                             const wf
@@ -149,3 +149,18 @@ $group
                                 return reject(ex)
                         else
                             _ reject('No artifact generator available for document ' + filePath)
+    +
+    export 
+        async-function generateArtifactDb
+            param owner
+                :string 
+            param name
+                :string 
+            param context
+                :any 
+                :optional 
+            :return
+                :ref Promise
+                    :param 
+                        :ref GeneratedArtifact
+            throw new Error(myname + '.generateArtifactDb not yet implemented')

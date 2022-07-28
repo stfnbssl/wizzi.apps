@@ -2,6 +2,10 @@ $group
     $params stateProp|tfolder
         
     < HR
+    < FormHidden
+        @ id '${stateProp}_tfolders'
+        @ name '${stateProp}_tfolders'
+        @ value {JSON.stringify(this.state.${stateProp}_dependencies)}
     < FormCheckBox
         @ label 'Add a tfolder dependency'
         @ name '${stateProp}_add_tfolder'

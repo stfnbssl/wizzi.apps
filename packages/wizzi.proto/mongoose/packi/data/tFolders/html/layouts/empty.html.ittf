@@ -1,0 +1,27 @@
+html
+	$params title|@@null
+
+    head 
+		$if title != null
+			@title ${title}
+        meta 
+            charset utf-8
+        meta 
+            name viewport
+			content width=device-width, initial-scale=1
+        link 
+            @ rel "stylesheet"
+            @ href "https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
+		
+		$hook head-styles-0
+		$hook head-styles
+		$hook head-styles-2
+
+    body 
+		$hook
+
+		$include html/scripts/meta
+
+		$hook body-scripts-0
+		$hook body-scripts
+		$hook body-scripts-2

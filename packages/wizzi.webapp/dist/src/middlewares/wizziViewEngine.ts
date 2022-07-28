@@ -2,11 +2,12 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\middlewares\wizziViewEngine.ts.ittf
-    utc time: Sat, 23 Jul 2022 04:18:23 GMT
+    utc time: Thu, 28 Jul 2022 09:18:21 GMT
 */
 import path from 'path';
 import {Application} from 'express';
 import {MiddlewareType} from '../features/app/types';
+import {config} from '../features/config';
 import {wizziProds} from '../features/wizzi';
 export const WizziViewEngineMiddleware: MiddlewareType = (app: Application) => {
 
@@ -14,9 +15,11 @@ export const WizziViewEngineMiddleware: MiddlewareType = (app: Application) => {
     
         try {
             const twinJsonContext = await wizziProds.inferAndLoadContextFs(filePath, 'wzCtx');
+            const siteCtx = await loadJsonIttfModel('sitectx.json.ittf');
             const context = {
                 ...options, 
                 locals: options._locals, 
+                siteCtx, 
                 ...twinJsonContext
              };
             // loog 'WizziViewEngineMiddleware.filePath', filePath
@@ -43,3 +46,19 @@ export const WizziViewEngineMiddleware: MiddlewareType = (app: Application) => {
     console.log('WizziViewEngineMiddleware installed, on folder', viewsFolder, __filename);
 }
 ;
+async function loadJsonIttfModel(relPath: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            wizziProds.loadModelFs(path.join(config.ittfPath, 'models', relPath), {}).then(
+            // log 'loadJsonIttfModel', model
+            model => 
+            
+                resolve(model)
+            ).catch(err => 
+            
+                reject(err)
+            )
+        
+        );
+}

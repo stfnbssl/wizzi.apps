@@ -1,6 +1,77 @@
 {
 	[ apis
 		{
+			title 'Wizzi - wrap ittf for schema'
+			method 'post'
+			url '/api/v1/wizzi/production/wrapittf'
+			[ parameters
+				{
+					type "text"
+                    paramType "body"
+					name "schema"
+					label "schema"
+					demoValue 'js'
+				{
+					type "text"
+                    paramType "body"
+					name "ittfText"
+					label "ittfText"
+					demoValue 'var i = 0'
+		{
+			title 'Wizzi - generate artifact'
+			method 'post'
+			url '/api/v1/wizzi/production/artifact'
+			[ parameters
+				{
+					type "object"
+                    paramType "body"
+					name "ittfDocument"
+					label "ittfDocument"
+					demoValue '{ "source": "packi", "mainIttf": "index.html.ittf", "packiFiles":
+                        \b { "index.html.ittf": { "type": "CODE", "contents": "html" } } }'
+				{
+					type "object"
+                    paramType "body"
+					name "contextItems"
+					label "contextItems"
+					demoValue "[]"
+		{
+			title 'Wizzi - generate mTree'
+			method 'post'
+			url '/api/v1/wizzi/production/mtree'
+			[ parameters
+				{
+					type "object"
+                    paramType "body"
+					name "ittfDocument"
+					label "ittfDocument"
+					demoValue '{ "source": "packi", "mainIttf": "index.html.ittf", "packiFiles":
+                        \b { "index.html.ittf": { "type": "CODE", "contents": "html" } } }'
+				{
+					type "object"
+                    paramType "body"
+					name "contextItems"
+					label "contextItems"
+					demoValue "[]"
+		{
+			title 'Wizzi - generate mTree buildup script'
+			method 'post'
+			url '/api/v1/wizzi/production/mtreescript'
+			[ parameters
+				{
+					type "object"
+                    paramType "body"
+					name "ittfDocument"
+					label "ittfDocument"
+					demoValue '{ "source": "packi", "mainIttf": "index.html.ittf", "packiFiles":
+                        \b { "index.html.ittf": { "type": "CODE", "contents": "html" } } }'
+				{
+					type "object"
+                    paramType "body"
+					name "contextItems"
+					label "contextItems"
+					demoValue "[]"
+		{
 			title 'Productions - get artifacts list'
 			method 'get'
 			url '/api/v1/production/artifact/:owner'

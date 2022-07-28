@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdatePackageProduction.tsx.ittf
-    utc time: Fri, 22 Jul 2022 13:18:43 GMT
+    utc time: Mon, 25 Jul 2022 18:06:15 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -82,7 +82,7 @@ export class UpdatePackageProduction extends Component<UpdatePackageProductionPr
         const {
             owner
          } = this.props.data;
-        const pp_name_new_checked = this.state.pp_name_new;
+        const pp_name_new_checked = this.state.pp_name_new_name;
         const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/package/checkname/${encodeURIComponent(owner)}/${encodeURIComponent(pp_name_new_checked)}`;
         console.log('CreatePackage._checkAvaliblePackageName.endpoint', endpoint, __filename);
         const response = await fetch(endpoint);
@@ -92,8 +92,8 @@ export class UpdatePackageProduction extends Component<UpdatePackageProductionPr
         const result = await response.json();
         console.log('CreatePackage._checkAvaliblePackageName.result', result, __filename);
         this.setState({
-            pp_name_new_available: result.isValid, 
-            pp_name_new_checked: pp_name_new_checked
+            pp_name_new_name_available: result.isValid, 
+            pp_name_new_name_checked: pp_name_new_checked
          })
     }
     

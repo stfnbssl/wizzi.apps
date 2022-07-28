@@ -7,7 +7,7 @@
 
 			var packageName = options.packageName || null
 			var ittfDocumentHash = options.hash
-			var mTreeBuildUpContext = options.context || {}
+			var mTreeBuildupContext = options.context || {}
 			var sessionData = {}
 			var globalContext = {}
 
@@ -29,7 +29,7 @@
 				@ ittfDocumentUri
 				@ schemaName
 				@ schemaOutputPath
-				@ mTreeBuildUpContext
+				@ mTreeBuildupContext
 				f_cb_api( result )
 					return
 						_ callback

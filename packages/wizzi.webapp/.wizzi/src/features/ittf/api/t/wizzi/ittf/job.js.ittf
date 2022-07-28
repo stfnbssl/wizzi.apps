@@ -7,7 +7,7 @@
 
 			var jobName = options.jobName || 'wizzi.ittf.wfjob.default'
 			var ittfDocumentHash = options.hash
-			var mTreeBuildUpContext = options.context || {}
+			var mTreeBuildupContext = options.context || {}
 			var sessionData = {}
 			var globalContext = {}
 

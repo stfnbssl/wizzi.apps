@@ -12,7 +12,7 @@ $group
         $if wzCtx.Build.webpack.publicPath
             @ publicPath '${wzCtx.Build.webpack.publicPath}'
         @ filename '[name].bundle.js'
-        @ chunkFilename '[id].[hash].chunk.js'
+        $$ @ chunkFilename '[id].[hash].chunk.js'
     $else
         @ path path.resolve(__dirname, '..', 'dist', 'scripts')
         @ filename '${wzCtx.name}.js'

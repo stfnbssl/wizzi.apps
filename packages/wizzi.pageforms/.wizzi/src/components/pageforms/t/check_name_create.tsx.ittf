@@ -43,6 +43,6 @@ $group
         log 'Create${Prod}._checkAvalible${Prod}Name.result', result
         _ this.setState
             {
-                @ ${prefix}_available result.isValid
-                @ ${prefix}_checked ${prefix}_checked
+                @ ${prefix}_name_available result.isValid
+                @ ${prefix}_name_checked ${prefix}_checked
     

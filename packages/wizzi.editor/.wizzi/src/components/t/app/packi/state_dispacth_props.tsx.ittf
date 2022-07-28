@@ -12,7 +12,7 @@ $group
         :p generatedArtifact
             :optional 
             :ref GeneratedArtifact
-        :p mTreeBuildUpScript
+        :p mTreeBuildupScript
             :optional 
             :string
         :p mTreeIttf
@@ -97,7 +97,7 @@ $group
                     @ packiNames state.packi.packiNames
                     @ packiTemplateNames state.packi.packiTemplateNames
                     @ generatedArtifact state.wizzi.generatedArtifact
-                    @ mTreeBuildUpScript state.wizzi.mTreeBuildUpScript
+                    @ mTreeBuildupScript state.wizzi.mTreeBuildupScript
                     @ mTreeIttf state.wizzi.mTreeIttf
                     @ jobGeneratedArtifacts state.wizzi.jobGeneratedArtifacts
                     @ jobError state.wizzi.jobError
@@ -173,7 +173,7 @@ $group
                                 :ref PackiFiles
                             if filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')
                                 _ dispatch
-                                    _ wizziActions.mTreeDebugInfoRequest
+                                    _ wizziActions.mTreeBuildupScriptRequest
                                         { 
                                             @ filePath
                                             @ files

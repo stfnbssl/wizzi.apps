@@ -18,6 +18,9 @@ module
         @ config
         from '../config'
     import
+        as wizziMaps
+        from './maps'
+    import
         @ createFsJsonAndFactory
         @ ensurePackiFilePrefix
         @ createFilesystemFactory
@@ -33,7 +36,7 @@ module
     const myname = 'features/wizzi/productions'
 
     $include productions/loadModel
-    $include productions/debugInfo
+    $include productions/mTreeBuildupScript
     $include productions/mTree
     $include productions/generateArtifact
     $include productions/generateFolderArtifacts
@@ -42,121 +45,3 @@ module
     $include productions/inferAndLoadContext
     $include productions/scanIttfDocument
     $include productions/wizzify
-    +
-    const extSchemaMap
-        :{
-            :index
-                :string
-                param k
-                    :string
-        =
-            {
-                @ '.js' 'js'
-                @ '.jsx' 'js'
-                @ '.ts' 'ts'
-                @ '.tsx' 'ts'
-                @ '.html' 'html'
-                @ '.css' 'css'
-                @ '.svg' 'svg'
-                @ '.md' 'md'
-                @ '.xml' 'xml'
-                @ '.json' 'json'
-                @ '.graphql' 'graphql'
-    +
-    const schemaModuleMap
-        :{
-            :index
-                :string
-                param k
-                    :string
-        =
-            {
-                @ css 'css/document'
-                @ graphql 'graphql/document'
-                @ ittf 'ittf/document'
-                @ js 'js/module'
-                @ json 'json/document'
-                @ html 'html/document'
-                @ md 'md/document'
-                @ scss 'scss/document'
-                @ svg 'svg/document'
-                @ text 'text/document'
-                @ ts 'ts/module'
-                @ vml 'vml/document'
-                @ vue 'vue/document'
-                @ xml 'xml/document'
-    +
-    function generatorFor
-        param filePath
-            :string
-        :return
-            :union
-                :string
-                :undefined
-        const pf = parseFilePath(filePath)
-        if pf.isIttfDocument
-            return schemaModuleMap[pf.schema]
-        return undefined
-    +
-    const schemaTransformerMap
-        :{
-            :index
-                :string
-                param k
-                    :string
-        =
-            {
-                @ meta 'ittf/cheatsheet'
-    +
-    function transformerFor
-        param filePath
-            :string
-        :return
-            :union
-                :string
-                :undefined
-        const pf = parseFilePath(filePath)
-        if pf.isIttfDocument
-            return schemaTransformerMap[pf.schema]
-        return undefined
-    +
-    function schemaFromFilePath
-        param filePath
-            :string
-        :return
-            :union
-                :string
-                :undefined
-        const pf = parseFilePath(filePath)
-        if pf.isIttfDocument
-            return pf.schema
-        return undefined
-    +
-    :type parsedFilePath
-        :{
-            :p seedname
-                :string
-            :p schema
-                :string
-            :p isIttfDocument
-                :boolean
-    +
-    export
-        function parseFilePath
-            param filePath
-                :string
-            :return
-                :ref parsedFilePath
-            const nameParts = path.basename(filePath).split('.')
-            if nameParts[nameParts.length - 1] === 'ittf'
-                return
-                    {
-                        @ isIttfDocument true
-                        @ schema nameParts[nameParts.length - 2]
-                        @ seedname nameParts.slice(0, -2).join('.')
-            else
-                return
-                    {
-                        @ isIttfDocument false
-                        @ schema nameParts[nameParts.length - 1]
-                        @ seedname nameParts.slice(0, -1).join('.')

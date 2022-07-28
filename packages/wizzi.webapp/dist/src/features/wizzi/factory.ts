@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\wizzi\factory.ts.ittf
-    utc time: Sat, 23 Jul 2022 04:18:23 GMT
+    utc time: Thu, 28 Jul 2022 09:18:21 GMT
 */
 import path from 'path';
 import wizzi from 'wizzi';
@@ -10,6 +10,7 @@ import {JsonComponents, JsonDocumentDto, FsJson} from 'wizzi-repo';
 import {packiFilePrefix} from '../config/env';
 import {packiTypes} from '../packi';
 import {config as appConfig} from '../config';
+import * as wizziMaps from './maps';
 import {JsonWizziFactory, FilesystemWizziFactory} from './types';
 
 const myname = 'features/wizzi/factory';
@@ -80,7 +81,7 @@ async function createFsJsonAndFactory(files: packiTypes.PackiFiles):  Promise<Js
                 path: filePath, 
                 content: files[value].contents
              })
-            const pluginList = pluginsFor(filePath);
+            const pluginList = wizziMaps.pluginsFor(filePath);
             pluginList.forEach((item) => {
             
                 if (plugins.indexOf(item) < 0) {
@@ -191,64 +192,6 @@ export async function extractGeneratedFiles(fsJson: FsJson):  Promise<packiTypes
                 )
             )
         );
-}
-
-const schemaPluginMap: { 
-    [k: string]: string[];
-} = {
-    json: [
-        'wizzi-core'
-    ], 
-    text: [
-        'wizzi-core'
-    ], 
-    xml: [
-        'wizzi-core'
-    ], 
-    ittf: [
-        'wizzi-core'
-    ], 
-    wfjob: [
-        'wizzi-core'
-    ], 
-    wfschema: [
-        'wizzi-core'
-    ], 
-    js: [
-        'wizzi-js'
-    ], 
-    ts: [
-        'wizzi-js'
-    ], 
-    html: [
-        'wizzi-web', 
-        'wizzi-js', 
-        'wizzi-core'
-    ], 
-    css: [
-        'wizzi-web'
-    ], 
-    scss: [
-        'wizzi-web'
-    ], 
-    graphql: [
-        'wizzi-web'
-    ], 
-    vml: [
-        'wizzi-web'
-    ], 
-    vue: [
-        'wizzi-web'
-    ]
- };
-
-function pluginsFor(file: string):  string[] {
-
-    const nameParts = path.basename(file).split('.');
-    if (nameParts[nameParts.length - 1] === 'ittf') {
-        return schemaPluginMap[nameParts[nameParts.length - 2]] || [];
-    }
-    return [];
 }
 
 export function ensurePackiFilePrefix(filePath: string) {

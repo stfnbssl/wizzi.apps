@@ -25,6 +25,7 @@ module
         $append styles
             :interface RootStyleProps
             styled StyledFormGroup .dl<RootStyleProps>
+                width 80%
             styled StyledInputLabel .dt<RootStyleProps>
                 font-weight 600
             styled StyledLabelSpan .span<RootStyleProps>
@@ -35,6 +36,7 @@ module
                 min-height 17px                
             styled StyledInputBox .dd<RootStyleProps>
                 margin 2px 0
+                width 100%
             styled StyledInput .textarea<RootStyleProps>
                 background-color
                     => c('background')
@@ -52,6 +54,7 @@ module
                 outline none
                 padding 5px 12px
                 vertical-align middle
+                width 100%
 
         return
             < StyledFormGroup

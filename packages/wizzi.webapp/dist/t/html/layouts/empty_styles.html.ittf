@@ -1,12 +1,9 @@
 $group
 	$params &opt
 
-    $if opt.useFontRoboto
-        s( https://fonts.googleapis.com/css?family=Roboto:300,400,500
+    $if opt.useBootstrap
+		css /static/lib/bootstrap/dist/css/bootstrap.min.css
     
-    $if opt.useFontMaterialIcons
-		s( https://fonts.googleapis.com/icon?family=Material+Icons
-	
     $if opt.useCodemirror
 		s( /static/lib/codemirror/lib/codemirror.css
 		s( /static/lib/codemirror/theme/monokai.css
@@ -19,9 +16,27 @@ $group
 		    $else
 		        s( /static/lib/animatecss/animate.css
 
-	$if opt.useHighlight
+    $if opt.useFontAwesome
+        $ 
+            var fontAwesomeKey = 'eab461efef';
+        script
+            src https://kit.fontawesome.com/${fontAwesomeKey}.js
+            crossorigin anonymous                                    
+
+    $if opt.useFontRoboto
+        s( https://fonts.googleapis.com/css?family=Roboto:300,400,500
+    
+    $if opt.useFontMaterialIcons
+		s( https://fonts.googleapis.com/icon?family=Material+Icons
+
+    $if opt.useGoogleFonts
+        $foreach item in opt.googleFonts
+            css https://fonts.googleapis.com/css?family=${item}
+	
+    $if opt.useHighlight
 	    $if isWizziStudio
 	        s( /static/lib/highlight/styles/github.css
+            s( /static/lib/highlightjs-master/dracula.css
         $else
             s( https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/default.min.css        
 
@@ -42,6 +57,12 @@ $group
 
     $if opt.usePopper
         s( /static/lib/popper/main.css
+        
+	$if opt.usePrism
+	    $if isWizziStudio
+		    css /static/lib/prism/prism.css
+		$else
+		    css https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css
 	
     $if opt.useSocial
         s( /static/lib/social/social-icons.css

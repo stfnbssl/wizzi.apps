@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\middlewares\packiBrowse.ts.ittf
-    utc time: Sat, 23 Jul 2022 04:18:23 GMT
+    utc time: Thu, 28 Jul 2022 09:18:21 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -12,7 +12,7 @@ import {Application, RequestHandler, Request, Response} from 'express';
 import {artifactApi} from '../features/production';
 import {MiddlewareType} from '../features/app/types';
 import {config} from '../features/config';
-import {sendFailure} from '../utils/sendResponse';
+import {sendFailure, sendHtml} from '../utils/sendResponse';
 
 const myname = 'express.middleware.packiBrowse';
 const packiUserBrowsePath = '/~';
@@ -24,6 +24,15 @@ export const PackiBrowseMiddleware: MiddlewareType = (app: Application) => {
     app.use(packiSiteBrowsePath, packiSiteBrowseMiddleware());
 }
 ;
+function getPackiBrowseContext(request: Request) {
+
+    return {
+            isWizziStudio: false, 
+            locals: {
+                user: (request.session as any).user
+             }
+         };
+}
 function packiUserBrowseMiddleware():  RequestHandler {
 
     return async (request: Request, response: Response, next: Function) => {
@@ -71,7 +80,7 @@ function packiSiteBrowseMiddleware():  RequestHandler {
 function _executeBrowse(owner: string, productionName: string, request: Request, response: Response) {
 
     if (request.query.meta && (request.query.meta as string).toLowerCase() == 'mtree') {
-        artifactApi.getArtifactMTree_withPrepare(owner, productionName, request.query.context as string, {}).then((result: any) => {
+        artifactApi.getArtifactMTree_withPrepare(owner, productionName, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
         
             console.log(myname + 'getArtifactMTree_withPrepare.result.length:', result.length, __filename);
             response.status(200);
@@ -85,14 +94,16 @@ function _executeBrowse(owner: string, productionName: string, request: Request,
         ).catch((err: any) => {
         
             console.log('_executeBrowse.artifactApi.getArtifactMTree.error', err, __filename);
-            sendFailure(response, {
-                err: err
-             }, 501)
+            var content = err;
+            if (typeof err === 'object' && err !== null) {
+                content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
+            }
+            sendHtml(response, content)
         }
         )
     }
     else if (request.query.meta && (request.query.meta as string).toLowerCase() == 'script') {
-        artifactApi.getArtifactMTreeBuildupScript_withPrepare(owner, productionName, request.query.context as string, {}).then((result: any) => {
+        artifactApi.getArtifactMTreeBuildupScript_withPrepare(owner, productionName, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
         
             console.log(myname + 'getArtifactMTreeBuildupScript_withPrepare.result.length:', result.length, __filename);
             response.status(200);
@@ -106,14 +117,16 @@ function _executeBrowse(owner: string, productionName: string, request: Request,
         ).catch((err: any) => {
         
             console.log('_executeBrowse.artifactApi.getArtifactMTree.error', err, __filename);
-            sendFailure(response, {
-                err: err
-             }, 501)
+            var content = err;
+            if (typeof err === 'object' && err !== null) {
+                content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
+            }
+            sendHtml(response, content)
         }
         )
     }
     else if (request.query.meta && (request.query.meta as string).toLowerCase() == 'raw') {
-        artifactApi.getArtifactGeneration_withPrepare(owner, productionName, request.query.context as string, {}).then((result: any) => {
+        artifactApi.getArtifactGeneration_withPrepare(owner, productionName, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
         
             console.log(myname + 'getArtifactGeneration_withPrepare.result.length:', result.length, __filename);
             response.status(200);
@@ -127,14 +140,16 @@ function _executeBrowse(owner: string, productionName: string, request: Request,
         ).catch((err: any) => {
         
             console.log('_executeBrowse.artifactApi.getArtifactGeneration.error', err, __filename);
-            sendFailure(response, {
-                err: err
-             }, 501)
+            var content = err;
+            if (typeof err === 'object' && err !== null) {
+                content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
+            }
+            sendHtml(response, content)
         }
         )
     }
     else {
-        artifactApi.getArtifactGeneration_withPrepare(owner, productionName, request.query.context as string, {}).then((result: any) => {
+        artifactApi.getArtifactGeneration_withPrepare(owner, productionName, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
         
             console.log(myname + 'getArtifactGeneration_withPrepare.result.length:', result.length, __filename);
             response.status(200);
@@ -148,9 +163,11 @@ function _executeBrowse(owner: string, productionName: string, request: Request,
         ).catch((err: any) => {
         
             console.log('_executeBrowse.artifactApi.getArtifactGeneration.error', err, __filename);
-            sendFailure(response, {
-                err: err
-             }, 501)
+            var content = err;
+            if (typeof err === 'object' && err !== null) {
+                content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
+            }
+            sendHtml(response, content)
         }
         )
     }

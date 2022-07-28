@@ -48,7 +48,7 @@ $group
                 async=>
                     param resolve
                     param reject
-                    var schema = extSchemaMap[extension]
+                    var schema = wizziMaps.schemaFromExtension(extension)
                     if schema
                         _ wizziTools.wizzify
                             @ schema

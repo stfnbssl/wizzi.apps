@@ -167,7 +167,7 @@
 				param html
 				_ wz.html
 					@ element
-					_ escapeHtml(html)
+					_ wz.escapeHtml(html)
 
 		set wz.replaceChildren
 			function
@@ -395,14 +395,15 @@
 				@ '`' '&#x60;'
 				@ '=' '&#x3D;'
 		
-		function escapeHtml
-			param string
-			return 
-				_ String(string).replace
-					@ /[&<>"'`=\/]/g
-					function fromEntityMap
-						param s
-						return entityMap[s]
+		set wz.escapeHtml
+            function escapeHtml
+                param string
+                return 
+                    _ String(string).replace
+                        @ /[&<>"'`=\/]/g
+                        function fromEntityMap
+                            param s
+                            return entityMap[s]
 		
 		set wz.unescapeHtml
 			function

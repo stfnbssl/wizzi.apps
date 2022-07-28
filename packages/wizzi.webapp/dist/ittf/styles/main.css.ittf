@@ -14,6 +14,7 @@ css
         font-size 14px
 
     $include colors
+    $include layout
 
     . fixed
         position fixed
@@ -43,12 +44,28 @@ css
         width 100%!important
     . width-half
         width 50%!important
+    . text-align-center
+        text-align center
+    . text-align-left
+        text-align left
+    . text-align-right
+        text-align right
+    . text-align-justify
+        text-align justify
         
     . m-0-auto
         margin 0 auto
     $foreach c in scale50
         . m-${c}
             margin ${c}px
+        . m-l-${c}
+            margin-left ${c}px
+        . m-r-${c}
+            margin-right ${c}px
+        . m-t-${c}
+            margin-top ${c}px
+        . m-b-${c}
+            margin-bottom ${c}px
     $foreach c in count
         . font-${sizes[c]}
             font-size ${scale[c]}em

@@ -26,13 +26,13 @@ function loadDirContents(dirname, callback) {
 }
 
 /*
-loadDirContents('./data/packiDependencies', function(err, data) {
+loadDirContents('./data/tFolders', function(err, data) {
     if (err) { throw err; }
 });
 */
 
-function loadPackiDirDependency(dirname, options, callback) {
-    console.log('loadPackiDirDependency', dirname, options);
+function loadPackiDirTFolder(dirname, options, callback) {
+    console.log('loadPackiDirTFolder', dirname, options);
     var files = [];
     fs.readdir(dirname, function(err, list) {
         if (err) { return callback(err); }
@@ -82,7 +82,7 @@ function loadPackiDirItems(dirname, options, callback) {
                     console.log('loadPackiDirItems.isDirectory', filename);
                     if (filename == 't') {
                         packiFilesPath = dirname;
-                        // stop search deep dirname is a packiItem
+                        // stop search deep dirname is a artifactProduction
                         next();
                     } else {
                         // search deep
@@ -150,68 +150,68 @@ function loadPackiDirItems(dirname, options, callback) {
         })()
     });
 }
-function loadPackiItems(packiItemsFolder, owner, callback) {
-    console.log('loadPackiItems', packiItemsFolder, owner);
-    loadPackiDirItems(packiItemsFolder, { isDependency: false }, function(err, data) {
+function loadArtifactProductions(artifactProductionsFolder, owner, callback) {
+    console.log('loadArtifactProductions', artifactProductionsFolder, owner);
+    loadPackiDirItems(artifactProductionsFolder, { isDependency: false }, function(err, data) {
         if (err) { return callback(err); }
-        // console.log(packiDependenciesFolder, data);
-        var packiItems = [];
+        // console.log(tFoldersFolder, data);
+        var artifactProductions = [];
         var j = 0;
         (function next() {
-            var packiItemPaths = data[j++];
-            if (!packiItemPaths) {
-                console.log('packiItems', packiItems.length);
-                return callback(null, packiItems);
+            var artifactProductionPaths = data[j++];
+            if (!artifactProductionPaths) {
+                console.log('artifactProductions', artifactProductions.length);
+                return callback(null, artifactProductions);
             }
-            const basePath = packiItemsFolder + '/' + packiItemPaths.name;
-            const mainIttf = packiItemPaths.mainIttf.substring(basePath.length + 1);
-            const packiItem = {
+            const basePath = artifactProductionsFolder + '/' + artifactProductionPaths.name;
+            const mainIttf = artifactProductionPaths.mainIttf.substring(basePath.length + 1);
+            const artifactProduction = {
                 owner: owner,
-                name: packiItemPaths.name,
+                name: artifactProductionPaths.name,
                 mainIttf: mainIttf,
                 wizziSchema: path.basename(mainIttf).split('.')[path.basename(mainIttf).split('.').length-2]
             };
-            if (packiItemPaths.packiFilesPath)
-                loadDirContents(packiItemPaths.packiFilesPath, function(err, filesData) {
+            if (artifactProductionPaths.packiFilesPath)
+                loadDirContents(artifactProductionPaths.packiFilesPath, function(err, filesData) {
                     if (err) { return callback(err); }
-                    packiItem.packiFiles = /*JSON.stringify(*/dataToPackiFiles(filesData, basePath, false)/*)*/;
-                    packiItem.packiFiles['wizzi.json.ittf'] = {
+                    artifactProduction.packiFiles = /*JSON.stringify(*/dataToPackiFiles(filesData, basePath, false)/*)*/;
+                    artifactProduction.packiFiles['wizzi.json.ittf'] = {
                         type: 'CODE',
                         contents: [
                             '{',
                             '    [ fragments',
                             '        {',
-                            '            name "' + packiItem.wizziSchema + '"',
-                            '            path "' + owner + '/' + packiItem.wizziSchema + '"',
+                            '            name "' + artifactProduction.wizziSchema + '"',
+                            '            path "' + owner + '/' + artifactProduction.wizziSchema + '"',
                             '    [ contexts',
                             '        {',
                             '            name "wzCtx"',
                             '            path "' + owner + '/wzctx"',
                         ].join('\n')
                     };
-                    packiItems.push(packiItem)
+                    artifactProductions.push(artifactProduction)
                     next();
                 });
             else {
-                packiItem.packiFiles = {}
-                packiItems.push(packiItem)
+                artifactProduction.packiFiles = {}
+                artifactProductions.push(artifactProduction)
                 next();
             }
         })()
     });
 }
-function loadPackiDependencies(packiDependenciesFolder, owner, callback) {
-    console.log('loadPackiDependencies', packiDependenciesFolder, owner);
-    loadPackiDirDependency(packiDependenciesFolder, {}, function(err, data) {
+function loadTFolders(tFoldersFolder, owner, callback) {
+    console.log('loadTFolders', tFoldersFolder, owner);
+    loadPackiDirTFolder(tFoldersFolder, {}, function(err, data) {
         if (err) { return callback(err); }
-        // console.log(packiDependenciesFolder, data);
-        var packiDependencies = [];
+        // console.log(tFoldersFolder, data);
+        var tFolders = [];
         var j = 0;
         (function next() {
             var packiDepPaths = data[j++];
             if (!packiDepPaths) {
-                console.log('packiDependencies', packiDependencies.length);
-                return callback(null, packiDependencies);
+                console.log('tFolders', tFolders.length);
+                return callback(null, tFolders);
             }
             const packiDependency = {
                 owner: owner,
@@ -219,8 +219,8 @@ function loadPackiDependencies(packiDependenciesFolder, owner, callback) {
             };
             loadDirContents(packiDepPaths.packiFilesPath, function(err, filesData) {
                 if (err) { return callback(err); }
-                packiDependency.packiFiles = /*JSON.stringify(*/dataToPackiFiles(filesData, packiDependenciesFolder, true)/*)*/;
-                packiDependencies.push(packiDependency)
+                packiDependency.packiFiles = /*JSON.stringify(*/dataToPackiFiles(filesData, tFoldersFolder, true)/*)*/;
+                tFolders.push(packiDependency)
                 next();
             });
         })()
@@ -244,33 +244,19 @@ function normalizePath(filePath) {
     return filePath && filePath.replace(/\\/g, '/');
 }
 
-const packiDependenciesFolder = path.join(__dirname, 'data/packiDependencies');
-/*
-loadPackiDependencies(packiDependenciesFolder, 'stfnbssl', function(err, result) {
-    fs.writeFile('json/packiDependencies.json', JSON.stringify(result, null, 2), function (err) {
-        if (err) return console.log(err);
-      });
-});
-*/
-
-const packiItemsFolder = path.join(__dirname, 'data/packiItems');
-/*
-loadPackiItems(packiItemsFolder, 'stfnbssl', function(err, result) {
-    fs.writeFile('json/packiItems.json', JSON.stringify(result, null, 2), function (err) {
-        if (err) return console.log(err);
-      });
-});
-*/
-
+const tFoldersFolder = path.join(__dirname, 'data', 'tFolders');
+const jsonTFolders = path.join(__dirname, 'json', 'tFolders.json');
+const artifactProductionsFolder = path.join(__dirname, 'data', 'artifactProductions');
+const jsonArtifactProductions = path.join(__dirname, 'json', 'artifactProductions.json');
 module.exports = {
     exec: function(callback) {
-        loadPackiDependencies(packiDependenciesFolder, 'stfnbssl', function(err, result) {
+        loadTFolders(tFoldersFolder, 'stfnbssl', function(err, result) {
             if (err) return callback(err);
-            fs.writeFile('json/packiDependencies.json', JSON.stringify(result, null, 2), function (err) {
+            fs.writeFile(jsonTFolders, JSON.stringify(result, null, 2), function (err) {
                 if (err) return callback(err);
-                loadPackiItems(packiItemsFolder, 'stfnbssl', function(err, result) {
+                loadArtifactProductions(artifactProductionsFolder, 'stfnbssl', function(err, result) {
                     if (err) return callback(err);
-                    fs.writeFile('json/packiItems.json', JSON.stringify(result, null, 2), function (err) {
+                    fs.writeFile(jsonArtifactProductions, JSON.stringify(result, null, 2), function (err) {
                         if (err) return callback(err);
                         callback(null);
                     });
@@ -281,5 +267,7 @@ module.exports = {
 }
 
 if (require.main === module) {
-    module.exports.exec();
+    module.exports.exec(function(err, result){
+        console.log(err);
+    });
 }

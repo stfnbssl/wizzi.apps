@@ -31,7 +31,7 @@ module
             const myname = 'features/packi/controllers/productions'
         
         _ this.router.post(`/mtree/:id`, this.mTree)
-        _ this.router.post(`/mtreedebuginfo/:id`, this.mTreeDebugInfo)
+        _ this.router.post(`/mtreescript/:id`, this.mTreeBuildupScript)
         _ this.router.post(`/artifact/:id`, this.generateArtifact)
         _ this.router.post(`/transform/:id/:transformer`, this.transformModel)
         _ this.router.post(`/job`, this.executeJob)
@@ -65,31 +65,31 @@ module
                                                 @ mTreeIttf value
                                 catch_fail( features.packi.controllers.productions.mTree )
 
-            handler( mTreeDebugInfo )
+            handler( mTreeBuildupScript )
                 const id = request.params.id
                 const req_files
                     :ref PackiFiles
                     = request.body
-                # loog myname, 'mTreeDebugInfo.received files', Object.keys(req_files)
+                # loog myname, 'mTreeBuildupScript.received files', Object.keys(req_files)
                 _ artifactApi.prepareGenerationFromWizziJson
                     @ req_files
                     ._ then
                         =>
                             param result
                                 :any
-                            _ wizziProds.mTreeDebugInfo
+                            _ wizziProds.mTreeBuildupScript
                                 @ id
                                 @ result.packiFiles
                                 @ result.context
                                 ._ then
                                     =>
                                         param value
-                                        # loog myname, 'mTreeDebugInfo.result', value
+                                        # loog myname, 'mTreeBuildupScript.result', value
                                         _ sendSuccess
                                             @ response
                                             {
-                                                @ mTreeBuildUpScript value
-                                catch_fail( features.packi.controllers.productions.mTreeDebugInfo )
+                                                @ mTreeBuildupScript value
+                                catch_fail( features.packi.controllers.productions.mTreeBuildupScript )
             
             handler( generateArtifact )
                 const id = request.params.id

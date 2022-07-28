@@ -128,7 +128,7 @@ $group
                         try
                             const documentState
                                 await
-                                    _ wizziProds.scanIttfDocument(filePath, path.dirname(basePath))
+                                    _ wizziProds.scanIttfDocumentFs(filePath, path.dirname(basePath))
                             const generated
                                 await
                                     _ wizziProds.generateArtifactFs

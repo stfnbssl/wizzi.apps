@@ -21,7 +21,7 @@ $group
                                 => 
                                     param ap
                                         :any
-                                    _ wizziProds.mTreeDebugInfo
+                                    _ wizziProds.mTreeBuildupScript
                                         @ ap.mainIttf
                                         @ ap.packiFiles
                                         @ rootContext
@@ -29,11 +29,11 @@ $group
                                             => 
                                                 param result
                                                     :any
-                                                # loog 'getArtifactMTreeBuildupScript', productionName, result.mTreeBuildUpScript
+                                                # loog 'getArtifactMTreeBuildupScript', productionName, result.mTreeBuildupScript
                                                 const response
                                                     { 
-                                                        @ content result.mTreeBuildUpScript
-                                                        @ contentLength result.mTreeBuildUpScript.length
+                                                        @ content result.mTreeBuildupScript
+                                                        @ contentLength result.mTreeBuildupScript.length
                                                         @ contentType contentTypeFor('x.ittf.ittf')
                                                 return resolve(response)
                                         catch_reject( getArtifactMTreeBuildupScript.mTree )
@@ -70,7 +70,7 @@ $group
                                 => 
                                     param productionObj
                                         :any
-                                    _ wizziProds.mTreeDebugInfo
+                                    _ wizziProds.mTreeBuildupScript
                                         @ productionObj.mainIttf
                                         @ productionObj.packiFiles
                                         @ productionObj.context
@@ -78,11 +78,11 @@ $group
                                             => 
                                                 param result
                                                     :any
-                                                # loog 'getArtifactMTreeBuildupScript', productionName, result.mTreeBuildUpScript
+                                                # loog 'getArtifactMTreeBuildupScript', productionName, result.mTreeBuildupScript
                                                 const response
                                                     { 
-                                                        @ content result.mTreeBuildUpScript
-                                                        @ contentLength result.mTreeBuildUpScript.length
+                                                        @ content result.mTreeBuildupScript
+                                                        @ contentLength result.mTreeBuildupScript.length
                                                         @ contentType contentTypeFor('x.ittf.ittf')
                                                 return resolve(response)
                                         catch_reject( getArtifactMTreeBuildupScript.mTree )

@@ -41,28 +41,65 @@ module
                     :string
     +
     export
+        :type IttfDocumentSource
+            :union
+                :literal 'fs'
+                :literal 'packi'
+                :literal 'db'
+                :literal 'text'
+    +
+    export
+        :type ContextSource
+            :union
+                :literal 'json-fsIttf'
+                :literal 'json-packiIttf'
+                :literal 'json-dbIttf'
+                :literal 'json-fsFile'
+                :literal 'json-value'
+                :literal 'model-fsIttf'
+                :literal 'model-packiIttf'
+                :literal 'model-dbIttf'
+    +
+    export
         :type MetaIttfDocument
             :{
-                :p sourceType
-                    :string
-                :p sourcePath
+                :p source
+                    :ref IttfDocumentSource
+                :p path
                     :string
                     :optional
-                :p sourceFiles
+                :p mainIttf
+                    :string
+                    :optional
+                :p rootFolder
+                    :string
+                    :optional
+                :p packiFiles
                     :ref packiTypes.PackiFiles
                     :optional
+                :p wizziSchema
+                    :string
+                    :optional
+                :p text
+                    :string
+                    :optional
+
     +
     export
         :type MetaContext
             :{
                 :p name
                     :string
-                :p type
-                    :string
-                :p sourcePath
+                    :optional
+                :p source
+                    :ref ContextSource
+                :p path
                     :string
                     :optional
-                :p sourceFiles
+                :p mainIttf
+                    :string
+                    :optional
+                :p packiFiles
                     :ref packiTypes.PackiFiles
                     :optional
                 :p value
@@ -72,7 +109,7 @@ module
     export
         :type ArtifactRequest
             :{
-                :p mainIttf
+                :p ittfDocument
                     :ref MetaIttfDocument
                 :p contextItems
                     :[

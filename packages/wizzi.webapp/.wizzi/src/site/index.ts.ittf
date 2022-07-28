@@ -11,6 +11,9 @@ module
             import
                 @ ProductionsController
                 from './controllers/productions'
+            import
+                @ DocsController
+                from './controllers/docs'
             $*
             import
                 @ PackiController
@@ -20,4 +23,5 @@ module
         $append controllers
             @ new HomeController()
             @ new ProductionsController()
+            @ new DocsController()
             $$ @ new PackiController()

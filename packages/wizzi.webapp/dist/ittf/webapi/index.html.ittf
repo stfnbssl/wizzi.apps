@@ -10,7 +10,7 @@ html
 			api._id = api.method + _.replace(_.replace(api.url, ':', '_'), '/', '_');
 		}
 
-    site/layouts/basic( &opt )
+    html/layouts/site( &opt )
 
         $append head-styles-2
             css ./styles.css.ittf
@@ -37,7 +37,7 @@ html
                                     d-control( ${p.type},
                                         \b param_${ api._id + '_' + p.name },
                                         \b ${p.label},
-                                        \b ${p.demoValue}
+                                        \b ${_.replace(p.demoValue, ',', '$')}
 
                         . d-buttons
                             button Exec
@@ -46,7 +46,8 @@ html
             . d-right-aside
                 . container
                     pre
-                        id output
+                        code
+                            id output
 
         $append body-scripts
             js ./main.js.ittf
@@ -79,7 +80,11 @@ html
                                         $if p.paramType == 'url'
                                             set url = url.replaceAll(':${p.name}', encodeURIComponent(param_${p.name}))
                                         $else
-                                            set payload['${p.name}'] = param_${p.name}
+                                            $if p.type == 'object'
+                                                log 'JSON.parse(param_${p.name})', param_${p.name}
+                                                set payload['${p.name}'] = JSON.parse(param_${p.name})
+                                            $else
+                                                set payload['${p.name}'] = param_${p.name}
                                     _ exec_with_payload
                                         @ '${api.method}'
                                         @ url
@@ -109,7 +114,7 @@ html
                                 =>
                                     param json
                                     set output.className = 'container'
-                                    set output.innerHTML = JSON.stringify(json, null, 2)
+                                    set output.innerHTML = wz.escapeHtml(JSON.stringify(json, null, 2))
                                     log 'exec_.response.json', json
                                     $*
                                     if getApiId === "/api/studio/document" || getApiId === "/api/studio/fragment"
@@ -136,7 +141,7 @@ html
                                 { headers
                                     @ 'Accept' 'application/json'
                                     @ 'Content-Type' 'application/json'
-                                @ body JSON.stringify(payload )
+                                @ body JSON.stringify(payload)
                             ._ then
                                 =>
                                     param response
@@ -146,7 +151,7 @@ html
                                     param json
                                     log 'exec_with_payload.response.json', json
                                     set output.className = 'container'
-                                    set output.innerHTML = JSON.stringify(json.data, null, 2)
+                                    set output.innerHTML = wz.escapeHtml(JSON.stringify(json, null, 2))
                             ._ catch
                                 function 
                                     param err

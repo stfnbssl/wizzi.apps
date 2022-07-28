@@ -40,4 +40,7 @@ module
         return
             < StyledRoot
                 @ id {id}
+                @ type {type}
+                @ variant {variant}
+                @ onClick {onClick}
                 + {label}

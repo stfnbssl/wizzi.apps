@@ -23,7 +23,7 @@ html
             ]
         }
 
-    site/layouts/basic( &opt )
+    html/layouts/site( &opt )
 
 		$append head-styles-2
 			html/css_wz( ./index.css )

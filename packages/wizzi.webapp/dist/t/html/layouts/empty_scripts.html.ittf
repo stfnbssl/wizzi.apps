@@ -49,6 +49,9 @@ $group
         $else
             j( https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.2/ace.js
 
+	$if opt.useBootstrap
+		j( /static/lib/bootstrap/dist/js/bootstrap.min.js
+    
     $if opt.useEventEmitter
         j( https://unpkg.com/eventemitter3@latest/umd/eventemitter3.min.js
 
@@ -74,7 +77,8 @@ $group
 
     $if opt.useHighlight
         $if isWizziStudio
-            j( /static/lib/highlight/highlight.pack.js
+            j( https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js
+            $$ j( /static/lib/highlight/highlight.pack.js
         $else	   
             j( https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js
 
@@ -92,7 +96,7 @@ $group
             j( /static/lib/jarallax/jarallax-video.js
             j( /static/lib/jarallax/jarallax-element.js
 
-    $if opt.useJQuery
+    $if opt.useJQuery || opt.useBootstrap
         $if opt.production
             j( /static/lib/jquery/jquery.min.js
         $else
@@ -104,6 +108,10 @@ $group
         $else	     
             j( https://cdn.jsdelivr.net/npm/json-formatter-js@2.2.1/dist/json-formatter.min.js
 
+	$if opt.useJss
+        js /static/lib/jss/jss.js
+		js /static/lib/jss/jss-preset-default.js
+
     $if opt.useMarkdown
         j( https://cdn.jsdelivr.net/npm/marked/marked.min.js
 
@@ -112,6 +120,15 @@ $group
 
     $if opt.usePopper
         j( /static/lib/popper/popper.js
+
+	$if opt.usePrism
+		$if isWizziStudio
+		    js /static/lib/prism/prism.js
+		$else
+            js https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js		
+
+    $if opt.usePubSub
+        js /static/lib/pubsub/pubsub.js
 
     $if useReact
         $if opt.production
@@ -192,6 +209,9 @@ $group
         
     $if opt.useScrollReveal
         j( /static/lib/scrollreveal/scrollreveal.js
+
+	$if opt.useSplit
+		js /static/lib/controls/split.js
 	
     $if opt.useSweetalert
 	    j( https://cdn.jsdelivr.net/npm/sweetalert2@7.31.1/dist/sweetalert2.all.min.js
@@ -234,3 +254,5 @@ $group
                 type text/babel         
         $else
             js ${opt.mainJs}
+
+

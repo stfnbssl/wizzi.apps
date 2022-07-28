@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\packi\controllers\productions.ts.ittf
-    utc time: Sat, 23 Jul 2022 04:18:23 GMT
+    utc time: Thu, 28 Jul 2022 09:18:21 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -26,7 +26,7 @@ export class ProductionsController implements ControllerType {
     initialize = (initValues: AppInitializerType) => {
         console.log('Entering ProductionsController.initialize', __filename);
         this.router.post(`/mtree/:id`, this.mTree);
-        this.router.post(`/mtreedebuginfo/:id`, this.mTreeDebugInfo);
+        this.router.post(`/mtreescript/:id`, this.mTreeBuildupScript);
         this.router.post(`/artifact/:id`, this.generateArtifact);
         this.router.post(`/transform/:id/:transformer`, this.transformModel);
         this.router.post(`/job`, this.executeJob);
@@ -62,8 +62,8 @@ export class ProductionsController implements ControllerType {
     }
     ;
     
-    private mTreeDebugInfo = 
-    // loog myname, 'mTreeDebugInfo.received files', Object.keys(req_files)
+    private mTreeBuildupScript = 
+    // loog myname, 'mTreeBuildupScript.received files', Object.keys(req_files)
     async (request: Request, response: Response) => {
     
         const isLoggedOn = request.session && (request.session as any).user;
@@ -72,16 +72,16 @@ export class ProductionsController implements ControllerType {
         const req_files: PackiFiles = request.body;
         artifactApi.prepareGenerationFromWizziJson(req_files).then((result: any) => 
         
-            wizziProds.mTreeDebugInfo(id, result.packiFiles, result.context).then(
-            // loog myname, 'mTreeDebugInfo.result', value
+            wizziProds.mTreeBuildupScript(id, result.packiFiles, result.context).then(
+            // loog myname, 'mTreeBuildupScript.result', value
             value => 
             
                 sendSuccess(response, {
-                    mTreeBuildUpScript: value
+                    mTreeBuildupScript: value
                  })
             ).catch((err: any) => {
             
-                console.log('features.packi.controllers.productions.mTreeDebugInfo.error', err, __filename);
+                console.log('features.packi.controllers.productions.mTreeBuildupScript.error', err, __filename);
                 sendFailure(response, {
                     err: err
                  }, 501)

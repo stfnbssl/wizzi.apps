@@ -3,6 +3,7 @@ module
         var md = {
             name: "FormHidden",
             props: [
+                { name: 'id', type: 'string'},
                 { name: 'name', type: 'string'},
                 { name: 'value', type: 'string'},
             ]

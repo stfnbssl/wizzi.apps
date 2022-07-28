@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdateArtifactProduction.tsx.ittf
-    utc time: Fri, 22 Jul 2022 13:18:43 GMT
+    utc time: Mon, 25 Jul 2022 18:06:15 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -82,7 +82,7 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
         const {
             owner
          } = this.props.data;
-        const ap_name_new_checked = this.state.ap_name_new;
+        const ap_name_new_checked = this.state.ap_name_new_name;
         const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/artifact/checkname/${encodeURIComponent(owner)}/${encodeURIComponent(ap_name_new_checked)}`;
         console.log('CreateArtifact._checkAvalibleArtifactName.endpoint', endpoint, __filename);
         const response = await fetch(endpoint);
@@ -92,8 +92,8 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
         const result = await response.json();
         console.log('CreateArtifact._checkAvalibleArtifactName.result', result, __filename);
         this.setState({
-            ap_name_new_available: result.isValid, 
-            ap_name_new_checked: ap_name_new_checked
+            ap_name_new_name_available: result.isValid, 
+            ap_name_new_name_checked: ap_name_new_checked
          })
     }
     

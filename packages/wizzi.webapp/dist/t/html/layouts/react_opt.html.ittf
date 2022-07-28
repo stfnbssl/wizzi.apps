@@ -220,5 +220,19 @@
 							_ document.getElementById
 								@ 'root'
 
-		$hook scripts-2		
+        $if opt.useHighlight
+            script
+                _ document.addEventListener
+                    @ 'DOMContentLoaded'
+                    => 
+                        param event
+                        _ document.querySelectorAll
+                            @ 'pre .hljs'
+                            $$ @ 'pre code'
+                            ._ forEach
+                                =>
+                                    param block
+                                    _ hljs.highlightElement(block)                                                            
+		
+        $hook scripts-2		
 

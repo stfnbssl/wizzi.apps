@@ -79,6 +79,7 @@ $group
 		./empty_styles( &opt )
 		$hook head-styles
 		$hook head-styles-2
+        $hook head-styles-3
 
     body 
 
@@ -93,6 +94,22 @@ $group
 		./empty_scripts( &opt )
 		$hook body-scripts
 		$hook body-scripts-2
+        $hook body-scripts-3
 		$include html/scripts/meta
+
+        $if opt.useHighlight
+            script
+                _ document.addEventListener
+                    @ 'DOMContentLoaded'
+                    => 
+                        param event
+                        _ document.querySelectorAll
+                            @ 'pre .hljs'
+                            $$ @ 'pre code'
+                            ._ forEach
+                                =>
+                                    param block
+                                    _ hljs.highlightBlock(block)                                                            
+
 
 

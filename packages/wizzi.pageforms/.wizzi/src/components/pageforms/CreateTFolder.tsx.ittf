@@ -35,7 +35,7 @@ module
         p formRef 
             = React.createRef()
         +
-        check_name_create( tFolder )
+        check_name_create( tFolder, tf  )
         $*
         m _checkAvalibleTFolderName
             async

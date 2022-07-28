@@ -18,6 +18,9 @@ module
             as appConfig
         from '../config'
     import
+        as wizziMaps
+        from './maps'
+    import
         @ JsonWizziFactory
         @ FilesystemWizziFactory
         from './types'
@@ -122,7 +125,7 @@ module
                             {
                                 @ path filePath
                                 @ content files[value].contents
-                        const pluginList = pluginsFor(filePath)
+                        const pluginList = wizziMaps.pluginsFor(filePath)
                         _ pluginList.forEach
                             =>
                                 param item
@@ -244,57 +247,6 @@ module
                                                                         :string
                                                             @ generated true
                                         _ resolve(files)
-    +
-    const schemaPluginMap
-        :{
-            :index
-                :[
-                    :string
-                param k
-                    :string
-        =
-            {
-                [ json
-                    @ 'wizzi-core'
-                [ text
-                    @ 'wizzi-core'
-                [ xml
-                    @ 'wizzi-core'
-                [ ittf
-                    @ 'wizzi-core'
-                [ wfjob
-                    @ 'wizzi-core'
-                [ wfschema
-                    @ 'wizzi-core'
-                [ js
-                    @ 'wizzi-js'
-                [ ts
-                    @ 'wizzi-js'
-                [ html
-                    @ 'wizzi-web'
-                    @ 'wizzi-js'
-                    @ 'wizzi-core'
-                [ css
-                    @ 'wizzi-web'
-                [ scss
-                    @ 'wizzi-web'
-                [ graphql
-                    @ 'wizzi-web'
-                [ vml
-                    @ 'wizzi-web'
-                [ vue
-                    @ 'wizzi-web'
-    +
-    function pluginsFor
-        param file
-            :string
-        :return
-            :[
-                :string
-        const nameParts = path.basename(file).split('.')
-        if nameParts[nameParts.length - 1] === 'ittf'
-            return schemaPluginMap[nameParts[nameParts.length - 2]] || []
-        return []
     +
     export
         function ensurePackiFilePrefix

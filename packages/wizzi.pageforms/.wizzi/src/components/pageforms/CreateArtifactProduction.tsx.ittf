@@ -36,7 +36,7 @@ module
         p formRef 
             = React.createRef()
         +
-        check_name_create( artifact )
+        check_name_create( artifact, ap )
         $*
         m _checkAvalibleArtifactName
             async
@@ -99,10 +99,13 @@ module
                 :ref React.MouseEvent
                     :param 
                         :ref HTMLElement
-            _ ev.preventDefault();
-            if this.state.ap_name_available
-                _ this.formRef.dispatchEvent(new Event('submit'))
-        
+            
+            log 'handleSubmitCreate', this.state.ap_name_available
+            if !this.state.ap_name_available
+                _ ev.preventDefault();
+                # _ this.formRef.dispatchEvent(new Event('submit'))
+                log 'handleSubmitCreate not dispatched'
+
         +
         m render
             log 'CreateArtifactProduction.render', 'state', this.state

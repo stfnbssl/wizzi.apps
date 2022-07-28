@@ -65,7 +65,7 @@ module
                     @ loading false
                     @ jobError undefined
                     @ generatedArtifact undefined
-                    @ mTreeBuildUpScript undefined
+                    @ mTreeBuildupScript undefined
                     @ mTreeIttf undefined
                     { jobGeneratedArtifacts
                     { timedServices

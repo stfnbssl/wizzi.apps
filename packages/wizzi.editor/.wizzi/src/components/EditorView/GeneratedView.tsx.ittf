@@ -30,7 +30,7 @@ module
         :union 
             :literal 'generated'
             :literal 'mtreeIttf'
-            :literal 'mTreeDebugInfo'
+            :literal 'mTreeBuildupScript'
             :literal 'browser'
     :type Props
         :{ 
@@ -41,7 +41,7 @@ module
             :p generatedSourcePath
                 :string 
                 :optional
-            :p mTreeBuildUpScript
+            :p mTreeBuildupScript
                 :string 
                 :optional
             :p mTreeIttf
@@ -93,7 +93,7 @@ module
                 _ this.props.onMTreeDebugInfoPreview
                 _ this.setState
                     { 
-                        @ view 'mTreeDebugInfo'
+                        @ view 'mTreeBuildupScript'
         p _handleBrowser
             => 
                 _ this.setState
@@ -144,13 +144,13 @@ module
                                     @ lineNumbers {true}
                     { 
                         && 
-                            + view === 'mTreeDebugInfo'
+                            + view === 'mTreeBuildupScript'
                             div 
                                 @ className {classes.editor}
                                 < SyntaxHighlighter 
                                     @ className {classes.syntaxHigh}
-                                    @ code {this.props.mTreeBuildUpScript || ''}
-                                    @ filePath {'mTreeBuildUpScript.js'}
+                                    @ code {this.props.mTreeBuildupScript || ''}
+                                    @ filePath {'mTreeBuildupScript.js'}
                                     @ lineNumbers {true}
                     { 
                         && 

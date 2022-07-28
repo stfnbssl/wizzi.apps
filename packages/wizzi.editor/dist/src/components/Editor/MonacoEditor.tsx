@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Editor\MonacoEditor.tsx.ittf
-    utc time: Sat, 23 Jul 2022 13:15:35 GMT
+    utc time: Sun, 24 Jul 2022 11:56:37 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import classnames from 'classnames';
@@ -40,6 +40,9 @@ SimpleEditorModelResolverService.prototype.findModel = function(_: any, resource
 }
 ;
 
+
+// @ts-ignore
+global.MonacoEnvironment = { getWorkerUrl(moduleId: string, label: string) { switch (label) { case 'json': { return '/static/packi/json.worker.bundle.js'; } case 'html': { return '/static/packi/html.worker.bundle.js'; } case 'css': case 'scss': case 'less': { return '/static/packi/css.worker.bundle.js'; } case 'typescript': case 'javascript': { return '/static/packi/ts.worker.bundle.js'; } default: { return '/static/packi/editor.worker.bundle.js'; } } }   }; 
 monaco.languages.register({
     id: 'ittf'
  })

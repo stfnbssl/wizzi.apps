@@ -401,7 +401,7 @@ module
                         @ loggedUser
                         @ onExecuteWizziJob
                         @ generatedArtifact
-                        @ mTreeBuildUpScript
+                        @ mTreeBuildupScript
                         @ mTreeIttf
                         @ jobError
                         @ isWizziJobWaiting

@@ -9,7 +9,7 @@ html
         }
         var ca = 'm-s font-x font-w-s';
 
-    site/layouts/basic( &opt )
+    html/layouts/site( &opt )
         $append head-styles-2
             style
                 . t-grid 

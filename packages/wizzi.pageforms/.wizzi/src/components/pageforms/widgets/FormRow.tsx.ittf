@@ -80,20 +80,24 @@ module
                     @ [ev.target.name] (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
 
         => handleContextAdd
+            param ev
             _ this.props.onAdd
                 {
                     @ name this.state.name
             _ this.setState
                 { 
                     @ name ''
+            _ ev.stopPropagation
         
         => handleContextDelete
+            param ev
             _ this.props.onDelete
                 {
                     @ name this.state.name
             _ this.setState
                 { 
                     @ name ''
+            _ ev.stopPropagation
 
         m render 
             log 'FormRow.state', this.state, 'props', this.props
@@ -110,6 +114,7 @@ module
                         &&
                             + this.props.type == 'add'
                             < StyledButton
+                                @ type 'button'
                                 @ onClick {this.handleContextAdd}
                                 < AddIcon
                                     @ theme {'light'}
@@ -119,6 +124,7 @@ module
                         &&
                             + this.props.type == 'delete'
                             < StyledButton
+                                @ type 'button'
                                 @ onClick {this.handleContextDelete}
                                 < DeleteIcon
                                     @ theme {'light'}

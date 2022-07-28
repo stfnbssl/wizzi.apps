@@ -1,0 +1,42 @@
+$group
+
+    $if opt.Build.useGoogleFonts
+        $foreach item in opt.Build.googleFonts
+            css https://fonts.googleapis.com/css2?family=${item.name}:wght@${item.weights.join(';')}&display=swap
+
+    $if opt.Build.useBootstrap
+        css https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css
+	
+	$if opt.Build.useCodemirror
+        css /static/lib/codemirror/lib/codemirror.css
+		css /static/lib/codemirror/addon/display/fullscreen.css
+
+    $if opt.Build.useFontAwesome
+        $ 
+            var fontAwesomeKey = 'eab461efef';
+        script
+            src https://kit.fontawesome.com/${fontAwesomeKey}.js
+            crossorigin anonymous
+
+    $if opt.Build.useHighlight
+        $*
+        link 
+            rel stylesheet
+            href https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css
+        *$
+        css /static/lib/highlightjs-master/dracula.css
+
+	$if opt.Build.usePrism
+	    $if isWizziStudio
+		    css /static/lib/prism/prism.css
+		$else
+		    css https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css
+
+    $if opt.Build.useReact
+        css https://fonts.googleapis.com/icon?family=Material+Icons
+
+    $if opt.Build.useTailwind
+		css /ittf/styles/tailwind.css
+
+    $if opt.Build.mainCss && opt.Build.mainCss.length > 0
+        css ${opt.Build.mainCss}

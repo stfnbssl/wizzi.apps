@@ -2,10 +2,12 @@ html
 
     $
         var opt = {
-            /* TODO For ittf(s) documents, user SHOULD BE set in the global Artifact Generation Context */
             section: 'Project',
+            stickyNav: 'stickyNavbar',
+            stickyNavOffset: 50,
         }
-        var ca = 'm-s color-header font-x font-w-s';
+        var ca = 'm-s font-x font-w-s';
+        var clazz = 'm-s color-header font-x font-w-s';
         var sb = {
             groups: [
                 { title: 'Day to day topics', items: [
@@ -14,28 +16,37 @@ html
                 ]}, 
             ]
         }
+        
 
+    html/layouts/site( &opt )
+    
+        . flex-row space-between m-t-xxl width-full
+            id stickyNavbar
+            . flex-row justify-center m-0-auto
+                html/a( TODOS, /ittf/site/project/todo.html.ittf, ${ca}
+                html/a( Issues, /ittf/site/project/issues.html.ittf, ${ca}
 
-    site/layouts/basic( &opt )
-
-        . flex-column
-            ul
-                $foreach group in sb.groups
-                    li
-                        class mt-8
-                        h5
-                            class px-3 mb-3 lg:mb-3 uppercase tracking-wide font-semibold text-sm lg:text-xs text-gray-900
-                            + ${group.title}
+        . container-70 
+            . flex-column space-between $$ bg-color-header color-header
+                . m-l-150 m-r-150 font-x font-w-s
+                    . flex-column
                         ul
-                            $foreach item in group.items
+                            $foreach group in sb.groups
                                 li
-                                    a
-                                        class px-3 py-2 transition-colors duration-200 relative block hover:text-gray-900 text-gray-500
-                                        href ${item.href}
-                                        span
-                                            class rounded-md absolute inset-0 bg-cyan-50 opacity-0
-                                        span
-                                            class relative
-                                            + ${item.title}        
+                                    class mt-8
+                                    h5
+                                        class px-3 mb-3 lg:mb-3 uppercase tracking-wide font-semibold text-sm lg:text-xs text-gray-900
+                                        + ${group.title}
+                                    ul
+                                        $foreach item in group.items
+                                            li
+                                                a
+                                                    class px-3 py-2 transition-colors duration-200 relative block hover:text-gray-900 text-gray-500
+                                                    href ${item.href}
+                                                    span
+                                                        class rounded-md absolute inset-0 bg-cyan-50 opacity-0
+                                                    span
+                                                        class relative
+                                                        + ${item.title}        
 
 

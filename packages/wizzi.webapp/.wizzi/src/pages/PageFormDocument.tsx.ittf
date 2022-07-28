@@ -123,7 +123,7 @@ module
                             div
                                 @ className flex-row
                                 a( Starter, /ittf/site/starter.html.ittf, ${ca}
-                                a( Playground, /ittf/site/playground.html.ittf, ${ca}
+                                a( Lab, /ittf/site/lab.html.ittf, ${ca}
                                 a( Project, /ittf/site/project.html.ittf, ${ca}
                             div
                                 @ className flex-row

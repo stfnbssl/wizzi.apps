@@ -21,6 +21,7 @@ module
         from '../features/config'
     import
         @ sendFailure
+        @ sendHtml
         from '../utils/sendResponse'
     +
     const myname = 'express.middleware.packiBrowse'
@@ -37,6 +38,15 @@ module
                     _ app.use(packiUserBrowsePath, packiUserBrowseMiddleware())
                     _ app.use(packiSiteBrowsePath, packiSiteBrowseMiddleware())
     
+    function getPackiBrowseContext
+        param request
+            :ref Request
+        return
+            {
+                @ isWizziStudio false
+                { locals
+                    @ user (request.session as any).user                    
+
     function packiUserBrowseMiddleware
         :return
             :ref RequestHandler
@@ -111,7 +121,8 @@ module
                 @ owner
                 @ productionName
                 @ request.query.context as string
-                {
+                _ getPackiBrowseContext
+                    @ request
                 ._ then
                     => 
                         param result
@@ -124,13 +135,14 @@ module
                         _ response.set('Expires', '-1')
                         _ response.set('Pragma', 'no-cache')
                         _ response.send(result.content)
-                catch_fail( _executeBrowse.artifactApi.getArtifactMTree )
+                catch_fail_html( _executeBrowse.artifactApi.getArtifactMTree )
         elif request.query.meta && (request.query.meta as string).toLowerCase() == 'script'
             _ artifactApi.getArtifactMTreeBuildupScript_withPrepare
                 @ owner
                 @ productionName
                 @ request.query.context as string
-                {
+                _ getPackiBrowseContext
+                    @ request
                 ._ then
                     => 
                         param result
@@ -143,13 +155,14 @@ module
                         _ response.set('Expires', '-1')
                         _ response.set('Pragma', 'no-cache')
                         _ response.send(result.content)
-                catch_fail( _executeBrowse.artifactApi.getArtifactMTree )
+                catch_fail_html( _executeBrowse.artifactApi.getArtifactMTree )
         elif request.query.meta && (request.query.meta as string).toLowerCase() == 'raw'
             _ artifactApi.getArtifactGeneration_withPrepare
                 @ owner
                 @ productionName
                 @ request.query.context as string
-                {
+                _ getPackiBrowseContext
+                    @ request
                 ._ then
                     => 
                         param result
@@ -162,13 +175,14 @@ module
                         _ response.set('Expires', '-1')
                         _ response.set('Pragma', 'no-cache')
                         _ response.send(result.content)
-                catch_fail( _executeBrowse.artifactApi.getArtifactGeneration )
+                catch_fail_html( _executeBrowse.artifactApi.getArtifactGeneration )
         else
             _ artifactApi.getArtifactGeneration_withPrepare
                 @ owner
                 @ productionName
                 @ request.query.context as string
-                {
+                _ getPackiBrowseContext
+                    @ request
                 ._ then
                     => 
                         param result
@@ -181,7 +195,7 @@ module
                         _ response.set('Expires', '-1')
                         _ response.set('Pragma', 'no-cache')
                         _ response.send(result.content)
-                catch_fail( _executeBrowse.artifactApi.getArtifactGeneration )
+                catch_fail_html( _executeBrowse.artifactApi.getArtifactGeneration )
 
     function _executeBrowse_old
         param owner

@@ -26,7 +26,7 @@ $group
                                         @ action 'wizzi.productions.inferAndLoadContextJson'
                                         @ message 'files parameter must be an object of type PackiFiles'
                                         @ files
-                        const pf = parseFilePath(filePath)
+                        const pf = wizziMaps.parseFilePath(filePath)
                         if pf.isIttfDocument && pf.schema !== 'json'
                             var twinJsonBaseName = pf.seedname + '.json.ittf'
                             # loog 'features.wizzi.productions.inferAndLoadContextJson.twinJsonBaseName', twinJsonBaseName
@@ -72,7 +72,7 @@ $group
                     =>
                         param resolve
                         param reject
-                        const pf = parseFilePath(filePath)
+                        const pf = wizziMaps.parseFilePath(filePath)
                         if pf.isIttfDocument && pf.schema !== 'json'
                             var twinJsonPath = path.join(path.dirname(filePath), pf.seedname + '.json.ittf')
                             if fs.existsSync(twinJsonPath)

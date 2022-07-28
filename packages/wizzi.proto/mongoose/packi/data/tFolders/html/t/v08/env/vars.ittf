@@ -1,0 +1,15 @@
+$group
+    
+	$
+		var stfnbssl_env = {
+			sessionSecret: "axr45hngmuoil9********0ofgt*kjj6767648%$£3f5&/4bnsa-----qq4)$35670qq4q",
+			mongoDbPsw: "x5csosPN5YAsrl4Z",
+			auth0PackiClientId: "gPb1dqyNzRHfJgNVawKxPFP65LuNcUI8", 
+			auth0PackiClientSecret: "-DVUr9qiz5hivZUmfiJtFDEV-zylvAem8P-X0OH8zwlry06rZNCIDUTF7s9sgWNm",
+			auth0PackiBackendId: "awRaG0ilBVlaHQ2xK5JgehLjkBzLNthp", 
+			auth0PackiBackendSecret: "1iDRuv92BtmZA521Od3BIU923cDL-EsoSNNTAUJkGfrpNmEDr85I_lsWqZAe5UNG",
+			githubClientId: "6a42cd4cb7247bb4e823", 
+			githubClientSecret: "dedced0ac262cae62557e4c3f567a6227b17bfb7",
+			googleClientId: "676985835415-5lo6b334003o4uv96rl4ese9sngla78r.apps.googleusercontent.com", 
+			googleClientSecret: "0ZHGXB6gPh-S1mRFBu7zY2KV",
+		}

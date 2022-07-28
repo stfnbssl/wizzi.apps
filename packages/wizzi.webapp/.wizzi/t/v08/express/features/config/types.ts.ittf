@@ -70,6 +70,8 @@ $group
                         :string
                     :p dataPath
                         :string
+                    :p fsPath
+                        :string
                     :p metaHtmlIttfPath
                         :string
                     :p metaFolderIttfPath

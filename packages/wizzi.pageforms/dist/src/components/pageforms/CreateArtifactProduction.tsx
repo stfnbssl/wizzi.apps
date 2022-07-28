@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateArtifactProduction.tsx.ittf
-    utc time: Fri, 22 Jul 2022 13:18:43 GMT
+    utc time: Mon, 25 Jul 2022 18:06:15 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -100,8 +100,8 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
         const result = await response.json();
         console.log('CreateArtifact._checkAvalibleArtifactName.result', result, __filename);
         this.setState({
-            ap_available: result.isValid, 
-            ap_checked: ap_checked
+            ap_name_available: result.isValid, 
+            ap_name_checked: ap_checked
          })
     }
     componentDidMount() {
@@ -170,9 +170,12 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
     };
     
     handleSubmitCreate = (ev: React.MouseEvent<HTMLElement>) => {
-        ev.preventDefault();
-        if (this.state.ap_name_available) {
-            this.formRef.dispatchEvent(new Event('submit'));
+        console.log('handleSubmitCreate', this.state.ap_name_available, __filename);
+        
+        // _ this.formRef.dispatchEvent(new Event('submit'))
+        if (!this.state.ap_name_available) {
+            ev.preventDefault();
+            console.log('handleSubmitCreate not dispatched', __filename);
         }
     };
     
@@ -254,6 +257,8 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
                      />
                     <HR
                      />
+                    <FormHidden
+                     id='ap_contexts' name='ap_contexts' value={JSON.stringify(this.state.ap_contexts)} />
                     <FormCheckBox 
                         label='Add a data context'
                         name='ap_add_context'
@@ -289,6 +294,8 @@ export class CreateArtifactProduction extends Component<CreateArtifactProduction
                     }
                     <HR
                      />
+                    <FormHidden
+                     id='ap_tfolders' name='ap_tfolders' value={JSON.stringify(this.state.ap_dependencies)} />
                     <FormCheckBox 
                         label='Add a tfolder dependency'
                         name='ap_add_tfolder'

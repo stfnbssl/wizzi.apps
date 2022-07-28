@@ -62,6 +62,8 @@ $group
                     @ ...wizziControllers
                 $if wzCtx.Build.useWizziIttf
                     @ ...ittfControllers
+                $if wzCtx.Build.useDocs
+                    @ ...docsControllers
         +
     log 'Starting app. Config:', config
     $if wzCtx.Build.useFilesystem

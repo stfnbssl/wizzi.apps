@@ -76,7 +76,7 @@ module
                 div
                     @ className flex-column width-full
                     div
-                        @ className flex-row align-items-start
+                        @ className flex-row align-items-start m-100
                         form 
                             class width-full
                             @ aria-label Artifact productions
@@ -167,6 +167,7 @@ module
                                                             a {item.name}
                                                                 href {'/~~/a/stfnbssl/' + item.name}
                                                                 title {item.description}
+                                                        $*
                                                         div
                                                             @ className flex-row 
                                                             div
@@ -181,4 +182,25 @@ module
                                                             div
                                                                 @ className font-m
                                                                 + {item.wizziSchema}
+                                                        *$
+                                                    div
+                                                        @ className font-m p-m
+                                                        a browse
+                                                            href {'/~/stfnbssl/' + item.name}
+                                                            title 'view generated in browser'
+                                                    div
+                                                        @ className font-m p-m
+                                                        a raw
+                                                            href {'/~/stfnbssl/' + item.name + '?meta=raw'}
+                                                            title 'view generated raw'
+                                                    div
+                                                        @ className font-m p-m
+                                                        a mtree
+                                                            href {'/~/stfnbssl/' + item.name + '?meta=mtree'}
+                                                            title 'view builded mTree'
+                                                    div
+                                                        @ className font-m p-m
+                                                        a script
+                                                            href {'/~/stfnbssl/' + item.name + '?meta=script'}
+                                                            title 'view mTree buildup script'
                                                     list_update_delete_icons( artifact )

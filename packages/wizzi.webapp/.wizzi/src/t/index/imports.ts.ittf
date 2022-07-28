@@ -66,6 +66,10 @@ $group
         import 
             @ ittfControllers
             from './features/ittf/index'
+    $if wzCtx.Build.useDocs
+        import 
+            @ docsControllers
+            from './features/docs/index'
     import
         @ appMiddlewaresPre
         @ appMiddlewaresPost

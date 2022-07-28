@@ -21,9 +21,11 @@ module
     import 
         @ PackiGeneratingController
         from './controllers/packiGenerating'
+    $*
     import 
         @ PackiAdminController
         from './controllers/packiAdmin'
+    *$
     import 
         @ PackiController
         from './controllers/packi'
@@ -60,7 +62,7 @@ module
             [ 
                 @ new PackiEditingController()
                 @ new PackiGeneratingController()
-                @ new PackiAdminController()
+                $$ @ new PackiAdminController()
                 @ new PackiController()
                 @ new ProductionsController()
                 @ new ProxyController()

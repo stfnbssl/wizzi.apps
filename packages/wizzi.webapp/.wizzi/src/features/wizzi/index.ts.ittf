@@ -13,17 +13,21 @@ module
         as wizziProds
         from './productions'
     import
-        @ ProductionsController
-        from './controllers/productions'
+        as wizziMaps
+        from './maps'
+    import
+        @ ProductionController
+        from './controllers/production'
     +
     const wizziControllers
         :[
             :ref ControllerType
         =
             [
-                @ new ProductionsController()
+                @ new ProductionController()
     export
         @ wizziTypes
         @ wizziProds
         @ WizziFactory
+        @ wizziMaps
         @ wizziControllers

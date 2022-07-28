@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\middlewares\ittfStatic.ts.ittf
-    utc time: Sat, 23 Jul 2022 04:18:23 GMT
+    utc time: Thu, 28 Jul 2022 09:18:21 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -115,10 +115,14 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
             }
             let ittfSchema = ittfSchemaOf(filePath);
             let contentType = contentTypeFor(filePath);
-            if (contentType) {
+            if (!contentType) {
+                next();
+            }
+            loadJsonIttfModel('sitectx.json.ittf').then(async (siteCtx) => {
+            
                 if (queryMeta && queryMeta === 'html') {
                     try {
-                        const documentState = await wizziProds.scanIttfDocument(filePath, path.dirname(basePath));
+                        const documentState = await wizziProds.scanIttfDocumentFs(filePath, path.dirname(basePath));
                         
                         // loog 'generated.meta.document', generated.artifactContent
                         const generated = await wizziProds.generateArtifactFs(config.metaHtmlIttfPath, {
@@ -128,7 +132,8 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                                 ds: documentState, 
                                 locals: {
                                     user: (request.session as any).user
-                                 }
+                                 }, 
+                                siteCtx
                              });
                         // loog 'generated.meta.document', generated.artifactContent
                         response.writeHead(200, {
@@ -147,7 +152,8 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                     wizziProds.generateArtifactFs(filePath, {
                         locals: {
                             user: (request.session as any).user
-                         }
+                         }, 
+                        siteCtx
                      }, {
                         generator: 'ittf/tojson'
                      }).then(
@@ -179,7 +185,8 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                             modelContext = Object.assign({}, modelContext, {
                                 locals: {
                                     user: (request.session as any).user
-                                 }
+                                 }, 
+                                siteCtx
                              })
                             ;
                             wizziProds.generateArtifactFs(filePath, modelContext).then(
@@ -202,9 +209,7 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                         });
                 }
             }
-            else {
-                next();
-            }
+            )
         }
     ;
 }
@@ -322,6 +327,7 @@ async function sendFolderScan(folderPath: string, root: string, meta: string, re
 
     try {
         const folderState = await wizziProds.scanIttfFolder(folderPath, path.dirname(root));
+        const siteCtx = await loadJsonIttfModel('sitectx.json.ittf');
         // loog 'sendFolderScan', 'folderState.keys', Object.keys(folderState)
         if (meta === 'json') {
             return sendJSONStringified(response, folderState);
@@ -335,7 +341,8 @@ async function sendFolderScan(folderPath: string, root: string, meta: string, re
                     fs: folderState, 
                     locals: {
                         user: (request.session as any).user
-                     }
+                     }, 
+                    siteCtx
                  });
             // loog 'generated.meta.document', generated.artifactContent
             response.writeHead(200, {
@@ -455,4 +462,20 @@ function sendError(response: Response, err: any, options: any) {
         code, 
         error: errEmit
      }, null, 4))
+}
+async function loadJsonIttfModel(relPath: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            wizziProds.loadModelFs(path.join(config.ittfPath, 'models', relPath), {}).then(
+            // log 'loadJsonIttfModel', model
+            model => 
+            
+                resolve(model)
+            ).catch(err => 
+            
+                reject(err)
+            )
+        
+        );
 }

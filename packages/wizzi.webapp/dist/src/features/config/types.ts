@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\config\types.ts.ittf
-    utc time: Sat, 23 Jul 2022 04:18:23 GMT
+    utc time: Thu, 28 Jul 2022 09:18:21 GMT
 */
 export type ConfigType = { 
     port: number;
@@ -35,6 +35,7 @@ export type ConfigType = {
     wizziBasePath: string;
     ittfPath: string;
     dataPath: string;
+    fsPath: string;
     metaHtmlIttfPath: string;
     metaFolderIttfPath: string;
     metaHtmlTextPath: string;

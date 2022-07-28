@@ -228,7 +228,7 @@ module
                                             @ userAgent {this.props.userAgent}
                                             @ verbose {this.state.verbose}
                                             @ generatedArtifact {this.props.generatedArtifact}
-                                            @ mTreeBuildUpScript {this.props.mTreeBuildUpScript}
+                                            @ mTreeBuildupScript {this.props.mTreeBuildupScript}
                                             @ mTreeIttf {this.props.mTreeIttf}
                                             @ isWizziJobWaiting {this.state.isWizziJobWaiting}
                                             @ jobError {this.state.jobError}

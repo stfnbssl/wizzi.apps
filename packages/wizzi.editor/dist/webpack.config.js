@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\root\webpack.config.js.ittf
-    utc time: Sat, 23 Jul 2022 13:15:30 GMT
+    utc time: Sun, 24 Jul 2022 11:56:32 GMT
 */
 'use strict';
 const path = require('path');
@@ -28,9 +28,14 @@ function env(key, def) {
 module.exports = {
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development', 
     devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'cheap-module-source-map', 
-    entry: [
-        './src/index.tsx'
-    ], 
+    entry: {
+        app: './src/index.tsx', 
+        ['editor.worker']: 'monaco-editor/esm/vs/editor/editor.worker.js', 
+        ['json.worker']: 'monaco-editor/esm/vs/language/json/json.worker', 
+        ['css.worker']: 'monaco-editor/esm/vs/language/css/css.worker', 
+        ['html.worker']: 'monaco-editor/esm/vs/language/html/html.worker', 
+        ['ts.worker']: 'monaco-editor/esm/vs/language/typescript/ts.worker'
+     }, 
     module: {
         rules: [
             {
@@ -117,8 +122,7 @@ module.exports = {
         globalObject: 'self', 
         path: 'C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.webapp/dist/static/packi', 
         publicPath: '/static/packi/', 
-        filename: '[name].bundle.js', 
-        chunkFilename: '[id].[hash].chunk.js'
+        filename: '[name].bundle.js'
      }, 
     
     /**

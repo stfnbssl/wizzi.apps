@@ -7,7 +7,7 @@
         var ca = 'm-s color-header font-x font-w-s';
         var ca2 = 'color-header font-x font-w-s';
 
-    site/layouts/basic( &opt )
+    html/layouts/site( &opt )
 
         $append head-styles-2
 		    css /ittf/meta/html/styles.css.ittf

@@ -65,7 +65,7 @@ module
             # https://github.com/Microsoft/monaco-editor/issues/779#issuecomment-374258435
             # 
         # @ts-ignore
-    $* TODO
+    
     set global.MonacoEnvironment =
         { 
             m getWorkerUrl
@@ -73,44 +73,58 @@ module
                     :string 
                 param label
                     :string 
+                
                 switch label
                     case 'json'
+                        return '/static/packi/json.worker.bundle.js';
+                        $*
                         return
                             new Worker
                                 @ 'monaco-editor/esm/vs/language/json/json.worker'
                                 {
                                     @ type 'module'
+                        *$
                     case 'html'
+                        return '/static/packi/html.worker.bundle.js';
+                        $*
                         return
                             new Worker
                                 @ 'monaco-editor/esm/vs/language/html/html.worker'
                                 {
                                     @ type 'module'
+                        *$
                     case 'css'
                     case 'scss'
                     case 'less'
+                        return '/static/packi/css.worker.bundle.js';
+                        $*
                         return
                             new Worker
                                 @ 'monaco-editor/esm/vs/language/css/css.worker'
                                 {
                                     @ type 'module'
+                        *$
                     case 'typescript'
                     case 'javascript'
+                        return '/static/packi/ts.worker.bundle.js';
+                        $*
                         return
                             new Worker
                                 @ 'monaco-editor/esm/vs/language/typescript/ts.worker'
                                 {
                                     @ type 'module'
-                    
+                        *$
                     default 
+                        return '/static/packi/editor.worker.bundle.js';
+                        $*
                         return
                             new Worker
                                 @ 'monaco-editor/esm/vs/language/editor/editor.worker'
                                 {
                                     @ type 'module'
-                
+                        *$
         # @ts-ignore
-    *$
+    
     _ monaco.languages.register
         {
             @ id 'ittf'

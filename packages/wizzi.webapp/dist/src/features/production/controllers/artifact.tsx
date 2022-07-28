@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\controllers\artifact.tsx.ittf
-    utc time: Sat, 23 Jul 2022 04:18:24 GMT
+    utc time: Thu, 28 Jul 2022 09:18:22 GMT
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
@@ -12,6 +12,7 @@ import ReactDOMServer from 'react-dom/server';
 import PageFormDocument from '../../../pages/PageFormDocument';
 import {CRUDResult} from '../../types';
 import {createArtifactProduction, updateArtifactProduction, deleteArtifactProduction, getArtifactProductionObject, getArtifactProductionObjectById} from '../api/artifact';
+import {createInitialPackiFiles} from '../utils';
 
 const myname = 'features/production/controllers/artifact';
 
@@ -25,7 +26,7 @@ function renderPageForm(req: Request, res: Response, data: object, queryParams: 
     res.set('Content-Length', index.length.toString());
     res.send(index);
 }
-function getPackiFiles(mainIttf: string) {
+function getPackiFiles(mainIttf: string, contexts: string, tfolders: string) {
 
     return {
             [mainIttf]: {
@@ -72,19 +73,24 @@ export class ArtifactProductionController implements ControllerType {
     ;
     
     private postArtifact = 
-    // loog og myname + '.postNewArtifact.request.body', JSON.stringify(request.body, null, 2)
-    
-    // loog og myname + '.postNewArtifact.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+    // loog myname + '.postNewArtifact.request.session.user', JSON.stringify((request.session as any).user, null, 2)
     async (request: Request, response: Response) => {
     
         const isLoggedOn = request.session && (request.session as any).user;
         const username = isLoggedOn ? (request.session as any).user.username : null;
-        createArtifactProduction((request.session as any).user.username, request.body.ap_name, request.body.ap_description, request.body.ap_main_ittf, request.body.ap_wizzi_schema, JSON.stringify(getPackiFiles(request.body.ap_main_ittf))).then(
+        console.log(myname + '.postNewArtifact.request.body', JSON.stringify(request.body, null, 2), __filename);
+        const wizziSchema = request.body.ap_wizzi_schema || 'html';
+        const mainIttf = request.body.ap_main_ittf || 'index.' + wizziSchema + '.ittf';
+        const contexts = request.body.ap_context || '[]';
+        const tfolders = request.body.ap_tfolders || '[]';
+        createArtifactProduction((request.session as any).user.username, request.body.ap_name, request.body.ap_description, mainIttf, wizziSchema, JSON.stringify(createInitialPackiFiles(contexts, tfolders, wizziSchema, mainIttf))).then(
         // loog og myname + '.postNewArtifact.createArtifactProduction.result', JSON.stringify(result, null, 2)
         (result: CRUDResult) => {
         
+            
+            // _ response.redirect('/productions/artifacts')
             if (result.ok) {
-                response.redirect('/productions/artifacts');
+                response.redirect('/~~/a/' + (request.session as any).user.username + '/' + request.body.ap_name)
             }
             else {
                 response.render('error.html.ittf', {

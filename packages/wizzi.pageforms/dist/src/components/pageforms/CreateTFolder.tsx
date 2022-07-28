@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateTFolder.tsx.ittf
-    utc time: Fri, 22 Jul 2022 13:18:43 GMT
+    utc time: Mon, 25 Jul 2022 18:06:15 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -98,8 +98,8 @@ export class CreateTFolder extends Component<CreateTFolderProps, CreateTFolderSt
         const result = await response.json();
         console.log('CreateTFolder._checkAvalibleTFolderName.result', result, __filename);
         this.setState({
-            tf_available: result.isValid, 
-            tf_checked: tf_checked
+            tf_name_available: result.isValid, 
+            tf_name_checked: tf_checked
          })
     }
     componentDidMount() {
@@ -235,6 +235,8 @@ export class CreateTFolder extends Component<CreateTFolderProps, CreateTFolderSt
                      />
                     <HR
                      />
+                    <FormHidden
+                     id='tfolder_contexts' name='tfolder_contexts' value={JSON.stringify(this.state.tfolder_contexts)} />
                     <FormCheckBox 
                         label='Add a data context'
                         name='tfolder_add_context'
@@ -270,6 +272,8 @@ export class CreateTFolder extends Component<CreateTFolderProps, CreateTFolderSt
                     }
                     <HR
                      />
+                    <FormHidden
+                     id='tfolder_tfolders' name='tfolder_tfolders' value={JSON.stringify(this.state.tfolder_dependencies)} />
                     <FormCheckBox 
                         label='Add a tfolder dependency'
                         name='tfolder_add_tfolder'

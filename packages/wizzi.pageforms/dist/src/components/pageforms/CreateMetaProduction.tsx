@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\CreateMetaProduction.tsx.ittf
-    utc time: Fri, 22 Jul 2022 13:18:43 GMT
+    utc time: Mon, 25 Jul 2022 18:06:15 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -96,8 +96,8 @@ export class CreateMetaProduction extends Component<CreateMetaProductionProps, C
         const result = await response.json();
         console.log('CreateMeta._checkAvalibleMetaName.result', result, __filename);
         this.setState({
-            mp_available: result.isValid, 
-            mp_checked: mp_checked
+            mp_name_available: result.isValid, 
+            mp_name_checked: mp_checked
          })
     }
     componentDidMount() {
@@ -230,6 +230,8 @@ export class CreateMetaProduction extends Component<CreateMetaProductionProps, C
                      />
                     <HR
                      />
+                    <FormHidden
+                     id='mp_contexts' name='mp_contexts' value={JSON.stringify(this.state.mp_contexts)} />
                     <FormCheckBox 
                         label='Add a data context'
                         name='mp_add_context'
@@ -265,6 +267,8 @@ export class CreateMetaProduction extends Component<CreateMetaProductionProps, C
                     }
                     <HR
                      />
+                    <FormHidden
+                     id='mp_tfolders' name='mp_tfolders' value={JSON.stringify(this.state.mp_dependencies)} />
                     <FormCheckBox 
                         label='Add a tfolder dependency'
                         name='mp_add_tfolder'

@@ -168,7 +168,7 @@ module
                     :p generatedArtifact
                         :optional 
                         :ref GeneratedArtifact
-                    :p mTreeDebugInfo
+                    :p mTreeBuildupScript
                         :optional 
                         :string
                     :p mTreeIttf

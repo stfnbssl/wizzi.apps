@@ -40,7 +40,7 @@ $group
                         _ jsonwf.wf.loadModel
                             @ ittfDocumentUri
                             {
-                                @ mTreeBuildUpContext context
+                                @ mTreeBuildupContext context
                             =>
                                 param err
                                     :any
@@ -65,7 +65,7 @@ $group
                     async=>
                         param resolve
                         param reject
-                        const schemaName = schemaFromFilePath(filePath)
+                        const schemaName = wizziMaps.schemaFromFilePath(filePath)
                         if !schemaName
                             return reject('File is not a known ittf document: ' + filePath)
                         const wf
@@ -75,7 +75,7 @@ $group
                             @ schemaName
                             @ filePath
                             {
-                                @ mTreeBuildUpContext context
+                                @ mTreeBuildupContext context
                             =>
                                 param err
                                 param result
@@ -100,14 +100,14 @@ $group
                 async=>
                     param resolve
                     param reject
-                    const schemaName = schemaFromFilePath(filePath)
+                    const schemaName = wizziMaps.schemaFromFilePath(filePath)
                     if !schemaName
                         return reject('File is not a known ittf document: ' + filePath)
                     _ wf.loadModel
                         @ schemaName
                         @ filePath
                         {
-                            @ mTreeBuildUpContext context
+                            @ mTreeBuildupContext context
                         =>
                             param err
                             param result

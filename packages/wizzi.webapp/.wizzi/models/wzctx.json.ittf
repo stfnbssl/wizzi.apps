@@ -65,6 +65,9 @@
         useProduction true
         { production
         
+        useDocs true
+        { docs
+
         useConfig true
         { config
             useEnvalid true

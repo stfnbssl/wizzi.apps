@@ -8,6 +8,9 @@ $group
         @ MiddlewareType
         from '../features/app/types'
     import
+        @ config
+        from '../features/config'
+    import
         @ wizziProds
         from '../features/wizzi'
     export
@@ -30,10 +33,15 @@ $group
                                 const twinJsonContext
                                     await
                                         _ wizziProds.inferAndLoadContextFs(filePath, 'wzCtx')
+                                const siteCtx
+                                    await
+                                        _ loadJsonIttfModel
+                                            @ 'sitectx.json.ittf'
                                 const context
                                     {
                                         @ ...options
                                         @ locals options._locals
+                                        @ siteCtx
                                         @ ...twinJsonContext
                                 # loog 'WizziViewEngineMiddleware.filePath', filePath
                                 # loog 'WizziViewEngineMiddleware.options', JSON.stringify(options, null, 2)
@@ -53,3 +61,28 @@ $group
                     _ app.set('view engine', 'ittf')
                         # register the template engine
                     log 'WizziViewEngineMiddleware installed, on folder', viewsFolder
+
+    async-function loadJsonIttfModel
+        param relPath
+            :string
+        return
+            new Promise
+                =>
+                    param resolve
+                    param reject
+                    _ wizziProds.loadModelFs
+                        _ path.join
+                            @ config.ittfPath
+                            @ 'models'
+                            @ relPath
+                        {
+                        ._ then
+                            =>
+                                param model
+                                # log 'loadJsonIttfModel', model
+                                _ resolve
+                                    @ model
+                        ._ catch
+                            =>
+                                param err
+                                _ reject(err)

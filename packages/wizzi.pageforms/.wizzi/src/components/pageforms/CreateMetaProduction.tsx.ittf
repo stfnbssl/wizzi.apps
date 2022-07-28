@@ -34,7 +34,7 @@ module
         p formRef 
             = React.createRef()
         +
-        check_name_create( meta )
+        check_name_create( meta, mp )
         $*
         m _checkAvalibleMetaName
             async

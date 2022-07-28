@@ -13,21 +13,17 @@
                 param url
                 param params
                 var newUrl = url
-                if params
-                    if params.length
-                        var seen = false
-                        foreach p in params
-                            if p.type == 'url'
-                                set newUrl = wz.replace(newUrl, ':' + p.name, encodeURIComponent(p.value))
+                if params && params.length > 0
+                    var seen = false
+                    foreach p in params
+                        if p.type == 'url'
+                            set newUrl = wz.replace(newUrl, ':' + p.name, encodeURIComponent(p.value))
+                        else
+                            if !seen
+                                set newUrl = newUrl + '?' + p.name + '=' + encodeURIComponent(p.value)
+                                set seen = true
                             else
-                                if !seen
-                                    set newUrl = newUrl + '?' + p.name + '=' + encodeURIComponent(p.value)
-                                    set seen = true
-                                else
-                                    set newUrl = newUrl + '&' + p.name + '=' + encodeURIComponent(p.value)
-                    else
-                        # encodeURIComponent is duty of the caller
-                        set newUrl = newUrl + '?' + p.value
+                                set newUrl = newUrl + '&' + p.name + '=' + encodeURIComponent(p.value)
                 return newUrl
 
         set wz.fetch.get

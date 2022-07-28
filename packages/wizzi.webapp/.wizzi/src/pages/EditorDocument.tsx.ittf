@@ -106,4 +106,20 @@ module
                         section
                             id root
                         script
-                            src "/static/packi/main.bundle.js"
+                            defer
+                            src /static/packi/app.bundle.js
+                        script
+                            defer
+                            src /static/packi/editor.worker.bundle.js
+                        script 
+                            defer 
+                            src /static/packi/json.worker.bundle.js
+                        script 
+                            defer 
+                            src /static/packi/css.worker.bundle.js
+                        script
+                            defer 
+                            src /static/packi/html.worker.bundle.js
+                        script
+                            defer 
+                            src /static/packi/ts.worker.bundle.js

@@ -12,7 +12,7 @@
                     < GeneratedView 
                         @ generatedContent {generatedArtifact.artifactContent}
                         @ generatedSourcePath {generatedArtifact.sourcePath}
-                        @ mTreeBuildUpScript {mTreeBuildUpScript}
+                        @ mTreeBuildupScript {mTreeBuildupScript}
                         @ mTreeIttf {mTreeIttf}
                         @ generatedPreviewURL {previewURL}
                         @ splitViewKind {this.state.splitViewKind}

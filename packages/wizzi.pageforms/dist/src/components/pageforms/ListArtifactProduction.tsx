@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\ListArtifactProduction.tsx.ittf
-    utc time: Fri, 22 Jul 2022 13:18:43 GMT
+    utc time: Mon, 25 Jul 2022 18:06:15 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -127,7 +127,7 @@ export class ListArtifactProduction extends Component<ListArtifactProductionProp
             <div
              className="flex-column width-full">
                 <div
-                 className="flex-row align-items-start">
+                 className="flex-row align-items-start m-100">
                     <form 
                         className="width-full"
                         aria-label="Artifact productions"
@@ -238,25 +238,34 @@ export class ListArtifactProduction extends Component<ListArtifactProductionProp
                                                 {item.name}
                                                 </a>
                                             </div>
-                                            <div
-                                             className="flex-row">
-                                                <div
-                                                 className="font-m m-r-s">
-                                                    main ittf:
-                                                </div>
-                                                <div
-                                                 className="font-m m-r-xl">
-                                                    {item.mainIttf}
-                                                </div>
-                                                <div
-                                                 className="font-m m-r-s">
-                                                    schema:
-                                                </div>
-                                                <div
-                                                 className="font-m">
-                                                    {item.wizziSchema}
-                                                </div>
-                                            </div>
+                                        </div>
+                                        <div
+                                         className="font-m p-m">
+                                            <a
+                                             href={'/~/stfnbssl/' + item.name} title='view generated in browser'>
+                                            browse
+                                            </a>
+                                        </div>
+                                        <div
+                                         className="font-m p-m">
+                                            <a
+                                             href={'/~/stfnbssl/' + item.name + '?meta=raw'} title='view generated raw'>
+                                            raw
+                                            </a>
+                                        </div>
+                                        <div
+                                         className="font-m p-m">
+                                            <a
+                                             href={'/~/stfnbssl/' + item.name + '?meta=mtree'} title='view builded mTree'>
+                                            mtree
+                                            </a>
+                                        </div>
+                                        <div
+                                         className="font-m p-m">
+                                            <a
+                                             href={'/~/stfnbssl/' + item.name + '?meta=script'} title='view mTree buildup script'>
+                                            script
+                                            </a>
                                         </div>
                                         <div
                                          className="flex-row">

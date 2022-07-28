@@ -4,12 +4,15 @@ $group
         excludePolyfill true
     useMongoDb true
     { mongoDb
-        $if false
+        $if true
             host "mongodb+srv"
             user "yanez"
             password "${stfnbssl_env.mongoDbPsw}"
             dbPath "@cluster0.idlk7.mongodb.net"
             dbName "wizzi"
+            { options
+                useNewUrlParser true
+                useUnifiedTopology true
         $else
             dbPath "mongodb://localhost"
             dbName "test"

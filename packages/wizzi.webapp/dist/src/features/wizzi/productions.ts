@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\wizzi\productions.ts.ittf
-    utc time: Sat, 23 Jul 2022 04:18:23 GMT
+    utc time: Thu, 28 Jul 2022 09:18:21 GMT
 */
 import path from 'path';
 import fs from 'fs';
@@ -12,6 +12,7 @@ import {ittfScanner, ittfGraph, verify} from 'wizzi-utils';
 import {packiFilePrefix} from '../config/env';
 import {packiTypes} from '../packi';
 import {config} from '../config';
+import * as wizziMaps from './maps';
 import {createFsJsonAndFactory, ensurePackiFilePrefix, createFilesystemFactory} from './factory';
 import {GeneratedArtifact, TransformedModel} from './types';
 import {FsJson} from 'wizzi-repo';
@@ -34,7 +35,7 @@ export async function loadModel(filePath: string, files: packiTypes.PackiFiles, 
             jsonwf = await createFsJsonAndFactory(files);
             ;
             jsonwf.wf.loadModel(ittfDocumentUri, {
-                mTreeBuildUpContext: context
+                mTreeBuildupContext: context
              }, (err: any, result: any) => {
             
                 if (err) {
@@ -51,13 +52,13 @@ export async function loadModelFs(filePath: string, context: any):  Promise<wizz
 
     return new Promise(async (resolve, reject) => {
         
-            const schemaName = schemaFromFilePath(filePath);
+            const schemaName = wizziMaps.schemaFromFilePath(filePath);
             if (!schemaName) {
                 return reject('File is not a known ittf document: ' + filePath);
             }
             const wf = await createFilesystemFactory();
             wf.loadModel(schemaName, filePath, {
-                mTreeBuildUpContext: context
+                mTreeBuildupContext: context
              }, (err, result) => {
             
                 if (err) {
@@ -74,12 +75,12 @@ async function loadModelInternal(wf: wizzi.WizziFactory, filePath: string, conte
 
     return new Promise(async (resolve, reject) => {
         
-            const schemaName = schemaFromFilePath(filePath);
+            const schemaName = wizziMaps.schemaFromFilePath(filePath);
             if (!schemaName) {
                 return reject('File is not a known ittf document: ' + filePath);
             }
             wf.loadModel(schemaName, filePath, {
-                mTreeBuildUpContext: context
+                mTreeBuildupContext: context
              }, (err, result) => {
             
                 if (err) {
@@ -92,13 +93,13 @@ async function loadModelInternal(wf: wizzi.WizziFactory, filePath: string, conte
         );
 }
 
-export async function mTreeDebugInfo(filePath: string, files: packiTypes.PackiFiles, context: any):  Promise<any> {
+export async function mTreeBuildupScript(filePath: string, files: packiTypes.PackiFiles, context: any):  Promise<any> {
 
     return new Promise(async (resolve, reject) => {
         
             if (!verify.isObject(files)) {
                 return reject({
-                        action: 'wizzi.productions.mTreeDebugInfo', 
+                        action: 'wizzi.productions.mTreeBuildupScript', 
                         message: 'files parameter must be an object of type PackiFiles', 
                         files
                      });
@@ -118,6 +119,16 @@ export async function mTreeDebugInfo(filePath: string, files: packiTypes.PackiFi
             )
         }
         );
+}
+
+export async function mTreeBuildupScriptFs(filePath: string, context: any):  Promise<any> {
+
+    throw new Error(myname + '.mTreeBuildupScriptFs not yet implemented');
+}
+
+export async function mTreeBuildupScriptDb(owner: string, name: string, context?: any):  Promise<GeneratedArtifact> {
+
+    throw new Error(myname + '.mTreeBuildupScriptDB not yet implemented');
 }
 
 export async function mTree(filePath: string, files: packiTypes.PackiFiles, context: any):  Promise<any> {
@@ -142,8 +153,71 @@ export async function mTree(filePath: string, files: packiTypes.PackiFiles, cont
                     return reject(err);
                 }
                 resolve({
+                    mTree: mTree, 
                     mTreeIttf: mTree.toIttf()
                  })
+            }
+            )
+        }
+        );
+}
+
+export async function mTreeFs(ittfDocumentUri: string, context: any):  Promise<any> {
+
+    context = context || {};
+    return new Promise(async (resolve, reject) => {
+        
+            const wf = await createFilesystemFactory();
+            wf.loadMTree(ittfDocumentUri, context, (err: any, mTree: any) => {
+            
+                if (err) {
+                    return reject(err);
+                }
+                resolve({
+                    mTree: mTree, 
+                    mTreeIttf: mTree.toIttf()
+                 })
+            }
+            )
+        }
+        );
+}
+
+export async function mTreeDb(owner: string, name: string, context?: any):  Promise<GeneratedArtifact> {
+
+    throw new Error(myname + '.mTreeDb not yet implemented');
+}
+
+export async function wrapIttfText(schema: string, ittftext: string, context?: any):  Promise<any> {
+
+    context = context || {};
+    return new Promise(async (resolve, reject) => {
+        
+            const mainIttf = 'index.' + schema + '.ittf';
+            const packiFiles: packiTypes.PackiFiles = {
+                [ mainIttf ]: {
+                    type: 'CODE', 
+                    contents: ittftext
+                 }
+             };
+            console.log(myname, 'wrapIttfText', 'mainIttf',mainIttf, __filename);
+            mTree(mainIttf, packiFiles, context).then((result) => {
+            
+                const requiredRoot = wizziMaps.ittfRootFromSchema(schema);
+                console.log(myname, 'wrapIttfText', 'root node', result.mTree.nodes[0].n, 'requiredRoot', requiredRoot, __filename);
+                if (requiredRoot == 'any' || result.mTree.nodes[0].n == requiredRoot) {
+                    resolve(ittftext)
+                }
+                else {
+                    const wrapperNode = wizziMaps.wrapperForSchema(schema);
+                    wrapperNode.children.push(result.mTree.nodes[0])
+                    resolve(result.mTree.toIttf(wrapperNode))
+                }
+            }
+            ).catch((err: any) => {
+            
+                console.log('features.wizzi.productions.wrapIttfText.mTree.error', err, __filename);
+                return reject(err);
             }
             )
         }
@@ -163,7 +237,7 @@ export async function generateArtifact(filePath: string, files: packiTypes.Packi
                         files
                      });
             }
-            const generator = options && options.generator ? options.generator : generatorFor(filePath);
+            const generator = options && options.generator ? options.generator : wizziMaps.generatorFor(filePath);
             if (generator) {
                 let jsonwf: any = {};
                 let generationContext: any = {};
@@ -215,7 +289,7 @@ export async function generateArtifactFs(filePath: string, context?: any, option
 
     return new Promise(async (resolve, reject) => {
         
-            const generator = options && options.generator ? options.generator : generatorFor(filePath);
+            const generator = options && options.generator ? options.generator : wizziMaps.generatorFor(filePath);
             
             // loog 'wizzi.productions.using artifact generator', generator
             
@@ -251,6 +325,11 @@ export async function generateArtifactFs(filePath: string, context?: any, option
             }
         }
         );
+}
+
+export async function generateArtifactDb(owner: string, name: string, context?: any):  Promise<GeneratedArtifact> {
+
+    throw new Error(myname + '.generateArtifactDb not yet implemented');
 }
 
 export async function generateFolderArtifacts(sourceFolderUri: string, destFolderUri: string, files: packiTypes.PackiFiles, context?: any):  Promise<packiTypes.PackiFiles> {
@@ -325,7 +404,7 @@ export async function transformModel(filePath: string, files: packiTypes.PackiFi
                         files
                      });
             }
-            const transformer = options && options.transformer ? options.transformer : transformerFor(filePath);
+            const transformer = options && options.transformer ? options.transformer : wizziMaps.transformerFor(filePath);
             if (transformer) {
                 let jsonwf: any = {};
                 let transformationContext: any = {};
@@ -375,7 +454,7 @@ export async function transformModelFs(filePath: string, context?: any, options?
 
     return new Promise(async (resolve, reject) => {
         
-            const transformer = options && options.transformer ? options.transformer : transformerFor(filePath);
+            const transformer = options && options.transformer ? options.transformer : wizziMaps.transformerFor(filePath);
             
             // loog 'wizzi.productions.using model transformer', transformer
             if (transformer) {
@@ -496,7 +575,7 @@ export async function inferAndLoadContextJson(wf: wizzi.WizziFactory, files: pac
                         files
                      });
             }
-            const pf = parseFilePath(filePath);
+            const pf = wizziMaps.parseFilePath(filePath);
             
             // loog 'features.wizzi.productions.inferAndLoadContextJson.twinJsonBaseName', twinJsonBaseName
             
@@ -533,7 +612,7 @@ export async function inferAndLoadContextFs(filePath: string, exportName: string
 
     return new Promise((resolve, reject) => {
         
-            const pf = parseFilePath(filePath);
+            const pf = wizziMaps.parseFilePath(filePath);
             if (pf.isIttfDocument && pf.schema !== 'json') {
                 var twinJsonPath = path.join(path.dirname(filePath), pf.seedname + '.json.ittf');
                 if (fs.existsSync(twinJsonPath)) {
@@ -558,7 +637,7 @@ export async function inferAndLoadContextFs(filePath: string, exportName: string
         );
 }
 
-export async function scanIttfDocument(filePath: string, rootFolder: string):  Promise<ittfGraph.IttfDocumentGraph> {
+export async function scanIttfDocumentFs(filePath: string, rootFolder: string):  Promise<ittfGraph.IttfDocumentGraph> {
 
     return new Promise((resolve, reject) => 
         
@@ -592,6 +671,16 @@ export async function scanIttfFolder(filePath: string, rootFolder: string):  Pro
         );
 }
 
+export async function scanIttfDocument(mainIttf: string, packiFiles: packiTypes.PackiFiles, rootFolder: string):  Promise<ittfGraph.IttfDocumentGraph> {
+
+    throw new Error(myname + '.scanIttfDocument not yet implemented');
+}
+
+export async function scanIttfDocumentDb(owner: string, name: string, rootFolder: string):  Promise<ittfGraph.IttfDocumentGraph> {
+
+    throw new Error(myname + '.scanIttfDocumentDb not yet implemented');
+}
+
 export async function wizzify(files: packiTypes.PackiFiles):  Promise<packiTypes.PackiFiles> {
 
     return new Promise(async (resolve, reject) => {
@@ -615,7 +704,7 @@ function handleWizzify(extension: string, codeSnippet: string):  Promise<string>
 
     return new Promise(async (resolve, reject) => {
         
-            var schema = extSchemaMap[extension];
+            var schema = wizziMaps.schemaFromExtension(extension);
             if (schema) {
                 wizziTools.wizzify(schema, codeSnippet, {}, function(err: any, ittfResult: string) {
                 
@@ -630,97 +719,4 @@ function handleWizzify(extension: string, codeSnippet: string):  Promise<string>
             }
         }
         );
-}
-
-const extSchemaMap: { 
-    [k: string]: string;
-} = {
-    '.js': 'js', 
-    '.jsx': 'js', 
-    '.ts': 'ts', 
-    '.tsx': 'ts', 
-    '.html': 'html', 
-    '.css': 'css', 
-    '.svg': 'svg', 
-    '.md': 'md', 
-    '.xml': 'xml', 
-    '.json': 'json', 
-    '.graphql': 'graphql'
- };
-
-const schemaModuleMap: { 
-    [k: string]: string;
-} = {
-    css: 'css/document', 
-    graphql: 'graphql/document', 
-    ittf: 'ittf/document', 
-    js: 'js/module', 
-    json: 'json/document', 
-    html: 'html/document', 
-    md: 'md/document', 
-    scss: 'scss/document', 
-    svg: 'svg/document', 
-    text: 'text/document', 
-    ts: 'ts/module', 
-    vml: 'vml/document', 
-    vue: 'vue/document', 
-    xml: 'xml/document'
- };
-
-function generatorFor(filePath: string):  string | undefined {
-
-    const pf = parseFilePath(filePath);
-    if (pf.isIttfDocument) {
-        return schemaModuleMap[pf.schema];
-    }
-    return undefined;
-}
-
-const schemaTransformerMap: { 
-    [k: string]: string;
-} = {
-    meta: 'ittf/cheatsheet'
- };
-
-function transformerFor(filePath: string):  string | undefined {
-
-    const pf = parseFilePath(filePath);
-    if (pf.isIttfDocument) {
-        return schemaTransformerMap[pf.schema];
-    }
-    return undefined;
-}
-
-function schemaFromFilePath(filePath: string):  string | undefined {
-
-    const pf = parseFilePath(filePath);
-    if (pf.isIttfDocument) {
-        return pf.schema;
-    }
-    return undefined;
-}
-
-type parsedFilePath = { 
-    seedname: string;
-    schema: string;
-    isIttfDocument: boolean;
-};
-
-export function parseFilePath(filePath: string):  parsedFilePath {
-
-    const nameParts = path.basename(filePath).split('.');
-    if (nameParts[nameParts.length - 1] === 'ittf') {
-        return {
-                isIttfDocument: true, 
-                schema: nameParts[nameParts.length - 2], 
-                seedname: nameParts.slice(0, -2).join('.')
-             };
-    }
-    else {
-        return {
-                isIttfDocument: false, 
-                schema: nameParts[nameParts.length - 1], 
-                seedname: nameParts.slice(0, -1).join('.')
-             };
-    }
 }

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\config\env.ts.ittf
-    utc time: Sat, 23 Jul 2022 04:18:23 GMT
+    utc time: Thu, 28 Jul 2022 09:18:21 GMT
 */
 import path from 'path';
 import dotenv from 'dotenv';
@@ -56,6 +56,7 @@ export default function create():  ConfigType {
             const __rootPath = path.join(__dirname, '..', '..', '..');
             const __ittfPath = path.join(__rootPath, 'ittf');
             const __dataPath = path.join(__rootPath, 'data');
+            const __fsPath = path.join(__rootPath, 'fs');
             config = {
                 port: checkedEnv.PORT, 
                 sessionSecret: checkedEnv.SESSION_SECRET, 
@@ -87,6 +88,7 @@ export default function create():  ConfigType {
                 wizziBasePath: checkedEnv.WIZZI_BASE_PATH, 
                 ittfPath: __ittfPath, 
                 dataPath: __dataPath, 
+                fsPath: __fsPath, 
                 metaHtmlIttfPath: path.join(__ittfPath, 'meta', 'html', 'index.html.ittf'), 
                 metaFolderIttfPath: path.join(__ittfPath, 'meta', 'folder', 'index.html.ittf'), 
                 metaHtmlTextPath: path.join(__ittfPath, 'meta', 'text', 'index.html.ittf'), 

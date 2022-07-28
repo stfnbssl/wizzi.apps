@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\widgets\FormRow.tsx.ittf
-    utc time: Fri, 22 Jul 2022 13:18:43 GMT
+    utc time: Mon, 25 Jul 2022 18:06:15 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -85,21 +85,23 @@ export class FormRow extends Component<FormRowProps, FormRowState> {
             [ev.target.name]: (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
          })
     };
-    handleContextAdd = () => {
+    handleContextAdd = ev => {
         this.props.onAdd({
             name: this.state.name
          })
         this.setState({
             name: ''
          })
+        ev.stopPropagation();
     };
-    handleContextDelete = () => {
+    handleContextDelete = ev => {
         this.props.onDelete({
             name: this.state.name
          })
         this.setState({
             name: ''
          })
+        ev.stopPropagation();
     };
     render() {
         console.log('FormRow.state', this.state, 'props', this.props, __filename);
@@ -118,7 +120,7 @@ export class FormRow extends Component<FormRowProps, FormRowState> {
                     this.props.type == 'add'
                      &&  (
                         <StyledButton
-                         onClick={this.handleContextAdd}>
+                         type='button' onClick={this.handleContextAdd}>
                             <AddIcon
                              theme={'light'} width={16} height={16} />
                         </StyledButton>
@@ -129,7 +131,7 @@ export class FormRow extends Component<FormRowProps, FormRowState> {
                     this.props.type == 'delete'
                      &&  (
                         <StyledButton
-                         onClick={this.handleContextDelete}>
+                         type='button' onClick={this.handleContextDelete}>
                             <DeleteIcon
                              theme={'light'} width={16} height={16} />
                         </StyledButton>

@@ -123,109 +123,116 @@ $group
                 let ittfSchema = ittfSchemaOf(filePath)
                 let contentType = contentTypeFor(filePath)
                 $$ # loog 'contentType', contentType, 'ittfSchema', ittfSchema, 'queryMeta', queryMeta
-                if contentType
-                    if queryMeta && queryMeta === 'html'
-                        try
-                            const documentState
-                                await
-                                    _ wizziProds.scanIttfDocument(filePath, path.dirname(basePath))
-                            const generated
-                                await
-                                    _ wizziProds.generateArtifactFs
-                                        @ config.metaHtmlIttfPath
-                                        {
-                                            @ wizzischema 'html'
-                                            @ path filePath
-                                            @ request
-                                            @ ds documentState
-                                            { locals
-                                                @ user (request.session as any).user
-                                # loog 'generated.meta.document', generated.artifactContent
-                            _ response.writeHead
-                                @ 200
-                                {
-                                    @ 'Content-Type' 'text/html'
-                                    @ 'Content-Length' generated.artifactContent.length
-                                # loog 'generated.meta.document', generated.artifactContent
-                            _ response.end(generated.artifactContent)
-                        catch ex
-                            _ sendError
-                                @ response
-                                @ ex
-                                {
-                                    @ format 'json'
-                    elif queryMeta && queryMeta === 'json' && ittfSchema == 'ittf'
-                        _ wizziProds.generateArtifactFs
-                            @ filePath
-                            {
-                                { locals
-                                    @ user (request.session as any).user
-                            {
-                                @ generator 'ittf/tojson'
-                            ._ then
-                                =>
-                                    param generated
-                                    # loog 'generated.meta.ittf.json', filePath
+                if !contentType
+                    _ next
+                _ loadJsonIttfModel
+                    @ 'sitectx.json.ittf'
+                    ._ then
+                        async=>
+                            param siteCtx
+                            if queryMeta && queryMeta === 'html'
+                                try
+                                    const documentState
+                                        await
+                                            _ wizziProds.scanIttfDocumentFs(filePath, path.dirname(basePath))
+                                    const generated
+                                        await
+                                            _ wizziProds.generateArtifactFs
+                                                @ config.metaHtmlIttfPath
+                                                {
+                                                    @ wizzischema 'html'
+                                                    @ path filePath
+                                                    @ request
+                                                    @ ds documentState
+                                                    { locals
+                                                        @ user (request.session as any).user
+                                                    @ siteCtx
+                                        # loog 'generated.meta.document', generated.artifactContent
                                     _ response.writeHead
                                         @ 200
                                         {
-                                            @ 'Content-Type' 'application/json'
+                                            @ 'Content-Type' 'text/html'
                                             @ 'Content-Length' generated.artifactContent.length
+                                        # loog 'generated.meta.document', generated.artifactContent
                                     _ response.end(generated.artifactContent)
-                            ._ catch
-                                =>
-                                    param err
-                                    return
-                                        _ sendError
-                                            @ response
-                                            @ err
-                                            {
-                                                @ format 'json'
-                    else
-                        return
-                            _ contextLoader
-                                @ filePath
-                                @ request
-                                function
-                                    param err
-                                        :any
-                                    param modelContext
-                                        :ref WizziModel
-                                    if err
-                                        return
-                                            _ sendError
-                                                @ response
-                                                @ err
-                                                {
-                                                    @ format 'json'
-                                    set modelContext
-                                        _ Object.assign
-                                            {
-                                            @ modelContext
-                                            {
-                                                { locals
-                                                    @ user (request.session as any).user 
-                                    _ wizziProds.generateArtifactFs(filePath, modelContext).then
+                                catch ex
+                                    _ sendError
+                                        @ response
+                                        @ ex
+                                        {
+                                            @ format 'json'
+                            elif queryMeta && queryMeta === 'json' && ittfSchema == 'ittf'
+                                _ wizziProds.generateArtifactFs
+                                    @ filePath
+                                    {
+                                        { locals
+                                            @ user (request.session as any).user
+                                        @ siteCtx
+                                    {
+                                        @ generator 'ittf/tojson'
+                                    ._ then
                                         =>
                                             param generated
-                                            # loog 'generated.artifactContent', generated.artifactContent
+                                            # loog 'generated.meta.ittf.json', filePath
                                             _ response.writeHead
                                                 @ 200
                                                 {
-                                                    @ 'Content-Type' contentType
+                                                    @ 'Content-Type' 'application/json'
                                                     @ 'Content-Length' generated.artifactContent.length
                                             _ response.end(generated.artifactContent)
-                                        ._ catch
-                                            =>
-                                                param err
+                                    ._ catch
+                                        =>
+                                            param err
+                                            return
+                                                _ sendError
+                                                    @ response
+                                                    @ err
+                                                    {
+                                                        @ format 'json'
+                            else
+                                return
+                                    _ contextLoader
+                                        @ filePath
+                                        @ request
+                                        function
+                                            param err
+                                                :any
+                                            param modelContext
+                                                :ref WizziModel
+                                            if err
                                                 return
                                                     _ sendError
                                                         @ response
                                                         @ err
                                                         {
                                                             @ format 'json'
-                else
-                    _ next()
+                                            set modelContext
+                                                _ Object.assign
+                                                    {
+                                                    @ modelContext
+                                                    {
+                                                        { locals
+                                                            @ user (request.session as any).user 
+                                                        @ siteCtx
+                                            _ wizziProds.generateArtifactFs(filePath, modelContext).then
+                                                =>
+                                                    param generated
+                                                    # loog 'generated.artifactContent', generated.artifactContent
+                                                    _ response.writeHead
+                                                        @ 200
+                                                        {
+                                                            @ 'Content-Type' contentType
+                                                            @ 'Content-Length' generated.artifactContent.length
+                                                    _ response.end(generated.artifactContent)
+                                                ._ catch
+                                                    =>
+                                                        param err
+                                                        return
+                                                            _ sendError
+                                                                @ response
+                                                                @ err
+                                                                {
+                                                                    @ format 'json'
         #
             #
             # request.query._context contains a semicolon separated list of context models export names.
@@ -380,6 +387,10 @@ $group
             const folderState
                 await
                     _ wizziProds.scanIttfFolder(folderPath, path.dirname(root))
+            const siteCtx
+                await
+                    _ loadJsonIttfModel
+                        @ 'sitectx.json.ittf'
             # loog 'sendFolderScan', 'folderState.keys', Object.keys(folderState)
             if meta === 'json'
                 return sendJSONStringified(response, folderState)
@@ -394,6 +405,7 @@ $group
                                 @ fs folderState
                                 { locals
                                     @ user (request.session as any).user
+                                @ siteCtx
                     # loog 'generated.meta.document', generated.artifactContent
                 _ response.writeHead
                     @ 200
@@ -544,3 +556,28 @@ $group
                     @ error errEmit
                 @ null
                 @ 4
+
+    async-function loadJsonIttfModel
+        param relPath
+            :string
+        return
+            new Promise
+                =>
+                    param resolve
+                    param reject
+                    _ wizziProds.loadModelFs
+                        _ path.join
+                            @ config.ittfPath
+                            @ 'models'
+                            @ relPath
+                        {
+                        ._ then
+                            =>
+                                param model
+                                # log 'loadJsonIttfModel', model
+                                _ resolve
+                                    @ model
+                        ._ catch
+                            =>
+                                param err
+                                _ reject(err)

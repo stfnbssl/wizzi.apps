@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.webapp\.wizzi\src\features\production\api\artifact.ts.ittf
-    utc time: Sat, 23 Jul 2022 04:18:23 GMT
+    utc time: Thu, 28 Jul 2022 09:18:21 GMT
 */
 import path from 'path';
 import NodeCache from 'node-cache';
@@ -918,13 +918,13 @@ export async function getArtifactMTreeBuildupScript(owner: string, productionNam
         
             getArtifactProduction_withCache(owner, productionName).then((ap: any) => 
             
-                wizziProds.mTreeDebugInfo(ap.mainIttf, ap.packiFiles, rootContext).then(
-                // loog 'getArtifactMTreeBuildupScript', productionName, result.mTreeBuildUpScript
+                wizziProds.mTreeBuildupScript(ap.mainIttf, ap.packiFiles, rootContext).then(
+                // loog 'getArtifactMTreeBuildupScript', productionName, result.mTreeBuildupScript
                 (result: any) => {
                 
                     const response = {
-                        content: result.mTreeBuildUpScript, 
-                        contentLength: result.mTreeBuildUpScript.length, 
+                        content: result.mTreeBuildupScript, 
+                        contentLength: result.mTreeBuildupScript.length, 
                         contentType: contentTypeFor('x.ittf.ittf')
                      };
                     return resolve(response);
@@ -953,13 +953,13 @@ export async function getArtifactMTreeBuildupScript_withPrepare(owner: string, p
         
             productionApi.prepareProduction('artifact', owner, productionName, queryContext, rootContext).then((productionObj: any) => 
             
-                wizziProds.mTreeDebugInfo(productionObj.mainIttf, productionObj.packiFiles, productionObj.context).then(
-                // loog 'getArtifactMTreeBuildupScript', productionName, result.mTreeBuildUpScript
+                wizziProds.mTreeBuildupScript(productionObj.mainIttf, productionObj.packiFiles, productionObj.context).then(
+                // loog 'getArtifactMTreeBuildupScript', productionName, result.mTreeBuildupScript
                 (result: any) => {
                 
                     const response = {
-                        content: result.mTreeBuildUpScript, 
-                        contentLength: result.mTreeBuildUpScript.length, 
+                        content: result.mTreeBuildupScript, 
+                        contentLength: result.mTreeBuildupScript.length, 
                         contentType: contentTypeFor('x.ittf.ittf')
                      };
                     return resolve(response);

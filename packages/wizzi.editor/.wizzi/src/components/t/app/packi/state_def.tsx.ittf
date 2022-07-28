@@ -16,7 +16,7 @@ $group
     :p generatedArtifact
         :optional 
         :ref GeneratedArtifact
-    :p mTreeBuildUpScript
+    :p mTreeBuildupScript
         :optional 
         :string 
     :p mTreeIttf

@@ -28,7 +28,7 @@ module
             :p generatedArtifact
                 :optional 
                 :ref GeneratedArtifact
-            :p mTreeBuildUpScript
+            :p mTreeBuildupScript
                 :optional 
                 :string
             :p mTreeIttf
@@ -53,7 +53,7 @@ module
             { 
                 @ loading false
                 @ generatedArtifact undefined
-                @ mTreeBuildUpScript undefined
+                @ mTreeBuildupScript undefined
                 @ mTreeIttf undefined
                 { jobGeneratedArtifacts
                 { timedServices
@@ -112,22 +112,22 @@ module
                             @ loading false
                             @ errors action.payload
                 +
-                case getType(wizziActions.mTreeDebugInfoRequest)
-                    log "wizziActions.mTreeDebugInfoRequest"
+                case getType(wizziActions.mTreeBuildupScriptRequest)
+                    log "wizziActions.mTreeBuildupScriptRequest"
                     return 
                         { 
                             @ ...state
-                            @ mTreeBuildUpScript undefined
+                            @ mTreeBuildupScript undefined
                             @ loading true
-                case getType(wizziActions.mTreeDebugInfoSuccess)
-                    log "wizziActions.mTreeDebugInfoSuccess", action
+                case getType(wizziActions.mTreeBuildupScriptSuccess)
+                    log "wizziActions.mTreeBuildupScriptSuccess", action
                     return 
                         { 
                             @ ...state
                             @ loading false
-                            @ ...action.payload.mTreeBuildUpScript
-                case getType(wizziActions.mTreeDebugInfoError)
-                    log "wizziActions.mTreeDebugInfoError", action
+                            @ ...action.payload.mTreeBuildupScript
+                case getType(wizziActions.mTreeBuildupScriptError)
+                    log "wizziActions.mTreeBuildupScriptError", action
                     return 
                         { 
                             @ ...state

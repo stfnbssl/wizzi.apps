@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\widgets\FormGroup.tsx.ittf
-    utc time: Fri, 22 Jul 2022 13:18:43 GMT
+    utc time: Mon, 25 Jul 2022 18:06:15 GMT
 */
 import React, {FunctionComponent} from 'react';
 // see https://mxstbr.blog/2016/11/styled-components-magic-explained/
@@ -22,6 +22,7 @@ export interface FormGroupProps {
 interface RootStyleProps {
 }
 const StyledFormGroup = styled.dl<RootStyleProps>`
+    width: 80%;
     
 `
 const StyledInputLabel = styled.dt<RootStyleProps>`
@@ -36,6 +37,7 @@ const StyledLabelSpan = styled.span<RootStyleProps>`
 `
 const StyledInputBox = styled.dd<RootStyleProps>`
     margin: 2px 0;
+    width: 100%;
     
 `
 const StyledInput = styled.input<RootStyleProps>`
@@ -58,6 +60,7 @@ const StyledInput = styled.input<RootStyleProps>`
     outline: none;
     padding: 5px 12px;
     vertical-align: middle;
+    width: 100%;
 `
 export const FormGroup: FunctionComponent<FormGroupProps> = ({
     id, 

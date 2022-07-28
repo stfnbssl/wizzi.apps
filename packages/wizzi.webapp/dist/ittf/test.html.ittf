@@ -116,7 +116,7 @@ html
                             param err
                             log 'wizzify.err', err
             
-            function mTreeDebugInfo
+            function mTreeBuildupScript
                 var filePath = 'x/a.js.ittf'
                 var files 
                     {
@@ -131,16 +131,16 @@ html
 
                 _ callApi
                     @ 'POST'
-                    @ 'productions/mtreedebuginfo/' + encodeURIComponent(filePath)
+                    @ 'productions/mtreescript/' + encodeURIComponent(filePath)
                     @ files
                     ._ then
                         =>
                             param result
-                            log 'mTreeDebugInfo.result', result.mTreeBuildUpScript, result
+                            log 'mTreeBuildupScript.result', result.mTreeBuildupScript, result
                     ._ catch
                         => 
                             param err
-                            log 'mTreeDebugInfo.err', err
+                            log 'mTreeBuildupScript.err', err
             _ genArtifact
             _ wizzify
-            _ mTreeDebugInfo
+            _ mTreeBuildupScript

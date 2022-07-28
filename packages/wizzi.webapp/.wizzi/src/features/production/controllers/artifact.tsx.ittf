@@ -22,6 +22,9 @@ module
                 @ getArtifactProductionObject
                 @ getArtifactProductionObjectById
                 from '../api/artifact'
+            import
+                @ createInitialPackiFiles
+                from '../utils'
             +
             const myname = 'features/production/controllers/artifact'
             +
@@ -49,12 +52,15 @@ module
             function getPackiFiles
                 param mainIttf
                     :string
+                param contexts
+                    :string
+                param tfolders
+                    :string
                 return
                     {
                         { [mainIttf]
                             @ type 'CODE'
                             @ contents ''
-
         _ this.router.get('/new', this.getNewArtifactForm)
         _ this.router.post('/new', this.postArtifact)
         _ this.router.get('/update/:id', this.getUpdateArtifactForm)
@@ -80,22 +86,33 @@ module
                     {
 
             handler( postArtifact )
-                # loog og myname + '.postNewArtifact.request.body', JSON.stringify(request.body, null, 2)
-                # loog og myname + '.postNewArtifact.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+                log myname + '.postNewArtifact.request.body', JSON.stringify(request.body, null, 2)
+                # loog myname + '.postNewArtifact.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+                const wizziSchema = request.body.ap_wizzi_schema || 'html'
+                const mainIttf = request.body.ap_main_ittf || 'index.' + wizziSchema + '.ittf'
+                const contexts = request.body.ap_context || '[]'
+                const tfolders = request.body.ap_tfolders || '[]'
                 _ createArtifactProduction
                     @ (request.session as any).user.username
                     @ request.body.ap_name
                     @ request.body.ap_description
-                    @ request.body.ap_main_ittf
-                    @ request.body.ap_wizzi_schema
-                    @ JSON.stringify(getPackiFiles(request.body.ap_main_ittf))
+                    @ mainIttf
+                    @ wizziSchema
+                    _ JSON.stringify
+                        _ createInitialPackiFiles
+                            @ contexts
+                            @ tfolders
+                            @ wizziSchema
+                            @ mainIttf
                     ._ then
                         =>
                             param result
                                 :ref CRUDResult
                             # loog og myname + '.postNewArtifact.createArtifactProduction.result', JSON.stringify(result, null, 2)
                             if result.ok
-                                _ response.redirect('/productions/artifacts')
+                                # _ response.redirect('/productions/artifacts')
+                                _ response.redirect
+                                    @ '/~~/a/' + (request.session as any).user.username + '/' + request.body.ap_name
                             else
                                 _ response.render
                                     @ 'error.html.ittf'

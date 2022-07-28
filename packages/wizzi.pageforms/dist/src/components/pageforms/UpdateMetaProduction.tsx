@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\dist\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdateMetaProduction.tsx.ittf
-    utc time: Fri, 22 Jul 2022 13:18:43 GMT
+    utc time: Mon, 25 Jul 2022 18:06:15 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -82,7 +82,7 @@ export class UpdateMetaProduction extends Component<UpdateMetaProductionProps, U
         const {
             owner
          } = this.props.data;
-        const mp_name_new_checked = this.state.mp_name_new;
+        const mp_name_new_checked = this.state.mp_name_new_name;
         const endpoint = `${nullthrows(process.env.API_SERVER_URL)}/production/meta/checkname/${encodeURIComponent(owner)}/${encodeURIComponent(mp_name_new_checked)}`;
         console.log('CreateMeta._checkAvalibleMetaName.endpoint', endpoint, __filename);
         const response = await fetch(endpoint);
@@ -92,8 +92,8 @@ export class UpdateMetaProduction extends Component<UpdateMetaProductionProps, U
         const result = await response.json();
         console.log('CreateMeta._checkAvalibleMetaName.result', result, __filename);
         this.setState({
-            mp_name_new_available: result.isValid, 
-            mp_name_new_checked: mp_name_new_checked
+            mp_name_new_name_available: result.isValid, 
+            mp_name_new_name_checked: mp_name_new_checked
          })
     }
     

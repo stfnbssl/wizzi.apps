@@ -49,7 +49,7 @@ module
         p formRef 
             = React.createRef()
         +
-        check_name_create( package )
+        check_name_create( package, pp )
         $*
         m _checkAvaliblePackageName
             async
