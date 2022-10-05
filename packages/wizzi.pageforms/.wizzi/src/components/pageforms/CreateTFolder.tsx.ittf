@@ -1,0 +1,157 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "CreateTFolder",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "tf_name", type: "string" },
+                { name: "tf_name_available", type: "boolean" },
+                { name: "tf_name_checked", type: "string" },
+                { name: "tf_description", type: "string" },
+                { name: "tf_schema", type: "string" },
+                { name: "tf_type", type: "string" },
+                { name: "tf_add_context", type: "boolean" },
+                { name: "tf_contexts", type: "[" },
+                { name: "tf_add_tfolder", type: "boolean" },
+                { name: "tf_dependencies", type: "[" },
+                { name: "tf_upload_files", type: "[" },
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        p formRef 
+            = React.createRef()
+        +
+        check_name_create( tFolder, tf  )
+        $*
+        m _checkAvalibleTFolderName
+            async
+            const tf_checked = this.state.tf_name
+            const endpoint
+                `lit
+                    _ nullthrows(process.env.API_SERVER_URL)
+                    + /production/tfolder/checkname/
+                    @ tf_checked
+            log 'CreateTFolder._checkAvalibleTFolderName.endpoint', endpoint
+            const response
+                await 
+                    _ fetch(endpoint)
+            if !response.ok
+                throw 
+                    new Error
+                        `lit 
+                            + checkAvalibleTFolderName error
+                            + &nbsp;-&nbsp;
+                            @ response.status
+                            + &nbsp;-&nbsp;
+                            @ response.statusText
+            const result
+                await 
+                    _ response.json()
+            log 'CreateTFolder._checkAvalibleTFolderName.result', result
+            _ this.setState
+                {
+                    @ tf_name_available result.isValid
+                    @ tf_name_checked tf_checked
+        *$
+        
+        m componentDidMount
+
+            set this._checkAvalibleTFolderName
+                _ debounce
+                    @ this._checkAvalibleTFolderName
+                    @ 100
+
+        +
+        m componentDidMount
+        +
+        
+        $include handle_input_change
+        
+        add_context_handlers( tf )
+        add_tfolder_handlers( tf )
+
+        +
+        => handleTFolderNameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            log 'handleTFolderNameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ tf_name ev.target.value
+            _ this._checkAvalibleTFolderName
+        +
+        handle_submit( Create, tf )
+        +       
+        => handleTFolderUploadChange
+            param files
+            log 'CreateTFolder.handleTFolderUploadChange', files
+            const uploadfiles = []
+            foreach file in files
+                if file.webkitRelativePath.endsWith('.ittf')
+                    _ uploadfiles.push
+                        {
+                            @ relPath file.webkitRelativePath
+                            @ file file
+            _ this.setState
+                { 
+                    @ tf_upload_files uploadfiles
+
+        +
+        m render
+            log 'CreatePacki.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Create a new tfolder'
+                        @ subtitle 'A tfolder contains ittf fragments
+                            \b of a single wizzi schema or of many wizzi schemas.'
+                    < HR
+                    form
+                        action /tfolder/new
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormGroup
+                            @ label 'TFolder name'
+                            @ name 'tf_name'
+                            @ id 'tf_name'
+                            @ required {true}
+                            @ value {this.state.tf_name}
+                            @ onChange {this.handleTFolderNameChange}
+                        < HR
+                        < FormGroup
+                            @ label 'Description'
+                            @ name 'tf_description'
+                            @ id 'tf_description'
+                            @ required {true}
+                            @ value {this.state.tf_description}
+                            @ onChange {this.handleInputChange}
+                        < HR
+                        
+                        add_context_render( tfolder )
+                        add_tfolder_render( tfolder )
+                        
+                        < FormFile
+                            @ label 'Upload fragments'
+                            @ name 'tf_upload'
+                            @ id 'tf_upload'
+                            @ value {this.state.tf_upload_files}
+                            @ onChange {this.handleTFolderUploadChange}
+                        
+                        form_buttons(Create, tf)

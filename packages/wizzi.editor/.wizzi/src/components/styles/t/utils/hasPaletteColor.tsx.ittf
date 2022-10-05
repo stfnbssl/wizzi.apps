@@ -1,0 +1,10 @@
+$group
+    export 
+        const hasPaletteColor
+            => 
+                param props
+                    :any
+                return (props.theme && 
+                    \b props.theme.palette &&
+                    \b typeof props.color === 'string' && 
+                    \b Object.keys(props.theme.palette).includes(props.color.split('.')[0]))

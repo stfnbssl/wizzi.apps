@@ -1,0 +1,10 @@
+module
+    +
+    const features
+        { 
+            @ MULTIPLE_FILES '1.0.0'
+            @ TFOLDER_DEPENDENCIES '2.0.0'
+            @ WIZZI_JOBS '3.0.0'
+            @ META_PRODUCTIONS '4.0.0'
+        # minimum SDK versions that support packi features
+    export-default features

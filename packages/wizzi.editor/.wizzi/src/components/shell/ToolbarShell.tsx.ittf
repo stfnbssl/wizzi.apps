@@ -1,0 +1,37 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "ToolbarShell",
+            props: [
+                {
+                    name: "children",
+                    type: "node"
+                }
+            ]
+        }
+    v08/ts/react/function(&md)
+        < StyledRoot
+            + {children}
+        $append imports
+            import
+                @ c
+                from '../ThemeProvider'
+        $append styles
+            styled StyledRoot .div
+                display grid 
+                grid-template-columns 1fr 5fr 1fr
+                height 50px
+                margin-bottom 20px
+                $*
+                display flex
+                flex-direction row
+                align-items center
+                justify-content space-between
+                border-bottom
+                    => "1px solid " + c('border')
+                height 60px
+                *$
+                background-color
+                    => c('content')
+

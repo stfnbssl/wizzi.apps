@@ -1,0 +1,32 @@
+module
+    import 
+        @ SDKSpec
+        from './types'
+    
+    const sdks
+        :{ 
+            :index 
+                :ref SDKSpec
+                param version
+                    :string 
+        =
+            { 
+                { '1.0.0'
+                    @ version '^1.0.0'
+                    { coreTFolders
+                        { html
+                            @ default '1.0.0'
+                        { css
+                            @ default '1.0.0'
+                        { svg
+                            @ default '1.0.0'
+                        { js
+                            @ default '1.0.0'
+                        { ts
+                            @ default '1.0.0'
+                        { wfjob
+                            @ default '1.0.0'
+                        { wfschema
+                            @ default '1.0.0'
+    
+    export-default sdks

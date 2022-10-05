@@ -1,0 +1,10 @@
+css
+
+    . syntax-highlight-container
+        height 100%
+        width 100%
+
+    . syntax-highlight-container > pre
+        margin 0
+        padding 0
+        height 100%

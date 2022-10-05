@@ -1,0 +1,197 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ loggedUser
+        from '../../features/app'
+    import 
+        @ c
+        from '../ThemeProvider'
+    import 
+        @ Avatar 
+        from '../widgets/Avatar'
+    import ContextMenu from '../widgets/ContextMenu'
+    export
+        :type UserMenuProps
+            :{
+                :p loggedUser
+                    :ref LoggedUser
+    :type State
+        :{ 
+            :p visible
+                :boolean 
+    export
+        class UserMenuComp
+            super React.Component
+                :param 
+                    :ref UserMenuProps
+                :param 
+                    :ref State
+            p state
+                :ref State
+                { 
+                    @ visible false
+            m componentDidMount
+                _ document.addEventListener('click', this._handleDocumentClick)
+                _ document.addEventListener('contextmenu', this._handleDocumentContextMenu)
+                log 'UserMenu componentDidMount'
+            m componentWillUnmount
+                _ document.removeEventListener('click', this._handleDocumentClick)
+                _ document.removeEventListener('contextmenu', this._handleDocumentContextMenu)
+            => _handleDocumentClick
+                param e
+                    :ref MouseEvent
+                log 'UserMenu _handleDocumentClick', this.state.visible
+                if this.state.visible
+                    if 
+                        test
+                            && 
+                                + this._menu.current && e.target !== this._menu.current
+                                op! 
+                                    _ this._menu.current.contains
+                                        @expr e.target
+                                            :as 
+                                                :ref HTMLElement
+                        _ this._hideMenu()
+                else
+                    if 
+                        test
+                            && 
+                                + this._avatar.current
+                                (
+                                    || 
+                                        + e.target === this._avatar.current
+                                        _ this._avatar.current.contains
+                                            @expr e.target
+                                                :as 
+                                                    :ref Node
+                        _ this.setState
+                            => 
+                                param state
+                                (
+                                    { 
+                                        @ visible !state.visible
+            => _handleDocumentContextMenu
+                if this.state.visible
+                    _ this._hideMenu()
+            => _hideMenu
+                _ this.setState
+                    { 
+                        @ visible false
+            p _menu
+                _ React.createRef
+                    :param 
+                        :ref HTMLUListElement
+            p _avatar
+                _ React.createRef
+                    :param 
+                        :ref HTMLButtonElement
+            m render
+                const 
+                    { 
+                        @ loggedUser
+                    = this.props
+                return 
+                    div 
+                        @ className {css(styles.container)}
+                        button 
+                            @ ref {this._avatar}
+                            @ className {css(styles.button)}
+                            @ title "Your profile"
+                            < Avatar 
+                                @ source
+                                    iif loggedUser?.picture
+                                        then loggedUser.picture
+                                        else null
+                                @ size {26}
+                        < ContextMenu 
+                            @ ref {this._menu}
+                            @ visible {this.state.visible}
+                            @ actions
+                                iif loggedUser
+                                    then
+                                        [ 
+                                            { 
+                                                @ label 'Artifacts'
+                                                @ handler
+                                                    => 
+                                                        _ window.open
+                                                            `lit 
+                                                                @ process.env.SERVER_URL
+                                                                + /productions/artifacts
+                                            { 
+                                                @ label 'Packages'
+                                                @ handler
+                                                    => 
+                                                        _ window.open
+                                                            `lit 
+                                                                @ process.env.SERVER_URL
+                                                                + /productions/packages
+                                            { 
+                                                @ label 'Metas'
+                                                @ handler
+                                                    => 
+                                                        _ window.open
+                                                            `lit 
+                                                                @ process.env.SERVER_URL
+                                                                + /productions/metas
+                                            { 
+                                                @ label 'tFolders'
+                                                @ handler
+                                                    => 
+                                                        _ window.open
+                                                            `lit 
+                                                                @ process.env.SERVER_URL
+                                                                + /productions/tfolders
+                                            { 
+                                                @ label 'Settings'
+                                                @ handler
+                                                    => 
+                                                        _ window.open
+                                                            `lit 
+                                                                + 
+                                                                @ process.env.SERVER_URL
+                                                                + /settings
+                                    else
+                                        [ 
+                                            { 
+                                                @ label 'Log in to Wizzi'
+                                                @ handler
+                                                    => 
+                                                        set window.location.href = '#'
+                            @ onHide {this._hideMenu}
+                            @ className {css(styles.menu)}
+    export 
+        const UserMenu = UserMenuComp
+    export-default UserMenu
+    const styles
+        _ StyleSheet.create
+            { 
+                { container
+                    @ marginRight 16
+                { menu
+                    @ position 'absolute'
+                    @ margin '4px 0'
+                    @ right 16
+                    $$ @ top '100%'
+                { button
+                    @ appearance 'none'
+                    @ background 'transparent'
+                    @ padding 0
+                    @ margin 0
+                    @ border 0
+                    @ outline 0
+                    @ height 40
+                    @ width 40
+                    @ borderRadius 2
+                    @ textDecoration 'none'
+                    @ display 'flex'
+                    @ justifyContent 'center'
+                    @ alignItems 'center'
+                    { ':hover'
+                        @ backgroundColor c('hover')

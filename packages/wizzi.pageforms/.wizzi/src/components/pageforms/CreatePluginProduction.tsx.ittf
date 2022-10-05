@@ -1,0 +1,157 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "CreatePluginProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "pl_name", type: "string" },
+                { name: "pl_name_available", type: "boolean" },
+                { name: "pl_name_checked", type: "string" },
+                { name: "pl_description", type: "string" },
+                { name: "pl_type", type: "string" },
+                { name: "pl_add_context", type: "boolean" },
+                { name: "pl_contexts", type: "[" },
+                { name: "pl_add_tfolder", type: "boolean" },
+                { name: "pl_dependencies", type: "[" },
+                { name: "pl_upload_files", type: "[" },
+                { name: "meta_id", type: "any" },
+                { name: "meta_listOptions", type: "any" },
+                { name: "meta_props", type: "[" },
+                { name: "meta_propsValues", type: "any" },
+                
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+            $include usemeta_imports
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        $append ctor
+            set this.state
+                {
+                    ... this.state
+                    @ meta_propsValues {}
+                    @ meta_props []
+                    @ meta_id ''
+                    @ meta_listOptions []
+
+        p formRef 
+            = React.createRef()
+        +
+        check_name_create( plugin, pl )
+        $*
+        m _checkAvaliblePluginName
+            async
+            const pl_checked = this.state.pl_name
+            const endpoint
+                `lit
+                    _ nullthrows(process.env.API_SERVER_URL)
+                    + /production/plugin/checkname/
+                    @ pl_checked
+            log 'CreatePlugin._checkAvaliblePluginName.endpoint', endpoint
+            const response
+                await 
+                    _ fetch(endpoint)
+            if !response.ok
+                throw 
+                    new Error
+                        `lit 
+                            + checkAvaliblePluginName error
+                            + &nbsp;-&nbsp;
+                            @ response.status
+                            + &nbsp;-&nbsp;
+                            @ response.statusText
+            const result
+                await 
+                    _ response.json()
+            log 'CreatePlugin._checkAvaliblePluginName.result', result
+            _ this.setState
+                {
+                    @ pl_name_available result.isValid
+                    @ pl_name_checked pl_checked
+        *$
+        
+        m componentDidMount
+            async
+            set this._checkAvaliblePluginName
+                _ debounce
+                    @ this._checkAvaliblePluginName
+                    @ 100
+            $include usemeta_did_mount
+        
+        $include handle_input_change
+        add_context_handlers( pl )
+        add_tfolder_handlers( pl )
+        $include usemeta_handlers
+
+        +
+        => handlePluginNameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            log 'handlePluginNameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ pl_name ev.target.value
+            _ this._checkAvaliblePluginName
+        +
+        handle_submit( Create, pl )
+        +
+        m render
+            log 'CreatePluginProduction.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Create a new plugin production'
+                        @ subtitle 'A plugin production contains the ittf documents 
+                            \b for a plugin.'
+                    < HR
+                    form
+                        action /plugin/new
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormGroup
+                            @ label 'Plugin name'
+                            @ name 'pl_name'
+                            @ id 'pl_name'
+                            @ required {true}
+                            @ value {this.state.pl_name}
+                            @ onChange {this.handlePluginNameChange}
+                        {
+                            &&
+                                + this.state.pl_name.length > 0 && this.state.pl_name_available
+                                < Para
+                                    + {'Plugin name ' + this.state.pl_name_checked + ' is available'}
+                        {
+                            &&
+                                + this.state.pl_name.length > 0 && !this.state.pl_name_available
+                                < Para
+                                    @ color '#ff0000'
+                                    + {'Plugin name ' + this.state.pl_name_checked + ' is not available'}
+                        < HR
+                        < FormGroup
+                            @ label 'Description'
+                            @ name 'pl_description'
+                            @ id 'pl_description'
+                            @ required {true}
+                            @ value {this.state.pl_description}
+                            @ onChange {this.handleInputChange}
+                        
+                        add_context_render( pl )
+                        add_tfolder_render( pl )
+                        $include usemeta_render
+                        
+                        form_buttons(Create, pl)

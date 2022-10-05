@@ -1,0 +1,141 @@
+module
+    
+    $
+        var md = {
+            styled: true,
+            name: "UpdatePackageProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "pp_id", type: "string" },
+                { name: "pp_owner", type: "string" },
+                { name: "pp_name_old", type: "string" },
+                { name: "pp_name_new", type: "string" },
+                { name: "pp_description", type: "string" },
+                { name: "pp_add_context", type: "boolean" },
+                { name: "pp_contexts", type: "[" },
+                { name: "pp_add_tfolder", type: "boolean" },
+                { name: "pp_dependencies", type: "[" },
+                { name: "pp_name_new_available", type: "boolean" },
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        check_name( package, pp_name_new )
+        +
+        $include handle_input_change
+        +
+        => handlePackageNameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            log 'handlePackageNameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ pp_name_new ev.target.value
+                =>
+                    if ev.target.value !== this.state.pp_name_old
+                        _ this._checkAvaliblePackageName
+        +
+        handle_submit( Update, pp )
+        
+        m componentDidMount
+            log 'UpdatePackageProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ _id
+                    @ owner
+                    @ name
+                    @ description
+                    @ contexts
+                    @ dependencies
+                = this.props.data
+            
+            const pp_contexts = contexts || []
+            const pp_dependencies = dependencies || []
+            
+            _ this.setState
+                {
+                    @ pp_id _id
+                    @ pp_owner owner
+                    @ pp_name_old name
+                    @ pp_name_new name
+                    @ mp_name_new_available true
+                    @ pp_description description
+                    @ pp_add_context pp_contexts.length > 0
+                    @ pp_contexts
+                    @ pp_add_tfolder pp_dependencies.length > 0
+                    @ pp_dependencies 
+
+        +
+        m render
+            log 'UpdatePacki.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Update package production'
+                        @ subtitle 'A package production contains the ittf documents 
+                            \b for a software package.'
+                    < HR
+                    form
+                        action /package/update
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormHidden
+                            @ name 'pp_id'
+                            @ id 'pp_id'
+                            @ value {this.state.pp_id}
+                        < FormHidden
+                            @ name 'pp_owner'
+                            @ id 'pp_owner'
+                            @ value {this.state.pp_owner}
+                        < FormHidden
+                            @ name 'pp_name_old'
+                            @ id 'pp_name_old'
+                            @ value {this.state.pp_name_old}
+                        < FormGroup
+                            @ label 'Package name'
+                            @ name 'pp_name_new'
+                            @ id 'pp_name_new'
+                            @ required {true}
+                            @ value {this.state.pp_name_new}
+                            @ onChange {this.handlePackageNameChange}
+                        {
+                            &&
+                                + this.state.pp_name_new.length > 0 &&
+                                    \b this.state.pp_name_old !== this.state.pp_name_new &&
+                                    \b this.state.pp_name_new_available
+                                < Para
+                                    + {'Package name ' + this.state.pp_name_new_checked + ' is available'}
+                        {
+                            &&
+                                + this.state.pp_name_new.length > 0 &&
+                                    \b this.state.pp_name_old !== this.state.pp_name_new &&
+                                    \b !this.state.pp_name_new_available
+                                < Para
+                                    @ color '#ff0000'
+                                    + {'Package name ' + this.state.pp_name_new_checked + ' is not available'}
+                        < HR
+                        < FormGroup
+                            @ label 'Description'
+                            @ name 'pp_description'
+                            @ id 'pp_description'
+                            @ required {true}
+                            @ value {this.state.pp_description}
+                            @ onChange {this.handleInputChange}
+                        
+                        form_buttons(Update, pp)

@@ -1,0 +1,119 @@
+module
+    
+    $
+        var useRouter = false;
+    
+    import cookies from 'js-cookie'
+    import 
+        as React
+        from 'react'
+    import ReactDOM from 'react-dom'
+    import 
+        @ HelmetProvider
+        from 'react-helmet-async'
+    import 
+        @ Provider
+        from 'react-redux'
+    
+    import App from './components/App'
+    import NonExistent from './components/NonExistent'
+    
+    import 
+        @ PreferencesProvider 
+        from './features/preferences'
+    
+    import ThemeProvider from './components/ThemeProvider'
+    import createStore from './store/createStore'
+
+    :import-type 
+        @ RouterData
+        @ QueryParams
+        from './features/packi'
+
+    :declare 
+        const __INITIAL_DATA__
+            :{ 
+                :p data
+                    :any
+                    $$ :ref RouterData
+                :p loggedUser
+                    :any
+                    $$ :ref LoggedUser
+                :p queryParams
+                    :any
+                    $$ :ref QueryParams
+    
+    $*
+    import
+        @ __INITIAL_DATA__
+        from './initialData'
+    *$
+    
+    +
+    const store
+        _ createStore
+            { 
+                { packi
+                    @ loading false
+                    @ clonedGithubRepoOwner undefined
+                    @ clonedGithubRepoName undefined
+                    @ clonedGithubRepoFiles undefined
+                { wizzi
+                    @ loading false
+                    @ wizziError undefined
+                    @ generatedArtifact undefined
+                    @ mTreeBuildupScript undefined
+                    @ mTreeIttf undefined
+                    { jobGeneratedArtifacts 
+                    { wizziMetaFolderIttfDocuments
+                    @ wizzifiedIttfContent undefined
+                    @ codeASTContent undefined
+    +
+    $if !useRouter
+        function AppContainer
+            param props
+                :any 
+            const 
+                { 
+                    @ data
+                    ... rest
+                = props
+            if data && data.type === 'success'
+                const appProps
+                    { 
+                        @ ...props
+                        @ ...rest
+                        @ packi data.packi
+                        @ defaults data.defaults
+                log 'index.appProps.loggedUser', appProps.loggedUser
+                log 'index.appProps', appProps
+                return 
+                    < App 
+                        @ {...appProps}
+            else
+                return 
+                    < NonExistent 
+
+    function PackiApp
+        return 
+            $$ < React.StrictMode 
+            < React.Fragment
+                < HelmetProvider 
+                    < Provider 
+                        @ store {store}
+                        < PreferencesProvider 
+                            @ cookies {cookies}
+                            < ThemeProvider 
+                                < AppContainer
+                                    @ data {window.__INITIAL_DATA__.data}
+                                    @ loggedUser {window.__INITIAL_DATA__.loggedUser}
+                                    @ queryParams {window.__INITIAL_DATA__.queryParams}
+
+    $*
+    _ ReactDOM.hydrate
+        < PackiApp 
+        _ document.getElementById('root')
+    *$
+    _ ReactDOM.render
+        < PackiApp 
+        _ document.getElementById('root')

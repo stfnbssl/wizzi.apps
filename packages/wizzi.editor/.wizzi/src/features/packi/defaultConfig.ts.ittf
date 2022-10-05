@@ -1,0 +1,34 @@
+module
+    import
+        @ PackiState
+        from './types'
+    +
+    export
+        const apiURL
+            :string
+            = 'https://exp.host'
+    +
+    export
+        const host
+            :string
+            = 'expo.io'
+    +
+    export
+        const PackiIdentityState
+            :ref PackiState
+            =
+                {
+                    @ owner ''
+                    @ name ''
+                    @ description ''
+                    { files
+                    @ disabled false
+                    @ unsaved false
+                    @ url ''
+    +
+    const defaultConfig
+        {
+            @ apiURL
+            @ host
+    +
+    export-default defaultConfig

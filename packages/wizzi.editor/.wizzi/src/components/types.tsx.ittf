@@ -1,0 +1,11 @@
+module
+    +
+    export
+        :type PreviewKind
+            :union 
+                :literal 'generated'
+                :literal 'mTreeIttf'
+                :literal 'mTreeBuildupScript'
+                :literal 'browser'
+                :literal 'wizzified'
+                :literal 'codeAST'

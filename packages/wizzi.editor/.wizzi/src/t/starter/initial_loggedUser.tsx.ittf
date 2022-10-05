@@ -1,0 +1,9 @@
+$group
+    $params name|@@null
+
+    { ${name}
+        @ id 'guest'
+        @ uid 'guest'
+        @ username 'guest'
+        @ displayName 'Guest'
+        @ picture 'guest'

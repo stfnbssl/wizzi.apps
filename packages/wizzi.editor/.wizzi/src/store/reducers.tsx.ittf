@@ -1,0 +1,18 @@
+module
+    import 
+        @ combineReducers
+        from 'redux'
+    import 
+        @ StoreState
+        from './types'
+    import packiReducer from '../features/packi/reducer'
+    import wizziReducer from '../features/wizzi/reducer'
+    export 
+        const createRootReducer
+            => 
+                _ combineReducers
+                    :param 
+                        :ref StoreState
+                    { 
+                        @ packi packiReducer
+                        @ wizzi wizziReducer

@@ -1,0 +1,417 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ LoggedUser
+        from '../../features/app'
+    import 
+        @ Annotation
+        from '../../features/annotations'
+    import 
+        @ Shortcuts
+        from './KeyboardShortcuts'
+    import
+        @ PreferencesContextType
+        @ PanelType
+        @ withPreferences
+        from '../../features/preferences'
+    import 
+        @ FooterShell 
+        from '../shell/FooterShell'
+    import 
+        @ c
+        from '../ThemeProvider'
+    import FooterButton from '../widgets/FooterButton'
+    import IconButton from '../widgets/IconButton'
+    import LoadingText from '../widgets/LoadingText'
+    import MenuButton from '../widgets/MenuButton'
+    import ShortcutLabel from '../widgets/ShortcutLabel'
+    import ToggleSwitch from '../widgets/ToggleSwitch'
+    export
+        :type EditorFooterProps
+            :intersect
+                :ref PreferencesContextType
+                :{ 
+                    :p annotations
+                        :[ 
+                            :ref Annotation
+                    :p fileTreeShown
+                        :boolean 
+                    :p panelsShown
+                        :boolean 
+                    :p sendCodeOnChangeEnabled
+                        :boolean 
+                    :p loggedUser
+                        :ref LoggedUser
+                    :p isLocalWebPreview
+                        :boolean 
+                    :p onToggleTheme
+                        :=> 
+                            :void 
+                    :p onTogglePanels
+                        :=> 
+                            :void 
+                            param panelType
+                                :ref PanelType
+                                :optional 
+                    :p onToggleFileTree
+                        :=> 
+                            :void 
+                    :p onShowShortcuts
+                        :=> 
+                            :void 
+                    :p theme
+                        :string 
+                    $if wzCtx.Build.usePackiAspects
+                        :p autoGenSingleDoc
+                            :boolean 
+                        :p autoExecJob
+                            :boolean 
+    function EditorFooterComp
+        param props
+            :ref EditorFooterProps
+        const 
+            { 
+                @ annotations
+                @ loggedUser
+                @ fileTreeShown
+                @ panelsShown
+                @ sendCodeOnChangeEnabled
+                @ isLocalWebPreview
+                @ onToggleTheme
+                @ onTogglePanels
+                @ onToggleFileTree
+                @ onShowShortcuts
+                @ theme
+                $if wzCtx.Build.usePackiAspects
+                    @ autoGenSingleDoc
+                    @ autoExecJob
+            = props
+        $if wzCtx.Build.usePackiAspects
+            const _toggleAutoGenSingleDoc
+                => 
+                    _ props.setPreferences
+                        { 
+                            @ autoGenSingleDoc !props.preferences.autoGenSingleDoc
+            const _toggleAutoExecJob
+                => 
+                    _ props.setPreferences
+                        { 
+                            @ autoExecJob !props.preferences.autoExecJob
+        const loadingItems
+            _ annotations.filter
+                => 
+                    param a
+                    set a.severity < 0
+        const isLoading = loadingItems.length >= 1
+        const isErrorFatal
+            && 
+                + !isLoading
+                _ annotations.some
+                    => 
+                        param a
+                        set a.severity > 3
+        const warningCount
+            _ annotations.filter
+                => 
+                    param a
+                    set a.severity === 2
+                . length
+        let text
+            :any 
+        if isLoading
+            set text =
+                iif isLoading
+                    then
+                        `lit 
+                            + 
+                            @ loadingItems[0].message
+                            + 
+                            iif loadingItems.length > 1
+                                then
+                                    `lit 
+                                        + &nbsp;(+
+                                        @ loadingItems.length - 1
+                                        + &nbsp;more)
+                                else ''
+                            + 
+                    else ''
+        else
+            const errors
+                _ annotations.filter
+                    => 
+                        param a
+                        set a.severity >= 3
+            if errors.length
+                const 
+                    { 
+                        @ message
+                        @ location
+                        @ action
+                    = errors[0]
+                const prefix
+                    iif location
+                        then
+                            `lit 
+                                + 
+                                @ location.fileName
+                                + &nbsp;(
+                                @ location.startLineNumber
+                                + :
+                                @ location.startColumn
+                                + )&nbsp;
+                        else ''
+                const suffix
+                    iif action
+                        then
+                            span 
+                                @ className {css(styles.action)}
+                                @ onClick
+                                    => 
+                                        param event
+                                        _ event.stopPropagation()
+                                        _ action.run()
+                                + {action.title}
+                        else
+                            iif errors.length > 1
+                                then
+                                    `lit 
+                                        + (+
+                                        @ errors.length - 1
+                                        + &nbsp;more)
+                                else ''
+                set text =
+                    span 
+                        + {prefix}
+                        + {message.split('\n')[0] + ' '}
+                        + {suffix}
+        return 
+            < FooterShell 
+                @ type
+                    iif isLoading
+                        then 'loading'
+                        else
+                            iif isErrorFatal
+                                then 'error'
+                                else null
+                div 
+                    @ className {css(styles.left)}
+                    { 
+                        iif isLoading
+                            then
+                                < LoadingText 
+                                    @ className {css(styles.loadingText)}
+                                    @ onClick
+                                        => 
+                                            _ onTogglePanels('errors')
+                                    + {text}
+                            else
+                                button 
+                                    @ onClick
+                                        => 
+                                            _ onTogglePanels
+                                                iif text
+                                                    then 'errors'
+                                                    else undefined
+                                    @ className
+                                        _ css
+                                            @expr styles.statusText
+                                            iif text
+                                                then
+                                                    ( 
+                                                        iif isErrorFatal
+                                                            then styles.errorTextFatal
+                                                            else styles.errorText
+                                                else styles.successText
+                                    { 
+                                        ?? 
+                                            + text
+                                            `lit 
+                                                + No errors
+                                                iif warningCount
+                                                    then
+                                                        `lit 
+                                                            + ,&nbsp;
+                                                            @ warningCount
+                                                            + &nbsp;warning
+                                                            iif warningCount > 1
+                                                                then 's'
+                                                                else ''
+                                                            + 
+                                                    else ''
+                                                + 
+                $if wzCtx.Build.usePackiAspects
+                    < MenuButton 
+                        @ icon {require('../../assets/settings-icon.png')}
+                        @ label
+                            span 
+                                @ className {css(styles.buttonLabel)}
+                                + Wizzi
+                        @ content
+                            < React.Fragment 
+                                < ToggleSwitch 
+                                    @ checked {autoGenSingleDoc}
+                                    @ onChange {_toggleAutoGenSingleDoc}
+                                    @ label "Auto gen single doc"
+                                < ToggleSwitch 
+                                    @ checked {autoExecJob}
+                                    @ onChange {_toggleAutoExecJob}
+                                    @ label "Auto exec job"
+                < MenuButton 
+                    @ icon {require('../../assets/settings-icon.png')}
+                    @ label
+                        span 
+                            @ className {css(styles.buttonLabel)}
+                            + Editor
+                    @ content
+                        < React.Fragment
+                            div 
+                                @ className {css(styles.buttonItem, styles.buttonItemEditorPane)}
+                                @ onClick {onShowShortcuts}
+                                < IconButton 
+                                    @ small
+                                    @ title "Show keyboard shortcuts"
+                                    @ label "Shortcuts"
+                                < ShortcutLabel 
+                                    @ combo {Shortcuts.shortcuts.combo}
+                                    @ className {css(styles.buttonItemShortcut)}
+                            div 
+                                @ className {css(styles.menuSeparator)}
+                            < ToggleSwitch 
+                                @ checked {fileTreeShown}
+                                @ onChange {onToggleFileTree}
+                                @ label "Files"
+                            < ToggleSwitch 
+                                @ checked {panelsShown}
+                                @ onChange
+                                    => 
+                                        _ onTogglePanels()
+                                @ label "Panel"
+                            < ToggleSwitch 
+                                @ checked {theme !== 'light'}
+                                @ onChange {onToggleTheme}
+                                @ label "Dark theme"
+    +
+    export
+        const EditorFooter  
+            _ withPreferences
+                @ EditorFooterComp
+    export-default EditorFooter
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { left
+                    @ display 'flex'
+                    @ alignItems 'stretch'
+                    @ flex 1
+                    @ minWidth 0
+                    @ overflow 'hidden'
+                { loadingText
+                    @ textOverflow 'ellipsis'
+                    @ whiteSpace 'nowrap'
+                    @ padding '.5em'
+                    @ width '100%'
+                    @ cursor 'pointer'
+                { statusText
+                    @ border 0
+                    @ outline 0
+                    @ margin 0
+                    @ appearance 'none'
+                    @ backgroundColor 'transparent'
+                    @ backgroundSize 16
+                    @ backgroundRepeat 'no-repeat'
+                    @ backgroundPosition '1em center'
+                    @ display 'inline-block'
+                    @ textOverflow 'ellipsis'
+                    @ whiteSpace 'nowrap'
+                    @ padding '.25em .5em .25em 3em'
+                    @ minWidth 200
+                    @ width '100%'
+                    @ textAlign 'left'
+                { successText
+                    @ backgroundImage
+                        `lit 
+                            + url(
+                            _ require('../../assets/checkmark.png')
+                            + )
+                { errorText
+                    @ backgroundImage
+                        `lit 
+                            + url(
+                            _ require('../../assets/cross-red.png')
+                            + )
+                    @ color c('error')
+                { errorTextFatal
+                    @ backgroundImage
+                        `lit 
+                            + url(
+                            _ require('../../assets/cross-light.png')
+                            + )
+                { errorBorder
+                    @ borderColor c('error-text')
+                { devicesCount
+                    @ position 'absolute'
+                    @ top 4
+                    @ right 6
+                    @ height 20
+                    @ minWidth 20
+                    @ borderRadius '50%'
+                    @ backgroundColor c('text')
+                    @ color c('background')
+                    @ opacity 0.5
+                { devicePane
+                    @ padding '0 16px'
+                { devicePaneItem
+                    @ margin '0 -16px'
+                { deviceLabel
+                    @ display 'flex'
+                    @ alignItems 'center'
+                    @ whiteSpace 'nowrap'
+                    @ padding '8px 0'
+                { deviceIcon
+                    @ height 16
+                    @ width 16
+                    @ marginRight 8
+                    @ fill 'currentColor'
+                { noDevicesMessage
+                    @ whiteSpace 'nowrap'
+                    @ margin 8
+                { buttonLabel
+                    @ display 'none'
+                    @[
+                        `lit 
+                            + @media (min-width:&nbsp;
+                            @ ${wzCtx.App.constants.preview.minWidth} + 20
+                            + px)
+                        { 
+                            @ display 'inline'
+                { buttonItem
+                    @ display 'flex'
+                    @ flexDirection 'row'
+                    @ alignItems 'center'
+                    @ justifyContent 'space-between'
+                { buttonItemShortcut
+                    @ userSelect 'none'
+                    @ cursor 'pointer'
+                    @ marginLeft 12
+                { buttonItemEditorPane
+                    @ margin '0 12px'
+                { title
+                    @ margin '16px 0 8px'
+                { action
+                    @ textDecoration 'underline'
+                    @ cursor 'pointer'
+                    @ fontWeight 'bold'
+                { menuSeparator
+                    @ margin '6px 0'
+                    @ borderBottom
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c('border')
+                            + 

@@ -1,0 +1,383 @@
+module
+    import mapValues from 'lodash/mapValues'
+    import nullthrows from 'nullthrows'
+    import
+        as State
+        from './State'
+    import defaultConfig
+        @ PackiIdentityState
+        from './defaultConfig'
+    import
+        @ PackiFiles
+        @ PackiFile
+        @ PackiState
+        @ PackiUser
+        @ PackiWindowRef
+        @ PackiOptions
+        @ PackiStateListener
+        @ PackiListenerSubscription
+        @ PackiSaveOptions
+        from './types'
+    import
+        @ fetch
+        @ createURL
+        @ createError
+        from './utils'
+    #
+    const myname = "src.features.packi.session"
+    #
+    const debounce
+        =>
+            param func
+                :any
+            param timeout
+                :any
+            param context
+                :any
+            let timer
+                :ref NodeJS.Timeout
+            return
+                =>
+                    param ...args
+                        :ref any[]
+                    _ clearTimeout(timer)
+                    set timer 
+                        _ setTimeout
+                            =>
+                                _ func.apply(context || this, args)
+                            @ timeout        
+    
+    export-default
+        class PackiSession
+            p state
+                :private
+                :ref PackiState
+            p stateListeners
+                :private
+                :ref Set
+                    :param
+                        :ref PackiStateListener
+                new Set
+            p apiURL
+                :readonly
+                :private
+                :string
+            p host
+                :readonly
+                :private
+                :string
+            p codeChangesDelay
+                :private
+                :number
+            p codeChangesTimer
+                :private
+                :any
+            ctor
+                param options
+                    :ref PackiOptions
+                log 'packi.Session.ctor.options', options
+                set this.apiURL = options.apiURL ?? defaultConfig.apiURL
+                set this.host = options.host ?? defaultConfig.host
+                set this.state =
+                    _ this.updateDerivedState
+                        {
+                            @ readOnly !!options.readOnly
+                            @ generated !!options.generated
+                            @ unsaved false
+                            @ id options.id
+                            @ owner options.owner ?? ''
+                            @ name options.name ?? ''
+                            @ description options.description ?? ''
+                            @ mainIttf options.mainIttf ?? ''
+                            @ wizziSchema options.wizziSchema ?? ''
+                            @ files
+                                ??
+                                    + options.files
+                                    {
+                            @ user options.user
+                            @ packiProduction options.packiProduction
+                            @ saveCount 0
+                        @ PackiIdentityState
+                set this.state.unsaved = false
+                _ this.setPreviewUrl
+                    @ options.mainIttf
+                set this.debouncedUploadPackiFilesUpdates
+                    _ debounce
+                        @ this.uploadPackiFilesUpdates
+                        @ 2000 $$ this.codeChangesDelay
+                        @ this
+            +
+            m setName
+                param name
+                    :string
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                iif state.name !== name
+                                    then
+                                        {
+                                            @ name
+                                    else null
+                #
+                    #
+                    # Sets the name of the Packi.
+                    #
+            +
+            m setDescription
+                param description
+                    :string
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                iif state.description !== description
+                                    then
+                                        {
+                                            @ description
+                                    else null
+                #
+                    #
+                    # Sets the description of the Packi.
+                    #
+            +
+            m setMainIttf
+                param mainIttf
+                    :string
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                iif state.mainIttf !== mainIttf
+                                    then
+                                        {
+                                            @ mainIttf
+                                    else null
+            +
+            m setWizziSchema
+                param wizziSchema
+                    :string
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                iif state.wizziSchema !== wizziSchema
+                                    then
+                                        {
+                                            @ wizziSchema
+                                    else null
+            +
+            m setPreviewUrl
+                param filePath
+                    :string
+                log myname, 'setPreviewUrl', filePath
+                let pathPrefix = "/~/"
+                if this.state.packiProduction == 'package'
+                    set pathPrefix = "/~p/"
+                elif this.state.packiProduction == 'plugin'
+                    set pathPrefix = "/~l/"
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            (
+                                {
+                                    @ previewURL
+                                        `lit
+                                            @ process.env.API_SERVER_URL
+                                            @ pathPrefix
+                                            @ encodeURIComponent(state.owner)
+                                            + /
+                                            @ encodeURIComponent(state.name)
+                                            + ?savecount=
+                                            @ state.saveCount
+                                            + &filepath=
+                                            @ encodeURIComponent(filePath)
+            +
+            m getState
+                :return
+                    :ref PackiState
+                return this.state
+                #
+                # State
+                #
+                #
+                    #
+                    # Returns the current state of the Packi. This includes files, dependencies
+                    # and other meta-data about the Packi.
+                    #
+            +
+            m addStateListener
+                param listener
+                    :ref PackiStateListener
+                :return
+                    :ref PackiListenerSubscription
+                _ this.stateListeners.add(listener)
+                return
+                    =>
+                        _ this.stateListeners.delete(listener)
+                #
+                    #
+                    # Adds a callback for listening for any state changes.
+                    #
+                    # @example
+                    # ```
+                    # const unsubscribe = Packi.addStateListener((state, prevState) => {
+                    # if (state.name !== prevState.name) {
+                    # console.log('name changed: ', state.name);
+                    # }
+                    # });
+                    #
+                    # Packi.setName('unforgiven orange'); // // Make a change to the state
+                    #
+                    # unsubscribe(); // Remove listener
+                    # ```
+                    #
+            m setState
+                :private
+                param stateFn
+                    :=>
+                        :any
+                        param state
+                            :ref PackiState
+                const update = stateFn(this.state)
+                $$ loog '_PackiSession.setState.update', update
+                if update
+                    const oldState = this.state
+                    const newState
+                        :ref PackiState
+                        =
+                            {
+                                @ ...oldState
+                                @ ...update
+                    set this.state = this.updateDerivedState(newState, oldState)
+                    $$ loog '_PackiSession.setState.state', this.state
+                    _ this.stateListeners.forEach
+                        =>
+                            param listener
+                            _ listener(newState, oldState)
+            +
+            m updateDerivedState
+                :private
+                param state
+                    :ref PackiState
+                param prevState
+                    :ref PackiState
+                :return
+                    :ref PackiState
+                set state.unsaved = state.unsaved || State.isUnsaved(state, prevState)
+                    # Set unsaved to true whenever files or dependencies change
+                _ this.updateDerivedOnlineState(state, prevState)
+                    # Update other derived states
+                return state
+            +
+            m setFocus
+                #
+                    #
+                    # Sets the focus to this Packi.
+                    #
+                    # Causes this Packi to be moved to the top of the "Recently in Development" list
+                    # in the Wizzi client.
+                    #
+            +
+            m updateDerivedOnlineState
+                :private
+                param state
+                    :ref PackiState
+                param prevState
+                    :ref PackiState
+                const
+                    {
+                        @ id
+                        @ name
+                        @ disabled
+                    = state
+            m updateFiles
+                param files
+                    :ref PackiFiles
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            const newFiles = State.updateObjects(state.files, files)
+                            return
+                                iif newFiles !== state.files
+                                    then
+                                        {
+                                            @ files newFiles
+                                    else null
+                #
+                # Files (code & assets)
+                #
+                #
+                    #
+                    # Updates code or asset files.
+                    #
+                    # Use this method to add/remove/update files and upload assets.
+                    # To remove a file specify `null` as the value of the file.
+                    #
+                    # @example
+                    # ```ts
+                    # const Packi = new Packi({
+                    # files: {
+                    # 'App.js': { type: 'CODE', contents: 'console.log("hello world!");' },
+                    # 'data.json': { type: 'CODE', contents: '{}' },
+                    # }
+                    # });
+                    #
+                    # // Add or update files
+                    # Packi.updateFiles({
+                    # 'App.js': {
+                    # type: 'CODE',
+                    # contents: 'console.log("Hello Packi!");'
+                    # }
+                    # });
+                    #
+                    # // Upload an asset
+                    # Packi.updateFiles({
+                    # 'assets/logo.png': {
+                    # type: 'ASSET',
+                    # contents: file // File, Blob or FormData
+                    # }
+                    # });
+                    #
+                    # // Add a pre-uploaded asset
+                    # Packi.updateFiles({
+                    # 'assets/expo.jpg': {
+                    # type: 'ASSET',
+                    # contents: 'https://mysite/expo.jpg'
+                    # }
+                    # });
+                    #
+                    # // Remove files
+                    # Packi.updateFiles({
+                    # 'data.json': null,
+                    # 'assets/expo.jpg': null
+                    # });
+                    # ```
+                    #
+
+            m setSelectedFile
+                param filePath
+                    :string 
+                log myname, 'setSelectedFile', filePath
+                return
+                    _ this.setState
+                        =>
+                            param state
+                            if state.selectedFile !== filePath
+                                if !(filePath.startsWith('t/') || filePath.indexOf('/t/') > -1)
+                                    _ this.setPreviewUrl
+                                        @ filePath
+                                return
+                                    {
+                                        @ selectedFile filePath
+                            else
+                                return null
+            
+            $include session/updates
+            $include session/packidownload

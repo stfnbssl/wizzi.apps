@@ -1,0 +1,223 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ withThemeName
+        @ ThemeName
+        from '../../features/preferences'
+    import 
+        @ c
+        from '../ThemeProvider'
+    import ContextMenu from '../widgets/ContextMenu'
+    import FileListEntryIcon from './FileListEntryIcon'
+    import 
+        @ TextFileEntry
+        @ AssetFileEntry
+        from '../../features/file'
+    :type Props
+        :{ 
+            :p entry
+                :union 
+                    :ref TextFileEntry
+                    :ref AssetFileEntry
+            :p onOpen
+                :=> 
+                    :void 
+            :p onClose
+                :=> 
+                    :void 
+            :p onCloseOthers
+                :=> 
+                    :void 
+            :p onCloseAll
+                :=> 
+                    :void 
+            :p theme
+                :ref ThemeName
+    :type State
+        :{ 
+            :p isHovered
+                :boolean 
+            :p menu
+                :union 
+                    :{ 
+                        :p pageX
+                            :number 
+                        :p pageY
+                            :number 
+                    :undefined 
+                    :null 
+    class FileListOpenEntry
+        super React.PureComponent
+            :param 
+                :ref Props
+            :param 
+                :ref State
+        p state
+            :ref State
+            { 
+                @ isHovered false
+                @ menu null
+        m componentDidMount
+            _ document.addEventListener('click', this._handleDocumentClick)
+            _ document.addEventListener('contextmenu', this._handleDocumentContextMenu)
+        m componentWillUnmount
+            _ document.removeEventListener('click', this._handleDocumentClick)
+            _ document.removeEventListener('contextmenu', this._handleDocumentContextMenu)
+        => _hideContextMenu
+            _ this.setState
+                { 
+                    @ menu null
+        => _showContextMenu
+            param e
+                :ref MouseEvent
+            _ this.setState
+                { 
+                    { menu
+                        @ pageX e.pageX
+                        @ pageY e.pageY
+        => _handleDocumentClick
+            param e
+                :ref MouseEvent
+            if this.state.menu
+                if 
+                    test
+                        && 
+                            + this._menu.current && e.target !== this._menu.current
+                            op! 
+                                _ this._menu.current.contains
+                                    @expr e.target
+                                        :as 
+                                            :ref Node
+                    _ this._hideContextMenu()
+        => _handleDocumentContextMenu
+            param e
+                :ref MouseEvent
+            if 
+                test
+                    || 
+                        + e.target === this._item.current
+                        _ this._item.current?.contains?.
+                            @expr e.target
+                                :as 
+                                    :ref Node
+                _ e.preventDefault()
+                _ this._showContextMenu(e)
+            else
+                if this.state.menu
+                    _ this._hideContextMenu()
+        => _handleMouseEnter
+            _ this.setState
+                { 
+                    @ isHovered true
+        => _handleMouseLeave
+            _ this.setState
+                { 
+                    @ isHovered false
+        p _menu
+            _ React.createRef
+                :param 
+                    :ref HTMLUListElement
+        p _item
+            _ React.createRef
+                :param 
+                    :ref HTMLLIElement
+        m render
+            const 
+                { 
+                    @ entry
+                    @ theme
+                = this.props
+            const displayName = entry.item.path.split('/').pop()
+            return 
+                li 
+                    @ ref {this._item}
+                    @ tabIndex {-1}
+                    @ className
+                        _ css
+                            @expr styles.item
+                            && 
+                                + entry.state.isFocused
+                                ( 
+                                    iif theme === 'dark'
+                                        then styles.focusedDark
+                                        else styles.focusedLight
+                    @ onMouseEnter {this._handleMouseEnter}
+                    @ onMouseLeave {this._handleMouseLeave}
+                    button 
+                        @ onClick {this.props.onClose}
+                        @ className
+                            _ css
+                                @expr styles.close
+                                iif this.state.isHovered
+                                    then styles.closeFocused
+                                    else styles.closeBlurred
+                        + ×
+                    div 
+                        @ onClick {this.props.onOpen}
+                        < FileListEntryIcon 
+                            @ entry {entry}
+                        span 
+                            @ className
+                                _ css
+                                    @expr styles.label
+                                    iif entry.state.isError
+                                        then styles.labelError
+                                        else undefined
+                            + {displayName}
+                    < ContextMenu 
+                        @ ref {this._menu}
+                        @ visible {Boolean(this.state.menu)}
+                        @ position {this.state.menu}
+                        @ actions
+                            [ 
+                                { 
+                                    @ label 'Close'
+                                    @ handler this.props.onClose
+                                { 
+                                    @ label 'Close Others'
+                                    @ handler this.props.onCloseOthers
+                                { 
+                                    @ label 'Close All'
+                                    @ handler this.props.onCloseAll
+                        @ onHide {this._hideContextMenu}
+    export-default withThemeName(FileListOpenEntry)
+    const styles
+        _ StyleSheet.create
+            { 
+                { item
+                    @ paddingLeft 24
+                    @ cursor 'pointer'
+                    @ outline 0
+                    @ whiteSpace 'nowrap'
+                { label
+                    @ display 'inline-block'
+                    @ verticalAlign -1
+                    @ margin "0 6px"
+                    @ userSelect 'none'
+                    @ whiteSpace 'nowrap'
+                { labelError
+                    @ color c('error')
+                { focusedLight
+                    @ backgroundColor 'rgba(0, 0, 0, .04)'
+                { focusedDark
+                    @ backgroundColor 'rgba(255, 255, 255, .04)'
+                { close
+                    @ padding '7px 8px'
+                    @ fontSize '18px'
+                    @ border 'none'
+                    @ appearance 'none'
+                    @ position 'absolute'
+                    @ left 0
+                    @ margin '-3px 0 0 0'
+                    @ background 'none'
+                    @ outline 0
+                { closeFocused
+                    @ opacity 1
+                { closeBlurred
+                    @ opacity 0

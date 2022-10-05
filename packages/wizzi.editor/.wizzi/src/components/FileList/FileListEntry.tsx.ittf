@@ -1,0 +1,593 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ FileSystemEntry
+        @ isEntryPoint
+        @ getParentPath
+        @ isTest
+        from '../../features/file'
+
+    import 
+        @ ThemeName
+        from '../../features/preferences'
+    import 
+        @ c
+        from '../ThemeProvider'
+    import 
+        @ Action
+        from '../widgets/ContextMenu'
+    import 
+        @ KeyMap
+        from '../widgets/KeybindingsManager'
+    import FileListChildren from './FileListChildren'
+    import FileListEntryBase from './FileListEntryBase'
+    import FileListEntryIcon from './FileListEntryIcon'
+    export
+        :type FileListEntryProps
+            :{ 
+                :p entry
+                    :ref FileSystemEntry
+                :p rest
+                    :[ 
+                        :ref FileSystemEntry
+                :p readOnly
+                    :boolean
+                :p clipboard
+                    :[ 
+                        :ref FileSystemEntry
+                :p onOpen
+                    :=> 
+                        :void 
+                        param path
+                            :string 
+                :p onFocus
+                    :=> 
+                        :void 
+                        param path
+                            :string 
+                :p onSelect
+                    :=> 
+                        :void 
+                        param path
+                            :string 
+                :p onDelete
+                    :=> 
+                        :void 
+                        param path
+                            :string 
+                :p onCopy
+                    :=> 
+                        :void 
+                        param path
+                            :string 
+                :p onExpand
+                    :=> 
+                        :void 
+                        param path
+                            :string 
+                        param expand
+                            :boolean 
+                            :optional 
+                :p onRename
+                    :=> 
+                        :void 
+                        param oldPath
+                            :string 
+                        param newPath
+                            :string 
+                :p onCreateFile
+                    :=> 
+                        :void 
+                        param path
+                            :union 
+                                :string 
+                                :undefined 
+                :p onCreateFolder
+                    :=> 
+                        :void 
+                        param path
+                            :union 
+                                :string 
+                                :undefined 
+                :p onPaste
+                    :=> 
+                        :void 
+                        param path
+                            :union 
+                                :string 
+                                :undefined 
+                        param entry
+                            :ref FileSystemEntry
+                :p onClearClipboard
+                    :=> 
+                        :void 
+                :p getAdjacentEntries
+                    :=> 
+                        :[ 
+                            :ref FileSystemEntry
+                :p theme
+                    :ref ThemeName
+    :type State
+        :{ 
+            :p name
+                :string 
+            :p error
+                :union 
+                    :ref Error
+                    :null 
+            :p isRenaming
+                :boolean 
+    const toggleTSExt
+        => 
+            param name
+                :string 
+            _ name.replace
+                @ /(\.[^.]+$)/
+                => 
+                    param _
+                    param $1
+                    ( 
+                        iif $1 === '.js'
+                            then '.tsx'
+                            else '.js'
+    export
+        class FileListEntry
+            super React.Component
+                :param 
+                    :ref FileListEntryProps
+                :param 
+                    :ref State
+            ctor 
+                param props
+                    :ref FileListEntryProps
+                _ super(props)
+                const 
+                    { 
+                        @ entry
+                    = props
+                set this.state =
+                    { 
+                        @ name
+                            iif entry.state.isCreating
+                                then entry.item.path.split('/').pop() ?? ''
+                                else ''
+                        @ error null
+                        @ isRenaming !entry.item.asset && !!entry.state.isCreating
+            p state
+                :ref State
+            m componentDidMount
+                if this.props.entry.state.isCreating
+                    _ this.props.onOpen(this.props.entry.item.path)
+            => _handleToggleExpand
+                _ this.props.onExpand(this.props.entry.item.path, !this.props.entry.state.isExpanded)
+            => _handleToggleRename
+                if this.state.isRenaming && !this.state.error
+                    _ this._handleNameChange(this.state.name)
+                _ this.setState
+                    => 
+                        param state
+                        param props
+                        iif state.isRenaming
+                            then
+                                { 
+                                    @ isRenaming false
+                                    @ name ''
+                                    @ error null
+                            else
+                                { 
+                                    @ isRenaming true
+                                    @ name props.entry.item.path.split('/').pop() ?? ''
+                                    @ error null
+            => _handleDelete
+                _ this.props.onDelete(this.props.entry.item.path)
+            => _handleNameChange
+                param name
+                    :string 
+                const 
+                    { 
+                        @ entry
+                    = this.props
+                if name && (name !== entry.item.path.split('/').pop() || entry.state.isCreating)
+                    const newPath = entry.item.path.replace(/[^/]+$/, name)
+                    _ this.props.onRename(entry.item.path, newPath)
+            => _handleInputChange
+                param e
+                    :ref React.ChangeEvent
+                        :param 
+                            :ref HTMLInputElement
+                const name = e.target.value
+                _ this.setState
+                    { 
+                        @ name
+                        @ error this._validateName(name)
+            => _validateName
+                param name
+                    :string 
+                if name === this.props.entry.item.path.split('/').pop()
+                    return null
+                const invalidCharacters
+                    [ 
+                        @ '\0'
+                        @ '\\'
+                        @ ':'
+                        @ '*'
+                        @ '?'
+                        @ '"'
+                        @ '<'
+                        @ '>'
+                        @ '|'
+                const usedCharacters
+                    _ invalidCharacters.filter
+                        => 
+                            param c
+                            _ name.includes(c)
+                if usedCharacters.length
+                    return 
+                        new Error
+                            `lit 
+                                + 
+                                iif usedCharacters.length === 1
+                                    then
+                                        `lit 
+                                            + 
+                                            @ usedCharacters[0]
+                                            + &nbsp;is
+                                    else
+                                        `lit 
+                                            + 
+                                            _ usedCharacters.join(', ')
+                                            + &nbsp;are
+                                + &nbsp;not allowed
+                const adjacentEntries = this.props.getAdjacentEntries()
+                if 
+                    test
+                        _ adjacentEntries.some
+                            => 
+                                param e
+                                set (e.item.path.split('/').pop() ?? '').toLowerCase() === name.toLowerCase()
+                    return 
+                        new Error
+                            `lit 
+                                + Another entry already exists with same name
+                if isEntryPoint(name)
+                    return 
+                        new Error
+                            `lit 
+                                + Cannot name a new file as&nbsp;
+                                @ name
+                                + 
+                return null
+            => _handleInputFocus
+                param e
+                    :ref React.FocusEvent
+                        :param 
+                            :ref HTMLInputElement
+                const input = e.target
+                if input instanceof HTMLInputElement
+                    _ input.select()
+            => _handleInputBlur
+                if !this.state.error
+                    _ this._handleNameChange(this.state.name)
+                _ this.setState
+                    { 
+                        @ isRenaming false
+                        @ name ''
+                        @ error null
+            => _handleInputKeyUp
+                param e
+                    :ref React.KeyboardEvent
+                        :param 
+                            :ref HTMLInputElement
+                switch e.keyCode
+                    case KeyMap.Enter
+                        _ this._handleToggleRename()
+                        break 
+                    case KeyMap.Escape
+                        _ this._handleInputBlur()
+                        break 
+            => _handleCreateFile
+                _ this.props.onCreateFile(this.props.entry.item.path)
+            => _handleCreateFolder
+                _ this.props.onCreateFolder(this.props.entry.item.path)
+            => _handleCopy
+                _ this.props.onCopy(this.props.entry.item.path)
+            => _handlePaste
+                const 
+                    { 
+                        @ entry
+                        @ clipboard
+                        @ onPaste
+                        @ onClearClipboard
+                    = this.props
+                _ clipboard.forEach
+                    => 
+                        param e
+                        _ onPaste(entry.item.path, e)
+                _ onClearClipboard()
+            => _handleDuplicate
+                const 
+                    { 
+                        @ entry
+                        @ onPaste
+                    = this.props
+                const path
+                    iif entry.item.path.includes('/')
+                        then
+                            iif entry.item.type === 'folder'
+                                then getParentPath(entry.item.path)
+                                else entry.item.path
+                        else undefined
+                _ onPaste(path, entry)
+            => _handleToggleTSExt
+                const filepath = this.props.entry.item.path
+                _ this.props.onRename(filepath, toggleTSExt(filepath))
+            => _getActions
+                :return
+                    :[ 
+                        :paren 
+                            :union 
+                                :ref Action
+                                :undefined 
+                [ 
+                    { 
+                        @ label 'New file'
+                        @ handler this._handleCreateFile
+                    { 
+                        @ label 'New folder'
+                        @ handler this._handleCreateFolder
+                    iif this.props.entry.item.type === 'folder'
+                        then
+                            { 
+                                @ label
+                                    iif this.props.entry.item.type === 'folder' && this.props.entry.state.isExpanded
+                                        then 'Collapse'
+                                        else 'Expand'
+                                @ handler this._handleToggleExpand
+                                [ combo
+                                    @ KeyMap.Enter
+                        else undefined
+                    iif this.props.clipboard.length
+                        then
+                            { 
+                                @ label 'Paste'
+                                @ handler this._handlePaste
+                                [ combo
+                                    @ KeyMap.Meta
+                                    @ KeyMap.V
+                        else
+                            iif !this.props.entry.item.virtual
+                                then
+                                    { 
+                                        @ label 'Copy'
+                                        @ handler this._handleCopy
+                                        [ combo
+                                            @ KeyMap.Meta
+                                            @ KeyMap.C
+                                else undefined
+                    iif !this.props.entry.item.virtual
+                        then
+                            { 
+                                @ label 'Duplicate'
+                                @ handler this._handleDuplicate
+                                [ combo
+                                    @ KeyMap.Meta
+                                    @ KeyMap.D
+                        else undefined
+                    iif isEntryPoint(this.props.entry.item.path)
+                        then
+                            { 
+                                @ label
+                                    `lit 
+                                        + Rename to&nbsp;
+                                        _ toggleTSExt(this.props.entry.item.path)
+                                        + 
+                                @ handler this._handleToggleTSExt
+                        else undefined
+                    ... 
+                        ( 
+                            iif !isEntryPoint(this.props.entry.item.path) && !this.props.entry.item.virtual
+                                then
+                                    [ 
+                                        { 
+                                            @ label 'Rename'
+                                            @ handler this._handleToggleRename
+                                            [ combo
+                                                @ KeyMap.F2
+                                        { 
+                                            @ label 'Delete'
+                                            @ handler this._handleDelete
+                                            [ combo
+                                                @ KeyMap.Delete
+                                else []
+            => _renderItem
+                const 
+                    { 
+                        @ entry
+                    = this.props
+                const 
+                    { 
+                        @ isRenaming
+                        @ name
+                    = this.state
+                const displayName
+                    iif isRenaming
+                        then '\u00A0'
+                        else entry.item.path.split('/').pop()
+                return 
+                    div 
+                        { 
+                            iif this.state.error
+                                then
+                                    div 
+                                        @ className {css(styles.error)}
+                                        + {this.state.error.message}
+                                else null
+                        < FileListEntryIcon 
+                            @ entry {entry}
+                        span 
+                            @ className
+                                _ css
+                                    @expr styles.label
+                                    iif isTest(entry.item.path)
+                                        then styles.labelTest
+                                        else undefined
+                                    iif entry.state.isError
+                                        then styles.labelError
+                                        else undefined
+                            + {displayName}
+                        { 
+                            iif isRenaming
+                                then
+                                    input 
+                                        @ autoFocus
+                                        @ type "text"
+                                        @ value {name}
+                                        @ onChange {this._handleInputChange}
+                                        @ onFocus {this._handleInputFocus}
+                                        @ onBlur {this._handleInputBlur}
+                                        @ onKeyUp {this._handleInputKeyUp}
+                                        @ className {css(styles.input)}
+                                else null
+            => _renderTree
+                const 
+                    { 
+                        @ entry
+                        @ rest
+                        @ clipboard
+                        @ readOnly
+                        @ onCreateFile
+                        @ onCreateFolder
+                        @ onOpen
+                        @ onSelect
+                        @ onFocus
+                        @ onPaste
+                        @ onRename
+                        @ onExpand
+                        @ onDelete
+                        @ onCopy
+                        @ onClearClipboard
+                        @ theme
+                    = this.props
+                return 
+                    iif entry.item.type === 'folder' && rest.length && entry.state.isExpanded
+                        then
+                            div 
+                                @ className {css(styles.child)}
+                                < FileListChildren 
+                                    @ parent {entry.item.path}
+                                    @ entries {rest}
+                                    @ clipboard {clipboard}
+                                    @ readOnly {readOnly}
+                                    @ onCreateFile {onCreateFile}
+                                    @ onCreateFolder {onCreateFolder}
+                                    @ onOpen {onOpen}
+                                    @ onSelect {onSelect}
+                                    @ onFocus {onFocus}
+                                    @ onCopy {onCopy}
+                                    @ onPaste {onPaste}
+                                    @ onRename {onRename}
+                                    @ onExpand {onExpand}
+                                    @ onDelete {onDelete}
+                                    @ onClearClipboard {onClearClipboard}
+                                    @ theme {theme}
+                        else null
+            => _renderMenuIcon
+                svg 
+                    @ className {css(styles.icon)}
+                    @ viewBox "0 0 16 16"
+                    circle 
+                        @ cy "3"
+                        @ cx "8"
+                        @ r "1.5"
+                    circle 
+                        @ cy "8"
+                        @ cx "8"
+                        @ r "1.5"
+                    circle 
+                        @ cy "13"
+                        @ cx "8"
+                        @ r "1.5"
+            m render
+                const 
+                    { 
+                        @ entry
+                        @ rest
+                        @ onOpen
+                        @ onFocus
+                        @ onRename
+                        @ onExpand
+                        @ readOnly
+                        @ theme
+                    = this.props
+                    # Disable drag n drop for the entry file and virtual files
+                    # Also disable for files being created because they will have a nested input
+                    # Otherwise it'll be impossible to move the cursor in the input by dragging
+                const draggable = !((isEntryPoint(this.props.entry.item.path) || this.props.entry.item.virtual) ?? this.props.entry.state.isCreating)
+                    # Disable drag n drop for the entry file and virtual files
+                    # Also disable for files being created because they will have a nested input
+                    # Otherwise it'll be impossible to move the cursor in the input by dragging
+                return 
+                    < FileListEntryBase 
+                        @ entry {entry}
+                        @ rest {rest}
+                        @ onOpen {onOpen}
+                        @ onFocus {onFocus}
+                        @ onRename {onRename}
+                        @ onExpand {onExpand}
+                        @ renderItem {this._renderItem}
+                        @ renderTree {this._renderTree}
+                        @ renderMenuIcon {this._renderMenuIcon}
+                        @ actions {this._getActions()}
+                        @ draggable {draggable}
+                        @ readOnly {readOnly}
+                        @ theme {theme}
+    +
+    export-default FileListEntry
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { child
+                    @ marginLeft 16
+                { label
+                    @ verticalAlign -1
+                    @ margin '0 6px'
+                    @ userSelect 'none'
+                { labelError
+                    @ color c('error')
+                { labelTest
+                    @ color c('soft')
+                { input
+                    @ position 'absolute'
+                    @ top 0
+                    @ left 35
+                    @ height 28
+                    @ margin 1
+                    @ border
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c('selected')
+                            + 
+                    @ borderRadius 3
+                    @ backgroundColor c('content')
+                    @ outline 0
+                    @ paddingLeft 2
+                { error
+                    @ backgroundColor c('error')
+                    @ color c('error-text')
+                    @ padding '4px 8px'
+                    @ position 'fixed'
+                    @ marginTop -32
+                    @ marginLeft 20
+                    @ borderRadius 3
+                { icon
+                    @ height 16
+                    @ width 16
+                    @ opacity 0.7
+                    @ fill 'currentColor'

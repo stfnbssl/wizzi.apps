@@ -1,0 +1,25 @@
+$group
+    +
+    export 
+        const getTextColorOn
+            => 
+                param name
+                    :string
+                (
+                    => 
+                        param props
+                            :any
+                        const 
+                            { 
+                                @ theme
+                            = props
+                        if theme.palette
+                            const color = getPaletteColor(name)(props)
+                            const text = theme.palette.text
+                            if color
+                                return 
+                                    iif getContrastRatio(text.lightest, color) >= theme.contrastRatio
+                                        then text.lightest
+                                        else text.base
+                            return text.base
+                        return ''

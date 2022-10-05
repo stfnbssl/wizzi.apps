@@ -1,0 +1,139 @@
+module
+    export 
+        :type TextFileEntry
+            :ref Readonly
+                :param 
+                    :{ 
+                        :p item
+                            :{ 
+                                :p path
+                                    :string 
+                                :p type
+                                    :literal 'file'
+                                :p content
+                                    :string 
+                                :p generated
+                                    :optional 
+                                    :boolean
+                                :p virtual
+                                    :optional 
+                                    :literal true
+                                :p asset
+                                    :optional 
+                                    :literal false
+                        :p state
+                            :{ 
+                                :p isOpen
+                                    :optional 
+                                    :boolean 
+                                :p isFocused
+                                    :optional 
+                                    :boolean 
+                                :p isSelected
+                                    :optional 
+                                    :boolean 
+                                :p isCreating
+                                    :optional 
+                                    :boolean 
+                                :p isExpanded
+                                    :optional 
+                                    :literal false
+                                :p isError
+                                    :optional 
+                                    :boolean 
+                                :p isLoading
+                                    :optional 
+                                    :boolean 
+    export 
+        :type AssetFileEntry
+            :ref Readonly
+                :param 
+                    :{ 
+                        :p item
+                            :{ 
+                                :p path
+                                    :string 
+                                :p type
+                                    :literal 'file'
+                                :p uri
+                                    :string 
+                                :p asset
+                                    :literal true
+                                :p generated
+                                    :optional 
+                                    :boolean
+                                :p virtual
+                                    :optional 
+                                    :literal true
+                        :p state
+                            :{ 
+                                :p isOpen
+                                    :optional 
+                                    :boolean 
+                                :p isFocused
+                                    :optional 
+                                    :boolean 
+                                :p isSelected
+                                    :optional 
+                                    :boolean 
+                                :p isCreating
+                                    :optional 
+                                    :boolean 
+                                :p isExpanded
+                                    :optional 
+                                    :literal false
+                                :p isError
+                                    :optional 
+                                    :boolean 
+                                :p isLoading
+                                    :optional 
+                                    :boolean 
+    export 
+        :type FolderEntry
+            :ref Readonly
+                :param 
+                    :{ 
+                        :p item
+                            :{ 
+                                :p path
+                                    :string 
+                                :p type
+                                    :literal 'folder'
+                                :p asset
+                                    :optional 
+                                    :literal false
+                                :p generated
+                                    :optional 
+                                    :boolean
+                                :p virtual
+                                    :optional 
+                                    :literal false
+                        :p state
+                            :{ 
+                                :p isOpen
+                                    :optional 
+                                    :boolean 
+                                :p isFocused
+                                    :optional 
+                                    :boolean 
+                                :p isExpanded
+                                    :optional 
+                                    :boolean 
+                                :p isSelected
+                                    :optional 
+                                    :boolean 
+                                :p isCreating
+                                    :optional 
+                                    :boolean 
+                                :p isError
+                                    :optional 
+                                    :boolean 
+                                :p isLoading
+                                    :optional 
+                                    :boolean 
+    export 
+        :type FileSystemEntry
+            :union 
+                :ref TextFileEntry
+                :ref AssetFileEntry
+                :ref FolderEntry

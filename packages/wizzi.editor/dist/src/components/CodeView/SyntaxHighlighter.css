@@ -1,0 +1,16 @@
+/*
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-web\lib\artifacts\css\document\gen\main.js
+    package: wizzi-web@0.7.16
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\CodeView\SyntaxHighlighter.css.ittf
+    utc time: Wed, 05 Oct 2022 15:21:46 GMT
+*/
+.syntax-highlight-container {
+    height: 100%;
+    width: 100%;
+}
+.syntax-highlight-container > pre {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+

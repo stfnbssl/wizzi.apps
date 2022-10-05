@@ -1,0 +1,46 @@
+module
+    
+    $
+        var md = {
+            styled: true,
+            name: "UpdateUser",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "u_web_url", type: "string" },
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        $append imports
+            common_imports( top )
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        +
+        m componentDidMount
+        
+        $include handle_input_change
+        
+        +
+        m render
+            log 'UpdateUser.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Update user profile'
+                        @ subtitle ''
+                    < HR
+                    < FormGroup
+                        @ label 'User name'
+                        @ name 'u_userid'
+                        @ id 'u_userid'
+                        @ disabled {true}
+                    < HR
+                    < FormButton
+                        @ label 'Update user profile'
+                        @ id 'btn_update_u'

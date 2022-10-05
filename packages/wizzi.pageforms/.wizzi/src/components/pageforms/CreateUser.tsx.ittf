@@ -1,0 +1,170 @@
+module
+    
+    $
+        var md = {
+            styled: true,
+            name: "CreateUser",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "u_username", type: "string" },
+                { name: "u_username_checked", type: "string" },
+                { name: "u_username_available", type: "boolean" },
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+            import FormAvatar from './widgets/FormAvatar'
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        p formRef 
+            = React.createRef()
+        +
+        m _checkAvalibleUserName
+            async
+            const u_checked = this.state.u_username
+            const endpoint
+                `lit
+                    _ nullthrows(process.env.API_SERVER_URL)
+                    + /user/checkusername/
+                    @ u_checked
+            log 'CreateUser.checkAvalibleUserName.endpoint', endpoint
+            const response
+                await 
+                    _ fetch(endpoint)
+            if !response.ok
+                throw 
+                    new Error
+                        `lit 
+                            + checkAvalibleUserName error
+                            + &nbsp;-&nbsp;
+                            @ response.status
+                            + &nbsp;-&nbsp;
+                            @ response.statusText
+            const result
+                await 
+                    _ response.json()
+            log 'CreateUser.checkAvalibleUserName.result', result
+            _ this.setState
+                {
+                    @ u_username_available result.isValid
+                    @ u_username_checked u_checked
+        
+        m componentDidMount
+
+            set this.checkAvalibleUserName
+                _ debounce
+                    @ this._checkAvalibleUserName
+                    @ 100
+        
+        +
+        $include handle_input_change
+        +
+        => handleUsernameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            log 'handleUsernameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ u_username ev.target.value
+            _ this.checkAvalibleUserName
+        +
+        => handleSubmitSignUp
+            param ev
+                :ref React.MouseEvent
+                    :param 
+                        :ref HTMLElement
+            _ ev.preventDefault();
+            if this.state.u_username_available
+                _ this.formRef.dispatchEvent(new Event('submit'))
+
+        +
+        m render
+            log 'CreateUser.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Create a new user'
+                        @ subtitle {'Hello ' + this.props.data.name + '.'}
+                        @ subtitle2 {'It seems that you are not a registered user yet.
+                            \b Choose your unique Wizzi user name to sign up.'}
+                    < HR
+                    < FlexRow
+                        < FormStatic
+                            @ label 'Email'
+                            @ name 'u_email'
+                            @ id 'u_email'
+                            @ value {this.props.data.email}
+                        < FormAvatar
+                            @ avatar_url {this.props.data.avatar_url}
+                    < HR
+                    form
+                        action /user/new
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormHidden
+                            @ name 'u_name'
+                            @ value {this.props.data.name}
+                        < FormHidden
+                            @ name 'u_email'
+                            @ value {this.props.data.email}
+                        < FormHidden
+                            @ name 'u_avatar_url'
+                            @ value {this.props.data.avatar_url}
+                        < FormHidden
+                            @ name 'u_openid_provider'
+                            @ value {this.props.data.openid_provider}
+                        < FormGroup
+                            @ label 'User name'
+                            @ name 'u_username'
+                            @ id 'u_username'
+                            @ required {true}
+                            @ value {this.state.u_username}
+                            @ onChange {this.handleUsernameChange}
+                        {
+                            &&
+                                + this.state.u_username.length > 0 && this.state.u_username_available
+                                < Para
+                                    + {'Username ' + this.state.u_username_checked + ' is available'}
+                        {
+                            &&
+                                + this.state.u_username.length > 0 && !this.state.u_username_available
+                                < Para
+                                    @ color '#ff0000'
+                                    + {'Username ' + this.state.u_username_checked + ' is not available'}
+                        < HR
+                        < FormButton
+                            @ label 'Sign up'
+                            @ id 'btn_create_u'
+                            @ variant 'submit'
+                            @ type submit
+                            @ onClick 
+                                =>
+                                    param ev
+                                    _ this.handleSubmitSignUp(ev)
+                    < Para
+                        + By creating an account, you agree to the 
+                        < Link
+                            @ href /terms-of-service
+                            + Terms of Service 
+                        < Text
+                            + . For more information about Wizzi's privacy practices, see the 
+                            < Link
+                                href /privacy
+                                + Wizzi Privacy Statement 
+                            < Text
+                                + . We'll occasionally send you account-related emails.
+
+

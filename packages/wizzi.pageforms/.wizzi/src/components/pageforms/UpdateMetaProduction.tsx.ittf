@@ -1,0 +1,154 @@
+module
+    
+    $
+        var md = {
+            styled: true,
+            name: "UpdateMetaProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "mp_id", type: "string" },
+                { name: "mp_owner", type: "string" },
+                { name: "mp_name_old", type: "string" },
+                { name: "mp_name_new", type: "string" },
+                { name: "mp_name_new_checked", type: "string" },
+                { name: "mp_name_new_available", type: "boolean" },
+                { name: "mp_description", type: "string" },
+                { name: "mp_add_context", type: "boolean" },
+                { name: "mp_contexts", type: "[" },
+                { name: "mp_add_tfolder", type: "boolean" },
+                { name: "mp_dependencies", type: "[" }, 
+                
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+        +
+        p formRef 
+            = React.createRef()
+
+        check_name( meta, mp_name_new )
+        +
+        $include handle_input_change
+        +
+        => handleMetaNameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            log 'handleMetaNameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ mp_name_new ev.target.value
+                =>
+                    if ev.target.value !== this.state.mp_name_old
+                        _ this._checkAvalibleMetaName
+        +
+        handle_submit( Update, mp )
+        
+        m componentDidMount
+            log 'UpdateMetaProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ _id
+                    @ owner
+                    @ name
+                    @ description
+                    @ contexts
+                    @ dependencies
+                = this.props.data
+            
+            const mp_contexts = contexts || []
+            const mp_dependencies = dependencies || []
+            
+            _ this.setState
+                {
+                    @ mp_id _id
+                    @ mp_owner owner
+                    @ mp_name_old name
+                    @ mp_name_new name
+                    @ mp_name_new_available true
+                    @ mp_description description
+                    @ mp_add_context mp_contexts.length > 0
+                    @ mp_contexts
+                    @ mp_add_tfolder mp_dependencies.length > 0
+                    @ mp_dependencies 
+
+        +
+        m render
+            log 'UpdatePacki.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Update meta production'
+                        @ subtitle 'A meta production contains ittf documents 
+                            \b for a production setup.'
+                    < HR
+                    form
+                        action /meta/update
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref
+                            =>
+                                param ref
+                                set this.formRef = ref
+                        @ onSubmit
+                            =>
+                                param ev
+                                log 'onSubmit preventing default'
+                                # _ ev.preventDefault()
+                        < FormHidden
+                            @ name 'mp_id'
+                            @ id 'mp_id'
+                            @ value {this.state.mp_id}
+                        < FormHidden
+                            @ name 'mp_owner'
+                            @ id 'mp_owner'
+                            @ value {this.state.mp_owner}
+                        < FormHidden
+                            @ name 'mp_name_old'
+                            @ id 'mp_name_old'
+                            @ value {this.state.mp_name_old}
+                        < FormGroup
+                            @ label 'Meta name'
+                            @ name 'mp_name_new'
+                            @ id 'mp_name_new'
+                            @ required {true}
+                            @ value {this.state.mp_name_new}
+                            @ onChange {this.handleMetaNameChange}
+                        {
+                            &&
+                                + this.state.mp_name_new.length > 0 &&
+                                    \b this.state.mp_name_old !== this.state.mp_name_new &&
+                                    \b this.state.mp_name_new_available
+                                < Para
+                                    + {'Meta name ' + this.state.mp_name_new_checked + ' is available'}
+                        {
+                            &&
+                                + this.state.mp_name_new.length > 0 &&
+                                    \b this.state.mp_name_old !== this.state.mp_name_new &&
+                                    \b !this.state.mp_name_new_available
+                                < Para
+                                    @ color '#ff0000'
+                                    + {'Meta name ' + this.state.mp_name_new_checked + ' is not available'}
+                        < HR
+                        < FormGroup
+                            @ label 'Description'
+                            @ name 'mp_description'
+                            @ id 'mp_description'
+                            @ required {true}
+                            @ value {this.state.mp_description}
+                            @ onChange {this.handleInputChange}
+                        
+                        form_buttons(Update, mp)

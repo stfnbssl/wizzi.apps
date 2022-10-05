@@ -1,0 +1,322 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        @ request
+        @ gql
+        from 'graphql-request'
+    import debounce from 'lodash/debounce'
+    import nullthrows from 'nullthrows'
+    import 
+        as React
+        from 'react'
+    import 
+        @ AutoSizer
+        @ List
+        @ InfiniteLoader
+        from 'react-virtualized'
+    import
+        @ withThemeName
+        @ ThemeName
+        from '../../features/preferences/index'
+    import 
+        @ c
+        from '../ThemeProvider'
+    import 
+        @ ProgressIndicator 
+        from '../widgets/ProgressIndicator'
+    import SearchPlaceholder from './SearchPlaceholder'
+    const ENDPOINT
+        `lit 
+            + 
+            _ nullthrows(process.env.API_SERVER_URL)
+            + /--/graphql
+    const SEARCH_PACKIES
+        _` gql
+            + &lf;
+            + &nbsp; query($query: String!, $offset: Int!, $limit: Int!) {&lf;
+            + &nbsp;   search(type: PACKIES, query: $query, offset: $offset, limit: $limit) {&lf;
+            + &nbsp;     __typename&lf;
+            + &nbsp;     ... on PackiSearchResult {&lf;
+            + &nbsp;       id&lf;
+            + &nbsp;       packi {&lf;
+            + &nbsp;         slug&lf;
+            + &nbsp;         name&lf;
+            + &nbsp;         description&lf;
+            + &nbsp;       }&lf;
+            + &nbsp;     }&lf;
+            + &nbsp;   }&lf;
+            + &nbsp; }&lf;
+            + 
+    :type Packi
+        :{ 
+            :p slug
+                :string 
+            :p name
+                :string 
+            :p description
+                :string 
+    :type Props
+        :{ 
+            :p query
+                :string 
+            :p theme
+                :ref ThemeName
+    :type Data
+        :[ 
+            :{ 
+                :p id
+                    :string 
+                :p packi
+                    :ref Packi
+    :type State
+        :{ 
+            :p status
+                :union 
+                    :{ 
+                        :p type
+                            :literal 'loading'
+                        :p data
+                            :ref Data
+                    :{ 
+                        :p type
+                            :literal 'success'
+                        :p data
+                            :ref Data
+                    :{ 
+                        :p type
+                            :literal 'failure'
+                        :p error
+                            :ref Error
+    const PAGE_SIZE = 30
+    class SearchResults
+        super React.Component
+            :param 
+                :ref Props
+            :param 
+                :ref State
+        p state
+            :ref State
+            { 
+                { status
+                    @ type 'success'
+                    @ data []
+        m componentDidMount
+            if this.props.query
+                _ this._fetchResultsNotDebounced(this.props.query)
+        m componentDidUpdate
+            param prevProps
+                :ref Props
+            if this.props.query !== prevProps.query
+                _ this._fetchResults(this.props.query)
+        p _fetchResultsNotDebounced
+            async=> 
+                param query
+                    :string 
+                param previous
+                    :ref Data
+                    = 
+                        [ 
+                _ this.setState
+                    { 
+                        { status
+                            @ type 'loading'
+                            @ data previous
+                try 
+                    const results
+                        :{ 
+                            :p search
+                                :ref Data
+                        =
+                            await 
+                                _ request
+                                    @ ENDPOINT
+                                    @ SEARCH_PACKIES
+                                    { 
+                                        @ query this.props.query
+                                        @ offset previous.length
+                                        @ limit PAGE_SIZE
+                        # @ts-ignore
+                    _ this.setState
+                        { 
+                            { status
+                                @ type 'success'
+                                [ data
+                                    @ ...previous
+                                    @ ...results.search
+                catch error
+                    _ console.error('Error fetching search results', error)
+                    _ this.setState
+                        { 
+                            { status
+                                @ type 'failure'
+                                @ error
+        p _fetchResults
+            _ debounce(this._fetchResultsNotDebounced, 1000)
+        => _fetchMore
+            const 
+                { 
+                    @ status
+                = this.state
+            return 
+                _ this._fetchResultsNotDebounced
+                    @expr this.props.query
+                    iif status.type === 'success'
+                        then status.data
+                        else []
+        => _renderRow
+            { 
+                { data
+                    @ packi
+                @ style
+                @ key
+                :{ 
+                    :p data
+                        :{ 
+                            :p packi
+                                :ref Packi
+                    :p style
+                        :object 
+                    :p key
+                        :string 
+            div 
+                @ key {key}
+                @ style {style}
+                a 
+                    @ target "_blank"
+                    @ href
+                        `lit 
+                            + /
+                            @ packi.slug
+                            + 
+                    @ className {css(styles.item)}
+                    img 
+                        @ className {css(styles.icon)}
+                        @ src
+                            iif this.props.theme === 'dark'
+                                then require('../../assets/packi-icon-dark.svg')
+                                else require('../../assets/packi-icon-color.svg')
+                    div 
+                        @ className {css(styles.content)}
+                        h4 
+                            @ className {css(styles.title)}
+                            + {packi.name}
+                        p 
+                            @ className {css(styles.description)}
+                            + {packi.description}
+        m render
+            const 
+                { 
+                    @ status
+                = this.state
+            if !this.props.query
+                return 
+                    < SearchPlaceholder 
+                        @ label "Results will appear here."
+            if status.type === 'failure'
+                return 
+                    < SearchPlaceholder 
+                        @ label "An error ocurred. Try again after some time."
+            if status.type === 'loading' && !status.data?.length
+                return 
+                    div 
+                        @ className {css(styles.loadingContainer)}
+                        < ProgressIndicator 
+                        < SearchPlaceholder 
+                            @ label "Searching…"
+            if status.type === 'success' && !status.data?.length
+                return 
+                    < SearchPlaceholder 
+                        @ label "No results found."
+            return 
+                div 
+                    @ className
+                        _ css
+                            iif status.type === 'loading'
+                                then styles.loadingContainer
+                                else styles.container
+                    { 
+                        iif status.type === 'loading'
+                            then
+                                < ProgressIndicator 
+                            else null
+                    < AutoSizer 
+                        { 
+                            => 
+                                { 
+                                    @ height
+                                    @ width
+                                < InfiniteLoader 
+                                    @ isRowLoaded
+                                        => 
+                                            { 
+                                                @ index
+                                            set index < status.data.length
+                                    @ loadMoreRows {this._fetchMore}
+                                    @ rowCount {status.data.length + 1}
+                                    { 
+                                        => 
+                                            { 
+                                                @ onRowsRendered
+                                                @ registerChild
+                                            < List 
+                                                @ ref {registerChild}
+                                                @ onRowsRendered {onRowsRendered}
+                                                @ height {height}
+                                                @ width {width}
+                                                @ rowCount {status.data.length}
+                                                @ rowHeight {72}
+                                                @ rowRenderer
+                                                    => 
+                                                        { 
+                                                            @ index
+                                                            @ style
+                                                            @ key
+                                                        _ this._renderRow
+                                                            { 
+                                                                @ data status.data[index]
+                                                                @ style
+                                                                @ key
+    export-default withThemeName(SearchResults)
+    const styles
+        _ StyleSheet.create
+            { 
+                { container
+                    @ flex 1
+                { loadingContainer
+                    @ display 'flex'
+                    @ flex 1
+                { icon
+                    @ display 'block'
+                    @ height 36
+                    @ width 36
+                    @ marginTop 4
+                { item
+                    @ height 72
+                    @ display 'flex'
+                    @ padding '16px 24px'
+                    @ cursor 'pointer'
+                    @ color 'inherit'
+                    @ textDecoration 'none'
+                    @ borderBottom
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c('border')
+                            + 
+                    { ':hover'
+                        @ backgroundColor c('hover')
+                { content
+                    @ marginLeft 16
+                { title
+                    @ fontSize 16
+                    @ fontWeight 'bold'
+                    @ margin 0
+                    @ whiteSpace 'nowrap'
+                    @ textOverflow 'ellipsis'
+                { description
+                    @ fontSize 14
+                    @ margin 0
+                    @ whiteSpace 'nowrap'
+                    @ textOverflow 'ellipsis'

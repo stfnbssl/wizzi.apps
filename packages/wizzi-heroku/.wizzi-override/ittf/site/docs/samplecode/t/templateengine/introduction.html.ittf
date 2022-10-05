@@ -1,0 +1,11 @@
+$group
+    $
+        var sect = {
+            title: 'Template engine'
+        };
+
+    section(&sect)
+        table-doc()
+            tr( Todo, Todo, Todo )
+
+

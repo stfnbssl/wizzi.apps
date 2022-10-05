@@ -1,0 +1,171 @@
+$group
+
+    +
+    #
+        # 
+        # Fetch code from a remote source (if provided) before rendering the main app
+        # 
+    :type AsyncState
+        :{ 
+            :p isReady
+                :boolean 
+            :p files
+                :ref PackiFiles
+            :p error
+                :optional 
+                :ref Error
+    +
+    export-default 
+        class AsyncApp
+            super React.Component
+                :param 
+                    :ref AppProps
+                :param 
+                    :ref AsyncState
+            +
+            ctor 
+                param props
+                    :ref AppProps
+                _ super(props)
+                try 
+                    const files = getFilesFromQuery(props.query, DEFAULT_PACKI_CODE)
+                    const isReady
+                        op! 
+                            _ Object.values(files).find
+                                => 
+                                    param file
+                                        :any 
+                                    +
+                                        @expr file.url
+                    set this.state =
+                        { 
+                            @ files
+                            @ isReady
+                catch e
+                    set this.state =
+                        { 
+                            @ error e
+                            @ files DEFAULT_PACKI_CODE
+                            @ isReady true
+            +
+            m componentDidMount
+                if !this.state.isReady
+                    _ this.preloadPackiAsync(this.state.files)
+                else
+                    if this.state.error
+                        _ alert(this.state.error.message)
+            +
+            m preloadPackiAsync
+                async
+                :private 
+                param files
+                    :any 
+                const MIN_LOADING_MS = 1500
+                    # Minimum amount of time to show the loading indicator for, so it doesn't
+                    # just flicker in and out
+                const startTime = Date.now()
+                const paths = Object.keys(files)
+                    # Load all files with external urls
+                try 
+                    const contents
+                        await 
+                            _ Promise.all
+                                _ Object.values(files).map
+                                    async=> 
+                                        param file
+                                            :any 
+                                        param index
+                                            :number 
+                                        const path = paths[index]
+                                        if file.url
+                                            try 
+                                                const response
+                                                    await 
+                                                        _ fetch(file.url)
+                                                if !response.ok
+                                                    throw 
+                                                        new Error
+                                                            `lit 
+                                                                @ response.status
+                                                                + &nbsp;-&nbsp;
+                                                                @ response.statusText
+                                                const code
+                                                    await 
+                                                        _ response.text()
+                                                return code
+                                            catch e
+                                                throw 
+                                                    new Error
+                                                        `lit 
+                                                            + We were unable to load code for file "
+                                                            @ path
+                                                            + " (
+                                                            @ e.message
+                                                            + )
+                                        else
+                                            if file.contents
+                                                return file.contents
+                                            else
+                                                throw 
+                                                    new Error
+                                                        `lit 
+                                                            + No code specified for file "
+                                                            @ path
+                                                            + "
+                    set files =
+                        { 
+                            @ ...files
+                    _ paths.forEach
+                        => 
+                            param path
+                            param index
+                            set files[path] =
+                                { 
+                                    @ type files[path].type
+                                    @ contents contents[index]
+                catch e
+                    _ alert(e.message)
+                    set files =
+                        { 
+                            @ ...files
+                    _ paths.forEach
+                        => 
+                            param path
+                            set files[path] =
+                                { 
+                                    @ type files[path].type
+                                    @ contents ''
+                    _ this.setState
+                        { 
+                            @ isReady true
+                            @ files
+                    return 
+                +
+                const duration = Date.now() - startTime
+                    # Upon load, show the whole Packi
+                _ setTimeout
+                    => 
+                        _ this.setState
+                            { 
+                                @ isReady true
+                                @ files
+                    iif duration < MIN_LOADING_MS
+                        then MIN_LOADING_MS - duration
+                        else 0
+            +
+            m render
+                if this.state.isReady
+                    return 
+                        < AppMainContainer 
+                            @ {...this.props}
+                            @ files {this.state.files}
+                else
+                    return 
+                        div 
+                            @ className {css(styles.container)}
+                            div 
+                                @ className {css(styles.logo)}
+                                < AnimatedLogo 
+                            p 
+                                @ className {css(styles.loadingText)}
+                                + Loading packi session...

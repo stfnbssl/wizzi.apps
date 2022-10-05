@@ -1,0 +1,74 @@
+module
+
+    export 
+        :type FormField
+            :{ 
+                :p label
+                    :string 
+                :p helperText
+                    :string 
+                    :optional 
+                :p type
+                    :string 
+                :p default
+                    :any 
+                    :optional 
+                :p defaultOption
+                    :optional 
+                    :{ 
+                        :p label
+                            :string 
+                        :p value
+                            :string 
+                :p options
+                    :optional 
+                    :[ 
+                        :{ 
+                            :p label
+                                :string 
+                            :p value
+                                :string 
+                :p onValidate
+                    :optional 
+                    :=> 
+                        :union 
+                            :ref Error
+                            :null 
+                        param value
+                            :string 
+
+    export 
+        :type Register
+            :=> 
+                :number 
+                param options
+                    :{ 
+                        :p validate
+                            :=> 
+                                :union 
+                                    :ref Error
+                                    :null 
+                        :p focus
+                            :=> 
+                                :void 
+    export 
+        :type Unregister
+            :=> 
+                :void 
+                param key
+                    :number 
+    export 
+        :type Update
+            :=> 
+                :void 
+    export 
+        :type FormValidation
+            :{ 
+                :p register
+                    :ref Register
+                :p unregister
+                    :ref Unregister
+                :p update
+                    :ref Update
+                :p valid
+                    :boolean 

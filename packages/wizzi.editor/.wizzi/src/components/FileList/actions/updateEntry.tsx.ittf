@@ -1,0 +1,61 @@
+module
+    import 
+        @ FileSystemEntry
+        from '../../../features/file'
+    export-default 
+        function updateEntry
+            :< T
+                :ref FileSystemEntry
+            param entry
+                :ref T
+            param updates
+                :{ 
+                    :p item
+                        :optional 
+                        :ref Partial
+                            :param 
+                                :[] 
+                                    :ref T
+                                    :literal 'item'
+                    :p state
+                        :optional 
+                        :ref Partial
+                            :param 
+                                :[] 
+                                    :ref T
+                                    :literal 'state'
+            :return
+                :ref T
+            return 
+                { 
+                    ... 
+                        ( 
+                            + entry
+                                :as 
+                                    :any 
+                    @ item
+                        iif updates.item
+                            then
+                                { 
+                                    @ ...entry.item
+                                    ... 
+                                        @expr 
+                                            ( 
+                                                + updates
+                                                    :as 
+                                                        :any 
+                                            . item
+                            else entry.item
+                    @ state
+                        iif updates.state
+                            then
+                                { 
+                                    @ ...entry.state
+                                    ... 
+                                        @expr 
+                                            ( 
+                                                + updates
+                                                    :as 
+                                                        :any 
+                                            . state
+                            else entry.state

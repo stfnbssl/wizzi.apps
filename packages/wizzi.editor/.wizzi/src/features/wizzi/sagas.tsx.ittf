@@ -1,0 +1,194 @@
+module
+    import 
+        @ all
+        @ fork
+        @ put
+        @ takeEvery
+        @ call
+        from 'redux-saga/effects'
+    import 
+        @ getType
+        from 'typesafe-actions'
+    import 
+        @ config
+        from '../config'
+    import 
+        as wizziActions
+        from './actions'
+    import 
+        @ packiActions
+        from '../packi'
+    import 
+        @ callApi
+        from '../../utils/api'
+    import 
+        @ packiFilterIttf
+        from '../file/convertFileStructure'
+        # import { getInstance } from '../../services/EventService';
+    #
+    saga_handler( wizzi, generateArtifactRequest, generateArtifactError
+        const res
+            yield 
+                _ call
+                    @ callApi
+                    @ 'post'
+                    @ config.API_URL
+                    @ 'production/generations/artifact/' + encodeURIComponent(action.payload.filePath)
+                    {
+                        @ packiFiles action.payload.files
+                        @ productionKind action.payload.productionKind
+                        @ productionName action.payload.productionName
+        log 'sagas.handleGenerateArtifactRequest.res', res
+        yield put(wizziActions.generateArtifactSuccess(res))
+    #
+    saga_handler( wizzi, mTreeBuildupScriptRequest, generateArtifactError
+        const res
+            yield 
+                _ call
+                    @ callApi
+                    @ 'post'
+                    @ config.API_URL
+                    @ 'production/generations/mtreescript/' + encodeURIComponent(action.payload.filePath)
+                    {
+                        @ packiFiles action.payload.files
+                        @ productionKind action.payload.productionKind
+                        @ productionName action.payload.productionName
+        log 'sagas.handleMTreeBuildupScriptRequest.res', res
+        yield put(wizziActions.mTreeBuildupScriptSuccess(res))
+    #
+    saga_handler( wizzi, mTreeRequest, generateArtifactError
+        const res
+            yield 
+                _ call
+                    @ callApi
+                    @ 'post'
+                    @ config.API_URL
+                    @ 'production/generations/mtree/' + encodeURIComponent(action.payload.filePath)
+                    {
+                        @ packiFiles action.payload.files
+                        @ productionKind action.payload.productionKind
+                        @ productionName action.payload.productionName
+        log 'sagas.handleMTreeRequest.res', res
+        yield put(wizziActions.mTreeSuccess(res))
+    #
+    saga_handler( wizzi, wizzifyRequest, wizzifyError
+        const filesRequest = {}
+        set filesRequest[action.payload.filePath]
+            {
+                @ type 'CODE'
+                @ contents action.payload.fileContent
+        log 'sagas.handleWizzifyRequest.filesRequest', filesRequest
+        const res
+            yield 
+                _ call
+                    @ callApi
+                    @ 'post'
+                    @ config.API_URL
+                    @ 'production/generations/wizzify'
+                    {
+                        @ packiFiles filesRequest
+        log 'sagas.handleWizzifyRequest.res', res
+        if res.wizzifiedPackiFiles && res.wizzifiedPackiFiles[action.payload.filePath + '.ittf']
+            yield
+                _ put
+                    _ wizziActions.wizzifySuccess
+                        {
+                            @ wizzifiedIttfContent res.wizzifiedPackiFiles[action.payload.filePath + '.ittf'].contents
+        else
+            yield put(wizziActions.wizzifySuccess(res))
+    #
+    saga_handler( wizzi, codeASTRequest, codeASTError
+        const filesRequest = {}
+        set filesRequest[action.payload.filePath]
+            {
+                @ type 'CODE'
+                @ contents action.payload.fileContent
+        log 'sagas.handleCodeASTRequest.filesRequest', filesRequest
+        const res
+            yield 
+                _ call
+                    @ callApi
+                    @ 'post'
+                    @ config.API_URL
+                    @ 'production/generations/codeast'
+                    {
+                        @ packiFiles filesRequest
+        log 'sagas.handleCodeASTRequest.res', res, action.payload.filePath, Object.keys(res.codeASTPackiFiles)
+        if res.codeASTPackiFiles && res.codeASTPackiFiles[action.payload.filePath + '.ast']
+            yield
+                _ put
+                    _ wizziActions.codeASTSuccess
+                        {
+                            @ codeASTContent res.codeASTPackiFiles[action.payload.filePath + '.ast'].contents
+        else
+            yield put(wizziActions.codeASTSuccess(res))
+    #
+    saga_handler( wizzi, executeJobRequest, executeJobError
+        const res
+            yield 
+                _ call
+                    @ callApi
+                    @ 'post'
+                    @ config.API_URL
+                    @ 'production/generations/job/' + encodeURIComponent(action.payload.filePath)
+                    {
+                        @ packiFiles action.payload.files
+                        @ productionKind action.payload.productionKind
+                        @ productionName action.payload.productionName
+        log 'sagas.handleExecuteJobRequest.res', res
+        yield 
+            _ put
+                _ wizziActions.executeJobSuccess
+                    @ res
+        yield 
+            _ put
+                _ packiActions.executeJobSuccess
+                    { 
+                        @ generatedArtifacts res.generatedArtifacts
+                        @ previousArtifacts action.payload.files
+    #
+    saga_handler( wizzi, executeWizziMetaFolderRequest, executeWizziMetaFolderError
+        const pk = action.payload.productionKind.toLowerCase()
+        const res
+            yield 
+                _ call
+                    @ callApi
+                    @ 'get'
+                    @ config.API_URL
+                    @ 'production/' + pk + '/meta/' + encodeURIComponent(action.payload.productionId)
+        log 'sagas.handleExecuteWizziMetaFolderRequest.res', res
+        yield 
+            _ put
+                _ wizziActions.executeWizziMetaFolderSuccess
+                    @ res
+        yield 
+            _ put
+                _ packiActions.executeWizziMetaFolderSuccess
+                    { 
+                        @ generatedIttfDocuments res.generatedIttfDocuments
+    #
+    saga_handler( wizzi, changeSelectedFile, NoError
+        yield 
+            _ put
+                _ wizziActions.changeSelectedFile
+                    {
+                        @ oldFilePath action.payload.oldFilePath
+                        @ newFilePath action.payload.newFilePath
+    #
+    function* wizziRequest
+        yield takeEvery(getType(wizziActions.generateArtifactRequest), handleGenerateArtifactRequest)
+        yield takeEvery(getType(wizziActions.mTreeBuildupScriptRequest), handleMTreeBuildupScriptRequest)
+        yield takeEvery(getType(wizziActions.mTreeRequest), handleMTreeRequest)
+        yield takeEvery(getType(wizziActions.wizzifyRequest), handleWizzifyRequest)
+        yield takeEvery(getType(wizziActions.codeASTRequest), handleCodeASTRequest)
+        yield takeEvery(getType(wizziActions.executeJobRequest), handleExecuteJobRequest)
+        yield takeEvery(getType(wizziActions.executeWizziMetaFolderRequest), handleExecuteWizziMetaFolderRequest)
+        yield takeEvery(getType(wizziActions.changeSelectedFile), handleChangeSelectedFile)
+    #
+    function* wizziSaga
+        yield 
+            _ all
+                [ 
+                    @ fork(wizziRequest)
+    #
+    export-default wizziSaga

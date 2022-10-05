@@ -1,0 +1,269 @@
+module
+    import 
+        as React
+        from 'react'
+    # Redux
+    import 
+        @ connect
+        $if wzCtx.Build.usePackiAspects
+            @ ConnectedProps
+        from 'react-redux'
+    # Styles
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    # Features
+    import 
+        @ getFilesFromQuery 
+        @ fileConversions
+        from '../features/file'
+    import
+        @ withPreferences
+        @ PreferencesContextType
+        from '../features/preferences'
+    import
+        @ Annotation
+        from '../features/annotations'
+    import
+        @ LoggedUser
+        from '../features/app'
+    import 
+        @ SavedPacki
+        @ QueryParams
+        @ SaveStatus
+        @ PackiSaveOptions
+        @ PackiState
+        @ PackiFile
+        @ PackiFiles
+        @ PackiDefaults
+        @ PackiProduction
+        from '../features/packi'
+    import 
+        @ PackiSession
+        @ PackiListenerSubscription
+        from '../features/packi'
+    # Utils
+    import nullthrows from 'nullthrows'    
+    import debounce from 'lodash/debounce'    
+    import 
+        @ isMobile
+        from '../utils/detectPlatform'
+    # Widgets
+    import 
+        @ AnimatedLogo 
+        from './widgets/AnimatedLogo'
+    import 
+        @ CollapsibleObject 
+        from './widgets/CollapsibleObject'
+    # Components
+    import AppShell from './shell/AppShell'
+    import AppDetails from './AppDetails'    
+    import 
+        @ EditorViewProps
+        from './EditorView/EditorViewProps'
+    import LazyLoad from './widgets/LazyLoad'
+    import
+        @ PreviewKind
+        from './types'
+    $if wzCtx.Build.usePackiAspects
+        $include app/packi/imports
+    # Defaults
+    import 
+        @ config
+        from '../features/config'
+    const 
+        {
+            @ DEFAULT_PACKI_CODE
+        = config
+
+    const myname = "src.components.App"
+    
+    $if wzCtx.Build.usePackiAspects
+        +
+        $include app/packi/state_dispacth_props
+
+    :type AppProps
+        :intersect
+            :ref PreferencesContextType
+            $if wzCtx.Build.usePackiAspects
+                :ref PropsFromRedux
+            :{ 
+                :p packi
+                    :ref SavedPacki
+                :p loggedUser
+                    :ref LoggedUser
+                :p userAgent
+                    :string 
+    
+    :type State
+        :intersect 
+            :ref PackiStateProps
+            :{ 
+                :p session
+                    :ref PackiState
+                :p selectedFile
+                    :string 
+                :p previewKind
+                    :ref PreviewKind
+                :p sendCodeOnChangeEnabled
+                    :boolean 
+                :p autosaveEnabled
+                    :boolean 
+                :p isSavedOnce
+                    :boolean 
+                :p saveStatus
+                    :ref SaveStatus
+                :p isDownloading
+                    :boolean 
+                :p isLocalWebPreview
+                    :boolean 
+                :p verbose
+                    :boolean 
+                :p annotations
+                    :[ 
+                        :ref Annotation
+                $if wzCtx.Build.usePackiAspects
+                    $$ $include app/packi/state_def
+
+    class AppMain
+        super React.Component
+            :param 
+                :ref AppProps
+            :param 
+                :ref State
+        p _previewRef
+            _ React.createRef
+                :param 
+                    :ref Window
+        p edited
+            :private 
+            :boolean 
+            = false
+        
+        app/ctor()
+        app/properties()
+        $if wzCtx.Build.usePackiAspects
+            app/packi/methods()
+        app/methods()
+        app/handlers()
+        $if wzCtx.Build.usePackiAspects
+            app/packi/handlers()
+
+        m render
+
+            if this.props && this.state
+                $if false
+                    return
+                        div
+                            < CollapsibleObject
+                                @ label "props"
+                                @ object {this.props}
+                            < CollapsibleObject
+                                @ label "state"
+                                @ object {this.state}
+                $$ loog 'App.state.session.files', this.state.session.files
+                log 'App.props', this.props
+                return 
+                    < LazyLoad 
+                        :ref React.ComponentType
+                            :param 
+                                :ref EditorViewProps
+                        @ load
+                            => 
+                                ( 
+                                    _ import
+                                        @ './EditorView/EditorView'
+                        { 
+                            => 
+                                { 
+                                    @ loaded
+                                    @ data Comp
+                                iif loaded && Comp
+                                    then
+                                        < Comp 
+                                            @ id {this.state.session.id}
+                                            @ owner {this.state.session.owner}
+                                            @ name {this.state.session.name}
+                                            @ description {this.state.session.description}
+                                            @ files {this.state.session.files}
+                                            @ mainIttf {this.state.session.mainIttf}
+                                            @ wizziSchema {this.state.session.wizziSchema}
+                                            @ packiProduction {this.state.session.packiProduction}
+                                            @ readOnly {this.state.session.readOnly}
+                                            @ generated {this.state.session.generated}
+                                            @ annotations {this.state.annotations}
+                                            @ loggedUser {this.props.loggedUser}
+                                            @ autosaveEnabled {this.state.autosaveEnabled}
+                                            @ createdAt {this.props.packi.created}
+                                            @ isDownloading {this.state.isDownloading}
+                                            @ onGithubClone {this._handleGithubClone}
+                                            @ onDownloadAsync {this._handleDownloadAsync}
+                                            @ onSubmitMetadata {this._handleSubmitMetadata}
+                                            @ onSelectFile {this._handleSelectFile}
+                                            @ previewRef {this._previewRef}
+                                            @ previewURL {this.state.session.previewURL}
+                                            @ saveStatus {this.state.saveStatus}
+                                            @ selectedFile {this.state.selectedFile}
+                                            @ sendCodeOnChangeEnabled {this.state.sendCodeOnChangeEnabled}
+                                            @ updateFiles {this._updateFiles}
+                                            @ userAgent {this.props.userAgent}
+                                            @ verbose {this.state.verbose}
+                                            @ previewKind {this.state.previewKind}
+                                            @ generatedArtifact {this.props.generatedArtifact}
+                                            @ mTreeBuildupScript {this.props.mTreeBuildupScript}
+                                            @ mTreeIttf {this.props.mTreeIttf}
+                                            @ isWizziJobWaiting {this.state.isWizziJobWaiting}
+                                            @ wizzifiedIttfContent {this.props.wizzifiedIttfContent}
+                                            @ codeASTContent {this.props.codeASTContent}
+                                            @ wizziError {this.props.wizziError}
+                                            @ onGenerateArtifactPreview {this._handleGenerateArtifactPreview}
+                                            @ onMTreePreview {this._handleMTreePreview}
+                                            @ onMTreeDebugInfoPreview {this._handleMTreeDebugInfoPreview}
+                                            @ onBrowsePreview {this._handleBrowsePreview}
+                                            @ onWizzifyPreview {this._handleWizzifyPreview}
+                                            @ onCodeASTPreview {this._handleCodeASTPreview}
+                                            @ onExecuteWizziJob {this._executeJobNotDebounced}
+                                            @ onExecuteWizziMetaFolder {this._executeWizziMetaFolderNotDebounced}
+                                    else
+                                        < AppShell 
+                                            @ title {this.state.session.name}
+            else
+                return
+                    div
+                        + Not ready
+
+    $if wzCtx.Build.usePackiAspects
+        const connector = connect(packiMapStateToProps, packiMapDispatchToProps)
+        :type PropsFromRedux
+            :ref ConnectedProps
+                :param 
+                    :typeof connector
+        const AppMainContainer
+            _ withPreferences
+                _ connector(AppMain)
+    $else
+        const AppMainContainer
+            _ withPreferences
+                @ AppMain
+
+    export-default AppMainContainer
+    $$ $include app/asyncApp
+
+    const styles
+        _ StyleSheet.create
+            { 
+                { container
+                    @ flexDirection 'column'
+                    @ display 'flex'
+                    @ height '100%'
+                    @ width '100%'
+                    @ alignItems 'center'
+                    @ justifyContent 'center'
+                { logo
+                    @ transform 'scale(0.5)'
+                    @ opacity 0.9
+                { loadingText
+                    @ marginTop 0
+                    @ opacity 0.7
+                    @ fontSize 18

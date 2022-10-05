@@ -1,0 +1,46 @@
+module
+    import 
+        @ FileSystemEntry
+        @ isInsideFolder
+        @ changeParentPath
+        from '../../../features/file'
+    import createEntryAtPath from './createEntryAtPath'
+    import updateEntry from './updateEntry'
+    export-default 
+        function handleEntryPaste
+            param entries
+                :[ 
+                    :ref FileSystemEntry
+            param path
+                :union 
+                    :string 
+                    :undefined 
+            param e
+                :ref FileSystemEntry
+            const entry = createEntryAtPath(entries, path, e, '- Copy')
+            if e.item.type === 'folder'
+                const children
+                    _ entries.filter
+                        => 
+                            param it
+                            _ isInsideFolder(it.item.path, e.item.path)
+                                # Get children of the old folder
+                        ._ map
+                            => 
+                                param it
+                                _ updateEntry
+                                    @ it
+                                    { 
+                                        { item
+                                            @ path changeParentPath(it.item.path, e.item.path, entry.item.path)
+                                    # Update the parent folder name to the new one
+                return 
+                    [ 
+                        @ ...entries
+                        @ ...children
+                        @ entry
+            else
+                return 
+                    [ 
+                        @ ...entries
+                        @ entry

@@ -1,0 +1,126 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "ListTFolder",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "l_tfolders", type: "any" },
+                { name: "l_search", type: "string" },
+                { name: "l_sort", type: "string" },
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+            import
+                @ AddDocumentIcon
+                from '../../assets/AddDocumentIcon'
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        m componentDidMount
+            log 'ListTFolder.componentDidMount', this.props.data
+            _ this.setState
+                {
+                    @ l_tfolders this.props.data.tfolders
+                    @ l_search ''
+                    @ l_sort 'none'
+
+        m filterItem
+            param item
+            if this.state.l_search.length > 0
+                if (item.name + ' ' + item.description).indexOf(this.state.l_search) < 0
+                    return false
+            return true
+        
+        $include handle_input_change
+
+        m render
+            if !this.state
+                return
+                    div
+                        + Loading ...
+            return
+                div
+                    @ className flex-column width-full
+                    div
+                        @ className flex-row align-items-start
+                        form 
+                            class width-full
+                            @ aria-label TFolders
+                            @ role search
+                            @ acceptCharset UTF-8
+                            method get
+                            div
+                                @ className flex-row m-xxl
+                                div
+                                    @ className flex-column width-full
+                                    div
+                                        @ className m-s 
+                                        input 
+                                            type search
+                                            class form-control width-full
+                                            placeholder Find a tFolder…
+                                            autocomplete off
+                                            @ aria-label Find a tFolder…
+                                            @ value {this.state.l_search}
+                                            @ onChange {this.handleInputChange}
+                                            @ name 'l_search'
+                                div
+                                    @ className flex-row
+                                    div
+                                        @ className flex-column
+                                        div
+                                            @ className m-s
+                                            select
+                                                @ onChange {this.handleInputChange}
+                                                @ name 'l_sort'
+                                                @ value {this.state.l_sort}
+                                                option &nbsp;
+                                                    value none
+                                                option Last updated
+                                                    value last-updated
+                                                option Stars
+                                                    value stars
+                                                
+                        div
+                            @ className flex-row m-xxl
+                            div
+                                @ className flex-column m-s
+                                a_icon( New, /tfolder/new
+                                    < AddDocumentIcon
+                                        @ height 16
+                                        @ width 16
+                    {
+                        && 
+                            + this.state.l_tfolders  
+                            _ this.state.l_tfolders.map
+                                =>
+                                    param item
+                                        :any
+                                    param ndx
+                                        :number
+                                    if this.filterItem(item)
+                                        return
+                                            div
+                                                @ className flex-row align-items-start
+                                                @ key {ndx}
+                                                div
+                                                    @ className flex-row border-b-s width-full m-w-xxl
+                                                    div
+                                                        @ className flex-column width-full
+                                                        div
+                                                            @ className font-xl
+                                                            a {item.name}
+                                                                href {'/~~/t/stfnbssl/' + item.name}
+                                                                title {item.description}
+                                                    list_update_delete_icons( tfolder )

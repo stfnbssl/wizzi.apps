@@ -1,0 +1,34 @@
+$group
+    export 
+        const hexToRgb
+            => 
+                param color
+                    :string
+                set color = color.substring(1)
+                let colors
+                    _ color.match
+                        new RegExp
+                            `lit 
+                                + .{1,
+                                @ color.length / 3
+                                + }
+                            @ 'g'
+                if colors
+                    let rgb
+                        _ colors.map
+                            => 
+                                param val
+                                _ parseInt
+                                    iif val.length === 1
+                                        then val + val
+                                        else val
+                                    @ 16
+                            ._ join
+                                @ ', '
+                    return
+                        `lit 
+                            + rgb(
+                            @ rgb
+                            + )
+                else
+                    return ''

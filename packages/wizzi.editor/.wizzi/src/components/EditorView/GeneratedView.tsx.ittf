@@ -1,0 +1,327 @@
+module
+    import 
+        as React
+        from 'react'
+    import 
+        @ withStyles
+        @ createStyles
+        @ Theme
+        from '@material-ui/core/styles'
+    import Tooltip from '@material-ui/core/Tooltip'
+    import IconButton from '@material-ui/core/IconButton'
+    import ViewListIcon from '@material-ui/icons/ViewList'
+    import AccountTreeIcon from '@material-ui/icons/AccountTree'
+    import 
+        @ BrowserIcon
+        from '../../assets/BrowserIcon'
+    import 
+        @ TreeIcon
+        from '../../assets/TreeIcon'
+    import 
+        @ DebugIcon
+        from '../../assets/DebugIcon'
+    import 
+        @ AstIcon
+        from '../../assets/AstIcon'
+    import 
+        @ WizzifiedIcon
+        from '../../assets/WizzifiedIcon'
+    import SyntaxHighlighter from '../CodeView/SyntaxHighlighter'
+    import WebFrame from '../widgets/WebFrame'
+    import 
+        @ PreviewKind
+        from '../types'
+    $if wzCtx.TODO
+        import MarkdownElement from '../../docs/MarkdownElement'
+    :type Props
+        :{ 
+            :p classes
+                :any 
+            :p selectedFile
+                :string 
+            :p previewKind
+                :ref PreviewKind
+            :p generatedContent
+                :string 
+            :p generatedSourcePath
+                :string 
+                :optional
+            :p mTreeBuildupScript
+                :string 
+                :optional
+            :p mTreeIttf
+                :string 
+                :optional
+            :p wizzifiedIttfContent
+                :string 
+                :optional
+            :p codeASTContent
+                :string 
+                :optional
+            :p generatedPreviewURL
+                :string 
+                :optional
+            :p splitViewKind
+                :string 
+            :p onGenerateArtifactPreview
+                :=> 
+                    :void 
+            :p onMTreePreview
+                :=> 
+                    :void 
+            :p onMTreeDebugInfoPreview
+                :=> 
+                    :void 
+            :p onMTreePreview
+                :=> 
+                    :void 
+            :p onBrowsePreview
+                :=> 
+                    :void 
+            :p onWizzifyPreview
+                :=> 
+                    :void 
+            :p onCodeASTPreview
+                :=> 
+                    :void 
+    class GeneratedView
+        super React.Component
+            :param 
+                :ref Props
+        p _handleGenerateArtifact
+            => 
+                _ this.props.onGenerateArtifactPreview
+        p _handleMTree
+            => 
+                _ this.props.onMTreePreview
+        p _handleMTreeDebugInfo
+            => 
+                _ this.props.onMTreeDebugInfoPreview
+        p _handleBrowse
+            => 
+                _ this.props.onBrowsePreview
+        p _handleWizzify
+            => 
+                _ this.props.onWizzifyPreview
+        p _handleCodeAST
+            => 
+                _ this.props.onCodeASTPreview
+        m render
+            const 
+                { 
+                    @ classes
+                    @ previewKind
+                    @ splitViewKind
+                    @ selectedFile
+                = this.props
+            const isIttf = selectedFile && selectedFile.endsWith('.ittf')
+            log 'GeneratedView.isIttf', isIttf, 'previewKind', previewKind
+            $*
+            if isIttf && ['generated', 'mTreeIttf', 'mTreeBuildupScript', 'browser'].indexOf(view) < 0
+                set view = 'generated'
+            if !isIttf && ['wizzified', 'codeAST'].indexOf(view) < 0
+                set view = 'codeAST'
+            *$
+            log 'GeneratedView.props', this.props
+            return 
+                div 
+                    @ className
+                        iif splitViewKind === 'right'
+                            then classes.containerFull
+                            else classes.container
+                    { 
+                        && 
+                            + previewKind === 'generated' && this.props.generatedContent
+                            div 
+                                @ className {classes.editor}
+                                < SyntaxHighlighter 
+                                    @ className {classes.syntaxHigh}
+                                    @ code {this.props.generatedContent}
+                                    @ filePath {selectedFile.substr(0, selectedFile.length - 5)}
+                                    @ lineNumbers {true}
+                    { 
+                        && 
+                            + previewKind === 'mTreeIttf'
+                            div 
+                                @ className {classes.editor}
+                                < SyntaxHighlighter 
+                                    @ className {classes.syntaxHigh}
+                                    @ code {this.props.mTreeIttf || ''}
+                                    @ filePath {'mTree.ittf'}
+                                    @ lineNumbers {true}
+                    { 
+                        && 
+                            + previewKind === 'mTreeBuildupScript'
+                            div 
+                                @ className {classes.editor}
+                                < SyntaxHighlighter 
+                                    @ className {classes.syntaxHigh}
+                                    @ code {this.props.mTreeBuildupScript || ''}
+                                    @ filePath {'mTreeBuildupScript.js'}
+                                    @ lineNumbers {true}
+                    { 
+                        && 
+                            + previewKind === 'browser'
+                            div 
+                                @ className {classes.browserOuter}
+                                { 
+                                    iif (this.props.generatedSourcePath.endsWith('.html.ittf') || this.props.generatedSourcePath.endsWith('.svg.ittf'))
+                                        then
+                                            < WebFrame 
+                                                @ previewURL {this.props.generatedPreviewURL}
+                                        else
+                                            $if wzCtx.TODO
+                                                iif this.props.generatedSourcePath.endsWith('.md.ittf')
+                                                    then
+                                                        < MarkdownElement 
+                                                            @ text {this.props.generatedContent}
+                                                    else
+                                                        h1 
+                                                            + No browser viewer for document
+                                                        p {this.props.generatedSourcePath}
+                                            $else
+                                                h1 
+                                                    + No browser viewer for document
+                                                p {this.props.generatedSourcePath}
+                    { 
+                        && 
+                            + previewKind === 'wizzified' && this.props.wizzifiedIttfContent
+                            div 
+                                @ className {classes.editor}
+                                < SyntaxHighlighter 
+                                    @ className {classes.syntaxHigh}
+                                    @ code {this.props.wizzifiedIttfContent}
+                                    @ filePath {selectedFile}
+                                    @ lineNumbers {true}
+                    { 
+                        && 
+                            + previewKind === 'codeAST' && this.props.codeASTContent
+                            div 
+                                @ className {classes.editor}
+                                < SyntaxHighlighter 
+                                    @ className {classes.syntaxHigh}
+                                    @ code {this.props.codeASTContent}
+                                    @ filePath {selectedFile}
+                                    @ lineNumbers {true}
+
+                    div 
+                        @ className {classes.sidebar}
+                        {
+                            &&
+                                + isIttf
+                                div
+                                    @ className {classes.sbItem}
+                                    < Tooltip 
+                                        @ title "View generated artifact content"
+                                        < IconButton 
+                                            @ onClick {this._handleGenerateArtifact}
+                                            @ classes
+                                                { 
+                                                    @ root classes.iconButton
+                                            < ViewListIcon 
+                        {
+                            &&
+                                + isIttf
+                                div
+                                    @ className {classes.sbItem}
+                                    < Tooltip 
+                                        @ title "View mTree"
+                                        < IconButton 
+                                            @ onClick {this._handleMTree}
+                                            @ classes
+                                                { 
+                                                    @ root classes.iconButton
+                                            < AccountTreeIcon 
+                        {
+                            &&
+                                + isIttf
+                                div
+                                    @ className {classes.sbItem}
+                                    < Tooltip 
+                                        @ title "View mTree build script"
+                                        < IconButton 
+                                            @ onClick {this._handleMTreeDebugInfo}
+                                            @ classes
+                                                { 
+                                                    @ root classes.iconButton
+                                            < DebugIcon 
+                        {
+                            &&
+                                + isIttf
+                                div
+                                    @ className {classes.sbItem}
+                                    < Tooltip 
+                                        @ title "Browse artifact"
+                                        < IconButton 
+                                            @ onClick {this._handleBrowse}
+                                            @ classes
+                                                { 
+                                                    @ root classes.iconButton
+                                            < BrowserIcon 
+                        {
+                            &&
+                                + isIttf == false
+                                div
+                                    @ className {classes.sbItem}
+                                    < Tooltip 
+                                        @ title "Wizzify source"
+                                        < IconButton 
+                                            @ onClick {this._handleWizzify}
+                                            @ classes
+                                                { 
+                                                    @ root classes.iconButton
+                                            < WizzifiedIcon 
+                        {
+                            &&
+                                + isIttf == false
+                                div
+                                    @ className {classes.sbItem}
+                                    < Tooltip 
+                                        @ title "Get code AST"
+                                        < IconButton 
+                                            @ onClick {this._handleCodeAST}
+                                            @ classes
+                                                { 
+                                                    @ root classes.iconButton
+                                            < AstIcon 
+    const muiStyles
+        => 
+            param theme
+                :ref Theme
+            _ createStyles
+                { 
+                    { container
+                        @ display 'flex'
+                        @ flexDirection 'row'
+                        @ borderLeft '1px solid #cccccc'
+                        @ width '100%'
+                        @ height '100%'
+                    { containerFull
+                        @ display 'flex'
+                        @ flexDirection 'row'
+                        @ borderLeft '1px solid #cccccc'
+                        @ width '100%'
+                        @ height '100%'
+                    { editor
+                        @ width '92%'
+                    { browserOuter
+                        $$ @ border '0.3em solid rgb(122, 122, 122)'
+                        $$ @ borderRadius '0.5em'
+                        @ width '92%'
+                    { syntaxHigh
+                        @ margin 0
+                        @ padding 0
+                        @ height '100%'
+                    { sidebar
+                        @ display 'flex'
+                        @ flexDirection 'column'
+                        @ justifyContent 'start'
+                        @ width '8%'
+                        @ backgroundColor '#666'
+                        $$ @ background theme.palette.primary.light
+                    { sbItem
+                        @ display 'flex'
+                        @ justifyContent 'center'
+                    { iconButton
+                        @ padding '10px'
+    export-default withStyles(muiStyles)(GeneratedView)

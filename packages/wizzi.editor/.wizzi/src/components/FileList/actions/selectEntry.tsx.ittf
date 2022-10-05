@@ -1,0 +1,27 @@
+module
+    import 
+        @ FileSystemEntry
+        from '../../../features/file'
+    import updateEntry from './updateEntry'
+    export-default 
+        function selectEntry
+            param entries
+                :[ 
+                    :ref FileSystemEntry
+            param path
+                :string 
+            :return
+                :[ 
+                    :ref FileSystemEntry
+            return 
+                _ entries.map
+                    => 
+                        param e
+                        iif e.item.path === path
+                            then
+                                _ updateEntry
+                                    @ e
+                                    { 
+                                        { state
+                                            @ isSelected !e.state.isSelected
+                            else e

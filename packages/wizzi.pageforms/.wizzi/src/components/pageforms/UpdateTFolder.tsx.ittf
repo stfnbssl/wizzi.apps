@@ -1,0 +1,141 @@
+module
+    
+    $
+        var md = {
+            styled: true,
+            name: "UpdateTFolderProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "tf_id", type: "string" },
+                { name: "tf_owner", type: "string" },
+                { name: "tf_name_old", type: "string" },
+                { name: "tf_name_new", type: "string" },
+                { name: "tf_description", type: "string" },
+                { name: "tf_add_context", type: "boolean" },
+                { name: "tf_contexts", type: "[" },
+                { name: "tf_add_tfolder", type: "boolean" },
+                { name: "tf_dependencies", type: "[" },
+                { name: "tf_name_new_available", type: "boolean" },
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        check_name( tFolder, tf_name_new )
+        +
+        $include handle_input_change
+        +
+        => handleTFolderNameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            log 'handleTFolderNameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ tf_name_new ev.target.value
+                =>
+                    if ev.target.value !== this.state.tf_name_old
+                        _ this._checkAvalibleTFolderName
+        +
+        handle_submit( Update, tf )
+        
+        m componentDidMount
+            log 'UpdateTFolderProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ _id
+                    @ owner
+                    @ name
+                    @ description
+                    @ contexts
+                    @ dependencies
+                = this.props.data
+            
+            const tf_contexts = contexts || []
+            const tf_dependencies = dependencies || []
+            
+            _ this.setState
+                {
+                    @ tf_id _id
+                    @ tf_owner owner
+                    @ tf_name_old name
+                    @ tf_name_new name
+                    @ mp_name_new_available true
+                    @ tf_description description
+                    @ tf_add_context tf_contexts.length > 0
+                    @ tf_contexts
+                    @ tf_add_tfolder tf_dependencies.length > 0
+                    @ tf_dependencies 
+
+        +
+        m render
+            log 'UpdatePacki.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Update tFolder'
+                        @ subtitle 'A tFolder contains the ittf documents 
+                            \b for a software tFolder.'
+                    < HR
+                    form
+                        action /tfolder/update
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormHidden
+                            @ name 'tf_id'
+                            @ id 'tf_id'
+                            @ value {this.state.tf_id}
+                        < FormHidden
+                            @ name 'tf_owner'
+                            @ id 'tf_owner'
+                            @ value {this.state.tf_owner}
+                        < FormHidden
+                            @ name 'tf_name_old'
+                            @ id 'tf_name_old'
+                            @ value {this.state.tf_name_old}
+                        < FormGroup
+                            @ label 'TFolder name'
+                            @ name 'tf_name_new'
+                            @ id 'tf_name_new'
+                            @ required {true}
+                            @ value {this.state.tf_name_new}
+                            @ onChange {this.handleTFolderNameChange}
+                        {
+                            &&
+                                + this.state.tf_name_new.length > 0 &&
+                                    \b this.state.tf_name_old !== this.state.tf_name_new &&
+                                    \b this.state.tf_name_new_available
+                                < Para
+                                    + {'TFolder name ' + this.state.tf_name_new_checked + ' is available'}
+                        {
+                            &&
+                                + this.state.tf_name_new.length > 0 &&
+                                    \b this.state.tf_name_old !== this.state.tf_name_new &&
+                                    \b !this.state.tf_name_new_available
+                                < Para
+                                    @ color '#ff0000'
+                                    + {'TFolder name ' + this.state.tf_name_new_checked + ' is not available'}
+                        < HR
+                        < FormGroup
+                            @ label 'Description'
+                            @ name 'tf_description'
+                            @ id 'tf_description'
+                            @ required {true}
+                            @ value {this.state.tf_description}
+                            @ onChange {this.handleInputChange}
+                        
+                        form_buttons(Update, tf)

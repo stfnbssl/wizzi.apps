@@ -1,0 +1,134 @@
+module
+    import 
+        @ Reducer
+        from 'redux'
+    import 
+        @ ActionType
+        @ getType
+        from 'typesafe-actions'
+    import 
+        @ Packi
+        from './types'
+    import 
+        as packiActions
+        from './actions'
+    import 
+        @ mixPreviousAndGeneratedPackiFiles
+        from '../file/convertFileStructure'
+    export 
+        :interface PackiState
+            :p loading
+                :boolean 
+            :p errors
+                :optional 
+                :string 
+            :p generatedArtifactContent
+                :optional 
+                :string 
+            :p generatedIttfDocuments
+                :optional 
+                :string 
+    const initialState
+        :ref PackiState
+        =
+            { 
+                @ loading false
+                @ errors undefined
+                @ generatedArtifactContent undefined
+                @ generatedIttfDocuments undefined
+                @ clonedGithubRepoOwnerName undefined
+                @ clonedGithubRepoName undefined
+                @ clonedGithubRepoFiles undefined
+    export 
+        :type PackiAction
+            :ref ActionType
+                :param 
+                    :typeof packiActions
+    const reducer
+        :ref Reducer
+            :param 
+                :ref PackiState
+            :param 
+                :ref PackiAction
+        =
+            => 
+                param state = initialState
+                param action
+                switch action.type
+                    +
+                    case getType(packiActions.githubCloneRequest)
+                        log "packiActions.githubCloneRequest"
+                        return 
+                            { 
+                                @ ...state
+                                @ loading true
+                                @ clonedGithubRepoOwner undefined
+                                @ clonedGithubRepoName undefined
+                                @ clonedGithubRepoFiles undefined
+                                @ error undefined
+                    case getType(packiActions.githubCloneSuccess)
+                        log "packiActions.githubCloneSuccess", action
+                        if action.payload.error || action.payload.err
+                            return 
+                                { 
+                                    @ ...state
+                                    @ loading false
+                                    @ error (action.payload.error || action.payload.err)
+                        else
+                            return 
+                                { 
+                                    @ ...state
+                                    @ loading false
+                                    @ clonedGithubRepoOwner action.payload.owner
+                                    @ clonedGithubRepoName action.payload.name
+                                    @ clonedGithubRepoFiles action.payload.files
+                                    @ clonedGithubRepoFilesCommitHistory action.payload.commitHistory
+                    case getType(packiActions.githubCloneError)
+                        log "packiActions.githubCloneError", action
+                        return 
+                            { 
+                                @ ...state
+                                @ loading false
+                                @ error action.payload
+                    case getType(packiActions.executeJobSuccess)
+                        log "packiActions.executeJobSuccess", action
+                        const newPacki
+                            { 
+                                @ ...state.currentPacki
+                                @ files mixPreviousAndGeneratedPackiFiles(action.payload.previousArtifacts, action.payload.generatedArtifacts)
+                        log "packiActions.executeJobSuccess.newPacki", newPacki
+                        if !action.payload.error
+                            return 
+                                { 
+                                    @ ...state
+                                    { currentPacki
+                                        @ ...state.currentPacki
+                                        @ files mixPreviousAndGeneratedPackiFiles(action.payload.previousArtifacts, action.payload.generatedArtifacts)
+                                        :as 
+                                            :ref Packi
+                        else
+                            return state
+                    default 
+                        return state
+                switch action.type
+                    case getType(packiActions.executeWizziMetaFolderSuccess)
+                        log "packiActions.executeWizziMetaFolderSuccess", action
+                        const newPacki
+                            { 
+                                @ ...state.currentPacki
+                                @ files mixPreviousAndGeneratedPackiFiles(action.payload.previousArtifacts, action.payload.generatedArtifacts)
+                        log "packiActions.executeJobSuccess.newPacki", newPacki
+                        if !action.payload.error
+                            return 
+                                { 
+                                    @ ...state
+                                    { currentPacki
+                                        @ ...state.currentPacki
+                                        @ files mixPreviousAndGeneratedPackiFiles(action.payload.previousArtifacts, action.payload.generatedArtifacts)
+                                        :as 
+                                            :ref Packi
+                        else
+                            return state
+                    default 
+                        return state
+    export-default reducer

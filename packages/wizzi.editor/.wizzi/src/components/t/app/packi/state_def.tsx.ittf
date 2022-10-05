@@ -1,0 +1,30 @@
+$group
+
+    :p generatedArtifact
+        :optional 
+        :ref GeneratedArtifact
+    :p mTreeBuildupScript
+        :optional 
+        :string 
+    :p mTreeIttf
+        :optional 
+        :string 
+    :p jobGeneratedArtifacts
+        :optional 
+        :ref PackiFiles
+    :p wizziMetaFolderIttfDocuments
+        :optional 
+        :ref PackiFiles
+    :p isWizziJobWaiting
+        :boolean 
+    :p wizzifiedIttfContent
+        :optional 
+        :string 
+    :p codeASTContent
+        :optional 
+        :string 
+    :p wizziError
+        :optional 
+        :any
+
+

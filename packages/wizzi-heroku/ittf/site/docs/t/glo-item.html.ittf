@@ -1,0 +1,9 @@
+$group
+    $params name
+    tr
+        td
+            . title
+                + ${name}
+        td
+            $hook
+		

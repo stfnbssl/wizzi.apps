@@ -1,0 +1,155 @@
+module
+    import 
+        as React
+        from 'react'
+    import 
+        @ withStyles
+        @ createStyles
+        @ Theme
+        from '@material-ui/core/styles'
+    +
+    export
+        :type GenerationErrorsProps
+            :{ 
+                :p classes
+                    :any 
+                :p error
+                    :any 
+                    :optional
+    +
+    export
+        class GenerationErrors
+            super React.Component
+                :param 
+                    :ref GenerationErrorsProps
+            m render
+                const 
+                    { 
+                        @ classes
+                        @ error
+                    = this.props
+                var
+                    {
+                        @ name
+                        @ message
+                        @ data
+                        @ inner
+                        @ ittfDocumentUri
+                        @ method
+                        @ uri
+                        @ mixerUri
+                        @ stack
+                        @ errorLines
+                        @ parameter
+                    = error
+                if data
+                    if data.errorName
+                        set name = data.errorName
+                    if data.method
+                        set method = data.method
+                    if data.uri
+                        set ittfDocumentUri = data.uri
+                    if data.mixerUri
+                        set mixerUri = data.mixerUri
+                    if data.errorLines
+                        set errorLines = data.errorLines
+                if inner
+                    if inner.name
+                        set name = inner.name
+                    if inner.message
+                        set message = inner.message
+                    if inner.stack
+                        set stack = inner.stack
+                    if inner.errorLines
+                        set errorLines = inner.errorLines
+                return 
+                    div 
+                        @ className {classes.container}
+                        div 
+                            @ className {classes.errorName}
+                            + {name}
+                        { 
+                            && 
+                                + method
+                                div
+                                    @ className {classes.errorMethod}
+                                    + Method: {method}
+                        { 
+                            && 
+                                + ittfDocumentUri
+                                div
+                                    @ className {classes.errorUri}
+                                    + In ITTF Document: {ittfDocumentUri}
+                        { 
+                            && 
+                                + mixerUri
+                                div
+                                    @ className {classes.errorUri}
+                                    + Mixed by ITTF Document: {mixerUri}
+                        div 
+                            @ className {classes.message}
+                            { 
+                                && 
+                                    + message
+                                    _ message.split(',').map
+                                        => 
+                                            param line
+                                            param i
+                                            div 
+                                                @ key {i}
+                                                + {line}
+                            { 
+                                && 
+                                    + parameter
+                                    _ Object.keys(parameter).map
+                                        =>
+                                            param key
+                                            return
+                                                div
+                                                    + {key}: {parameter[key]}
+                        pre 
+                            @ className {classes.lines}
+                            + {errorLines && errorLines.join('\n')}
+                            ul 
+                            { 
+                                && 
+                                    + stack
+                                    _ stack.split('\n').map
+                                        => 
+                                            param line
+                                            param i
+                                            li 
+                                                @ key {i}
+                                                + {line}
+    +
+    const muiStyles
+        => 
+            param theme
+                :ref Theme
+            _ createStyles
+                { 
+                    { container
+                        @ display 'flex'
+                        @ flexDirection 'column'
+                        @ borderLeft '1px solid #cccccc'
+                        @ width '44vw'
+                        @ height '100%'
+                        @ overflow 'scroll'
+                    { errorName
+                        @ padding '15px 30px'
+                        @ fontSize '28px'
+                    { errorMethod
+                        @ padding '5px 10px'
+                        @ fontSize '20px'
+                    { errorUri
+                        @ padding '5px 10px'
+                        @ fontSize '20px'
+                    { message
+                        @ padding '15px 30px'
+                        @ fontSize '20px'
+                    { lines
+                        @ padding '15px 30px'
+                        @ fontSize '18px'
+                        @ fontFamily 'Courier, mono'
+    +
+    export-default withStyles(muiStyles)(GenerationErrors)

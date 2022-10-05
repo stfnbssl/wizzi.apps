@@ -1,0 +1,28 @@
+module
+    +
+    export 
+        :type SDKSpec
+            :{ 
+                :p version
+                    :string 
+                    # Version-spec for the published "wizzi" package.
+                :p coreTFolders
+                    :{ 
+                        :index 
+                            :string 
+                            param name
+                                :string 
+                    # TFolders that are pre-loaded by the Wizzi runtime, and which
+                    # the user does not need to add to `wizzi.config.json`.
+    +
+    export 
+        :type SDKFeature
+            :union 
+                :literal 'MULTIPLE_FILES'
+                :literal 'TFOLDER_DEPENDENCIES'
+                :literal 'WIZZI_JOBS'
+                :literal 'META_PRODUCTIONS'
+        #
+            # 
+            # Feature that is supported by the SDK (e.g. "MULTIPLE_FILES").
+            # 

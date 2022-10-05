@@ -1,0 +1,77 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "DeleteArtifactProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "ap_id", type: "string" },
+                { name: "ap_owner", type: "string" },
+                { name: "ap_name", type: "string" },
+                { name: "ap_description", type: "string" },
+            ]
+        }
+        
+    v08/ts/react/component(&md)
+
+        $append imports
+            common_imports( top )
+        +
+        p formRef 
+            = React.createRef()
+        +
+        m componentDidMount
+            log 'DeleteArtifactProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ _id
+                    @ owner
+                    @ name
+                    @ description
+                = this.props.data
+            
+            _ this.setState
+                {
+                    @ ap_id _id
+                    @ ap_owner owner
+                    @ ap_name name
+                    @ ap_description description
+        +
+        handle_submit( Delete, ap )
+        +
+        m render
+            log 'DeleteArtifactProduction.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Delete artifact production'
+                    < HR
+                    form
+                        action /artifact/delete
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormStatic
+                            @ label 'Artifact id'
+                            @ name 'ap_id'
+                            @ id 'ap_id'
+                            @ value {this.state.ap_id}
+                        < FormStatic
+                            @ label 'Artifact owner'
+                            @ name 'ap_owner'
+                            @ id 'ap_owner'
+                            @ value {this.state.ap_owner}
+                        < FormStatic
+                            @ label 'Artifact name'
+                            @ name 'ap_name'
+                            @ id 'ap_name'
+                            @ value {this.state.ap_name}
+                        < HR
+                        < FormStatic
+                            @ label 'Description'
+                            @ name 'ap_description'
+                            @ id 'ap_description'
+                            @ value {this.state.ap_description}
+                        form_buttons(Delete, ap)

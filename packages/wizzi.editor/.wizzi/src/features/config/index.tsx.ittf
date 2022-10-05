@@ -1,0 +1,60 @@
+module
+    import
+        as defaults
+        from './defaults'
+    import
+        @ PackiFile
+        from '../packi'
+    +
+    export
+        :type ConfigType
+            :{
+                :p SERVER_URL
+                    :string
+                :p API_URL
+                    :string
+                :p EDITOR_LOAD_FALLBACK_TIMEOUT
+                    :number
+                :p DEFAULT_PACKI_CODE
+                    :{
+                        :index
+                            :ref PackiFile
+                            param path
+                                :string
+                :p PREFERENCES_KEY
+                    :string
+    +
+    const ENV
+        iif process.env.NODE_ENV
+            then process.env.NODE_ENV
+            else 'development'
+    +
+    const PLATFORM
+        iif process.env.PLATFORM
+            then process.env.PLATFORM
+            else 'local'
+    +
+    let _config
+        :ref ConfigType
+    +
+    function getConfig
+        if _config == null
+            set _config =
+                {
+                    @ SERVER_URL '${wzCtx.App.baseUrl}'
+                    @ API_URL '${wzCtx.App.baseUrl}/api/v1'
+                    @ EDITOR_LOAD_FALLBACK_TIMEOUT defaults.EDITOR_LOAD_FALLBACK_TIMEOUT
+                    @ DEFAULT_PACKI_CODE defaults.DEFAULT_PACKI_CODE
+                    @ PREFERENCES_KEY 'packi.preferences.config'
+            log 'features.config', _config
+        return _config
+    +
+    export
+        const config
+            :ref ConfigType
+            = getConfig()
+    +
+    export
+        const DEFAULT_PACKI_CODE = config.DEFAULT_PACKI_CODE
+    +
+    export-default config

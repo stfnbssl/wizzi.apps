@@ -1,0 +1,380 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import ContextMenu
+        @ Action
+        from '../widgets/ContextMenu'
+    import 
+        @ isKeyCombo
+        from '../widgets/KeybindingsManager'
+    import FileListEntryDropTarget from './FileListEntryDropTarget'
+    import 
+        @ FileSystemEntry
+        from '../../features/file'
+    :type Props
+        :{ 
+            :p entry
+                :ref FileSystemEntry
+            :p rest
+                :[ 
+                    :ref FileSystemEntry
+            :p onOpen
+                :=> 
+                    :void 
+                    param path
+                        :string 
+            :p onFocus
+                :=> 
+                    :void 
+                    param path
+                        :string 
+            :p onRename
+                :=> 
+                    :void 
+                    param oldPath
+                        :string 
+                    param newPath
+                        :string 
+            :p onExpand
+                :optional 
+                :=> 
+                    :void 
+                    param path
+                        :string 
+                    param expand
+                        :boolean 
+                        :optional 
+            :p renderMenuIcon
+                :=> 
+                    :ref React.ReactNode
+            :p renderItem
+                :=> 
+                    :ref React.ReactNode
+            :p renderTree
+                :optional 
+                :=> 
+                    :ref React.ReactNode
+            :p actions
+                :[ 
+                    :paren 
+                        :union 
+                            :ref Action
+                            :undefined 
+            :p draggable
+                :optional 
+                :boolean 
+            :p readOnly
+                :boolean 
+            :p theme
+                :union 
+                    :string 
+                    :undefined 
+    :type State
+        :{ 
+            :p menu
+                :union 
+                    :{ 
+                        :p pageX
+                            :number 
+                        :p pageY
+                            :number 
+                    :null 
+            :p isHovered
+                :boolean 
+    export 
+        let lastDraggedEntry
+            :union 
+                :ref FileSystemEntry
+                :null 
+    export-default 
+        class FileListEntry
+            super React.Component
+                :param 
+                    :ref Props
+                :param 
+                    :ref State
+            p defaultProps
+                static
+                { 
+                    @ draggable true
+            p state
+                { 
+                    @ menu null
+                    @ isHovered false
+            m componentDidMount
+                _ document.addEventListener('click', this._handleDocumentClick)
+                _ document.addEventListener('contextmenu', this._handleDocumentContextMenu)
+            m componentWillUnmount
+                _ document.removeEventListener('click', this._handleDocumentClick)
+                _ document.removeEventListener('contextmenu', this._handleDocumentContextMenu)
+            => _handleClick
+                param event
+                    :ref React.MouseEvent
+                        :param 
+                            :ref HTMLDivElement
+                if 
+                    test
+                        === 
+                            @expr 
+                                ( 
+                                    @expr event.target
+                                        :as 
+                                            :ref HTMLDivElement
+                                . tagName
+                            + 'INPUT'
+                    return 
+                _ this.props.onOpen(this.props.entry.item.path)
+            => _handleMouseEnter
+                _ this.setState
+                    { 
+                        @ isHovered true
+            => _handleMouseLeave
+                _ this.setState
+                    { 
+                        @ isHovered false
+            => _handleMouseDown
+                set this._click = true
+            => _handleFocus
+                if this._click
+                    set this._click = false
+                        # The focus was triggered by a click event
+                        # Ignore it to avoid double handling
+                    return 
+                _ this.props.onFocus(this.props.entry.item.path)
+            => _handleKeyDown
+                param event
+                    :ref React.KeyboardEvent
+                        :param 
+                            :ref HTMLDivElement
+                if 
+                    test
+                        === 
+                            @expr 
+                                ( 
+                                    @expr event.target
+                                        :as 
+                                            :ref HTMLDivElement
+                                . tagName
+                            + 'INPUT'
+                    return 
+                const bindings
+                    _ this.props.actions.filter
+                        => 
+                            param action
+                            iif action?.combo
+                                then
+                                    _ isKeyCombo
+                                        + event
+                                            :as 
+                                                :any 
+                                        @expr action.combo
+                                else false
+                if bindings.length
+                    _ event.preventDefault()
+                    _ bindings.forEach
+                        => 
+                            param binding
+                            _ binding?.handler?.()
+            => _hideContextMenu
+                _ this.setState
+                    { 
+                        @ menu null
+            => _showContextMenu
+                param e
+                    :ref MouseEvent
+                _ this.setState
+                    { 
+                        { menu
+                            @ pageX e.pageX
+                            @ pageY e.pageY
+            => _handleDocumentClick
+                param e
+                    :ref MouseEvent
+                if this.state.menu
+                    if 
+                        test
+                            && 
+                                + this._menu.current && e.target !== this._menu.current
+                                op! 
+                                    _ this._menu.current.contains
+                                        @expr e.target
+                                            :as 
+                                                :ref HTMLElement
+                        _ this._hideContextMenu()
+                else
+                    if 
+                        test
+                            && 
+                                + this._more.current
+                                (
+                                    || 
+                                        + e.target === this._more.current
+                                        _ this._more.current.contains
+                                            @expr e.target
+                                                :as 
+                                                    :ref Node
+                        if this.state.menu
+                            _ this._hideContextMenu()
+                        else
+                            _ this._showContextMenu(e)
+            => _handleDocumentContextMenu
+                param e
+                    :ref MouseEvent
+                if 
+                    test
+                        || 
+                            + e.target === this._item.current
+                            _ this._item.current?.contains?.
+                                @expr e.target
+                                    :as 
+                                        :ref Node
+                    _ e.preventDefault()
+                    _ this._showContextMenu(e)
+                else
+                    if this.state.menu
+                        _ this._hideContextMenu()
+            => _handleDragStart
+                param e
+                    :ref React.DragEvent
+                        :param 
+                            :ref HTMLDivElement
+                set e.dataTransfer.effectAllowed = 'move'
+                _ e.dataTransfer.setData('application/json', JSON.stringify(this.props.entry))
+                set lastDraggedEntry = this.props.entry
+            => _handleDragEnd
+                set lastDraggedEntry = null
+            p _click
+                :boolean 
+                = false
+            p _item
+                _ React.createRef
+                    :param 
+                        :ref HTMLDivElement
+            p _more
+                _ React.createRef
+                    :param 
+                        :ref HTMLButtonElement
+            p _menu
+                _ React.createRef
+                    :param 
+                        :ref HTMLUListElement
+            m render
+                const 
+                    { 
+                        @ entry
+                        @ rest
+                        @ draggable
+                        @ readOnly
+                        @ onRename
+                        @ onExpand
+                        @ theme
+                        @ actions
+                    = this.props
+                const 
+                    { 
+                        @ menu
+                        @ isHovered
+                    = this.state
+                return 
+                    < FileListEntryDropTarget 
+                        @ entry {entry}
+                        @ rest {rest}
+                        @ onRename {onRename}
+                        @ onExpand {onExpand}
+                        div 
+                            @ ref {this._item}
+                            @ draggable {draggable}
+                            @ onDragStart {this._handleDragStart}
+                            @ onDragEnd {this._handleDragEnd}
+                            @ tabIndex {0}
+                            @ className {css(styles.entry)}
+                            @ onClick {this._handleClick}
+                            @ onMouseEnter {this._handleMouseEnter}
+                            @ onMouseLeave {this._handleMouseLeave}
+                            @ onMouseDown {this._handleMouseDown}
+                            @ onFocus {this._handleFocus}
+                            @ onKeyDown {this._handleKeyDown}
+                            + {this.props.renderItem()}
+                        div 
+                            @ className
+                                _ css
+                                    @expr styles.highlight
+                                    iif theme === 'dark'
+                                        then styles.highlightDark
+                                        else styles.highlightLight
+                                    iif entry.state.isSelected
+                                        then styles.highlightActive
+                                        else null
+                        {
+                            &&
+                                + !readOnly
+                                < ContextMenu 
+                                    @ ref {this._menu}
+                                    @ visible {Boolean(menu)}
+                                    @ position {menu}
+                                    @ actions {actions}
+                                    @ onHide {this._hideContextMenu}
+                        button 
+                            @ ref {this._more}
+                            @ tabIndex {-1}
+                            @ className
+                                _ css
+                                    @expr styles.more
+                                    iif isHovered || menu
+                                        then styles.moreVisible
+                                        else styles.moreInvisible
+                            + {this.props.renderMenuIcon()}
+                        + {this.props.renderTree?.()}
+    const styles
+        _ StyleSheet.create
+            { 
+                { entry
+                    @ position 'relative'
+                    @ display 'inline-block'
+                    @ outline 0
+                    @ padding '${4*wzCtx.Style.vpadRatio}px 16px'
+                    @ width '100%'
+                    @ cursor 'pointer'
+                    @ zIndex 1
+                    @ whiteSpace 'nowrap'
+                { highlight
+                    @ content '""'
+                    @ display 'inline-block'
+                    @ height 30
+                    @ position 'absolute'
+                    @ left 0
+                    @ right 0
+                    @ opacity 0
+                    @ zIndex 1
+                    @ pointerEvents 'none'
+                { highlightLight
+                    @ backgroundColor 'rgba(0, 0, 0, .04)'
+                { highlightDark
+                    @ backgroundColor 'rgba(255, 255, 255, .04)'
+                { highlightActive
+                    @ opacity 1
+                { more
+                    @ position 'absolute'
+                    @ left -8
+                    @ border 0
+                    @ outline 0
+                    @ background 'none'
+                    @ height 30
+                    @ zIndex 2
+                    @ padding '7px 12px'
+                    @ textAlign 'right'
+                    { ':hover'
+                        @ opacity 1
+                { moreInvisible
+                    @ opacity 0
+                { moreVisible
+                    @ opacity 1
+                { icon
+                    @ fill 'currentColor'
+                    @ height 16
+                    @ width 16

@@ -1,0 +1,18 @@
+module
+    import 
+        @ all
+        @ fork
+        from 'redux-saga/effects'
+    import wizziSagas from '../features/wizzi/sagas'
+    import packiSagas from '../features/packi/sagas'
+    +
+    export 
+        const createRootSaga
+            => 
+                return 
+                    function* rootSaga
+                        yield 
+                            _ all
+                                [ 
+                                    @ fork(wizziSagas)
+                                    @ fork(packiSagas)

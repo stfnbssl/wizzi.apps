@@ -1,0 +1,69 @@
+module
+    import 
+        @ FileSystemEntry
+        @ isInsideFolder
+        from '../../../features/file'
+    import createEntryAtPath from './createEntryAtPath'
+    import updateEntry from './updateEntry'
+    export-default 
+        function createNewEntry
+            param entries
+                :[ 
+                    :ref FileSystemEntry
+            param type
+                :union 
+                    :literal 'file'
+                    :literal 'folder'
+            param at
+                :union 
+                    :string 
+                    :undefined 
+                :optional 
+            const e
+                :ref FileSystemEntry
+                =
+                    iif type === 'file'
+                        then
+                            { 
+                                { item
+                                    @ path 'Untitled file.js'
+                                    @ type 'file'
+                                    @ content ''
+                                { state
+                                    @ isCreating true
+                        else
+                            { 
+                                { item
+                                    @ path 'Untitled folder'
+                                    @ type 'folder'
+                                { state
+                                    @ isCreating true
+            let path = at
+            if typeof path !== 'string'
+                const entry
+                    _ entries.find
+                        => 
+                            param e
+                            set e.state.isSelected === true
+                    # Get the current folder if no path is specified
+                set path =
+                    iif entry
+                        then entry.item.path
+                        else undefined
+            const entry = createEntryAtPath(entries, path, e)
+            const next
+                _ entries.map
+                    => 
+                        param e
+                        if e.item.type === 'folder' && isInsideFolder(entry.item.path, e.item.path) && !e.state.isExpanded
+                            return 
+                                _ updateEntry
+                                    @ e
+                                    { 
+                                        { state
+                                            @ isExpanded true
+                        return e
+            return 
+                [ 
+                    @ ...next
+                    @ entry

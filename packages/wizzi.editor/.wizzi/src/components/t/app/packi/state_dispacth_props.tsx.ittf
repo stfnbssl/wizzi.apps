@@ -1,0 +1,278 @@
+$group
+    +
+    :interface PackiStateProps
+        :p generatedArtifact
+            :optional 
+            :ref GeneratedArtifact
+        :p mTreeBuildupScript
+            :optional 
+            :string
+        :p mTreeIttf
+            :optional 
+            :any
+        :p jobGeneratedArtifacts
+            :optional 
+            :ref PackiFiles
+        :p wizziMetaFolderIttfDocuments
+            :optional 
+            :ref PackiFiles
+        :p clonedGithubRepoOwner
+            :optional 
+            :string
+        :p clonedGithubRepoName
+            :optional 
+            :string
+        :p clonedGithubRepoFiles
+            :optional 
+            :ref PackiFiles
+        :p wizzifiedIttfContent
+            :optional 
+            :string
+        :p codeASTContent
+            :optional 
+            :string
+        :p wizziError
+            :optional 
+            :any
+    +
+    :interface PackiDispatchProps
+        :p dispatchGenerateArtifact
+            :=> 
+                :void 
+                param fileName
+                    :string 
+                param files
+                    :ref PackiFiles
+                param productionKind
+                    :ref PackiProduction
+                param productionName
+                    :string 
+        :p dispatchMTree
+            :=> 
+                :void 
+                param fileName
+                    :string 
+                param files
+                    :ref PackiFiles
+                param productionKind
+                    :ref PackiProduction
+                param productionName
+                    :string 
+        :p dispatchMTreeDebugInfo
+            :=> 
+                :void 
+                param fileName
+                    :string 
+                param files
+                    :ref PackiFiles
+                param productionKind
+                    :ref PackiProduction
+                param productionName
+                    :string 
+        :p dispatchExecuteJob
+            :=> 
+                :void 
+                param fileName
+                    :string 
+                param files
+                    :ref PackiFiles
+                param productionKind
+                    :ref PackiProduction
+                param productionName
+                    :string 
+        :p dispatchExecuteWizziMetaFolder
+            :=> 
+                :void 
+                param productionKind
+                    :ref PackiProduction
+                param productionId
+                    :string 
+        :p dispatchWizzify
+            :=> 
+                :void 
+                param filePath
+                    :string 
+                param fileContent
+                    :string 
+        :p dispatchCodeAST
+            :=> 
+                :void 
+                param filePath
+                    :string 
+                param fileContent
+                    :string 
+        :p dispatchGithubClone
+            :=> 
+                :void 
+                param owner
+                    :string 
+                param name
+                    :string 
+                param branch
+                    :string 
+        :p dispatchChangeSelectedFile
+            :=> 
+                :void 
+                param oldFilePath
+                    :string 
+                param newFilePath
+                    :string 
+    +
+    const packiMapStateToProps
+        => 
+            param storeState
+                :ref StoreState
+            :return
+                :ref PackiStateProps
+            $$ loog 'packiMapStateToProps.wizzi.mTreeIttf', storeState.wizzi.mTreeIttf
+            return
+                { 
+                    @ generatedArtifact storeState.wizzi.generatedArtifact
+                    @ mTreeBuildupScript storeState.wizzi.mTreeBuildupScript
+                    @ mTreeIttf storeState.wizzi.mTreeIttf
+                    @ wizzifiedIttfContent storeState.wizzi.wizzifiedIttfContent
+                    @ codeASTContent storeState.wizzi.codeASTContent
+                    @ jobGeneratedArtifacts storeState.wizzi.jobGeneratedArtifacts
+                    @ wizziMetaFolderIttfDocuments storeState.wizzi.wizziMetaFolderIttfDocuments
+                    @ wizziError storeState.wizzi.error
+                    @ clonedGithubRepoOwner storeState.packi.clonedGithubRepoOwner
+                    @ clonedGithubRepoName storeState.packi.clonedGithubRepoName
+                    @ clonedGithubRepoFiles storeState.packi.clonedGithubRepoFiles
+    +
+    const packiMapDispatchToProps
+        => 
+            param dispatch
+                :ref Dispatch
+            :return
+                :ref PackiDispatchProps
+            (
+                { 
+                    @ dispatchGenerateArtifact
+                        => 
+                            param filePath
+                                :string 
+                            param files
+                                :ref PackiFiles
+                            param productionKind
+                                :ref PackiProduction
+                            param productionName
+                                :string 
+                            if filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')
+                                _ dispatch
+                                    _ wizziActions.generateArtifactRequest
+                                        { 
+                                            @ filePath
+                                            @ files
+                                            @ productionKind
+                                            @ productionName
+                    @ dispatchMTree
+                        => 
+                            param filePath
+                                :string 
+                            param files
+                                :ref PackiFiles
+                            param productionKind
+                                :ref PackiProduction
+                            param productionName
+                                :string 
+                            if filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')
+                                _ dispatch
+                                    _ wizziActions.mTreeRequest
+                                        { 
+                                            @ filePath
+                                            @ files
+                                            @ productionKind
+                                            @ productionName
+                    @ dispatchMTreeDebugInfo
+                        => 
+                            param filePath
+                                :string 
+                            param files
+                                :ref PackiFiles
+                            param productionKind
+                                :ref PackiProduction
+                            param productionName
+                                :string 
+                            if filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')
+                                _ dispatch
+                                    _ wizziActions.mTreeBuildupScriptRequest
+                                        { 
+                                            @ filePath
+                                            @ files
+                                            @ productionKind
+                                            @ productionName
+                    @ dispatchExecuteJob
+                        => 
+                            param fileName
+                                :string 
+                            param files
+                                :ref PackiFiles
+                            param productionKind
+                                :ref PackiProduction
+                            param productionName
+                                :string 
+                            _ dispatch
+                                _ wizziActions.executeJobRequest
+                                    { 
+                                        @ fileName
+                                        @ files
+                                        @ productionKind
+                                        @ productionName
+                    @ dispatchExecuteWizziMetaFolder
+                        => 
+                            param productionKind
+                                :ref PackiProduction
+                            param productionId
+                                :string 
+                            _ dispatch
+                                _ wizziActions.executeWizziMetaFolderRequest
+                                    { 
+                                        @ productionKind
+                                        @ productionId
+                    @ dispatchWizzify
+                        => 
+                            param filePath
+                                :string 
+                            param fileContent
+                                :string 
+                            _ dispatch
+                                _ wizziActions.wizzifyRequest
+                                    { 
+                                        @ filePath
+                                        @ fileContent
+                    @ dispatchCodeAST
+                        => 
+                            param filePath
+                                :string 
+                            param fileContent
+                                :string 
+                            _ dispatch
+                                _ wizziActions.codeASTRequest
+                                    { 
+                                        @ filePath
+                                        @ fileContent
+                    @ dispatchChangeSelectedFile
+                        => 
+                            param oldFilePath
+                                :string 
+                            param newFilePath
+                                :string 
+                            _ dispatch
+                                _ wizziActions.changeSelectedFile
+                                    { 
+                                        @ oldFilePath
+                                        @ newFilePath
+                    @ dispatchGithubClone
+                        => 
+                            param owner
+                                :string 
+                            param name
+                                :string 
+                            param branch
+                                :string 
+                            _ dispatch
+                                _ packiActions.githubCloneRequest
+                                    { 
+                                        @ owner
+                                        @ name
+                                        @ branch

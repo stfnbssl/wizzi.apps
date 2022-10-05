@@ -1,0 +1,50 @@
+$group
+    +
+    export 
+        const getPaletteColor
+            => 
+                param ...args
+                    :[
+                        :string
+                (
+                    => 
+                        param props
+                            :any
+                        let color
+                            iif args.length === 2
+                                then args[0]
+                                else props.color
+                        let shade
+                            iif args.length === 2
+                                then args[1]
+                                else args[0]
+                        const colorShade = shade.match(/^([a-z]+)\.([a-z]+)$/i)
+                        if colorShade
+                            set color = colorShade[0]
+                            set shade = colorShade[1]
+                        return 
+                            (
+                                || 
+                                    || 
+                                        || 
+                                            _ themeGet
+                                                `lit 
+                                                    + palette.
+                                                    @ color
+                                                    + .
+                                                    @ shade
+                                                (
+                                                    @ props
+                                            _ themeGet
+                                                `lit 
+                                                    + palette.
+                                                    @ color
+                                                (
+                                                    @ props
+                                        _ themeGet
+                                            `lit 
+                                                + colors.
+                                                @ color
+                                            (
+                                                @ props
+                                    + color                      

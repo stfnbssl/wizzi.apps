@@ -1,0 +1,126 @@
+module
+    import debounce from 'lodash/debounce'
+    import
+        as React
+        from 'react'
+    :import-type
+        @ QueryStateParams
+        from '../packi'
+    :import-type
+        @ PanelType
+        @ ThemeName
+        @ PreferencesType
+        @ SetPreferencesType
+        from './types'
+    import
+        @ PreferencesContext
+        from './types'
+    +
+    :type Props
+        :{
+            :p cookies
+                :{
+                    :p get
+                        :=>
+                            :union
+                                :string
+                                :undefined
+                            param key
+                                :string
+                    :p set
+                        :optional
+                        :=>
+                            :void
+                            param key
+                                :string
+                            param value
+                                :string
+            :p children
+                :ref React.ReactNode
+    +
+    :type State
+        :{
+            :p preferences
+                :ref PreferencesType
+    +
+    const EDITOR_CONFIG_KEY = 'packi-editor-config'
+    +
+    const defaults
+        :ref PreferencesType
+        =
+            {
+                @ fileTreeShown true
+                @ panelsShown false
+                @ panelType 'errors'
+                @ theme 'light'
+                @ verbose false
+                @ autoGenSingleDoc false
+                @ autoExecJob false
+    +
+    class PreferencesProvider
+        super React.Component
+            :param
+                :ref Props
+            :param
+                :ref State
+        ctor
+            param props
+                :ref Props
+            _ super(props)
+            const
+                {
+                    @ cookies
+                = this.props
+            let overrides
+                :ref Partial
+                    :param
+                        :ref PreferencesType
+                =
+                    {
+            try
+                set overrides =
+                    ||
+                        + JSON.parse(cookies.get(EDITOR_CONFIG_KEY) ?? '')
+                        {
+                    # Restore editor preferences from saved data
+            catch e
+            set this.state =
+                {
+                    { preferences
+                        @ ...defaults
+                        @ ...overrides
+        p _persistPreferences
+            _ debounce
+                =>
+                    const
+                        {
+                            @ cookies
+                        = this.props
+                    try
+                        _ cookies.set?.(EDITOR_CONFIG_KEY, JSON.stringify(this.state.preferences))
+                    catch e
+                @ 1000
+        => _setPreferences
+            param overrides
+                :ref Partial
+                    :param
+                        :ref PreferencesType
+            _ this.setState
+                =>
+                    param state
+                    (
+                        {
+                            { preferences
+                                @ ...state.preferences
+                                @ ...overrides
+                @expr this._persistPreferences
+        m render
+            return
+                < PreferencesContext.Provider
+                    @ value
+                        {
+                            @ setPreferences this._setPreferences
+                            @ preferences this.state.preferences
+                    + {this.props.children}
+    +
+    export-default PreferencesProvider

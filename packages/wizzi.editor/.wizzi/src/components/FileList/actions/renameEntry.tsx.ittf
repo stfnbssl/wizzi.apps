@@ -1,0 +1,53 @@
+module
+    import 
+        @ FileSystemEntry
+        @ changeParentPath
+        @ isInsideFolder
+        from '../../../features/file'
+    import recursivelyCreateParents from './recursivelyCreateParents'
+    import updateEntry from './updateEntry'
+    export-default 
+        function renameEntry
+            param entries
+                :[ 
+                    :ref FileSystemEntry
+            param oldPath
+                :string 
+            param newPath
+                :string 
+            const entry
+                _ entries.find
+                    => 
+                        param e
+                        set e.item.path === oldPath
+            if !entry
+                return entries
+            const renamed
+                _ updateEntry
+                    @ entry
+                    { 
+                        { item
+                            @ path newPath
+            delete renamed.state.isCreating
+            const next
+                :[ 
+                    :ref FileSystemEntry
+                =
+                    _ entries.map
+                        => 
+                            param e
+                            if e.item.path === entry.item.path
+                                return renamed
+                            if renamed.item.type === 'folder' && isInsideFolder(e.item.path, entry.item.path)
+                                return 
+                                    _ updateEntry
+                                        @ e
+                                        { 
+                                            { item
+                                                @ path changeParentPath(e.item.path, entry.item.path, renamed.item.path)
+                            return e
+            const parents = recursivelyCreateParents(next, renamed.item.path, true)
+            return 
+                [ 
+                    @ ...next
+                    @ ...parents

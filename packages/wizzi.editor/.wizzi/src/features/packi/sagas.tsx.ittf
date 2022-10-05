@@ -1,0 +1,46 @@
+module
+    import 
+        @ all
+        @ fork
+        @ put
+        @ takeEvery
+        @ call
+        from 'redux-saga/effects'
+    import 
+        @ getType
+        from 'typesafe-actions'
+    import 
+        @ config
+        from '../config'
+    import 
+        @ packiActions
+        from '../packi'
+    import 
+        @ callApi
+        from '../../utils/api'
+    #
+    saga_handler( packi, githubCloneRequest, githubCloneError
+        const res
+            yield 
+                _ call
+                    @ callApi
+                    @ 'get'
+                    @ config.API_URL
+                    @ 'github/repo/clone/' + 
+                        \b encodeURIComponent(action.payload.owner) + '/' + 
+                        \b encodeURIComponent(action.payload.name) + '/' + 
+                        \b encodeURIComponent(action.payload.branch)
+        log 'sagas.handleGithubCloneRequest.res', res
+        yield put(packiActions.githubCloneSuccess(res))
+    #
+    #
+    function* packiRequest
+        yield takeEvery(getType(packiActions.githubCloneRequest), handleGithubCloneRequest)
+    #
+    function* packiSaga
+        yield 
+            _ all
+                [ 
+                    @ fork(packiRequest)
+    #
+    export-default packiSaga

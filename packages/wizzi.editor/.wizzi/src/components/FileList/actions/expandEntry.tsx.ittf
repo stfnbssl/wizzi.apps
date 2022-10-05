@@ -1,0 +1,30 @@
+module
+    import 
+        @ FileSystemEntry
+        from '../../../features/file'
+    import updateEntry from './updateEntry'
+    export-default 
+        function expandEntry
+            param entries
+                :[ 
+                    :ref FileSystemEntry
+            param path
+                :string 
+            param expand
+                :boolean 
+                = true
+            :return
+                :[ 
+                    :ref FileSystemEntry
+            return 
+                _ entries.map
+                    => 
+                        param entry
+                        if entry.item.path === path && entry.item.type === 'folder'
+                            return 
+                                _ updateEntry
+                                    @ entry
+                                    { 
+                                        { state
+                                            @ isExpanded expand
+                        return entry

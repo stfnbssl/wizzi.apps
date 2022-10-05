@@ -1,0 +1,150 @@
+$group
+    $params level|1
+    => _handleFocusChangeInterval
+        const isFocused = document.hasFocus()
+        if this._isFocused !== isFocused
+            set this._isFocused = isFocused
+            if isFocused
+                _ this._PackiSession.setFocus()
+    => _handleSessionStateChange
+        param packiState
+            :ref PackiState
+        param prevPackiState
+            :ref PackiState
+        
+        _ this.setState
+            => 
+                param state
+                let annotations
+                    :union 
+                        :[ 
+                            :ref Annotation
+                        :undefined 
+                const saveStatus
+                    :ref SaveStatus
+                    =
+                        iif state.unsaved && (state.saveStatus === 'saved-draft' || state.saveStatus === 'published' || state.saveStatus === 'unsaved')
+                            then
+                                iif this.edited
+                                    then 'edited'
+                                    else 'unsaved'
+                            else state.saveStatus
+                    # Set save-status to changed if needed
+                log 'App._handleSessionStateChange', 'saveStatus', saveStatus
+                return 
+                    { 
+                        @ session packiState
+                        @ saveStatus
+                        @ annotations annotations ?? state.annotations
+                    # Update session state
+            => 
+                # 15/7/21 Disactivated
+                # for changes uploaded see
+                # - _PackiSession.updatePackiData
+                # - _PackiSession.updatePackiFiles
+            # log 'Session state change: ', diff(prevPackiState, packiState), packiState $$ deep-object-diff
+    +
+    => _handleSubmitMetadata
+        param details
+            :{ 
+                :p name
+                    :string 
+                :p description
+                    :string 
+                :p mainIttf
+                    :string 
+                :p wizziSchema
+                    :string 
+        set this.edited = true
+        _ this._PackiSession.setName(details.name)
+        _ this._PackiSession.setDescription(details.description)
+        _ this._PackiSession.setMainIttf(details.mainIttf)
+        _ this._PackiSessionn.setWizziSchema(details.wizziSchema)
+    +
+    p _handleDownloadAsync
+        async=> 
+            _ this.setState
+                { 
+                    @ isDownloading true
+            const 
+                { 
+                    @ saveStatus
+                = this.state
+                # Make sure file is saved before downloading
+            let once = true
+            _ this.setState
+                => 
+                    param state
+                    const 
+                        { 
+                            @ id
+                        = state.session
+                    if !id
+                        return 
+                            { 
+                                @ saveStatus
+                                @ isDownloading false
+                            # this shouldn't happen
+                    if once
+                        set once = false
+                        const url
+                            `lit 
+                                @ process.env.API_SERVER_URL
+                                + /--/api/v2/packi/download/
+                                @ id
+                        const element = document.createElement('a')
+                            # Simulate link click to download file
+                        if element && document.body
+                            _ document.body.appendChild(element)
+                            _ element.setAttribute('href', url)
+                            _ element.setAttribute('download', 'packi.zip')
+                            set element.style.display = ''
+                            _ element.click()
+                            _ document.body.removeChild(element)
+                    return 
+                        { 
+                            @ saveStatus
+                            @ isDownloading false
+    +
+    => _handleSelectFile
+        param filePath
+            :string 
+        if filePath == this.state.selectedFile
+            return
+        _ this.setState
+            => 
+                param state
+                return
+                    { 
+                        @ selectedFile filePath
+                        @ previewKind this._getViewKind(filePath, state.selectedFile)
+            =>
+                if this.props.preferences.autoGenSingleDoc
+                    _ this._generateArtifactOrWizzifyOrCodeAST
+                        @ filePath
+                $$ log myname, '_handleSelectFile', 'call this.state.session.setSelectedFile'
+                _ this._PackiSession.setSelectedFile
+                    @ filePath
+    +
+    => _updateFiles
+        param updateFn
+            :=> 
+                :{ 
+                    :index 
+                        :union 
+                            :ref PackiFile
+                            :null 
+                        param filePath
+                            :string 
+                param files
+                    :ref PackiFiles
+        const state = this._PackiSession.getState()
+        const filesUpdate = updateFn(state.files)
+        if Object.keys(filesUpdate).length
+            log '---*** App._updateFiles.filesUpdate', Object.keys(filesUpdate)
+            set this.edited = true
+            _ this._PackiSession.updatePackiFiles
+                @ filesUpdate
+                =>
+                    log '---*** App._updateFiles.after-filesUpdate.exec-generateArtifact'
+                    _ this._generateArtifactOrWizzifyOrCodeAST

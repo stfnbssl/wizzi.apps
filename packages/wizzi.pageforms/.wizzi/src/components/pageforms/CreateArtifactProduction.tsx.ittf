@@ -1,0 +1,126 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "CreateArtifactProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "ap_name", type: "string" },
+                { name: "ap_name_available", type: "boolean" },
+                { name: "ap_name_checked", type: "string" },
+                { name: "ap_description", type: "string" },
+                { name: "ap_wizzi_schema", type: "string" },
+                { name: "ap_main_ittf", type: "string" },
+                { name: "ap_type", type: "string" },
+                { name: "ap_add_context", type: "boolean" },
+                { name: "ap_contexts", type: "[" },
+                { name: "ap_add_tfolder", type: "boolean" },
+                { name: "ap_dependencies", type: "[" },
+                { name: "ap_upload_files", type: "[" },
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        p formRef 
+            = React.createRef()
+        +
+        check_name_create( artifact, ap )
+        
+        m componentDidMount
+
+            set this._checkAvalibleArtifactName
+                _ debounce
+                    @ this._checkAvalibleArtifactName
+                    @ 100
+        
+        $include handle_input_change
+        add_context_handlers( ap )
+        add_tfolder_handlers( ap )
+
+        +
+        => handleArtifactNameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            log 'handleArtifactNameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ ap_name ev.target.value
+            _ this._checkAvalibleArtifactName
+        +
+        handle_submit( Create, ap )
+        +
+        m render
+            log 'CreateArtifactProduction.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Create a new artifact production'
+                        @ subtitle 'An artifact production contains the ittf documents 
+                            \b for a single software artifact.'
+                    < HR
+                    form
+                        action /artifact/new
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormGroup
+                            @ label 'Artifact name'
+                            @ name 'ap_name'
+                            @ id 'ap_name'
+                            @ required {true}
+                            @ value {this.state.ap_name}
+                            @ onChange {this.handleArtifactNameChange}
+                        {
+                            &&
+                                + this.state.ap_name.length > 0 && this.state.ap_name_available
+                                < Para
+                                    + {'Artifact name ' + this.state.ap_name_checked + ' is available'}
+                        {
+                            &&
+                                + this.state.ap_name.length > 0 && !this.state.ap_name_available
+                                < Para
+                                    @ color '#ff0000'
+                                    + {'Artifact name ' + this.state.ap_name_checked + ' is not available'}
+                        < HR
+                        < FormGroup
+                            @ label 'Description'
+                            @ name 'ap_description'
+                            @ id 'ap_description'
+                            @ required {true}
+                            @ value {this.state.ap_description}
+                            @ onChange {this.handleInputChange}
+                        < FormGroup
+                            @ label 'Wizzi schema'
+                            @ name 'ap_wizzi_schema'
+                            @ id 'ap_wizzi_schema'
+                            @ required {true}
+                            @ value {this.state.ap_wizzi_schema}
+                            @ onChange {this.handleInputChange}
+                        < HR
+                        < FormGroup
+                            @ label 'Main ittf'
+                            @ name 'ap_main_ittf'
+                            @ id 'ap_main_ittf'
+                            @ required {true}
+                            @ value {this.state.ap_main_ittf}
+                            @ onChange {this.handleInputChange}
+                        < HR
+                        
+                        add_context_render( ap )
+                        add_tfolder_render( ap )
+                        
+                        form_buttons(Create, ap)

@@ -1,0 +1,393 @@
+{
+    "name": "wizzi-heroku",
+    "version": "0.0.1",
+    "description": "wizzi-heroku",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "App": {
+        "name": "Wizzi Hub",
+        "title": "The public Wizzi Web App",
+        "isLocal": false,
+        "isProduction": false,
+        "port": "5000",
+        "useSsl": true,
+        "siteUrl": "https://www.wizzihub.com",
+        "baseUrl": "https://www.wizzihub.com",
+        "siteUrlLocal": "https://localhost",
+        "baseUrlLocal": "https://localhost:5000",
+        "apiVersion": "v1",
+        "constants": {
+            "preview": {
+                "minWidth": 700
+            }
+        },
+        "Components": []
+    },
+    "Styles": {},
+    "Build": {
+        "useSite": true,
+        "site": {
+            "useIttfStatic": false,
+            "ittfStatic": {}
+        },
+        "useDemoControllers": false,
+        "features": [
+            {
+                "name": "auth",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "account",
+                "hasControllers": true,
+                "useMongoDb": true
+            },
+            {
+                "name": "blog",
+                "hasControllers": true,
+                "useMongoDb": true
+            },
+            {
+                "name": "github",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "docs",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "production",
+                "hasControllers": true,
+                "useMongoDb": true
+            },
+            {
+                "name": "packi",
+                "hasControllers": true,
+                "useMongoDb": false
+            }
+        ],
+        "useFeatureGithub": true,
+        "featureGithub": {
+            "accessToken": "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"
+        },
+        "useHeroku": true,
+        "heroku": {
+            "webAppName": "wizzi",
+            "nodejsVersion": "16.2.0",
+            "packagePath": "deploy",
+            "webAppPort": 5000,
+            "Procfile": "server.js",
+            "testTitle": "Hello home",
+            "timeoutMinutesShort": 10,
+            "timeoutMinutesMedium": 20,
+            "timeoutMinutesLong": 60
+        },
+        "useConfig": true,
+        "config": {
+            "useEnvalid": true,
+            "envalid": {}
+        },
+        "useTypescript": true,
+        "typescript": {
+            "useBabelLoader": true,
+            "useTsxFiles": false
+        },
+        "usePrettier": true,
+        "prettier": {},
+        "usePrismjs": false,
+        "prismjs": {
+            "modes": []
+        },
+        "useLint": true,
+        "lint": {},
+        "useExpress": true,
+        "express": {
+            "useSslCert": false,
+            "useErrors": false,
+            "useStaticFiles": true,
+            "staticFiles": {
+                "basePath": "__dirname, '..', '..'"
+            },
+            "useSessionStore": false
+        },
+        "useSession": true,
+        "session": {
+            "name": "wizzi-heroku",
+            "secret": "axr45hngmuoil9********0ofgt*kjj6767648%$£3f5&/4bnsa-----qq4)$35670qq4q"
+        },
+        "noCache": true,
+        "useSocketIO": false,
+        "socketIO": {},
+        "useCookie": true,
+        "cookie": {},
+        "useLogger": false,
+        "logger": {
+            "useMorgan": false,
+            "morgan": {}
+        },
+        "useCompression": false,
+        "compression": {
+            "level": 6
+        },
+        "useHelmet": false,
+        "helmet": {},
+        "useCors": true,
+        "cors": {
+            "clientOrigin": "https://www.wizzihub.com"
+        },
+        "styles": {
+            "usePalx": false
+        },
+        "useStyledComponents": false,
+        "styledComponents": {},
+        "useStyledSystem": false,
+        "styledSystem": {},
+        "useAphrodite": false,
+        "aphrodite": {
+            "disableImportant": true
+        },
+        "useTailwindcss": false,
+        "tailwindcss": {},
+        "useExpoStyles": false,
+        "expoStyles": {},
+        "useJest": false,
+        "jest": {},
+        "useWizzi": true,
+        "wizzi": {
+            "isDev": true,
+            "plugins": [
+                "wizzi-core",
+                "wizzi-js",
+                "wizzi-web"
+            ],
+            "globalContext": {
+                "wzConfigIsDevelopment": true
+            },
+            "useRunner": false
+        },
+        "useWizziDocs": true,
+        "wizziDocs": {},
+        "useWizziProductions": true,
+        "wizziProductions": {
+            "useCachedProductions": false
+        },
+        "usePacki": true,
+        "packi": {
+            "useAdmin": false
+        },
+        "usePackiBrowse": true,
+        "packiBrowse": {},
+        "useIttfStatic": true,
+        "ittfStatic": {},
+        "useWizziViewEngine": true,
+        "wizziViewEngine": {},
+        "useWizziJsonFactory": true,
+        "wizziJsonFactory": {},
+        "utils": {
+            "useAxios": true,
+            "useEscapeRegexp": false,
+            "useEscapeHtml": false,
+            "useNullThrows": false,
+            "useLodash": false,
+            "useStringifySafe": true,
+            "useParseUrl": true,
+            "useEs6Error": false,
+            "useJsCookie": false,
+            "useQueryString": true,
+            "useSanitizeHtml": false,
+            "useDateFns": false,
+            "useFetchPonyfill": false,
+            "useNanoId": false,
+            "useNodeCache": true,
+            "useGitUrlParse": false,
+            "useJsonToAst": false
+        },
+        "useMongoDb": true,
+        "mongoDb": {
+            "host": "mongodb+srv",
+            "user": "yanez",
+            "password": "x5csosPN5YAsrl4Z",
+            "dbPath": "@cluster0.idlk7.mongodb.net",
+            "dbName": "wizzi",
+            "options": {
+                "useNewUrlParser": true,
+                "useUnifiedTopology": true
+            }
+        },
+        "useAuthentication": true,
+        "authentication": {
+            "isProduction": false,
+            "isLocal": false,
+            "authRequired": false,
+            "userInfo": false,
+            "useLocal": true,
+            "local": {},
+            "useGithub": true,
+            "github": {
+                "clientIdLocal": "6a42cd4cb7247bb4e823",
+                "clientSecretLocal": "dedced0ac262cae62557e4c3f567a6227b17bfb7",
+                "callbackURLLocal": "https://localhost:5000/api/v1/authenticate/github/callback",
+                "clientId": "156e80732f5eb542f5ab",
+                "clientSecret": "a9fe1dd225b058105e43040204ab08c42a2bc02b",
+                "callbackURL": "https://www.wizzihub.com/api/v1/authenticate/github/callback"
+            },
+            "useGoogle": true,
+            "google": {
+                "clientIdLocal": "676985835415-038phfuujng1oj6bsa7gfle0e6r4ur5g.apps.googleusercontent.com",
+                "clientSecretLocal": "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",
+                "callbackURLLocal": "https://localhost:5000/api/v1/authenticate/google/callback",
+                "clientId": "676985835415-eaoq3avnj3ldi72igo9mflfb1qu2nidv.apps.googleusercontent.com",
+                "clientSecret": "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",
+                "callbackURL": "https://www.wizzihub.com/api/v1/authenticate/google/callback"
+            }
+        },
+        "useReact": true,
+        "react": {},
+        "useData": true,
+        "data": {
+            "Blog": {
+                "db": {
+                    "Name": "Blog",
+                    "name": "blog",
+                    "tables": [
+                        {
+                            "Name": "Post",
+                            "Names": "Posts",
+                            "name": "post",
+                            "names": "posts",
+                            "descr": "Post",
+                            "indexes": [],
+                            "fields": [
+                                {
+                                    "name": "id",
+                                    "type": "integer",
+                                    "autoIncrement": true,
+                                    "primaryKey": true
+                                },
+                                {
+                                    "name": "title",
+                                    "type": "string",
+                                    "allowNull": false
+                                },
+                                {
+                                    "name": "content",
+                                    "type": "string",
+                                    "allowNull": false
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Project": {
+                "db": {
+                    "Name": "Project",
+                    "name": "project",
+                    "tables": [
+                        {
+                            "Name": "Category",
+                            "Names": "Categories",
+                            "name": "category",
+                            "names": "categories",
+                            "descr": "Category",
+                            "indexes": [],
+                            "fields": [
+                                {
+                                    "name": "id",
+                                    "type": "integer",
+                                    "autoIncrement": true,
+                                    "primaryKey": true
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "string",
+                                    "allowNull": false
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "Todo",
+                            "Names": "Todos",
+                            "name": "todo",
+                            "names": "todos",
+                            "descr": "Todo",
+                            "indexes": [],
+                            "fields": [
+                                {
+                                    "name": "id",
+                                    "type": "integer",
+                                    "autoIncrement": true,
+                                    "primaryKey": true
+                                },
+                                {
+                                    "name": "activity",
+                                    "type": "string",
+                                    "allowNull": false
+                                },
+                                {
+                                    "name": "category",
+                                    "type": "string",
+                                    "allowNull": false
+                                },
+                                {
+                                    "name": "done",
+                                    "type": "boolean",
+                                    "defaultValue": "false",
+                                    "allowNull": false
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "Issue",
+                            "Names": "Issues",
+                            "name": "issue",
+                            "names": "issues",
+                            "descr": "Issue",
+                            "indexes": [],
+                            "fields": [
+                                {
+                                    "name": "id",
+                                    "type": "integer",
+                                    "autoIncrement": true,
+                                    "primaryKey": true
+                                },
+                                {
+                                    "name": "description",
+                                    "type": "string",
+                                    "allowNull": false
+                                },
+                                {
+                                    "name": "category",
+                                    "type": "string",
+                                    "allowNull": false
+                                },
+                                {
+                                    "name": "closed",
+                                    "type": "boolean",
+                                    "defaultValue": "false",
+                                    "allowNull": false
+                                }
+                            ]
+                        }
+                    ],
+                    "relations": [
+                        {
+                            "kind": "one-to-many",
+                            "ltable": "Category",
+                            "rtable": "Todo"
+                        },
+                        {
+                            "kind": "one-to-many",
+                            "ltable": "Category",
+                            "rtable": "Issue"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,49 @@
+module
+    import fetchPonyfill from 'fetch-ponyfill'
+    import
+        @ PackiError
+        @ PackiUser
+        from './types'
+    const
+        {
+            @ fetch
+        = fetchPonyfill()
+    export
+        @ fetch
+    export
+        function createError
+            param config
+                :{
+                    :p message
+                        :string
+                    :p name
+                        :optional
+                        :string
+                    :p fileName
+                        :optional
+                        :string
+                    :p lineNumber
+                        :optional
+                        :number
+                    :p columnNumber
+                        :optional
+                        :number
+                    :p stack
+                        :optional
+                        :string
+            :return
+                :ref PackiError
+            const error
+                :ref PackiError
+                = new Error()
+            if config.name
+                set error.name = config.name
+            if config.fileName
+                set error.fileName = config.fileName
+            if config.lineNumber
+                set error.lineNumber = config.lineNumber
+            if config.columnNumber
+                set error.columnNumber = config.columnNumber
+            if config.stack
+                set error.stack = config.stack
+            return error

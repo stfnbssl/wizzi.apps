@@ -1,0 +1,121 @@
+$group
+    
+    +
+    p _handleGenerateArtifactPreview
+        async=> 
+            _ this.setState
+                => 
+                    param state
+                    return 
+                        {
+                            @ previewKind 'generated'
+                =>
+                    const files = this.state.session.files
+                    if Object.keys(files).length
+                        const filePath = this.state.selectedFile || Object.keys(files)[0]
+                        if filePath.endsWith('.ittf')
+                            log '_handleGenerateArtifactPreview.filePath', filePath
+                            log '_handleGenerateArtifactPreview', 'state.session.files', Object.keys(files)
+                            _ this.props.dispatchGenerateArtifact
+                                @ filePath
+                                _ fileConversions.packiFilterIttf
+                                    @ this.state.session.files
+                                @ this.state.session.packiProduction
+                                @ this.state.session.name
+    +
+    p _handleMTreePreview
+        async=> 
+            _ this.setState
+                => 
+                    param state
+                    return 
+                        {
+                            @ previewKind 'mTreeIttf'
+                =>
+                    const files = this.state.session.files
+                    if Object.keys(files).length
+                        const filePath = this.state.selectedFile || Object.keys(files)[0]
+                        if filePath.endsWith('.ittf')
+                            log '_handleMTreePreview.filePath', filePath
+                            log '_handleMTreePreview', 'state.session.files', Object.keys(files)
+                            _ this.props.dispatchMTree
+                                @ filePath
+                                _ fileConversions.packiFilterIttf
+                                    @ this.state.session.files
+                                @ this.state.session.packiProduction
+                                @ this.state.session.name
+    +
+    p _handleMTreeDebugInfoPreview
+        async=> 
+            _ this.setState
+                => 
+                    param state
+                    return 
+                        {
+                            @ previewKind 'mTreeBuildupScript'
+                =>
+                    const files = this.state.session.files
+                    if Object.keys(files).length
+                        const filePath = this.state.selectedFile || Object.keys(files)[0]
+                        if filePath.endsWith('.ittf')
+                            log '_handleMTreeDebugInfoPreview.filePath', filePath
+                            log '_handleMTreeDebugInfoPreview', 'state.session.files', Object.keys(files)
+                            _ this.props.dispatchMTreeDebugInfo
+                                @ filePath
+                                _ fileConversions.packiFilterIttf
+                                    @ this.state.session.files
+                                @ this.state.session.packiProduction
+                                @ this.state.session.name
+    p _handleBrowsePreview
+        async=> 
+            _ this.setState
+                => 
+                    param state
+                    return 
+                        {
+                            @ previewKind 'browser'
+    p _handleWizzifyPreview
+        async=> 
+            _ this.setState
+                => 
+                    param state
+                    return 
+                        {
+                            @ previewKind 'wizzified'
+                =>
+                    const files = this.state.session.files
+                    if Object.keys(files).length
+                        const filePath = this.state.selectedFile || Object.keys(files)[0]
+                        if !filePath.endsWith('.ittf')
+                            log '_handleWizzify.filePath', filePath
+                            log '_handleWizzify', 'state.session.files', Object.keys(files)
+                            _ this.props.dispatchWizzify
+                                @ filePath
+                                @ files[filePath].contents
+    p _handleCodeASTPreview
+        async=> 
+            _ this.setState
+                => 
+                    param state
+                    return 
+                        {
+                            @ previewKind 'codeAST'
+                =>
+                    const files = this.state.session.files
+                    if Object.keys(files).length
+                        const filePath = this.state.selectedFile || Object.keys(files)[0]
+                        if !filePath.endsWith('.ittf')
+                            log '_handleCodeAST.filePath', filePath
+                            log '_handleCodeAST', 'state.session.files', Object.keys(files)
+                            _ this.props.dispatchCodeAST
+                                @ filePath
+                                @ files[filePath].contents
+    p _handleGithubClone
+        async=> 
+            param details
+                :any
+            log '_handleGithubClone', details
+            _ this.props.dispatchGithubClone
+                @ details.owner
+                @ details.name
+                @ details.branch

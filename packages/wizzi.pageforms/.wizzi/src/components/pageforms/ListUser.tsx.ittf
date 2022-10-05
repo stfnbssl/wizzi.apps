@@ -1,0 +1,127 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "ListUser",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "l_artifacts", type: "any" },
+                { name: "l_search", type: "string" },
+                { name: "l_sort", type: "string" },
+                { name: "l_wizzi_schema", type: "string" },
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+            import
+                @ AddIcon
+                from '../../assets/AddIcon'
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        m componentDidMount
+            _ this.setState
+                {
+                    @ l_artifacts this.props.data.artifacts
+
+        m render
+            if !this.state
+                return
+                    div
+                        + Loading ...
+            return
+                div
+                    @ className flex-column width-full
+                    div
+                        @ className flex-row align-items-start
+                        form 
+                            class width-full
+                            @ aria-label Artifact productions
+                            @ role search
+                            @ acceptCharset UTF-8
+                            method get
+                            div
+                                @ className flex-row m-xxl
+                                div
+                                    @ className flex-column width-full
+                                    div
+                                        @ className m-s 
+                                        input 
+                                            type search
+                                            id your-repos-filter
+                                            name q
+                                            class form-control width-full
+                                            placeholder Find an artifact production…
+                                            autocomplete off
+                                            @ aria-label Find an artifact production…
+                                            value 
+                                            data-throttled-autosubmit 
+                                div
+                                    @ className flex-row
+                                    div
+                                        @ className flex-column
+                                        div
+                                            @ className m-s
+                                            select
+                                                option Html
+                                                    value Html
+                                                option Css
+                                                    value Css
+                                    div
+                                        @ className flex-column
+                                        div
+                                            @ className m-s
+                                            select
+                                                option Last updated
+                                                    value last-updated
+                                                option Stars
+                                                    value stars
+                        div
+                            @ className flex-row m-xxl
+                            div
+                                @ className flex-column m-s
+                                a_icon( New, /user/new
+                                    < AddIcon
+                    
+                    {
+                        _ this.state.l_artifacts.map
+                            =>
+                                param item
+                                    :any
+                                param ndx
+                                    :number
+                                return
+                                    div
+                                        @ className flex-row align-items-start
+                                        div
+                                            @ className flex-column border-b-s p-b-s width-full m-w-xxl
+                                            div
+                                                @ className font-xl
+                                                a {item.name}
+                                                    href {'/~~/stfnbssl/' + item.name}
+                                            div
+                                                @ className font-m m-b-m
+                                                + {item.description}
+                                            div
+                                                @ className flex-row 
+                                                div
+                                                    @ className font-m m-r-s
+                                                    + main ittf:
+                                                div
+                                                    @ className font-m m-r-xl
+                                                    + {item.mainIttf}
+                                                div
+                                                    @ className font-m m-r-s
+                                                    + schema:
+                                                div
+                                                    @ className font-m
+                                                    + {item.wizziSchema}

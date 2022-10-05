@@ -1,0 +1,6 @@
+module
+    import 
+        @ LoggedUser
+        from './types'
+    :export-type
+        @ LoggedUser

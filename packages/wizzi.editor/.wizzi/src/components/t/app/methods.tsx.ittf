@@ -1,0 +1,43 @@
+$group
+
+    +
+    m getDerivedStateFromProps
+        static
+        param _props
+            :ref AppProps
+        param state
+            :ref State
+        return null
+    +
+    m componentDidMount
+        set this._PackiStateListener = this._PackiSession.addStateListener(this._handleSessionStateChange)
+        set this._isFocused = document.hasFocus()
+        set this._focusTimer = window.setInterval(this._handleFocusChangeInterval, 500)
+        if this.props.preferences.autoGenSingleDoc && this.props.packi.mainIttf
+            _ this._generateArtifactOrWizzifyOrCodeAST
+                @ this.props.packi.mainIttf
+    +
+    m componentWillUnmount
+        _ this._PackiStateListener?.()
+        _ clearInterval(this._focusTimer)
+        set this._focusTimer = undefined
+    +
+    m componentDidUpdate
+        param prevProps
+            :ref AppProps
+        param prevState
+            :ref State
+        if prevProps.jobGeneratedArtifacts !== this.props.jobGeneratedArtifacts
+            _ this._PackiSession.updateJobGeneratedFiles
+                @ this.props.jobGeneratedArtifacts || {}
+        if prevProps.wizziMetaFolderIttfDocuments !== this.props.wizziMetaFolderIttfDocuments
+            _ this._PackiSession.updateWizziMetaFolderIttfDocuments
+                @ this.props.wizziMetaFolderIttfDocuments || {}
+        if prevProps.clonedGithubRepoFiles !== this.props.clonedGithubRepoFiles ||
+            \b prevProps.clonedGithubRepoName !== this.props.clonedGithubRepoName ||
+            \b prevProps.clonedGithubRepoOwner !== this.props.clonedGithubRepoOwner
+            _ this._PackiSession.updateClonedGithubRepoFiles
+                @ this.props.clonedGithubRepoOwner
+                @ this.props.clonedGithubRepoName
+                @ this.props.clonedGithubRepoFiles || {}
+

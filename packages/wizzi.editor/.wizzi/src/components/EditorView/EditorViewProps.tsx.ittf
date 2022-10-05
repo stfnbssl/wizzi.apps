@@ -1,0 +1,191 @@
+module
+
+    import 
+        @ SaveStatus
+        @ PackiSaveOptions
+        @ PackiFiles
+        @ PackiFile
+        from '../../features/packi'
+
+    import
+        @ GeneratedArtifact
+        from '../../features/wizzi'
+
+    import
+        @ Packi
+        from '../../features/packi'
+
+    import
+        @ FileSystemEntry
+        @ TextFileEntry
+        @ AssetFileEntry
+        from '../../features/file'
+
+    import 
+        @ Annotation
+        from '../../features/annotations'
+    export 
+        :type EditorViewProps
+            :{ 
+                :p createdAt
+                    :union 
+                        :string 
+                        :undefined 
+                :p saveStatus
+                    :ref SaveStatus
+                :p selectedFile
+                    :string 
+                :p id
+                    :optional 
+                    :string 
+                :p owner
+                    :string 
+                :p name
+                    :string 
+                :p description
+                    :string
+                :p files
+                    :ref PackiFiles
+                :p mainIttf
+                    :string
+                :p wizziSchema
+                    :string
+                :p packiProduction
+                    :ref PackiProduction                    
+                :p readOnly
+                    :boolean 
+                :p generated
+                    :boolean 
+                :p isDownloading
+                    :boolean 
+                :p annotations
+                    :[ 
+                        :ref Annotation
+                :p sendCodeOnChangeEnabled
+                    :boolean 
+                :p onSubmitMetadata
+                    :=> 
+                        :void 
+                        param details
+                            :{ 
+                                :p name
+                                    :string 
+                                :p description
+                                    :string 
+                :p onPublishAsync
+                    :=> 
+                        :ref Promise
+                            :param void
+                        param options
+                            :ref PackiSaveOptions
+                            :optional 
+                :p onDownloadAsync
+                    :=> 
+                        :ref Promise
+                            :param void
+                :p onSelectFile
+                    :=> 
+                        :void 
+                        param path
+                            :string 
+                :p updateFiles
+                    :=> 
+                        :void 
+                        param updateFn
+                            :=> 
+                                :{ 
+                                    :index 
+                                        :union 
+                                            :ref PackiFile
+                                            :null 
+                                        param path
+                                            :string 
+                                param files
+                                    :ref PackiFiles
+                :p autosaveEnabled
+                    :boolean 
+                :p userAgent
+                    :string 
+                :p previewRef
+                    :ref React.MutableRefObject
+                        :param 
+                            :union 
+                                :ref Window
+                                :null 
+                :p previewURL
+                    :string 
+                :p verbose
+                    :boolean 
+                $if wzCtx.Build.usePackiAspects
+                    :p loggedUser
+                        :optional 
+                        :ref LoggedUser
+                    :p entry
+                        :union 
+                            :ref TextFileEntry
+                            :ref AssetFileEntry
+                            :undefined 
+                    :p params
+                        :{ 
+                            :p id
+                                :optional 
+                                :string 
+                    :p generatedArtifact
+                        :optional 
+                        :ref GeneratedArtifact
+                    :p mTreeBuildupScript
+                        :optional 
+                        :string
+                    :p mTreeIttf
+                        :optional 
+                        :string
+                    :p wizziError
+                        :optional 
+                        :any
+                    :p isWizziJobWaiting
+                        :boolean 
+                    :p wizzifiedIttfContent
+                        :optional 
+                        :string
+                    :p codeASTContent
+                        :optional 
+                        :string
+                    :p onFileEntriesChange
+                        :=> 
+                            :ref Promise
+                                :param void
+                            param entries
+                                :[ 
+                                    :ref FileSystemEntry
+                    :p onEntrySelected
+                        :=> 
+                            :void 
+                            param entry
+                                :ref FileSystemEntry
+                    :p onExecuteWizziJob
+                        :=> 
+                            :void 
+                    :p onExecuteWizziMetaFolder
+                        :=> 
+                            :void 
+                    :p onGenerateArtifactPreview
+                        :=> 
+                            :void 
+                    :p onMTreePreview
+                        :=> 
+                            :void 
+                    :p onMTreeDebugInfoPreview
+                        :=> 
+                            :void 
+                    :p onBrowsePreview
+                        :=> 
+                            :void 
+                    :p onWizzifyPreview
+                        :=> 
+                            :void                             
+                    :p onCodeASTPreview
+                        :=> 
+                            :void    
+                    :p onGithubClone
+                        :=> 
+                            :void 

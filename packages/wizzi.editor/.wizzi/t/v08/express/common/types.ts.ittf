@@ -1,0 +1,25 @@
+$group
+    $params &md
+    +
+    :type RequiredPackiFileAttributes
+        :{
+            :p contents
+                :string
+            :p type
+                :union
+                    :literal 'ASSET'
+                    :literal 'CODE'
+            :p generated
+                :optional
+                :boolean
+            :p bothRealAndGenerated
+                :optional
+                :boolean
+    +
+    export
+        :type PackiFiles
+            :{
+                :index
+                    :ref RequiredPackiFileAttributes
+                    param x
+                        :string

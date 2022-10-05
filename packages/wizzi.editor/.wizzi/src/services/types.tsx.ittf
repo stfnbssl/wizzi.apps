@@ -1,0 +1,15 @@
+module
+    +
+    export 
+        :type TimedServiceState
+            :{ 
+                :p name
+                    :string 
+                :p onOff
+                    :boolean 
+                :p payload
+                    :optional 
+                    :any 
+                :p frequence
+                    :optional 
+                    :number 

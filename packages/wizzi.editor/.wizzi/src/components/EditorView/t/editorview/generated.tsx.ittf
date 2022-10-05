@@ -1,0 +1,40 @@
+{ 
+    iif wizziError
+        then
+            < GenerationErrors 
+                @ key 'GeneratedView'
+                @ error {wizziError}
+        else 
+            iif (generatedArtifact && generatedArtifact.artifactContent) || wizzifiedIttfContent || codeASTContent
+                then
+                    < GeneratedView 
+                        @ key 'GeneratedView'
+                        @ selectedFile {this.props.selectedFile}
+                        @ generatedContent {generatedArtifact ? generatedArtifact.artifactContent : undefined}
+                        @ generatedSourcePath {generatedArtifact ? generatedArtifact.sourcePath : undefined}
+                        @ mTreeBuildupScript {mTreeBuildupScript}
+                        @ mTreeIttf {mTreeIttf}
+                        @ wizzifiedIttfContent {wizzifiedIttfContent}
+                        @ codeASTContent {codeASTContent}
+                        @ generatedPreviewURL {previewURL}
+                        @ previewKind {previewKind}
+                        @ splitViewKind {this.state.splitViewKind}
+                        @ onGenerateArtifactPreview {onGenerateArtifactPreview}
+                        @ onMTreePreview {onMTreePreview}
+                        @ onMTreeDebugInfoPreview {onMTreeDebugInfoPreview}
+                        @ onBrowsePreview {onBrowsePreview}
+                        @ onWizzifyPreview {onWizzifyPreview}
+                        @ onCodeASTPreview {onCodeASTPreview}
+                else
+                    iif generatedArtifact && generatedArtifact.errorLines
+                        then
+                            < GenerationErrors 
+                                @ key 'GeneratedView'
+                                @ errorName {generatedArtifact.errorName}
+                                @ errorLines {generatedArtifact.errorLines}
+                                @ errorMessage {generatedArtifact.errorMessage}
+                                @ errorStack {generatedArtifact.errorStack}
+                        else 
+                            div
+                                @ key 'GeneratedView'
+                                + No data

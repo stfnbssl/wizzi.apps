@@ -1,0 +1,244 @@
+module
+    import
+        @ deprecated 
+        from "typesafe-actions"
+    const 
+        {
+            @ createStandardAction
+        = deprecated
+    import 
+        @ ResponsePayload
+        from '../../store'
+    import 
+        @ PackiFiles
+        from '../packi'
+    import 
+        @ GeneratedArtifact
+        from './types'
+    const NO_ERROR = '@@wizzi/NO_ERROR'
+    const GENERATE_ARTIFACT_REQUEST = '@@wizzi/GENERATE_ARTIFACT_REQUEST'
+    const GENERATE_ARTIFACT_SUCCESS = '@@wizzi/GENERATE_ARTIFACT_SUCCESS'
+    const GENERATE_ARTIFACT_ERROR = '@@wizzi/GENERATE_ARTIFACT_ERROR'
+    const MTREE_DEBUG_INFO_REQUEST = '@@wizzi/MTREE_DEBUG_INFO_REQUEST'
+    const MTREE_DEBUG_INFO_SUCCESS = '@@wizzi/MTREE_DEBUG_INFO_SUCCESS'
+    const MTREE_DEBUG_INFO_ERROR = '@@wizzi/MTREE_DEBUG_INFO_ERROR'
+    const MTREE_REQUEST = '@@wizzi/MTREE_REQUEST'
+    const MTREE_SUCCESS = '@@wizzi/MTREE_SUCCESS'
+    const MTREE_ERROR = '@@wizzi/MTREE_ERROR'
+    const EXECUTE_JOB_REQUEST = '@@wizzi/EXECUTE_JOB_REQUEST'
+    const EXECUTE_JOB_SUCCESS = '@@wizzi/EXECUTE_JOB_SUCCESS'
+    const EXECUTE_JOB_ERROR = '@@wizzi/EXECUTE_JOB_ERROR'
+    const EXECUTE_WIZZI_META_FOLDER_REQUEST = '@@wizzi/EXECUTE_WIZZI_META_FOLDER_REQUEST'
+    const EXECUTE_WIZZI_META_FOLDER_SUCCESS = '@@wizzi/EXECUTE_WIZZI_META_FOLDER_SUCCESS'
+    const EXECUTE_WIZZI_META_FOLDER_ERROR = '@@wizzi/EXECUTE_WIZZI_META_FOLDER_ERROR'
+    const WIZZIFY_REQUEST = '@@wizzi/WIZZIFY_REQUEST'
+    const WIZZIFY_SUCCESS = '@@wizzi/WIZZIFY_SUCCESS'
+    const WIZZIFY_ERROR = '@@wizzi/WIZZIFY_ERROR'
+    const CODE_AST_REQUEST = '@@wizzi/CODE_AST_REQUEST'
+    const CODE_AST_SUCCESS = '@@wizzi/CODE_AST_SUCCESS'
+    const CODE_AST_ERROR = '@@wizzi/CODE_AST_ERROR'
+    const CHANGE_SELECTED_FILE = '@@wizzi/CHANGE_SELECTED_FILE'
+    +
+    export 
+        :interface ArtifactRequestPayload
+            :p filePath
+                :string 
+            :p files
+                :ref PackiFiles
+            :p productionKind
+                :string 
+            :p productionName
+                :string 
+    +
+    export 
+        :interface ArtifactResponsePayload
+            :extends ResponsePayload
+            :p generatedArtifact
+                :ref GeneratedArtifact
+    +
+    export 
+        :interface MTreeDebugInfoResponsePayload
+            :extends ResponsePayload
+            :p mTreeBuildupScript
+                :string
+    +
+    export 
+        :interface MTreeResponsePayload
+            :extends ResponsePayload
+            :p mTreeIttf
+                :string
+    +
+    export 
+        :interface JobRequestPayload
+            :p files
+                :ref PackiFiles
+            :p productionKind
+                :string 
+            :p productionName
+                :string 
+    +
+    export 
+        :interface JobResponsePayload
+            :extends ResponsePayload
+            :p generatedArtifacts
+                :ref PackiFiles
+    +
+    export 
+        :interface WizziMetaFolderRequestPayload
+            :p productionKind
+                :string 
+            :p productionId
+                :string 
+    +
+    export 
+        :interface WizziMetaFolderResponsePayload
+            :extends ResponsePayload
+            :p generatedIttfDocuments
+                :ref PackiFiles
+    +
+    export 
+        :interface WizzifyRequestPayload
+            :p filePath
+                :string 
+            :p fileContent
+                :string 
+    +
+    export 
+        :interface WizzifyResponsePayload
+            :extends ResponsePayload
+            :p ittfContent
+                :string
+    +
+    export 
+        :interface CodeASTRequestPayload
+            :p filePath
+                :string 
+            :p fileContent
+                :string 
+    +
+    export 
+        :interface CodeASTResponsePayload
+            :extends ResponsePayload
+            :p ittfContent
+                :string
+    +
+    export 
+        :interface ChangeSelectedFilePayload
+            :p oldFilePath
+                :string 
+            :p newFilePath
+                :string 
+    +
+    export 
+        const generateArtifactRequest
+            _ createStandardAction(GENERATE_ARTIFACT_REQUEST)
+                :param 
+                    :ref ArtifactRequestPayload
+    export 
+        const generateArtifactSuccess
+            _ createStandardAction(GENERATE_ARTIFACT_SUCCESS)
+                :param 
+                    :ref ArtifactResponsePayload
+    export 
+        const generateArtifactError
+            _ createStandardAction(GENERATE_ARTIFACT_ERROR)
+                :param string
+    +
+    export 
+        const mTreeBuildupScriptRequest
+            _ createStandardAction(MTREE_DEBUG_INFO_REQUEST)
+                :param 
+                    :ref ArtifactRequestPayload
+    export 
+        const mTreeBuildupScriptSuccess
+            _ createStandardAction(MTREE_DEBUG_INFO_SUCCESS)
+                :param 
+                    :ref MTreeDebugInfoResponsePayload
+    export 
+        const mTreeBuildupScriptError
+            _ createStandardAction(MTREE_DEBUG_INFO_ERROR)
+                :param string
+    +
+    export 
+        const mTreeRequest
+            _ createStandardAction(MTREE_REQUEST)
+                :param 
+                    :ref ArtifactRequestPayload
+    export 
+        const mTreeSuccess
+            _ createStandardAction(MTREE_SUCCESS)
+                :param 
+                    :ref MTreeResponsePayload
+    export 
+        const mTreeError
+            _ createStandardAction(MTREE_ERROR)
+                :param string
+    +
+    export 
+        const executeJobRequest
+            _ createStandardAction(EXECUTE_JOB_REQUEST)
+                :param 
+                    :ref JobRequestPayload
+    export 
+        const executeJobSuccess
+            _ createStandardAction(EXECUTE_JOB_SUCCESS)
+                :param 
+                    :ref JobResponsePayload
+    export 
+        const executeJobError
+            _ createStandardAction(EXECUTE_JOB_ERROR)
+                :param string
+    +
+    export 
+        const executeWizziMetaFolderRequest
+            _ createStandardAction(EXECUTE_WIZZI_META_FOLDER_REQUEST)
+                :param 
+                    :ref WizziMetaFolderRequestPayload
+    export 
+        const executeWizziMetaFolderSuccess
+            _ createStandardAction(EXECUTE_WIZZI_META_FOLDER_SUCCESS)
+                :param 
+                    :ref WizziMetaFolderResponsePayload
+    export 
+        const executeWizziMetaFolderError
+            _ createStandardAction(EXECUTE_WIZZI_META_FOLDER_ERROR)
+                :param string
+    +
+    export 
+        const wizzifyRequest
+            _ createStandardAction(WIZZIFY_REQUEST)
+                :param 
+                    :ref WizzifyRequestPayload
+    export 
+        const wizzifySuccess
+            _ createStandardAction(WIZZIFY_SUCCESS)
+                :param 
+                    :ref WizzifyResponsePayload
+    export 
+        const wizzifyError
+            _ createStandardAction(WIZZIFY_ERROR)
+                :param string                
+    +
+    export 
+        const codeASTRequest
+            _ createStandardAction(CODE_AST_REQUEST)
+                :param 
+                    :ref CodeASTRequestPayload
+    export 
+        const codeASTSuccess
+            _ createStandardAction(CODE_AST_SUCCESS)
+                :param 
+                    :ref CodeASTResponsePayload
+    export 
+        const codeASTError
+            _ createStandardAction(CODE_AST_ERROR)
+                :param string                
+    export 
+        const changeSelectedFile
+            _ createStandardAction(CHANGE_SELECTED_FILE)
+                :param 
+                    :ref ChangeSelectedFilePayload
+    export
+        const NoError
+            _ createStandardAction(NO_ERROR)
+                :param string

@@ -1,0 +1,19 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "DeleteUser",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+            ]
+        }
+    v08/ts/react/component(&md)
+        +
+        m componentDidMount
+        +
+        m render
+            return
+                h1
+                    + Delete user

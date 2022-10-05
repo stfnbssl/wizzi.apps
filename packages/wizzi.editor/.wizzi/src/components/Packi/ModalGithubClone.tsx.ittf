@@ -1,0 +1,190 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ Form
+        @ withStatus
+        @ withValidation
+        from '../../features/form'
+    import 
+        @ c
+        from '../ThemeProvider'
+    import 
+        @ Button 
+        from '../widgets/Button'
+    import LargeInput from '../widgets/LargeInput'
+    import LargeTextArea from '../widgets/LargeTextArea'
+    import 
+        @ ModalDialog 
+        from '../widgets/ModalDialog'
+    :type Props
+        :{ 
+            :p visible
+                :boolean 
+            :p title
+                :string 
+            :p action
+                :string 
+            :p onSubmit
+                :=> 
+                    :void 
+                    param details
+                        :{ 
+                            :p owner
+                                :string 
+                            :p name
+                                :string 
+                            :p branch
+                                :string 
+            :p onDismiss
+                :=> 
+                    :void 
+            :p packiProduction
+                :ref PackiProduction                    
+            :p owner
+                :string 
+            :p name
+                :string 
+            :p branch
+                :string 
+            :p isWorking
+                :optional 
+                :boolean 
+    :type State
+        :{ 
+            :p owner
+                :string 
+            :p name
+                :string 
+            :p branch
+                :string 
+            :p visible
+                :boolean 
+    const FormButton = withStatus(Button)
+        # @ts-ignore
+    const ValidatedInput = withValidation(LargeInput)
+        # @ts-ignore
+    export-default 
+        class ModalGithubClone
+            super React.Component
+                :param 
+                    :ref Props
+                :param 
+                    :ref State
+            m getDerivedStateFromProps
+                static
+                param props
+                    :ref Props
+                param state
+                    :ref State
+                if state.visible !== props.visible
+                    if props.visible
+                        return 
+                            { 
+                                @ owner props.owner || ''
+                                @ name props.name ?? ''
+                                @ branch props.branch ?? ''
+                                @ visible props.visible
+                    else
+                        return 
+                            { 
+                                @ visible props.visible
+                return null
+            p state
+                { 
+                    @ owner this.props.owner || ''
+                    @ name this.props.name ?? ''
+                    @ branch this.props.branch ?? ''
+                    @ visible this.props.visible
+            => _handleSubmit
+                _ this.props.onSubmit
+                    { 
+                        @ owner this.state.owner
+                        @ name this.state.name
+                        @ branch this.state.branch
+            => _validateName
+                param name
+                    :string 
+                iif name
+                    then
+                        iif /^[a-z_\-\.\/\d\s]+$/i.test(name)
+                            then null
+                            else new Error('Name can only contain letters, numbers, space, hyphen (-) and underscore (_).')
+                    else new Error('Name cannot be empty.')
+            => handleChange
+                param e
+                    :ref React.ChangeEvent
+                        :param 
+                            :ref HTMLInputElement
+                _ this.setState
+                    { 
+                        @ [e.target.name] e.target.value
+            m render
+                const 
+                    { 
+                        @ visible
+                        @ title
+                        @ onDismiss
+                        @ isWorking
+                        @ action
+                    = this.props
+                # log 'ModalGithubClone.state', this.state
+                return 
+                    < ModalDialog 
+                        @ visible {visible}
+                        @ title {title}
+                        @ onDismiss {onDismiss}
+                        < Form 
+                            @ onSubmit {this._handleSubmit}
+                            h4 
+                                @ className {css(styles.subtitle)}
+                                + Owner
+                            < ValidatedInput 
+                                @ name 'owner'
+                                @ autoFocus
+                                    # @ts-ignore
+                                @ value {this.state.owner}
+                                @ onChange {this.handleChange}
+                                @ placeholder "Repo owner"
+                                @ validate {this._validateName}
+                            < ValidatedInput 
+                                @ name 'name'
+                                @ autoFocus
+                                    # @ts-ignore
+                                @ value {this.state.name}
+                                @ onChange {this.handleChange}
+                                @ placeholder "Repo name"
+                                @ validate {this._validateName}
+                            < ValidatedInput 
+                                @ name 'branch'
+                                @ autoFocus
+                                    # @ts-ignore
+                                @ value {this.state.branch}
+                                @ onChange {this.handleChange}
+                                @ placeholder "Repo branch"
+                                @ validate {this._validateName}
+                            div 
+                                @ className {css(styles.buttons)}
+                                < FormButton 
+                                    @ type "submit"
+                                        # @ts-ignore
+                                    @ large
+                                    @ variant "primary"
+                                    @ loading {isWorking}
+                                    + {action}
+    const styles
+        _ StyleSheet.create
+            { 
+                { subtitle
+                    @ fontSize 16
+                    @ fontWeight 500
+                    @ padding 0
+                    @ lineHeight '22px'
+                    @ margin '16px 0 6px 0'
+                { buttons
+                    @ margin '20px 0 0 0'

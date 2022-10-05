@@ -1,0 +1,20 @@
+$group
+    +
+    m getPackiDownloadURL
+        async
+        param saveOptions
+            :ref PackiSaveOptions
+            :optional
+        let state = this.getState()
+        return
+            `lit
+                +
+                @ this.apiURL
+                + /--/api/v2/packi/download/
+                @ state.id
+                +
+        #
+            # 
+            # Gets the URL at which the Packi can be downloaded as a zip file. Will automatically
+            # save the Packi if it contains unsaved changes.
+            #

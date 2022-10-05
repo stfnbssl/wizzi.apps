@@ -1,0 +1,141 @@
+module
+    
+    $
+        var md = {
+            styled: true,
+            name: "UpdatePluginProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "pl_id", type: "string" },
+                { name: "pl_owner", type: "string" },
+                { name: "pl_name_old", type: "string" },
+                { name: "pl_name_new", type: "string" },
+                { name: "pl_description", type: "string" },
+                { name: "pl_add_context", type: "boolean" },
+                { name: "pl_contexts", type: "[" },
+                { name: "pl_add_tfolder", type: "boolean" },
+                { name: "pl_dependencies", type: "[" },
+                { name: "pl_name_new_available", type: "boolean" },
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        check_name( plugin, pl_name_new )
+        +
+        $include handle_input_change
+        +
+        => handlePluginNameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            log 'handlePluginNameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ pl_name_new ev.target.value
+                =>
+                    if ev.target.value !== this.state.pl_name_old
+                        _ this._checkAvaliblePluginName
+        +
+        handle_submit( Update, pl )
+        
+        m componentDidMount
+            log 'UpdatePluginProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ _id
+                    @ owner
+                    @ name
+                    @ description
+                    @ contexts
+                    @ dependencies
+                = this.props.data
+            
+            const pl_contexts = contexts || []
+            const pl_dependencies = dependencies || []
+            
+            _ this.setState
+                {
+                    @ pl_id _id
+                    @ pl_owner owner
+                    @ pl_name_old name
+                    @ pl_name_new name
+                    @ mp_name_new_available true
+                    @ pl_description description
+                    @ pl_add_context pl_contexts.length > 0
+                    @ pl_contexts
+                    @ pl_add_tfolder pl_dependencies.length > 0
+                    @ pl_dependencies 
+
+        +
+        m render
+            log 'UpdatePacki.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Update plugin production'
+                        @ subtitle 'A plugin production contains the ittf documents 
+                            \b for a software plugin.'
+                    < HR
+                    form
+                        action /plugin/update
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormHidden
+                            @ name 'pl_id'
+                            @ id 'pl_id'
+                            @ value {this.state.pl_id}
+                        < FormHidden
+                            @ name 'pl_owner'
+                            @ id 'pl_owner'
+                            @ value {this.state.pl_owner}
+                        < FormHidden
+                            @ name 'pl_name_old'
+                            @ id 'pl_name_old'
+                            @ value {this.state.pl_name_old}
+                        < FormGroup
+                            @ label 'Plugin name'
+                            @ name 'pl_name_new'
+                            @ id 'pl_name_new'
+                            @ required {true}
+                            @ value {this.state.pl_name_new}
+                            @ onChange {this.handlePluginNameChange}
+                        {
+                            &&
+                                + this.state.pl_name_new.length > 0 &&
+                                    \b this.state.pl_name_old !== this.state.pl_name_new &&
+                                    \b this.state.pl_name_new_available
+                                < Para
+                                    + {'Plugin name ' + this.state.pl_name_new_checked + ' is available'}
+                        {
+                            &&
+                                + this.state.pl_name_new.length > 0 &&
+                                    \b this.state.pl_name_old !== this.state.pl_name_new &&
+                                    \b !this.state.pl_name_new_available
+                                < Para
+                                    @ color '#ff0000'
+                                    + {'Plugin name ' + this.state.pl_name_new_checked + ' is not available'}
+                        < HR
+                        < FormGroup
+                            @ label 'Description'
+                            @ name 'pl_description'
+                            @ id 'pl_description'
+                            @ required {true}
+                            @ value {this.state.pl_description}
+                            @ onChange {this.handleInputChange}
+                        
+                        form_buttons(Update, pl)

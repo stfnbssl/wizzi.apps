@@ -1,0 +1,10 @@
+$group
+    $params name|@@null
+
+    { ${name}
+        { 'file1.js'
+            @ type 'CODE'
+            @ contents 'function Hello() {\n\tconsole.log("Hello file 1");\n}'
+        { 'file2.js'
+            @ type 'CODE'
+            @ contents 'function Hello() {\n\tconsole.log("Hello file 2");\n}'

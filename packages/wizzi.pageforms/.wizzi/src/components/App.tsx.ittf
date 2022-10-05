@@ -1,0 +1,78 @@
+module
+    
+    $
+        var md = {
+            styled: true,
+            name: "App",
+            props: [
+                { name: "formName", type: "string" },
+                { name: "formData", type: "any" },
+            ]
+        }
+        var comps = [
+            'User',
+            'ArtifactProduction',
+            'PackageProduction',
+            'PluginProduction',
+            'MetaProduction',
+            'TFolder',
+        ]
+        
+    v08/ts/react/component(&md)
+        
+        $append imports
+            import
+                @ c
+                @ s
+                from './ThemeProvider'
+            $foreach comp in comps
+                import List${comp}
+                    from './pageforms/List${comp}'
+                import Create${comp}
+                    from './pageforms/Create${comp}'
+                import Update${comp}
+                    from './pageforms/Update${comp}'
+                import Delete${comp}
+                    from './pageforms/Delete${comp}'
+            import ThemeDemo
+                from './pageforms/widgets/ThemeDemo'
+            import PropertyEditor
+                from './pageforms/PropertyEditor'
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        m render
+            log 'App.render', 'props', this.props, 'state', this.state
+            let Comp
+            if this.props.formName == '***'
+                throw new Error("Don't make me laugh!")
+            $foreach comp in comps
+                elif this.props.formName == 'List${comp}'
+                    set Comp = List${comp}
+                elif this.props.formName == 'Create${comp}'
+                    set Comp = Create${comp}
+                elif this.props.formName == 'Delete${comp}'
+                    set Comp = Delete${comp}
+                elif this.props.formName == 'Update${comp}'
+                    set Comp = Update${comp}
+            elif this.props.formName == 'ThemeDemo'
+                set Comp
+                    =>
+                        return
+                            < ThemeDemo
+            elif this.props.formName == 'PropertyEditor'
+                set Comp = PropertyEditor
+            else
+                set Comp 
+                    =>
+                        return
+                            h1
+                                + Unknown page form: {this.props.formName}
+
+            return
+                < StyledRoot
+                    < Comp
+                        @ data {this.props.formData}

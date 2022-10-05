@@ -1,0 +1,818 @@
+module
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import pickBy from 'lodash/pickBy'
+    import 
+        as React
+        from 'react'
+    import eslintrc from '../../features/lint/eslint.json'
+    import 
+        @ SaveStatus
+        @ PackiFiles
+        @ PackiFile
+        from '../../features/packi'
+    import 
+        @ Annotation
+        from '../../features/annotations'
+    import 
+        @ FileSystemEntry
+        @ TextFileEntry
+        @ AssetFileEntry
+        @ isPackageJson
+        @ getUniquePath
+        @ isInsideFolder
+        @ isESLintConfig
+        from '../../features/file'
+    import 
+        @ withThemeName
+        @ ThemeName
+        from '../../features/preferences'
+    import 
+        @ SidebarShell 
+        from '../shell/SidebarShell'
+    import 
+        @ c
+        from '../ThemeProvider'
+    import ResizablePane from '../widgets/ResizablePane'
+    import Toast from '../widgets/Toast'
+    import FileListChildren from './FileListChildren'
+    import FileListEntryDropTarget from './FileListEntryDropTarget'
+    import FileListOpenEntry from './FileListOpenEntry'
+    import FileListPane from './FileListPane'
+    import FileListPaneButton from './FileListPaneButton'
+    import closeEntry from './actions/closeEntry'
+    import createNewEntry from './actions/createNewEntry'
+    import expandEntry from './actions/expandEntry'
+    import openEntry from './actions/openEntry'
+    import pasteEntry from './actions/pasteEntry'
+    import recursivelyCreateParents from './actions/recursivelyCreateParents'
+    import renameEntry from './actions/renameEntry'
+    import selectEntry from './actions/selectEntry'
+    import updateEntry from './actions/updateEntry'
+    import 
+        @ filesToEntries
+        @ findFocusedEntry
+        from './utils/convertFileStructure'
+    import PackiPanel from '../Packi/PackiPanel'
+    export
+        :type FileListProps
+            :{ 
+                :p visible
+                    :boolean 
+                :p files
+                    :ref PackiFiles
+                :p selectedFile
+                    :string 
+                :p readOnly
+                    :boolean
+                :p updateFiles
+                    :=> 
+                        :void 
+                        param updateFn
+                            :=> 
+                                :{ 
+                                    :index 
+                                        :union 
+                                            :ref PackiFile
+                                            :null 
+                                        param path
+                                            :string 
+                                param files
+                                    :ref PackiFiles
+                :p onSelectFile
+                    :=> 
+                        :void 
+                        param path
+                            :string 
+                :p onRemoveFile
+                    :=> 
+                        :void 
+                        param path
+                            :string 
+                :p onRenameFile
+                    :=> 
+                        :void 
+                        param oldPath
+                            :string 
+                        param newPath
+                            :string 
+                :p onDownloadCode
+                    :=> 
+                        :ref Promise
+                            :param void
+                :p onGithubClone
+                    :=> 
+                        :void 
+                :p saveStatus
+                    :ref SaveStatus
+                :p theme
+                    :ref ThemeName
+                :p annotations
+                    :[ 
+                        :ref Annotation
+    :type State
+        :{ 
+            :p clipboard
+                :[ 
+                    :ref FileSystemEntry
+            :p deleted
+                :[ 
+                    :{ 
+                        :p id
+                            :number 
+                        :p path
+                            :string 
+                        :p entries
+                            :[ 
+                                :ref FileSystemEntry
+            :p optionsPane
+                :boolean 
+            :p openFilesPane
+                :boolean 
+            :p projectPane
+                :boolean 
+            :p entries
+                :[ 
+                    :ref FileSystemEntry
+            :p selectedFile
+                :string 
+    const AddIcon
+        => 
+            g 
+                @ transform "translate(7.000000, 7.000000)"
+                circle 
+                    @ fill {c('success')}
+                    @ cx "4.5"
+                    @ cy "4.5"
+                    @ r "4.5"
+                rect 
+                    @ fill {c('success-text')}
+                    @ x "4"
+                    @ y "2"
+                    @ width "1"
+                    @ height "5"
+                rect 
+                    @ fill {c('success-text')}
+                    @ x "2"
+                    @ y "4"
+                    @ width "5"
+                    @ height "1"
+    class FileListComp
+        super React.PureComponent
+            :param 
+                :ref FileListProps
+            :param 
+                :ref State
+        p state
+            :ref State
+            { 
+                @ clipboard []
+                @ deleted []
+                @ optionsPane true
+                @ openFilesPane true
+                @ projectPane true
+                @ entries []
+                @ selectedFile ''
+        m getDerivedStateFromProps
+            static
+            param props
+                :ref FileListProps
+            param state
+                :ref State
+            let entries = filesToEntries(props.files, props.annotations, state.entries)
+            set entries =
+                iif state.selectedFile !== props.selectedFile
+                    then openEntry(entries, props.selectedFile)
+                    else entries
+            return 
+                { 
+                    @ entries
+                    @ selectedFile props.selectedFile
+        m updateEntries
+            :private 
+            param entries
+                :[ 
+                    :ref FileSystemEntry
+            const prevEntries = this.state.entries
+            _ this.setState
+                { 
+                    @ entries
+                # Sync changes
+            _ this.props.updateFiles
+                => 
+                    param files
+                    const updates
+                        :{ 
+                            :index 
+                                :union 
+                                    :ref PackiFile
+                                    :null 
+                                param path
+                                    :string 
+                        =
+                            { 
+                        # Handle file removal (and rename)
+                    for const path in files
+                        const entry
+                            _ entries.find
+                                => 
+                                    param entry
+                                    set entry.item.path === path
+                        if !entry
+                            set updates[path] = null
+                        # Handle file removal (and rename)
+                        # Handle added/renamed files
+                    _ entries.forEach
+                        => 
+                            param entry
+                            if entry.item.type === 'file' && !files[entry.item.path] && !isPackageJson(entry.item.path)
+                                set updates[entry.item.path] =
+                                    { 
+                                        @ type
+                                            iif entry.item.asset
+                                                then 'ASSET'
+                                                else 'CODE'
+                                        @ contents
+                                            iif entry.item.asset
+                                                then entry.item.uri
+                                                else entry.item.content
+                        # Handle added/renamed files
+                    return updates
+                # Sync changes
+            const prevFocusedEntry = findFocusedEntry(prevEntries)
+                # Update focus
+            const focusedEntry = findFocusedEntry(entries)
+            if focusedEntry?.item?.path !== prevFocusedEntry?.item?.path
+                _ this.props.onSelectFile(focusedEntry?.item?.path ?? '')
+        => _handleEntrySelect
+            param path
+                :string 
+            _ this.updateEntries(selectEntry(this.state.entries, path))
+        => _handleEntryOpen
+            param path
+                :string 
+            _ this.updateEntries(openEntry(this.state.entries, path))
+        => _handleEntryFocus
+            param path
+                :string 
+            _ this.updateEntries(openEntry(this.state.entries, path, true))
+        => _handleEntryExpand
+            param path
+                :string 
+            param expand
+                :boolean 
+                :optional 
+            _ this.updateEntries(expandEntry(this.state.entries, path, expand))
+        => _handleEntryRename
+            param oldPath
+                :string 
+            param newPath
+                :string 
+            if oldPath === newPath
+                return 
+            const entry
+                _ this.state.entries.find
+                    => 
+                        param e
+                        set e.item.path === oldPath
+            if entry
+                if entry.item.type === 'folder'
+                    _ this.state.entries.filter
+                        => 
+                            param e
+                            @expr e.item.type === 'file' && e.item.path.startsWith(oldPath)
+                        ._ forEach
+                            => 
+                                param renamedFile
+                                _ this.props.onRenameFile
+                                    @expr renamedFile.item.path
+                                    `lit 
+                                        + 
+                                        @ newPath
+                                        + 
+                                        _ renamedFile.item.path.substring(oldPath.length)
+                                        + 
+                else
+                    _ this.props.onRenameFile(oldPath, newPath)
+            _ this.updateEntries(renameEntry(this.state.entries, oldPath, newPath))
+        => _restoreEntries
+            param entries
+                :[ 
+                    :ref FileSystemEntry
+            _ this.updateEntries
+                [ 
+                    @ ...this.state.entries
+                    ... 
+                        _ entries.map
+                            => 
+                                param e
+                                _ updateEntry
+                                    @ e
+                                    { 
+                                        { item
+                                            @ path
+                                                _ getUniquePath
+                                                    _ this.state.entries.map
+                                                        => 
+                                                            param it
+                                                            +
+                                                                @expr it.item.path
+                                                    @expr e.item.path
+        => _handleDismissDelete
+            param id
+                :number 
+            _ this.setState
+                => 
+                    param state
+                    (
+                        { 
+                            @ deleted
+                                _ state.deleted.filter
+                                    => 
+                                        param g
+                                        set g.id !== id
+        => _handleEntryClose
+            param path
+                :string 
+            _ this.updateEntries
+                _ this.state.entries.map
+                    => 
+                        param e
+                        ( 
+                            iif e.item.path === path
+                                then closeEntry(e)
+                                else e
+        => _handleEntryCloseOthers
+            param path
+                :string 
+            _ this.updateEntries
+                _ this.state.entries.map
+                    => 
+                        param e
+                        ( 
+                            iif e.item.path !== path
+                                then closeEntry(e)
+                                else e
+        => _handleEntryCloseAll
+            _ this.updateEntries
+                _ this.state.entries.map
+                    => 
+                        param e
+                        _ closeEntry(e)
+        => _handleEntryDelete
+            param path
+                :string 
+            const entry
+                _ this.state.entries.find
+                    => 
+                        param e
+                        set e.item.path === path
+            const deletedEntries
+                :[ 
+                    :ref FileSystemEntry
+                = []
+            _ this.updateEntries
+                _ this.state.entries.filter
+                    => 
+                        param e
+                        const remove = e.item.path === path || isInsideFolder(e.item.path, path)
+                        if remove
+                            _ deletedEntries.push(e)
+                            if e.item.type === 'file'
+                                _ this.props.onRemoveFile(e.item.path)
+                        return !remove
+            _ this.setState
+                => 
+                    param state
+                    (
+                        { 
+                            [ deleted
+                                @ ...state.deleted
+                                { 
+                                    @ id this._currentDeleteID++
+                                    @ path
+                                        iif entry
+                                            then entry.item.path
+                                            else 'Item'
+                                    @ entries deletedEntries
+        p _currentDeleteID
+            :number 
+            = 0
+        => _handleEntryImport
+            param entry
+                :union 
+                    :ref TextFileEntry
+                    :ref AssetFileEntry
+            let entries
+                :[ 
+                    :ref FileSystemEntry
+            if isPackageJson(entry.item.path)
+                set entries =
+                    _ this.state.entries.map
+                        => 
+                            param e
+                            if isPackageJson(e.item.path)
+                                try 
+                                    const previous = JSON.parse(e.item.content)
+                                        # @ts-ignore
+                                        # @ts-ignore
+                                    const next = JSON.parse(entry.item.content)
+                                        # @ts-ignore
+                                    return 
+                                        @expr
+                                            { 
+                                                @ ...e
+                                                { item
+                                                    @ ...e.item
+                                                    @ content
+                                                        _ JSON.stringify
+                                                            { 
+                                                                @ ...previous
+                                                                { dependencies
+                                                                    @ ...previous.dependencies
+                                                                    _ ...Object.keys(next.dependencies).reduce
+                                                                        => 
+                                                                            param acc
+                                                                                :{ 
+                                                                                    :index 
+                                                                                        :string 
+                                                                                        param key
+                                                                                            :string 
+                                                                            param name
+                                                                            return acc
+                                                                        { 
+                                                            @ null
+                                                            @ 2
+                                            :as 
+                                                :ref TextFileEntry
+                                catch err
+                            return e
+                    # Merge dependencies from package.json file
+            else
+                if isESLintConfig(entry.item.path)
+                    try 
+                        const content
+                            _ JSON.parse
+                                @expr 
+                                    ( 
+                                        + entry
+                                            :as 
+                                                :ref TextFileEntry
+                                    . item
+                                    . content
+                            # Cleanup the config file to remove unsupported plugins and rules
+                        if content.plugins
+                            set content.plugins =
+                                _ content.plugins.filter
+                                    => 
+                                        param name
+                                            :string 
+                                        _ eslintrc.plugins.includes(name)
+                            if !content.plugins.length
+                                delete content.plugins
+                        if content.rules
+                            set content.rules =
+                                _ pickBy
+                                    @expr content.rules
+                                    => 
+                                        param _
+                                        param key
+                                        if key.includes('/')
+                                            return 
+                                                _ eslintrc.plugins.some
+                                                    => 
+                                                        param name
+                                                        _ key.startsWith
+                                                            `lit 
+                                                                + 
+                                                                @ name
+                                                                + /
+                                        return key
+                        if content.extends
+                            if typeof content.extends === 'string' && !content.extends.startsWith('eslint:')
+                                delete content.extends
+                            else
+                                set content.extends =
+                                    _ content.extends.filter
+                                        => 
+                                            param name
+                                                :string 
+                                            _ name.startsWith('eslint:')
+                                if !content.extends.length
+                                    delete content.extends
+                        set entries =
+                            _ this.state.entries.filter
+                                => 
+                                    param e
+                                    + !isESLintConfig(e.item.path)
+                            # Remove existing eslintrc if any
+                        _ entries.push
+                            _ updateEntry
+                                @ entry
+                                { 
+                                    { item
+                                        @ content JSON.stringify(content, null, 2)
+                    catch e
+                        set entries = this.state.entries
+                            # Ignore errors
+                else
+                    const parents = recursivelyCreateParents(this.state.entries, entry.item.path)
+                    set entries =
+                        [ 
+                            @ ...this.state.entries
+                            @ ...parents
+                    _ entries.push
+                        _ updateEntry
+                            @ entry
+                            { 
+                                { item
+                                    @ path
+                                        _ getUniquePath
+                                            _ entries.map
+                                                => 
+                                                    param e
+                                                    +
+                                                        @expr e.item.path
+                                            @expr entry.item.path
+            _ this.updateEntries(entries)
+        => _handleEntryPaste
+            param path
+                :union 
+                    :string 
+                    :undefined 
+            param e
+                :ref FileSystemEntry
+            _ this.updateEntries(pasteEntry(this.state.entries, path, e))
+        => _handleCopy
+            param path
+                :string 
+            _ this.setState
+                => 
+                    param state
+                    (
+                        { 
+                            @ clipboard
+                                _ state.entries.filter
+                                    => 
+                                        param e
+                                        set e.item.path === path
+        => _handleClearClipboard
+            _ this.setState
+                { 
+                    @ clipboard []
+        => _toggleOptionsPane
+            _ this.setState
+                => 
+                    param state
+                    (
+                        { 
+                            @ optionsPane !state.optionsPane
+        => _toggleOpenFilesPane
+            _ this.setState
+                => 
+                    param state
+                    (
+                        { 
+                            @ openFilesPane !state.openFilesPane
+        => _toggleProjectPane
+            _ this.setState
+                => 
+                    param state
+                    (
+                        { 
+                            @ projectPane !state.projectPane
+        => _handleCreateFile
+            param path
+                :union 
+                    :string 
+                    :undefined 
+                :optional 
+            let entries = createNewEntry(this.state.entries, 'file', path)
+            const newEntry
+                _ entries.find
+                    => 
+                        param e
+                        +
+                            op! 
+                                _ this.state.entries.find
+                                    => 
+                                        param e2
+                                        set e2.item.path === e.item.path
+            set entries =
+                iif newEntry
+                    then openEntry(entries, newEntry.item.path, true)
+                    else entries
+            _ this.updateEntries(entries)
+        => _handleCreateFolder
+            param path
+                :union 
+                    :string 
+                    :undefined 
+                :optional 
+            _ this.updateEntries(createNewEntry(this.state.entries, 'folder', path))
+        m render
+            return 
+                div
+                    @ className {css(styles.container)}
+                    iif this.props.visible
+                        then
+                            $*
+                            < ResizablePane 
+                                @ direction "horizontal"
+                                @ className {css(styles.pane)}
+                            *$
+                            < SidebarShell 
+                                @ className {css(styles.pane)}
+                                < FileListPane 
+                                    @ className {css(styles.options)}
+                                    @ title {"Options" + (this.props.readOnly ? ' (readonly)': '')}
+                                    @ expanded {this.state.optionsPane}
+                                    @ onClick {this._toggleOptionsPane}
+                                    @ buttons
+                                        iif !this.props.readOnly
+                                            then
+                                                [ 
+                                                    < FileListPaneButton 
+                                                        @ key "github-clone"
+                                                        @ onClick
+                                                            => 
+                                                                _ this._handleGithubClone()
+                                                        path 
+                                                            @ fillOpacity "0.7"
+                                                            @ d "M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z"
+                                                        < AddIcon 
+                                            else
+                                                [
+                                    < PackiPanel
+                                        @ onGithubClone {this.props.onGithubClone}
+                                        ul 
+                                            @ className {css(styles.tabs)}
+                                < FileListPane 
+                                    @ className
+                                        _ css
+                                            iif this.state.projectPane
+                                                then styles.openFilesSmall
+                                                else styles.openFilesLarge
+                                    @ title "Open files"
+                                    @ expanded {this.state.openFilesPane}
+                                    @ onClick {this._toggleOpenFilesPane}
+                                    ul 
+                                        @ className {css(styles.tabs)}
+                                        @ data-test-id "file-list-open-files-content"
+                                        _ this.state.entries.filter
+                                            => 
+                                                param e
+                                                @expr e.item.type === 'file' && e.state.isOpen
+                                            ._ map
+                                                => 
+                                                    param e
+                                                        :any 
+                                                    < FileListOpenEntry 
+                                                        @ key {e.item.path}
+                                                        @ entry {e}
+                                                        @ onOpen
+                                                            => 
+                                                                _ this._handleEntryOpen(e.item.path)
+                                                        @ onClose
+                                                            => 
+                                                                _ this._handleEntryClose(e.item.path)
+                                                        @ onCloseOthers
+                                                            => 
+                                                                _ this._handleEntryCloseOthers(e.item.path)
+                                                        @ onCloseAll {this._handleEntryCloseAll}
+                                < FileListPane 
+                                    @ className {css(styles.project)}
+                                    @ title {"Project" + (this.props.readOnly ? ' (readonly)': '')}
+                                    @ expanded {this.state.projectPane}
+                                    @ onClick {this._toggleProjectPane}
+                                    @ buttons
+                                        iif !this.props.readOnly
+                                            then
+                                                [ 
+                                                    < FileListPaneButton 
+                                                        @ key "create-file"
+                                                        @ onClick
+                                                            => 
+                                                                _ this._handleCreateFile()
+                                                        path 
+                                                            @ fillOpacity "0.7"
+                                                            @ d "M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z"
+                                                        < AddIcon 
+                                                    < FileListPaneButton 
+                                                        @ key "create-folder"
+                                                        @ onClick
+                                                            => 
+                                                                _ this._handleCreateFolder()
+                                                        path 
+                                                            @ fillOpacity "0.7"
+                                                            @ d "M7.25,4 L7.5,4 L7.5,3 L7,3.5 L7,2 L15,2 L15,4 L7.25,4 Z M6.75,4 L5,4 L7,2 L7,3.5 L6.5,4 L6.75,4 Z M1,4 L15,4 L15,14 L1,14 L1,4 Z M7.5,3 L7.5,4 L14,4 L14,3 L7.5,3 Z"
+                                                        < AddIcon 
+                                            else
+                                                + []
+                                    < FileListEntryDropTarget 
+                                        @ className {css(styles.files)}
+                                        @ rest {this.state.entries}
+                                        @ onRename {this._handleEntryRename}
+                                        div 
+                                            @ className {css(styles.children)}
+                                            @ data-test-id "file-list-project-content"
+                                            < FileListChildren 
+                                                @ parent ""
+                                                @ entries {this.state.entries}
+                                                @ readOnly {this.props.readOnly}
+                                                @ clipboard {this.state.clipboard}
+                                                @ onCreateFile {this._handleCreateFile}
+                                                @ onCreateFolder {this._handleCreateFolder}
+                                                @ onOpen {this._handleEntryOpen}
+                                                @ onSelect {this._handleEntrySelect}
+                                                @ onFocus {this._handleEntryFocus}
+                                                @ onPaste {this._handleEntryPaste}
+                                                @ onRename {this._handleEntryRename}
+                                                @ onExpand {this._handleEntryExpand}
+                                                @ onDelete {this._handleEntryDelete}
+                                                @ onCopy {this._handleCopy}
+                                                @ onClearClipboard {this._handleClearClipboard}
+                                                @ theme {this.props.theme}
+                                                @ className {css(styles.list)}
+                                _ this.state.deleted.map
+                                    => 
+                                        param group
+                                        < Toast 
+                                            @ key {group.id}
+                                            @ label
+                                                `lit 
+                                                    + Deleted&nbsp;
+                                                    _ group.path.split('/').pop()
+                                                    + 
+                                            @ actions
+                                                [ 
+                                                    { 
+                                                        @ label 'Undo'
+                                                        @ action
+                                                            => 
+                                                                _ this._restoreEntries(group.entries)
+                                                                _ this._handleDismissDelete(group.id)
+                                                    { 
+                                                        @ label 'Dismiss'
+                                            @ onDismiss
+                                                => 
+                                                    _ this._handleDismissDelete(group.id)
+                                    ._ reverse
+                        else null
+    +
+    export
+        const FileList = withThemeName(FileListComp)
+    +
+    export-default withThemeName(FileListComp)
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { container
+                    @ display 'flex'
+                    @ flexDirection 'column'
+                    @ height '100%'
+                    @ width '100%' $$ added 19/9/22
+                { list
+                    @ padding '0 12px'
+                    @ height '100%'
+                    @ width '100%' $$ added 19/9/22
+                { pane
+                    @ flex 1
+                    @ display 'flex'
+                    @ flexDirection 'column'
+                    $$ @ width 240    // 19/9/22
+                    $$ @ minWidth 240 // 19/9/22
+                    @ height '100%'
+                    @ width '100%' $$ added 19/9/22
+                    @ zIndex 10
+                { project
+                    @ flex 1
+                { options
+                    @ maxHeight '30%'
+                { openFilesSmall
+                    @ maxHeight '50%'
+                { openFilesLarge
+                    @ maxHeight 'calc(100% - 30px)'
+                { files
+                    @ flex '1 0 0'
+                    @ overflow 'auto'
+                    @ paddingBottom 16
+                { children
+                    @ position 'relative'
+                { tabs
+                    @ margin 0
+                    @ listStyle 'none'
+                    @ padding '${8*wzCtx.Style.vpadRatio}px 0'
+                    @ overflow 'auto'
+                    { ':empty'
+                        @ display 'none'
+                { toolbar
+                    @ padding 8
+                { toasts
+                    @ position 'fixed'
+                    @ bottom '3em'
+                    @ left '1em'
+                    @ zIndex 10

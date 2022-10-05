@@ -1,0 +1,77 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "DeleteMetaProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "mp_id", type: "string" },
+                { name: "mp_owner", type: "string" },
+                { name: "mp_name", type: "string" },
+                { name: "mp_description", type: "string" },
+            ]
+        }
+        
+    v08/ts/react/component(&md)
+
+        $append imports
+            common_imports( top )
+        +
+        p formRef 
+            = React.createRef()
+        +
+        m componentDidMount
+            log 'DeleteMetaProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ _id
+                    @ owner
+                    @ name
+                    @ description
+                = this.props.data
+            
+            _ this.setState
+                {
+                    @ mp_id _id
+                    @ mp_owner owner
+                    @ mp_name name
+                    @ mp_description description
+        +
+        handle_submit( Delete, mp )
+        +
+        m render
+            log 'DeleteMetaProduction.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Delete meta production'
+                    < HR
+                    form
+                        action /meta/delete
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormStatic
+                            @ label 'Meta id'
+                            @ name 'mp_id'
+                            @ id 'mp_id'
+                            @ value {this.state.mp_id}
+                        < FormStatic
+                            @ label 'Meta owner'
+                            @ name 'mp_owner'
+                            @ id 'mp_owner'
+                            @ value {this.state.mp_owner}
+                        < FormStatic
+                            @ label 'Meta name'
+                            @ name 'mp_name'
+                            @ id 'mp_name'
+                            @ value {this.state.mp_name}
+                        < HR
+                        < FormStatic
+                            @ label 'Description'
+                            @ name 'mp_description'
+                            @ id 'mp_description'
+                            @ value {this.state.mp_description}
+                        form_buttons(Delete, mp)

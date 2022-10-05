@@ -1,0 +1,88 @@
+$group
+
+    +
+    m _generateArtifactOrWizzifyOrCodeAST
+        param filePath
+            :string
+        log '_generateArtifactOrWizzifyOrCodeAST, filePath, this.state.session.packiProduction', filePath, this.state.session.packiProduction
+        $$ if ['artifact', 'package', 'plugin'].indexOf(this.state.session.packiProduction) > -1
+        const files = this.state.session.files
+        if Object.keys(files).length
+            set filePath = filePath || this.state.selectedFile || Object.keys(files)[0]
+            if this.state.session.files[filePath]
+                if filePath.endsWith('.ittf')
+                    $$ loog '_generateArtifactOrWizzifyOrCodeAST filePath.startsWith("t/")', filePath.startsWith('t/')
+                    $$ loog '_generateArtifact filePath.indexOf("/t/") > -1', filePath.indexOf('/t/') > -1
+                    if !(filePath.startsWith('t/') || filePath.indexOf('/t/') > -1)
+                        $$ loog '_generateArtifactOrWizzifyOrCodeAST.filePath', filePath
+                        $$ loog '_generateArtifactOrWizzifyOrCodeAST', 'state.session.files', Object.keys(files)
+                        if this.state.previewKind == 'generated'
+                            _ this.props.dispatchGenerateArtifact
+                                @ filePath
+                                _ fileConversions.packiFilterIttf
+                                    @ this.state.session.files
+                                @ this.state.session.packiProduction
+                                @ this.state.session.name
+                        elif this.state.previewKind == 'mTreeIttf'
+                            _ this.props.dispatchMTree
+                                @ filePath
+                                _ fileConversions.packiFilterIttf
+                                    @ this.state.session.files
+                                @ this.state.session.packiProduction
+                                @ this.state.session.name
+                        elif this.state.previewKind == 'mTreeBuildupScript'
+                            _ this.props.dispatchMTreeDebugInfo
+                                @ filePath
+                                _ fileConversions.packiFilterIttf
+                                    @ this.state.session.files
+                                @ this.state.session.packiProduction
+                                @ this.state.session.name
+                else
+                    if this.state.previewKind == 'codeAST'
+                        _ this.props.dispatchCodeAST
+                            @ filePath
+                            @ this.state.session.files[filePath].contents
+                    elif this.state.previewKind == 'wizzified'
+                        _ this.props.dispatchWizzify
+                            @ filePath
+                            @ this.state.session.files[filePath].contents
+    +
+    => _executeJobNotDebounced
+        log 'App._executeJobNotDebounced'
+        const files = this.state.session.files
+        set filePath = this.state.selectedFile
+        if Object.keys(files).length && filePath
+            _ this.setState
+                { 
+                    @ isWizziJobWaiting false
+            _ this.props.dispatchExecuteJob
+                @ filePath
+                _ fileConversions.packiFilterIttf
+                    @ files
+                @ this.state.session.packiProduction
+                @ this.state.session.name
+    +
+    => _executeWizziMetaFolderNotDebounced
+        log 'App._executeWizziMetaFolderNotDebounced'
+        const files = this.state.session.files
+        if Object.keys(files).length
+            # TODO check if .packi/config contains a meta property
+            _ this.setState
+                { 
+                    @ isWizziMetaFolderWaiting false
+            _ this.props.dispatchExecuteWizziMetaFolder
+                @ this.state.session.packiProduction
+                @ this.state.session.id
+    +
+    => _getViewKind
+        param selectedFile
+        param selectedFilePrev
+        set selectedFilePrev = selectedFilePrev || ""
+        if selectedFile.endsWith('.ittf') && selectedFilePrev.endsWith('.ittf')
+            return this.state.previewKind
+        if !selectedFile.endsWith('.ittf') && !selectedFilePrev.endsWith('.ittf')
+            return this.state.previewKind            
+        if selectedFile.endsWith('.ittf')
+            return 'generated'
+        else
+            return 'wizzified'

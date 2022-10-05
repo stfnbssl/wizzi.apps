@@ -1,0 +1,17 @@
+$group
+    $params &md
+    $if wzCtx.Build.useNetlify == false
+        index/imports(&md)
+    $if wzCtx.Build.useNetlify
+        index/start(&md)
+    $else
+        async-function start
+            index/start(&md)
+            _ app.listen
+        try
+            _ start
+        catch ex
+            log ex
+    $if wzCtx.Build.useNetlify
+        set module.exports = app
+        set module.exports.handler = serverless(app)

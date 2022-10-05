@@ -1,0 +1,42 @@
+module
+    $
+        var ctrl = {
+            name: 'Proxy',
+            path: '/api/v1/packi/proxy'
+        }
+
+    $*
+
+        TODO
+
+    v08/ts/controller( &ctrl )
+        $append imports
+            import axios
+                from 'axios'
+            const myname = 'features/packi/controller/proxy'
+
+        _ this.router.post('/packiitem', this.packiItem)
+        
+        $append handlers
+            v08/ts/handler( packiItem )
+                _ axios.post
+                    @ 'http://localhost:3000/api/v1/packiitem'
+                    @ request.body
+                    ._ then
+                        =>
+                            param res
+                                :any
+                            # loog myname + '.packiItem res', Object.keys(res), 'res.data', res.data
+                            _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+                            _ response.set('Expires', '-1');
+                            _ response.set('Pragma', 'no-cache');
+                            _ sendSuccess
+                                @ response
+                                @ res.data
+                    ._ catch
+                        =>
+                            param err
+                                :any
+                            # loog myname + '.packiItem.err', Object.keys(err)
+                            _ sendFailure(response, err, 501)
+    *$

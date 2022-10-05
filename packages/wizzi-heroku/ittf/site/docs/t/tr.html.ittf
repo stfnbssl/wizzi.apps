@@ -1,0 +1,9 @@
+tr
+	$params name, value|@@null
+	td 
+        . title
+            + ${name}
+	td
+		$if value != null
+			+ ${value}
+		$hook

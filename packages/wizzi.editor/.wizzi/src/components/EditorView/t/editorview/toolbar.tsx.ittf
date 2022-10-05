@@ -1,0 +1,23 @@
+< EditorToolbar 
+    @ packiProduction {packiProduction}
+    @ name {name}
+    @ description {description}
+    @ wizziSchema {wizziSchema}
+    @ mainIttf {mainIttf}
+    @ readOnly {this.props.readOnly}
+    @ createdAt {createdAt}
+    @ saveStatus {saveStatus}
+    @ loggedUser {loggedUser}
+    @ isEditModalVisible {currentModal === 'edit-info'}
+    @ isWizziJobWaiting {isWizziJobWaiting}
+    @ onChangeSplitViewKind {this._handleChangeSplitViewKind}
+    @ splitViewKind {this.state.splitViewKind}
+    @ isDownloading {isDownloading}
+    @ generatedPreviewURL {previewURL}
+    @ onShowEditModal {this._handleShowTitleDescriptionModal}
+    @ onDismissEditModal {this._handleDismissEditModal}
+    @ onExecuteWizziJob {onExecuteWizziJob}
+    @ onExecuteWizziMetaFolder {onExecuteWizziMetaFolder}
+    @ onSubmitMetadata {this.props.onSubmitMetadata}
+    @ onDownloadCode {this.props.onDownloadAsync}
+    @ onPublishAsync {onPublishAsync}

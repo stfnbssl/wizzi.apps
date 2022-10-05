@@ -1,0 +1,56 @@
+module
+    export 
+        :type GeneratedArtifact
+            :{ 
+                :p artifactContent
+                    :optional 
+                    :string 
+                :p sourcePath
+                    :optional 
+                    :string 
+                :p artifactGenerator
+                    :optional 
+                    :string 
+                :p errorMessage
+                    :optional 
+                    :string 
+                :p errorLines
+                    :optional 
+                    :[ 
+                        :string 
+                :p errorStack
+                    :optional 
+                    :string 
+                :p errorName
+                    :optional 
+                    :string 
+                :p errorInfo
+                    :optional 
+                    :{ 
+                        :index 
+                            :any 
+                            param k
+                                :string 
+                :p isError
+                    :optional 
+                    :boolean 
+    +
+    export 
+        :interface WizziError
+            :p errorName
+                :optional 
+                :string 
+            :p errorMessage
+                :optional 
+                :string 
+            :p errorStack
+                :optional 
+                :string 
+    +
+    export 
+        :interface ArtifactError
+            :extends WizziError
+            :p errorLines
+                :optional 
+                :[ 
+                    :string 

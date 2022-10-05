@@ -1,0 +1,80 @@
+$group
+    $params level|1
+    ctor 
+        param props
+            :ref AppProps
+        _ super(props)
+        log 'App.ctor.props', props
+        let id = props.packi._id
+        let files = props.packi.packiFiles
+        const owner = props.packi.owner
+        const name = props.packi.name
+        const mainIttf = props.packi.mainIttf
+        const wizziSchema = props.packi.wizziSchema
+        const description = props.packi.description
+        const packiProduction
+            :ref PackiProduction
+            = props.packi.packiProduction
+        const readOnly = props.packi.readOnly
+        const generated = props.packi.generated $$ ???
+        const verbose = props.preferences.verbose
+        const sendCodeOnChangeEnabled = true
+        $if wzCtx.Build.usePackiAspects
+            const sessionSecret = null
+        $else
+            const sessionSecret = props.getSessionSecret()
+        const isLocalWebPreview = false
+        set this._PackiSession =
+            new PackiSession
+                { 
+                    @ disabled true
+                    @ id
+                    @ owner
+                    @ name
+                    @ description
+                    @ mainIttf
+                    @ wizziSchema
+                    @ files
+                    @ packiProduction
+                    @ readOnly
+                    @ generated $$ ???
+                    @ verbose
+                    @ user props.loggedUser
+                    @ apiURL nullthrows(process.env.API_SERVER_URL)
+                    @ host new URL(nullthrows(process.env.SERVER_URL)).host
+        +
+        # TODO preserve selected from history
+        const selectedFile
+            iif Object.keys(files).length
+                then Object.keys(files)[0]
+                else ''
+        
+        set this.state =
+            { 
+                @ session this._PackiSession.getState()
+                @ selectedFile
+                @ sendCodeOnChangeEnabled
+                @ autosaveEnabled true
+                @ isSavedOnce false
+                @ saveStatus
+                    iif props.packi?.isDraft
+                        then 'saved-draft'
+                        else
+                            iif id
+                                then 'published'
+                                else 'unsaved'
+                @ isLocalWebPreview false
+                @ isDownloading false
+                @ verbose false
+                @ annotations []
+                @ fileEntries []
+                @ generatedArtifact undefined
+                @ jobGeneratedArtifacts undefined
+                @ wizziMetaFolderIttfDocuments undefined
+                @ wizzifiedIttfContent undefined
+                @ codeASTContent undefined
+                @ mTreeIttf undefined
+                @ mTreeBuildupScript undefined
+                @ wizziError undefined
+                @ isWizziJobWaiting false
+                @ previewKind this._getViewKind(selectedFile)

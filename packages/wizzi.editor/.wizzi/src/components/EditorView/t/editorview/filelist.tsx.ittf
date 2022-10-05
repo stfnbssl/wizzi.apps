@@ -1,0 +1,13 @@
+< FileList 
+    @ annotations {annotations}
+    @ visible {preferences.fileTreeShown}
+    @ files {files}
+    @ selectedFile {selectedFile}
+    @ readOnly {this.props.readOnly}
+    @ updateFiles {this.props.updateFiles}
+    @ onSelectFile {this.props.onSelectFile}
+    @ onRemoveFile {this._handleRemoveFile}
+    @ onRenameFile {this._handleRenameFile}
+    @ onGithubClone {this.props.onGithubClone}
+    @ onDownloadCode {this.props.onDownloadAsync}
+    @ saveStatus {saveStatus}

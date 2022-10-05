@@ -1,0 +1,15 @@
+module
+    import 
+        @ GeneratedArtifact
+        @ WizziError
+        from './types'
+    import 
+        as wizziActions
+        from './actions'
+    +
+    export 
+        @ wizziActions
+
+    :export-type
+        @ GeneratedArtifact
+        @ WizziError

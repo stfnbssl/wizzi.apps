@@ -1,0 +1,104 @@
+$group
+    +
+    m updateJobGeneratedFiles
+        param jobGeneratedFiles
+            :ref PackiFiles
+        log 'PackiSession.updateJobGeneratedFiles.jobGeneratedFiles', Object.keys(jobGeneratedFiles)
+        _ this.updatePackiFiles
+            @ jobGeneratedFiles
+            =>
+    +
+    m updateWizziMetaFolderIttfDocuments
+        param wizziMetaFolderIttfDocuments
+            :ref PackiFiles
+        log 'PackiSession.updateWizziMetaFolderIttfDocuments.wizziMetaFolderIttfDocuments', Object.keys(wizziMetaFolderIttfDocuments)
+        _ this.updatePackiFiles
+            @ wizziMetaFolderIttfDocuments
+            =>
+    +
+    m updateClonedGithubRepoFiles
+        param clonedGithubRepoOwner
+            :string
+        param clonedGithubRepoName
+            :string
+        param clonedGithubRepoFiles
+            :ref PackiFiles
+        log 'PackiSession.updateClonedGithubRepoFiles.clonedGithubRepoFiles', Object.keys(clonedGithubRepoFiles)
+        const toAddPackiFiles
+            :ref PackiFiles
+            {
+        _ Object.keys(clonedGithubRepoFiles).forEach
+            =>
+                param k
+                const filePath = 'github/' + clonedGithubRepoOwner + '/' + clonedGithubRepoName + '/' + k
+                set toAddPackiFiles[filePath]
+                    {
+                        @ type clonedGithubRepoFiles[k].type
+                        @ contents clonedGithubRepoFiles[k].contents
+        _ this.updatePackiFiles
+            @ toAddPackiFiles
+            =>
+    +    
+    m updatePackiFiles
+        param files
+            :ref PackiFiles
+        param done
+            :=>
+                :any
+        log 'PackiSession.updatePackiFiles.files', files
+        return
+            _ this.setState
+                =>
+                    param state
+                    const newFiles = State.updateObjects(state.files, files)
+                    if newFiles !== state.files
+                        log 'PackiSession.calling.debounce.uploadPackiFilesUpdates'
+                        _ this.debouncedUploadPackiFilesUpdates
+                            {
+                                @ packiFiles newFiles
+                            @ done
+                    return
+                        iif newFiles !== state.files
+                            then
+                                {
+                                    @ files newFiles
+                            else null
+    +
+    m uploadPackiFilesUpdates
+        async
+        param payload
+            :ref PackiUploadPayload
+        param done
+            :=>
+                :any
+        $$ loog 'PackiSession.uploadPackiFilesUpdates.payload', payload
+        const
+            {
+                @ id
+                @ packiProduction
+            = this.state
+        const url
+            `lit
+                @ this.apiURL
+                + /api/v1/production/
+                @ packiProduction
+                + /
+                @ encodeURIComponent(id)
+        log '---*** PackiSession.uploadPackiFilesUpdates', url
+        const response
+            await
+                _ fetch
+                    @ url
+                    {
+                        @ method 'PUT'
+                        @ body JSON.stringify(payload)
+                        { headers
+                            @ 'Content-Type' 'application/json'
+        const data
+            await
+                _ response.json()
+        log '---*** PackiSession.uploadPackiFilesUpdates.response.data', data
+        set this.state.saveCount++
+        if done
+            _ done
+        $$ TODO VIA _ this.setPreviewUrl

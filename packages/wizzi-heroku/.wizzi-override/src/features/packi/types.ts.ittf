@@ -1,0 +1,102 @@
+module
+    $
+        var md = {
+        }
+    
+    v08/express/features/packi/types(&md)
+
+    export
+        :type PackiCodeFile
+            :{
+                :p type
+                    :literal 'CODE'
+                :p contents
+                    :string
+                :p generated
+                    :optional
+                    :boolean
+                :p error
+                    :optional
+                    :ref Error
+        #
+            #
+            # A non asset file that is included with the project.
+            #
+    +
+    export
+        :type PackiAssetFile
+            :{
+                :p type
+                    :literal 'ASSET'
+                :p contents
+                    :string
+                    $*
+                    :union
+                        :string
+                        :ref File
+                        :ref Blob
+                        :ref FormData
+                    # string = url
+                    *$
+                :p generated
+                    :optional
+                    :boolean
+                :p error
+                    :optional
+                    :ref Error
+        #
+            #
+            # An asset file that refers to externaly available
+            # content such as an image or font.
+            #
+            # When resolved, the `contents` field is an URL to the
+            # uploaded asset. A File, Blob or FormData object may
+            # also be provided after which it is automatically uploaded
+            # and converted into an URL.
+            #
+    +
+    export
+        :type PackiFile
+            :union
+                :ref PackiCodeFile
+                :ref PackiAssetFile
+        #
+            #
+            # The content of a Packi code or asset file.
+            #
+    +
+    export
+        :type PackiFiles
+            :{
+                :index
+                    :ref PackiFile
+                    param path
+                        :string
+        #
+            #
+            # Dictionary of file-names and their content that make up
+            # the files of the Packi.
+            #
+    +
+    export
+        :interface PackiError
+            :extends Error
+            :p fileName
+                :optional
+                :string
+            :p lineNumber
+                :optional
+                :number
+            :p columnNumber
+                :optional
+                :number
+        #
+            #
+            # An error that can optionally hold a file-name and line/column location.
+            #
+
+    $include mongoData
+
+    $foreach schema in mongoSchemas
+        $ md = schema
+        v08/mongo/type(&md)

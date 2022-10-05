@@ -1,0 +1,14 @@
+< EditorFooter 
+    @ annotations {annotations}
+    @ loggedUser {loggedUser}
+    @ fileTreeShown {preferences.fileTreeShown}
+    @ panelsShown {preferences.panelsShown}
+    @ sendCodeOnChangeEnabled {sendCodeOnChangeEnabled}
+    @ onToggleTheme {this._toggleTheme}
+    @ onTogglePanels {this._togglePanels}
+    @ onToggleFileTree {this._toggleFileTree}
+    @ onShowShortcuts {this._handleShowShortcuts}
+    @ theme {this.props.preferences.theme}
+    $if wzCtx.Build.usePackiAspects
+        @ autoGenSingleDoc {preferences.autoGenSingleDoc}
+        @ autoExecJob {preferences.autoExecJob}

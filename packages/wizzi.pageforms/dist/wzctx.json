@@ -1,0 +1,319 @@
+{
+    "name": "wizzi.pageforms",
+    "version": "0.0.1",
+    "description": "wizzi.pageforms",
+    "author": {
+        "name": "",
+        "email": ""
+    },
+    "App": {
+        "port": 5000,
+        "baseUrl": "https://www.wizzihub.com",
+        "siteUrl": "https://www.wizzihub.com",
+        "apiVersion": "1",
+        "constants": {
+            "preview": {
+                "minWidth": 700
+            }
+        },
+        "Components": []
+    },
+    "Style": {
+        "vpadRatio": 0.25,
+        "bodyFontSize": "12px",
+        "bodyLineHeight": 1.3165
+    },
+    "Build": {
+        "usePackiAspects": false,
+        "isClientServer": false,
+        "isClient": true,
+        "useExistingDevServer": true,
+        "existingDevServer": {
+            "path": "server",
+            "execPath": "server/index.js"
+        },
+        "useEnvCmd": true,
+        "useVExpo": false,
+        "useSite": false,
+        "site": {},
+        "useNetlify": false,
+        "netlify": {},
+        "useStorybook": false,
+        "storybook": {},
+        "useAccount": false,
+        "account": {},
+        "useConfig": true,
+        "config": {
+            "useEnvalid": true,
+            "envalid": {}
+        },
+        "useMarked": true,
+        "useMonacoEditor": true,
+        "monacoEditor": {},
+        "useFilesystem": false,
+        "filesystem": {},
+        "useBabel": true,
+        "babel": {
+            "useParser": true,
+            "useRuntime": false,
+            "useDinamicImport": true,
+            "addModuleExport": false,
+            "useVendor": true,
+            "vendor": {
+                "compactPath": "./src/vendor"
+            },
+            "useResolutions": true,
+            "resolutions": [
+                {
+                    "name": "**/babel-core",
+                    "value": "7.0.0-bridge.0"
+                }
+            ]
+        },
+        "useResolutions": true,
+        "useRegeneratorRuntime": false,
+        "useWebpackApp": false,
+        "webpackApp": {
+            "items": [
+                {
+                    "name": "hello",
+                    "writeToDisk": false
+                }
+            ]
+        },
+        "useHotReplacement": false,
+        "hotReplacement": {},
+        "useWebpack": true,
+        "webpack": {
+            "useCss": true,
+            "css": {},
+            "useStyleLoader": false,
+            "styles": {},
+            "useMiniCssExtract": true,
+            "miniCssExtract": {},
+            "useSass": false,
+            "sass": {},
+            "useHtml": true,
+            "html": {
+                "template": "./src/index.html",
+                "filename": "index.html"
+            },
+            "useMinimizer": true,
+            "useWorker": true,
+            "useStatsWriter": false,
+            "useIgnore": true,
+            "useCodeSplitting": true,
+            "outputPath": "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi-heroku/public/pageforms",
+            "publicPath": "/public/pageforms/",
+            "useEnv": true,
+            "env": {
+                "items": [
+                    {
+                        "name": "NODE_ENV",
+                        "value": "env('NODE_ENV')"
+                    },
+                    {
+                        "name": "API_SERVER_URL",
+                        "value": "env('API_SERVER_URL')"
+                    },
+                    {
+                        "name": "BUILD_TIMESTAMP",
+                        "value": "Date.now()"
+                    }
+                ]
+            },
+            "useNodePolifills": true,
+            "nodePolifills": {
+                "useBuffer": true
+            },
+            "useDevServer": true,
+            "devServer": {
+                "contentBase": "path.join(__dirname, 'src')"
+            }
+        },
+        "useTypescript": true,
+        "typescript": {
+            "useBabelLoader": true
+        },
+        "usePrettier": true,
+        "prettier": {},
+        "usePrismjs": true,
+        "prismjs": {
+            "modes": []
+        },
+        "useLint": true,
+        "lint": {},
+        "useGraphql": true,
+        "graphql": {
+            "excludePolyfill": true
+        },
+        "useMongoDb": false,
+        "mongoDb": {
+            "user": "yanez",
+            "password": "x5csosPN5YAsrl4Z",
+            "dbPath": "@cluster0.idlk7.mongodb.net",
+            "dbName": "wizzi",
+            "schemas": [
+                {
+                    "name": "user",
+                    "Name": "User",
+                    "controllerName": "User",
+                    "controllerPath": "user",
+                    "fields": [
+                        {
+                            "name": "_id",
+                            "type": "oid"
+                        },
+                        {
+                            "name": "username",
+                            "type": "string",
+                            "unique": true
+                        },
+                        {
+                            "name": "email",
+                            "unique": true
+                        },
+                        {
+                            "name": "firstName",
+                            "type": "string"
+                        },
+                        {
+                            "name": "lastName",
+                            "type": "string"
+                        },
+                        {
+                            "name": "nickname",
+                            "type": "string"
+                        },
+                        {
+                            "name": "createdAt",
+                            "type": "date",
+                            "onInsert": "new Date()"
+                        },
+                        {
+                            "name": "lastAccess",
+                            "type": "date"
+                        }
+                    ]
+                }
+            ]
+        },
+        "useLocalStorage": false,
+        "localStorage": {
+            "key": "wr-state"
+        },
+        "useDemoControllers": false,
+        "demoControllers": {},
+        "useReactCreateApp": false,
+        "reactCreateApp": {},
+        "useReact": true,
+        "react": {
+            "useV16": true,
+            "useV17": false,
+            "useMaterialUI": true,
+            "materialUI": {
+                "useIcons": true
+            },
+            "useRedux": false,
+            "redux": {
+                "useSaga": true,
+                "saga": {
+                    "see": [
+                        {
+                            "url": "https://github.com/piotrwitek/react-redux-typescript-realworld-app",
+                            "title": "React, Redux, TypeScript - RealWorld App"
+                        },
+                        {
+                            "url": "https://github.com/piotrwitek/react-redux-typescript-guide",
+                            "title": "React & Redux in TypeScript - Complete Guide"
+                        }
+                    ]
+                }
+            },
+            "useRouter": false,
+            "useHelmetAsync": true,
+            "useSimpleCodeEditor": false,
+            "useTextareaAutosize": true,
+            "useVirtualized": false,
+            "useSelect": true,
+            "useRange": true,
+            "useDate": true,
+            "useSyntaxHighlighter": true,
+            "useObjectEditor": true
+        },
+        "useHoistNonReactStatic": true,
+        "styles": {
+            "usePalx": true
+        },
+        "useStyledComponents": true,
+        "styledComponents": {},
+        "useStyledSystem": true,
+        "styledSystem": {},
+        "useAphrodite": true,
+        "aphrodite": {
+            "disableImportant": true
+        },
+        "useTailwindcss": false,
+        "tailwindcss": {},
+        "useExpoStyles": true,
+        "expoStyles": {},
+        "useJest": true,
+        "jest": {},
+        "utils": {
+            "useAxios": false,
+            "useEscapeRegexp": true,
+            "useEscapeHtml": true,
+            "useNullThrows": true,
+            "useLodash": true,
+            "useStringifySafe": true,
+            "useParseUrl": false,
+            "useEs6Error": true,
+            "useJsCookie": true,
+            "useQueryString": true,
+            "useSanitizeHtml": true,
+            "useDateFns": true,
+            "useFetchPonyfill": true,
+            "useNanoId": true,
+            "useGitUrlParse": false,
+            "useJsonToAst": false
+        },
+        "useData": false,
+        "data": {
+            "reduxItems": [
+                {
+                    "name": "packidb",
+                    "Name": "PackiDb",
+                    "Title": "Packi",
+                    "Titles": "Packies",
+                    "collectionName": "packies",
+                    "fields": [
+                        {
+                            "name": "_id",
+                            "type": "oid",
+                            "isListItem": true
+                        },
+                        {
+                            "name": "owner",
+                            "type": "string",
+                            "isListItem": true
+                        },
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "isListItem": true
+                        },
+                        {
+                            "name": "description",
+                            "type": "string"
+                        },
+                        {
+                            "name": "packifiles",
+                            "type": "string",
+                            "formControlType": "folder"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

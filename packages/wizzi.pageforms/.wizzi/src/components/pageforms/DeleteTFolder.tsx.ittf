@@ -1,0 +1,77 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "DeleteTFolderProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "tf_id", type: "string" },
+                { name: "tf_owner", type: "string" },
+                { name: "tf_name", type: "string" },
+                { name: "tf_description", type: "string" },
+            ]
+        }
+        
+    v08/ts/react/component(&md)
+
+        $append imports
+            common_imports( top )
+        +
+        p formRef 
+            = React.createRef()
+        +
+        m componentDidMount
+            log 'DeleteTFolderProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ _id
+                    @ owner
+                    @ name
+                    @ description
+                = this.props.data
+            
+            _ this.setState
+                {
+                    @ tf_id _id
+                    @ tf_owner owner
+                    @ tf_name name
+                    @ tf_description description
+        +
+        handle_submit( Delete, tf )
+        +
+        m render
+            log 'DeleteTFolderProduction.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Delete tfolder'
+                    < HR
+                    form
+                        action /tfolder/delete
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormStatic
+                            @ label 'TFolder id'
+                            @ name 'tf_id'
+                            @ id 'tf_id'
+                            @ value {this.state.tf_id}
+                        < FormStatic
+                            @ label 'TFolder owner'
+                            @ name 'tf_owner'
+                            @ id 'tf_owner'
+                            @ value {this.state.tf_owner}
+                        < FormStatic
+                            @ label 'TFolder name'
+                            @ name 'tf_name'
+                            @ id 'tf_name'
+                            @ value {this.state.tf_name}
+                        < HR
+                        < FormStatic
+                            @ label 'Description'
+                            @ name 'tf_description'
+                            @ id 'tf_description'
+                            @ value {this.state.tf_description}
+                        form_buttons(Delete, tf)

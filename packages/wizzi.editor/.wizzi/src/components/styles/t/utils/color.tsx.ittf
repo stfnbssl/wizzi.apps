@@ -1,0 +1,35 @@
+$group
+    +
+    export 
+        const color
+            => 
+                param props
+                    :any
+                if !props.theme || (!props.color && !props.bg)
+                    return ''
+                else
+                    if props.color === 'text'
+                        return 
+                            iif props.color && props.bg
+                                then getByPalette(props)
+                                else
+                                    styled-css
+                                        color ${'$'}{getPaletteColor('base')(props)}
+                    else
+                        if props.color && props.bg
+                            return getByPalette(props)
+                        else
+                            if props.color && hasPaletteColor(props)
+                                return 
+                                    styled-css
+                                        background-color ${'$'}{getPaletteColor('base')(props)}
+                                        color ${'$'}{getTextColorOn('base')(props)}
+                            else
+                                if props.color
+                                    return 
+                                        styled-css
+                                            color ${'$'}{getPaletteColor('base')(props)}
+                                else
+                                    return 
+                                        styled-css
+                                            background-color ${'$'}{getPaletteColor(props.bg, 'base')(props)}

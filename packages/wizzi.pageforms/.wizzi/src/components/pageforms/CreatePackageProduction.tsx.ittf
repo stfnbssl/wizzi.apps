@@ -1,0 +1,161 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "CreatePackageProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "pp_name", type: "string" },
+                { name: "pp_name_available", type: "boolean" },
+                { name: "pp_name_checked", type: "string" },
+                { name: "pp_description", type: "string" },
+                { name: "pp_type", type: "string" },
+                { name: "pp_add_context", type: "boolean" },
+                { name: "pp_contexts", type: "[" },
+                { name: "pp_add_tfolder", type: "boolean" },
+                { name: "pp_dependencies", type: "[" },
+                { name: "pp_upload_files", type: "[" },
+                { name: "meta_id", type: "any" },
+                { name: "meta_listOptions", type: "any" },
+                { name: "meta_props", type: "[" },
+                { name: "meta_propsValues", type: "any" },
+                
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+            $include usemeta_imports
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        $append ctor
+            set this.state
+                {
+                    ... this.state
+                    @ meta_propsValues {}
+                    @ meta_props []
+                    @ meta_id ''
+                    @ meta_listOptions []
+
+        p formRef 
+            = React.createRef()
+        +
+        check_name_create( package, pp )
+        $*
+        m _checkAvaliblePackageName
+            async
+            const pp_checked = this.state.pp_name
+            const endpoint
+                `lit
+                    _ nullthrows(process.env.API_SERVER_URL)
+                    + /production/package/checkname/
+                    @ pp_checked
+            log 'CreatePackage._checkAvaliblePackageName.endpoint', endpoint
+            const response
+                await 
+                    _ fetch(endpoint)
+            if !response.ok
+                throw 
+                    new Error
+                        `lit 
+                            + checkAvaliblePackageName error
+                            + &nbsp;-&nbsp;
+                            @ response.status
+                            + &nbsp;-&nbsp;
+                            @ response.statusText
+            const result
+                await 
+                    _ response.json()
+            log 'CreatePackage._checkAvaliblePackageName.result', result
+            _ this.setState
+                {
+                    @ pp_name_available result.isValid
+                    @ pp_name_checked pp_checked
+        *$
+        
+        m componentDidMount
+            async
+            set this._checkAvaliblePackageName
+                _ debounce
+                    @ this._checkAvaliblePackageName
+                    @ 100
+            const
+                {
+                    @ owner
+                = this.props.data
+            $include usemeta_did_mount
+        
+        $include handle_input_change
+        add_context_handlers( pp )
+        add_tfolder_handlers( pp )
+        $include usemeta_handlers
+
+        +
+        => handlePackageNameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            log 'handlePackageNameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ pp_name ev.target.value
+            _ this._checkAvaliblePackageName
+        +
+        handle_submit( Create, pp )
+        +
+        m render
+            log 'CreatePackageProduction.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Create a new package production'
+                        @ subtitle 'A package production contains the ittf documents 
+                            \b for a package.'
+                    < HR
+                    form
+                        action /package/new
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormGroup
+                            @ label 'Package name'
+                            @ name 'pp_name'
+                            @ id 'pp_name'
+                            @ required {true}
+                            @ value {this.state.pp_name}
+                            @ onChange {this.handlePackageNameChange}
+                        {
+                            &&
+                                + this.state.pp_name.length > 0 && this.state.pp_name_available
+                                < Para
+                                    + {'Package name ' + this.state.pp_name_checked + ' is available'}
+                        {
+                            &&
+                                + this.state.pp_name.length > 0 && !this.state.pp_name_available
+                                < Para
+                                    @ color '#ff0000'
+                                    + {'Package name ' + this.state.pp_name_checked + ' is not available'}
+                        < HR
+                        < FormGroup
+                            @ label 'Description'
+                            @ name 'pp_description'
+                            @ id 'pp_description'
+                            @ required {true}
+                            @ value {this.state.pp_description}
+                            @ onChange {this.handleInputChange}
+                        
+                        add_context_render( pp )
+                        add_tfolder_render( pp )
+                        $include usemeta_render
+                        
+                        form_buttons(Create, pp)

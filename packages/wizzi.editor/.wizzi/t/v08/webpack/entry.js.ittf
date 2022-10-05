@@ -1,0 +1,34 @@
+$group
+    
+    $if wzCtx.Build.useTypescript
+        $if wzCtx.Build.isClientServer
+            @ app './src/client/index.tsx'
+        $else
+            @ app './src/index.tsx'
+        $if wzCtx.Build.useMonacoEditor
+            @ ['editor.worker'] 'monaco-editor/esm/vs/editor/editor.worker.js'
+            @ ['json.worker'] 'monaco-editor/esm/vs/language/json/json.worker'
+            @ ['css.worker'] 'monaco-editor/esm/vs/language/css/css.worker'
+            @ ['html.worker'] 'monaco-editor/esm/vs/language/html/html.worker'
+            @ ['ts.worker'] 'monaco-editor/esm/vs/language/typescript/ts.worker'
+    $else
+        $if wzCtx.Build.isClientServer
+            @ app './src/client/index.js'
+        $else
+            @ app './src/index.js'
+    $if wzCtx.Build.useServiceWorker
+        $if wzCtx.Build.useTypescript
+            $if wzCtx.Build.isClientServer
+                @ sw './src/client/sw.tsx'
+                    # Service worker
+            $else
+                @ sw './src/sw.tsx'
+                    # Service worker
+        $else
+            $if wzCtx.Build.isClientServer
+                @ sw './src/client/sw.js'
+                    # Service worker
+            $else
+                @ sw './src/sw.js'
+                    # Service worker
+    $$ @ ['editor.worker'] 'monaco-editor/esm/vs/editor/editor.worker.js'

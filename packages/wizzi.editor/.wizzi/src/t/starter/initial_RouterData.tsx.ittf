@@ -1,0 +1,14 @@
+$group
+    $params name, kind|success
+
+    { ${name}
+        $if kind == 'success'
+            @ type 'success'
+            initial_PackiDefaults( defaults )
+        $else
+            @ type 'error'
+            { error
+                @ message 'Packi error'
+            initial_PackiDefaults( defaults )
+        :as 
+            :ref RouterData

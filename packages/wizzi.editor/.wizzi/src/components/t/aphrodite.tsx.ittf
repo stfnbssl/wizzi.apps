@@ -1,0 +1,26 @@
+$group
+    $params &md
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ c
+        from '../ThemeProvider'
+
+    export
+        const ${md.Name}
+            $if md.withPreferences
+                _ withPreferences
+                    @ EditorViewComp
+            $else
+                = EditorViewComp
+    export-default ${md.Name}
+    const styles
+        _ StyleSheet.create
+            { 
+                $hook styles
+

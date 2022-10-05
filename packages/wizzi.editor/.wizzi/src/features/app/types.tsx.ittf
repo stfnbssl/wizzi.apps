@@ -1,0 +1,14 @@
+module
+    +
+    export 
+        :type LoggedUser
+            :{ 
+                :p id
+                    :string 
+                :p username
+                    :string 
+                :p displayName
+                    :string 
+                :p picture
+                    :optional 
+                    :string 

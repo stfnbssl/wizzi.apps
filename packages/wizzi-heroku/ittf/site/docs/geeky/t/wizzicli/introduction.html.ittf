@@ -1,0 +1,10 @@
+$group
+    $
+        var sect = {
+            title: 'Wizzi CLI'
+        };
+
+    section(&sect)
+		
+		table-doc( glo )
+            glo-item( TODO )

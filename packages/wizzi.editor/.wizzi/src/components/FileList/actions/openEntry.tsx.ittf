@@ -1,0 +1,79 @@
+module
+    import 
+        @ FileSystemEntry
+        from '../../../features/file'
+    import updateEntry from './updateEntry'
+    export-default 
+        function openEntry
+            param entries
+                :[ 
+                    :ref FileSystemEntry
+            param path
+                :string 
+            param focus
+                :boolean 
+                = false
+            :return
+                :[ 
+                    :ref FileSystemEntry
+            const entry
+                _ entries.find
+                    => 
+                        param e
+                        set e.item.path === path
+            const isFolder
+                iif entry
+                    then entry.item.type === 'folder'
+                    else false
+            return 
+                _ entries.map
+                    => 
+                        param e
+                        if e.item.path === path
+                            if e.item.type === 'file'
+                                if e.state.isSelected && e.state.isFocused && e.state.isOpen
+                                    return e
+                                return 
+                                    _ updateEntry
+                                        @ e
+                                        { 
+                                            { state
+                                                @ isSelected true
+                                                @ isFocused true
+                                                @ isOpen true
+                                    # Select, open and focus the file
+                            else
+                                return 
+                                    _ updateEntry
+                                        @ e
+                                        { 
+                                            { state
+                                                @ isSelected true
+                                                @ isExpanded
+                                                    iif focus
+                                                        then e.state.isExpanded
+                                                        else !e.state.isExpanded
+                                    # Select and toggle the expand for the directory
+                        if e.item.type === 'file'
+                            if e.state.isSelected || e.state.isFocused
+                                return 
+                                    _ updateEntry
+                                        @ e
+                                        { 
+                                            { state
+                                                @ isSelected false
+                                                @ isFocused
+                                                    iif isFolder
+                                                        then e.state.isFocused
+                                                        else false
+                                    # Unselect and unfocus the file
+                        else
+                            if e.state.isSelected
+                                return 
+                                    _ updateEntry
+                                        @ e
+                                        { 
+                                            { state
+                                                @ isSelected false
+                                    # Unselect the folder
+                        return e

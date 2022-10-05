@@ -1,0 +1,16 @@
+$group
+    export 
+        const decomposeColor
+            => 
+                param color
+                    :string
+                :return
+                    :[
+                        :number
+                if color.charAt(0) === '#'
+                    return decomposeColor(hexToRgb(color))
+                return 
+                    _ color.substring(color.indexOf('(') + 1, color.length - 1).split(',').map
+                        => 
+                            param value
+                            _ parseFloat(value)
