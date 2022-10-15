@@ -39,7 +39,7 @@ $group
                 _ getConfigValues
                     @ appConfig.ittfPath
                     @ appConfig.dataPath
-            log 'wizziConfig', wizziConfig
+            info 'wizziConfig', wizziConfig
             set runnerModelsFolder
                 _ path.join
                     @ appConfig.ittfPath
@@ -50,7 +50,7 @@ $group
                     set runnerModelsFolder + '/**/*.ittf'
                     {
                         @ persistent true
-            log 'wizzifile is watching', runnerModelsFolder + '/**/*.ittf'
+            info 'wizzifile is watching', runnerModelsFolder + '/**/*.ittf'
     set md.models =
         {
     let runnerServerInstance
@@ -119,7 +119,7 @@ $group
                 :any
             param callback
                 :ref Function
-            log 'wizzifile.onStart.enter'
+            info 'wizzifile.onStart.enter'
             set runnerServerInstance = runnerServer
             _ runnerServer.registerfsFactory
                 @ FACTORY_SITE
@@ -130,7 +130,7 @@ $group
                             $foreach item in wzCtx.Build.wizzi.plugins
                                 @ '${item}'
             _ runnerServer.registerApi('default', md.defaultApi)
-            log 'wizzifile.onStart.exit'
+            info 'wizzifile.onStart.exit'
             _ callback(null)
     +
     set md.onPrepare =
@@ -192,7 +192,7 @@ $group
             :ref Function
             :optional
         var mainSiteIttfPath = path.join(runnerModelsFolder, 'main.site.ittf')
-        log 'wizzifile loading', mainSiteIttfPath
+        info 'wizzifile loading', mainSiteIttfPath
         _ runnerServerInstance.loadModel
             @ FACTORY_SITE
             @ MODEL_TICKET_MAINSITE

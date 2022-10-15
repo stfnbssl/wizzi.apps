@@ -30,7 +30,7 @@ $group
                 =>
                     param app
                         :ref Application
-                    log 'IttfStaticMiddleware. Folder served from ', path.resolve(${wzCtx.Build.express.staticFiles.basePath}, 'ittf')
+                    info 'IttfStaticMiddleware. Folder served from ', path.resolve(${wzCtx.Build.express.staticFiles.basePath}, 'ittf')
                     _ app.use('/ittf', ittfMiddleware(path.resolve(${wzCtx.Build.express.staticFiles.basePath}, 'ittf'), '/ittf'))
     const extContentTypeMap
         :{
@@ -111,9 +111,9 @@ $group
                 const extname = path.extname(filePath)
                 var queryMeta = (req.query.meta as string)
                 var queryTransform = (req.query.transform as string)
-                log 'middleware.ittfStatic', 'urlPathName', urlPathName, 'pathname', pathname, 'filePath', filePath, 'path.extname(filePath)', path.extname(filePath), 'queryMeta', queryMeta
+                info 'middleware.ittfStatic', 'urlPathName', urlPathName, 'pathname', pathname, 'filePath', filePath, 'path.extname(filePath)', path.extname(filePath), 'queryMeta', queryMeta
                 if fs.existsSync(filePath) === false
-                    log 'filePath do not exists', filePath
+                    error 'filePath do not exists', filePath
                     return next()
                 if fs.statSync(filePath).isDirectory()
                     log 'filePath is directory', filePath

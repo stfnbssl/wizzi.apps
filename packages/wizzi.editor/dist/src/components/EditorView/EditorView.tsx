@@ -187,6 +187,8 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
          });
     
     // log 'EditorView.props.loggedUser', loggedUser, this.props.loggedUser
+    
+    // log 'EditorView.props', this.props, mainIttf, wizziSchema
     render() {
         const {
             currentModal, 
@@ -231,7 +233,6 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
          } = this.props;
         const annotations = this.props.annotations;
         const testPreviewURL = `${process.env.API_SERVER_URL}/~/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
-        console.log('EditorView.props', this.props, mainIttf, wizziSchema, __filename);
         return  (
             <ContentShell
             >

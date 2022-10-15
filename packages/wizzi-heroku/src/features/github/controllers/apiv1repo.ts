@@ -5,7 +5,6 @@
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {apiSecured} from '../../../middlewares/index';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
@@ -50,9 +49,9 @@ export class ApiV1RepoController implements ControllerType {
     
     initialize = (initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ApiV1RepoController.initialize');
-        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getRepoList))
-        this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getRepo))
-        this.router.get("/clone/:owner/:name/:branch", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.cloneBranch))
+        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(this.getRepoList))
+        this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getRepo))
+        this.router.get("/clone/:owner/:name/:branch", makeHandlerAwareOfAsyncErrors(this.cloneBranch))
     };
     
     private getRepoList = async (request: Request, response: Response) => 

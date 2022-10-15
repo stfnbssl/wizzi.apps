@@ -15,7 +15,6 @@ export type SyntaxHighlighterProps = {
 export class SyntaxHighlighter extends React.Component<SyntaxHighlighterProps> {
     componentDidMount() {
         const el1 = document.querySelector('.syntax-highlight-container > pre');
-        console.log('SyntaxHighlighter.el1', el1, __filename);
         if (el1 && el1.style) {
             el1.style.margin = 0;
             el1.style.padding = 0;

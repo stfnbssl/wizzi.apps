@@ -4,7 +4,7 @@ $group
     m _generateArtifactOrWizzifyOrCodeAST
         param filePath
             :string
-        log '_generateArtifactOrWizzifyOrCodeAST, filePath, this.state.session.packiProduction', filePath, this.state.session.packiProduction
+        $$ loog '_generateArtifactOrWizzifyOrCodeAST, filePath, this.state.session.packiProduction', filePath, this.state.session.packiProduction
         $$ if ['artifact', 'package', 'plugin'].indexOf(this.state.session.packiProduction) > -1
         const files = this.state.session.files
         if Object.keys(files).length
@@ -48,7 +48,7 @@ $group
                             @ this.state.session.files[filePath].contents
     +
     => _executeJobNotDebounced
-        log 'App._executeJobNotDebounced'
+        $$ loog 'App._executeJobNotDebounced'
         const files = this.state.session.files
         set filePath = this.state.selectedFile
         if Object.keys(files).length && filePath

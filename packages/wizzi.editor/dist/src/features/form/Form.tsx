@@ -64,15 +64,12 @@ export default class Form extends React.Component<FormProps, State> {
         _handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         
             e.preventDefault();
-            console.log('features.form._handleSubmit', __filename);
             for (const input of this._inputs) {
-                console.log('features.form._handleSubmit.input.validate()', input.validate(), __filename);
                 if (input.validate()) {
                     input.focus();
                     return ;
                 }
             }
-            console.log('features.form._handleSubmit.onSubmit()', __filename);
             this.props.onSubmit();
         }
         ;

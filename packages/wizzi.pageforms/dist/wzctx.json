@@ -8,8 +8,8 @@
     },
     "App": {
         "port": 5000,
-        "baseUrl": "https://www.wizzihub.com",
-        "siteUrl": "https://www.wizzihub.com",
+        "baseUrl": "http://localhost:5000",
+        "siteUrl": "http://localhost",
         "apiVersion": "1",
         "constants": {
             "preview": {

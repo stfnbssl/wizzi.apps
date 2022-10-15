@@ -8,7 +8,15 @@ import cors from 'cors';
 import {MiddlewareType} from '../features/app/types';
 export const CorsMiddleware: MiddlewareType = (app: Application) => {
 
-    app.use(cors())
-    console.log("[32m%s[0m", 'CorsMiddleware installed');
+    const options = {
+        origin: [
+            'http://localhost:5000', 
+            'http://localhost:5173'
+        ], 
+        optionsSuccessStatus: 200
+     };
+    app.options('*', cors())
+    app.use(cors(options))
+    console.log("[32m%s[0m", 'CorsMiddleware installed. Options: ', options);
 }
 ;

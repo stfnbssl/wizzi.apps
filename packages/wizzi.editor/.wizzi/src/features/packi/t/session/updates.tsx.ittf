@@ -3,7 +3,7 @@ $group
     m updateJobGeneratedFiles
         param jobGeneratedFiles
             :ref PackiFiles
-        log 'PackiSession.updateJobGeneratedFiles.jobGeneratedFiles', Object.keys(jobGeneratedFiles)
+        $$ loog 'PackiSession.updateJobGeneratedFiles.jobGeneratedFiles', Object.keys(jobGeneratedFiles)
         _ this.updatePackiFiles
             @ jobGeneratedFiles
             =>
@@ -11,7 +11,7 @@ $group
     m updateWizziMetaFolderIttfDocuments
         param wizziMetaFolderIttfDocuments
             :ref PackiFiles
-        log 'PackiSession.updateWizziMetaFolderIttfDocuments.wizziMetaFolderIttfDocuments', Object.keys(wizziMetaFolderIttfDocuments)
+        $$ loog 'PackiSession.updateWizziMetaFolderIttfDocuments.wizziMetaFolderIttfDocuments', Object.keys(wizziMetaFolderIttfDocuments)
         _ this.updatePackiFiles
             @ wizziMetaFolderIttfDocuments
             =>
@@ -23,7 +23,7 @@ $group
             :string
         param clonedGithubRepoFiles
             :ref PackiFiles
-        log 'PackiSession.updateClonedGithubRepoFiles.clonedGithubRepoFiles', Object.keys(clonedGithubRepoFiles)
+        $$ loog 'PackiSession.updateClonedGithubRepoFiles.clonedGithubRepoFiles', Object.keys(clonedGithubRepoFiles)
         const toAddPackiFiles
             :ref PackiFiles
             {
@@ -45,14 +45,14 @@ $group
         param done
             :=>
                 :any
-        log 'PackiSession.updatePackiFiles.files', files
+        $$ loog 'PackiSession.updatePackiFiles.files', files
         return
             _ this.setState
                 =>
                     param state
                     const newFiles = State.updateObjects(state.files, files)
                     if newFiles !== state.files
-                        log 'PackiSession.calling.debounce.uploadPackiFilesUpdates'
+                        $$ loog 'PackiSession.calling.debounce.uploadPackiFilesUpdates'
                         _ this.debouncedUploadPackiFilesUpdates
                             {
                                 @ packiFiles newFiles
@@ -84,7 +84,7 @@ $group
                 @ packiProduction
                 + /
                 @ encodeURIComponent(id)
-        log '---*** PackiSession.uploadPackiFilesUpdates', url
+        $$ loog '---*** PackiSession.uploadPackiFilesUpdates', url
         const response
             await
                 _ fetch
@@ -97,7 +97,7 @@ $group
         const data
             await
                 _ response.json()
-        log '---*** PackiSession.uploadPackiFilesUpdates.response.data', data
+        $$ loog '---*** PackiSession.uploadPackiFilesUpdates.response.data', data
         set this.state.saveCount++
         if done
             _ done

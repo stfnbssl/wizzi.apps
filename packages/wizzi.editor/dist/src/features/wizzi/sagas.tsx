@@ -20,7 +20,6 @@ function* handleGenerateArtifactRequest(action: ReturnType<typeof wizziActions.g
                 productionKind: action.payload.productionKind, 
                 productionName: action.payload.productionName
              });
-        console.log('sagas.handleGenerateArtifactRequest.res', res, __filename);
         yield put(wizziActions.generateArtifactSuccess(res));
     } 
     catch (err) {
@@ -42,7 +41,6 @@ function* handleMTreeBuildupScriptRequest(action: ReturnType<typeof wizziActions
                 productionKind: action.payload.productionKind, 
                 productionName: action.payload.productionName
              });
-        console.log('sagas.handleMTreeBuildupScriptRequest.res', res, __filename);
         yield put(wizziActions.mTreeBuildupScriptSuccess(res));
     } 
     catch (err) {
@@ -64,7 +62,6 @@ function* handleMTreeRequest(action: ReturnType<typeof wizziActions.mTreeRequest
                 productionKind: action.payload.productionKind, 
                 productionName: action.payload.productionName
              });
-        console.log('sagas.handleMTreeRequest.res', res, __filename);
         yield put(wizziActions.mTreeSuccess(res));
     } 
     catch (err) {
@@ -86,11 +83,9 @@ function* handleWizzifyRequest(action: ReturnType<typeof wizziActions.wizzifyReq
             type: 'CODE', 
             contents: action.payload.fileContent
          };
-        console.log('sagas.handleWizzifyRequest.filesRequest', filesRequest, __filename);
         const res = yield call(callApi, 'post', config.API_URL, 'production/generations/wizzify', {
                 packiFiles: filesRequest
              });
-        console.log('sagas.handleWizzifyRequest.res', res, __filename);
         if (res.wizzifiedPackiFiles && res.wizzifiedPackiFiles[action.payload.filePath + '.ittf']) {
             yield put(wizziActions.wizzifySuccess({
                     wizzifiedIttfContent: res.wizzifiedPackiFiles[action.payload.filePath + '.ittf'].contents
@@ -119,11 +114,9 @@ function* handleCodeASTRequest(action: ReturnType<typeof wizziActions.codeASTReq
             type: 'CODE', 
             contents: action.payload.fileContent
          };
-        console.log('sagas.handleCodeASTRequest.filesRequest', filesRequest, __filename);
         const res = yield call(callApi, 'post', config.API_URL, 'production/generations/codeast', {
                 packiFiles: filesRequest
              });
-        console.log('sagas.handleCodeASTRequest.res', res, action.payload.filePath, Object.keys(res.codeASTPackiFiles), __filename);
         if (res.codeASTPackiFiles && res.codeASTPackiFiles[action.payload.filePath + '.ast']) {
             yield put(wizziActions.codeASTSuccess({
                     codeASTContent: res.codeASTPackiFiles[action.payload.filePath + '.ast'].contents
@@ -152,7 +145,6 @@ function* handleExecuteJobRequest(action: ReturnType<typeof wizziActions.execute
                 productionKind: action.payload.productionKind, 
                 productionName: action.payload.productionName
              });
-        console.log('sagas.handleExecuteJobRequest.res', res, __filename);
         yield put(wizziActions.executeJobSuccess(res));
         yield put(packiActions.executeJobSuccess({
                 generatedArtifacts: res.generatedArtifacts, 
@@ -175,7 +167,6 @@ function* handleExecuteWizziMetaFolderRequest(action: ReturnType<typeof wizziAct
         console.log('sagas.handleExecuteWizziMetaFolderRequest.action', action, __filename);
         const pk = action.payload.productionKind.toLowerCase();
         const res = yield call(callApi, 'get', config.API_URL, 'production/' + pk + '/meta/' + encodeURIComponent(action.payload.productionId));
-        console.log('sagas.handleExecuteWizziMetaFolderRequest.res', res, __filename);
         yield put(wizziActions.executeWizziMetaFolderSuccess(res));
         yield put(packiActions.executeWizziMetaFolderSuccess({
                 generatedIttfDocuments: res.generatedIttfDocuments

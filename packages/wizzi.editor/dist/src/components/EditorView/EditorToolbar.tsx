@@ -76,7 +76,6 @@ export function EditorToolbar(props: EditorToolbarProps) {
      } = preferences;
     const isPublishing = saveStatus === 'publishing';
     const isPublished = saveStatus === 'published';
-    console.log('EditorToolbar.props', props, mainIttf, wizziSchema, __filename);
     return  (
         <div
          className={css(styles.ve_top_bar)}>

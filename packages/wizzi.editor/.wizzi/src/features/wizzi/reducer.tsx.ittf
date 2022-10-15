@@ -90,7 +90,7 @@ module
                             @ codeASTContent undefined
                             @ error undefined
                 case getType(wizziActions.generateArtifactSuccess)
-                    log "wizziActions.generateArtifactSuccess", action
+                    info "wizziActions.generateArtifactSuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
                         return 
                             { 
@@ -104,7 +104,7 @@ module
                                 @ loading false
                                 @ generatedArtifact action.payload.generatedArtifact
                 case getType(wizziActions.generateArtifactError)
-                    log "wizziActions.generateArtifactError", action
+                    error "wizziActions.generateArtifactError", action.payload
                     return 
                         { 
                             @ ...state
@@ -120,7 +120,7 @@ module
                             @ mTreeBuildupScript undefined
                             @ error undefined
                 case getType(wizziActions.mTreeBuildupScriptSuccess)
-                    log "wizziActions.mTreeBuildupScriptSuccess", action
+                    info "wizziActions.mTreeBuildupScriptSuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
                         return 
                             { 
@@ -134,7 +134,7 @@ module
                                 @ loading false
                                 @ ...action.payload
                 case getType(wizziActions.mTreeBuildupScriptError)
-                    log "wizziActions.mTreeBuildupScriptError", action
+                    error "wizziActions.mTreeBuildupScriptError", action
                     return 
                         { 
                             @ ...state
@@ -150,7 +150,7 @@ module
                             @ mTreeIttf undefined
                             @ error undefined
                 case getType(wizziActions.mTreeSuccess)
-                    log "wizziActions.mTreeSuccess", action
+                    info "wizziActions.mTreeSuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
                         return 
                             { 
@@ -164,7 +164,7 @@ module
                                 @ loading false
                                 @ ...action.payload
                 case getType(wizziActions.mTreeError)
-                    log "wizziActions.mTreeError", action
+                    error "wizziActions.mTreeError", action
                     return 
                         { 
                             @ ...state
@@ -180,7 +180,7 @@ module
                             @ jobGeneratedArtifacts undefined
                             @ error undefined
                 case getType(wizziActions.executeJobSuccess)
-                    log "wizziActions.executeJobSuccess", action
+                    info "wizziActions.executeJobSuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
                         return 
                             { 
@@ -194,7 +194,7 @@ module
                                 @ loading false
                                 @ jobGeneratedArtifacts action.payload.generatedArtifacts
                 case getType(wizziActions.executeJobError)
-                    log "wizziActions.executeJobError", action
+                    error "wizziActions.executeJobError", action.payload
                     return 
                         { 
                             @ ...state
@@ -210,7 +210,7 @@ module
                             @ wizziMetaFolderIttfDocuments undefined
                             @ error undefined
                 case getType(wizziActions.executeWizziMetaFolderSuccess)
-                    log "wizziActions.executeWizziMetaFolderSuccess", action
+                    info "wizziActions.executeWizziMetaFolderSuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
                         return 
                             { 
@@ -224,7 +224,7 @@ module
                                 @ loading false
                                 @ wizziMetaFolderIttfDocuments action.payload
                 case getType(wizziActions.executeWizziMetaFolderError)
-                    log "wizziActions.executeWizziMetaFolderError", action
+                    error "wizziActions.executeWizziMetaFolderError", action.payload
                     return 
                         { 
                             @ ...state
@@ -241,7 +241,7 @@ module
                             @ generatedArtifact undefined
                             @ error undefined
                 case getType(wizziActions.wizzifySuccess)
-                    log "wizziActions.wizzifySuccess", action
+                    info "wizziActions.wizzifySuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
                         return 
                             { 
@@ -255,7 +255,7 @@ module
                                 @ loading false
                                 @ ...action.payload
                 case getType(wizziActions.wizzifyError)
-                    log "wizziActions.wizzifyError", action
+                    error "wizziActions.wizzifyError", action
                     return 
                         { 
                             @ ...state
@@ -273,7 +273,7 @@ module
                             @ generatedArtifact undefined
                             @ error undefined
                 case getType(wizziActions.codeASTSuccess)
-                    log "wizziActions.codeASTSuccess", action
+                    info "wizziActions.codeASTSuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
                         return 
                             { 
@@ -287,7 +287,7 @@ module
                                 @ loading false
                                 @ ...action.payload
                 case getType(wizziActions.codeASTError)
-                    log "wizziActions.codeASTError", action
+                    error "wizziActions.codeASTError", action
                     return 
                         { 
                             @ ...state
@@ -295,7 +295,7 @@ module
                             @ error action.payload
                 +
                 case getType(wizziActions.changeSelectedFile)
-                    log "wizziActions.changeSelectedFile", action
+                    info "wizziActions.changeSelectedFile", Object.keys(action.payload)
                     return 
                         { 
                             @ ...state

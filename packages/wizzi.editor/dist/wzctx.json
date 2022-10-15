@@ -7,10 +7,13 @@
         "email": ""
     },
     "App": {
-        "siteUrl": "https://www.wizzihub.com",
-        "baseUrl": "https://www.wizzihub.com",
+        "siteUrl": "http://localhost",
+        "baseUrl": "http://localhost:5000",
         "port": 5000,
         "constants": {
+            "edit": {
+                "uploadAfterChangeDelay": 3000
+            },
             "preview": {
                 "minWidth": 700
             }

@@ -17,6 +17,7 @@ import {WizzifiedIcon} from '../../assets/WizzifiedIcon';
 import SyntaxHighlighter from '../CodeView/SyntaxHighlighter';
 import WebFrame from '../widgets/WebFrame';
 import {PreviewKind} from '../types';
+import LazyLoad from '../widgets/LazyLoad';
 type Props = { 
     classes: any;
     selectedFile: string;
@@ -70,8 +71,6 @@ class GeneratedView extends React.Component<Props> {
             selectedFile
          } = this.props;
         const isIttf = selectedFile && selectedFile.endsWith('.ittf');
-        console.log('GeneratedView.isIttf', isIttf, 'previewKind', previewKind, __filename);
-        console.log('GeneratedView.props', this.props, __filename);
         return  (
             <div
              className={splitViewKind === 'right' ? classes.containerFull : classes.container}>
@@ -130,19 +129,63 @@ class GeneratedView extends React.Component<Props> {
                                     <WebFrame
                                      previewURL={this.props.generatedPreviewURL} />
                                     )
-                                 :  (
-                                    <h1
-                                    >
-                                        No browser viewer for document
-                                    </h1>
-                                    )
-                                     (
-                                    <p
-                                    >
-                                    {this.props.generatedSourcePath}
-                                    </p>
-                                    )
-                                )
+                                 : (this.props.generatedSourcePath.endsWith('.md.ittf') ?  (
+                                        <React.Fragment
+                                        >
+                                            <LazyLoad
+                                             load={() => 
+                                                
+                                                    import('../Markdown/MarkdownPreview')
+                                            }>
+                                                {
+                                                    ({
+                                                        loaded: mdLoaded, 
+                                                        data: MarkdownPreview
+                                                     }) => {
+                                                    
+                                                        if (mdLoaded && MarkdownPreview) {
+                                                            return  (
+                                                                <MarkdownPreview
+                                                                 source={this.props.generatedContent} />
+                                                                )
+                                                            ;
+                                                        }
+                                                        else {
+                                                            return  (
+                                                                <React.Fragment
+                                                                >
+                                                                    <h1
+                                                                    >
+                                                                        Failed to load markdown preview for document
+                                                                    </h1>
+                                                                    <p
+                                                                    >
+                                                                    {this.props.generatedSourcePath}
+                                                                    </p>
+                                                                </React.Fragment>
+                                                                )
+                                                            ;
+                                                        }
+                                                    }
+                                                    
+                                                }
+                                            </LazyLoad>
+                                        </React.Fragment>
+                                        )
+                                     :  (
+                                        <React.Fragment
+                                        >
+                                            <h1
+                                            >
+                                                No browser viewer for document
+                                            </h1>
+                                            <p
+                                            >
+                                            {this.props.generatedSourcePath}
+                                            </p>
+                                        </React.Fragment>
+                                        )
+                                    ))
                             }
                         </div>
                         )

@@ -67,7 +67,7 @@ module
                                 @ clonedGithubRepoFiles undefined
                                 @ error undefined
                     case getType(packiActions.githubCloneSuccess)
-                        log "packiActions.githubCloneSuccess", action
+                        info "packiActions.githubCloneSuccess", Object.keys(action.payload)
                         if action.payload.error || action.payload.err
                             return 
                                 { 
@@ -84,19 +84,19 @@ module
                                     @ clonedGithubRepoFiles action.payload.files
                                     @ clonedGithubRepoFilesCommitHistory action.payload.commitHistory
                     case getType(packiActions.githubCloneError)
-                        log "packiActions.githubCloneError", action
+                        error "packiActions.githubCloneError", action
                         return 
                             { 
                                 @ ...state
                                 @ loading false
                                 @ error action.payload
                     case getType(packiActions.executeJobSuccess)
-                        log "packiActions.executeJobSuccess", action
+                        info "packiActions.executeJobSuccess", Object.keys(action.payload)
                         const newPacki
                             { 
                                 @ ...state.currentPacki
                                 @ files mixPreviousAndGeneratedPackiFiles(action.payload.previousArtifacts, action.payload.generatedArtifacts)
-                        log "packiActions.executeJobSuccess.newPacki", newPacki
+                        $$ loog "packiActions.executeJobSuccess.newPacki", newPacki
                         if !action.payload.error
                             return 
                                 { 
@@ -112,12 +112,12 @@ module
                         return state
                 switch action.type
                     case getType(packiActions.executeWizziMetaFolderSuccess)
-                        log "packiActions.executeWizziMetaFolderSuccess", action
+                        info "packiActions.executeWizziMetaFolderSuccess", Object.keys(action.payload)
                         const newPacki
                             { 
                                 @ ...state.currentPacki
                                 @ files mixPreviousAndGeneratedPackiFiles(action.payload.previousArtifacts, action.payload.generatedArtifacts)
-                        log "packiActions.executeJobSuccess.newPacki", newPacki
+                        $$ loog "packiActions.executeJobSuccess.newPacki", newPacki
                         if !action.payload.error
                             return 
                                 { 

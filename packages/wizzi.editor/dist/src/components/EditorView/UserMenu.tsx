@@ -23,14 +23,12 @@ export class UserMenuComp extends React.Component<UserMenuProps, State> {
     componentDidMount() {
         document.addEventListener('click', this._handleDocumentClick);
         document.addEventListener('contextmenu', this._handleDocumentContextMenu);
-        console.log('UserMenu componentDidMount', __filename);
     }
     componentWillUnmount() {
         document.removeEventListener('click', this._handleDocumentClick);
         document.removeEventListener('contextmenu', this._handleDocumentContextMenu);
     }
     _handleDocumentClick = (e: MouseEvent) => {
-        console.log('UserMenu _handleDocumentClick', this.state.visible, __filename);
         if (this.state.visible) {
             if (this._menu.current && e.target !== this._menu.current && !this._menu.current.contains(e.target as HTMLElement)) {
                 this._hideMenu();

@@ -595,7 +595,7 @@ export async function getArtifactProduction_withCache(owner: string, name: strin
         );
 }
 
-export function invalidateCache(owner: string, name: string) {
+export function invalidateCache(owner: string, name?: string) {
 
     var cacheKey = owner + '|' + name;
     artifactProductionCache.del(cacheKey);

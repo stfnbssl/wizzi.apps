@@ -26,8 +26,8 @@ function getConfig() {
 
     if (_config == null) {
         _config = {
-            SERVER_URL: 'https://www.wizzihub.com', 
-            API_URL: 'https://www.wizzihub.com/api/v1', 
+            SERVER_URL: 'http://localhost:5000', 
+            API_URL: 'http://localhost:5000/api/v1', 
             EDITOR_LOAD_FALLBACK_TIMEOUT: defaults.EDITOR_LOAD_FALLBACK_TIMEOUT, 
             DEFAULT_PACKI_CODE: defaults.DEFAULT_PACKI_CODE, 
             PREFERENCES_KEY: 'packi.preferences.config'

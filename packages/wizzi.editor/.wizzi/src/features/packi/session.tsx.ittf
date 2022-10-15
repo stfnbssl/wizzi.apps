@@ -75,7 +75,7 @@ module
             ctor
                 param options
                     :ref PackiOptions
-                log 'packi.Session.ctor.options', options
+                info 'packi.Session.ctor.options', options
                 set this.apiURL = options.apiURL ?? defaultConfig.apiURL
                 set this.host = options.host ?? defaultConfig.host
                 set this.state =
@@ -104,7 +104,7 @@ module
                 set this.debouncedUploadPackiFilesUpdates
                     _ debounce
                         @ this.uploadPackiFilesUpdates
-                        @ 2000 $$ this.codeChangesDelay
+                        @ ${wzCtx.App.constants.edit.uploadAfterChangeDelay}
                         @ this
             +
             m setName
@@ -174,7 +174,7 @@ module
             m setPreviewUrl
                 param filePath
                     :string
-                log myname, 'setPreviewUrl', filePath
+                $$ loog myname, 'setPreviewUrl', filePath
                 let pathPrefix = "/~/"
                 if this.state.packiProduction == 'package'
                     set pathPrefix = "/~p/"
@@ -364,7 +364,7 @@ module
             m setSelectedFile
                 param filePath
                     :string 
-                log myname, 'setSelectedFile', filePath
+                $$ loog myname, 'setSelectedFile', filePath
                 return
                     _ this.setState
                         =>

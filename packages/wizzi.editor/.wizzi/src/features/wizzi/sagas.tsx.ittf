@@ -38,7 +38,7 @@ module
                         @ packiFiles action.payload.files
                         @ productionKind action.payload.productionKind
                         @ productionName action.payload.productionName
-        log 'sagas.handleGenerateArtifactRequest.res', res
+        $$ loog 'sagas.handleGenerateArtifactRequest.res', res
         yield put(wizziActions.generateArtifactSuccess(res))
     #
     saga_handler( wizzi, mTreeBuildupScriptRequest, generateArtifactError
@@ -53,7 +53,7 @@ module
                         @ packiFiles action.payload.files
                         @ productionKind action.payload.productionKind
                         @ productionName action.payload.productionName
-        log 'sagas.handleMTreeBuildupScriptRequest.res', res
+        $$ loog 'sagas.handleMTreeBuildupScriptRequest.res', res
         yield put(wizziActions.mTreeBuildupScriptSuccess(res))
     #
     saga_handler( wizzi, mTreeRequest, generateArtifactError
@@ -68,7 +68,7 @@ module
                         @ packiFiles action.payload.files
                         @ productionKind action.payload.productionKind
                         @ productionName action.payload.productionName
-        log 'sagas.handleMTreeRequest.res', res
+        $$ loog 'sagas.handleMTreeRequest.res', res
         yield put(wizziActions.mTreeSuccess(res))
     #
     saga_handler( wizzi, wizzifyRequest, wizzifyError
@@ -77,7 +77,7 @@ module
             {
                 @ type 'CODE'
                 @ contents action.payload.fileContent
-        log 'sagas.handleWizzifyRequest.filesRequest', filesRequest
+        $$ loog 'sagas.handleWizzifyRequest.filesRequest', filesRequest
         const res
             yield 
                 _ call
@@ -87,7 +87,7 @@ module
                     @ 'production/generations/wizzify'
                     {
                         @ packiFiles filesRequest
-        log 'sagas.handleWizzifyRequest.res', res
+        $$ loog 'sagas.handleWizzifyRequest.res', res
         if res.wizzifiedPackiFiles && res.wizzifiedPackiFiles[action.payload.filePath + '.ittf']
             yield
                 _ put
@@ -103,7 +103,7 @@ module
             {
                 @ type 'CODE'
                 @ contents action.payload.fileContent
-        log 'sagas.handleCodeASTRequest.filesRequest', filesRequest
+        $$ loog 'sagas.handleCodeASTRequest.filesRequest', filesRequest
         const res
             yield 
                 _ call
@@ -113,7 +113,7 @@ module
                     @ 'production/generations/codeast'
                     {
                         @ packiFiles filesRequest
-        log 'sagas.handleCodeASTRequest.res', res, action.payload.filePath, Object.keys(res.codeASTPackiFiles)
+        $$ loog 'sagas.handleCodeASTRequest.res', res, action.payload.filePath, Object.keys(res.codeASTPackiFiles)
         if res.codeASTPackiFiles && res.codeASTPackiFiles[action.payload.filePath + '.ast']
             yield
                 _ put
@@ -135,7 +135,7 @@ module
                         @ packiFiles action.payload.files
                         @ productionKind action.payload.productionKind
                         @ productionName action.payload.productionName
-        log 'sagas.handleExecuteJobRequest.res', res
+        $$ loog 'sagas.handleExecuteJobRequest.res', res
         yield 
             _ put
                 _ wizziActions.executeJobSuccess
@@ -156,7 +156,7 @@ module
                     @ 'get'
                     @ config.API_URL
                     @ 'production/' + pk + '/meta/' + encodeURIComponent(action.payload.productionId)
-        log 'sagas.handleExecuteWizziMetaFolderRequest.res', res
+        $$ loog 'sagas.handleExecuteWizziMetaFolderRequest.res', res
         yield 
             _ put
                 _ wizziActions.executeWizziMetaFolderSuccess

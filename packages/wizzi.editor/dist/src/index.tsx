@@ -57,8 +57,6 @@ function AppContainer(props: any) {
             packi: data.packi, 
             defaults: data.defaults
          };
-        console.log('index.appProps.loggedUser', appProps.loggedUser, __filename);
-        console.log('index.appProps', appProps, __filename);
         return  (
             <App
              {...appProps} />

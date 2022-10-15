@@ -100,13 +100,13 @@ module
                             :param 
                                 :ref HTMLFormElement
                     _ e.preventDefault()
-                    log 'features.form._handleSubmit'
+                    $$ loog 'features.form._handleSubmit'
                     for const input of this._inputs
-                        log 'features.form._handleSubmit.input.validate()', input.validate()
+                        $$ loog 'features.form._handleSubmit.input.validate()', input.validate()
                         if input.validate()
                             _ input.focus()
                             return 
-                    log 'features.form._handleSubmit.onSubmit()'
+                    $$ loog 'features.form._handleSubmit.onSubmit()'
                     _ this.props.onSubmit()
             
             m render

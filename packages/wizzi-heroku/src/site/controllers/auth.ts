@@ -73,7 +73,7 @@ export class AuthController implements ControllerType {
         const queryParams = queryString.stringify({
             client_id: config.googleClientId, 
             scope: 'openid email profile', 
-            redirect_uri: 'https://www.wizzihub.com/api/v1/authenticate/google/callback', 
+            redirect_uri: 'http://localhost:5000/api/v1/authenticate/google/callback', 
             nonce: 'gartps', 
             response_type: 'code'
          });

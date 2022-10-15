@@ -24,7 +24,7 @@ module
 
             m componentDidMount
                 const el1 = document.querySelector('.syntax-highlight-container > pre')
-                log 'SyntaxHighlighter.el1', el1
+                $$ loog 'SyntaxHighlighter.el1', el1
                 if el1 && el1.style
                     set el1.style.margin = 0
                     set el1.style.padding = 0

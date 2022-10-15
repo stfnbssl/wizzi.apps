@@ -1451,8 +1451,8 @@ wz.node.replace = function(node, newnode) {
     }
     if (!window.wz.packi) {
         window.wz.packi = {
-            apiUrl: "https://www.wizzihub.com/api/v1/packi", 
-            webUrl: "https://www.wizzihub.com"
+            apiUrl: "http://localhost:5000/api/v1/packi", 
+            webUrl: "http://localhost:5000"
          };
     }
     wz.initPacki = function(options) {
@@ -1566,8 +1566,8 @@ wz.node.replace = function(node, newnode) {
     }
     if (!window.wz.production) {
         window.wz.production = {
-            apiUrl: "https://www.wizzihub.com/api/v1/production", 
-            webUrl: "https://www.wizzihub.com"
+            apiUrl: "http://localhost:5000/api/v1/production", 
+            webUrl: "http://localhost:5000"
          };
     }
     wz.initProduction = function(options) {
@@ -1681,7 +1681,7 @@ wz.node.replace = function(node, newnode) {
 })();
 
 async function callApi(method, path, data) {
-    const API_URL = 'https://www.wizzihub.com/api/v1';
+    const API_URL = 'http://localhost:5000/api/v1';
     // loog 'callApi method', method, 'API_URL', API_URL, 'path', path, 'data', data
     return new Promise((resolve, reject) => 
         

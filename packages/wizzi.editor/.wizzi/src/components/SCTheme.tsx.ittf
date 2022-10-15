@@ -348,4 +348,4 @@ module
     +
     export-default theme
 
-    log 'SCTheme', theme
+    $$ loog 'SCTheme', theme

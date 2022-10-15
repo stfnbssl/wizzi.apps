@@ -5,7 +5,6 @@
 */
 export async function callApi(method: string, url: string, path: string, data?: any) {
 
-    console.log('callApi', method, url, path, data, __filename);
     console.log('url', `${url}/${path}`)
     const res = await fetch(`${url}/${path}`, {
             method, 

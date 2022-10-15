@@ -126,6 +126,7 @@ $group
                 :string
             param name
                 :string
+                :optional
             var cacheKey = owner + '|' + name
             _ metaProductionCache.del(cacheKey)
 

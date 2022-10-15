@@ -126,5 +126,6 @@ $group
                 :string
             param name
                 :string
+                :optional
             var cacheKey = owner + '|' + name
             _ pluginProductionCache.del(cacheKey)

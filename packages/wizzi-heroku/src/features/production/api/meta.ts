@@ -537,7 +537,7 @@ async function getMetaProduction_withCache(owner: string, name: string) {
         );
 }
 
-export function invalidateCache(owner: string, name: string) {
+export function invalidateCache(owner: string, name?: string) {
 
     var cacheKey = owner + '|' + name;
     metaProductionCache.del(cacheKey);

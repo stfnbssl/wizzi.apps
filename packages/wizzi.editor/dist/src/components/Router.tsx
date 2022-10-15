@@ -15,7 +15,6 @@ type Props = {
 };
 export default class Router extends React.Component<Props> {
         _renderRoute = (props: any) => {
-            console.log('Router._renderRoute.props', props, __filename);
             const {
                 data, 
                 ...rest

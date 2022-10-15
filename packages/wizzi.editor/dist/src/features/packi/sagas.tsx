@@ -14,7 +14,6 @@ function* handleGithubCloneRequest(action: ReturnType<typeof packiActions.github
     try {
         console.log('sagas.handleGithubCloneRequest.action', action, __filename);
         const res = yield call(callApi, 'get', config.API_URL, 'github/repo/clone/' + encodeURIComponent(action.payload.owner) + '/' + encodeURIComponent(action.payload.name) + '/' + encodeURIComponent(action.payload.branch));
-        console.log('sagas.handleGithubCloneRequest.res', res, __filename);
         yield put(packiActions.githubCloneSuccess(res));
     } 
     catch (err) {

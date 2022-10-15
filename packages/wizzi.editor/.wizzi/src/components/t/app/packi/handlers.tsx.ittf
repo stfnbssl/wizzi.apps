@@ -14,8 +14,8 @@ $group
                     if Object.keys(files).length
                         const filePath = this.state.selectedFile || Object.keys(files)[0]
                         if filePath.endsWith('.ittf')
-                            log '_handleGenerateArtifactPreview.filePath', filePath
-                            log '_handleGenerateArtifactPreview', 'state.session.files', Object.keys(files)
+                            $$ loog '_handleGenerateArtifactPreview.filePath', filePath
+                            $$ loog '_handleGenerateArtifactPreview', 'state.session.files', Object.keys(files)
                             _ this.props.dispatchGenerateArtifact
                                 @ filePath
                                 _ fileConversions.packiFilterIttf
@@ -36,8 +36,8 @@ $group
                     if Object.keys(files).length
                         const filePath = this.state.selectedFile || Object.keys(files)[0]
                         if filePath.endsWith('.ittf')
-                            log '_handleMTreePreview.filePath', filePath
-                            log '_handleMTreePreview', 'state.session.files', Object.keys(files)
+                            $$ loog '_handleMTreePreview.filePath', filePath
+                            $$ loog '_handleMTreePreview', 'state.session.files', Object.keys(files)
                             _ this.props.dispatchMTree
                                 @ filePath
                                 _ fileConversions.packiFilterIttf
@@ -58,8 +58,8 @@ $group
                     if Object.keys(files).length
                         const filePath = this.state.selectedFile || Object.keys(files)[0]
                         if filePath.endsWith('.ittf')
-                            log '_handleMTreeDebugInfoPreview.filePath', filePath
-                            log '_handleMTreeDebugInfoPreview', 'state.session.files', Object.keys(files)
+                            $$ loog '_handleMTreeDebugInfoPreview.filePath', filePath
+                            $$ loog '_handleMTreeDebugInfoPreview', 'state.session.files', Object.keys(files)
                             _ this.props.dispatchMTreeDebugInfo
                                 @ filePath
                                 _ fileConversions.packiFilterIttf
@@ -87,8 +87,8 @@ $group
                     if Object.keys(files).length
                         const filePath = this.state.selectedFile || Object.keys(files)[0]
                         if !filePath.endsWith('.ittf')
-                            log '_handleWizzify.filePath', filePath
-                            log '_handleWizzify', 'state.session.files', Object.keys(files)
+                            $$ loog '_handleWizzify.filePath', filePath
+                            $$ loog '_handleWizzify', 'state.session.files', Object.keys(files)
                             _ this.props.dispatchWizzify
                                 @ filePath
                                 @ files[filePath].contents
@@ -105,8 +105,8 @@ $group
                     if Object.keys(files).length
                         const filePath = this.state.selectedFile || Object.keys(files)[0]
                         if !filePath.endsWith('.ittf')
-                            log '_handleCodeAST.filePath', filePath
-                            log '_handleCodeAST', 'state.session.files', Object.keys(files)
+                            $$ loog '_handleCodeAST.filePath', filePath
+                            $$ loog '_handleCodeAST', 'state.session.files', Object.keys(files)
                             _ this.props.dispatchCodeAST
                                 @ filePath
                                 @ files[filePath].contents
@@ -114,7 +114,7 @@ $group
         async=> 
             param details
                 :any
-            log '_handleGithubClone', details
+            $$ loog '_handleGithubClone', details
             _ this.props.dispatchGithubClone
                 @ details.owner
                 @ details.name

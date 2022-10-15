@@ -383,7 +383,7 @@ module
                     + /
                     @ encodeURIComponent(name)
             # log 'EditorView.props.loggedUser', loggedUser, this.props.loggedUser
-            log 'EditorView.props', this.props, mainIttf, wizziSchema
+            # log 'EditorView.props', this.props, mainIttf, wizziSchema
             return 
                 < ContentShell 
                     { 

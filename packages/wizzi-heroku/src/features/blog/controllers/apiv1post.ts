@@ -5,7 +5,6 @@
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {apiSecured} from '../../../middlewares/index';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
@@ -49,11 +48,11 @@ export class ApiV1PostController implements ControllerType {
     
     initialize = (initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ApiV1PostController.initialize');
-        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getPostList))
-        this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getCheckPostName))
-        this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getPost))
-        this.router.post("/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.postPost))
-        this.router.delete("/:id", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.deletePost))
+        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(this.getPostList))
+        this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getCheckPostName))
+        this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getPost))
+        this.router.post("/:owner/:name", makeHandlerAwareOfAsyncErrors(this.postPost))
+        this.router.delete("/:id", makeHandlerAwareOfAsyncErrors(this.deletePost))
     };
     
     private getPostList = async (request: Request, response: Response) => 

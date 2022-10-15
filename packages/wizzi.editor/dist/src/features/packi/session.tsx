@@ -29,7 +29,7 @@ const debounce = (func: any, timeout: any, context: any) => {
 ;
 export default class PackiSession {
         constructor(options: PackiOptions) {
-            console.log('packi.Session.ctor.options', options, __filename);
+            console.log('packi.Session.ctor.options', options);
             this.apiURL = options.apiURL ?? defaultConfig.apiURL;
             this.host = options.host ?? defaultConfig.host;
             this.state = this.updateDerivedState({
@@ -50,7 +50,7 @@ export default class PackiSession {
             ;
             this.state.unsaved = false;
             this.setPreviewUrl(options.mainIttf)
-            this.debouncedUploadPackiFilesUpdates = debounce(this.uploadPackiFilesUpdates, 2000, this)
+            this.debouncedUploadPackiFilesUpdates = debounce(this.uploadPackiFilesUpdates, 3000, this)
             ;
         }
         private state: PackiState;
@@ -109,7 +109,6 @@ export default class PackiSession {
         }
         
         setPreviewUrl(filePath: string) {
-            console.log(myname, 'setPreviewUrl', filePath, __filename);
             let pathPrefix = "/~/";
             if (this.state.packiProduction == 'package') {
                 pathPrefix = "/~p/";
@@ -278,7 +277,6 @@ export default class PackiSession {
                 );
         }
         setSelectedFile(filePath: string) {
-            console.log(myname, 'setSelectedFile', filePath, __filename);
             return this.setState((state) => {
                 
                     if (state.selectedFile !== filePath) {
@@ -297,7 +295,6 @@ export default class PackiSession {
         }
         
         updateJobGeneratedFiles(jobGeneratedFiles: PackiFiles) {
-            console.log('PackiSession.updateJobGeneratedFiles.jobGeneratedFiles', Object.keys(jobGeneratedFiles), __filename);
             this.updatePackiFiles(jobGeneratedFiles, () => {
             
             }
@@ -305,7 +302,6 @@ export default class PackiSession {
         }
         
         updateWizziMetaFolderIttfDocuments(wizziMetaFolderIttfDocuments: PackiFiles) {
-            console.log('PackiSession.updateWizziMetaFolderIttfDocuments.wizziMetaFolderIttfDocuments', Object.keys(wizziMetaFolderIttfDocuments), __filename);
             this.updatePackiFiles(wizziMetaFolderIttfDocuments, () => {
             
             }
@@ -313,7 +309,6 @@ export default class PackiSession {
         }
         
         updateClonedGithubRepoFiles(clonedGithubRepoOwner: string, clonedGithubRepoName: string, clonedGithubRepoFiles: PackiFiles) {
-            console.log('PackiSession.updateClonedGithubRepoFiles.clonedGithubRepoFiles', Object.keys(clonedGithubRepoFiles), __filename);
             const toAddPackiFiles: PackiFiles = {};
             Object.keys(clonedGithubRepoFiles).forEach((k) => {
             
@@ -331,12 +326,10 @@ export default class PackiSession {
         }
         
         updatePackiFiles(files: PackiFiles, done: () => any) {
-            console.log('PackiSession.updatePackiFiles.files', files, __filename);
             return this.setState((state) => {
                 
                     const newFiles = State.updateObjects(state.files, files);
                     if (newFiles !== state.files) {
-                        console.log('PackiSession.calling.debounce.uploadPackiFilesUpdates', __filename);
                         this.debouncedUploadPackiFilesUpdates({
                             packiFiles: newFiles
                          }, done)
@@ -354,7 +347,6 @@ export default class PackiSession {
                 packiProduction
              } = this.state;
             const url = `${this.apiURL}/api/v1/production/${packiProduction}/${encodeURIComponent(id)}`;
-            console.log('---*** PackiSession.uploadPackiFilesUpdates', url, __filename);
             const response = await fetch(url, {
                     method: 'PUT', 
                     body: JSON.stringify(payload), 
@@ -363,7 +355,6 @@ export default class PackiSession {
                      }
                  });
             const data = await response.json();
-            console.log('---*** PackiSession.uploadPackiFilesUpdates.response.data', data, __filename);
             this.state.saveCount++;
             if (done) {
                 done();

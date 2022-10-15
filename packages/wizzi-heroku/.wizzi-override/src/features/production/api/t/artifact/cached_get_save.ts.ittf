@@ -175,6 +175,7 @@ $group
                 :string
             param name
                 :string
+                :optional
             var cacheKey = owner + '|' + name
             _ artifactProductionCache.del(cacheKey)
 

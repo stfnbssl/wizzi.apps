@@ -398,7 +398,7 @@ module
             param focus
                 :boolean 
                 :optional 
-            log 'MonacoEditor', '_openFile', path, value
+            $$ loog 'MonacoEditor', '_openFile', path, value
             _ this._initializeFile(path, value)
             const model = findModel(path)
             if this._editor && model
@@ -418,7 +418,7 @@ module
             const model = this._editor?.getModel?.()
             if model
                 const value = model.getValue()
-                log '---*** MonacoEditor._handleEditFile'
+                $$ loog '---*** MonacoEditor._handleEditFile'
                 if value !== this.props.files[this.props.selectedFile]?.contents
                     _ this.props.updateFiles
                         => 

@@ -5,7 +5,6 @@
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {apiSecured} from '../../../middlewares/index';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
@@ -56,11 +55,11 @@ export class ProductionController implements ControllerType {
     
     initialize = (initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ProductionController.initialize');
-        this.router.post("/artifact", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.artifact))
-        this.router.post("/mtree", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.mTree))
-        this.router.post("/mtreescript", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.mTreeBuildupScript))
-        this.router.post("/mtreescan", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.mTreeScan))
-        this.router.post("/wrapittf", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.wrapIttfText))
+        this.router.post("/artifact", makeHandlerAwareOfAsyncErrors(this.artifact))
+        this.router.post("/mtree", makeHandlerAwareOfAsyncErrors(this.mTree))
+        this.router.post("/mtreescript", makeHandlerAwareOfAsyncErrors(this.mTreeBuildupScript))
+        this.router.post("/mtreescan", makeHandlerAwareOfAsyncErrors(this.mTreeScan))
+        this.router.post("/wrapittf", makeHandlerAwareOfAsyncErrors(this.wrapIttfText))
     };
     
     private artifact = async (request: Request, response: Response) => {

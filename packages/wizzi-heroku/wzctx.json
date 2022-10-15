@@ -9,14 +9,14 @@
     "App": {
         "name": "Wizzi Hub",
         "title": "The public Wizzi Web App",
-        "isLocal": false,
+        "isLocal": true,
         "isProduction": false,
         "port": "5000",
-        "useSsl": true,
-        "siteUrl": "https://www.wizzihub.com",
-        "baseUrl": "https://www.wizzihub.com",
-        "siteUrlLocal": "https://localhost",
-        "baseUrlLocal": "https://localhost:5000",
+        "useSsl": false,
+        "siteUrl": "http://localhost",
+        "baseUrl": "http://localhost:5000",
+        "siteUrlLocal": "http://localhost",
+        "baseUrlLocal": "http://localhost:5000",
         "apiVersion": "v1",
         "constants": {
             "preview": {
@@ -137,7 +137,10 @@
         "helmet": {},
         "useCors": true,
         "cors": {
-            "clientOrigin": "https://www.wizzihub.com"
+            "clientOrigins": [
+                "http://localhost:5000",
+                "http://localhost:5173"
+            ]
         },
         "styles": {
             "usePalx": false
@@ -221,7 +224,7 @@
         "useAuthentication": true,
         "authentication": {
             "isProduction": false,
-            "isLocal": false,
+            "isLocal": true,
             "authRequired": false,
             "userInfo": false,
             "useLocal": true,
@@ -230,19 +233,19 @@
             "github": {
                 "clientIdLocal": "6a42cd4cb7247bb4e823",
                 "clientSecretLocal": "dedced0ac262cae62557e4c3f567a6227b17bfb7",
-                "callbackURLLocal": "https://localhost:5000/api/v1/authenticate/github/callback",
+                "callbackURLLocal": "http://localhost:5000/api/v1/authenticate/github/callback",
                 "clientId": "156e80732f5eb542f5ab",
                 "clientSecret": "a9fe1dd225b058105e43040204ab08c42a2bc02b",
-                "callbackURL": "https://www.wizzihub.com/api/v1/authenticate/github/callback"
+                "callbackURL": "http://localhost:5000/api/v1/authenticate/github/callback"
             },
             "useGoogle": true,
             "google": {
                 "clientIdLocal": "676985835415-038phfuujng1oj6bsa7gfle0e6r4ur5g.apps.googleusercontent.com",
                 "clientSecretLocal": "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",
-                "callbackURLLocal": "https://localhost:5000/api/v1/authenticate/google/callback",
+                "callbackURLLocal": "http://localhost:5000/api/v1/authenticate/google/callback",
                 "clientId": "676985835415-eaoq3avnj3ldi72igo9mflfb1qu2nidv.apps.googleusercontent.com",
                 "clientSecret": "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",
-                "callbackURL": "https://www.wizzihub.com/api/v1/authenticate/google/callback"
+                "callbackURL": "http://localhost:5000/api/v1/authenticate/google/callback"
             }
         },
         "useReact": true,

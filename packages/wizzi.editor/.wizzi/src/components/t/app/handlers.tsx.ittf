@@ -30,7 +30,7 @@ $group
                                     else 'unsaved'
                             else state.saveStatus
                     # Set save-status to changed if needed
-                log 'App._handleSessionStateChange', 'saveStatus', saveStatus
+                $$ loog 'App._handleSessionStateChange', 'saveStatus', saveStatus
                 return 
                     { 
                         @ session packiState
@@ -141,10 +141,10 @@ $group
         const state = this._PackiSession.getState()
         const filesUpdate = updateFn(state.files)
         if Object.keys(filesUpdate).length
-            log '---*** App._updateFiles.filesUpdate', Object.keys(filesUpdate)
+            $$ loog '---*** App._updateFiles.filesUpdate', Object.keys(filesUpdate)
             set this.edited = true
             _ this._PackiSession.updatePackiFiles
                 @ filesUpdate
                 =>
-                    log '---*** App._updateFiles.after-filesUpdate.exec-generateArtifact'
+                    $$ loog '---*** App._updateFiles.after-filesUpdate.exec-generateArtifact'
                     _ this._generateArtifactOrWizzifyOrCodeAST

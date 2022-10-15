@@ -7,7 +7,7 @@ $group
                 :any
             if typeof err === 'object' && err !== null
                 $hook
-            log '${method}.error', err
+            error '${method}.error', err
             _ sendFailure
                 @ response
                 {

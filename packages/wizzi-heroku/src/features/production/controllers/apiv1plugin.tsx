@@ -5,7 +5,6 @@
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {apiSecured} from '../../../middlewares/index';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
@@ -49,11 +48,11 @@ export class ApiV1PluginProductionController implements ControllerType {
     
     initialize = (initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ApiV1PluginProductionController.initialize');
-        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getPluginProductionList))
-        this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getCheckPluginName))
-        this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getPluginProduction))
-        this.router.put("/:id", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.putPluginProduction))
-        this.router.post("/:post", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.postPluginProduction))
+        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(this.getPluginProductionList))
+        this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getCheckPluginName))
+        this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getPluginProduction))
+        this.router.put("/:id", makeHandlerAwareOfAsyncErrors(this.putPluginProduction))
+        this.router.post("/:post", makeHandlerAwareOfAsyncErrors(this.postPluginProduction))
     };
     
     private getPluginProductionList = async (request: Request, response: Response) => 

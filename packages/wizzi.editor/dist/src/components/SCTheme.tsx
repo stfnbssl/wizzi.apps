@@ -179,4 +179,3 @@ export const theme: Theme = {
  };
 
 export default theme;
-console.log('SCTheme', theme, __filename);

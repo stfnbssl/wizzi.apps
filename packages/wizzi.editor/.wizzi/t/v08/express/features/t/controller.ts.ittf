@@ -43,7 +43,7 @@ $group
             => initialize
                 param initValues
                     :ref AppInitializerType
-                log 'Entering ${ctrl.name}Controller.initialize'
+                info 'Entering ${ctrl.name}Controller.initialize'
                 $if ctrl.modelName
                     set this.${ctrl.modelName}Model
                         _ Get${ctrl.modelName}Model

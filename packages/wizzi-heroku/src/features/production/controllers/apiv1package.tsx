@@ -5,7 +5,6 @@
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {apiSecured} from '../../../middlewares/index';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
@@ -50,12 +49,12 @@ export class ApiV1PackageProductionController implements ControllerType {
     
     initialize = (initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ApiV1PackageProductionController.initialize');
-        this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getCheckPackageName))
-        this.router.get("/meta/:id", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getWizziMetaFolder))
-        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getPackageProductionList))
-        this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getPackageProduction))
-        this.router.put("/:id", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.putPackageProduction))
-        this.router.post("/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.postPackageProduction))
+        this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getCheckPackageName))
+        this.router.get("/meta/:id", makeHandlerAwareOfAsyncErrors(this.getWizziMetaFolder))
+        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(this.getPackageProductionList))
+        this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getPackageProduction))
+        this.router.put("/:id", makeHandlerAwareOfAsyncErrors(this.putPackageProduction))
+        this.router.post("/:owner/:name", makeHandlerAwareOfAsyncErrors(this.postPackageProduction))
     };
     
     private getPackageProductionList = async (request: Request, response: Response) => 

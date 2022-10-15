@@ -50,11 +50,11 @@ $group
                 const files
                     :ref PackiFiles
                     = request.body
-                log 'mTreeBuildupScript.received files', Object.keys(files)
+                $$ loog 'mTreeBuildupScript.received files', Object.keys(files)
                 _ wizziProds.mTreeBuildupScript(id, files, {}).then
                     =>
                         param value
-                        log 'debugInfo.result', value
+                        $$ loog 'debugInfo.result', value
                         _ sendSuccess
                             @ response
                             {
@@ -62,18 +62,18 @@ $group
                     ._ catch
                         =>
                             param err
-                            log 'features.packi.controllers.production.mTreeBuildupScript.err', err
+                            error 'features.packi.controllers.production.mTreeBuildupScript.err', err
                             _ sendFailure(response, err, 501)
             handler( generateArtifact )
                 const id = request.params.id
                 const files
                     :ref PackiFiles
                     = request.body
-                log 'generateArtifact.received files', Object.keys(files)
+                $$ loog 'generateArtifact.received files', Object.keys(files)
                 _ wizziProds.generateArtifact(id, files).then
                     =>
                         param value
-                        log 'generateArtifact.result', value
+                        $$ loog 'generateArtifact.result', value
                         _ sendSuccess
                             @ response
                             {
@@ -81,7 +81,7 @@ $group
                     ._ catch
                         =>
                             param err
-                            log 'features.packi.controllers.production.generateArtifact.err', err
+                            error 'features.packi.controllers.production.generateArtifact.err', err
                             _ sendFailure(response, err, 501)
             handler( transformModel )
                 const id = request.params.id
@@ -89,7 +89,7 @@ $group
                 const files
                     :ref PackiFiles
                     = request.body
-                log 'transformModel.received files', Object.keys(files)
+                $$ loog 'transformModel.received files', Object.keys(files)
                 _ wizziProds.transformModel
                     @ id
                     @ files
@@ -99,7 +99,7 @@ $group
                     ._ then
                         =>
                             param value
-                            log 'generateArtifact.result', value
+                            $$ loog 'transformModel.result', value
                             _ sendSuccess
                                 @ response
                                 {
@@ -107,20 +107,20 @@ $group
                     ._ catch
                         =>
                             param err
-                            log 'features.packi.controllers.production.generateArtifact.err', err
+                            error 'features.packi.controllers.production.generateArtifact.err', err
                             _ sendFailure(response, err, 501)
             handler( executeJob )
                 const files
                     :ref PackiFiles
                     = request.body
-                log 'ProductionsController.executeJob.received files', Object.keys(files)
+                $$ loog 'ProductionsController.executeJob.received files', Object.keys(files)
                 _ wizziProds.executeJobs(files).then
                     async=>
                         param fsJson
                         const files
                             await
                                 _ WizziFactory.extractGeneratedFiles(fsJson)
-                        log 'features.packi.controllers.production.executeJob.generatedArtifacts', Object.keys(files)
+                        $$ loog 'features.packi.controllers.production.executeJob.generatedArtifacts', Object.keys(files)
                         _ sendSuccess
                             @ response
                             {
@@ -128,19 +128,19 @@ $group
                     ._ catch
                         =>
                             param err
-                            log 'features.packi.controllers.production.executeJob.err', err
+                            error 'features.packi.controllers.production.executeJob.err', err
                             _ sendFailure(response, err, 501)
             handler( wizzify )
                 const id = request.params.id
                 const files
                     :ref PackiFiles
                     = request.body
-                log 'wizzify.received files', Object.keys(files)
+                $$ loog 'wizzify.received files', Object.keys(files)
                 _ wizziProds.wizzify(files).then
                     async=>
                         param ittfResult
                             :ref PackiFiles
-                        log 'features.packi.controllers.production.wizzify.ittfResult', ittfResult
+                        $$ loog 'features.packi.controllers.production.wizzify.ittfResult', ittfResult
                         _ sendSuccess
                             @ response
                             {
@@ -148,5 +148,5 @@ $group
                     ._ catch
                         =>
                             param err
-                            log 'features.packi.controllers.production.wizzify.err', err
+                            error 'features.packi.controllers.production.wizzify.err', err
                             _ sendFailure(response, err, 501)

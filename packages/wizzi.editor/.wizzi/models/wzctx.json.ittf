@@ -23,6 +23,8 @@
             baseUrl "https://www.wizzihub.com"
         port ${md.port}
         { constants
+            { edit
+                uploadAfterChangeDelay 3000
             { preview
                 minWidth 700
         [ Components

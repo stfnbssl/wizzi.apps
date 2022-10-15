@@ -39,7 +39,7 @@ const reducer: Reducer<PackiState, PackiAction> = (state = initialState, action)
                  };
         }
         case getType(packiActions.githubCloneSuccess): {
-            console.log("packiActions.githubCloneSuccess", action, __filename);
+            console.log("packiActions.githubCloneSuccess", Object.keys(action.payload));
             if (action.payload.error || action.payload.err) {
                 return {
                         ...state, 
@@ -59,7 +59,7 @@ const reducer: Reducer<PackiState, PackiAction> = (state = initialState, action)
             }
         }
         case getType(packiActions.githubCloneError): {
-            console.log("packiActions.githubCloneError", action, __filename);
+            console.log("[31m%s[0m", "packiActions.githubCloneError", action);
             return {
                     ...state, 
                     loading: false, 
@@ -67,12 +67,11 @@ const reducer: Reducer<PackiState, PackiAction> = (state = initialState, action)
                  };
         }
         case getType(packiActions.executeJobSuccess): {
-            console.log("packiActions.executeJobSuccess", action, __filename);
+            console.log("packiActions.executeJobSuccess", Object.keys(action.payload));
             const newPacki = {
                 ...state.currentPacki, 
                 files: mixPreviousAndGeneratedPackiFiles(action.payload.previousArtifacts, action.payload.generatedArtifacts)
              };
-            console.log("packiActions.executeJobSuccess.newPacki", newPacki, __filename);
             if (!action.payload.error) {
                 return {
                         ...state, 
@@ -92,12 +91,11 @@ const reducer: Reducer<PackiState, PackiAction> = (state = initialState, action)
     }
     switch (action.type) {
         case getType(packiActions.executeWizziMetaFolderSuccess): {
-            console.log("packiActions.executeWizziMetaFolderSuccess", action, __filename);
+            console.log("packiActions.executeWizziMetaFolderSuccess", Object.keys(action.payload));
             const newPacki = {
                 ...state.currentPacki, 
                 files: mixPreviousAndGeneratedPackiFiles(action.payload.previousArtifacts, action.payload.generatedArtifacts)
              };
-            console.log("packiActions.executeJobSuccess.newPacki", newPacki, __filename);
             if (!action.payload.error) {
                 return {
                         ...state, 

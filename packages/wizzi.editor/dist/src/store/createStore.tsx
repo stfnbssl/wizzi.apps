@@ -11,7 +11,6 @@ import {createRootSaga} from './sagas';
 
 export default function createStoreWithPreloadedState(preloadedState: StoreState) {
     
-        console.log('createStoreWithPreloadedState', 'preloadedState', preloadedState, __filename);
         let composeEnhancer: typeof compose;
         if (typeof window !== 'undefined') {
             composeEnhancer = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

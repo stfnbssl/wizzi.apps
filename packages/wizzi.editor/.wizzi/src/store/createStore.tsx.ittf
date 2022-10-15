@@ -19,7 +19,7 @@ module
         function createStoreWithPreloadedState
             param preloadedState
                 :ref StoreState
-            log 'createStoreWithPreloadedState', 'preloadedState', preloadedState
+            $$ loog 'createStoreWithPreloadedState', 'preloadedState', preloadedState
             let composeEnhancer
                 :typeof compose
             if typeof window !== 'undefined' 

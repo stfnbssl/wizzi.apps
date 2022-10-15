@@ -15,8 +15,6 @@ export class IFramePage extends React.Component<IFramePageProps> {
     styleEl: any;
     cssNode: any;
     componentDidMount() {
-        console.log('componentDidMount.this.ifr', this.ifr, __filename);
-        console.log('_updateContent.this.ifr.contentWindow', this.ifr.contentWindow, __filename);
         const prevSS = this.props.styleSheets || [];
         this._updateStylesheets(prevSS);
         if (this.props.css) {
@@ -42,11 +40,8 @@ export class IFramePage extends React.Component<IFramePageProps> {
     shouldComponentUpdate() {
         return false;
     }
-    _updateContent = (content?: string) => {
+    _updateContent = (content?: string) => 
     
-        console.log('_updateContent.this.ifr', this.ifr, __filename);
-        console.log('_updateContent.this.ifr.contentWindow', this.ifr.contentWindow, __filename);
-        console.log('_updateContent.this.ifr.contentDocument', this.ifr.contentDocument, __filename);
         /**
             // 
             // const document = this.ifr.contentDocument;
@@ -54,8 +49,7 @@ export class IFramePage extends React.Component<IFramePageProps> {
             // document.body.innerHTML = this.props.content;
             // 
         */
-        this.ifr.setAttribute('srcdoc', content);
-    }
+        this.ifr.setAttribute('srcdoc', content)
     ;
     _updateStylesheets = (styleSheets: any) => {
     

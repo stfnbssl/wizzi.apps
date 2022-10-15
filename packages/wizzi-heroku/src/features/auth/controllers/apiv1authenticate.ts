@@ -91,7 +91,7 @@ export class ApiV1AuthenticateController implements ControllerType {
             client_id: config.googleClientId, 
             client_secret: config.googleClientSecret, 
             code: request.query.code, 
-            redirect_uri: 'https://www.wizzihub.com/api/v1/authenticate/google/callback', 
+            redirect_uri: 'http://localhost:5000/api/v1/authenticate/google/callback', 
             grant_type: 'authorization_code'
          };
         const options = { headers: { accept: 'application/json' } };

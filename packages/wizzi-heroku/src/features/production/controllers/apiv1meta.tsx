@@ -5,7 +5,6 @@
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {apiSecured} from '../../../middlewares/index';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
@@ -51,13 +50,13 @@ export class ApiV1MetaProductionController implements ControllerType {
     
     initialize = (initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ApiV1MetaProductionController.initialize');
-        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getMetaProductionList))
-        this.router.get("/props/:id", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getMetaProperties))
-        this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getCheckMetaName))
-        this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.getMetaProduction))
-        this.router.put("/:id", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.putMetaProduction))
-        this.router.post("'/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.postMetaProduction))
-        this.router.post("'/generate/:owner/:name", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.generateMetaProductionByName))
+        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(this.getMetaProductionList))
+        this.router.get("/props/:id", makeHandlerAwareOfAsyncErrors(this.getMetaProperties))
+        this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getCheckMetaName))
+        this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getMetaProduction))
+        this.router.put("/:id", makeHandlerAwareOfAsyncErrors(this.putMetaProduction))
+        this.router.post("'/:owner/:name", makeHandlerAwareOfAsyncErrors(this.postMetaProduction))
+        this.router.post("'/generate/:owner/:name", makeHandlerAwareOfAsyncErrors(this.generateMetaProductionByName))
     };
     
     private getMetaProductionList = async (request: Request, response: Response) => 
@@ -69,18 +68,7 @@ export class ApiV1MetaProductionController implements ControllerType {
          }).then((result: any) => {
         
             if (result.ok) {
-                const items = [];
-                var i, i_items=result.item, i_len=result.item.length, meta;
-                for (i=0; i<i_len; i++) {
-                    meta = result.item[i];
-                    items.push({
-                        id: meta.id, 
-                        owner: meta.owner, 
-                        name: meta.name, 
-                        description: meta.description
-                     })
-                }
-                sendSuccess(response, items)
+                sendSuccess(response, result)
             }
             else {
                 console.log("[31m%s[0m", 'getMetaProductionList.error', result);

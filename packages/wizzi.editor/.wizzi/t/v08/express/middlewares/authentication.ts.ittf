@@ -45,5 +45,5 @@ $group
                         _ app.use
                             _ auth
                                 @ authConfig
-                        log 'AuthenticationMiddleware.config', authConfig
+                        info 'AuthenticationMiddleware.config', authConfig
                     $hook

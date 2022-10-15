@@ -4,7 +4,7 @@ module
         var ctrl = {
             name: 'ApiV1MetaProduction',
             path: '/api/v1/production/meta',
-            apiSecured: true,
+            apiSecured: wzCtx.App.isLocal == false,
         }
     
     v08/ts/controller( &ctrl )
@@ -56,17 +56,9 @@ module
                                 :any
                             $$ loog 'getMetaProductionList.result', result
                             if result.ok
-                                const items = []
-                                foreach meta in result.item
-                                    _ items.push
-                                        {
-                                            @ id meta.id
-                                            @ owner meta.owner
-                                            @ name meta.name
-                                            @ description meta.description
                                 _ sendSuccess
                                     @ response
-                                    @ items
+                                    @ result
                             v08/ts/else_send_fail( getMetaProductionList, result)
                     v08/ts/catch_send_fail(  getMetaProductionList )
 

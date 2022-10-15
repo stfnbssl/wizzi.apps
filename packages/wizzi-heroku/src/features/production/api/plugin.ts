@@ -536,7 +536,7 @@ export async function getPluginProduction_withCache(owner: string, name: string)
         );
 }
 
-export function invalidateCache(owner: string, name: string) {
+export function invalidateCache(owner: string, name?: string) {
 
     var cacheKey = owner + '|' + name;
     pluginProductionCache.del(cacheKey);

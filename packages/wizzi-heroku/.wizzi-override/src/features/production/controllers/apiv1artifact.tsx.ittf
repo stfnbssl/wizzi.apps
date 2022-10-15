@@ -4,7 +4,7 @@ module
         var ctrl = {
             name: 'ApiV1ArtifactProduction',
             path: '/api/v1/production/artifact',
-            apiSecured: true,
+            apiSecured: wzCtx.App.isLocal == false,
         }
     
     v08/ts/controller( &ctrl )
@@ -14,10 +14,19 @@ module
                 @ getListArtifactProduction
                 @ validateArtifactProduction
                 @ getArtifactProduction
+                @ getArtifactProductionById
                 @ updateArtifactProduction
                 @ createArtifactProduction
                 @ invalidateCache
                 from '../api/artifact'
+            import
+                @ wizziTypes
+                @ wizziProds
+                @ WizziFactory
+                from '../../wizzi'
+            import
+                @ mergePackiFiles
+                from '../utils'
             +
             const myname = 'features/production/controllers/apiv1artifactproduction'
 
@@ -91,8 +100,50 @@ module
 
             v08/ts/handler(  putArtifactProduction )
 
-                $$ loog 'putArtifactProduction.request.params', request.params
-                $$ loog 'putArtifactProduction.request.body', request.body
+                log 'putArtifactProduction.request.params', request.params
+                log 'putArtifactProduction.request.body', Object.keys(request.body)
+                if request.body.packiFiles
+                    log 'putArtifactProduction.request.body.packiFiles', Object.keys(request.body.packiFiles)
+                const options = request.body.options || {}
+                if options.wizzify
+                    _ wizziProds.wizzify
+                        @ request.body.packiFiles
+                        ._ then
+                            => 
+                                param resultPackiFiles
+                                    :any
+                                log 'putArtifactProduction.wizzify.resultPackiFiles', Object.keys(resultPackiFiles)
+                                return
+                                    _ exec_updateArtifactProduction
+                                        @ request
+                                        @ response
+                                        @ resultPackiFiles
+                        v08/ts/catch_send_fail(  putArtifactProduction.wizzify )
+                elif options.merge
+                    _ getArtifactProductionById
+                        @ request.params.id
+                        ._ then
+                            => 
+                                param prevArtifact
+                                    :any
+                                const resultPackiFiles
+                                    _ mergePackiFiles
+                                        @ prevArtifact.packiFiles
+                                        @ request.body.packiFiles
+                                log 'putArtifactProduction.merge.resultPackiFiles', Object.keys(resultPackiFiles)
+                                return
+                                    _ exec_updateArtifactProduction
+                                        @ request
+                                        @ response
+                                        @ resultPackiFiles
+                        v08/ts/catch_send_fail(  putArtifactProduction.merge.getArtifactProductionById )
+                else
+                    _ exec_updateArtifactProduction
+                        @ request
+                        @ response
+                        @ request.body.packiFiles
+
+                $*
                 _ updateArtifactProduction
                     @ request.params.id
                     @ request.body.owner
@@ -107,9 +158,36 @@ module
                                 :any
                             # loog 'putArtifactProduction.update.result', result
                             _ invalidateCache
-                                @ request.params.owner
-                                @ request.params.name
+                                @ request.params.id
                             _ sendSuccess
                                 @ response
                                 @ result
                     v08/ts/catch_send_fail(  putArtifactProduction )
+                *$
+
+    function exec_updateArtifactProduction
+        param request
+            :any
+        param response
+            :any
+        param packiFiles
+            :any                    
+        _ updateArtifactProduction
+            @ request.params.id
+            @ request.body.owner
+            @ request.body.name
+            @ request.body.description
+            @ request.body.mainIttf
+            @ request.body.wizziSchema
+            @ JSON.stringify(packiFiles)
+            ._ then
+                =>
+                    param result
+                        :any
+                    # loog 'putArtifactProduction.update.result', result
+                    _ invalidateCache
+                        @ request.params.id
+                    _ sendSuccess
+                        @ response
+                        @ result
+            v08/ts/catch_send_fail(  putArtifactProduction )

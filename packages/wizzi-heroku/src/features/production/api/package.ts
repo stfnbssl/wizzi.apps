@@ -537,7 +537,7 @@ export async function getPackageProduction_withCache(owner: string, name: string
         );
 }
 
-export function invalidateCache(owner: string, name: string) {
+export function invalidateCache(owner: string, name?: string) {
 
     var cacheKey = owner + '|' + name;
     packageProductionCache.del(cacheKey);

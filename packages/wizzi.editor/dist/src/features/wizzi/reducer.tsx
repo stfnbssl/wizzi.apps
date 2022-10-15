@@ -51,7 +51,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.generateArtifactSuccess): {
-            console.log("wizziActions.generateArtifactSuccess", action, __filename);
+            console.log("wizziActions.generateArtifactSuccess", Object.keys(action.payload));
             if (action.payload.error || action.payload.err) {
                 return {
                         ...state, 
@@ -68,7 +68,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
             }
         }
         case getType(wizziActions.generateArtifactError): {
-            console.log("wizziActions.generateArtifactError", action, __filename);
+            console.log("[31m%s[0m", "wizziActions.generateArtifactError", action.payload);
             return {
                     ...state, 
                     loading: false, 
@@ -85,7 +85,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.mTreeBuildupScriptSuccess): {
-            console.log("wizziActions.mTreeBuildupScriptSuccess", action, __filename);
+            console.log("wizziActions.mTreeBuildupScriptSuccess", Object.keys(action.payload));
             if (action.payload.error || action.payload.err) {
                 return {
                         ...state, 
@@ -102,7 +102,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
             }
         }
         case getType(wizziActions.mTreeBuildupScriptError): {
-            console.log("wizziActions.mTreeBuildupScriptError", action, __filename);
+            console.log("[31m%s[0m", "wizziActions.mTreeBuildupScriptError", action);
             return {
                     ...state, 
                     loading: false, 
@@ -119,7 +119,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.mTreeSuccess): {
-            console.log("wizziActions.mTreeSuccess", action, __filename);
+            console.log("wizziActions.mTreeSuccess", Object.keys(action.payload));
             if (action.payload.error || action.payload.err) {
                 return {
                         ...state, 
@@ -136,7 +136,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
             }
         }
         case getType(wizziActions.mTreeError): {
-            console.log("wizziActions.mTreeError", action, __filename);
+            console.log("[31m%s[0m", "wizziActions.mTreeError", action);
             return {
                     ...state, 
                     loading: false, 
@@ -153,7 +153,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.executeJobSuccess): {
-            console.log("wizziActions.executeJobSuccess", action, __filename);
+            console.log("wizziActions.executeJobSuccess", Object.keys(action.payload));
             if (action.payload.error || action.payload.err) {
                 return {
                         ...state, 
@@ -170,7 +170,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
             }
         }
         case getType(wizziActions.executeJobError): {
-            console.log("wizziActions.executeJobError", action, __filename);
+            console.log("[31m%s[0m", "wizziActions.executeJobError", action.payload);
             return {
                     ...state, 
                     loading: false, 
@@ -187,7 +187,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.executeWizziMetaFolderSuccess): {
-            console.log("wizziActions.executeWizziMetaFolderSuccess", action, __filename);
+            console.log("wizziActions.executeWizziMetaFolderSuccess", Object.keys(action.payload));
             if (action.payload.error || action.payload.err) {
                 return {
                         ...state, 
@@ -204,7 +204,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
             }
         }
         case getType(wizziActions.executeWizziMetaFolderError): {
-            console.log("wizziActions.executeWizziMetaFolderError", action, __filename);
+            console.log("[31m%s[0m", "wizziActions.executeWizziMetaFolderError", action.payload);
             return {
                     ...state, 
                     loading: false, 
@@ -222,7 +222,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.wizzifySuccess): {
-            console.log("wizziActions.wizzifySuccess", action, __filename);
+            console.log("wizziActions.wizzifySuccess", Object.keys(action.payload));
             if (action.payload.error || action.payload.err) {
                 return {
                         ...state, 
@@ -239,7 +239,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
             }
         }
         case getType(wizziActions.wizzifyError): {
-            console.log("wizziActions.wizzifyError", action, __filename);
+            console.log("[31m%s[0m", "wizziActions.wizzifyError", action);
             return {
                     ...state, 
                     loading: false, 
@@ -258,7 +258,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.codeASTSuccess): {
-            console.log("wizziActions.codeASTSuccess", action, __filename);
+            console.log("wizziActions.codeASTSuccess", Object.keys(action.payload));
             if (action.payload.error || action.payload.err) {
                 return {
                         ...state, 
@@ -275,7 +275,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
             }
         }
         case getType(wizziActions.codeASTError): {
-            console.log("wizziActions.codeASTError", action, __filename);
+            console.log("[31m%s[0m", "wizziActions.codeASTError", action);
             return {
                     ...state, 
                     loading: false, 
@@ -283,7 +283,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                  };
         }
         case getType(wizziActions.changeSelectedFile): {
-            console.log("wizziActions.changeSelectedFile", action, __filename);
+            console.log("wizziActions.changeSelectedFile", Object.keys(action.payload));
             return {
                     ...state, 
                     loading: false, 

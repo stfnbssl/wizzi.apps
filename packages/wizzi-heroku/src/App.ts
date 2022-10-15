@@ -75,15 +75,15 @@ class App {
     public listen(port?: number) {
         this.server = this.app.listen(this.port, () => 
         
-            console.log(`App listening at https://www.wizzihub.com:${this.port}`)
+            console.log(`App listening at http://localhost:${this.port}`)
         )
         ;
     }
     public close(done) {
-        console.log(`Server closing. App listening at https://www.wizzihub.com:${this.port}`)
+        console.log(`Server closing. App listening at http://localhost:${this.port}`)
         this.server.close(() => {
         
-            console.log(`Server stopped. App was listening at https://www.wizzihub.com:${this.port}`)
+            console.log(`Server stopped. App was listening at http://localhost:${this.port}`)
             done();
         }
         )

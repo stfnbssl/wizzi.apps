@@ -269,7 +269,6 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
     };
     
     _openFile = (path: string, value: string, focus?: boolean) => {
-        console.log('MonacoEditor', '_openFile', path, value, __filename);
         this._initializeFile(path, value);
         const model = findModel(path);
         if (this._editor && model) {
@@ -290,7 +289,6 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
         const model = this._editor?.getModel?.();
         if (model) {
             const value = model.getValue();
-            console.log('---*** MonacoEditor._handleEditFile', __filename);
             if (value !== this.props.files[this.props.selectedFile]?.contents) {
                 this.props.updateFiles(() => 
                 

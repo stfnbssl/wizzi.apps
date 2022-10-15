@@ -163,7 +163,7 @@ module
                                 @ label "state"
                                 @ object {this.state}
                 $$ loog 'App.state.session.files', this.state.session.files
-                log 'App.props', this.props
+                $$ loog 'App.props', this.props
                 return 
                     < LazyLoad 
                         :ref React.ComponentType

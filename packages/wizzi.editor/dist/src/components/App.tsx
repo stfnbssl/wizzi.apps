@@ -265,7 +265,6 @@ class AppMain extends React.Component<AppProps, State> {
     _focusTimer: number | undefined;
     
     _generateArtifactOrWizzifyOrCodeAST(filePath: string) {
-        console.log('_generateArtifactOrWizzifyOrCodeAST, filePath, this.state.session.packiProduction', filePath, this.state.session.packiProduction, __filename);
         const files = this.state.session.files;
         if (Object.keys(files).length) {
             filePath = filePath || this.state.selectedFile || Object.keys(files)[0];
@@ -296,7 +295,6 @@ class AppMain extends React.Component<AppProps, State> {
     }
     
     _executeJobNotDebounced = () => {
-        console.log('App._executeJobNotDebounced', __filename);
         const files = this.state.session.files;
         filePath = this.state.selectedFile;
         if (Object.keys(files).length && filePath) {
@@ -383,7 +381,6 @@ class AppMain extends React.Component<AppProps, State> {
             
             // Set save-status to changed if needed
             const saveStatus: SaveStatus = state.unsaved && (state.saveStatus === 'saved-draft' || state.saveStatus === 'published' || state.saveStatus === 'unsaved') ? this.edited ? 'edited' : 'unsaved' : state.saveStatus;
-            console.log('App._handleSessionStateChange', 'saveStatus', saveStatus, __filename);
             
             // Update session state
             return {
@@ -493,13 +490,10 @@ class AppMain extends React.Component<AppProps, State> {
         const state = this._PackiSession.getState();
         const filesUpdate = updateFn(state.files);
         if (Object.keys(filesUpdate).length) {
-            console.log('---*** App._updateFiles.filesUpdate', Object.keys(filesUpdate), __filename);
             this.edited = true;
-            this._PackiSession.updatePackiFiles(filesUpdate, () => {
+            this._PackiSession.updatePackiFiles(filesUpdate, () => 
             
-                console.log('---*** App._updateFiles.after-filesUpdate.exec-generateArtifact', __filename);
-                this._generateArtifactOrWizzifyOrCodeAST();
-            }
+                this._generateArtifactOrWizzifyOrCodeAST()
             )
         }
     };
@@ -518,8 +512,6 @@ class AppMain extends React.Component<AppProps, State> {
             if (Object.keys(files).length) {
                 const filePath = this.state.selectedFile || Object.keys(files)[0];
                 if (filePath.endsWith('.ittf')) {
-                    console.log('_handleGenerateArtifactPreview.filePath', filePath, __filename);
-                    console.log('_handleGenerateArtifactPreview', 'state.session.files', Object.keys(files), __filename);
                     this.props.dispatchGenerateArtifact(filePath, fileConversions.packiFilterIttf(this.state.session.files), this.state.session.packiProduction, this.state.session.name)
                 }
             }
@@ -542,8 +534,6 @@ class AppMain extends React.Component<AppProps, State> {
             if (Object.keys(files).length) {
                 const filePath = this.state.selectedFile || Object.keys(files)[0];
                 if (filePath.endsWith('.ittf')) {
-                    console.log('_handleMTreePreview.filePath', filePath, __filename);
-                    console.log('_handleMTreePreview', 'state.session.files', Object.keys(files), __filename);
                     this.props.dispatchMTree(filePath, fileConversions.packiFilterIttf(this.state.session.files), this.state.session.packiProduction, this.state.session.name)
                 }
             }
@@ -566,8 +556,6 @@ class AppMain extends React.Component<AppProps, State> {
             if (Object.keys(files).length) {
                 const filePath = this.state.selectedFile || Object.keys(files)[0];
                 if (filePath.endsWith('.ittf')) {
-                    console.log('_handleMTreeDebugInfoPreview.filePath', filePath, __filename);
-                    console.log('_handleMTreeDebugInfoPreview', 'state.session.files', Object.keys(files), __filename);
                     this.props.dispatchMTreeDebugInfo(filePath, fileConversions.packiFilterIttf(this.state.session.files), this.state.session.packiProduction, this.state.session.name)
                 }
             }
@@ -600,8 +588,6 @@ class AppMain extends React.Component<AppProps, State> {
             if (Object.keys(files).length) {
                 const filePath = this.state.selectedFile || Object.keys(files)[0];
                 if (!filePath.endsWith('.ittf')) {
-                    console.log('_handleWizzify.filePath', filePath, __filename);
-                    console.log('_handleWizzify', 'state.session.files', Object.keys(files), __filename);
                     this.props.dispatchWizzify(filePath, files[filePath].contents)
                 }
             }
@@ -623,8 +609,6 @@ class AppMain extends React.Component<AppProps, State> {
             if (Object.keys(files).length) {
                 const filePath = this.state.selectedFile || Object.keys(files)[0];
                 if (!filePath.endsWith('.ittf')) {
-                    console.log('_handleCodeAST.filePath', filePath, __filename);
-                    console.log('_handleCodeAST', 'state.session.files', Object.keys(files), __filename);
                     this.props.dispatchCodeAST(filePath, files[filePath].contents)
                 }
             }
@@ -632,15 +616,13 @@ class AppMain extends React.Component<AppProps, State> {
         )
     
     ;
-    _handleGithubClone = async (details: any) => {
+    _handleGithubClone = async (details: any) => 
     
-        console.log('_handleGithubClone', details, __filename);
         this.props.dispatchGithubClone(details.owner, details.name, details.branch)
-    }
+    
     ;
     render() {
         if (this.props && this.state) {
-            console.log('App.props', this.props, __filename);
             return  (
                 <LazyLoad<React.ComponentType<EditorViewProps>>
                  load={() => 

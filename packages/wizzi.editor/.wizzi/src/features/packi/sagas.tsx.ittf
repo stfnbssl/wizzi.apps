@@ -30,7 +30,7 @@ module
                         \b encodeURIComponent(action.payload.owner) + '/' + 
                         \b encodeURIComponent(action.payload.name) + '/' + 
                         \b encodeURIComponent(action.payload.branch)
-        log 'sagas.handleGithubCloneRequest.res', res
+        $$ loog 'sagas.handleGithubCloneRequest.res', res
         yield put(packiActions.githubCloneSuccess(res))
     #
     #

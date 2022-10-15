@@ -536,7 +536,7 @@ export async function getTFolder_withCache(owner: string, name: string) {
         );
 }
 
-export function invalidateCache(owner: string, name: string) {
+export function invalidateCache(owner: string, name?: string) {
 
     var cacheKey = owner + '|' + name;
     tFolderCache.del(cacheKey);

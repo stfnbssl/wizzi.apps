@@ -29,7 +29,7 @@ module
             => _renderRoute
                 param props
                     :any 
-                log 'Router._renderRoute.props', props
+                $$ loog 'Router._renderRoute.props', props
                 const 
                     { 
                         @ data

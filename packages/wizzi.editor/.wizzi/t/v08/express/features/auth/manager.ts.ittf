@@ -41,8 +41,8 @@ $group
                     :any
                 param done
                     :any
-                log '============================================================'
-                log 'features.auth.manager.serializeUser', 'authuser', authuser
+                $$ loog '============================================================'
+                $$ loog 'features.auth.manager.serializeUser', 'authuser', authuser
                 _ done(null, authuser)
         _ passport.deserializeUser
             function
@@ -50,8 +50,8 @@ $group
                     :string
                 param done
                     :any
-                log '============================================================'
-                log 'features.auth.manager.deserializeUser', 'id', id
+                $$ loog '============================================================'
+                $$ loog 'features.auth.manager.deserializeUser', 'id', id
                 $if wzCtx.Build.useMongoDb
                     return
                         _ done(null, id)
@@ -62,7 +62,7 @@ $group
                                 :any
                             param authuser
                                 :any
-                            log 'features.auth.manager.deserializeUser', 'err', err, 'authuser', authuser
+                            $$ loog 'features.auth.manager.deserializeUser', 'err', err, 'authuser', authuser
                             _ done(err, authuser || false)
                 $else
                     _ done(null, { id: id })
@@ -95,8 +95,8 @@ $group
             param callback
                 :any
                 :optional
-            log '============================================================'
-            log 'auth.manager.authenticate', 'strategyName', strategyName, 'options', options
+            $$ loog '============================================================'
+            $$ loog 'auth.manager.authenticate', 'strategyName', strategyName, 'options', options
             return passport.authenticate(strategyName, options, callback)
     $if wzCtx.Build.useMongoDb
         +

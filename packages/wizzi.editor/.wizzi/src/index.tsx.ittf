@@ -85,8 +85,8 @@ module
                         @ ...rest
                         @ packi data.packi
                         @ defaults data.defaults
-                log 'index.appProps.loggedUser', appProps.loggedUser
-                log 'index.appProps', appProps
+                $$ loog 'index.appProps.loggedUser', appProps.loggedUser
+                $$ loog 'index.appProps', appProps
                 return 
                     < App 
                         @ {...appProps}

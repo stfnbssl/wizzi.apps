@@ -1,1 +1,147 @@
 github token read-public-repo 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
+
+
+
+module
+    
+    $
+        var ctrl = {
+            name: 'ApiV1ArtifactProduction',
+            path: '/api/v1/production/artifact',
+            apiSecured: wzCtx.App.isLocal == false,
+        }
+    
+    v08/ts/controller( &ctrl )
+            
+        $append imports
+            import
+                @ getListArtifactProduction
+                @ validateArtifactProduction
+                @ getArtifactProduction
+                @ updateArtifactProduction
+                @ createArtifactProduction
+                @ invalidateCache
+                from '../api/artifact'
+            +
+            import
+                @ wizziTypes
+                @ wizziProds
+                @ WizziFactory
+                from '../../wizzi'
+            +
+            const myname = 'features/production/controllers/apiv1artifactproduction'
+
+        v08/ts/route_api_secured( get, /:owner, this.getArtifactProductionList)
+        v08/ts/route_api_secured( get, /checkname/:owner/:name, this.getCheckArtifactName)
+        v08/ts/route_api_secured( get, /:owner/:name, this.getArtifactProduction)
+        v08/ts/route_api_secured( put, /:id, this.putArtifactProduction)
+        v08/ts/route_api_secured( post, /:owner/:name, this.postArtifactProduction)
+        
+        $append handlers
+            
+            v08/ts/handler(  getArtifactProductionList )
+
+                $$ loog 'getArtifactProductionList.request.params', request.params
+                _ getListArtifactProduction
+                    {
+                        { query
+                            @ owner request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'getArtifactProductionList.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail(  getArtifactProductionList )
+
+            v08/ts/handler(  getCheckArtifactName )
+                check_name( artifact )
+
+            v08/ts/handler(  getArtifactProduction )
+
+                $$ loog 'getArtifactProduction.request.params', request.params
+                _ getArtifactProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'getArtifactProduction.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail(  getArtifactProduction )
+
+            v08/ts/handler(  postArtifactProduction )
+
+                $$ loog 'postArtifactProduction.request.params', request.params
+                $$ loog 'postArtifactProduction.request.body', request.body
+                _ createArtifactProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ request.body.mainIttf
+                    @ request.body.wizziSchema
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'postArtifactProduction.create.result', result
+                            _ invalidateCache
+                                @ request.params.owner
+                                @ request.params.name
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail(  postArtifactProduction )
+
+            v08/ts/handler(  putArtifactProduction )
+
+                log 'putArtifactProduction.request.params', request.params
+                log 'putArtifactProduction.request.body', Object.keys(request.body)
+                function execute
+                    param request
+                        :any 
+                    param packiFiles
+                        :any 
+                    log 'putArtifactProduction.packFiles', Object.keys(packiFiles)
+                    _ updateArtifactProduction
+                        @ request.params.id
+                        @ request.body.owner
+                        @ request.body.name
+                        @ request.body.description
+                        @ request.body.mainIttf
+                        @ request.body.wizziSchema
+                        @ JSON.stringify(packiFiles)
+                        ._ then
+                            =>
+                                param result
+                                    :any
+                                # loog 'putArtifactProduction.update.result', result
+                                _ invalidateCache
+                                    @ request.params.id
+                                _ sendSuccess
+                                    @ response
+                                    @ result
+                        v08/ts/catch_send_fail(  putArtifactProduction )
+                    
+                if request.body.wizzify
+                    _ wizziProds.wizzify
+                        @ request.body.packFiles
+                        ._ then
+                            => 
+                                param resultPackiFiles
+                                return
+                                    _ execute
+                                        @ request
+                                        @ resultPackiFiles
+                        v08/ts/catch_send_fail(  putArtifactProduction.wizzify )
+                else
+                    _ execute
+                        @ request
+                        @ request.body.packFiles
+                

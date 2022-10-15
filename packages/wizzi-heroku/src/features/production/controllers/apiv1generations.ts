@@ -5,7 +5,6 @@
 */
 import {Router, Request, Response} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {apiSecured} from '../../../middlewares/index';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
@@ -52,13 +51,13 @@ export class ApiV1GenerationsController implements ControllerType {
     
     initialize = (initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ApiV1GenerationsController.initialize');
-        this.router.post("/mtree/:id", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.mTree))
-        this.router.post("/mtreescript/:id", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.mTreeBuildupScript))
-        this.router.post("/artifact/:id", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.generateArtifact))
-        this.router.post("/transform/:id/:transformer", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.transformModel))
-        this.router.post("/job", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.executeJob))
-        this.router.post("/wizzify", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.wizzify))
-        this.router.post("/codeast", makeHandlerAwareOfAsyncErrors(apiSecured), makeHandlerAwareOfAsyncErrors(this.codeAST))
+        this.router.post("/mtree/:id", makeHandlerAwareOfAsyncErrors(this.mTree))
+        this.router.post("/mtreescript/:id", makeHandlerAwareOfAsyncErrors(this.mTreeBuildupScript))
+        this.router.post("/artifact/:id", makeHandlerAwareOfAsyncErrors(this.generateArtifact))
+        this.router.post("/transform/:id/:transformer", makeHandlerAwareOfAsyncErrors(this.transformModel))
+        this.router.post("/job", makeHandlerAwareOfAsyncErrors(this.executeJob))
+        this.router.post("/wizzify", makeHandlerAwareOfAsyncErrors(this.wizzify))
+        this.router.post("/codeast", makeHandlerAwareOfAsyncErrors(this.codeAST))
     };
     
     private mTree = 
