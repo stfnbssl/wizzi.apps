@@ -22,7 +22,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\assets\AstIcon.tsx.ittf
 */
 
@@ -83,7 +83,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\assets\BrowserIcon.tsx.ittf
 */
 
@@ -153,7 +153,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\assets\DebugIcon.tsx.ittf
 */
 
@@ -201,7 +201,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\assets\EditIcon.tsx.ittf
 */
 
@@ -255,7 +255,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\assets\WizziIcon.tsx.ittf
 */
 
@@ -329,7 +329,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\assets\WizzifiedIcon.tsx.ittf
 */
 
@@ -399,7 +399,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\CodeView\SyntaxHighlighter.tsx.ittf
 */
 
@@ -498,7 +498,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _widgets_ToggleSwitch__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../widgets/ToggleSwitch */ "./src/components/widgets/ToggleSwitch.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorFooter.tsx.ittf
 */
 
@@ -782,7 +782,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorPanels.tsx.ittf
 */
 
@@ -950,7 +950,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ModalProductionDetails__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ModalProductionDetails */ "./src/components/EditorView/ModalProductionDetails.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorToolbar.tsx.ittf
 */
 
@@ -975,6 +975,7 @@ function EditorToolbar(props) {
     saveStatus,
     isDownloading,
     isEditModalVisible,
+    isLocalFolder,
     onSubmitMetadata,
     onShowEditModal,
     onDismissEditModal,
@@ -986,7 +987,8 @@ function EditorToolbar(props) {
     isWizziJobWaiting,
     generatedPreviewURL,
     onExecuteWizziJob,
-    onExecuteWizziMetaFolder
+    onExecuteWizziMetaFolder,
+    onCloseLocalFolder
   } = props;
   const {
     theme
@@ -1065,6 +1067,19 @@ function EditorToolbar(props) {
     strokeWidth: "2",
     strokeLinecap: "round",
     strokeLinejoin: "round"
+  })))), isLocalFolder && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_IconButton__WEBPACK_IMPORTED_MODULE_6__.default, {
+    responsive: true,
+    title: "Download as zip",
+    onClick: onCloseLocalFolder
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("svg", {
+    width: "20",
+    height: "20"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("path", {
+    d: "M14.167 10H5.833L10 16.667 14.167 10z"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("path", {
+    d: "M2.5 18.333h15M10 10V1.667",
+    strokeWidth: "2",
+    strokeLinecap: "round"
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_UserMenu__WEBPACK_IMPORTED_MODULE_7__.default, {
     loggedUser: loggedUser
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_ModalProductionDetails__WEBPACK_IMPORTED_MODULE_8__.default, {
@@ -1186,7 +1201,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorView.tsx.ittf
 */
 
@@ -1375,11 +1390,13 @@ let EditorViewComp = /*#__PURE__*/function (_React$Component) {
         mainIttf,
         wizziSchema,
         packiProduction,
+        isLocalFolder,
         previewRef,
         previewURL,
         loggedUser,
         onExecuteWizziJob,
         onExecuteWizziMetaFolder,
+        onCloseLocalFolder,
         previewKind,
         generatedArtifact,
         mTreeBuildupScript,
@@ -1396,7 +1413,7 @@ let EditorViewComp = /*#__PURE__*/function (_React$Component) {
         onCodeASTPreview
       } = this.props;
       const annotations = this.props.annotations;
-      const testPreviewURL = "".concat("http://localhost:5000", "/~/").concat(encodeURIComponent(owner), "/").concat(encodeURIComponent(name));
+      const testPreviewURL = "".concat("https://www.wizzihub.com", "/~/").concat(encodeURIComponent(owner), "/").concat(encodeURIComponent(name));
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(_shell_ContentShell__WEBPACK_IMPORTED_MODULE_12__.ContentShell, null, this.state.loadedEditor ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(_widgets_ProgressIndicator__WEBPACK_IMPORTED_MODULE_20__.ProgressIndicator, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(_PageMetadata__WEBPACK_IMPORTED_MODULE_10__.default, {
         name: name,
         description: description,
@@ -1426,6 +1443,7 @@ let EditorViewComp = /*#__PURE__*/function (_React$Component) {
         saveStatus: saveStatus,
         loggedUser: loggedUser,
         isEditModalVisible: currentModal === 'edit-info',
+        isLocalFolder: isLocalFolder,
         isWizziJobWaiting: isWizziJobWaiting,
         onChangeSplitViewKind: this._handleChangeSplitViewKind,
         splitViewKind: this.state.splitViewKind,
@@ -1435,6 +1453,7 @@ let EditorViewComp = /*#__PURE__*/function (_React$Component) {
         onDismissEditModal: this._handleDismissEditModal,
         onExecuteWizziJob: onExecuteWizziJob,
         onExecuteWizziMetaFolder: onExecuteWizziMetaFolder,
+        onCloseLocalFolder: onCloseLocalFolder,
         onSubmitMetadata: this.props.onSubmitMetadata,
         onDownloadCode: this.props.onDownloadAsync,
         onPublishAsync: onPublishAsync
@@ -1778,7 +1797,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\GeneratedView.tsx.ittf
 */
 
@@ -2032,7 +2051,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\GenerationErrors.tsx.ittf
 */
 
@@ -2210,7 +2229,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\KeyboardShortcuts.tsx.ittf
 */
 
@@ -2340,7 +2359,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\ModalProductionDetails.tsx.ittf
 */
 
@@ -2541,7 +2560,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\NoFileSelected.tsx.ittf
 */
 
@@ -2608,7 +2627,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ThemeProvider */ "./src/components/ThemeProvider.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\ProblemsPanel.tsx.ittf
 */
 
@@ -2842,7 +2861,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\UserMenu.tsx.ittf
 */
 
@@ -2929,19 +2948,19 @@ let UserMenuComp = /*#__PURE__*/function (_React$Component) {
         visible: this.state.visible,
         actions: loggedUser ? [{
           label: 'Artifacts',
-          handler: () => window.open("".concat("http://localhost:5000", "/productions/artifacts"))
+          handler: () => window.open("".concat("https://www.wizzihub.com", "/productions/artifacts"))
         }, {
           label: 'Packages',
-          handler: () => window.open("".concat("http://localhost:5000", "/productions/packages"))
+          handler: () => window.open("".concat("https://www.wizzihub.com", "/productions/packages"))
         }, {
           label: 'Metas',
-          handler: () => window.open("".concat("http://localhost:5000", "/productions/metas"))
+          handler: () => window.open("".concat("https://www.wizzihub.com", "/productions/metas"))
         }, {
           label: 'tFolders',
-          handler: () => window.open("".concat("http://localhost:5000", "/productions/tfolders"))
+          handler: () => window.open("".concat("https://www.wizzihub.com", "/productions/tfolders"))
         }, {
           label: 'Settings',
-          handler: () => window.open("".concat("http://localhost:5000", "/settings"))
+          handler: () => window.open("".concat("https://www.wizzihub.com", "/settings"))
         }] : [{
           label: 'Log in to Wizzi',
           handler: () => window.location.href = '#'
@@ -3053,7 +3072,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileList.tsx.ittf
 */
 
@@ -3583,7 +3602,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListChildren.tsx.ittf
 */
 
@@ -3731,7 +3750,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListEntry.tsx.ittf
 */
 
@@ -4173,7 +4192,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListEntryBase.tsx.ittf
 */
 
@@ -4486,7 +4505,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListEntryDropTarget.tsx.ittf
 */
 
@@ -4659,7 +4678,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ThemeProvider */ "./src/components/ThemeProvider.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListEntryIcon.tsx.ittf
 */
 
@@ -4813,7 +4832,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListOpenEntry.tsx.ittf
 */
 
@@ -5005,7 +5024,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListPane.tsx.ittf
 */
 
@@ -5134,7 +5153,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListPaneButton.tsx.ittf
 */
 
@@ -5208,7 +5227,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _updateEntry__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./updateEntry */ "./src/components/FileList/actions/updateEntry.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\actions\closeEntry.tsx.ittf
 */
 
@@ -5255,7 +5274,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _updateEntry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./updateEntry */ "./src/components/FileList/actions/updateEntry.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\actions\createEntryAtPath.tsx.ittf
 */
 
@@ -5302,7 +5321,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _updateEntry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./updateEntry */ "./src/components/FileList/actions/updateEntry.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\actions\createNewEntry.tsx.ittf
 */
 
@@ -5366,7 +5385,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _updateEntry__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./updateEntry */ "./src/components/FileList/actions/updateEntry.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\actions\expandEntry.tsx.ittf
 */
 
@@ -5400,7 +5419,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _updateEntry__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./updateEntry */ "./src/components/FileList/actions/updateEntry.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\actions\openEntry.tsx.ittf
 */
 
@@ -5476,7 +5495,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _updateEntry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./updateEntry */ "./src/components/FileList/actions/updateEntry.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\actions\pasteEntry.tsx.ittf
 */
 
@@ -5515,7 +5534,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _features_file__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../features/file */ "./src/features/file/index.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\actions\recursivelyCreateParents.tsx.ittf
 */
 
@@ -5567,7 +5586,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _updateEntry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./updateEntry */ "./src/components/FileList/actions/updateEntry.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\actions\renameEntry.tsx.ittf
 */
 
@@ -5621,7 +5640,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _updateEntry__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./updateEntry */ "./src/components/FileList/actions/updateEntry.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\actions\selectEntry.tsx.ittf
 */
 
@@ -5654,7 +5673,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\actions\updateEntry.tsx.ittf
 */
 function updateEntry(entry, updates) {
@@ -5687,7 +5706,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\utils\convertFileStructure.tsx.ittf
 */
 
@@ -5859,7 +5878,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Packi\ModalGithubClone.tsx.ittf
 */
 
@@ -6046,7 +6065,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Packi\PackiPanel.tsx.ittf
 */
 
@@ -6134,7 +6153,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_helmet_async__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-helmet-async */ "./node_modules/react-helmet-async/lib/index.module.js");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\PageMetadata.tsx.ittf
 */
 
@@ -6142,7 +6161,7 @@ __webpack_require__.r(__webpack_exports__);
 function getPageMetadata(props) {
   const title = "".concat(props.name, " - Packi");
   const description = props.description;
-  const url = "".concat(({"NODE_ENV":"development","SERVER_URL":"http://localhost:5000","API_SERVER_URL":"http://localhost:5000","PACKI_SEGMENT_KEY":"","PACKI_AMPLITUDE_KEY":"","PACKI_WEBPLAYER_URL":"","DEPLOY_ENVIRONMENT":"staging","BUILD_TIMESTAMP":1665649427970}).PACKI_SERVER_URL).concat(props.id ? "/".concat(props.id) : '', "\n    ");
+  const url = "".concat(({"NODE_ENV":"development","SERVER_URL":"https://www.wizzihub.com","API_SERVER_URL":"https://www.wizzihub.com","PACKI_SEGMENT_KEY":"","PACKI_AMPLITUDE_KEY":"","PACKI_WEBPLAYER_URL":"","DEPLOY_ENVIRONMENT":"staging","BUILD_TIMESTAMP":1679395464761}).PACKI_SERVER_URL).concat(props.id ? "/".concat(props.id) : '', "\n    ");
   const image = 'https://s3.amazonaws.com/exp-brand-assets/PackiIcon_200.png';
   const meta = [{
     name: 'description',
@@ -6227,7 +6246,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\Avatar.tsx.ittf
 */
  // see https://mxstbr.blog/2016/11/styled-components-magic-explained/
@@ -6300,7 +6319,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\Banner.tsx.ittf
 */
 
@@ -6417,7 +6436,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\ContextMenu.tsx.ittf
 */
 
@@ -6564,7 +6583,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ThemeProvider */ "./src/components/ThemeProvider.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\FooterButton.tsx.ittf
 */
 
@@ -6645,7 +6664,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\IconButton.tsx.ittf
 */
 
@@ -6797,7 +6816,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\KeybindingsManager.tsx.ittf
 */
 
@@ -6940,7 +6959,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\LargeInput.tsx.ittf
 */
 
@@ -7077,7 +7096,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\LargeTextArea.tsx.ittf
 */
 
@@ -7127,7 +7146,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\LoadingText.tsx.ittf
 */
 
@@ -7197,7 +7216,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _FooterButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./FooterButton */ "./src/components/widgets/FooterButton.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\MenuButton.tsx.ittf
 */
 
@@ -7309,7 +7328,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\Modal.tsx.ittf
 */
 
@@ -7438,7 +7457,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\ModalDialog.tsx.ittf
 */
  // see https://mxstbr.blog/2016/11/styled-components-magic-explained/
@@ -7492,7 +7511,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\ModalSheet.tsx.ittf
 */
  // see https://mxstbr.blog/2016/11/styled-components-magic-explained/
@@ -7557,7 +7576,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\ResizablePane.tsx.ittf
 */
 
@@ -7746,7 +7765,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _KeybindingsManager__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./KeybindingsManager */ "./src/components/widgets/KeybindingsManager.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\ShortcutLabel.tsx.ittf
 */
 
@@ -7848,7 +7867,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\Toast.tsx.ittf
 */
 
@@ -8053,7 +8072,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ThemeProvider */ "./src/components/ThemeProvider.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\ToggleSwitch.tsx.ittf
 */
 
@@ -8143,7 +8162,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ThemeProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ThemeProvider */ "./src/components/ThemeProvider.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\WebFrame.tsx.ittf
 */
 
@@ -8736,7 +8755,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\form\EditorForm.tsx.ittf
 */
 
@@ -9045,7 +9064,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\form\Form.tsx.ittf
 */
 
@@ -9156,7 +9175,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _withStatus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./withStatus */ "./src/features/form/withStatus.tsx");
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\form\index.tsx.ittf
 */
 
@@ -9184,7 +9203,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\form\withStatus.tsx.ittf
 */
 
@@ -9249,7 +9268,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\form\withValidation.tsx.ittf
 */
 

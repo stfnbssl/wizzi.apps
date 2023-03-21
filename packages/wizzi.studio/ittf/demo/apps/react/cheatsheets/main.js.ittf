@@ -1,0 +1,9 @@
+﻿module
+    kind react
+
+    $include js/wz/core
+    $include js/wz/lodash
+    $include js/wz/localstorage
+    $include js/wz/iframe
+    $include js/wz/standalone
+    $include js/wz/packi

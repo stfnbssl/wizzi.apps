@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi\src\site\controllers\productions.ts.ittf
 */
 import {Router, Request, Response} from 'express';
@@ -57,7 +57,7 @@ export class ProductionsController implements ControllerType {
     
     private artifacts = async (request: Request, response: Response) => 
     
-        artifactApi.getListArtifactProduction().then(result => 
+        artifactApi.getArtifactProductionList().then(result => 
         
             response.render('wizzi/productions/artifacts.html.ittf', {
                 title: 'Artifact productions · Wizzi', 
@@ -93,7 +93,7 @@ export class ProductionsController implements ControllerType {
     
     private packages = async (request: Request, response: Response) => 
     
-        packageApi.getListPackageProduction().then(result => 
+        packageApi.getPackageProductionList().then(result => 
         
             response.render('wizzi/productions/packages.html.ittf', {
                 title: 'Package productions · Wizzi', 
@@ -129,7 +129,7 @@ export class ProductionsController implements ControllerType {
     
     private plugins = async (request: Request, response: Response) => 
     
-        pluginApi.getListPluginProduction().then(result => 
+        pluginApi.getPluginProductionList().then(result => 
         
             response.render('wizzi/productions/plugins.html.ittf', {
                 title: 'Plugin productions · Wizzi', 
@@ -165,7 +165,7 @@ export class ProductionsController implements ControllerType {
     
     private metas = async (request: Request, response: Response) => 
     
-        metaApi.getListMetaProduction().then(result => 
+        metaApi.getMetaProductionList().then(result => 
         
             response.render('wizzi/productions/metas.html.ittf', {
                 title: 'Meta productions · Wizzi', 
@@ -201,7 +201,7 @@ export class ProductionsController implements ControllerType {
     
     private tfolders = async (request: Request, response: Response) => 
     
-        tFolderApi.getListTFolder().then(result => 
+        tFolderApi.getTFolderList().then(result => 
         
             response.render('wizzi/productions/tfolders.html.ittf', {
                 title: 'tFolder · Wizzi', 

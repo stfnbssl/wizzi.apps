@@ -1,0 +1,41 @@
+$group
+	$params &opt
+
+    head 
+		@title ${opt.title}
+        meta 
+            charset utf-8
+        meta 
+            name viewport
+			content width=device-width, initial-scale=1
+		$*
+        link
+			rel stylesheet
+			href https://fonts.googleapis.com/css?family=Roboto
+        *$
+        link 
+            @ rel "stylesheet"
+            @ href "https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
+
+		$hook head-styles-0
+		
+		$include html/layouts/basic_styles
+		
+		$hook head-styles
+
+    body
+        script
+            module
+                kind es6
+                var __filename = "browser"
+		$hook
+	
+		$include html/scripts/meta
+
+		$hook body-scripts-0
+		
+		$include html/layouts/basic_scripts
+		
+		$hook body-scripts
+
+ 

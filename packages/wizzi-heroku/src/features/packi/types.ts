@@ -1,46 +1,15 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\packi\types.ts.ittf
 */
-import {Document} from "mongoose";
-export type TemplateList = string[];
-export type IUser = { 
-    userId: string;
-    email: string;
-    createdAt: Date;
-    lastAccess: Date;
-};
-export interface IUserModel extends IUser, Document {
-}
-export type IPacki = { 
-    userId: string;
-    repoOwner: string;
-    repoName: string;
-    clonedAt: Date;
-    lastCommitWhenCloned: string;
-};
-export interface IPackiModel extends IPacki, Document {
-}
-export type PackiCodeFile = { 
+
+export type PackiFile = { 
     type: 'CODE';
     contents: string;
     generated?: boolean;
     error?: Error;
 };
-    //
-    
-
-export type PackiAssetFile = { 
-    type: 'ASSET';
-    contents: string;
-    generated?: boolean;
-    error?: Error;
-};
-    //
-    
-
-export type PackiFile = PackiCodeFile | PackiAssetFile;
     //
     
 

@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi\src\features\blog\controllers\apiv1post.ts.ittf
 */
 import {Router, Request, Response} from 'express';
@@ -8,7 +8,7 @@ import {ControllerType, AppInitializerType} from '../../../features/app/types';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
-import {validatePost, getListPost, getPost, createPost, updatePost, deletePost} from '../api/post';
+import {validatePost, getPostList, getPost, createPost, updatePost, deletePost} from '../api/post';
 
 const myname = 'features/blog/controllers/apiv1post';
 
@@ -57,7 +57,7 @@ export class ApiV1PostController implements ControllerType {
     
     private getPostList = async (request: Request, response: Response) => 
     
-        getListPost({
+        getPostList({
             query: {
                 owner: request.params.owner
              }

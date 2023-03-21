@@ -5,20 +5,15 @@ module
             name: 'ApiV1PackageProduction',
             path: '/api/v1/production/package',
             apiSecured: wzCtx.App.isLocal == false,
+            Production: 'Package',
+            production: 'package',
         }
     
     v08/ts/controller( &ctrl )
             
         $append imports
+            apiv1_imports( &ctrl )
             import
-                @ packiTypes
-                from '../../packi'
-            import
-                @ getListPackageProduction
-                @ validatePackageProduction
-                @ getPackageProduction
-                @ updatePackageProduction
-                @ createPackageProduction
                 @ getWizziMetaFolderById
                 from '../api/package'
             +
@@ -26,17 +21,18 @@ module
 
         v08/ts/route_api_secured( get, /checkname/:owner/:name, this.getCheckPackageName)
         v08/ts/route_api_secured( get, /meta/:id, this.getWizziMetaFolder)
-        v08/ts/route_api_secured( get, /:owner, this.getPackageProductionList)
+        v08/ts/route_api_secured( get, /:owner, this.getPackageProductions)
         v08/ts/route_api_secured( get, /:owner/:name, this.getPackageProduction)
         v08/ts/route_api_secured( put, /:id, this.putPackageProduction)
+        v08/ts/route_api_secured( put, /packidiffs/:id, this.putPackageProductionPackiDiffs)
         v08/ts/route_api_secured( post, /:owner/:name, this.postPackageProduction)
         
         $append handlers
 
-            v08/ts/handler( getPackageProductionList )
+            v08/ts/handler( getPackageProductions )
 
-                $$ loog 'getPackageProductionList.request.params', request.params
-                _ getListPackageProduction
+                $$ loog 'getPackageProductions.request.params', request.params
+                _ getPackageProductionList
                     {
                         { query
                             @ owner request.params.owner
@@ -44,11 +40,11 @@ module
                         =>
                             param result
                                 :any
-                            $$ loog 'getPackageProductionList.result', result
+                            $$ loog 'getPackageProductions.result', result
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail(  getPackageProductionList )
+                    v08/ts/catch_send_fail(  getPackageProductions )
             
             v08/ts/handler(  getCheckPackageName )
                 check_name( package )
@@ -108,6 +104,8 @@ module
                                 @ result
                     v08/ts/catch_send_fail(  putPackageProduction )
 
+            apiv1_put( &ctrl )
+
             v08/ts/handler(  getWizziMetaFolder  )    
                 # loog 'getWizziMetaFolder.request.params', request.params
                 _ getWizziMetaFolderById
@@ -120,5 +118,7 @@ module
                             _ sendSuccess
                                 @ response
                                 @ packiFiles
-                    v08/ts/catch_send_fail( getWizziMetaFolder )                    
+                    v08/ts/catch_send_fail( getWizziMetaFolder )      
+
+    apiv1_exec_update( &ctrl )                                  
 

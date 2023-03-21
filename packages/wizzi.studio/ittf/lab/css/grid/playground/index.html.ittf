@@ -1,0 +1,71 @@
+﻿html
+
+    $
+        var opt = {
+            title: 'Css grid explorer',
+            Build: {
+                useJQuery: true,
+                mainJs: './main.js.ittf',
+                mainCss: './main.css.ittf',
+            }
+        }
+
+    html/layouts/basic_opt(&opt)
+
+        layouts/lab(&opt)
+
+            section 
+                class flex
+                aside 
+                    id sidebar
+                    class sidebar flex
+                    hgroup 
+                        class hgroup flex
+                        a css grid playground
+                            href https://stfnbssl.github.io/wizzi/cssexplorer
+                        span &lsaquo;
+                            class toggle-controls
+                            id toggle-controls
+                    menu 
+                        class controls flex
+
+                        $include ./gridBox
+
+                    
+                figure 
+                    id demo
+                    class grid-container demo
+                        
+                    $ var items = 'Lorem ipsum;dolor;sit;amet;consectetur;adipiscing elit;nunc:enim;nunc;volutpat eget;aliquam;nec;accumsan rutrum;bacon;maecenas;nunc;voldermere;it;las;quid;tostidos;gray';
+
+                        
+                    $foreach item in items.split(';')
+                        . grid-item
+                            span ${item}
+                                contenteditable true
+                        
+            section 
+                class results flex
+                @style 
+                    data-noprefix 
+                    class demo-styles
+                    id demo_styles
+                    contenteditable true
+                    $. 
+                        .grid-container {
+                            display: grid;
+                            grid-template-columns: 100px 100px;
+                            grid-gap: 20px;
+                        }
+                        .grid-item {
+                        }
+                . resources
+                    h2 New features support
+                    h3 
+                        a CSS Grid
+                            href https://caniuse.com/#search=css%20grid
+                    h2 Tutorials
+                    h3
+                        a MDN
+                            href https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout
+                

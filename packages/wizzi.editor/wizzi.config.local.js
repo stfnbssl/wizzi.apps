@@ -21,6 +21,7 @@ module.exports = {
     ], 
     globalContext: {
         wzConfigIsDevelopment: true,
-        wzConfigIsLocal: true
+        wzConfigIsLocal: true,
+        wzConfigIsStudio: false
     }
 };

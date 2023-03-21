@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\types.tsx.ittf
 */
 import {ThemeName} from '../preferences/index';
@@ -120,19 +120,6 @@ export type SaveStatus = 'unsaved' | 'edited' | 'saving-draft' | 'saved-draft' |
 
 export type PackiListenerSubscription = () => any;
 
-export type SavedPacki = { 
-    _id: string;
-    created: string;
-    owner: string;
-    name: string;
-    description: string;
-    packiProduction: PackiProduction;
-    files: PackiFiles;
-    mainIttf?: string;
-    wizziSchema?: string;
-    isDraft?: boolean;
-};
-
 export type PackiDefaults = { 
     name: string;
 };
@@ -155,6 +142,9 @@ export type PackiOptions = {
     verbose?: boolean;
     user?: PackiUser;
     packiProduction?: PackiProduction;
+    isLocalFolder?: boolean;
+    localFolderPath?: string;
+    localFolderUri?: string;
 };
 
 export type PackiSaveOptions = { 
@@ -187,7 +177,7 @@ export type QueryParams = QueryInitParams & QueryStateParams;
 
 export type RouterData = { 
     type: "success";
-    packi?: SavedPacki;
+    packi?: PackiOptions;
     defaults: PackiDefaults;
 } | { 
     type: "error";

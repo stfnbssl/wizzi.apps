@@ -1,0 +1,36 @@
+$group
+    useExpress true
+    { express
+        useSslCert false
+        useErrors false
+        useStaticFiles true
+        { staticFiles
+            basePath "__dirname, '..', '..'"
+            publicPath "static"
+        useSessionStore false
+        useExpressValidator true
+    useSession true
+    { session
+        name "wizzi.studio"
+        secret "${stfnbssl_env.sessionSecret}"
+    noCache true
+    useSocketIO false
+    { socketIO
+    useCookie true
+    { cookie
+    useLogger false
+    { logger
+        useMorgan false
+        { morgan
+    useCompression false
+    { compression
+        level 6
+    useHelmet false
+    { helmet
+    usePromiseMiddleware true
+    { promiseMiddleware
+    useCors true
+    { cors
+        [ clientOrigins
+            "http://localhost:5100"
+            "http://localhost:5173"

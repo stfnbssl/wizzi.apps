@@ -3,13 +3,13 @@
     version "0.0.1"
     description "wizzi.editor"
     { author
-        name ""
+        name "Stefano Bassoli"
         email ""
     $
         var md = {
             useSsl: false,
             host: 'localhost',
-            port: 5000,
+            port: wzConfigIsStudio ? 5100 : 5000,
             apiVersion: 'v1'
         };
         md.http = md.useSsl ? 'https' : 'http';

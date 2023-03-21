@@ -1,0 +1,11 @@
+md
+    p names of artifact productions sent to server are:
+    ul 
+        li /demo/apps/react/csseditor/{sampleName}.html.ittf
+        li /demo/apps/react/csseditor/{sampleName}.css.ittf
+    p the user enters the body of the html file as ITTF Document
+    p the user enters the css rules
+    ul
+        li section-1: as ITTF Document
+        li section-2: using the rule designer
+        li section-3: as ITTF Document

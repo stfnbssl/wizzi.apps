@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\wizzi\actions.tsx.ittf
 */
 import {deprecated} from "typesafe-actions";
@@ -26,6 +26,9 @@ const EXECUTE_JOB_ERROR = '@@wizzi/EXECUTE_JOB_ERROR';
 const EXECUTE_WIZZI_META_FOLDER_REQUEST = '@@wizzi/EXECUTE_WIZZI_META_FOLDER_REQUEST';
 const EXECUTE_WIZZI_META_FOLDER_SUCCESS = '@@wizzi/EXECUTE_WIZZI_META_FOLDER_SUCCESS';
 const EXECUTE_WIZZI_META_FOLDER_ERROR = '@@wizzi/EXECUTE_WIZZI_META_FOLDER_ERROR';
+const EXECUTE_SAVE_LOCALFOLDER_REQUEST = '@@wizzi/EXECUTE_SAVE_LOCALFOLDER_REQUEST';
+const EXECUTE_SAVE_LOCALFOLDER_SUCCESS = '@@wizzi/EXECUTE_SAVE_LOCALFOLDER_SUCCESS';
+const EXECUTE_SAVE_LOCALFOLDER_ERROR = '@@wizzi/EXECUTE_SAVE_LOCALFOLDER_ERROR';
 const WIZZIFY_REQUEST = '@@wizzi/WIZZIFY_REQUEST';
 const WIZZIFY_SUCCESS = '@@wizzi/WIZZIFY_SUCCESS';
 const WIZZIFY_ERROR = '@@wizzi/WIZZIFY_ERROR';
@@ -66,6 +69,11 @@ export interface JobResponsePayload extends ResponsePayload {
 export interface WizziMetaFolderRequestPayload {
     productionKind: string;
     productionId: string;
+}
+
+export interface WizziSaveLocalFolderRequestPayload {
+    folderPath: string;
+    files: PackiFiles;
 }
 
 export interface WizziMetaFolderResponsePayload extends ResponsePayload {
@@ -112,6 +120,7 @@ export const executeJobSuccess = createStandardAction(EXECUTE_JOB_SUCCESS)<JobRe
 export const executeJobError = createStandardAction(EXECUTE_JOB_ERROR)<string>();
 
 export const executeWizziMetaFolderRequest = createStandardAction(EXECUTE_WIZZI_META_FOLDER_REQUEST)<WizziMetaFolderRequestPayload>();
+export const executeSaveLocalFolder = createStandardAction(EXECUTE_SAVE_LOCALFOLDER_REQUEST)<WizziSaveLocalFolderRequestPayload>();
 export const executeWizziMetaFolderSuccess = createStandardAction(EXECUTE_WIZZI_META_FOLDER_SUCCESS)<WizziMetaFolderResponsePayload>();
 export const executeWizziMetaFolderError = createStandardAction(EXECUTE_WIZZI_META_FOLDER_ERROR)<string>();
 

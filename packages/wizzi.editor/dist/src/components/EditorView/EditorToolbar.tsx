@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorToolbar.tsx.ittf
 */
 import {StyleSheet, css} from 'aphrodite';
@@ -28,6 +28,7 @@ export type EditorToolbarProps = {
     saveStatus: SaveStatus;
     isDownloading: boolean;
     isEditModalVisible: boolean;
+    isLocalFolder: boolean;
     generatedPreviewURL: string;
     onSubmitMetadata: (details: { 
         name: string;
@@ -43,6 +44,7 @@ export type EditorToolbarProps = {
     onChangeSplitViewKind: (e: any) => void;
     onExecuteWizziJob: () => void;
     onExecuteWizziMetaFolder: () => void;
+    onCloseLocalFolder: () => void;
 };
 export function EditorToolbar(props: EditorToolbarProps) {
 
@@ -58,6 +60,7 @@ export function EditorToolbar(props: EditorToolbarProps) {
         saveStatus, 
         isDownloading, 
         isEditModalVisible, 
+        isLocalFolder, 
         onSubmitMetadata, 
         onShowEditModal, 
         onDismissEditModal, 
@@ -69,7 +72,8 @@ export function EditorToolbar(props: EditorToolbarProps) {
         isWizziJobWaiting, 
         generatedPreviewURL, 
         onExecuteWizziJob, 
-        onExecuteWizziMetaFolder
+        onExecuteWizziMetaFolder, 
+        onCloseLocalFolder
      } = props;
     const {
         theme
@@ -169,6 +173,25 @@ export function EditorToolbar(props: EditorToolbarProps) {
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                      />
+                                </svg>
+                            </IconButton>
+                        </React.Fragment>
+                        )
+                    
+                }
+                {
+                    isLocalFolder
+                     &&  (
+                        <React.Fragment
+                        >
+                            <IconButton
+                             responsive title="Download as zip" onClick={onCloseLocalFolder}>
+                                <svg
+                                 width="20" height="20">
+                                    <path
+                                     d="M14.167 10H5.833L10 16.667 14.167 10z" />
+                                    <path
+                                     d="M2.5 18.333h15M10 10V1.667" strokeWidth="2" strokeLinecap="round" />
                                 </svg>
                             </IconButton>
                         </React.Fragment>

@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\production\api\tfolder.ts.ittf
 */
 import NodeCache from 'node-cache';
@@ -47,11 +47,11 @@ export async function validateTFolder(owner: string, name: string):  Promise<Val
 export /**
     // console.log
         // myname
-        // 'getListTFolder'
+        // 'getTFolderList'
         // 'options'
         // options
 */
-async function getListTFolder(options?: any):  Promise<CRUDResult> {
+async function getTFolderList(options?: any):  Promise<CRUDResult> {
 
     options = options || {};
     
@@ -71,7 +71,7 @@ async function getListTFolder(options?: any):  Promise<CRUDResult> {
             query.find((err: any, result: any) => {
             
                 if (err) {
-                    console.log("[31m%s[0m", myname, 'getListTFolder', 'TFolder.find', 'error', err);
+                    console.log("[31m%s[0m", myname, 'getTFolderList', 'TFolder.find', 'error', err);
                     return reject(err);
                 }
                 const resultItem = [];
@@ -89,7 +89,7 @@ async function getListTFolder(options?: any):  Promise<CRUDResult> {
                     resultItem.push(item_obj)
                 }
                 resolve({
-                    oper: 'getList', 
+                    oper: 'getTFolderList', 
                     ok: true, 
                     item: resultItem
                  })
@@ -175,7 +175,7 @@ async function getTFolderById(id: string):  Promise<CRUDResult> {
                          });
                 }
                 resolve({
-                    oper: 'get', 
+                    oper: 'getTFolder', 
                     ok: false, 
                     message: 'tFolder not found'
                  })
@@ -339,7 +339,7 @@ async function createTFolder(owner?: string, name?: string, description?: string
                         return reject(err);
                     }
                     return resolve({
-                            oper: 'create', 
+                            oper: 'createTFolder', 
                             ok: true, 
                             item: doc._doc, 
                             message: 'tFolder created'
@@ -360,7 +360,7 @@ export /**
         // description
         // packiFiles
 */
-async function updateTFolder(id: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
+async function updateTFolder(id?: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
 
     
     
@@ -369,9 +369,18 @@ async function updateTFolder(id: string, owner?: string, name?: string, descript
     return new Promise((resolve, reject) => {
         
             
-            const query = {
-                _id: id
-             };
+            var query;
+            if (id && id.length > 0) {
+                query = {
+                    _id: id
+                 };
+            }
+            else {
+                query = {
+                    owner: owner, 
+                    name: name
+                 };
+            }
             const update: any = {};
             if (typeof owner !== 'undefined') {
                 update['owner'] = owner;
@@ -393,9 +402,17 @@ async function updateTFolder(id: string, owner?: string, name?: string, descript
                     console.log("[31m%s[0m", myname, 'updateTFolder', 'TFolder.findOneAndUpdate', 'error', err);
                     return reject(err);
                 }
+                if (!result) {
+                    console.log("[31m%s[0m", myname, 'updateTFolder', 'TFolder.findOneAndUpdate', 'error', 'document not found');
+                    return reject({
+                            oper: 'updateTFolder', 
+                            ok: false, 
+                            message: 'tFolder document not found: ' + id
+                         });
+                }
                 
                 return resolve({
-                        oper: 'update', 
+                        oper: 'updateTFolder', 
                         ok: true, 
                         message: 'tFolder updated'
                      });
@@ -421,9 +438,18 @@ async function deleteTFolder(id: string, owner?: string, name?: string, descript
     return new Promise((resolve, reject) => {
         
             
-            let query = {
-                _id: id
-             };
+            var query;
+            if (id && id.length > 0) {
+                query = {
+                    _id: id
+                 };
+            }
+            else {
+                query = {
+                    owner: owner, 
+                    name: name
+                 };
+            }
             
             TFolder.deleteOne(query, (err: any) => {
             
@@ -432,7 +458,7 @@ async function deleteTFolder(id: string, owner?: string, name?: string, descript
                     return reject(err);
                 }
                 resolve({
-                    oper: 'delete', 
+                    oper: 'deleteTFolder', 
                     ok: true, 
                     message: 'tFolder'
                  })

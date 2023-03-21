@@ -1,6 +1,6 @@
 $group
 
-    function getPackiFiles
+    function getPackiConfigFile
         return
             {
                 { ['.packi/config.json.ittf']

@@ -3,13 +3,13 @@
     "version": "0.0.1",
     "description": "wizzi.editor",
     "author": {
-        "name": "",
+        "name": "Stefano Bassoli",
         "email": ""
     },
     "App": {
         "siteUrl": "http://localhost",
-        "baseUrl": "http://localhost:5000",
-        "port": 5000,
+        "baseUrl": "http://localhost:5100",
+        "port": 5100,
         "constants": {
             "edit": {
                 "uploadAfterChangeDelay": 3000
@@ -105,7 +105,7 @@
             "useStatsWriter": false,
             "useIgnore": true,
             "useCodeSplitting": true,
-            "outputPath": "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi-heroku/public/packi",
+            "outputPath": "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/public/packi",
             "publicPath": "/public/packi/",
             "useEnv": true,
             "env": {

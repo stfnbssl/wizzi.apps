@@ -1,0 +1,51 @@
+﻿$group
+
+	. nav-top
+		display flex
+		justify-content space-around
+		align-items center
+		background-color ${wzCtx.navTop.backgroundColor}
+		
+		$if wzCtx.navTop.fixed
+			position fixed
+			height ${wzCtx.navTop.height}px
+		
+		$if wzCtx.navLeft.fullHeight
+			$if wzCtx.navLeft.drawer
+				left ${wzCtx.navLeft.drawerClosedWidth}px
+				width calc(100% - ${wzCtx.navLeft.drawerClosedWidth}px)
+			$else
+				left ${wzCtx.navLeft.width}px
+				width calc(100% - ${wzCtx.navLeft.width}px)
+		$else
+			width 100%
+		z-index 1000
+
+	$if wzCtx.navSubTop
+		. nav-sub-top
+			display flex
+			justify-content space-around
+			align-items center
+			background-color ${wzCtx.navSubTop.backgroundColor}
+		
+			$if wzCtx.navSubTop.fixed
+				position fixed
+				top ${wzCtx.navTop.height}px
+				height ${wzCtx.navSubTop.height}px
+		
+			$if wzCtx.navLeft.fullHeight
+				$if wzCtx.navLeft.drawer
+					left ${wzCtx.navLeft.drawerClosedWidth}px
+					width calc(100% - ${wzCtx.navLeft.drawerClosedWidth}px)
+				$else
+					left ${wzCtx.navLeft.width}px
+					width calc(100% - ${wzCtx.navLeft.width}px)
+			$else
+				width 100%
+			z-index 1000
+
+	. nav-top-logo
+		display flex
+		flex 0 0 auto
+		height 36px
+		margin 6px 0

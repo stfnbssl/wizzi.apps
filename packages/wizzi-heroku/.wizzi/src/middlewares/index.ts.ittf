@@ -32,6 +32,8 @@ module
         import { StaticFilesMiddleware } from './static'
     $if wzCtx.Build.useWizziViewEngine
         import { WizziViewEngineMiddleware } from './wizziViewEngine'
+    $if wzCtx.Build.useWizziCdn
+        import { WizziCdnMiddleware } from './wizziCdn'
     $if wzCtx.Build.useWebpackApp
         import { WebpackAppMiddleware } from './webpackApp'
     $if wzCtx.Build.express.useErrors
@@ -71,6 +73,8 @@ module
                     @ StaticFilesMiddleware
                 $if wzCtx.Build.useWizziViewEngine
                     @ WizziViewEngineMiddleware
+                $if wzCtx.Build.useWizziCdn
+                    @ WizziCdnMiddleware
                 $if wzCtx.Build.useWebpackApp
                     @ WebpackAppMiddleware
     const appMiddlewaresPost

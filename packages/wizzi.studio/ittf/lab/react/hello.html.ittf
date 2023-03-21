@@ -1,0 +1,38 @@
+html
+
+    $
+        var opt = {
+            title: 'React / Property editor',
+            Build: {
+                useReact: true,
+                react: {
+                },
+                useTailwind: true,
+            }
+        }
+
+    html/layouts/basic_opt(&opt)
+
+        layouts/lab(&opt)
+
+            # root
+
+            script
+                type text/babel
+                module
+                    kind react
+
+                    function Hello
+                        param props
+
+                        return
+                            div
+                                h1 
+                                    + Hello world {props.name}
+
+                    _ ReactDOM.render
+                        < Hello
+                            @ name 'Stefi'
+                        _ document.getElementById
+                            @ 'root'
+

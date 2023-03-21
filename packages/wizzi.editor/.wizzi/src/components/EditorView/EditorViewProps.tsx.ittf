@@ -51,7 +51,11 @@ module
                 :p wizziSchema
                     :string
                 :p packiProduction
-                    :ref PackiProduction                    
+                    :ref PackiProduction     
+                :p isLocalFolder
+                    :boolean
+                :p localFolderPath
+                    :string               
                 :p readOnly
                     :boolean 
                 :p generated
@@ -166,6 +170,9 @@ module
                         :=> 
                             :void 
                     :p onExecuteWizziMetaFolder
+                        :=> 
+                            :void 
+                    :p onCloseLocalFolder
                         :=> 
                             :void 
                     :p onGenerateArtifactPreview

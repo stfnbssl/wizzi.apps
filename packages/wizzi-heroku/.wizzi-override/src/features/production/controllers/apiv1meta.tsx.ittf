@@ -5,48 +5,39 @@ module
             name: 'ApiV1MetaProduction',
             path: '/api/v1/production/meta',
             apiSecured: wzCtx.App.isLocal == false,
+            Production: 'Meta',
+            production: 'meta',
         }
     
     v08/ts/controller( &ctrl )
             
         $append imports
+            apiv1_imports( &ctrl )
             import
-                @ validateMetaProduction
-                @ getListMetaProduction
-                @ getMetaProduction
-                @ getMetaProductionObjectById
-                @ updateMetaProduction
-                @ createMetaProduction
                 @ generateMetaProduction
                 from '../api/meta'
-            +
-            import
-                @ wizziTypes
-                @ wizziProds
-                @ WizziFactory
-                from '../../wizzi'
             import
                 @ artifactApi
                 @ productionApi
                 from '../../production'
-
             const myname = 'features/production/controllers/apiv1metaproduction'
 
-        v08/ts/route_api_secured( get, /:owner, this.getMetaProductionList)
+        v08/ts/route_api_secured( get, /:owner, this.getMetaProductions)
         v08/ts/route_api_secured( get, /props/:id, this.getMetaProperties)
         v08/ts/route_api_secured( get, /checkname/:owner/:name, this.getCheckMetaName)
         v08/ts/route_api_secured( get, /:owner/:name, this.getMetaProduction)
         v08/ts/route_api_secured( put, /:id, this.putMetaProduction)
+        v08/ts/route_api_secured( put, /packidiffs/:id, this.putMetaProductionPackiDiffs)
         v08/ts/route_api_secured( post, '/:owner/:name, this.postMetaProduction)
         v08/ts/route_api_secured( post, '/generate/:owner/:name, this.generateMetaProductionByName)
         
         $append handlers
             
-            v08/ts/handler(  getMetaProductionList )
+            v08/ts/handler(  getMetaProductions )
 
                 $$ loog 'getMetaProductionList.request.params', request.params
                 $$ loog 'getMetaProductionList.request.session.user.username', (request.session as any).user.username
-                _ getListMetaProduction
+                _ getMetaProductionList
                     {
                         { query
                             @ owner request.params.owner
@@ -54,13 +45,13 @@ module
                         =>
                             param result
                                 :any
-                            $$ loog 'getMetaProductionList.result', result
+                            $$ loog 'getMetaProductions.result', result
                             if result.ok
                                 _ sendSuccess
                                     @ response
                                     @ result
-                            v08/ts/else_send_fail( getMetaProductionList, result)
-                    v08/ts/catch_send_fail(  getMetaProductionList )
+                            v08/ts/else_send_fail( getMetaProductions, result)
+                    v08/ts/catch_send_fail(  getMetaProductions )
 
             v08/ts/handler(  getMetaProperties )
 
@@ -148,6 +139,8 @@ module
                                 @ result
                     v08/ts/catch_send_fail(  putMetaProduction )                    
 
+            apiv1_put( &ctrl )
+
             v08/ts/handler(  generateMetaProductionByName )
 
                 $$ loog 'generateMetaProduction.request.params', request.params
@@ -164,4 +157,6 @@ module
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail(  generateMetaProductionByName )                                        
+                    v08/ts/catch_send_fail(  generateMetaProductionByName )         
+
+    apiv1_exec_update( &ctrl )                                                   

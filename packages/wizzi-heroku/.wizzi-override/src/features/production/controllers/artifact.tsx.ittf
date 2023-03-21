@@ -17,6 +17,9 @@ module
                 @ CRUDResult
                 from '../../types'
             import
+                @ getTemplatePackiFiles
+                from '../api/meta'
+            import
                 @ createArtifactProduction
                 @ updateArtifactProduction
                 @ deleteArtifactProduction
@@ -24,8 +27,12 @@ module
                 @ getArtifactProductionObjectById
                 from '../api/artifact'
             import
-                @ createInitialPackiFiles
+                @ mergePackiFiles
+                $$ @ createInitialPackiFiles
                 from '../utils'
+            import
+                @ packiTypes
+                from '../../packi'
             +
             const myname = 'features/production/controllers/artifact'
             +
@@ -49,6 +56,8 @@ module
                 _ res.set('Content-Type', 'text/html')
                 _ res.set('Content-Length', index.length.toString())
                 _ res.send(index)
+
+            $include defaults/artifact_packifiles
 
         v08/ts/route_web_secured( get, /new, this.getNewArtifactForm)
         v08/ts/route_web_secured( post, /new, this.postArtifact)
@@ -81,42 +90,60 @@ module
                 const mainIttf = request.body.ap_main_ittf || 'index.' + wizziSchema + '.ittf'
                 const contexts = request.body.ap_contexts || '[]'
                 const tfolders = request.body.ap_tfolders || '[]'
-                _ createArtifactProduction
-                    @ (request.session as any).user.username
-                    @ request.body.ap_name
-                    @ request.body.ap_description
-                    @ mainIttf
-                    @ wizziSchema
-                    _ JSON.stringify
-                        _ createInitialPackiFiles
-                            @ contexts
-                            @ tfolders
-                            @ wizziSchema
-                            @ mainIttf
+
+                _ getTemplatePackiFiles
+                    @ request.body.meta_id
+                    @ request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}
+                    @ request.query.context as string
+                    @ request.body.context ? JSON.parse(request.body.context) : {}
+                    {
+                        @ wizziSchema wizziSchema
+                        @ mainIttf mainIttf
                     ._ then
                         =>
-                            param result
-                                :ref CRUDResult
-                            $$ loog og myname + '.postNewArtifact.createArtifactProduction.result', JSON.stringify(result, null, 2)
-                            if result.ok
-                                # _ response.redirect('/productions/artifacts')
-                                _ response.redirect
-                                    @ '/~~/a/' + (request.session as any).user.username + '/' + request.body.ap_name
-                            else
-                                _ response.render
-                                    @ 'error.html.ittf'
-                                    {
-                                        @ message 'creating a new artifact production'
-                                        @ error result
-                    ._ catch
-                        =>
-                            param err
-                                :any
-                            _ response.render
-                                @ 'error.html.ittf'
-                                {
-                                    @ message 'creating a new artifact production'
-                                    @ error err
+                            param packiFiles
+                                :ref packiTypes.PackiFiles
+                            _ createArtifactProduction
+                                @ (request.session as any).user.username
+                                @ request.body.ap_name
+                                @ request.body.ap_description
+                                @ mainIttf
+                                @ wizziSchema
+                                _ JSON.stringify
+                                    _ mergePackiFiles
+                                        @ packiFiles
+                                        _ getPackiConfigFile
+                                    $*
+                                    _ createInitialPackiFiles
+                                        @ contexts
+                                        @ tfolders
+                                        @ wizziSchema
+                                        @ mainIttf
+                                    *$
+                                ._ then
+                                    =>
+                                        param result
+                                            :ref CRUDResult
+                                        $$ loog og myname + '.postNewArtifact.createArtifactProduction.result', JSON.stringify(result, null, 2)
+                                        if result.ok
+                                            # _ response.redirect('/productions/artifacts')
+                                            _ response.redirect
+                                                @ '/~~/a/' + (request.session as any).user.username + '/' + request.body.ap_name
+                                        else
+                                            _ response.render
+                                                @ 'error.html.ittf'
+                                                {
+                                                    @ message 'creating a new artifact production'
+                                                    @ error result
+                                ._ catch
+                                    =>
+                                        param err
+                                            :any
+                                        _ response.render
+                                            @ 'error.html.ittf'
+                                            {
+                                                @ message 'creating a new artifact production'
+                                                @ error err
 
             v08/ts/handler(  getUpdateArtifactForm )
                 update_get_form( artifact )

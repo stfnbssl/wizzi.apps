@@ -13,6 +13,10 @@ module
         @ GetPackiModel
         from './mongo/packi'
     *$
+    import 
+        @ PackiBuilder
+        from './api/PackiBuilder'
+
     $if wzCtx.Build.useFilesystem
         import 
             @ TemplatesController
@@ -80,6 +84,7 @@ module
                     @ new GithubController()
     +
     export 
+        @ PackiBuilder
         @ packiTypes
         $*
         @ packiModelGetters

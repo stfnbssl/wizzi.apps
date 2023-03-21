@@ -1,0 +1,64 @@
+{
+
+    $ var cat = "Tutti a tavola";
+    $ var catN = "NpL e NpM";
+
+	[ pages
+        {
+            name "nascita"
+            cat "${cat}"
+        {
+            name "15 giorni"
+            cat "${cat}"
+        {
+            name "1 mese"
+            cat "${cat}"
+        {
+            name "5 mesi"
+            cat "${cat}"
+        {
+            name "5 mesi"
+            cat "${cat}"
+        {
+            name "6 mesi"
+            cat "${cat}"
+        {
+            name "9 mesi 1"
+            title "9 mesi/1"
+            cat "${cat}"
+        {
+            name "9 mesi 2"
+            title "9 mesi/2"
+            cat "${cat}"
+        {
+            name "1 anno"
+            cat "${cat}"
+        {
+            name "14 mesi"
+            cat "${cat}"
+        {
+            name "17 mesi"
+            cat "${cat}"
+        {
+            name "18 mesi"
+            cat "${cat}"
+        {
+            name "19 mesi"
+            cat "${cat}"
+        {
+            name "5a 9 m"
+            title "5 anni e 9 mesi/1"
+            cat "${cat}"
+        {
+            name "5a 9m 2"
+            title "5 anni e 9 mesi/2"
+            cat "${cat}"
+        {
+            name "NpL 3a 6m papa"
+            title "3 anni e 6 mesi, Papà"
+            cat "${catN}"
+        {
+            name "NpL dialogico"
+            title "4 anni, Dialogico"
+            cat "${catN}"
+

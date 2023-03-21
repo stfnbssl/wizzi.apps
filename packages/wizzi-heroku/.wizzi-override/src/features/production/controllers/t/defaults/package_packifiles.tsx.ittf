@@ -1,6 +1,6 @@
 $group
 
-    function getPackiFiles
+    function getPackiConfigFile
         return
             {
                 { ['.packi/config.json.ittf']
@@ -10,10 +10,11 @@ $group
                             @ '{'
                             @ '    { meta'
                             @ '        ${'$'}${'$'} name "..name.."'
-                            @ '        { cliCtx'
-                            @ '            kind "file" ${'$'}${'$'} file|artifact'
-                            @ '            filePath ".packi/cliCtx.json.ittf" ${'$'}${'$'} when kind = "file"'
-                            @ '            artifactName "..name.." ${'$'}${'$'} when kind = "artifact"'
+                            @ '        { cliCtx"'
+                            @ '            kind "artifact" ${'$'}${'$'} file|artifact'
+                            @ '            ${'$'}${'$'} filePath ".packi/cliCtx.json.ittf" ${'$'}${'$'} when kind = "file"'
+                            @ '            { artifact'
+                            @ '                ${'$'}${'$'} name "..name.." ${'$'}${'$'} when kind = "artifact"'
                             @ '            [ contexts'
                             @ '                {'
                             @ '                    ${'$'}${'$'} propertyName "..name.."'

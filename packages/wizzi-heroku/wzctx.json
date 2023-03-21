@@ -68,6 +68,11 @@
                 "name": "packi",
                 "hasControllers": true,
                 "useMongoDb": false
+            },
+            {
+                "name": "cdn",
+                "hasControllers": true,
+                "useMongoDb": true
             }
         ],
         "useFeatureGithub": true,
@@ -188,6 +193,8 @@
         "ittfStatic": {},
         "useWizziViewEngine": true,
         "wizziViewEngine": {},
+        "useWizziCdn": true,
+        "wizziCdn": {},
         "useWizziJsonFactory": true,
         "wizziJsonFactory": {},
         "utils": {
@@ -207,7 +214,9 @@
             "useNanoId": false,
             "useNodeCache": true,
             "useGitUrlParse": false,
-            "useJsonToAst": false
+            "useJsonToAst": false,
+            "useRimRaf": false,
+            "useDiffMatchPatch": true
         },
         "useMongoDb": true,
         "mongoDb": {

@@ -1,0 +1,19 @@
+$group
+
+    function inject_list_styles
+
+        _ inject_css_text
+            {
+                { ".list-row"
+                    @ display "flex"
+                    @ "flex-direction" "row"
+                    @ "justify-content" "space-between"
+                { ".list-head"
+                    @ display "flex"
+                    @ "flex-direction" "row"
+                    @ "justify-content" "space-between"
+                    @ "font-weight" 600
+                { "table td, table th"
+                    @ padding "5px"
+                { ".td-hidden"
+                    @ display "none"

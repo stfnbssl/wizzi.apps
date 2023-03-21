@@ -1,0 +1,121 @@
+$group
+
+    => handleAddSheetRequest
+        _ this.setState
+            {
+                @ addSheetOpen true
+
+    => handleNewSheetNameChange
+        param ev
+        _ this.setState
+            {
+                @ newSheetName ev.target.value
+
+    => handleNewSheetContentChange
+        param value
+        _ this.setState
+            {
+                @ newSheetContent value
+
+    => handleNewSheetDescriptionChange
+        param value
+        _ this.setState
+            {
+                @ newSheetDescription value
+
+    => handleAddSheetConfirm
+        _ this.addSheet
+            @ this.state.newSheetName
+            @ this.state.newSheetContent
+            @ this.state.newSheetDescription
+        _ this.setState
+            {
+                @ addSheetOpen false
+                @ newSheetName ''
+                @ newSheetContent ''
+                @ newSheetDescription ''
+
+    => handleAddSheetClose
+        _ this.setState
+            {
+                @ addSheetOpen false
+                @ newSheetName ''
+                @ newSheetContent ''
+                @ newSheetDescription ''
+
+    => handleChangeSheet
+        param ev
+        log 'handleChangeSheet', ev.target.value
+        _ this.setSheet
+            @ ev.target.value
+
+    => handleEditRequest
+        param ev
+        log 'handleEditRequest', ev.target.id
+        _ this.setState
+            {
+                @ currentModalEdit ev.target.id
+
+    => handleEditItemListChange
+        param value
+        _ this.setState
+            {
+                @ itemListEdit
+                    _ textToItemList
+                        @ this.state.sheetName
+                        @ value
+
+    => handleModalEditConfirm
+        if this.state.currentModalEdit == 'item-list' 
+            if this.state.itemListEdit != null
+                const fl = this.state.itemListEdit
+                _ this.setState
+                    {
+                        @ itemList fl
+                        @ itemListEdit null
+                        @ currentModalEdit ''
+                    =>
+                        _ this.saveSheet
+            else
+                _ this.setState
+                    {
+                        @ currentModalEdit ''
+
+    => handleModalEditCancel
+        _ this.setState
+            {
+                @ currentModalEdit ''
+
+    => handleItffContentChange
+        param value
+        const packiPath = this.state.selectedEditPackiPath
+        const packiFiles = this.state.packiFiles
+        set packiFiles[packiPath]
+            {
+                @ type packiFiles[packiPath].type
+                @ contents value 
+        _ this.setState
+            {
+                @ packiFiles packiFiles
+            =>
+                _ this.executeSaveSheetDebounced
+
+    => handleSelectFileItem
+        param path
+        const packiPath = this.getPackiPath(path)
+        if !this.state.packiFiles[packiPath]
+            const pf = Object.assign({}, this.state.packiFiles)
+            set pf[packiPath]
+                {
+                    @ type 'CODE'
+                    @ contents ''
+            _ this.setState
+                {
+                    @ packiFiles pf
+                    @ selectedEditPath path
+                    @ selectedEditPackiPath packiPath
+        else
+            _ this.setState
+                {
+                    @ selectedEditPath path
+                    @ selectedEditPackiPath packiPath

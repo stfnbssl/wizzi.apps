@@ -11,11 +11,11 @@ md
     sh
         + wizzi
         + node create ts-express-wizzi-heroku
-    p In C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor execute
+    p In C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\dist execute
     sh
         + wizzi
         + npm run build:client
-    p In C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms execute
+    p In C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\dist execute
     sh
         + wizzi
         + npm run build:client
@@ -24,7 +24,7 @@ md
         + wizzi
         + wizzi override
         + npm run build
-        + npm run copyfiles
+        + npm run distfiles
     p In C:\My\wizzi\stfnbssl\wizzi.apps.deploy\wizzi-heroku execute
     sh
         + npm i

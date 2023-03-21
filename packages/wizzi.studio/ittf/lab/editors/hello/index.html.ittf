@@ -1,0 +1,37 @@
+html
+
+    $
+        var opt = {
+            title: 'Tailwind',
+            Build: {
+                useAce: true,
+                useCodemirror: false,
+                useMonaco: false,
+                useTailwind: true,
+                useEventEmitter: true,
+                mainJs: './index.js.ittf',
+            }
+        }
+
+    html/layouts/basic_opt(&opt)
+
+        layouts/lab(&opt)
+
+            . box-border h-32 w-32 p-4 border-4
+                # ace-editor
+
+        $append body-scripts
+
+            script
+                module
+                    kind es6
+
+                    const editor
+                        new EditorControl
+                            {
+                                @ key 'gen-ittf'
+                                @ elementId 'ace-editor'
+                    _ editor.initialize
+
+
+                    

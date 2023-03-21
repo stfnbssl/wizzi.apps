@@ -17,6 +17,9 @@ module
                 @ CRUDResult
                 from '../../types'
             import
+                @ getTemplatePackiFiles
+                from '../api/meta'
+            import
                 @ createTFolder
                 @ updateTFolder
                 @ deleteTFolder
@@ -26,6 +29,9 @@ module
             import
                 @ mergePackiFiles
                 from '../utils'
+            import
+                @ packiTypes
+                from '../../packi'
             +
             const myname = 'features/production/controllers/tfolder'
             +
@@ -76,40 +82,50 @@ module
             v08/ts/handler( postTFolder )
                 $$ loog myname + '.postNewTFolder.request.body', JSON.stringify(request.body, null, 2)
                 $$ loog myname + '.postNewTFolder.request.session.user', JSON.stringify((request.session as any).user, null, 2)
-                # TODO create from meta
-                _ createTFolder
-                    @ (request.session as any).user.username
-                    @ request.body.tf_name
-                    @ request.body.tf_description
-                    _ JSON.stringify
-                        _ getPackiFiles
-                        $*
-                        _ mergePackiFiles
-                            @ packiFiles
-                            _ getPackiFiles
-                        *$
+                _ getTemplatePackiFiles
+                    @ request.body.meta_id
+                    @ request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}
+                    @ request.query.context as string
+                    @ request.body.context ? JSON.parse(request.body.context) : {}
+                    {
+                        @ wizziSchema null
+                        @ mainIttf null
                     ._ then
                         =>
-                            param result
-                                :ref CRUDResult
-                            $$ loog myname + '.postNewTFolder.createTFolder.result', JSON.stringify(result, null, 2)
-                            if result.ok
-                                _ response.redirect('/productions/tfolders')
-                            else
-                                _ response.render
-                                    @ 'error.html.ittf'
-                                    {
-                                        @ message 'creating a new tfolder'
-                                        @ error result
-                    ._ catch
-                        =>
-                            param err
-                                :any
-                            _ response.render
-                                @ 'error.html.ittf'
-                                {
-                                    @ message 'creating a new tfolder'
-                                    @ error err
+                            param packiFiles
+                                :ref packiTypes.PackiFiles
+                            _ createTFolder
+                                @ (request.session as any).user.username
+                                @ request.body.tf_name
+                                @ request.body.tf_description
+                                _ JSON.stringify
+                                    _ mergePackiFiles
+                                        @ packiFiles
+                                        _ getPackiConfigFile
+                                ._ then
+                                    =>
+                                        param result
+                                            :ref CRUDResult
+                                        $$ loog myname + '.postNewTFolder.createTFolder.result', JSON.stringify(result, null, 2)
+                                        if result.ok
+                                            _ response.redirect
+                                                $$ @ '/productions/tfolders'
+                                                @ '/~~/t/' + (request.session as any).user.username + '/' + request.body.mp_name
+                                        else
+                                            _ response.render
+                                                @ 'error.html.ittf'
+                                                {
+                                                    @ message 'creating a new tfolder'
+                                                    @ error result
+                                ._ catch
+                                    =>
+                                        param err
+                                            :any
+                                        _ response.render
+                                            @ 'error.html.ittf'
+                                            {
+                                                @ message 'creating a new tfolder'
+                                                @ error err
 
             v08/ts/handler( getUpdateTFolderForm )
                 update_get_form( tFolder )

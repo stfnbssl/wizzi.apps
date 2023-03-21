@@ -1,0 +1,210 @@
+﻿html
+
+	$
+		var opt = {}
+		opt.useMonaco = true;
+
+	html/layouts/empty_opt(&opt)
+
+        # root
+            . pen
+                . fileView
+                    $foreach file in wzCtx.files
+                        . document
+                            id file_${file.hash} 
+                            + ${file.name}
+            . pen
+                # editor_2
+            . pen
+        
+        $append head-styles
+			@style
+				css
+					# root
+						width 90% $$ 800px
+						height 90vh $$ 600px
+						border 1px solid grey
+                        display grid
+                        grid-template-columns repeat(3, 1fr)
+                    . pen
+                        background #343436
+                        padding 10px
+                        display grid
+                        color yellow
+
+		$append body-scripts
+			script
+				module
+                    kind react
+					ready
+						kind window
+                        var fileDb
+                            {
+                        var editor_2 = null
+                        const editor_2_States = new Map()
+                        var prev_documentId = null
+
+                        function startEditor
+                            param fileId
+                            set prev_documentId = fileId
+                            _ require.config
+                                {
+                                    @ paths
+                                        {
+                                            @ vs '/static/lib/monaco-editor/min/vs'
+                            _ require
+                                [
+                                    @ 'vs/editor/editor.main'
+                                function
+                                    set editor_2
+                                        _ monaco.editor.create
+                                            _ document.getElementById
+                                                @ 'editor_2'
+                                            {
+                                                @ value fileDb[fileId].content
+                                                @ language 'javascript'
+                                                @ automaticLayout true
+
+                        const findModel
+                            =>
+                                param path
+                                _ monaco.editor.getModels().find
+                                    => 
+                                        param model
+                                        === 
+                                            + model.uri.path
+                                            `lit 
+                                                + /
+                                                @ path
+
+                        function initialize
+                            $ 
+                                var xx = '"'
+                                var yy = '\\"'
+
+                            $foreach file in wzCtx.files
+                                if !prev_documentId
+                                    set prev_documentId = "file_${file.hash}"
+                                set fileDb["file_${file.hash}"] 
+                                    {
+                                        @ path "file://" + "${file.hash}"
+                                        @ content "${_.replace(file.content,xx,yy)}"
+                                        @ monacoModel null
+                            const items = document.querySelectorAll('.document');
+                            _ items.forEach(item => item.addEventListener('click', handleDocumentClick));
+                        
+                        
+                        function initializeDocument
+                            param path
+                            param value
+                            let model = findModel(path)
+                            if model && !model.isDisposed()
+                                _ model.pushEditOperations
+                                    [ 
+                                    [ 
+                                        { 
+                                            @ range model.getFullModelRange()
+                                            @ text value
+                                    # If a model exists, we need to update it's value
+                                    # This is needed because the content for the file might have been modified externally
+                                    # Use `pushEditOperations` instead of `setValue` or `applyEdits` to preserve undo stack
+                            else
+                                if path.endsWith('.ittf')
+                                    set model =
+                                        _ monaco.editor.createModel
+                                            @ value
+                                            @ 'ittf'
+                                            _ monaco.Uri.from
+                                                { 
+                                                    @ scheme 'file'
+                                                    @ path
+                                else
+                                    set model =
+                                        _ monaco.editor.createModel
+                                            @ value
+                                            @ undefined
+                                            _ monaco.Uri.from
+                                                { 
+                                                    @ scheme 'file'
+                                                    @ path
+                                _ model.updateOptions
+                                    { 
+                                        @ tabSize 2
+                                        @ insertSpaces true
+                        
+                        function openDocument
+                            param documentId
+                            set prev_documentId = documentId
+                            var value = fileDb[documentId].content
+                            var path = fileDb[documentId].path
+                            log 'openDocument', documentId, path, value
+                            _ initializeDocument(path, value)
+                            const model = findModel(path)
+                            if editor_2 && model
+                                _ editor_2.setModel(model)
+                                const editorState = editor_2_States.get(path)
+                                if editorState
+                                    _ editor_2.restoreViewState(editorState)
+                                _ editor_2.focus()
+
+                        function handleDocumentClick
+                            param e
+                            log 'handleClick', e.target.id, fileDb[e.target.id]
+                            if e.target.id != prev_documentId
+                                # save prev
+                                const model = editor_2.getModel()
+                                const value = model.getValue()
+                                set fileDb[prev_documentId].content = value
+                                log 'handleClick', 'new value', fileDb[prev_documentId].content
+                                var prev_path = fileDb[prev_documentId].path
+                                _ editor_2_States.set(prev_path, editor_2.saveViewState())
+                                # open selected
+                                _ openDocument(e.target.id);
+
+                        _ initialize
+                        _ startEditor(prev_documentId)
+
+
+
+                    $*
+    const gallery = document.querySelector('.gallery');
+    const overlay = document.querySelector('.overlay');
+    const overlayImage = document.querySelector('img');
+    const overlayClose = document.querySelector('.close');
+
+    function generateHTML([h, v]) {
+      return `
+        <div class="item h${h} v${v}">
+          <img src="images/${randomNumber(12)}.jpg">
+          <div class="item__overlay">
+            <button>View →</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function randomNumber(limit) {
+      return Math.floor(Math.random() * limit) + 1;
+    }
+
+    const digits = Array.from({ length: 50 }, () => [randomNumber(4), randomNumber(4)]).concat([[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]])
+
+    const html = digits.map(generateHTML).join('');
+    gallery.innerHTML = html;
+
+    const items = document.querySelectorAll('.item');
+
+    items.forEach(item => item.addEventListener('click', handleClick));
+
+    overlayClose.addEventListener('click', close);
+
+    function handleClick(e) {
+      const src = e.currentTarget.querySelector('img').src;
+      overlayImage.src = src;
+      overlay.classList.add('open');
+    }
+
+    function close() {
+      overlay.classList.remove('open');
+    }
+*$

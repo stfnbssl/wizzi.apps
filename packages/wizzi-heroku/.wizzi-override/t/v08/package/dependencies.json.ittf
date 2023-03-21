@@ -11,6 +11,9 @@ $group
             @babel/polyfill "^7.12.1"
         $if wzCtx.Build.babel.useRuntime
             @babel/runtime "^7.12.5"
+    $if wzCtx.Build.useReact && wzCtx.Build.react.useMui
+        @emotion/react "latest"
+        @emotion/styled "latest"
     $if wzCtx.Build.useExpoStyles
         @expo/styleguide "^2.1.4"
     $if wzCtx.Build.useReact && wzCtx.Build.useStyledSystem
@@ -34,6 +37,20 @@ $group
             $if wzCtx.Build.react.materialUI.usePickers
                 @material-ui/pickers "^3.0.0"
             @material-ui/styles "^4.11.2"
+        $if wzCtx.Build.react.useMui
+            $if wzCtx.Build.react.mui.useBase
+                @mui/base "latest"
+            $if wzCtx.Build.react.mui.useIcons
+                @mui/icons-material "latest"
+            $if wzCtx.Build.react.mui.useJoy
+                @mui/joy "latest"
+            $if wzCtx.Build.react.mui.useMaterial
+                @mui/material "latest"
+            $if wzCtx.Build.react.mui.useSystem
+                @mui/system "latest"
+    
+    $if wzCtx.Build.useReact &&  wzCtx.Build.react.useMarkdownPreview
+        @uiw/react-markdown-preview "latest"
     
     $if wzCtx.Build.useAphrodite
         aphrodite "^2.4.0"
@@ -79,6 +96,8 @@ $group
                 date-fns "2.0.0"
     $elif wzCtx.Build.useExpress
         debug "~2.6.9"
+    $if wzCtx.Build.utils.useDiffMatchPatch
+        diff-match-patch "^1.0.5"
     $if wzCtx.Build.useDomHelpers
         dom-helpers "^3.4.0"
     
@@ -128,8 +147,8 @@ $group
     
     $if wzCtx.Build.useFetch
         isomorphic-fetch "^2.2.1"
-    $if wzCtx.Build.useGithub
-        isomorphic-git "^1.19.2"
+    $if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub
+        isomorphic-git "^1.21.0"
     $if wzCtx.Build.useIsomorphicUnfetch
         isomorphic-unfetch "^3.0.0"
     
@@ -146,16 +165,23 @@ $group
     $if wzCtx.Build.useAuthorization
         jwks-rsa "^1.4.0"
     
+    $if wzCtx.Build.utils.useLodash || wzCtx.Build.useMonacoEditor
+        lodash "^4.17.21"
+    
     $if wzCtx.Build.useMarked
         $if wzCtx.Build.useVExpo
             marked "^2.0.0"
         $else
             marked "^2.0.3"
+    $if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub
+        memfs "^3.4.7"
+    $if wzCtx.Build.utils.useMinimist
+        minimist "latest"
     $if wzCtx.Build.useMonacoEditor
         $if wzCtx.Build.useVExpo
             monaco-editor "^0.18.1"
         $else
-            monaco-editor "^0.23.0"
+            monaco-editor "^0.34.0"
     $if wzCtx.Build.useMoment
         moment "^2.24.0"
     $if wzCtx.Build.useMongoDb
@@ -168,8 +194,8 @@ $group
         nanoid "^3.1.22"
     $if wzCtx.Build.utils.useNodeCache
         node-cache "^5.1.2"
-    $if wzCtx.Build.useGithub
-        node-fetch "^2.6.1"
+    $if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub
+        node-fetch "^2"
     $if wzCtx.Build.utils.useNullThrows
         nullthrows "^1.1.1"
     
@@ -195,8 +221,12 @@ $group
                 react "^17.0.1"
                 react-dom "^17.0.1"
             $else
-                react "^17.0.2"
-                react-dom "^17.0.2"
+                $if wzCtx.Build.useVite
+                    react "^18.2.0"
+                    react-dom "^18.2.0"
+                $else
+                    react "^17.0.2"
+                    react-dom "^17.0.2"
             $if wzCtx.Build.react.useDate
                 react-datepicker "^4.1.1"
             $if wzCtx.Build.react.useFontawesome
@@ -212,13 +242,14 @@ $group
                 $if wzCtx.Build.react.redux.useFirestore
                     react-redux-firebase "^2.2.6"
             $if wzCtx.Build.react.useRouter
-                react-router-dom "^5.2.0"
+                react-router-dom "^6.4.0"
             $if wzCtx.Build.useReactCreateApp
                 react-scripts "^4.0.3"
             $if wzCtx.Build.react.useSelect
                 react-select "^4.3.0"
             $if wzCtx.Build.react.useSimpleCodeEditor
                 react-simple-code-editor "^0.11.0"
+            $if wzCtx.Build.react.useSplitPane
             $if wzCtx.Build.react.useSyntaxHighlighter
                 react-syntax-highlighter "^15.4.3"
             $if wzCtx.Build.react.useTextareaAutosize
@@ -250,8 +281,12 @@ $group
                     redux-saga "^1.1.3"
     $if wzCtx.Build.useReact_stopped_25_06_2022
         recompose "^0.30.0"
+    $if wzCtx.Build.useSequelize
+        reflect-metadata "^0.1.13"
     $if wzCtx.Build.useRegeneratorRuntime
         regenerator-runtime "^0.13.7"
+    $if wzCtx.Build.utils.useRimRaf
+        rimraf "^3.0.2"
     
     $if wzCtx.Build.utils.useSanitizeHtml
         sanitize-html "^2.3.3"
@@ -261,8 +296,11 @@ $group
     $if wzCtx.Build.useSequelize
         sequelize "^6.21.4"
         sequelize-cli "^6.4.1"
+        sequelize-typescript "^2.1.3"
     $if wzCtx.Build.useSocketIO
         socket.io-client "^2.2.0"
+    $if wzCtx.Build.useExpress
+        strong-error-handler "^4.0.0"
     $if wzCtx.Build.useReact && wzCtx.Build.useStyledComponents
         styled-components "^5.2.1"
     $if wzCtx.Build.useReact && wzCtx.Build.useStyledSystem
@@ -287,14 +325,14 @@ $group
     $if wzCtx.Build.utils.useWebVitals
         web-vitals "^1.0.1"
     $if wzCtx.Build.useWizzi
-        wizzi "^0.7.33"
+        wizzi "^0.7.35"
         $if false
             wizzi.proto "^0.0.1"
-        wizzi-tools "^0.7.4"
-        wizzi-utils "^0.7.20"
+        wizzi-tools "^0.7.5"
+        wizzi-utils "^0.7.22"
         wizzi-core "^0.7.8"
-        wizzi-web "^0.7.15"
-        wizzi-js "^0.7.12"
+        wizzi-web "^0.7.16"
+        wizzi-js "^0.7.13"
     
     $if wzCtx.Build.useYup
         yup "^0.27.0"

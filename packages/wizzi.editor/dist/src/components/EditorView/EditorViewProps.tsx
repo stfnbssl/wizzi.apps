@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorViewProps.tsx.ittf
 */
 import {SaveStatus, PackiSaveOptions, PackiFiles, PackiFile} from '../../features/packi';
@@ -20,6 +20,8 @@ export type EditorViewProps = {
     mainIttf: string;
     wizziSchema: string;
     packiProduction: PackiProduction;
+    isLocalFolder: boolean;
+    localFolderPath: string;
     readOnly: boolean;
     generated: boolean;
     isDownloading: boolean;
@@ -56,6 +58,7 @@ export type EditorViewProps = {
     onEntrySelected: (entry: FileSystemEntry) => void;
     onExecuteWizziJob: () => void;
     onExecuteWizziMetaFolder: () => void;
+    onCloseLocalFolder: () => void;
     onGenerateArtifactPreview: () => void;
     onMTreePreview: () => void;
     onMTreeDebugInfoPreview: () => void;

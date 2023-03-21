@@ -5,33 +5,30 @@ module
             name: 'ApiV1PluginProduction',
             path: '/api/v1/production/plugin',
             apiSecured: wzCtx.App.isLocal == false,
+            Production: 'Plugin',
+            production: 'plugin',
         }
     
     v08/ts/controller( &ctrl )
             
         $append imports
-            import
-                @ getListPluginProduction
-                @ validatePluginProduction
-                @ getPluginProduction
-                @ updatePluginProduction
-                @ createPluginProduction
-                from '../api/plugin'
+            apiv1_imports( &ctrl )
             +
-            const myname = 'features/production/controllers/apiv1pluginproduction'
+            const myname = 'features/production/controllers/apiv1plugin'
 
-        v08/ts/route_api_secured( get, /:owner, this.getPluginProductionList)
+        v08/ts/route_api_secured( get, /:owner, this.getPluginProductions)
         v08/ts/route_api_secured( get, /checkname/:owner/:name, this.getCheckPluginName)
         v08/ts/route_api_secured( get, /:owner/:name, this.getPluginProduction)
         v08/ts/route_api_secured( put, /:id, this.putPluginProduction)
+        v08/ts/route_api_secured( put, /packidiffs/:id, this.putPluginProductionPackiDiffs)
         v08/ts/route_api_secured( post, /:post, this.postPluginProduction)
         
         $append handlers
 
-            v08/ts/handler(  getPluginProductionList )
+            v08/ts/handler(  getPluginProductions )
 
-                $$ loog 'getPluginProductionList.request.params', request.params
-                _ getListPluginProduction
+                $$ loog 'getPluginProductions.request.params', request.params
+                _ getPluginProductionList
                     {
                         { query
                             @ owner request.params.owner
@@ -39,11 +36,11 @@ module
                         =>
                             param result
                                 :any
-                            $$ loog 'getPluginProductionList.result', result
+                            $$ loog 'getPluginProductions.result', result
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail(  getPluginProductionList )
+                    v08/ts/catch_send_fail(  getPluginProductions )
             
             v08/ts/handler(  getCheckPluginName )
                 check_name( plugin )
@@ -102,4 +99,8 @@ module
                                 @ response
                                 @ result
                     v08/ts/catch_send_fail(  putPluginProduction )
+
+            apiv1_put( &ctrl )      
+
+    apiv1_exec_update( &ctrl )                          
 

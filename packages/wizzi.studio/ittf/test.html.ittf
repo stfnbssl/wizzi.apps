@@ -1,0 +1,146 @@
+html
+    body
+        script
+            const API_URL = 'http://localhost:5000/api/v1'
+            async-function callApi
+                param method
+                param path
+                param data
+                _ console.log('callApi', method, API_URL, path, data)
+                _ console.log
+                    @ 'url'
+                    `lit 
+                        + 
+                        @ API_URL
+                        + /
+                        @ path
+                        + 
+                const res
+                    await 
+                        _ fetch
+                            `lit 
+                                + 
+                                @ API_URL
+                                + /
+                                @ path
+                                + 
+                            { 
+                                @ method
+                                { headers
+                                    @ Accept 'application/json'
+                                    @ 'Content-Type' 'application/json'
+                                @ body JSON.stringify(data)
+                log 'res', res
+                log 'res.keys', Object.keys(res)
+                if res.ok
+                    return 
+                        await 
+                            _ res.json
+                else
+                    return 
+                        await 
+                            _ res.text
+
+            function get1
+                param url
+                _ fetch
+                    @ url
+                    {
+                        @ method "GET"
+                    ._ then
+                        =>
+                            param result
+                            log 'fetch.result', result
+                            log 'fetch.result', Object.keys(result)
+                            return result.text()
+                    ._ then
+                        =>
+                            param result
+                            log 'fetch.result', result
+                    ._ catch
+                        => 
+                            param err
+                            log 'fetch.err', err
+            
+            $*
+            _ get1
+                @ '/wizzi'
+            *$
+
+            function genArtifact
+                var filePath = 'x/a.js.ittf'
+                var files 
+                    {
+                        @ 'x/a.js.ittf'
+                            { 
+                                @ type 'CODE'
+                                @ contents 'module\n\tkind jsfile\n\tb()'
+                        @ 'x/t/b.js.ittf'
+                            {
+                                @ type 'CODE'
+                                @ contents 'log "Hello"' 
+                _ callApi
+                    @ 'POST'
+                    @ 'productions/artifact/' + encodeURIComponent(filePath)
+                    @ files
+                    ._ then
+                        =>
+                            param result
+                            log 'fetch.result', result
+                    ._ catch
+                        => 
+                            param err
+                            log 'fetch.err', err
+
+            function wizzify
+                var files 
+                    {
+                        @ 'x/a.js'
+                            { 
+                                @ type 'CODE'
+                                @ contents 'function a(alpha) { return 0; }'
+                        @ 'x/b.js'
+                            { 
+                                @ type 'CODE'
+                                @ contents 'exec(a).then(b);'
+                _ callApi
+                    @ 'POST'
+                    @ 'productions/wizzify'
+                    @ files
+                    ._ then
+                        =>
+                            param result
+                            log 'wizzify.result', result.packiResult
+                    ._ catch
+                        => 
+                            param err
+                            log 'wizzify.err', err
+            
+            function mTreeBuildupScript
+                var filePath = 'x/a.js.ittf'
+                var files 
+                    {
+                        @ 'x/a.js.ittf'
+                            { 
+                                @ type 'CODE'
+                                @ contents 'module\n\tkind jsfile\n\tb()'
+                        @ 'x/t/b.js.ittf'
+                            {
+                                @ type 'CODE'
+                                @ contents 'log "Hello"' 
+
+                _ callApi
+                    @ 'POST'
+                    @ 'productions/mtreescript/' + encodeURIComponent(filePath)
+                    @ files
+                    ._ then
+                        =>
+                            param result
+                            log 'mTreeBuildupScript.result', result.mTreeBuildupScript, result
+                    ._ catch
+                        => 
+                            param err
+                            log 'mTreeBuildupScript.err', err
+            _ genArtifact
+            _ wizzify
+            _ mTreeBuildupScript

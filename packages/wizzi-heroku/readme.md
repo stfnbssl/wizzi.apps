@@ -15,13 +15,13 @@ then execute
 wizzi
 node create ts-express-wizzi-heroku
 ```
-In C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor execute
+In C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\dist execute
 
 ```sh
 wizzi
 npm run build:client
 ```
-In C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms execute
+In C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\dist execute
 
 ```sh
 wizzi
@@ -33,7 +33,7 @@ In C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku execute
 wizzi
 wizzi override
 npm run build
-npm run copyfiles
+npm run distfiles
 ```
 In C:\My\wizzi\stfnbssl\wizzi.apps.deploy\wizzi-heroku execute
 

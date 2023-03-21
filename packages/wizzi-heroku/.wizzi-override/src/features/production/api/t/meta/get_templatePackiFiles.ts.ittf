@@ -11,6 +11,8 @@ $group
                 :string
             param rootContext
                 :any
+            param options
+                :any
             :return
                 :ref Promise
                     :param 
@@ -19,8 +21,11 @@ $group
                 \b 'metaId', metaId, 
                 \b 'cliCtx', Object.keys(cliCtx),
                 \b 'queryString', queryString, 
-                \b 'rootContext', Object.keys(rootContext)
+                \b 'rootContext', Object.keys(rootContext),
+                \b 'options', Object.keys(options)
             function getPackiFiles
+                param wizziSchema
+                    :string
                 param mainIttf
                     :string
                 :return
@@ -28,10 +33,11 @@ $group
                 const ret
                     :ref packiTypes.PackiFiles
                     = {}
-                set ret[mainIttf]
-                    {
-                        @ type 'CODE'
-                        @ contents ''
+                if wizziSchema && mainIttf
+                    set ret[mainIttf]
+                        {
+                            @ type 'CODE'
+                            @ contents wizziSchema
                 return ret
             return 
                 new Promise
@@ -42,7 +48,8 @@ $group
                             return
                                 _ resolve
                                     _ getPackiFiles
-                                        @ 'index.js.ittf'
+                                        @ options.wizziSchema
+                                        @ options.mainIttf
                         _ productionApi.prepareProductionById
                             @ 'meta'
                             @ metaId

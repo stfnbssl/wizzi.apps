@@ -14,7 +14,7 @@ module
         @ PackiSaveOptions
         @ PackiListenerSubscription
         @ PackiDefaults
-        @ SavedPacki
+        @ PackiOptions
         @ PackiStateListener
         @ QueryInitParams
         @ QueryStateParams
@@ -46,7 +46,7 @@ module
         @ PackiStateListener
         @ PackiListenerSubscription
         @ PackiDefaults
-        @ SavedPacki
+        @ PackiOptions
         @ QueryInitParams
         @ QueryStateParams
         @ QueryParams

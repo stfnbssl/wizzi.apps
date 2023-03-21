@@ -1,0 +1,6 @@
+$group
+    if typeof Array.isArray === 'undefined'
+        set Array.isArray
+            function
+                param obj
+                return Object.prototype.toString.call(obj) === '[object Array]'

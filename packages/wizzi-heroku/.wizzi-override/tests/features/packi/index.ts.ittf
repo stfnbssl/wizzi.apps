@@ -1,0 +1,112 @@
+module
+
+    import
+        @ PackiBuilder 
+        from '../../../src/features/packi'
+
+    _ testFiles
+    _ testFileDiffPatch
+    
+    function testFiles
+        log 'Hello'
+        const pm
+            new PackiBuilder
+                _ getSamplePackiFile_1
+        log pm.getFileContent('alpha.txt')
+
+    function getSamplePackiFile_1
+        const result = {}
+        set result['alpha.txt']
+            {
+                @ type 'CODE'
+                @ contents
+                    [
+                        @ 'pesci'
+                        @ 'toro'
+                        @ 'leone'
+                        ._ join('\n')
+        set result['beta.txt']
+            {
+                @ type 'CODE'
+                @ contents
+                    [
+                        @ 'venere'
+                        @ 'marte'
+                        @ 'saturno'
+                        ._ join('\n')
+        set result['sigma.txt']
+            {
+                @ type 'CODE'
+                @ contents
+                    [
+                        @ 'orione'
+                        @ 'via lattea'
+                        ._ join('\n')
+        set result['tau.txt']
+            {
+                @ type 'CODE'
+                @ contents
+                    [
+                        @ 'same'
+                        @ 'medesimo'
+                        ._ join('\n')
+        return result
+
+    function getSamplePackiFile_2
+        const result = {}
+        set result['alpha.txt']
+            {
+                @ type 'CODE'
+                @ contents
+                    [
+                        @ 'pesci'
+                        @ 'leone'
+                        ._ join('\n')
+        set result['beta.txt']
+            {
+                @ type 'CODE'
+                @ contents
+                    [
+                        @ 'venere'
+                        @ 'giove'
+                        @ 'saturno'
+                        ._ join('\n')
+        set result['gamma.txt']
+            {
+                @ type 'CODE'
+                @ contents
+                    [
+                        @ 'tirreno'
+                        @ 'adriatico'
+                        ._ join('\n')
+        set result['tau.txt']
+            {
+                @ type 'CODE'
+                @ contents
+                    [
+                        @ 'same'
+                        @ 'medesimo'
+                        ._ join('\n')
+        return result
+
+    function testFileDiffPatch
+        const pm1
+            new PackiBuilder
+                _ getSamplePackiFile_1
+        const pm2
+            new PackiBuilder
+                _ getSamplePackiFile_2
+        const alphaOld = pm1.getFileContent('alpha.txt')
+        const alphaNew = pm2.getFileContent('alpha.txt')
+        const diffs
+            _ pm1.getFileDiffs
+                @ 'alpha.txt'
+                @ alphaNew
+        _ pm1.applyFileDiffs
+            @ 'alpha.txt'
+            @ diffs
+        const alphaOldPatched = pm1.getFileContent('alpha.txt')
+        log 'testFileDiffPatch', '\n', alphaOld, '\n',alphaNew, '\n',alphaOldPatched, '\n',alphaOldPatched == alphaNew
+
+    
+

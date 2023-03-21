@@ -88,6 +88,9 @@ module
                     @ request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}
                     @ request.query.context as string
                     @ request.body.context ? JSON.parse(request.body.context) : {}
+                    {
+                        @ wizziSchema "js"
+                        @ mainIttf "index.js.ittf"
                     ._ then
                         =>
                             param packiFiles
@@ -99,14 +102,16 @@ module
                                 _ JSON.stringify
                                     _ mergePackiFiles
                                         @ packiFiles
-                                        _ getPackiFiles
+                                        _ getPackiConfigFile
                                 ._ then
                                     =>
                                         param result
                                             :ref CRUDResult
                                         $$ loog myname + '.postNewPlugin.createPluginProduction.result', JSON.stringify(result, null, 2)
                                         if result.ok
-                                            _ response.redirect('/productions/plugins')
+                                            _ response.redirect
+                                                $$ @ '/productions/plugins'
+                                                @ '/~~/l/' + (request.session as any).user.username + '/' + request.body.pp_name
                                         else
                                             _ response.render
                                                 @ 'error.html.ittf'

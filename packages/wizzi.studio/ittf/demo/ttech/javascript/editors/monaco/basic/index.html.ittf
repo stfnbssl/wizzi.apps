@@ -1,0 +1,98 @@
+﻿html
+
+	$
+		var opt = {}
+		opt.useMonaco = true;
+
+	html/layouts/empty_opt(&opt)
+
+		# root
+            . pen
+            . pen
+                # editor_2
+            . pen
+        
+        $append head-styles
+			@style
+				css
+					# root
+						width 90% $$ 800px
+						height 90vh $$ 600px
+						border 1px solid grey
+                        display grid
+                        grid-template-columns repeat(3, 1fr)
+                    . pen
+                        background #343436
+                        padding 10px
+                        display grid
+
+		$append body-scripts
+			script
+				module
+
+					ready
+						kind window
+						_ require.config
+							{
+								@ paths
+									{
+										@ vs '/static/lib/monaco-editor/min/vs'
+						_ require
+							[
+								@ 'vs/editor/editor.main'
+							function
+								var editor_2
+									_ monaco.editor.create
+										_ document.getElementById
+											@ 'editor_2'
+										{
+											@ value
+												[
+													@ 'function x() {'
+													@ '\tconsole.log("Hello world!");'
+													@ '}'
+													._ join('\n')
+											@ language 'javascript'
+                                            @ automaticLayout true
+                    $*
+    const gallery = document.querySelector('.gallery');
+    const overlay = document.querySelector('.overlay');
+    const overlayImage = document.querySelector('img');
+    const overlayClose = document.querySelector('.close');
+
+    function generateHTML([h, v]) {
+      return `
+        <div class="item h${h} v${v}">
+          <img src="images/${randomNumber(12)}.jpg">
+          <div class="item__overlay">
+            <button>View →</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function randomNumber(limit) {
+      return Math.floor(Math.random() * limit) + 1;
+    }
+
+    const digits = Array.from({ length: 50 }, () => [randomNumber(4), randomNumber(4)]).concat([[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]])
+
+    const html = digits.map(generateHTML).join('');
+    gallery.innerHTML = html;
+
+    const items = document.querySelectorAll('.item');
+
+    items.forEach(item => item.addEventListener('click', handleClick));
+
+    overlayClose.addEventListener('click', close);
+
+    function handleClick(e) {
+      const src = e.currentTarget.querySelector('img').src;
+      overlayImage.src = src;
+      overlay.classList.add('open');
+    }
+
+    function close() {
+      overlay.classList.remove('open');
+    }
+*$

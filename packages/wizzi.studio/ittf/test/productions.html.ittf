@@ -1,0 +1,42 @@
+html
+
+    $
+        var wzCtx = {
+            Build: {
+                useTailwind: true
+            }
+        }
+
+    html/layouts/basic_opt(&opt)
+
+        ul
+            li
+                a New user
+                    href /user/new
+            li
+                a Update user
+                    href /user/update
+            li
+                a Delete user
+                    href /user/delete
+            li
+                a New artifact production
+                    href /artifact/new
+            li
+                a Update artifact production
+                    href /artifact/update
+            li
+                a Delete artifact production
+                    href /artifact/delete
+            li
+                a New tfolder production
+                    href /tfolder/new
+            li
+                a Update tfolder production
+                    href /tfolder/update
+            li
+                a Delete tfolder production
+                    href /tfolder/delete
+            li
+                a Demo theme
+                    href /packi/admin/theme

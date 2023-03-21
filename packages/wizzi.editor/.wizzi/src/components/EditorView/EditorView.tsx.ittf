@@ -354,11 +354,13 @@ module
                     @ mainIttf
                     @ wizziSchema
                     @ packiProduction
+                    @ isLocalFolder
                     @ previewRef
                     @ previewURL
                     @ loggedUser
                     @ onExecuteWizziJob
                     @ onExecuteWizziMetaFolder
+                    @ onCloseLocalFolder
                     @ previewKind
                     @ generatedArtifact
                     @ mTreeBuildupScript

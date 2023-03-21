@@ -1,0 +1,66 @@
+html
+    # see https://fontawesome.com/docs/web/style/style-cheatsheet
+    head
+        script
+            src https://kit.fontawesome.com/eab461efef.js
+            crossorigin anonymous
+        style
+            . media
+                $$ display flex
+                width 200px
+                height 100px
+    body
+        a fontawesome style-cheatsheet
+            href https://fontawesome.com/docs/web/style/style-cheatsheet
+        $
+            var relSizing = [
+                '2xs', 
+                'xs',
+                'sm',
+                'lg', 
+                'xl',
+                '2xl',
+            ];
+            var litSizing = [
+                '1x', 
+                '2x',
+                '3x',
+                '4x',
+                '5x',
+            ];
+            var icons = [
+                'plus', 
+                'minus',
+                'camera',
+            ];
+
+        $foreach icon in icons
+            $foreach rs in litSizing
+                . media
+                    div fa fa-${icon} fa-${rs}
+                    div
+                        i 
+                            class fa fa-${icon} fa-${rs}
+        $foreach icon in icons
+            $foreach rs in relSizing
+                . media
+                    div fa fa-${icon} fa-${rs}
+                    div
+                        i 
+                            class fa fa-${icon} fa-${rs}
+
+        div
+            span 
+                style font-size: 3em; color: Tomato;
+                i 
+                    class fas fa-camera
+            span 
+                style font-size: 48px; color: Dodgerblue;
+                i 
+                    class fas fa-camera
+            span 
+                style font-size: 3rem;
+                span 
+                    style color: Mediumslateblue;
+                    i 
+                        class fas fa-camera

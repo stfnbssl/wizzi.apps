@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\production\controllers\tfolder.tsx.ittf
 */
 import {Router, Request, Response} from 'express';
@@ -12,8 +12,10 @@ import {statusCode} from '../../../utils';
 import ReactDOMServer from 'react-dom/server';
 import PageFormDocument from '../../../pages/PageFormDocument';
 import {CRUDResult} from '../../types';
+import {getTemplatePackiFiles} from '../api/meta';
 import {createTFolder, updateTFolder, deleteTFolder, getTFolderObject, getTFolderObjectById} from '../api/tfolder';
 import {mergePackiFiles} from '../utils';
+import {packiTypes} from '../../packi';
 
 const myname = 'features/production/controllers/tfolder';
 
@@ -27,7 +29,7 @@ function renderPageForm(req: Request, res: Response, data: object, queryParams: 
     res.set('Content-Length', index.length.toString());
     res.send(index);
 }
-function getPackiFiles() {
+function getPackiConfigFile() {
 
     return {
             ['.packi/config.json.ittf']: {
@@ -36,10 +38,15 @@ function getPackiFiles() {
                     '{', 
                     '    { meta', 
                     '        $$ name "..name.."', 
-                    '        [ contexts', 
-                    '            {', 
-                    '                $$ propertyName "..name.."', 
-                    '                $$ artifactName "..name.."', 
+                    '        { cliCtx"', 
+                    '            kind "artifact" $$ file|artifact', 
+                    '            $$ filePath ".packi/cliCtx.json.ittf" $$ when kind = "file"', 
+                    '            { artifact', 
+                    '                $$ name "..name.." $$ when kind = "artifact"', 
+                    '            [ contexts', 
+                    '                {', 
+                    '                    $$ propertyName "..name.."', 
+                    '                    $$ artifactName "..name.."', 
                     '    [ tfolders', 
                     '        {', 
                     '            $$ name "..name.."', 
@@ -108,28 +115,33 @@ export class TFolderController implements ControllerType {
     
     ;
     
-    private postTFolder = 
-    // TODO create from meta
-    async (request: Request, response: Response) => 
+    private postTFolder = async (request: Request, response: Response) => 
     
-        createTFolder((request.session as any).user.username, request.body.tf_name, request.body.tf_description, JSON.stringify(getPackiFiles())).then((result: CRUDResult) => {
+        getTemplatePackiFiles(request.body.meta_id, request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}, request.query.context as string, request.body.context ? JSON.parse(request.body.context) : {}, {
+            wizziSchema: null, 
+            mainIttf: null
+         }).then((packiFiles: packiTypes.PackiFiles) => 
         
-            if (result.ok) {
-                response.redirect('/productions/tfolders');
+            createTFolder((request.session as any).user.username, request.body.tf_name, request.body.tf_description, JSON.stringify(mergePackiFiles(packiFiles, getPackiConfigFile()))).then((result: CRUDResult) => {
+            
+                if (result.ok) {
+                    response.redirect('/~~/t/' + (request.session as any).user.username + '/' + request.body.mp_name)
+                }
+                else {
+                    response.render('error.html.ittf', {
+                        message: 'creating a new tfolder', 
+                        error: result
+                     })
+                }
             }
-            else {
+            ).catch((err: any) => 
+            
                 response.render('error.html.ittf', {
                     message: 'creating a new tfolder', 
-                    error: result
+                    error: err
                  })
-            }
-        }
-        ).catch((err: any) => 
+            )
         
-            response.render('error.html.ittf', {
-                message: 'creating a new tfolder', 
-                error: err
-             })
         )
     
     ;

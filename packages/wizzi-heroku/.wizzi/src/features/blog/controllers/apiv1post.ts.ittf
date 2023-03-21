@@ -9,7 +9,7 @@ module
         $append imports
             import
                 @ validatePost
-                @ getListPost
+                @ getPostList
                 @ getPost
                 @ createPost
                 @ updatePost
@@ -24,7 +24,7 @@ module
         v08/ts/route_api_secured( delete, /:id, this.deletePost)
         $append handlers
             v08/ts/handler(getPostList)
-                _ getListPost
+                _ getPostList
                     {
                         { query
                             @ owner request.params.owner

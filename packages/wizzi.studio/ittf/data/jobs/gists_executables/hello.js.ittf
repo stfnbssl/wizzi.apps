@@ -1,0 +1,10 @@
+/*
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.14
+    primary source IttfDocument: C:/My/wizzi/stfnbssl/wizzi.demo/packages/wizzi.demo.server/ittf/data/jobs/gists/hello.js.ittf
+*/
+'use strict';
+go("stefi")
+function go(p1) {
+    console.log("Hello " + p1, __filename);
+}

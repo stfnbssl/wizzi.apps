@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi\src\features\blog\api\post.ts.ittf
 */
 import path from 'path';
@@ -39,11 +39,11 @@ export async function validatePost(owner: string, name: string) {
 export /**
     // console.log
         // myname
-        // 'getListPost'
+        // 'getPostList'
         // 'options'
         // options
 */
-async function getListPost(options?: any):  Promise<CRUDResult> {
+async function getPostList(options?: any):  Promise<CRUDResult> {
 
     options = options || {};
     
@@ -63,7 +63,7 @@ async function getListPost(options?: any):  Promise<CRUDResult> {
             query.find((err: any, result: any) => {
             
                 if (err) {
-                    console.log("[31m%s[0m", myname, 'getListPost', 'Post.find', 'error', err);
+                    console.log("[31m%s[0m", myname, 'getPostList', 'Post.find', 'error', err);
                     return reject(err);
                 }
                 const resultItem = [];
@@ -83,7 +83,7 @@ async function getListPost(options?: any):  Promise<CRUDResult> {
                     resultItem.push(item_obj)
                 }
                 resolve({
-                    oper: 'getList', 
+                    oper: 'getPostList', 
                     ok: true, 
                     item: resultItem
                  })
@@ -169,7 +169,7 @@ async function getPostById(id: string):  Promise<CRUDResult> {
                          });
                 }
                 resolve({
-                    oper: 'get', 
+                    oper: 'getPost', 
                     ok: false, 
                     message: 'Blog post not found'
                  })
@@ -236,7 +236,7 @@ async function createPost(owner?: string, name?: string, title?: string, content
                         return reject(err);
                     }
                     return resolve({
-                            oper: 'create', 
+                            oper: 'createPost', 
                             ok: true, 
                             item: doc._doc, 
                             message: 'Blog post created'
@@ -259,7 +259,7 @@ export /**
         // state
         // pubblished_at
 */
-async function updatePost(id: string, owner?: string, name?: string, title?: string, content?: string, state?: string, pubblished_at?: Date):  Promise<CRUDResult> {
+async function updatePost(id?: string, owner?: string, name?: string, title?: string, content?: string, state?: string, pubblished_at?: Date):  Promise<CRUDResult> {
 
     
     
@@ -268,9 +268,18 @@ async function updatePost(id: string, owner?: string, name?: string, title?: str
     return new Promise((resolve, reject) => {
         
             
-            const query = {
-                _id: id
-             };
+            var query;
+            if (id && id.length > 0) {
+                query = {
+                    _id: id
+                 };
+            }
+            else {
+                query = {
+                    owner: owner, 
+                    name: name
+                 };
+            }
             const update: any = {};
             if (typeof owner !== 'undefined') {
                 update['owner'] = owner;
@@ -298,9 +307,17 @@ async function updatePost(id: string, owner?: string, name?: string, title?: str
                     console.log("[31m%s[0m", myname, 'updatePost', 'Post.findOneAndUpdate', 'error', err);
                     return reject(err);
                 }
+                if (!result) {
+                    console.log("[31m%s[0m", myname, 'updatePost', 'Post.findOneAndUpdate', 'error', 'document not found');
+                    return reject({
+                            oper: 'updatePost', 
+                            ok: false, 
+                            message: 'Blog post document not found: ' + id
+                         });
+                }
                 
                 return resolve({
-                        oper: 'update', 
+                        oper: 'updatePost', 
                         ok: true, 
                         message: 'Blog post updated'
                      });
@@ -326,9 +343,18 @@ async function deletePost(id: string, owner?: string, name?: string, title?: str
     return new Promise((resolve, reject) => {
         
             
-            let query = {
-                _id: id
-             };
+            var query;
+            if (id && id.length > 0) {
+                query = {
+                    _id: id
+                 };
+            }
+            else {
+                query = {
+                    owner: owner, 
+                    name: name
+                 };
+            }
             
             Post.deleteOne(query, (err: any) => {
             
@@ -337,7 +363,7 @@ async function deletePost(id: string, owner?: string, name?: string, title?: str
                     return reject(err);
                 }
                 resolve({
-                    oper: 'delete', 
+                    oper: 'deletePost', 
                     ok: true, 
                     message: 'Blog post'
                  })

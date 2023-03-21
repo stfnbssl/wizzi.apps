@@ -22,10 +22,14 @@ module
                 @ deleteMetaProduction
                 @ getMetaProductionObject
                 @ getMetaProductionObjectById
+                @ generateMetaProduction
                 from '../api/meta'
             import
                 @ mergePackiFiles
                 from '../utils'
+            import
+                @ packiTypes
+                from '../../packi'
             +
             const myname = 'features/production/controllers/meta'
             +
@@ -58,6 +62,7 @@ module
         v08/ts/route_web_secured(post, /update, this.putMeta)
         v08/ts/route_web_secured(get, /delete/:id, this.getDeleteMetaForm)
         v08/ts/route_web_secured(post, /delete, this.deleteMeta)
+        v08/ts/route_web_secured(post, /generate, this.generateMeta)
         
         $append handlers
             
@@ -81,14 +86,16 @@ module
                     @ request.body.mp_name
                     @ request.body.mp_description
                     _ JSON.stringify
-                        _ getPackiFiles
+                        _ getPackiConfigFile
                     ._ then
                         =>
                             param result
                                 :ref CRUDResult
                             $$ loog myname + '.postNewMeta.createMetaProduction.result', JSON.stringify(result, null, 2)
                             if result.ok
-                                _ response.redirect('/productions/metas')
+                                _ response.redirect
+                                    $$ @ '/productions/metas'
+                                    @ '/~~/m/' + (request.session as any).user.username + '/' + request.body.mp_name
                             else
                                 _ response.render
                                     @ 'error.html.ittf'
@@ -116,3 +123,18 @@ module
 
             v08/ts/handler(  deleteMeta )
                 delete_delete( meta )
+
+            v08/ts/handler(  generateMeta )
+                _ generateMetaProduction
+                    @ request.body.owner
+                    @ request.body.name
+                    @ request.body.cliCtx
+                    ._ then
+                        =>
+                            param wizziPackiFiles
+                                :ref packiTypes.PackiFiles
+                            # loog myname, 'getWizziMetaFolderByPackageProductionObject.generateMetaProduction', Object.keys(wizziPackiFiles)
+                            _ sendSuccess
+                                @ response
+                                @ wizziPackiFiles
+                v08/ts/catch_error_page(  MetaProductionController.generateMeta )

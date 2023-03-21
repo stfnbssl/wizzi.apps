@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\production\api\artifact.ts.ittf
 */
 import path from 'path';
@@ -50,11 +50,11 @@ import {ITFolderModel} from '../types';
 export /**
     // console.log
         // myname
-        // 'getListArtifactProduction'
+        // 'getArtifactProductionList'
         // 'options'
         // options
 */
-async function getListArtifactProduction(options?: any):  Promise<CRUDResult> {
+async function getArtifactProductionList(options?: any):  Promise<CRUDResult> {
 
     options = options || {};
     
@@ -74,7 +74,7 @@ async function getListArtifactProduction(options?: any):  Promise<CRUDResult> {
             query.find((err: any, result: any) => {
             
                 if (err) {
-                    console.log("[31m%s[0m", myname, 'getListArtifactProduction', 'ArtifactProduction.find', 'error', err);
+                    console.log("[31m%s[0m", myname, 'getArtifactProductionList', 'ArtifactProduction.find', 'error', err);
                     return reject(err);
                 }
                 const resultItem = [];
@@ -94,7 +94,7 @@ async function getListArtifactProduction(options?: any):  Promise<CRUDResult> {
                     resultItem.push(item_obj)
                 }
                 resolve({
-                    oper: 'getList', 
+                    oper: 'getArtifactProductionList', 
                     ok: true, 
                     item: resultItem
                  })
@@ -180,7 +180,7 @@ async function getArtifactProductionById(id: string):  Promise<CRUDResult> {
                          });
                 }
                 resolve({
-                    oper: 'get', 
+                    oper: 'getArtifactProduction', 
                     ok: false, 
                     message: 'artifact production not found'
                  })
@@ -348,7 +348,7 @@ async function createArtifactProduction(owner?: string, name?: string, descripti
                         return reject(err);
                     }
                     return resolve({
-                            oper: 'create', 
+                            oper: 'createArtifactProduction', 
                             ok: true, 
                             item: doc._doc, 
                             message: 'artifact production created'
@@ -371,7 +371,7 @@ export /**
         // wizziSchema
         // packiFiles
 */
-async function updateArtifactProduction(id: string, owner?: string, name?: string, description?: string, mainIttf?: string, wizziSchema?: string, packiFiles?: string):  Promise<CRUDResult> {
+async function updateArtifactProduction(id?: string, owner?: string, name?: string, description?: string, mainIttf?: string, wizziSchema?: string, packiFiles?: string):  Promise<CRUDResult> {
 
     
     
@@ -380,9 +380,18 @@ async function updateArtifactProduction(id: string, owner?: string, name?: strin
     return new Promise((resolve, reject) => {
         
             
-            const query = {
-                _id: id
-             };
+            var query;
+            if (id && id.length > 0) {
+                query = {
+                    _id: id
+                 };
+            }
+            else {
+                query = {
+                    owner: owner, 
+                    name: name
+                 };
+            }
             const update: any = {};
             if (typeof owner !== 'undefined') {
                 update['owner'] = owner;
@@ -410,9 +419,17 @@ async function updateArtifactProduction(id: string, owner?: string, name?: strin
                     console.log("[31m%s[0m", myname, 'updateArtifactProduction', 'ArtifactProduction.findOneAndUpdate', 'error', err);
                     return reject(err);
                 }
+                if (!result) {
+                    console.log("[31m%s[0m", myname, 'updateArtifactProduction', 'ArtifactProduction.findOneAndUpdate', 'error', 'document not found');
+                    return reject({
+                            oper: 'updateArtifactProduction', 
+                            ok: false, 
+                            message: 'artifact production document not found: ' + id
+                         });
+                }
                 
                 return resolve({
-                        oper: 'update', 
+                        oper: 'updateArtifactProduction', 
                         ok: true, 
                         message: 'artifact production updated'
                      });
@@ -438,9 +455,18 @@ async function deleteArtifactProduction(id: string, owner?: string, name?: strin
     return new Promise((resolve, reject) => {
         
             
-            let query = {
-                _id: id
-             };
+            var query;
+            if (id && id.length > 0) {
+                query = {
+                    _id: id
+                 };
+            }
+            else {
+                query = {
+                    owner: owner, 
+                    name: name
+                 };
+            }
             
             ArtifactProduction.deleteOne(query, (err: any) => {
             
@@ -449,7 +475,7 @@ async function deleteArtifactProduction(id: string, owner?: string, name?: strin
                     return reject(err);
                 }
                 resolve({
-                    oper: 'delete', 
+                    oper: 'deleteArtifactProduction', 
                     ok: true, 
                     message: 'artifact production'
                  })

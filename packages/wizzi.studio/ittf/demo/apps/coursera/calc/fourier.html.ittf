@@ -1,0 +1,16 @@
+html
+
+	$
+		var opt = {};
+		opt.title = 'Fourier transformations';
+        opt.useMathJax = true;
+
+    html/layouts/empty_opt(&opt)
+
+        h2 Formulas
+            
+        formulas/fourier()
+
+        h2 Glossary
+            
+        glossary/fourier()

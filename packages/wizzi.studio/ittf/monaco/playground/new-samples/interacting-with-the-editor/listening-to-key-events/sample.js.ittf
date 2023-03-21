@@ -1,0 +1,14 @@
+module
+    kind react
+    var editor
+        _ monaco.editor.create
+            _ document.getElementById("container")
+            { 
+                @ value "function hello() {\n\talert('Hello world!');\n}"
+                @ language "javascript"
+    var myBinding
+        _ editor.addCommand
+            @expr monaco.KeyCode.F9
+            function 
+                _ alert('F9 pressed!')
+        # When cleaning up remember to call myBinding.dispose()

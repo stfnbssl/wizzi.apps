@@ -74,15 +74,29 @@ $group
                 @ this.state.session.packiProduction
                 @ this.state.session.id
     +
+    => _handleCloseLocalFolder
+        param save
+            :boolean
+        log 'App._handleCloseLocalFolder.save', save
+        const files = this.state.session.files
+        if save 
+            _ this.props.dispatchCloseLocalFolder
+                @ this.state.session.localFolderPath
+                @ this.state.session.files
+        else
+            set window.location.href = this.state.session.localFolderUri
+    +
     => _getViewKind
         param selectedFile
         param selectedFilePrev
         set selectedFilePrev = selectedFilePrev || ""
-        if selectedFile.endsWith('.ittf') && selectedFilePrev.endsWith('.ittf')
-            return this.state.previewKind
-        if !selectedFile.endsWith('.ittf') && !selectedFilePrev.endsWith('.ittf')
-            return this.state.previewKind            
-        if selectedFile.endsWith('.ittf')
-            return 'generated'
+        if this.state 
+            if selectedFile.endsWith('.ittf') && selectedFilePrev.endsWith('.ittf')
+                return this.state.previewKind
+            if !selectedFile.endsWith('.ittf') && !selectedFilePrev.endsWith('.ittf')
+                return this.state.previewKind            
         else
-            return 'wizzified'
+            if selectedFile.endsWith('.ittf')
+                return 'generated'
+            else
+                return 'wizzified'

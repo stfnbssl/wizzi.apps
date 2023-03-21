@@ -207,6 +207,7 @@ module
         :type PackiListenerSubscription
             :=>
                 :any
+    $* VIA
     +
     export
         :type SavedPacki
@@ -234,6 +235,7 @@ module
                 :p isDraft
                     :optional
                     :boolean
+    *$
     +
     export
         :type PackiDefaults
@@ -291,6 +293,15 @@ module
                 :p packiProduction
                     :optional
                     :ref PackiProduction
+                :p isLocalFolder
+                    :optional
+                    :boolean
+                :p localFolderPath
+                    :optional
+                    :string
+                :p localFolderUri
+                    :optional
+                    :string
     +
     export
         :type PackiSaveOptions
@@ -380,7 +391,7 @@ module
                         :literal "success"
                     :p packi
                         :optional
-                        :ref SavedPacki
+                        :ref PackiOptions
                     :p defaults
                         :ref PackiDefaults
                 :{

@@ -1,12 +1,12 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\session.tsx.ittf
 */
 import mapValues from 'lodash/mapValues';
 import nullthrows from 'nullthrows';
 import * as State from './State';
-import defaultConfig, {PackiIdentityState} from './defaultConfig';
+import {PackiIdentityState} from './defaultConfig';
 import {PackiFiles, PackiFile, PackiState, PackiUser, PackiWindowRef, PackiOptions, PackiStateListener, PackiListenerSubscription, PackiSaveOptions} from './types';
 import {fetch, createURL, createError} from './utils';
 //
@@ -30,8 +30,8 @@ const debounce = (func: any, timeout: any, context: any) => {
 export default class PackiSession {
         constructor(options: PackiOptions) {
             console.log('packi.Session.ctor.options', options);
-            this.apiURL = options.apiURL ?? defaultConfig.apiURL;
-            this.host = options.host ?? defaultConfig.host;
+            this.apiURL = options.apiURL;
+            this.host = options.host;
             this.state = this.updateDerivedState({
                 readOnly: !!options.readOnly, 
                 generated: !!options.generated, 
@@ -341,21 +341,9 @@ export default class PackiSession {
                 );
         }
         
+        
+        // non update in wizzi.studio
         async uploadPackiFilesUpdates(payload: PackiUploadPayload, done: () => any) {
-            const {
-                id, 
-                packiProduction
-             } = this.state;
-            const url = `${this.apiURL}/api/v1/production/${packiProduction}/${encodeURIComponent(id)}`;
-            const response = await fetch(url, {
-                    method: 'PUT', 
-                    body: JSON.stringify(payload), 
-                    headers: {
-                        'Content-Type': 'application/json'
-                     }
-                 });
-            const data = await response.json();
-            this.state.saveCount++;
             if (done) {
                 done();
             }

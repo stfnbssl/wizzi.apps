@@ -1,0 +1,141 @@
+$group
+	$params &opt
+
+    style
+        < *
+            margin 0
+            padding 0
+            box-sizing border-box
+        
+        < html
+            font-size 14px
+            font-family Roboto, Cambria, Cochin, Georgia, Arial
+            color #121212
+        
+        < body
+            width 100%
+            height 100vh
+
+        . l0-fullpage
+            height 100%
+        
+        . l1-top-nav
+            display flex
+            flex-direction column
+            align-content stretch
+            height 10%
+        
+        . banner
+            padding 5px 10px
+            max-height 29px
+            color #fff
+            background #636a4f
+            font-weight 700
+        
+        . banner-descr
+            text-align center
+        
+        . top-nav-box
+            display flex
+            justify-content space-between
+            padding 2px
+            margin 5px 14px
+            height 20px
+            font-weight 300
+        
+        . top-nav-box-left
+            display flex
+        
+        . top-nav-box-right
+            display flex
+        
+        . top-nav-logo
+            font-size 1.2em    
+            padding 4px
+
+        . top-nav-item
+            font-size 1.2em    
+            padding 4px 20px
+        
+        . top-nav-item-text
+            margin-top 6px
+            < a
+                transition all 0.3s
+                padding 4px
+                & :hover
+                    background-color #323232
+                    color #fff
+                    font-weight 700
+                    border-radius 6px
+                    
+
+        . l1-lab
+            height 85%
+            margin 0 20px
+
+        . l2-lab-header
+            height 5%
+            font-size 22px
+            font-weight 700
+        
+        . l2-lab-content
+            height 95%
+        
+        . l1-footer
+            height 5%
+
+    . l0-fullpage
+
+        . l1-top-nav
+            . banner
+                . banner-descr
+                    + One machinery many productions
+            . top-nav-box
+                . top-nav-box-left
+                    . top-nav-logo
+                        a
+                            href /
+                            . logo
+                                img
+                                    src /ittf/images/logo.svg.ittf
+                                    width 70px
+                                    height 24px
+                    . top-nav-item
+                        . top-nav-item-text
+                            a Get started
+                                href #
+                    . top-nav-item
+                        . top-nav-item-text
+                            a Concepts
+                                href #
+                    . top-nav-item
+                        . top-nav-item-text                    
+                            a Docs
+                                href #
+                    . top-nav-item
+                        . top-nav-item-text                    
+                            a Playground
+                                href #
+                    . top-nav-item
+                        . top-nav-item-text                    
+                            a Labs
+                                href #
+                    . top-nav-item
+                        . top-nav-item-text                                        
+                            a Packi
+                                href #
+                . top-nav-box-right
+                    . top-nav-item
+                        . top-nav-item-text                                        
+                            a Github
+                                href #
+        
+        . l1-lab
+        
+            . l2-lab-header
+                + Lab / ${opt.title}
+            
+            . l2-lab-content
+                $hook
+        
+        . l1-lab-footer

@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\production\controllers\apiv1plugin.tsx.ittf
 */
 import {Router, Request, Response} from 'express';
@@ -8,9 +8,12 @@ import {ControllerType, AppInitializerType} from '../../../features/app/types';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
-import {getListPluginProduction, validatePluginProduction, getPluginProduction, updatePluginProduction, createPluginProduction} from '../api/plugin';
+import {wizziTypes, wizziProds, WizziFactory} from '../../wizzi';
+import {packiTypes, PackiBuilder} from '../../packi';
+import {mergePackiFiles} from '../utils';
+import {getPluginProductionList, validatePluginProduction, getPluginProduction, getPluginProductionObjectById, updatePluginProduction, createPluginProduction, invalidateCache} from '../api/plugin';
 
-const myname = 'features/production/controllers/apiv1pluginproduction';
+const myname = 'features/production/controllers/apiv1plugin';
 
 function makeHandlerAwareOfAsyncErrors(handler) {
 
@@ -48,16 +51,17 @@ export class ApiV1PluginProductionController implements ControllerType {
     
     initialize = (initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ApiV1PluginProductionController.initialize');
-        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(this.getPluginProductionList))
+        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(this.getPluginProductions))
         this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getCheckPluginName))
         this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getPluginProduction))
         this.router.put("/:id", makeHandlerAwareOfAsyncErrors(this.putPluginProduction))
+        this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors(this.putPluginProductionPackiDiffs))
         this.router.post("/:post", makeHandlerAwareOfAsyncErrors(this.postPluginProduction))
     };
     
-    private getPluginProductionList = async (request: Request, response: Response) => 
+    private getPluginProductions = async (request: Request, response: Response) => 
     
-        getListPluginProduction({
+        getPluginProductionList({
             query: {
                 owner: request.params.owner
              }
@@ -68,7 +72,7 @@ export class ApiV1PluginProductionController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
-            console.log("[31m%s[0m", 'getPluginProductionList.error', err);
+            console.log("[31m%s[0m", 'getPluginProductions.error', err);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -152,4 +156,50 @@ export class ApiV1PluginProductionController implements ControllerType {
         )
     
     ;
+    
+    private putPluginProductionPackiDiffs = async (request: Request, response: Response) => {
+    
+        console.log('putPluginProductionPackiDiffs.request.params', request.params, __filename);
+        console.log('putPluginProductionPackiDiffs.request.body.options', Object.keys(request.body.options), __filename);
+        console.log('putPluginProductionPackiDiffs.request.body.packiDiffs', Object.keys(request.body.packiDiffs), __filename);
+        const options = request.body.options || {};
+        getPluginProductionObjectById(request.params.id).then((prevPlugin: any) => {
+        
+            console.log('putPluginProductionPackiDiffs.prevPackiFiles', Object.keys(prevPlugin.packiFiles), __filename);
+            const pm = new PackiBuilder(prevPlugin.packiFiles);
+            pm.applyPatch_ChangesOnly(request.body.packiDiffs)
+            return exec_updatePluginProduction(request, response, pm.packiFiles);
+        }
+        ).catch((err: any) => {
+        
+            if (typeof err === 'object' && err !== null) {
+            }
+            console.log("[31m%s[0m", 'putPluginProductionPackiDiffs.getPluginProductionObjectById.error', err);
+            sendFailure(response, {
+                err: err
+             }, 501)
+        }
+        )
+    }
+    ;
+}
+function exec_updatePluginProduction(request: any, response: any, packiFiles: any) {
+
+    updatePluginProduction(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then(
+    // loog 'putPluginProduction.update.result', result
+    (result: any) => {
+    
+        invalidateCache(request.params.id)
+        sendSuccess(response, result)
+    }
+    ).catch((err: any) => {
+    
+        if (typeof err === 'object' && err !== null) {
+        }
+        console.log("[31m%s[0m", 'exec_updatePluginProduction.updatePluginProduction.error', err);
+        sendFailure(response, {
+            err: err
+         }, 501)
+    }
+    )
 }

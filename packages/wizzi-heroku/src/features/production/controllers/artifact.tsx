@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\production\controllers\artifact.tsx.ittf
 */
 import {Router, Request, Response} from 'express';
@@ -12,8 +12,10 @@ import {statusCode} from '../../../utils';
 import ReactDOMServer from 'react-dom/server';
 import PageFormDocument from '../../../pages/PageFormDocument';
 import {CRUDResult} from '../../types';
+import {getTemplatePackiFiles} from '../api/meta';
 import {createArtifactProduction, updateArtifactProduction, deleteArtifactProduction, getArtifactProductionObject, getArtifactProductionObjectById} from '../api/artifact';
-import {createInitialPackiFiles} from '../utils';
+import {mergePackiFiles} from '../utils';
+import {packiTypes} from '../../packi';
 
 const myname = 'features/production/controllers/artifact';
 
@@ -26,6 +28,35 @@ function renderPageForm(req: Request, res: Response, data: object, queryParams: 
     res.set('Content-Type', 'text/html');
     res.set('Content-Length', index.length.toString());
     res.send(index);
+}
+function getPackiConfigFile() {
+
+    return {
+            ['.packi/config.json.ittf']: {
+                type: 'CODE', 
+                contents: [
+                    '{', 
+                    '    { meta', 
+                    '        $$ name "..name.."', 
+                    '        { cliCtx"', 
+                    '            kind "artifact" $$ file|artifact', 
+                    '            $$ filePath ".packi/cliCtx.json.ittf" $$ when kind = "file"', 
+                    '            { artifact', 
+                    '                $$ name "..name.." $$ when kind = "artifact"', 
+                    '            [ contexts', 
+                    '                {', 
+                    '                    $$ propertyName "..name.."', 
+                    '                    $$ artifactName "..name.."', 
+                    '    [ tfolders', 
+                    '        {', 
+                    '            $$ name "..name.."', 
+                    '    [ contexts', 
+                    '        {', 
+                    '            $$ propertyName "..name.."', 
+                    '            $$ artifactName "..name.."'
+                ].join('\n')
+             }
+         };
 }
 
 function makeHandlerAwareOfAsyncErrors(handler) {
@@ -95,26 +126,33 @@ export class ArtifactProductionController implements ControllerType {
         const mainIttf = request.body.ap_main_ittf || 'index.' + wizziSchema + '.ittf';
         const contexts = request.body.ap_contexts || '[]';
         const tfolders = request.body.ap_tfolders || '[]';
-        createArtifactProduction((request.session as any).user.username, request.body.ap_name, request.body.ap_description, mainIttf, wizziSchema, JSON.stringify(createInitialPackiFiles(contexts, tfolders, wizziSchema, mainIttf))).then((result: CRUDResult) => {
+        getTemplatePackiFiles(request.body.meta_id, request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}, request.query.context as string, request.body.context ? JSON.parse(request.body.context) : {}, {
+            wizziSchema: wizziSchema, 
+            mainIttf: mainIttf
+         }).then((packiFiles: packiTypes.PackiFiles) => 
         
+            createArtifactProduction((request.session as any).user.username, request.body.ap_name, request.body.ap_description, mainIttf, wizziSchema, JSON.stringify(mergePackiFiles(packiFiles, getPackiConfigFile()))).then((result: CRUDResult) => {
             
-            // _ response.redirect('/productions/artifacts')
-            if (result.ok) {
-                response.redirect('/~~/a/' + (request.session as any).user.username + '/' + request.body.ap_name)
+                
+                // _ response.redirect('/productions/artifacts')
+                if (result.ok) {
+                    response.redirect('/~~/a/' + (request.session as any).user.username + '/' + request.body.ap_name)
+                }
+                else {
+                    response.render('error.html.ittf', {
+                        message: 'creating a new artifact production', 
+                        error: result
+                     })
+                }
             }
-            else {
+            ).catch((err: any) => 
+            
                 response.render('error.html.ittf', {
                     message: 'creating a new artifact production', 
-                    error: result
+                    error: err
                  })
-            }
-        }
-        ).catch((err: any) => 
+            )
         
-            response.render('error.html.ittf', {
-                message: 'creating a new artifact production', 
-                error: err
-             })
         )
     }
     ;

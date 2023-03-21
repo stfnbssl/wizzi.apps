@@ -52,7 +52,6 @@ html
                     p Make a decent splitter work between edit content and result pane.
                     p Result pane icons should be inside the pane. And should be decent.
                     p The 'saved' message should be: 'Not modified', or 'Not yet saved' or 'Saved x seconds|minutes|hours ago'.
-                    p SavedPacki and PackiOptions are the same
                     p pageforms: debounce checkname 1 second
                     p pageforms: reset checkname error color when valid
                     p checkname maybe unnecessary in apiv1* controllers

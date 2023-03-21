@@ -16,6 +16,9 @@ $group
             :ref PackiProduction
             = props.packi.packiProduction
         const readOnly = props.packi.readOnly
+        const isLocalFolder = props.packi.isLocalFolder
+        const localFolderPath = props.packi.localFolderPath
+        const localFolderUri = props.packi.localFolderUri
         const generated = props.packi.generated $$ ???
         const verbose = props.preferences.verbose
         const sendCodeOnChangeEnabled = true
@@ -37,6 +40,9 @@ $group
                     @ files
                     @ packiProduction
                     @ readOnly
+                    @ isLocalFolder
+                    @ localFolderPath
+                    @ localFolderUri
                     @ generated $$ ???
                     @ verbose
                     @ user props.loggedUser

@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\production\api\plugin.ts.ittf
 */
 import NodeCache from 'node-cache';
@@ -47,11 +47,11 @@ export async function validatePluginProduction(owner: string, name: string):  Pr
 export /**
     // console.log
         // myname
-        // 'getListPluginProduction'
+        // 'getPluginProductionList'
         // 'options'
         // options
 */
-async function getListPluginProduction(options?: any):  Promise<CRUDResult> {
+async function getPluginProductionList(options?: any):  Promise<CRUDResult> {
 
     options = options || {};
     
@@ -71,7 +71,7 @@ async function getListPluginProduction(options?: any):  Promise<CRUDResult> {
             query.find((err: any, result: any) => {
             
                 if (err) {
-                    console.log("[31m%s[0m", myname, 'getListPluginProduction', 'PluginProduction.find', 'error', err);
+                    console.log("[31m%s[0m", myname, 'getPluginProductionList', 'PluginProduction.find', 'error', err);
                     return reject(err);
                 }
                 const resultItem = [];
@@ -89,7 +89,7 @@ async function getListPluginProduction(options?: any):  Promise<CRUDResult> {
                     resultItem.push(item_obj)
                 }
                 resolve({
-                    oper: 'getList', 
+                    oper: 'getPluginProductionList', 
                     ok: true, 
                     item: resultItem
                  })
@@ -175,7 +175,7 @@ async function getPluginProductionById(id: string):  Promise<CRUDResult> {
                          });
                 }
                 resolve({
-                    oper: 'get', 
+                    oper: 'getPluginProduction', 
                     ok: false, 
                     message: 'plugin production not found'
                  })
@@ -339,7 +339,7 @@ async function createPluginProduction(owner?: string, name?: string, description
                         return reject(err);
                     }
                     return resolve({
-                            oper: 'create', 
+                            oper: 'createPluginProduction', 
                             ok: true, 
                             item: doc._doc, 
                             message: 'plugin production created'
@@ -360,7 +360,7 @@ export /**
         // description
         // packiFiles
 */
-async function updatePluginProduction(id: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
+async function updatePluginProduction(id?: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
 
     
     
@@ -369,9 +369,18 @@ async function updatePluginProduction(id: string, owner?: string, name?: string,
     return new Promise((resolve, reject) => {
         
             
-            const query = {
-                _id: id
-             };
+            var query;
+            if (id && id.length > 0) {
+                query = {
+                    _id: id
+                 };
+            }
+            else {
+                query = {
+                    owner: owner, 
+                    name: name
+                 };
+            }
             const update: any = {};
             if (typeof owner !== 'undefined') {
                 update['owner'] = owner;
@@ -393,9 +402,17 @@ async function updatePluginProduction(id: string, owner?: string, name?: string,
                     console.log("[31m%s[0m", myname, 'updatePluginProduction', 'PluginProduction.findOneAndUpdate', 'error', err);
                     return reject(err);
                 }
+                if (!result) {
+                    console.log("[31m%s[0m", myname, 'updatePluginProduction', 'PluginProduction.findOneAndUpdate', 'error', 'document not found');
+                    return reject({
+                            oper: 'updatePluginProduction', 
+                            ok: false, 
+                            message: 'plugin production document not found: ' + id
+                         });
+                }
                 
                 return resolve({
-                        oper: 'update', 
+                        oper: 'updatePluginProduction', 
                         ok: true, 
                         message: 'plugin production updated'
                      });
@@ -421,9 +438,18 @@ async function deletePluginProduction(id: string, owner?: string, name?: string,
     return new Promise((resolve, reject) => {
         
             
-            let query = {
-                _id: id
-             };
+            var query;
+            if (id && id.length > 0) {
+                query = {
+                    _id: id
+                 };
+            }
+            else {
+                query = {
+                    owner: owner, 
+                    name: name
+                 };
+            }
             
             PluginProduction.deleteOne(query, (err: any) => {
             
@@ -432,7 +458,7 @@ async function deletePluginProduction(id: string, owner?: string, name?: string,
                     return reject(err);
                 }
                 resolve({
-                    oper: 'delete', 
+                    oper: 'deletePluginProduction', 
                     ok: true, 
                     message: 'plugin production'
                  })

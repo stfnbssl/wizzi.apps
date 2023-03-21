@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi\src\index.ts.ittf
 */
 import {ApiType, ControllerType, AppInitializerType, MiddlewareType} from './features/app/types';
@@ -15,6 +15,7 @@ import {githubControllers} from './features/github/index';
 import {docsControllers} from './features/docs/index';
 import {productionControllers, productionModelBuilders} from './features/production/index';
 import {packiControllers} from './features/packi/index';
+import {cdnControllers, cdnModelBuilders} from './features/cdn/index';
 import {appMiddlewaresPre, appMiddlewaresPost} from './middlewares/index';
 import App from './App';
 var app: any = {
@@ -25,7 +26,8 @@ async function start() {
     let modelBuilders: ModelBuilderType[] = [
         ...accountModelBuilders, 
         ...blogModelBuilders, 
-        ...productionModelBuilders
+        ...productionModelBuilders, 
+        ...cdnModelBuilders
     ];
     await mongodbStart(config, modelBuilders);
     
@@ -44,7 +46,8 @@ async function start() {
         ...githubControllers, 
         ...docsControllers, 
         ...productionControllers, 
-        ...packiControllers
+        ...packiControllers, 
+        ...cdnControllers
     ];
     console.log("[33m%s[0m", 'Starting app. Config:', config);
     const appInitializer: AppInitializerType = {

@@ -1,0 +1,20 @@
+﻿{
+
+    [ files
+        {
+            name 'alpha'
+            hash 'alpha'
+            content '
+                \ function alpha() {
+                \ \tconsole.log("Hello alpha!")
+                \ }
+                \ '
+        {
+            name 'beta'
+            hash 'beta'
+            content '
+                \ function beta() {
+                \ \tconsole.log("Hello beta!")
+                \ }
+                \ '
+

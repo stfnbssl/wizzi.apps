@@ -5,34 +5,30 @@ module
             name: 'ApiV1TFolder',
             path: '/api/v1/production/tfolder',
             apiSecured: wzCtx.App.isLocal == false,
+            Production: 'TFolder',
+            production: 'tfolder',
         }
     
     v08/ts/controller( &ctrl )
             
         $append imports
-            import
-                @ getListTFolder
-                @ validateTFolder
-                @ getTFolder
-                @ updateTFolder
-                @ createTFolder
-                @ invalidateCache
-                from '../api/tfolder'
+            apiv1_imports( &ctrl )
             +
             const myname = 'features/production/controllers/apiv1tfolder'
 
-        v08/ts/route_api_secured( get, /:owner, this.getTFolderList)
+        v08/ts/route_api_secured( get, /:owner, this.getTFolders)
         v08/ts/route_api_secured( get, /checkname/:owner/:name, this.getCheckTFolderName)
         v08/ts/route_api_secured( get, /:owner/:name, this.getTFolder)
         v08/ts/route_api_secured( put, /:id, this.putTFolder)
+        v08/ts/route_api_secured( put, /packidiffs/:id, this.putTFolderPackiDiffs)
         v08/ts/route_api_secured( post, /:owner/:name, this.postTFolder)
         
         $append handlers
 
-            v08/ts/handler(  getTFolderList )
+            v08/ts/handler(  getTFolders )
 
-                $$ loog 'getTFolderList.request.params', request.params
-                _ getListTFolder
+                $$ loog 'getTFolders.request.params', request.params
+                _ getTFolderList
                     {
                         { query
                             @ owner request.params.owner
@@ -40,11 +36,11 @@ module
                         =>
                             param result
                                 :any
-                            $$ loog 'getTFolderList.result', result
+                            $$ loog 'getTFolders.result', result
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail(  getTFolderList )
+                    v08/ts/catch_send_fail(  getTFolders )
             
             v08/ts/handler(  getCheckTFolderName )
                 check_name( tFolder )
@@ -109,3 +105,7 @@ module
                                 @ response
                                 @ result
                     v08/ts/catch_send_fail(  putTFolder )
+            
+            apiv1_put( &ctrl )    
+    
+    apiv1_exec_update( &ctrl )                            

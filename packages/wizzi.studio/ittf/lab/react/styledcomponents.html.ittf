@@ -1,0 +1,50 @@
+html
+
+    $
+        var opt = {
+            title: 'React with styled components example',
+            Build: {
+                useReact: true,
+                react: {
+                    useStyledComponents: true,
+                },
+                useTailwind: true,
+            }
+        }
+
+    html/layouts/basic_opt(&opt)
+
+        layouts/lab(&opt)
+
+            # root
+
+            script
+                type text/babel
+                module
+                    kind react
+
+                    const Hello
+                        _ styled.div
+                            => 
+                                param props
+                                (
+                                    { 
+                                        @ background props.background
+                                        @ padding props.padding
+
+                    function App
+                        param props
+
+                        return
+                            div
+                                style {{ background: '#cacaca', width: '300px', height: '500px'}}
+                                < Hello
+                                    @ {...props}
+                                    + Hello
+
+                    _ ReactDOM.render
+                        < App
+                            @ padding '4px'
+                            @ background '#ff0000'
+                        _ document.getElementById
+                            @ 'root'

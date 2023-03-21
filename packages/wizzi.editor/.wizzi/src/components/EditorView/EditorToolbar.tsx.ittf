@@ -63,6 +63,8 @@ module
                     :boolean 
                 :p isEditModalVisible
                     :boolean 
+                :p isLocalFolder
+                    :boolean 
                 :p generatedPreviewURL
                     :string 
                 :p onSubmitMetadata
@@ -115,6 +117,9 @@ module
                     :p onExecuteWizziMetaFolder
                         :=> 
                             :void 
+                    :p onCloseLocalFolder
+                        :=> 
+                            :void 
     export
         function EditorToolbar
             param props
@@ -132,6 +137,7 @@ module
                     @ saveStatus
                     @ isDownloading
                     @ isEditModalVisible
+                    @ isLocalFolder
                     @ onSubmitMetadata
                     @ onShowEditModal
                     @ onDismissEditModal
@@ -144,6 +150,8 @@ module
                     @ generatedPreviewURL
                     @ onExecuteWizziJob
                     @ onExecuteWizziMetaFolder
+                    @ onCloseLocalFolder
+
                 = props
             
             const 
@@ -243,6 +251,23 @@ module
                                                 @ strokeWidth "2"
                                                 @ strokeLinecap "round"
                                                 @ strokeLinejoin "round"
+                        {
+                            &&
+                                + isLocalFolder
+                                < React.Fragment
+                                    < IconButton 
+                                        @ responsive
+                                        @ title "Download as zip"
+                                        @ onClick {onCloseLocalFolder}
+                                        svg 
+                                            @ width "20"
+                                            @ height "20"
+                                            path 
+                                                @ d "M14.167 10H5.833L10 16.667 14.167 10z"
+                                            path 
+                                                @ d "M2.5 18.333h15M10 10V1.667"
+                                                @ strokeWidth "2"
+                                                @ strokeLinecap "round"
                         $if false
                             < IconButton 
                                 @ responsive

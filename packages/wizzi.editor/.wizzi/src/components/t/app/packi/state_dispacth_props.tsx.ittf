@@ -87,6 +87,13 @@ $group
                     :ref PackiProduction
                 param productionId
                     :string 
+        :p dispatchSaveLocalFolder
+            :=> 
+                :void 
+                param localFolderPath
+                    :string
+                param files
+                    :ref PackiFiles
         :p dispatchWizzify
             :=> 
                 :void 
@@ -229,6 +236,17 @@ $group
                                     { 
                                         @ productionKind
                                         @ productionId
+                    @ dispatchSaveLocalFolder
+                        => 
+                            param localFolderPath
+                                :string 
+                            param files
+                                :ref PackiFiles
+                            _ dispatch
+                                _ wizziActions.executeSaveLocalFolder
+                                    { 
+                                        @ localFolderPath
+                                        @ files
                     @ dispatchWizzify
                         => 
                             param filePath

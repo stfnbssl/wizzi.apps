@@ -1,0 +1,19 @@
+module
+    import
+        @ ControllerType
+        from '../app/types'
+    import
+        as packiEditTypes
+        from './types'
+    import
+        @ LocalEditController
+        from './controllers/localedit'
+    const packiEditControllers
+        :[
+            :ref ControllerType
+        =
+            [
+                @ new LocalEditController()
+    export
+        @ packiEditTypes
+        @ packiEditControllers

@@ -9,6 +9,7 @@
     @ saveStatus {saveStatus}
     @ loggedUser {loggedUser}
     @ isEditModalVisible {currentModal === 'edit-info'}
+    @ isLocalFolder {isLocalFolder}
     @ isWizziJobWaiting {isWizziJobWaiting}
     @ onChangeSplitViewKind {this._handleChangeSplitViewKind}
     @ splitViewKind {this.state.splitViewKind}
@@ -18,6 +19,7 @@
     @ onDismissEditModal {this._handleDismissEditModal}
     @ onExecuteWizziJob {onExecuteWizziJob}
     @ onExecuteWizziMetaFolder {onExecuteWizziMetaFolder}
+    @ onCloseLocalFolder {onCloseLocalFolder}
     @ onSubmitMetadata {this.props.onSubmitMetadata}
     @ onDownloadCode {this.props.onDownloadAsync}
     @ onPublishAsync {onPublishAsync}

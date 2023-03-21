@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\production\controllers\package.tsx.ittf
 */
 import {Router, Request, Response} from 'express';
@@ -29,7 +29,7 @@ function renderPageForm(req: Request, res: Response, data: object, queryParams: 
     res.set('Content-Length', index.length.toString());
     res.send(index);
 }
-function getPackiFiles() {
+function getPackiConfigFile() {
 
     return {
             ['.packi/config.json.ittf']: {
@@ -38,10 +38,11 @@ function getPackiFiles() {
                     '{', 
                     '    { meta', 
                     '        $$ name "..name.."', 
-                    '        { cliCtx', 
-                    '            kind "file" $$ file|artifact', 
-                    '            filePath ".packi/cliCtx.json.ittf" $$ when kind = "file"', 
-                    '            artifactName "..name.." $$ when kind = "artifact"', 
+                    '        { cliCtx"', 
+                    '            kind "artifact" $$ file|artifact', 
+                    '            $$ filePath ".packi/cliCtx.json.ittf" $$ when kind = "file"', 
+                    '            { artifact', 
+                    '                $$ name "..name.." $$ when kind = "artifact"', 
                     '            [ contexts', 
                     '                {', 
                     '                    $$ propertyName "..name.."', 
@@ -185,12 +186,15 @@ export class PackageProductionController implements ControllerType {
     // loog myname + '.postNewPackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
     async (request: Request, response: Response) => 
     
-        getTemplatePackiFiles(request.body.meta_id, request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}, request.query.context as string, request.body.context ? JSON.parse(request.body.context) : {}).then((packiFiles: packiTypes.PackiFiles) => 
+        getTemplatePackiFiles(request.body.meta_id, request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}, request.query.context as string, request.body.context ? JSON.parse(request.body.context) : {}, {
+            wizziSchema: null, 
+            mainIttf: null
+         }).then((packiFiles: packiTypes.PackiFiles) => 
         
-            createPackageProduction((request.session as any).user.username, request.body.pp_name, request.body.pp_description, JSON.stringify(mergePackiFiles(packiFiles, getPackiFiles()))).then((result: CRUDResult) => {
+            createPackageProduction((request.session as any).user.username, request.body.pp_name, request.body.pp_description, JSON.stringify(mergePackiFiles(packiFiles, getPackiConfigFile()))).then((result: CRUDResult) => {
             
                 if (result.ok) {
-                    response.redirect('/productions/packages');
+                    response.redirect('/~~/p/' + (request.session as any).user.username + '/' + request.body.pp_name)
                 }
                 else {
                     response.render('error.html.ittf', {

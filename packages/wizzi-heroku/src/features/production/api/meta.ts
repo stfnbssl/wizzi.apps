@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\production\api\meta.ts.ittf
 */
 import NodeCache from 'node-cache';
@@ -47,11 +47,11 @@ export async function validateMetaProduction(owner: string, name: string):  Prom
 export /**
     // console.log
         // myname
-        // 'getListMetaProduction'
+        // 'getMetaProductionList'
         // 'options'
         // options
 */
-async function getListMetaProduction(options?: any):  Promise<CRUDResult> {
+async function getMetaProductionList(options?: any):  Promise<CRUDResult> {
 
     options = options || {};
     
@@ -71,7 +71,7 @@ async function getListMetaProduction(options?: any):  Promise<CRUDResult> {
             query.find((err: any, result: any) => {
             
                 if (err) {
-                    console.log("[31m%s[0m", myname, 'getListMetaProduction', 'MetaProduction.find', 'error', err);
+                    console.log("[31m%s[0m", myname, 'getMetaProductionList', 'MetaProduction.find', 'error', err);
                     return reject(err);
                 }
                 const resultItem = [];
@@ -89,7 +89,7 @@ async function getListMetaProduction(options?: any):  Promise<CRUDResult> {
                     resultItem.push(item_obj)
                 }
                 resolve({
-                    oper: 'getList', 
+                    oper: 'getMetaProductionList', 
                     ok: true, 
                     item: resultItem
                  })
@@ -175,7 +175,7 @@ async function getMetaProductionById(id: string):  Promise<CRUDResult> {
                          });
                 }
                 resolve({
-                    oper: 'get', 
+                    oper: 'getMetaProduction', 
                     ok: false, 
                     message: 'meta production not found'
                  })
@@ -339,7 +339,7 @@ async function createMetaProduction(owner?: string, name?: string, description?:
                         return reject(err);
                     }
                     return resolve({
-                            oper: 'create', 
+                            oper: 'createMetaProduction', 
                             ok: true, 
                             item: doc._doc, 
                             message: 'meta production created'
@@ -360,7 +360,7 @@ export /**
         // description
         // packiFiles
 */
-async function updateMetaProduction(id: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
+async function updateMetaProduction(id?: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
 
     
     
@@ -369,9 +369,18 @@ async function updateMetaProduction(id: string, owner?: string, name?: string, d
     return new Promise((resolve, reject) => {
         
             
-            const query = {
-                _id: id
-             };
+            var query;
+            if (id && id.length > 0) {
+                query = {
+                    _id: id
+                 };
+            }
+            else {
+                query = {
+                    owner: owner, 
+                    name: name
+                 };
+            }
             const update: any = {};
             if (typeof owner !== 'undefined') {
                 update['owner'] = owner;
@@ -393,9 +402,17 @@ async function updateMetaProduction(id: string, owner?: string, name?: string, d
                     console.log("[31m%s[0m", myname, 'updateMetaProduction', 'MetaProduction.findOneAndUpdate', 'error', err);
                     return reject(err);
                 }
+                if (!result) {
+                    console.log("[31m%s[0m", myname, 'updateMetaProduction', 'MetaProduction.findOneAndUpdate', 'error', 'document not found');
+                    return reject({
+                            oper: 'updateMetaProduction', 
+                            ok: false, 
+                            message: 'meta production document not found: ' + id
+                         });
+                }
                 
                 return resolve({
-                        oper: 'update', 
+                        oper: 'updateMetaProduction', 
                         ok: true, 
                         message: 'meta production updated'
                      });
@@ -421,9 +438,18 @@ async function deleteMetaProduction(id: string, owner?: string, name?: string, d
     return new Promise((resolve, reject) => {
         
             
-            let query = {
-                _id: id
-             };
+            var query;
+            if (id && id.length > 0) {
+                query = {
+                    _id: id
+                 };
+            }
+            else {
+                query = {
+                    owner: owner, 
+                    name: name
+                 };
+            }
             
             MetaProduction.deleteOne(query, (err: any) => {
             
@@ -432,7 +458,7 @@ async function deleteMetaProduction(id: string, owner?: string, name?: string, d
                     return reject(err);
                 }
                 resolve({
-                    oper: 'delete', 
+                    oper: 'deleteMetaProduction', 
                     ok: true, 
                     message: 'meta production'
                  })
@@ -543,22 +569,24 @@ export function invalidateCache(owner: string, name?: string) {
     metaProductionCache.del(cacheKey);
 }
 
-export // loog myname, 'getTemplatePackiFiles', 'metaId', metaId, 'cliCtx', Object.keys(cliCtx), 'queryString', queryString, 'rootContext', Object.keys(rootContext)
-async function getTemplatePackiFiles(metaId: string, cliCtx: any, queryString: string, rootContext: any):  Promise<packiTypes.PackiFiles> {
+export // loog myname, 'getTemplatePackiFiles', 'metaId', metaId, 'cliCtx', Object.keys(cliCtx), 'queryString', queryString, 'rootContext', Object.keys(rootContext), 'options', Object.keys(options)
+async function getTemplatePackiFiles(metaId: string, cliCtx: any, queryString: string, rootContext: any, options: any):  Promise<packiTypes.PackiFiles> {
 
-    function getPackiFiles(mainIttf: string):  packiTypes.PackiFiles {
+    function getPackiFiles(wizziSchema: string, mainIttf: string):  packiTypes.PackiFiles {
     
         const ret: packiTypes.PackiFiles = {};
-        ret[mainIttf] = {
-            type: 'CODE', 
-            contents: ''
-         };
+        if (wizziSchema && mainIttf) {
+            ret[mainIttf] = {
+                type: 'CODE', 
+                contents: wizziSchema
+             };
+        }
         return ret;
     }
     return new Promise((resolve, reject) => {
         
             if (!metaId || metaId.length < 1) {
-                return resolve(getPackiFiles('index.js.ittf'));
+                return resolve(getPackiFiles(options.wizziSchema, options.mainIttf));
             }
             productionApi.prepareProductionById('meta', metaId, queryString, rootContext).then(
             // loog 'getTemplatePackiFiles.metaProductionSet', 'packiFiles', Object.keys(metaProductionSet.packiFiles), 'context', Object.keys(metaProductionSet.context),
@@ -611,10 +639,9 @@ async function generateMetaProductionById(metaId: string, cliCtx: any):  Promise
 
     return new Promise((resolve, reject) => 
         
-            productionApi.prepareProductionById('meta', metaId, "", {}).then(
-            // loog 'generateMetaProductionById.metaProductionSet', 'packiFiles', Object.keys(metaProductionSet.packiFiles), 'context', Object.keys(metaProductionSet.context),
-            (metaProductionSet: any) => {
+            productionApi.prepareProductionById('meta', metaId, "", {}).then((metaProductionSet: any) => {
             
+                console.log('generateMetaProductionById.metaProductionSet', 'packiFiles', Object.keys(metaProductionSet.packiFiles), 'context', Object.keys(metaProductionSet.context),__filename);
                 const metaContext = Object.assign({}, metaProductionSet.context, {
                     cliCtx: cliCtx
                  });

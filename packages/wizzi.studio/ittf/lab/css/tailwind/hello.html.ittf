@@ -1,0 +1,26 @@
+html
+
+    $
+        var opt = {
+            title: 'Tailwind',
+            Build: {
+                useTailwind: true,
+            }
+        }
+
+    html/layouts/basic_opt(&opt)
+
+        layouts/lab(&opt)
+
+            $include json/sampledata/nav
+
+            div
+                ul
+                    $foreach g in nav.groups
+                        li 
+                            h5 ${g.title}
+                            ul
+                                $foreach item in g.items
+                                    li
+                                        a ${item.title} 
+                                            href ${item.href} 

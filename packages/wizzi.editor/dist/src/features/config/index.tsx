@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\config\index.tsx.ittf
 */
 import * as defaults from './defaults';
@@ -26,8 +26,8 @@ function getConfig() {
 
     if (_config == null) {
         _config = {
-            SERVER_URL: 'http://localhost:5000', 
-            API_URL: 'http://localhost:5000/api/v1', 
+            SERVER_URL: 'http://localhost:5100', 
+            API_URL: 'http://localhost:5100/api/v1', 
             EDITOR_LOAD_FALLBACK_TIMEOUT: defaults.EDITOR_LOAD_FALLBACK_TIMEOUT, 
             DEFAULT_PACKI_CODE: defaults.DEFAULT_PACKI_CODE, 
             PREFERENCES_KEY: 'packi.preferences.config'

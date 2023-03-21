@@ -1,0 +1,77 @@
+html
+
+    $
+        var opt = {
+            title: 'Tailwind',
+            Build: {
+                useTailwind: true,
+            }
+        }
+
+    html/layouts/basic_opt(&opt)
+
+        layouts/lab(&opt)
+
+            input
+                type file
+                id input
+                @ webkitdirectory
+                @ multiple
+            div
+                id output
+
+            script
+                module
+                    kind es6
+                    var output = document.querySelector("#output")
+                    set document.querySelector('#input').onchange
+                        function
+                            log 'this.files', this.files
+                            var files = this.files
+                            let i = 0
+                            for file of files
+                                set i++
+                                _ placeFileContent
+                                    @ file
+                                    @ i
+                                $*
+                                _ output.insertAdjacentHTML
+                                    @ 'beforeend'
+                                    @ `<div>${file.webkitRelativePath}</div>`
+                                *$
+
+                    function placeFileContent
+                        $$ param target
+                        param file
+                        param i
+                        _ readFileContent(file)
+                            ._ then
+                                =>
+                                    param content
+                                    $$ set target.value = content
+                                    _ output.insertAdjacentHTML
+                                        @ 'beforeend'
+                                        @ `<div>${i}<span>&nbsp;${file.type}</span></div><div>${file.webkitRelativePath}</div><div>${content}</div><hr>`
+                            ._ catch
+                                =>
+                                    param error
+                                    log error
+
+                    function readFileContent
+                        param file
+                        const reader = new FileReader()
+                        return 
+                            new Promise
+                                =>
+                                    param resolve
+                                    param reject
+                                    set reader.onload
+                                        =>
+                                            param event
+                                            log 'readFileContent.event', event
+                                            _ resolve(event.target.result)
+                                    set reader.onerror
+                                        =>
+                                            param error
+                                            _ reject(error)
+                                    _ reader.readAsText(file)

@@ -1,0 +1,15 @@
+﻿html
+
+	$
+
+		var opt = {}
+		opt.title = "React editors Monaco example";
+		opt.useReact = true;
+		opt.useClassNames = true;
+		opt.useMonaco = true;
+		opt.useMaterialUI = true;
+        opt.materialUI = {};
+		opt.mainJs = true
+
+	html/layouts/react_opt(&opt)
+	

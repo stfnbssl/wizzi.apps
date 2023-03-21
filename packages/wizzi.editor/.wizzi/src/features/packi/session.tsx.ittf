@@ -4,7 +4,7 @@ module
     import
         as State
         from './State'
-    import defaultConfig
+    import
         @ PackiIdentityState
         from './defaultConfig'
     import
@@ -76,8 +76,8 @@ module
                 param options
                     :ref PackiOptions
                 info 'packi.Session.ctor.options', options
-                set this.apiURL = options.apiURL ?? defaultConfig.apiURL
-                set this.host = options.host ?? defaultConfig.host
+                set this.apiURL = options.apiURL
+                set this.host = options.host
                 set this.state =
                     _ this.updateDerivedState
                         {

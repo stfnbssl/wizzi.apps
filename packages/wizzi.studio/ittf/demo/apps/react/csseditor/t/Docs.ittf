@@ -1,0 +1,14 @@
+$group
+
+    function Docs
+        param props
+
+        return
+            div
+                h2 References
+                div
+                    a CSS Schema Store
+                        href https://www.schemastore.org/css/
+                div
+                    a Json CSSSchema
+                        href https://github.com/rcorp/css-schema

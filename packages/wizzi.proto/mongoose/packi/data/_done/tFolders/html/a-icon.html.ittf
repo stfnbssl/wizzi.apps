@@ -1,8 +1,0 @@
-$group
-    $params label, href
-    a 
-        class button p-s radius-m bg-success color-white border-s font-m font-w-xxl
-        href ${href}
-        . flex-row
-            $hook
-            + &nbsp;${label}&nbsp;                   

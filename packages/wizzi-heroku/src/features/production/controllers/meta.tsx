@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\production\controllers\meta.tsx.ittf
 */
 import {Router, Request, Response} from 'express';
@@ -12,8 +12,9 @@ import {statusCode} from '../../../utils';
 import ReactDOMServer from 'react-dom/server';
 import PageFormDocument from '../../../pages/PageFormDocument';
 import {CRUDResult} from '../../types';
-import {createMetaProduction, updateMetaProduction, deleteMetaProduction, getMetaProductionObject, getMetaProductionObjectById} from '../api/meta';
+import {createMetaProduction, updateMetaProduction, deleteMetaProduction, getMetaProductionObject, getMetaProductionObjectById, generateMetaProduction} from '../api/meta';
 import {mergePackiFiles} from '../utils';
+import {packiTypes} from '../../packi';
 
 const myname = 'features/production/controllers/meta';
 
@@ -27,7 +28,7 @@ function renderPageForm(req: Request, res: Response, data: object, queryParams: 
     res.set('Content-Length', index.length.toString());
     res.send(index);
 }
-function getPackiFiles() {
+function getPackiConfigFile() {
 
     return {
             ['.packi/config.json.ittf']: {
@@ -151,6 +152,7 @@ export class MetaProductionController implements ControllerType {
         this.router.post("/update", makeHandlerAwareOfAsyncErrors(webSecured), makeHandlerAwareOfAsyncErrors(this.putMeta))
         this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors(webSecured), makeHandlerAwareOfAsyncErrors(this.getDeleteMetaForm))
         this.router.post("/delete", makeHandlerAwareOfAsyncErrors(webSecured), makeHandlerAwareOfAsyncErrors(this.deleteMeta))
+        this.router.post("/generate", makeHandlerAwareOfAsyncErrors(webSecured), makeHandlerAwareOfAsyncErrors(this.generateMeta))
     };
     
     private getNewMetaForm = async (request: Request, response: Response) => 
@@ -167,10 +169,10 @@ export class MetaProductionController implements ControllerType {
     
     private postMeta = async (request: Request, response: Response) => 
     
-        createMetaProduction((request.session as any).user.username, request.body.mp_name, request.body.mp_description, JSON.stringify(getPackiFiles())).then((result: CRUDResult) => {
+        createMetaProduction((request.session as any).user.username, request.body.mp_name, request.body.mp_description, JSON.stringify(getPackiConfigFile())).then((result: CRUDResult) => {
         
             if (result.ok) {
-                response.redirect('/productions/metas');
+                response.redirect('/~~/m/' + (request.session as any).user.username + '/' + request.body.mp_name)
             }
             else {
                 response.render('error.html.ittf', {
@@ -266,6 +268,27 @@ export class MetaProductionController implements ControllerType {
                     error: result
                  })
             }
+        }
+        )
+    }
+    ;
+    
+    private generateMeta = async (request: Request, response: Response) => {
+    
+        generateMetaProduction(request.body.owner, request.body.name, request.body.cliCtx).then(
+        // loog myname, 'getWizziMetaFolderByPackageProductionObject.generateMetaProduction', Object.keys(wizziPackiFiles)
+        (wizziPackiFiles: packiTypes.PackiFiles) => 
+        
+            sendSuccess(response, wizziPackiFiles)
+        )
+        .catch((err: any) => {
+        
+            if (typeof err === 'object' && err !== null) {
+            }
+            response.render('error.html.ittf', {
+                message: 'MetaProductionController.generateMeta', 
+                error: err
+             })
         }
         )
     }

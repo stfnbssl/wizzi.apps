@@ -5,6 +5,7 @@ wfjob wizzi-heroku/job
             ittf_models_folder: path.join(__dirname, '..', '.wizzi', 'models'),
             ittf_src_folder: path.join(__dirname, 'src'),
             ittf_root_folder: path.join(__dirname, 'root'),
+            ittf_tests_folder: path.join(__dirname, 'tests'),
             ittf_public_folder: path.join(__dirname, 'public'),
             ittf_ittf_folder: path.join(__dirname, 'ittf'),
             ittf_predeploy_folder: path.join(__dirname, 'predeploy'),
@@ -51,6 +52,12 @@ wfjob wizzi-heroku/job
         wfjobs(any_plain, &jobCtx, css)
         wfjobs(any_plain, &jobCtx, css.ittf)
         wfjobs(any_plain_image, &jobCtx)
+
+    line ittf-tests
+        cwd-folder ${jobCtx.ittf_tests_folder}
+        dest-folder ${jobCtx.dest_folder}/tests
+        wfjobs(any_js, &jobCtx)
+        wfjobs(any_ts, &jobCtx)
     
     line ittf-public
         cwd-folder ${jobCtx.ittf_public_folder}
@@ -76,5 +83,6 @@ wfjob wizzi-heroku/job
         line-ref ittf-src
         line-ref ittf-ittf
         line-ref ittf-root
+        line-ref ittf-tests
         $if false
             line-ref ittf-predeploy

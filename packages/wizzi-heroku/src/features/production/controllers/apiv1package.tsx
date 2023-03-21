@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\production\controllers\apiv1package.tsx.ittf
 */
 import {Router, Request, Response} from 'express';
@@ -8,8 +8,11 @@ import {ControllerType, AppInitializerType} from '../../../features/app/types';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
-import {packiTypes} from '../../packi';
-import {getListPackageProduction, validatePackageProduction, getPackageProduction, updatePackageProduction, createPackageProduction, getWizziMetaFolderById} from '../api/package';
+import {wizziTypes, wizziProds, WizziFactory} from '../../wizzi';
+import {packiTypes, PackiBuilder} from '../../packi';
+import {mergePackiFiles} from '../utils';
+import {getPackageProductionList, validatePackageProduction, getPackageProduction, getPackageProductionObjectById, updatePackageProduction, createPackageProduction, invalidateCache} from '../api/package';
+import {getWizziMetaFolderById} from '../api/package';
 
 const myname = 'features/production/controllers/apiv1packageproduction';
 
@@ -51,15 +54,16 @@ export class ApiV1PackageProductionController implements ControllerType {
         console.log("[33m%s[0m", 'Entering ApiV1PackageProductionController.initialize');
         this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getCheckPackageName))
         this.router.get("/meta/:id", makeHandlerAwareOfAsyncErrors(this.getWizziMetaFolder))
-        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(this.getPackageProductionList))
+        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(this.getPackageProductions))
         this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getPackageProduction))
         this.router.put("/:id", makeHandlerAwareOfAsyncErrors(this.putPackageProduction))
+        this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors(this.putPackageProductionPackiDiffs))
         this.router.post("/:owner/:name", makeHandlerAwareOfAsyncErrors(this.postPackageProduction))
     };
     
-    private getPackageProductionList = async (request: Request, response: Response) => 
+    private getPackageProductions = async (request: Request, response: Response) => 
     
-        getListPackageProduction({
+        getPackageProductionList({
             query: {
                 owner: request.params.owner
              }
@@ -70,7 +74,7 @@ export class ApiV1PackageProductionController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
-            console.log("[31m%s[0m", 'getPackageProductionList.error', err);
+            console.log("[31m%s[0m", 'getPackageProductions.error', err);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -155,6 +159,32 @@ export class ApiV1PackageProductionController implements ControllerType {
     
     ;
     
+    private putPackageProductionPackiDiffs = async (request: Request, response: Response) => {
+    
+        console.log('putPackageProductionPackiDiffs.request.params', request.params, __filename);
+        console.log('putPackageProductionPackiDiffs.request.body.options', Object.keys(request.body.options), __filename);
+        console.log('putPackageProductionPackiDiffs.request.body.packiDiffs', Object.keys(request.body.packiDiffs), __filename);
+        const options = request.body.options || {};
+        getPackageProductionObjectById(request.params.id).then((prevPackage: any) => {
+        
+            console.log('putPackageProductionPackiDiffs.prevPackiFiles', Object.keys(prevPackage.packiFiles), __filename);
+            const pm = new PackiBuilder(prevPackage.packiFiles);
+            pm.applyPatch_ChangesOnly(request.body.packiDiffs)
+            return exec_updatePackageProduction(request, response, pm.packiFiles);
+        }
+        ).catch((err: any) => {
+        
+            if (typeof err === 'object' && err !== null) {
+            }
+            console.log("[31m%s[0m", 'putPackageProductionPackiDiffs.getPackageProductionObjectById.error', err);
+            sendFailure(response, {
+                err: err
+             }, 501)
+        }
+        )
+    }
+    ;
+    
     private getWizziMetaFolder = 
     // loog 'getWizziMetaFolder.request.params', request.params
     async (request: Request, response: Response) => 
@@ -174,4 +204,24 @@ export class ApiV1PackageProductionController implements ControllerType {
         )
     
     ;
+}
+function exec_updatePackageProduction(request: any, response: any, packiFiles: any) {
+
+    updatePackageProduction(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then(
+    // loog 'putPackageProduction.update.result', result
+    (result: any) => {
+    
+        invalidateCache(request.params.id)
+        sendSuccess(response, result)
+    }
+    ).catch((err: any) => {
+    
+        if (typeof err === 'object' && err !== null) {
+        }
+        console.log("[31m%s[0m", 'exec_updatePackageProduction.updatePackageProduction.error', err);
+        sendFailure(response, {
+            err: err
+         }, 501)
+    }
+    )
 }

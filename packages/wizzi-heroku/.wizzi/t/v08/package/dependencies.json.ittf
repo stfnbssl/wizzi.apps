@@ -49,7 +49,7 @@ $group
             $if wzCtx.Build.react.mui.useSystem
                 @mui/system "latest"
     
-    $if wzCtx.Build.react.useMarkdownPreview
+    $if wzCtx.Build.useReact &&  wzCtx.Build.react.useMarkdownPreview
         @uiw/react-markdown-preview "latest"
     
     $if wzCtx.Build.useAphrodite
@@ -96,6 +96,8 @@ $group
                 date-fns "2.0.0"
     $elif wzCtx.Build.useExpress
         debug "~2.6.9"
+    $if wzCtx.Build.utils.useDiffMatchPatch
+        diff-match-patch "^1.0.5"
     $if wzCtx.Build.useDomHelpers
         dom-helpers "^3.4.0"
     
@@ -173,6 +175,8 @@ $group
             marked "^2.0.3"
     $if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub
         memfs "^3.4.7"
+    $if wzCtx.Build.utils.useMinimist
+        minimist "latest"
     $if wzCtx.Build.useMonacoEditor
         $if wzCtx.Build.useVExpo
             monaco-editor "^0.18.1"
@@ -281,6 +285,8 @@ $group
         reflect-metadata "^0.1.13"
     $if wzCtx.Build.useRegeneratorRuntime
         regenerator-runtime "^0.13.7"
+    $if wzCtx.Build.utils.useRimRaf
+        rimraf "^3.0.2"
     
     $if wzCtx.Build.utils.useSanitizeHtml
         sanitize-html "^2.3.3"
@@ -322,7 +328,7 @@ $group
         wizzi "^0.7.35"
         $if false
             wizzi.proto "^0.0.1"
-        wizzi-tools "^0.7.5"
+        wizzi-tools "^0.7.7"
         wizzi-utils "^0.7.22"
         wizzi-core "^0.7.8"
         wizzi-web "^0.7.16"

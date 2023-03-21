@@ -1,0 +1,16 @@
+html
+
+	$
+		var opt = {};
+		opt.title = 'Sample size';
+        opt.useMathJax = true;
+
+    html/layouts/empty_opt(&opt)
+
+        h2 Formulas
+            
+        formulas/samples()
+
+        h2 Glossary
+            
+        glossary/samples()

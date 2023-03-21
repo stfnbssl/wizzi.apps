@@ -21,10 +21,7 @@ $group
             @babel/preset-env "^7.12.16"
         $else
             @babel/preset-env "^7.13.12"
-    $if wzCtx.Build.useReact && !!wzCtx.Build.useReactCreateApp == false
-        $if wzCtx.Build.useVExpo
-            @babel/preset-react "^7.12.13"
-        $else
+        $if wzCtx.Build.useReact && !!wzCtx.Build.useReactCreateApp == false
             @babel/preset-react "^7.12.13"
     $if wzCtx.Build.useTypescript
         $if wzCtx.Build.useWebpack || wzCtx.Build.useWebpackApp
@@ -72,7 +69,7 @@ $group
             $if wzCtx.Build.express.useErrors
                 @types/http-errors "^1.8.2"
         $if wzCtx.Build.utils.useLodash
-            @types/lodash "^4.14.120"
+            @types/lodash "^4.14.185"
         $if wzCtx.Build.useMarked
             $if wzCtx.Build.useVExpo
                 @types/marked "^1.2.2"
@@ -83,8 +80,8 @@ $group
             $if wzCtx.Build.logger.useMorgan
                 @types/morgan "^1.9.3"
         @types/node "^12.0.0"
-        $if wzCtx.Build.useGithub
-            @types/node-fetch "^2.1.6"
+        $if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub
+            @types/node-fetch "^2"
         $if wzCtx.Build.utils.useParseUrl
             @types/parseurl "^1.3.1"
         $if (wzCtx.Build.styles && wzCtx.Build.styles.usePalx) || wzCtx.Build.useStorybook
@@ -139,6 +136,9 @@ $group
         $if wzCtx.Build.useLint
             @typescript-eslint/parser "^5.33.0"
             @typescript-eslint/eslint-plugin "^5.33.0"
+    $if wzCtx.Build.useVite
+        $if wzCtx.Build.useReact
+            @vitejs/plugin-react "^2.1.0"
     $if wzCtx.Build.useLint
         babel-eslint "^8.2.3"
     $if wzCtx.Build.useTest && wzCtx.Build.test.useJest
@@ -233,7 +233,9 @@ $group
         prop-types "^15.7.2"
     $if wzCtx.Build.useStorybook
         react-docgen-typescript "^1.22.0"
-    $if wzCtx.Build.useExpress && wzCtx.Build.useTypescript
+    $if wzCtx.Build.useReact && wzCtx.Build.react.useHotReload
+        react-hot-loader "latest"
+    $if wzCtx.Build.useExpress && wzCtx.Build.useTypescript && !wzCtx.Build.utils.useRimRaf
         rimraf "^3.0.2"
     $if wzCtx.Build.useWebpack
         $if wzCtx.Build.webpack.useSass
@@ -246,12 +248,17 @@ $group
         $if wzCtx.Build.useTypescript
             ts-loader "^8.1.0"
     $if wzCtx.Build.useTypescript
-        ts-node "^10.8.1"
-        ts-node-dev "^1.1.6"
-        typescript "^4.2.3"
+        $if wzCtx.Build.useVite
+            typescript "^4.6.4"
+        $else
+            ts-node "^10.8.1"
+            ts-node-dev "^1.1.6"
+            typescript "^4.2.3"
     $if wzCtx.Build.useWebpack
         $if wzCtx.Build.webpack.useUglifyJS
             uglifyjs-webpack-plugin "^1.2.5"
+    $if wzCtx.Build.useVite
+        vite "^3.1.0"
     $if wzCtx.Build.useVue
         vue "^2.5.22"
         vue-loader "^15.6.0"

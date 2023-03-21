@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\root\webpack.config.js.ittf
 */
 'use strict';
@@ -119,7 +119,7 @@ module.exports = {
      }, 
     output: {
         globalObject: 'self', 
-        path: 'C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi-heroku/public/packi', 
+        path: 'C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/public/packi', 
         publicPath: '/public/packi/', 
         filename: '[name].bundle.js'
      }, 

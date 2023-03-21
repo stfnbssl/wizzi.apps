@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\production\api\package.ts.ittf
 */
 import NodeCache from 'node-cache';
@@ -48,11 +48,11 @@ import {metaApi} from '../index';
 export /**
     // console.log
         // myname
-        // 'getListPackageProduction'
+        // 'getPackageProductionList'
         // 'options'
         // options
 */
-async function getListPackageProduction(options?: any):  Promise<CRUDResult> {
+async function getPackageProductionList(options?: any):  Promise<CRUDResult> {
 
     options = options || {};
     
@@ -72,7 +72,7 @@ async function getListPackageProduction(options?: any):  Promise<CRUDResult> {
             query.find((err: any, result: any) => {
             
                 if (err) {
-                    console.log("[31m%s[0m", myname, 'getListPackageProduction', 'PackageProduction.find', 'error', err);
+                    console.log("[31m%s[0m", myname, 'getPackageProductionList', 'PackageProduction.find', 'error', err);
                     return reject(err);
                 }
                 const resultItem = [];
@@ -90,7 +90,7 @@ async function getListPackageProduction(options?: any):  Promise<CRUDResult> {
                     resultItem.push(item_obj)
                 }
                 resolve({
-                    oper: 'getList', 
+                    oper: 'getPackageProductionList', 
                     ok: true, 
                     item: resultItem
                  })
@@ -176,7 +176,7 @@ async function getPackageProductionById(id: string):  Promise<CRUDResult> {
                          });
                 }
                 resolve({
-                    oper: 'get', 
+                    oper: 'getPackageProduction', 
                     ok: false, 
                     message: 'package production not found'
                  })
@@ -340,7 +340,7 @@ async function createPackageProduction(owner?: string, name?: string, descriptio
                         return reject(err);
                     }
                     return resolve({
-                            oper: 'create', 
+                            oper: 'createPackageProduction', 
                             ok: true, 
                             item: doc._doc, 
                             message: 'package production created'
@@ -361,7 +361,7 @@ export /**
         // description
         // packiFiles
 */
-async function updatePackageProduction(id: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
+async function updatePackageProduction(id?: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
 
     
     
@@ -370,9 +370,18 @@ async function updatePackageProduction(id: string, owner?: string, name?: string
     return new Promise((resolve, reject) => {
         
             
-            const query = {
-                _id: id
-             };
+            var query;
+            if (id && id.length > 0) {
+                query = {
+                    _id: id
+                 };
+            }
+            else {
+                query = {
+                    owner: owner, 
+                    name: name
+                 };
+            }
             const update: any = {};
             if (typeof owner !== 'undefined') {
                 update['owner'] = owner;
@@ -394,9 +403,17 @@ async function updatePackageProduction(id: string, owner?: string, name?: string
                     console.log("[31m%s[0m", myname, 'updatePackageProduction', 'PackageProduction.findOneAndUpdate', 'error', err);
                     return reject(err);
                 }
+                if (!result) {
+                    console.log("[31m%s[0m", myname, 'updatePackageProduction', 'PackageProduction.findOneAndUpdate', 'error', 'document not found');
+                    return reject({
+                            oper: 'updatePackageProduction', 
+                            ok: false, 
+                            message: 'package production document not found: ' + id
+                         });
+                }
                 
                 return resolve({
-                        oper: 'update', 
+                        oper: 'updatePackageProduction', 
                         ok: true, 
                         message: 'package production updated'
                      });
@@ -422,9 +439,18 @@ async function deletePackageProduction(id: string, owner?: string, name?: string
     return new Promise((resolve, reject) => {
         
             
-            let query = {
-                _id: id
-             };
+            var query;
+            if (id && id.length > 0) {
+                query = {
+                    _id: id
+                 };
+            }
+            else {
+                query = {
+                    owner: owner, 
+                    name: name
+                 };
+            }
             
             PackageProduction.deleteOne(query, (err: any) => {
             
@@ -433,7 +459,7 @@ async function deletePackageProduction(id: string, owner?: string, name?: string
                     return reject(err);
                 }
                 resolve({
-                    oper: 'delete', 
+                    oper: 'deletePackageProduction', 
                     ok: true, 
                     message: 'package production'
                  })

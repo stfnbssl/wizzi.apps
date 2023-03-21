@@ -29,7 +29,7 @@ module
         @ LoggedUser
         from '../features/app'
     import 
-        @ SavedPacki
+        @ PackiOptions
         @ QueryParams
         @ SaveStatus
         @ PackiSaveOptions
@@ -90,7 +90,7 @@ module
                 :ref PropsFromRedux
             :{ 
                 :p packi
-                    :ref SavedPacki
+                    :ref PackiOptions
                 :p loggedUser
                     :ref LoggedUser
                 :p userAgent
@@ -190,6 +190,8 @@ module
                                             @ mainIttf {this.state.session.mainIttf}
                                             @ wizziSchema {this.state.session.wizziSchema}
                                             @ packiProduction {this.state.session.packiProduction}
+                                            @ isLocalFolder {this.state.session.isLocalFolder}
+                                            @ localFolderPath {this.state.session.localFolderPath}
                                             @ readOnly {this.state.session.readOnly}
                                             @ generated {this.state.session.generated}
                                             @ annotations {this.state.annotations}
@@ -225,6 +227,7 @@ module
                                             @ onCodeASTPreview {this._handleCodeASTPreview}
                                             @ onExecuteWizziJob {this._executeJobNotDebounced}
                                             @ onExecuteWizziMetaFolder {this._executeWizziMetaFolderNotDebounced}
+                                            @ onCloseLocalFolder {this._handleCloseLocalFolder}
                                     else
                                         < AppShell 
                                             @ title {this.state.session.name}

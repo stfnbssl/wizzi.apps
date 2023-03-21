@@ -1,0 +1,185 @@
+$group
+
+    < FlexibleModal 
+        @ isOpen {this.state.addSampleOpen}
+        @ onRequestClose {this.handleAddSampleClose}
+        @ initWidth {800}
+        @ initHeight {500}
+        @ disableResize {true}
+        < ModalTitle
+            + Create a new { this.state.mainView == 'view-generate' ? 'generation' : 'wizzify' } sample
+        < FormRoot
+            < FlexRow
+                < FormControl
+                    < ControlLabel
+                        + Sample name
+                    input
+                        style {{ width: '150px', display: 'inline-block' }}
+                        type 'text'
+                        @ value {this.state.newSampleName}
+                        @ onChange {this.handleNewSampleNameChange}
+                < FormControl
+                    + {'|'}
+            < FlexRow
+                < FormControl
+                    < ControlLabel
+                        + { this.state.mainView == 'view-generate' ? 'Main ittf content' : 'Content' }
+                    < ReactAce 
+                        @ mode {'text'}
+                        @ value {''}
+                        @ onChange {this.handleNewSampleContentChange}
+                < FormControl
+                    < ControlLabel
+                        + Sample description
+                    < ReactAce 
+                        @ mode {'text'}
+                        @ value {''}
+                        @ width '100%'
+                        @ height '100%'
+                        @ onChange {this.handleNewSampleDocChange}
+            < FlexRow
+                < Button
+                    @ size 'h1'
+                    @ onClick {this.handleAddSampleConfirm}
+                    + Confirm create
+                < Button
+                    @ size 'h1'
+                    @ onClick {this.handleAddSampleClose}
+                    + Cancel
+
+    < FlexibleModal 
+        @ isOpen {this.state.currentModalEdit == 'gen-fragment-list'}
+        @ onRequestClose {this.handleModalEditCancel}
+        @ initWidth {800}
+        @ initHeight {500}
+        @ disableResize {true}
+        < ModalTitle
+            + Edit ittf fragments list
+        < FormRoot
+            < FormControl
+                < ControlLabel
+                    + Ittf documents paths
+                < FlexRow
+                    div
+                        < Typo
+                            + Add here the list of document paths of fragments that you will include in the
+                                \b main content of your sample.
+                        < Typo
+                            + Write one document path per line.
+                        < Typo
+                            + Example:
+                        < Pre
+                            code
+                                + 1 {'li_a.html.ittf\n'}
+                                + 2 {'panel.html.ittf\n'}
+                                + 3 {'controls/text.js.ittf\n'}
+                                + 4 {'controls/select.js.ittf\n'}
+                                + 5 {'...\n'}
+                        < Typo
+                            + You will edit the ittf documents, selecting the name in the
+                                \b 'fragments' drop down control.
+                    < ReactAce 
+                        @ mode {'html'}
+                        @ value {fragmentListToText(this.state.genFragmentList)}
+                        @ onChange {this.handleEditFragmentListChange}
+            < FlexRow
+                < Button
+                    @ size 'h1'
+                    @ onClick {this.handleModalEditConfirm}
+                    + Confirm
+                < Button
+                    @ size 'h1'
+                    @ onClick {this.handleModalEditCancel}
+                    + Cancel
+
+
+    < FlexibleModal 
+        @ isOpen {this.state.currentModalEdit == 'gen-dependency-list'}
+        @ onRequestClose {this.handleModalEditCancel}
+        @ initWidth {800}
+        @ initHeight {500}
+        @ disableResize {true}
+        < ModalTitle
+            + Edit ittf dependencies
+        < FormRoot
+            < FormControl
+                < ControlLabel
+                    + Ittf dependencies names
+                < FlexRow
+                    div
+                        < Typo
+                            + An ittf dependency contains fragments for a specific domain.
+                        < Typo
+                            + They are create using the lab &nbsp;
+                            a Ittf dependencies
+                                href /ittf/lab/react/ittfdependencies
+                        < Typo
+                            + Add here the list of dependencies of domains that you will use in the
+                                \b main content of your sample.
+                        < Typo
+                            + Write one dependency name per line.
+                        < Typo
+                            + Example:
+                        < Pre
+                            code
+                                + 1 {'typescript\n'}
+                                + 2 {'react\n'}
+                                + 3 {'...\n'}
+                    < ReactAce 
+                        @ mode {'html'}
+                        @ value {listToText(this.state.genDependencyList)}
+                        @ onChange {this.handleEditDependencyListChange}
+                < FlexRow
+                    < Button
+                        @ size 'h1'
+                        @ onClick {this.handleModalEditConfirm}
+                        + Confirm
+                    < Button
+                        @ size 'h1'
+                        @ onClick {this.handleModalEditCancel}
+                        + Cancel
+
+    < FlexibleModal 
+        @ isOpen {this.state.currentModalEdit == 'gen-context-list'}
+        @ onRequestClose {this.handleModalEditCancel}
+        @ initWidth {800}
+        @ initHeight {500}
+        @ disableResize {true}
+        < ModalTitle
+            + Edit generation context list
+        < FormRoot
+            < FormControl
+                < ControlLabel
+                    + Generation context ittf documents
+                < FlexRow
+                    div
+                        < Typo
+                            + A generation context is a json ittf document that will be transformed in a json object
+                                \n and set in the context object of the generation of the main content.
+                        < Typo
+                            + Add here the list of contexts that you will use in your generation.
+                        < Typo
+                            + Write a pair of comma separated context names and paths per line.
+                        < Typo
+                            + Example:
+                        < Pre
+                            code
+                                + 1 {'config, contexts/config.json.ittf\n'}
+                                + 2 {'friends, contexts/friends.json.ittf\n'}
+                                + 3 {'...\n'}
+                        < Typo
+                            + You will edit the ittf documents, selecting the name in the
+                                \b 'contexts' drop down control.
+                    < ReactAce 
+                        @ mode {'html'}
+                        @ value {contextListToText(this.state.genContextList)}
+                        @ onChange {this.handleEditContextListChange}
+            < FlexRow
+                < Button
+                    @ size 'h1'
+                    @ onClick {this.handleModalEditConfirm}
+                    + Confirm
+                < Button
+                    @ size 'h1'
+                    @ onClick {this.handleModalEditCancel}
+                    + Cancel

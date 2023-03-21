@@ -5,43 +5,29 @@ module
             name: 'ApiV1ArtifactProduction',
             path: '/api/v1/production/artifact',
             apiSecured: wzCtx.App.isLocal == false,
+            Production: 'Artifact',
+            production: 'artifact',
         }
     
     v08/ts/controller( &ctrl )
             
         $append imports
-            import
-                @ getListArtifactProduction
-                @ validateArtifactProduction
-                @ getArtifactProduction
-                @ getArtifactProductionById
-                @ updateArtifactProduction
-                @ createArtifactProduction
-                @ invalidateCache
-                from '../api/artifact'
-            import
-                @ wizziTypes
-                @ wizziProds
-                @ WizziFactory
-                from '../../wizzi'
-            import
-                @ mergePackiFiles
-                from '../utils'
-            +
-            const myname = 'features/production/controllers/apiv1artifactproduction'
+            apiv1_imports( &ctrl )
+            const myname = 'features/production/controllers/apiv1artifact'
 
-        v08/ts/route_api_secured( get, /:owner, this.getArtifactProductionList)
+        v08/ts/route_api_secured( get, /:owner, this.getArtifactProductions)
         v08/ts/route_api_secured( get, /checkname/:owner/:name, this.getCheckArtifactName)
         v08/ts/route_api_secured( get, /:owner/:name, this.getArtifactProduction)
         v08/ts/route_api_secured( put, /:id, this.putArtifactProduction)
+        v08/ts/route_api_secured( put, /packidiffs/:id, this.putArtifactProductionPackiDiffs)
         v08/ts/route_api_secured( post, /:owner/:name, this.postArtifactProduction)
         
         $append handlers
             
-            v08/ts/handler(  getArtifactProductionList )
+            v08/ts/handler(  getArtifactProductions )
 
                 $$ loog 'getArtifactProductionList.request.params', request.params
-                _ getListArtifactProduction
+                _ getArtifactProductionList
                     {
                         { query
                             @ owner request.params.owner
@@ -53,7 +39,7 @@ module
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail(  getArtifactProductionList )
+                    v08/ts/catch_send_fail(  getArtifactProductions )
 
             v08/ts/handler(  getCheckArtifactName )
                 check_name( artifact )
@@ -120,7 +106,7 @@ module
                                         @ resultPackiFiles
                         v08/ts/catch_send_fail(  putArtifactProduction.wizzify )
                 elif options.merge
-                    _ getArtifactProductionById
+                    _ getArtifactProductionObjectById
                         @ request.params.id
                         ._ then
                             => 
@@ -165,6 +151,35 @@ module
                     v08/ts/catch_send_fail(  putArtifactProduction )
                 *$
 
+            apiv1_put( &ctrl )
+
+            $*
+            v08/ts/handler(  putArtifactProductionPackiDiffs )
+
+                log 'putArtifactProductionPacki.request.params', request.params
+                log 'putArtifactProductionPacki.request.body', Object.keys(request.body)
+                const options = request.body.options || {}
+                _ getArtifactProductionById
+                    @ request.params.id
+                    ._ then
+                        => 
+                            param prevArtifact
+                                :any
+                            const pm
+                                new PackiBuilder
+                                    @ prevArtifact.packiFiles
+                            _ pm.applyPatch_ChangesOnly
+                                @ request.body.packiDiffs
+                            return
+                                _ exec_updateArtifactProduction
+                                    @ request
+                                    @ response
+                                    @ pm.packiFiles
+            *$
+
+    apiv1_exec_update( &ctrl )
+
+    $*
     function exec_updateArtifactProduction
         param request
             :any
@@ -191,3 +206,4 @@ module
                         @ response
                         @ result
             v08/ts/catch_send_fail(  putArtifactProduction )
+    *$

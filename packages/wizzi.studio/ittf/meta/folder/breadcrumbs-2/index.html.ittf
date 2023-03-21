@@ -1,0 +1,34 @@
+html 
+    head 
+        meta 
+            charset UTF-8
+        @title Pure CSS3 breadcrumb navigation
+        js https://s.codepen.io/assets/libs/modernizr.js
+        link 
+            rel stylesheet
+            href css/style.css
+    body 
+        . breadcrumb
+            a Browse
+                href #
+                class active
+            a Compare
+                href #
+            a Order Confirmation
+                href #
+            a Checkout
+                href #
+        br 
+        br 
+        . breadcrumb flat
+            a Browse
+                href #
+                class active
+            a Compare
+                href #
+            a Order Confirmation
+                href #
+            a Checkout
+                href #
+        js http://thecodeplayer.com/uploads/js/prefixfree-1.0.7.js
+        js js/index.js

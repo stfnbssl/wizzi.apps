@@ -1,0 +1,13 @@
+$group
+
+    const GeneratorRoot
+        _ styled.div
+            => 
+                param props
+                (
+                    { 
+                        @ display 'flex'
+                        @ flexDirection 'column'
+                        @ width '100%'
+                        @ height '100%'
+

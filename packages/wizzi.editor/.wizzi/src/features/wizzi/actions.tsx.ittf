@@ -31,6 +31,9 @@ module
     const EXECUTE_WIZZI_META_FOLDER_REQUEST = '@@wizzi/EXECUTE_WIZZI_META_FOLDER_REQUEST'
     const EXECUTE_WIZZI_META_FOLDER_SUCCESS = '@@wizzi/EXECUTE_WIZZI_META_FOLDER_SUCCESS'
     const EXECUTE_WIZZI_META_FOLDER_ERROR = '@@wizzi/EXECUTE_WIZZI_META_FOLDER_ERROR'
+    const EXECUTE_SAVE_LOCALFOLDER_REQUEST = '@@wizzi/EXECUTE_SAVE_LOCALFOLDER_REQUEST'
+    const EXECUTE_SAVE_LOCALFOLDER_SUCCESS = '@@wizzi/EXECUTE_SAVE_LOCALFOLDER_SUCCESS'
+    const EXECUTE_SAVE_LOCALFOLDER_ERROR = '@@wizzi/EXECUTE_SAVE_LOCALFOLDER_ERROR'
     const WIZZIFY_REQUEST = '@@wizzi/WIZZIFY_REQUEST'
     const WIZZIFY_SUCCESS = '@@wizzi/WIZZIFY_SUCCESS'
     const WIZZIFY_ERROR = '@@wizzi/WIZZIFY_ERROR'
@@ -38,6 +41,7 @@ module
     const CODE_AST_SUCCESS = '@@wizzi/CODE_AST_SUCCESS'
     const CODE_AST_ERROR = '@@wizzi/CODE_AST_ERROR'
     const CHANGE_SELECTED_FILE = '@@wizzi/CHANGE_SELECTED_FILE'
+    
     +
     export 
         :interface ArtifactRequestPayload
@@ -89,6 +93,13 @@ module
                 :string 
             :p productionId
                 :string 
+    +
+    export 
+        :interface WizziSaveLocalFolderRequestPayload
+            :p folderPath
+                :string 
+            :p files
+                :ref PackiFiles
     +
     export 
         :interface WizziMetaFolderResponsePayload
@@ -194,6 +205,12 @@ module
             _ createStandardAction(EXECUTE_WIZZI_META_FOLDER_REQUEST)
                 :param 
                     :ref WizziMetaFolderRequestPayload
+    export 
+        const executeSaveLocalFolder
+            _ createStandardAction(EXECUTE_SAVE_LOCALFOLDER_REQUEST)
+                :param 
+                    :ref WizziSaveLocalFolderRequestPayload
+   
     export 
         const executeWizziMetaFolderSuccess
             _ createStandardAction(EXECUTE_WIZZI_META_FOLDER_SUCCESS)

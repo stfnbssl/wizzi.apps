@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi-heroku\.wizzi-override\src\features\production\controllers\apiv1meta.tsx.ittf
 */
 import {Router, Request, Response} from 'express';
@@ -8,9 +8,11 @@ import {ControllerType, AppInitializerType} from '../../../features/app/types';
 import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
-import {validateMetaProduction, getListMetaProduction, getMetaProduction, getMetaProductionObjectById, updateMetaProduction, createMetaProduction, generateMetaProduction} from '../api/meta';
-
 import {wizziTypes, wizziProds, WizziFactory} from '../../wizzi';
+import {packiTypes, PackiBuilder} from '../../packi';
+import {mergePackiFiles} from '../utils';
+import {getMetaProductionList, validateMetaProduction, getMetaProduction, getMetaProductionObjectById, updateMetaProduction, createMetaProduction, invalidateCache} from '../api/meta';
+import {generateMetaProduction} from '../api/meta';
 import {artifactApi, productionApi} from '../../production';
 const myname = 'features/production/controllers/apiv1metaproduction';
 
@@ -50,18 +52,19 @@ export class ApiV1MetaProductionController implements ControllerType {
     
     initialize = (initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ApiV1MetaProductionController.initialize');
-        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(this.getMetaProductionList))
+        this.router.get("/:owner", makeHandlerAwareOfAsyncErrors(this.getMetaProductions))
         this.router.get("/props/:id", makeHandlerAwareOfAsyncErrors(this.getMetaProperties))
         this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getCheckMetaName))
         this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getMetaProduction))
         this.router.put("/:id", makeHandlerAwareOfAsyncErrors(this.putMetaProduction))
+        this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors(this.putMetaProductionPackiDiffs))
         this.router.post("'/:owner/:name", makeHandlerAwareOfAsyncErrors(this.postMetaProduction))
         this.router.post("'/generate/:owner/:name", makeHandlerAwareOfAsyncErrors(this.generateMetaProductionByName))
     };
     
-    private getMetaProductionList = async (request: Request, response: Response) => 
+    private getMetaProductions = async (request: Request, response: Response) => 
     
-        getListMetaProduction({
+        getMetaProductionList({
             query: {
                 owner: request.params.owner
              }
@@ -71,7 +74,7 @@ export class ApiV1MetaProductionController implements ControllerType {
                 sendSuccess(response, result)
             }
             else {
-                console.log("[31m%s[0m", 'getMetaProductionList.error', result);
+                console.log("[31m%s[0m", 'getMetaProductions.error', result);
                 sendFailure(response, {
                     err: result
                  }, 501)
@@ -81,7 +84,7 @@ export class ApiV1MetaProductionController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
-            console.log("[31m%s[0m", 'getMetaProductionList.error', err);
+            console.log("[31m%s[0m", 'getMetaProductions.error', err);
             sendFailure(response, {
                 err: err
              }, 501)
@@ -205,6 +208,32 @@ export class ApiV1MetaProductionController implements ControllerType {
     
     ;
     
+    private putMetaProductionPackiDiffs = async (request: Request, response: Response) => {
+    
+        console.log('putMetaProductionPackiDiffs.request.params', request.params, __filename);
+        console.log('putMetaProductionPackiDiffs.request.body.options', Object.keys(request.body.options), __filename);
+        console.log('putMetaProductionPackiDiffs.request.body.packiDiffs', Object.keys(request.body.packiDiffs), __filename);
+        const options = request.body.options || {};
+        getMetaProductionObjectById(request.params.id).then((prevMeta: any) => {
+        
+            console.log('putMetaProductionPackiDiffs.prevPackiFiles', Object.keys(prevMeta.packiFiles), __filename);
+            const pm = new PackiBuilder(prevMeta.packiFiles);
+            pm.applyPatch_ChangesOnly(request.body.packiDiffs)
+            return exec_updateMetaProduction(request, response, pm.packiFiles);
+        }
+        ).catch((err: any) => {
+        
+            if (typeof err === 'object' && err !== null) {
+            }
+            console.log("[31m%s[0m", 'putMetaProductionPackiDiffs.getMetaProductionObjectById.error', err);
+            sendFailure(response, {
+                err: err
+             }, 501)
+        }
+        )
+    }
+    ;
+    
     private generateMetaProductionByName = async (request: Request, response: Response) => 
     
         generateMetaProduction(request.params.owner, request.params.name, request.body.cliCtx).then((result: any) => 
@@ -222,4 +251,24 @@ export class ApiV1MetaProductionController implements ControllerType {
         )
     
     ;
+}
+function exec_updateMetaProduction(request: any, response: any, packiFiles: any) {
+
+    updateMetaProduction(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then(
+    // loog 'putMetaProduction.update.result', result
+    (result: any) => {
+    
+        invalidateCache(request.params.id)
+        sendSuccess(response, result)
+    }
+    ).catch((err: any) => {
+    
+        if (typeof err === 'object' && err !== null) {
+        }
+        console.log("[31m%s[0m", 'exec_updateMetaProduction.updateMetaProduction.error', err);
+        sendFailure(response, {
+            err: err
+         }, 501)
+    }
+    )
 }

@@ -39,11 +39,20 @@ $group
                         param resolve
                         param reject
                         +
-                        let query
-                            {
-                                $if md.update_delete_by_id
-                                    @ _id id
-                                $else
+                        $if md.update_delete_by_id
+                            var query
+                            if id && id.length > 0
+                                set query
+                                    {
+                                        @ _id id
+                            else
+                                set query
+                                    {
+                                        $foreach item in md.query
+                                            @ ${item.name} ${item.name}
+                        $else
+                            const query
+                                {
                                     $foreach item in md.query
                                         @ ${item.name} ${item.name}
                         +
@@ -57,6 +66,6 @@ $group
                                     return reject(err)
                                 _ resolve
                                     {
-                                        @ oper 'delete'
+                                        @ oper 'delete${md.Name}'
                                         @ ok true
                                         @ message '${md.descr}'

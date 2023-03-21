@@ -1,0 +1,142 @@
+$group
+
+    => handleAddPackiItemRequest
+        _ this.setState
+            {
+                @ addPackiItemOpen true
+
+    => handleNewPackiItemChange
+        param ev
+        _ this.setState
+            {
+                @ ['newPackiItem' + ev.target.id] ev.target.value
+
+    => handleNewPackiItemMainIttfChange
+        param value
+        _ this.setState
+            {
+                @ newPackiItemMainIttf value
+
+    => handleNewPackiItemDescriptionChange
+        param value
+        _ this.setState
+            {
+                @ newPackiItemDescription value
+
+    => handleAddPackiItemConfirm
+        _ this.createNewPackiItem
+            @ this.state.newPackiItemName
+            @ this.state.newPackiItemDescription
+            @ this.state.newPackiItemSchema
+            @ this.state.newPackiItemMainIttf
+        _ this.setState
+            {
+                @ addPackiItemOpen false
+                @ newPackiItemName ''
+                @ newPackiItemSchema ''
+                @ newPackiItemDescription ''
+                @ newPackiItemMainIttf ''
+
+    => handleAddPackiItemClose
+        _ this.setState
+            {
+                @ addPackiItemOpen false
+                @ newPackiItemName ''
+                @ newPackiItemSchema ''
+                @ newPackiItemDescription ''
+                @ newPackiItemMainIttf ''
+
+    => handleChangePackiItem
+        param ev
+        log 'handleChangePackiItem', ev.target.value
+        _ this.setPackiItem
+            @ ev.target.value
+
+    => handleEditRequest
+        param ev
+        log 'handleEditRequest', ev.target.id
+        _ this.setState
+            {
+                @ currentModalEdit ev.target.id
+
+    => handleEditFragmentListChange
+        param value
+        _ this.setState
+            {
+                @ fragmentListEdit
+                    _ textToFragmentList
+                        @ this.state.packiItemName
+                        @ this.state.schema
+                        @ value
+
+    => handleModalEditConfirm
+        if this.state.currentModalEdit == 'fragment-list' 
+            if this.state.fragmentListEdit != null
+                const fl = this.state.fragmentListEdit
+                _ this.setState
+                    {
+                        @ fragmentList fl
+                        @ fragmentListEdit null
+                        @ currentModalEdit ''
+                    =>
+                        _ this.savePackiItem
+            else
+                _ this.setState
+                    {
+                        @ currentModalEdit ''
+
+    => handleModalEditCancel
+        _ this.setState
+            {
+                @ currentModalEdit ''
+
+    => handleItffContentChange
+        param value
+        const packiPath = this.state.selectedEditPackiPath
+        const packiFiles = this.state.packiFiles
+        set packiFiles[packiPath]
+            {
+                @ type packiFiles[packiPath].type
+                @ contents value 
+        _ this.setState
+            {
+                @ packiFiles packiFiles
+            =>
+                _ this.executeSavePackiItemDebounced
+
+    => handleSelectFileItem
+        param path
+        const packiPath = this.getPackiPath(path)
+        if !this.state.packiFiles[packiPath]
+            const pf = Object.assign({}, this.state.packiFiles)
+            set pf[packiPath]
+                {
+                    @ type 'CODE'
+                    @ contents ''
+            _ this.setState
+                {
+                    @ packiFiles pf
+                    @ selectedEditPath path
+                    @ selectedEditPackiPath packiPath
+        else
+            _ this.setState
+                {
+                    @ selectedEditPath path
+                    @ selectedEditPackiPath packiPath
+
+    => handleSavePackiItem
+        _ wz.uploadPackiItem
+            @ 'stfnbssl'
+            @ this.state.packiItemName
+            @ this.state.schema
+            @ this.getMainIttfContentPath()
+            @ this.state.packiFiles
+            =>
+                param err
+                param result
+                if err
+                    # TODO
+                else
+                    _ this.setState
+                        {
+                            @ packiItemUrlRefreshCount ++this.state.packiItemUrlRefreshCount

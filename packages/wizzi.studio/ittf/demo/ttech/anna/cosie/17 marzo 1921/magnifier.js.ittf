@@ -1,0 +1,110 @@
+module
+    kind react
+    function magnify
+        param divEl
+        param imgEl
+        param zoom
+        var 
+            $$ decl img
+            decl glass
+            decl w
+            decl h
+            decl bw
+        # set img = document.getElementById(imgID)
+        # set img = imgID
+        # create magnifier glass:
+        # set glass = document.createElement("DIV")
+        
+        set glass = divEl
+        
+        # _ glass.setAttribute("class", "img-magnifier-glass")
+        # insert magnifier glass:
+        # _ img.parentElement.insertBefore(glass, img)
+        # set background properties for the magnifier glass:
+        # log 'imgEl.src', imgEl.src
+        set glass.style.backgroundImage = "url('" + imgEl.src + "')"
+        set glass.style.backgroundRepeat = "no-repeat"
+        set glass.style.backgroundSize = (imgEl.width * zoom) + "px " + (imgEl.height * zoom) + "px"
+        set bw = -100
+        set w = glass.offsetWidth / 2
+        set h = glass.offsetHeight / 2
+        # execute a function when someone moves the magnifier glass over the image:
+        _ imgEl.addEventListener("mouseover", showMagnifier)
+        _ imgEl.addEventListener("mouseout", hideMagnifier)
+        _ glass.addEventListener("mousemove", moveMagnifier)
+        _ imgEl.addEventListener("mousemove", moveMagnifier)
+        # and also for touch screens:
+        # _ glass.addEventListener("touchmove", moveMagnifier)
+        # _ imgEl.addEventListener("touchmove", moveMagnifier)
+
+        var moveActive = true
+        
+        function showMagnifier
+            log 'showMagnifier', glass.id
+            set glass.style.display = 'block'
+            set moveActive = true
+        
+        function hideMagnifier
+            log 'hideMagnifier', glass.id
+            # set glass.style.display = 'none'
+            set moveActive = false
+
+        function moveMagnifier
+            param e
+            var 
+                decl pos
+                decl x
+                decl y
+
+            if !moveActive 
+                return
+            
+            # prevent any other actions that may occur when moving over the image
+            _ e.preventDefault
+            
+            # get the cursor's x and y positions:
+            set pos = getCursorPos(e)
+            set x = pos.x
+            set y = pos.y
+            
+            # prevent the magnifier glass from being positioned outside the image:
+            if x > imgEl.width - (w / zoom)
+                set x = imgEl.width - (w / zoom)
+            if x < w / zoom
+                set x = w / zoom
+            if y > imgEl.height - (h / zoom)
+                set y = imgEl.height - (h / zoom)
+            if y < h / zoom
+                set y = h / zoom
+            
+            # set the position of the magnifier glass:
+            # set glass.style.left = 500 + (x - w) + "px"
+            # set glass.style.top = (y - h) + "px"
+            # display what the magnifier glass "sees":
+            log 'x', x
+            set x = 45
+            set glass.style.backgroundPosition = "-" + ((x * zoom) - w + (bw*1.3)) + "px -" + ((y * zoom) - h + bw) + "px"
+        
+        function getCursorPos
+            param e
+            var 
+                decl a
+                decl x = 0
+                decl y = 0
+            set e = e || window.event
+            #
+                # get the x and y positions of the image:
+            set a =
+                _ imgEl.getBoundingClientRect
+            #
+                # calculate the cursor's x and y coordinates, relative to the image:
+            set x = e.pageX - a.left
+            set y = e.pageY - a.top
+            #
+                # consider any page scrolling:
+            set x = x - window.pageXOffset
+            set y = y - window.pageYOffset
+            return 
+                { 
+                    @ x
+                    @ y

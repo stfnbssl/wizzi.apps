@@ -72,33 +72,36 @@ $group
             :=>
                 :any
         $$ loog 'PackiSession.uploadPackiFilesUpdates.payload', payload
-        const
-            {
-                @ id
-                @ packiProduction
-            = this.state
-        const url
-            `lit
-                @ this.apiURL
-                + /api/v1/production/
-                @ packiProduction
-                + /
-                @ encodeURIComponent(id)
-        $$ loog '---*** PackiSession.uploadPackiFilesUpdates', url
-        const response
-            await
-                _ fetch
-                    @ url
-                    {
-                        @ method 'PUT'
-                        @ body JSON.stringify(payload)
-                        { headers
-                            @ 'Content-Type' 'application/json'
-        const data
-            await
-                _ response.json()
-        $$ loog '---*** PackiSession.uploadPackiFilesUpdates.response.data', data
-        set this.state.saveCount++
+        $if wzConfigIsStudio
+            # non update in wizzi.studio
+        $else
+            const
+                {
+                    @ id
+                    @ packiProduction
+                = this.state
+            const url
+                `lit
+                    @ this.apiURL
+                    + /api/v1/production/
+                    @ packiProduction
+                    + /
+                    @ encodeURIComponent(id)
+            $$ loog '---*** PackiSession.uploadPackiFilesUpdates', url
+            const response
+                await
+                    _ fetch
+                        @ url
+                        {
+                            @ method 'PUT'
+                            @ body JSON.stringify(payload)
+                            { headers
+                                @ 'Content-Type' 'application/json'
+            const data
+                await
+                    _ response.json()
+            $$ loog '---*** PackiSession.uploadPackiFilesUpdates.response.data', data
+            set this.state.saveCount++
         if done
             _ done
         $$ TODO VIA _ this.setPreviewUrl

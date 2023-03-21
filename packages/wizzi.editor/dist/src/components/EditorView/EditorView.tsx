@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorView.tsx.ittf
 */
 import {StyleSheet, css} from 'aphrodite';
@@ -211,11 +211,13 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
             mainIttf, 
             wizziSchema, 
             packiProduction, 
+            isLocalFolder, 
             previewRef, 
             previewURL, 
             loggedUser, 
             onExecuteWizziJob, 
             onExecuteWizziMetaFolder, 
+            onCloseLocalFolder, 
             previewKind, 
             generatedArtifact, 
             mTreeBuildupScript, 
@@ -272,6 +274,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                     saveStatus={saveStatus}
                     loggedUser={loggedUser}
                     isEditModalVisible={currentModal === 'edit-info'}
+                    isLocalFolder={isLocalFolder}
                     isWizziJobWaiting={isWizziJobWaiting}
                     onChangeSplitViewKind={this._handleChangeSplitViewKind}
                     splitViewKind={this.state.splitViewKind}
@@ -281,6 +284,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                     onDismissEditModal={this._handleDismissEditModal}
                     onExecuteWizziJob={onExecuteWizziJob}
                     onExecuteWizziMetaFolder={onExecuteWizziMetaFolder}
+                    onCloseLocalFolder={onCloseLocalFolder}
                     onSubmitMetadata={this.props.onSubmitMetadata}
                     onDownloadCode={this.props.onDownloadAsync}
                     onPublishAsync={onPublishAsync}

@@ -58,7 +58,7 @@ $group
                                 => 
                                     param metaProductionSet
                                         :any
-                                    # loog 'generateMetaProductionById.metaProductionSet',
+                                    log 'generateMetaProductionById.metaProductionSet',
                                         \b 'packiFiles', Object.keys(metaProductionSet.packiFiles),
                                         \b 'context', Object.keys(metaProductionSet.context),
                                     const metaContext

@@ -1,0 +1,10 @@
+Parsing error: Please check validity of the block starting from line #5
+
+3 | @mixin inline {
+4 | 	display: inline-block;
+5*| 	*display: inline;
+6 | 	zoom: 1;
+7 | 	vertical-align: top;
+
+Syntax: scss
+Gonzales PE version: 4.3.0

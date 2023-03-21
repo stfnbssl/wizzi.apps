@@ -1,0 +1,112 @@
+$group
+
+    < FlexibleModal 
+        @ isOpen {this.state.addPackiItemOpen}
+        @ onRequestClose {this.handleAddPackiItemClose}
+        @ initWidth {800}
+        @ initHeight {500}
+        @ disableResize {true}
+        < ModalTitle
+            + Create a new packi item
+        < FormRoot
+            < FlexRow
+                < FormControl
+                    < ControlLabel
+                        + Name
+                    input
+                        id 'Name'
+                        style {{ width: '150px', display: 'inline-block' }}
+                        type 'text'
+                        @ value {this.state.newPackiItemName}
+                        @ onChange {this.handleNewPackiItemChange}
+                < FormControl
+                    < ControlLabel
+                        + Wizzi schema
+                    < SelectorSelectValue
+                        id 'Schema'
+                        @ onChange {this.handleNewPackiItemChange}
+                        @ value {this.state.newPackiItemSchema}
+                        option
+                            value ''
+                        {
+                            _ __constants.wizziSchemas.map
+                                =>
+                                    param schema
+                                    param ndx 
+                                    option
+                                        @ key {ndx}
+                                        @ value {schema.name}
+                                        + {schema.name}
+
+            < FlexRow
+                < FormControl
+                    < ControlLabel
+                        + Main ittf
+                    < ReactAce 
+                        @ mode {'text'}
+                        @ value {''}
+                        @ onChange {this.handleNewPackiItemMainIttfChange}
+                < FormControl
+                    < ControlLabel
+                        + Description
+                    < ReactAce 
+                        @ mode {'text'}
+                        @ value {''}
+                        @ width '100%'
+                        @ height '100%'
+                        @ onChange {this.handleNewPackiItemDescriptionChange}
+            < FlexRow
+                < Button
+                    @ size 'h1'
+                    @ onClick {this.handleAddPackiItemConfirm}
+                    + Confirm create
+                < Button
+                    @ size 'h1'
+                    @ onClick {this.handleAddPackiItemClose}
+                    + Cancel
+
+    < FlexibleModal 
+        @ isOpen {this.state.currentModalEdit == 'fragment-list'}
+        @ onRequestClose {this.handleModalEditCancel}
+        @ initWidth {800}
+        @ initHeight {500}
+        @ disableResize {true}
+        < ModalTitle
+            + Edit ittf fragments list
+        < FormRoot
+            < FormControl
+                < ControlLabel
+                    + Fragment names
+                < FlexRow
+                    div
+                        < Typo
+                            + Add here the names of the ittf fragments that you will include in the
+                                \b main ittf of your packi item.
+                        < Typo
+                            + Write one name per line.
+                        < Typo
+                            + Example:
+                        < Pre
+                            code
+                                + 1 {'header\n'}
+                                + 2 {'sidebar\n'}
+                                + 3 {'content\n'}
+                                + 5 {'...\n'}
+                        < Typo
+                            + You will edit the ittf documents, selecting the name in the
+                                \b 'fragments' sidebar list.
+                    < ReactAce 
+                        @ mode {'html'}
+                        @ value {fragmentListToText(this.state.fragmentList)}
+                        @ onChange {this.handleEditFragmentListChange}
+            < FlexRow
+                < Button
+                    @ size 'h1'
+                    @ onClick {this.handleModalEditConfirm}
+                    + Confirm
+                < Button
+                    @ size 'h1'
+                    @ onClick {this.handleModalEditCancel}
+                    + Cancel
+
+

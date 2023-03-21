@@ -1,13 +1,9 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\defaultConfig.ts.ittf
 */
 import {PackiState} from './types';
-
-export const apiURL: string = 'https://exp.host';
-
-export const host: string = 'expo.io';
 
 export const PackiIdentityState: PackiState = {
     owner: '', 
@@ -21,9 +17,3 @@ export const PackiIdentityState: PackiState = {
     url: ''
  };
 
-const defaultConfig = {
-    apiURL, 
-    host
- };
-
-export default defaultConfig;

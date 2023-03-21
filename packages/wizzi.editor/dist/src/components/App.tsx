@@ -1,6 +1,6 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\App.tsx.ittf
 */
 import * as React from 'react';
@@ -13,7 +13,7 @@ import {getFilesFromQuery, fileConversions} from '../features/file';
 import {withPreferences, PreferencesContextType} from '../features/preferences';
 import {Annotation} from '../features/annotations';
 import {LoggedUser} from '../features/app';
-import {SavedPacki, QueryParams, SaveStatus, PackiSaveOptions, PackiState, PackiFile, PackiFiles, PackiDefaults, PackiProduction} from '../features/packi';
+import {PackiOptions, QueryParams, SaveStatus, PackiSaveOptions, PackiState, PackiFile, PackiFiles, PackiDefaults, PackiProduction} from '../features/packi';
 import {PackiSession, PackiListenerSubscription} from '../features/packi';
 // Utils
 import nullthrows from 'nullthrows';
@@ -66,6 +66,7 @@ interface PackiDispatchProps {
     dispatchMTreeDebugInfo: (fileName: string, files: PackiFiles, productionKind: PackiProduction, productionName: string) => void;
     dispatchExecuteJob: (fileName: string, files: PackiFiles, productionKind: PackiProduction, productionName: string) => void;
     dispatchExecuteWizziMetaFolder: (productionKind: PackiProduction, productionId: string) => void;
+    dispatchSaveLocalFolder: (localFolderPath: string, files: PackiFiles) => void;
     dispatchWizzify: (filePath: string, fileContent: string) => void;
     dispatchCodeAST: (filePath: string, fileContent: string) => void;
     dispatchGithubClone: (owner: string, name: string, branch: string) => void;
@@ -145,6 +146,13 @@ const packiMapDispatchToProps = (dispatch: Dispatch):  PackiDispatchProps =>
                 productionId
              }))
         , 
+        dispatchSaveLocalFolder: (localFolderPath: string, files: PackiFiles) => 
+        
+            dispatch(wizziActions.executeSaveLocalFolder({
+                localFolderPath, 
+                files
+             }))
+        , 
         dispatchWizzify: (filePath: string, fileContent: string) => 
         
             dispatch(wizziActions.wizzifyRequest({
@@ -177,7 +185,7 @@ const packiMapDispatchToProps = (dispatch: Dispatch):  PackiDispatchProps =>
      })
 ;
 type AppProps = PreferencesContextType & PropsFromRedux & { 
-    packi: SavedPacki;
+    packi: PackiOptions;
     loggedUser: LoggedUser;
     userAgent: string;
 };
@@ -207,6 +215,9 @@ class AppMain extends React.Component<AppProps, State> {
         const description = props.packi.description;
         const packiProduction: PackiProduction = props.packi.packiProduction;
         const readOnly = props.packi.readOnly;
+        const isLocalFolder = props.packi.isLocalFolder;
+        const localFolderPath = props.packi.localFolderPath;
+        const localFolderUri = props.packi.localFolderUri;
         const generated = props.packi.generated;
         const verbose = props.preferences.verbose;
         const sendCodeOnChangeEnabled = true;
@@ -223,6 +234,9 @@ class AppMain extends React.Component<AppProps, State> {
             files, 
             packiProduction, 
             readOnly, 
+            isLocalFolder, 
+            localFolderPath, 
+            localFolderUri, 
             generated, 
             verbose, 
             user: props.loggedUser, 
@@ -318,19 +332,34 @@ class AppMain extends React.Component<AppProps, State> {
         }
     };
     
-    _getViewKind = (selectedFile, selectedFilePrev) => {
-        selectedFilePrev = selectedFilePrev || "";
-        if (selectedFile.endsWith('.ittf') && selectedFilePrev.endsWith('.ittf')) {
-            return this.state.previewKind;
-        }
-        if (!selectedFile.endsWith('.ittf') && !selectedFilePrev.endsWith('.ittf')) {
-            return this.state.previewKind;
-        }
-        if (selectedFile.endsWith('.ittf')) {
-            return 'generated';
+    _handleCloseLocalFolder = (save: boolean) => {
+        console.log('App._handleCloseLocalFolder.save', save, __filename);
+        const files = this.state.session.files;
+        if (save) {
+            this.props.dispatchCloseLocalFolder(this.state.session.localFolderPath, this.state.session.files)
         }
         else {
-            return 'wizzified';
+            window.location.href = this.state.session.localFolderUri;
+        }
+    };
+    
+    _getViewKind = (selectedFile, selectedFilePrev) => {
+        selectedFilePrev = selectedFilePrev || "";
+        if (this.state) {
+            if (selectedFile.endsWith('.ittf') && selectedFilePrev.endsWith('.ittf')) {
+                return this.state.previewKind;
+            }
+            if (!selectedFile.endsWith('.ittf') && !selectedFilePrev.endsWith('.ittf')) {
+                return this.state.previewKind;
+            }
+        }
+        else {
+            if (selectedFile.endsWith('.ittf')) {
+                return 'generated';
+            }
+            else {
+                return 'wizzified';
+            }
         }
     };
     
@@ -645,6 +674,8 @@ class AppMain extends React.Component<AppProps, State> {
                                     mainIttf={this.state.session.mainIttf}
                                     wizziSchema={this.state.session.wizziSchema}
                                     packiProduction={this.state.session.packiProduction}
+                                    isLocalFolder={this.state.session.isLocalFolder}
+                                    localFolderPath={this.state.session.localFolderPath}
                                     readOnly={this.state.session.readOnly}
                                     generated={this.state.session.generated}
                                     annotations={this.state.annotations}
@@ -680,6 +711,7 @@ class AppMain extends React.Component<AppProps, State> {
                                     onCodeASTPreview={this._handleCodeASTPreview}
                                     onExecuteWizziJob={this._executeJobNotDebounced}
                                     onExecuteWizziMetaFolder={this._executeWizziMetaFolderNotDebounced}
+                                    onCloseLocalFolder={this._handleCloseLocalFolder}
                                  />
                                 )
                              :  (
