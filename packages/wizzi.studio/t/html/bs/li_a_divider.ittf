@@ -1,8 +1,0 @@
-$group
-    $params text, href
-    li
-    	tabindex -1
-    	a ${text}
-    		href ${href}
-    	span
-    		class divider

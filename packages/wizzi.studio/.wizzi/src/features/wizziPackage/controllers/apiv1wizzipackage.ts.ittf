@@ -14,9 +14,8 @@ module
         _ this.router.post('/create', this.createPackage)
         $append handlers
             v08/ts/handler(createPackage)
-                log 'getIttfDocument.request.params', request.params
-                check-params( )
-                    not-empty( query , hash )
+                rest/check-params( )
+                    rest/not-empty( query , hash )
                 _ generateFromConfigFile
                     @ hash
                     ._ then

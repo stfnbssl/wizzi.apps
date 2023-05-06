@@ -1,5 +1,0 @@
-﻿module 
-    kind react
-
-    $include js/wz/lodash
-    $include js/wz/localstorage

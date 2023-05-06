@@ -1,7 +1,0 @@
-module
-    kind es6
-    $include js/wz/core
-    $include js/wz/ace
-    $include js/widgets/editorControl
-	let glEventHub = new EventEmitter3()
-	set window.glEventHub = glEventHub

@@ -50,13 +50,11 @@ module
                 const parsedUrl = parseUrl(request)
                 if !parsedUrl || !parsedUrl.pathname
                     return next()
-                log myname + '.parsedUrl', parsedUrl
                 const pathname = decodeURIComponent(parsedUrl.pathname)
                 const parts = pathname.split('/')
                 let owner, cdnName
                 set owner = parts[1]
                 set cdnName = parts.slice(2).join('/')
-                log myname + '.owner', owner, 'cdnName', cdnName
                 +
                 _ _renderCdn
                     @ owner
@@ -80,7 +78,6 @@ module
                 =>
                     param contents
                         :string
-                    log myname + 'getCdnResource.contents.length:', contents.length
                     _ response.status(200)
                     _ response.set('Content-Type', getContentType(cmdName))
                     _ response.set('Content-Length', contents)

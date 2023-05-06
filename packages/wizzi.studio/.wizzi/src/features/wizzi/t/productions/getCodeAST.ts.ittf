@@ -1,4 +1,32 @@
 $group
+    export
+        async-function getCodeASTFs
+            param filePath
+                :string
+            :return
+                :ref Promise
+                    :param
+                        :any
+            r_promise_async()
+                var extension
+                    _ path.extname
+                        @ filePath
+                var schema = wizziMaps.schemaFromExtension(extension)
+                const wf
+                    await
+                        _ createFilesystemFactory()
+                _ wf.getCodeAST
+                    @ filePath
+                    @ schema
+                    =>
+                        param err
+                        param ittfDocument
+                        if err
+                            _ reject
+                                @ err
+                        return
+                            _ resolve
+                                @ ittfDocument
     $if wzCtx.Build.useWizziJsonFactory
         +
         export
@@ -18,12 +46,20 @@ $group
                                 :ref packiTypes.PackiFiles
                                 =
                                     {
+                            let jsonwf
+                                :any
+                                =
+                                    {
+                            set jsonwf =
+                                await
+                                    _ createJsonFsAndFactory(files)
                             for const k of Object.keys(files)
                                 var extension = path.extname(k)
                                 try
                                     const astResult
                                         await
                                             _ handleGetCodeAST
+                                                @ jsonwf
                                                 @ extension
                                                 @ files[k].contents
                                     set result[k + '.ast']
@@ -48,6 +84,8 @@ $group
                                     @ result
         +
         function handleGetCodeAST
+            param jsonwf
+                :any
             param extension
                 :string
             param codeSnippet
@@ -63,9 +101,9 @@ $group
                         param reject
                         var schema = wizziMaps.schemaFromExtension(extension)
                         if schema
-                            _ wizziTools.getCodeAST
-                                @ schema
+                            _ jsonwf.getCodeASTFromText
                                 @ codeSnippet
+                                @ schema
                                 function
                                     param err
                                         :any

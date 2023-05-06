@@ -1,7 +1,0 @@
-﻿html/layouts/empty( SVG image as background )
-
-	div
-		img
-			src images/shapes.svg.ittf
-
-

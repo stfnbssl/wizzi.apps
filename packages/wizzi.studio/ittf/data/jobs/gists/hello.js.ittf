@@ -1,7 +1,0 @@
-module
-	kind jsfile
-	_ go
-		@ "stefi"
-	function go
-		param p1
-		log "Hello " + p1

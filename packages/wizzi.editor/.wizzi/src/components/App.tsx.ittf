@@ -227,6 +227,7 @@ module
                                             @ onCodeASTPreview {this._handleCodeASTPreview}
                                             @ onExecuteWizziJob {this._executeJobNotDebounced}
                                             @ onExecuteWizziMetaFolder {this._executeWizziMetaFolderNotDebounced}
+                                            @ onSaveLocalFolder {this._handleSaveLocalFolder}
                                             @ onCloseLocalFolder {this._handleCloseLocalFolder}
                                     else
                                         < AppShell 

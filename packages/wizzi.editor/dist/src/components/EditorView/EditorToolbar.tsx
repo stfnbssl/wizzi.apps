@@ -10,6 +10,8 @@ import {usePreferences} from '../../features/preferences';
 import {WizziIcon} from '../../assets/WizziIcon';
 import {EditIcon} from '../../assets/EditIcon';
 import {BrowserIcon} from '../../assets/BrowserIcon';
+import {SaveIcon} from '../../assets/SaveIcon';
+import {CloseIcon} from '../../assets/CloseIcon';
 import IconButton from '../widgets/IconButton';
 import UserMenu from './UserMenu';
 import {LoggedUser} from '../../features/app';
@@ -44,6 +46,7 @@ export type EditorToolbarProps = {
     onChangeSplitViewKind: (e: any) => void;
     onExecuteWizziJob: () => void;
     onExecuteWizziMetaFolder: () => void;
+    onSaveLocalFolder: () => void;
     onCloseLocalFolder: () => void;
 };
 export function EditorToolbar(props: EditorToolbarProps) {
@@ -73,6 +76,7 @@ export function EditorToolbar(props: EditorToolbarProps) {
         generatedPreviewURL, 
         onExecuteWizziJob, 
         onExecuteWizziMetaFolder, 
+        onSaveLocalFolder, 
         onCloseLocalFolder
      } = props;
     const {
@@ -80,6 +84,8 @@ export function EditorToolbar(props: EditorToolbarProps) {
      } = preferences;
     const isPublishing = saveStatus === 'publishing';
     const isPublished = saveStatus === 'published';
+    const productionLabel = isLocalFolder ? "Filesystem folder" : packiProduction;
+    console.log('EditorToolbar.props', props, mainIttf, wizziSchema, __filename);
     return  (
         <div
          className={css(styles.ve_top_bar)}>
@@ -95,7 +101,7 @@ export function EditorToolbar(props: EditorToolbarProps) {
              className={css(styles.ve_top_bar_control)}>
                 <div
                  className={css(styles.ve_top_bar_label)}>
-                    {packiProduction} Production
+                    {productionLabel} Production
                 </div>
                 <div
                  className={css(styles.ve_top_bar_field)}>
@@ -103,14 +109,20 @@ export function EditorToolbar(props: EditorToolbarProps) {
                      className={css(styles.ve_top_bar_field_editor)}>
                         {name + (readOnly ? ' (generated, readonly)': '')}
                     </div>
-                    <div
-                     className={css(styles.ve_top_bar_field_button)}>
-                        <IconButton
-                         responsive title="Edit production metadata" onClick={onShowEditModal}>
-                            <EditIcon
-                             theme={theme} width="20" height="20" />
-                        </IconButton>
-                    </div>
+                    {
+                        !(isLocalFolder)
+                         &&  (
+                            <div
+                             className={css(styles.ve_top_bar_field_button)}>
+                                <IconButton
+                                 responsive title="Edit production metadata" onClick={onShowEditModal}>
+                                    <EditIcon
+                                     theme={theme} width="20" height="20" />
+                                </IconButton>
+                            </div>
+                            )
+                        
+                    }
                 </div>
             </div>
             <div
@@ -185,14 +197,23 @@ export function EditorToolbar(props: EditorToolbarProps) {
                         <React.Fragment
                         >
                             <IconButton
-                             responsive title="Download as zip" onClick={onCloseLocalFolder}>
-                                <svg
-                                 width="20" height="20">
-                                    <path
-                                     d="M14.167 10H5.833L10 16.667 14.167 10z" />
-                                    <path
-                                     d="M2.5 18.333h15M10 10V1.667" strokeWidth="2" strokeLinecap="round" />
-                                </svg>
+                             responsive title="Save" onClick={onSaveLocalFolder}>
+                                <SaveIcon
+                                 theme={theme} width="20" height="20" />
+                            </IconButton>
+                        </React.Fragment>
+                        )
+                    
+                }
+                {
+                    isLocalFolder
+                     &&  (
+                        <React.Fragment
+                        >
+                            <IconButton
+                             responsive title="Close" onClick={onCloseLocalFolder}>
+                                <CloseIcon
+                                 theme={theme} width="20" height="20" />
                             </IconButton>
                         </React.Fragment>
                         )

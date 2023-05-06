@@ -7,15 +7,6 @@ module
     
     dark-light-icon( &md )
         g
-            $*
-            rect
-                fill {fill}
-                stroke none
-                x 0
-                y 0
-                width 1000
-                height 1000
-            *$
             path
                 fill {stroke}
                 stroke {stroke}

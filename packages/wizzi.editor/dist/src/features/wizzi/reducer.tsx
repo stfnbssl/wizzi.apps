@@ -63,7 +63,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                 return {
                         ...state, 
                         loading: false, 
-                        generatedArtifact: action.payload.generatedArtifact
+                        generatedArtifact: action.payload
                      };
             }
         }
@@ -120,6 +120,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
         }
         case getType(wizziActions.mTreeSuccess): {
             console.log("wizziActions.mTreeSuccess", Object.keys(action.payload));
+            action.payload.mTreeIttf = action.payload.mTree;
             if (action.payload.error || action.payload.err) {
                 return {
                         ...state, 

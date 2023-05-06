@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
+    package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\middlewares\wizziCdn.ts.ittf
+    utc time: Sat, 06 May 2023 11:50:24 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -31,13 +32,11 @@ function cdnMiddleware():  RequestHandler {
             if (!parsedUrl || !parsedUrl.pathname) {
                 return next();
             }
-            console.log(myname + '.parsedUrl', parsedUrl, __filename);
             const pathname = decodeURIComponent(parsedUrl.pathname);
             const parts = pathname.split('/');
             let owner, cdnName;
             owner = parts[1];
             cdnName = parts.slice(2).join('/');
-            console.log(myname + '.owner', owner, 'cdnName', cdnName, __filename);
             
             _renderCdn(owner, cdnName, request, response)
         }
@@ -48,7 +47,6 @@ function _renderCdn(owner: string, cdnName: string, request: Request, response: 
     
     resourceApi.getCdnResource(owner, cdnName).then((contents: string) => {
     
-        console.log(myname + 'getCdnResource.contents.length:', contents.length, __filename);
         response.status(200);
         response.set('Content-Type', getContentType(cmdName));
         response.set('Content-Length', contents);

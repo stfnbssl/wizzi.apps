@@ -1,4 +1,0 @@
-﻿{
-	$params text, href|#url
-	@ text '${text}'
-	@ href '${href}'

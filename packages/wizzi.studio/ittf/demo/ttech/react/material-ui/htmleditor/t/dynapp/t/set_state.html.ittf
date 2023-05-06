@@ -1,8 +1,0 @@
-﻿_ this.setState
-	=>
-		param prevState
-		param props
-		return
-			{
-				@ ...this.state
-				$hook

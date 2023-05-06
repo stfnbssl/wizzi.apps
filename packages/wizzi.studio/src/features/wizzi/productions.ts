@@ -1,22 +1,21 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
+    package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\wizzi\productions.ts.ittf
+    utc time: Sat, 06 May 2023 11:50:24 GMT
 */
 import path from 'path';
 import fs from 'fs';
 import stringify from 'json-stringify-safe';
-import {fSystem} from 'wizzi-utils';
-import wizzi from 'wizzi';
-import wizziTools from 'wizzi-tools';
-import {ittfScanner, ittfGraph, verify} from 'wizzi-utils';
+import wizzi from '@wizzi/factory';
+import {fSystem, ittfScanner, ittfGraph, verify} from '@wizzi/utils';
 import {packiFilePrefix, packiFilePrefixExtract} from '../config/env';
 import {packiTypes} from '../packi';
 import {config} from '../config';
 import * as wizziMaps from './maps';
 import {createJsonFsAndFactory, ensurePackiFilePrefix, createFilesystemFactory, createFilesystemFactoryWithParameters} from './factory';
 import {GenerationOptions, GeneratedArtifact, WizziModelTypesRequest, WizziJobTypesRequest, TransformationOptions, TransformedModel} from './types';
-import {JsonFs} from 'wizzi-repo';
+import {JsonFs} from '@wizzi/repo';
 const myname = 'features/wizzi/productions';
 
 export async function loadModel(filePath: string, files: packiTypes.PackiFiles, context?: any):  Promise<wizzi.WizziModel> {
@@ -209,11 +208,9 @@ export async function wrapIttfText(schema: string, ittftext: string, context?: a
                     contents: ittftext
                  }
              };
-            console.log(myname, 'wrapIttfText', 'mainIttf',mainIttf, __filename);
             mTree(mainIttf, packiFiles, context).then((result) => {
             
                 const requiredRoot = wizziMaps.ittfRootFromSchema(schema);
-                console.log(myname, 'wrapIttfText', 'root node', result.mTree.nodes[0].n, 'requiredRoot', requiredRoot, __filename);
                 if (requiredRoot == 'any' || result.mTree.nodes[0].n == requiredRoot) {
                     resolve(ittftext)
                 }
@@ -237,6 +234,7 @@ export async function wrapIttfText(schema: string, ittftext: string, context?: a
 
 export async function generateArtifact(filePath: string, files: packiTypes.PackiFiles, context?: any, options?: GenerationOptions):  Promise<GeneratedArtifact> {
 
+    const _options: GenerationOptions = options || {};
     return new Promise(async (resolve, reject) => {
         
             if (!verify.isObject(files)) {
@@ -246,7 +244,7 @@ export async function generateArtifact(filePath: string, files: packiTypes.Packi
                         files
                      });
             }
-            const generator = options && options.generator ? options.generator : wizziMaps.generatorFor(filePath);
+            const generator = _options.generator ? _options.generator : wizziMaps.generatorFor(filePath);
             if (generator) {
                 let jsonwf: any = {};
                 let generationContext: any = {};
@@ -267,7 +265,7 @@ export async function generateArtifact(filePath: string, files: packiTypes.Packi
                     ;
                     jsonwf.wf.loadModelAndGenerateArtifact(ittfDocumentUri, {
                         modelRequestContext: generationContext || {}, 
-                        artifactRequestContext: options.artifactContext || {}
+                        artifactRequestContext: _options.artifactContext || {}
                      }, generator, (err: any, result: string) => {
                     
                         if (err) {
@@ -294,9 +292,10 @@ export async function generateArtifact(filePath: string, files: packiTypes.Packi
 
 export async function generateArtifactFs(filePath: string, context?: any, options?: GenerationOptions):  Promise<GeneratedArtifact> {
 
+    const _options: GenerationOptions = options || {};
     return new Promise(async (resolve, reject) => {
         
-            const generator = options && options.generator ? options.generator : wizziMaps.generatorFor(filePath);
+            const generator = _options.generator ? _options.generator : wizziMaps.generatorFor(filePath);
             
             // TODO catch error
             if (generator) {
@@ -420,7 +419,6 @@ export async function generateWizziModelTypes(request: WizziModelTypesRequest) {
 
     return new Promise(async (resolve, reject) => {
         
-            console.log('wizziProds.generateWizziModelTypes.request', request, __filename);
             const storeKind = request.storeKind || 'filesystem';
             const mTreeBuildupContext = Object.assign({}, request.mTreeBuildupContext);
             const globalContext = Object.assign({}, request.globalContext);
@@ -564,44 +562,32 @@ export async function transformModelFs(filePath: string, context?: any, options?
         );
 }
 
-export async function metaGenerate(files: packiTypes.PackiFiles, context: any):  Promise<packiTypes.PackiFiles> {
+export async function metaGenerate(metaCtx: any, factoryPlugins?: any, metaPlugins?: any, globalContext?: { 
+    [k: string]: any;
+}):  Promise<packiTypes.PackiFiles> {
 
     return new Promise(async (resolve, reject) => {
         
-            if (!verify.isObject(files)) {
-                return reject({
-                        action: 'wizzi.productions.metaGenerate', 
-                        message: 'files parameter must be an object of type PackiFiles', 
-                        files
-                     });
-            }
-            console.log(myname, 'metaGenerate.files', Object.keys(files), __filename);
-            console.log(myname, 'metaGenerate.context', Object.keys(context), __filename);
+            console.log(myname, 'metaGenerate.metaCtx', Object.keys(metaCtx), __filename);
             let jsonwf: any = {};
             try {
-                jsonwf = await createJsonFsAndFactory(files);
+                jsonwf = await createJsonFsAndFactory({}, factoryPlugins, metaPlugins);
                 ;
-                jsonwf.wf.metaGenerate(packiFilePrefix + 'index.ittf.ittf', {
-                    modelRequestContext: context
-                 }, {
-                    tempFolder: packiFilePrefix + 'template', 
-                    destFolder: packiFilePrefix + '.wizzi'
-                 }, (err: any, jsonFs: JsonFs) => {
+                jsonwf.wf.metaGenerate({
+                    metaCtx: metaCtx, 
+                    paths: {
+                        metaProductionTempFolder: '___template', 
+                        metaProductionWizziFolder: '.wizzi'
+                     }, 
+                    globalContext: {
+                        
+                     }
+                 }, (err: any, wizziPackiFiles: packiTypes.PackiFiles) => {
                 
                     if (err) {
                         return reject(err);
                     }
-                    jsonFsToPackiFiles(jsonwf.jsonFs, '.wizzi').then((wizziPackiFiles: packiTypes.PackiFiles) => 
-                    
-                        resolve(wizziPackiFiles)
-                    ).catch((err: any) => {
-                    
-                        if (typeof err === 'object' && err !== null) {
-                        }
-                        console.log("[31m%s[0m", 'features/wizzi/productions.metaGenerate.error', err);
-                        return reject(err);
-                    }
-                    )
+                    resolve(wizziPackiFiles)
                 }
                 )
             } 
@@ -897,7 +883,6 @@ export async function folderFsToPackiFiles(folderPath: string):  Promise<packiTy
                             contents: fsitem.content || ""
                          }
                     )
-                    console.log("packiFiles", Object.keys(packiFiles), __filename);
                     return resolve(packiFiles);
                 }
                 )
@@ -912,15 +897,72 @@ export async function folderFsToPackiFiles(folderPath: string):  Promise<packiTy
         );
 }
 
+export async function packiFilesToFolderFs(folderPath: string, files: packiTypes.PackiFiles):  Promise<any> {
+
+    return new Promise((resolve, reject) => {
+        
+            try {
+                const fsfile = fSystem.vfile();
+                fsfile.deleteFolder(folderPath, (err: any, result: any) => {
+                
+                    if (err) {
+                        console.log("[31m%s[0m", "wizzi.productions.packiFilesTofolderFs.fsfile.deleteFolder", err);
+                        return reject({
+                                message: "wizzi.productions.packiFilesTofolderFs.fsfile.deleteFolder", 
+                                err
+                             });
+                    }
+                    for (var k in files) {
+                        var contents = files[k].contents;
+                        fsfile.write(path.join(folderPath, k), contents)
+                    }
+                    return resolve({
+                            message: "Folder replaced"
+                         });
+                }
+                )
+            } 
+            catch (ex) {
+                console.log("[31m%s[0m", "Exception. wizzi.productions.packiFilesTofolderFs");
+                return reject({
+                        message: "Exception. wizzi.productions.packiFilesTofolderFs", 
+                        err: ex
+                     });
+            } 
+        }
+        );
+}
+export async function wizzifyFs(filePath: string):  Promise<string> {
+
+    return new Promise(async (resolve, reject) => {
+        
+            var extension = path.extname(filePath);
+            var schema = wizziMaps.schemaFromExtension(extension);
+            const wf = await createFilesystemFactory();
+            wf.getWizziIttf(filePath, schema, (err, ittfDocument) => {
+            
+                if (err) {
+                    reject(err)
+                }
+                return resolve(ittfDocument);
+            }
+            )
+        }
+        );
+}
+
 export async function wizzify(files: packiTypes.PackiFiles):  Promise<packiTypes.PackiFiles> {
 
     return new Promise(async (resolve, reject) => {
         
             var result: packiTypes.PackiFiles = {};
+            let jsonwf: any = {};
+            jsonwf = await createJsonFsAndFactory(files);
+            ;
             for (const k of Object.keys(files)) {
                 var extension = path.extname(k);
                 try {
-                    const ittfResult = await handleWizzify(extension, files[k].contents);
+                    const ittfResult = await handleWizzify(jsonwf, extension, files[k].contents);
                     result[k + '.ittf'] = {
                         type: 'CODE', 
                         contents: ittfResult
@@ -938,19 +980,20 @@ export async function wizzify(files: packiTypes.PackiFiles):  Promise<packiTypes
         );
 }
 
-function handleWizzify(extension: string, codeSnippet: string):  Promise<string> {
+function handleWizzify(jsonwf: any, extension: string, codeSnippet: string):  Promise<string> {
 
     return new Promise(async (resolve, reject) => {
         
             var schema = wizziMaps.schemaFromExtension(extension);
             if (schema) {
-                wizziTools.wizzify(schema, codeSnippet, {}, function(err: any, ittfResult: string) {
+                jsonwf.getWizziIttfFromText(codeSnippet, schema, (err, ittfDocument) => {
                 
                     if (err) {
                         reject(err)
                     }
-                    resolve(ittfResult)
-                })
+                    return resolve(ittfDocument);
+                }
+                )
             }
             else {
                 const ittfResult = [extension.substring(1)];
@@ -962,16 +1005,37 @@ function handleWizzify(extension: string, codeSnippet: string):  Promise<string>
         }
         );
 }
+export async function getCodeASTFs(filePath: string):  Promise<any> {
+
+    return new Promise(async (resolve, reject) => {
+        
+            var extension = path.extname(filePath);
+            var schema = wizziMaps.schemaFromExtension(extension);
+            const wf = await createFilesystemFactory();
+            wf.getCodeAST(filePath, schema, (err, ittfDocument) => {
+            
+                if (err) {
+                    reject(err)
+                }
+                return resolve(ittfDocument);
+            }
+            )
+        }
+        );
+}
 
 export async function getCodeAST(files: packiTypes.PackiFiles):  Promise<packiTypes.PackiFiles> {
 
     return new Promise(async (resolve, reject) => {
         
             var result: packiTypes.PackiFiles = {};
+            let jsonwf: any = {};
+            jsonwf = await createJsonFsAndFactory(files);
+            ;
             for (const k of Object.keys(files)) {
                 var extension = path.extname(k);
                 try {
-                    const astResult = await handleGetCodeAST(extension, files[k].contents);
+                    const astResult = await handleGetCodeAST(jsonwf, extension, files[k].contents);
                     result[k + '.ast'] = {
                         type: 'CODE', 
                         contents: stringify(astResult, null, 2)
@@ -989,13 +1053,13 @@ export async function getCodeAST(files: packiTypes.PackiFiles):  Promise<packiTy
         );
 }
 
-function handleGetCodeAST(extension: string, codeSnippet: string):  Promise<any> {
+function handleGetCodeAST(jsonwf: any, extension: string, codeSnippet: string):  Promise<any> {
 
     return new Promise(async (resolve, reject) => {
         
             var schema = wizziMaps.schemaFromExtension(extension);
             if (schema) {
-                wizziTools.getCodeAST(schema, codeSnippet, function(err: any, astResult: any) {
+                jsonwf.getCodeASTFromText(codeSnippet, schema, function(err: any, astResult: any) {
                 
                     if (err) {
                         reject(err)

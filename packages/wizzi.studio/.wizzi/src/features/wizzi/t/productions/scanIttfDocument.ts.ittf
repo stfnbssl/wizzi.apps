@@ -146,10 +146,35 @@ $group
                                         {
                                             @ type "CODE"
                                             @ contents fsitem.content || ""
-                            log "packiFiles", Object.keys(packiFiles)
                             r_resolve( packiFiles )
                 catch ex
                     r_reject()
                         {
                             @ message "wizzi.productions.folderFsToPackiFiles"
                             @ err ex
+    +
+    export
+        async-function packiFilesToFolderFs
+            param folderPath
+                :string
+            param files
+                :ref packiTypes.PackiFiles
+            :return
+                :ref Promise
+                    :param
+                        :any
+            r_promise_try_catch( wizzi.productions.packiFilesTofolderFs )
+                const fsfile = fSystem.vfile()
+                _ fsfile.deleteFolder
+                    @ folderPath
+                    a_cb_promise( result, :any, , wizzi.productions.packiFilesTofolderFs.fsfile.deleteFolder )
+                        for var k in files
+                            var contents = files[k].contents
+                            _ fsfile.write
+                                _ path.join
+                                    @ folderPath
+                                    @ k
+                                @ contents
+                        r_resolve( )
+                            {
+                                @ message "Folder replaced"

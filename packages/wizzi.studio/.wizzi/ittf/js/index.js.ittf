@@ -1,0 +1,9 @@
+module
+    kind es6
+    $include utils/index
+    $include api/index
+    $include controls/index
+    $include editors/index
+    $include mvc/index
+    $include db/index
+    $include styles/index

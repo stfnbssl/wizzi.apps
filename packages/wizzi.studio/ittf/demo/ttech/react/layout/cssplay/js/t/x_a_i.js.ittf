@@ -1,4 +1,0 @@
-﻿{
-	$params xclass, href|#url
-	@ class '${xclass}'
-	@ href '${href}'

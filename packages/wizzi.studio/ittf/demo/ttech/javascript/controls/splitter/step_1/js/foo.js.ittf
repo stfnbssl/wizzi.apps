@@ -1,4 +1,0 @@
-﻿module
-	kind es6
-	
-	export-default 'hello world!'

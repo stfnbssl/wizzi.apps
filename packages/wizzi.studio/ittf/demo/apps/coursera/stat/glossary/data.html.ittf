@@ -1,5 +1,0 @@
-$group
-	
-	glo(mean)
-	glo(median)
-	glo(mode)

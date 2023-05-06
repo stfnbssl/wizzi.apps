@@ -17,7 +17,7 @@ module
         try
             _ start
         catch ex
-            log ex
+            error ex
     $if wzCtx.Build.useNetlify
         set module.exports = app.instance
         set module.exports.handler = serverless(app.instance)
@@ -25,6 +25,7 @@ module
         export
             function close
                 param done
+                    :any
                 try
                     _ console.log
                         `lit

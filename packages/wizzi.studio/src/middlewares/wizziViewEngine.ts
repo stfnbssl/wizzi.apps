@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
+    package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\middlewares\wizziViewEngine.ts.ittf
+    utc time: Sat, 06 May 2023 11:50:24 GMT
 */
 import path from 'path';
 import {Application} from 'express';
@@ -14,9 +15,16 @@ export const WizziViewEngineMiddleware: MiddlewareType = (app: Application) => {
     
         try {
             const twinJsonContext = await wizziProds.inferAndLoadContextFs(filePath, 'wzCtx');
+            var optionsLocals = Object.assign({}, options._locals, {
+                user: {
+                    avatar_url: config.userAvatarUrl, 
+                    name: config.userDisplayName, 
+                    username: config.userUserName
+                 }
+             });
             const context = {
                 ...options, 
-                locals: options._locals, 
+                locals: optionsLocals, 
                 ...twinJsonContext, 
                 isWizziStudio: true
              };

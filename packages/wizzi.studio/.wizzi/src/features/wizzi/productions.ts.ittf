@@ -4,25 +4,21 @@ module
     import path from 'path'
     import fs from 'fs'
     import stringify from 'json-stringify-safe'
+    import wizzi from '@wizzi/factory'
     import
         @ fSystem
-        from 'wizzi-utils'
-    import wizzi from 'wizzi'
-    $if wzCtx.Build.useWizziJsonFactory
-        import wizziTools from 'wizzi-tools'
-    import
         @ ittfScanner
         @ ittfGraph
         @ verify
-        from 'wizzi-utils'
+        from '@wizzi/utils'
     $if wzCtx.Build.useWizziJsonFactory
         import
             @ packiFilePrefix
             @ packiFilePrefixExtract
             from '../config/env'
-        import
-            @ packiTypes
-            from '../packi'
+    import
+        @ packiTypes
+        from '../packi'
     import
         @ config
         from '../config'
@@ -46,7 +42,7 @@ module
         from './types'
     import
         @ JsonFs
-        from 'wizzi-repo'
+        from '@wizzi/repo'
     const myname = '${myname}'
     $include productions/loadModel
     $include productions/mTreeBuildupScript
@@ -62,31 +58,32 @@ module
     $include productions/wizzify
     $include productions/getCodeAST
     $include productions/loadSiteJsonModel
-    function jsonFsToPackiFiles
-        param jsonFs
-            :ref JsonFs
-        param folder
-            :string
-        :return
-            :ref Promise
-                :param
+    $if wzCtx.Build.useWizziJsonFactory
+        function jsonFsToPackiFiles
+            param jsonFs
+                :ref JsonFs
+            param folder
+                :string
+            :return
+                :ref Promise
+                    :param
+                        :ref packiTypes.PackiFiles
+            r_promise()
+                const packiFiles
                     :ref packiTypes.PackiFiles
-        r_promise()
-            const packiFiles
-                :ref packiTypes.PackiFiles
-                {
-            _ jsonFs.toFiles
-                {
-                    @ removeRoot packiFilePrefixExtract
-                a_reject(files, :ref, fSystem.FileDef[])
-                    _ files.forEach
-                        =>
-                            param file
-                            if file.relPath.startsWith(folder + '/')
-                                set packiFiles[file.relPath] =
-                                    {
-                                        @ type 'CODE'
-                                        @ contents file.content
-                                        @ generated true
-                    _ resolve
-                        @ packiFiles
+                    {
+                _ jsonFs.toFiles
+                    {
+                        @ removeRoot packiFilePrefixExtract
+                    a_reject(files, :ref, fSystem.FileDef[])
+                        _ files.forEach
+                            =>
+                                param file
+                                if file.relPath.startsWith(folder + '/')
+                                    set packiFiles[file.relPath] =
+                                        {
+                                            @ type 'CODE'
+                                            @ contents file.content
+                                            @ generated true
+                        _ resolve
+                            @ packiFiles

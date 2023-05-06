@@ -1,10 +1,11 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
+    package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\wizziPackage\api\wizziPackage.ts.ittf
+    utc time: Sat, 06 May 2023 11:50:24 GMT
 */
 import path from 'path';
-import wizzi from 'wizzi';
+import wizzi from '@wizzi/factory';
 import {verify, fSystem} from 'wizzi-utils';
 import {searchConfigFile} from './packageFs';
 import {wizziProds} from '../../wizzi';
@@ -27,7 +28,6 @@ async function generateFromConfigFile(packageFolderPath: string, configName?: st
                     return ;
                 }
                 const configInstance = await import(configPath);
-                console.log(moduleName + '.configInstance', configInstance, __filename);
                 const x_pluginsBaseFolder = configInstance.pluginsBaseFolder || __dirname;
                 if (!configInstance.pluginsBaseFolder) {
                     console.log("[31m%s[0m", moduleName + ' - pluginsBaseFolder not set');
@@ -148,7 +148,6 @@ async function generateSchema(schemaName: string, packageIttfSourceFolder: strin
 
     return new Promise((resolve, reject) => {
         
-            console.log('wizziPackage.packageGenerator.generateSchema', schemaName, __filename);
             var options = {};
             if (plugins) {
                 options = {
@@ -166,7 +165,6 @@ async function generateSchema(schemaName: string, packageIttfSourceFolder: strin
                 pluginsBaseFolder: pluginsBaseFolder
              }).then((result: any) => {
             
-                console.log('wizziPackage.packageGenerator.generateSchema.result', result, __filename);
                 return resolve(result);
             }
             ).catch((err: any) => {

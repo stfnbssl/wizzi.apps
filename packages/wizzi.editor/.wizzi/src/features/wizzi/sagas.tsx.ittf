@@ -33,11 +33,20 @@ module
                     @ callApi
                     @ 'post'
                     @ config.API_URL
-                    @ 'production/generations/artifact/' + encodeURIComponent(action.payload.filePath)
-                    {
-                        @ packiFiles action.payload.files
-                        @ productionKind action.payload.productionKind
-                        @ productionName action.payload.productionName
+                    $if wzConfigIsStudio
+                        @ 'wizzi/production/artifact'
+                        {
+                            [ contextItems
+                            { ittfDocument
+                                @ source "packi"
+                                @ mainIttf action.payload.filePath
+                                @ packiFiles action.payload.files
+                    $else
+                        @ 'production/generations/artifact/' + encodeURIComponent(action.payload.filePath)
+                        {
+                            @ packiFiles action.payload.files
+                            @ productionKind action.payload.productionKind
+                            @ productionName action.payload.productionName
         $$ loog 'sagas.handleGenerateArtifactRequest.res', res
         yield put(wizziActions.generateArtifactSuccess(res))
     #
@@ -48,11 +57,20 @@ module
                     @ callApi
                     @ 'post'
                     @ config.API_URL
-                    @ 'production/generations/mtreescript/' + encodeURIComponent(action.payload.filePath)
-                    {
-                        @ packiFiles action.payload.files
-                        @ productionKind action.payload.productionKind
-                        @ productionName action.payload.productionName
+                    $if wzConfigIsStudio
+                        @ 'wizzi/production/mtreescript'
+                        {
+                            [ contextItems
+                            { ittfDocument
+                                @ source "packi"
+                                @ mainIttf action.payload.filePath
+                                @ packiFiles action.payload.files
+                    $else
+                        @ 'production/generations/mtreescript/' + encodeURIComponent(action.payload.filePath)
+                        {
+                            @ packiFiles action.payload.files
+                            @ productionKind action.payload.productionKind
+                            @ productionName action.payload.productionName
         $$ loog 'sagas.handleMTreeBuildupScriptRequest.res', res
         yield put(wizziActions.mTreeBuildupScriptSuccess(res))
     #
@@ -63,11 +81,20 @@ module
                     @ callApi
                     @ 'post'
                     @ config.API_URL
-                    @ 'production/generations/mtree/' + encodeURIComponent(action.payload.filePath)
-                    {
-                        @ packiFiles action.payload.files
-                        @ productionKind action.payload.productionKind
-                        @ productionName action.payload.productionName
+                    $if wzConfigIsStudio
+                        @ 'wizzi/production/mtree'
+                        {
+                            [ contextItems
+                            { ittfDocument
+                                @ source "packi"
+                                @ mainIttf action.payload.filePath
+                                @ packiFiles action.payload.files
+                    $else
+                        @ 'production/generations/mtree/' + encodeURIComponent(action.payload.filePath)
+                        {
+                            @ packiFiles action.payload.files
+                            @ productionKind action.payload.productionKind
+                            @ productionName action.payload.productionName
         $$ loog 'sagas.handleMTreeRequest.res', res
         yield put(wizziActions.mTreeSuccess(res))
     #

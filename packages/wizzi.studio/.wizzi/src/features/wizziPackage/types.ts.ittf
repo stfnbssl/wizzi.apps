@@ -1,5 +1,5 @@
 module
-    import wizzi from 'wizzi'
+    import wizzi from '@wizzi/factory'
     export
         :type WizziPackageOptions
             :{

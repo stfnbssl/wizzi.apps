@@ -58,6 +58,7 @@ export type EditorViewProps = {
     onEntrySelected: (entry: FileSystemEntry) => void;
     onExecuteWizziJob: () => void;
     onExecuteWizziMetaFolder: () => void;
+    onSaveLocalFolder: () => void;
     onCloseLocalFolder: () => void;
     onGenerateArtifactPreview: () => void;
     onMTreePreview: () => void;

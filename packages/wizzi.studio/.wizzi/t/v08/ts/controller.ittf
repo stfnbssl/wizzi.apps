@@ -67,6 +67,7 @@ $group
     +
     function makeHandlerAwareOfAsyncErrors
         param handler
+            :any
         return
             async-function
                 param request
@@ -78,7 +79,7 @@ $group
                 try
                     await
                         _ handler(request, response, next)
-                catch error
+                catch error: any
                     if error instanceof FcError
                         _ response.status(statusCode.BAD_REQUEST).send
                             {

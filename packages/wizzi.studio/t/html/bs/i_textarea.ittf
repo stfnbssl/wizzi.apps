@@ -1,8 +1,0 @@
-textarea
-	$params id, rows|5, value|@@null
-	id ${id}
-	class form-control animated
-	name ${id}
-	rows ${rows}
-	$if value
-		+ ${value}

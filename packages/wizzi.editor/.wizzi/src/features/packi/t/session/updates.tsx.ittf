@@ -105,3 +105,45 @@ $group
         if done
             _ done
         $$ TODO VIA _ this.setPreviewUrl
+
+    m saveLocalFolder
+        async
+        $if wzConfigIsStudio
+            const
+                {
+                    @ localFolderPath
+                    @ files
+                = this.state
+            log '---*** PackiSession.saveLocalFolder.localFolderPath and files', localFolderPath, files
+            const url
+                `lit
+                    @ this.apiURL
+                    + /api/v1/local/folder/fs/
+                    _ encodeURIComponent
+                        @ localFolderPath
+            log '---*** PackiSession.saveLocalFolder', url
+            const response
+                await
+                    _ fetch
+                        @ url
+                        {
+                            @ method 'PUT'
+                            @ body
+                                _ JSON.stringify
+                                    {
+                                        @ packiFiles files
+                            { headers
+                                @ 'Content-Type' 'application/json'
+            const data
+                await
+                    _ response.json()
+            log '---*** PackiSession.saveLocalFolder.response.data', data
+        $else
+            # no save if not in wizzi.studio
+
+    m closeLocalFolder
+        const
+            {
+                @ localFolderUri
+            = this.state
+        set window.location.href = localFolderUri

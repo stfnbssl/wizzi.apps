@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
+    package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\config\env.ts.ittf
+    utc time: Sat, 06 May 2023 11:50:24 GMT
 */
 import path from 'path';
 import dotenv from 'dotenv';
@@ -14,7 +15,10 @@ function validateEnv() {
         PORT: port(), 
         SESSION_SECRET: str(), 
         NO_CACHE: bool(), 
-        CORS_CLIENT_ORIGIN: str(), 
+        MONGO_HOST: str(), 
+        MONGO_USER: str(), 
+        MONGO_PASSWORD: str(), 
+        MONGO_PATH: str(), 
         IS_WIZZI_DEV: bool(), 
         WIZZI_BASE_PATH: str()
      });
@@ -35,7 +39,11 @@ export default function create():  ConfigType {
                 port: checkedEnv.PORT, 
                 sessionSecret: checkedEnv.SESSION_SECRET, 
                 noCache: checkedEnv.NO_CACHE, 
-                corsClientOrigin: checkedEnv.CORS_CLIENT_ORIGIN, 
+                mongoHost: checkedEnv.MONGO_HOST, 
+                mongoUser: checkedEnv.MONGO_USER, 
+                mongoPassword: checkedEnv.MONGO_PASSWORD, 
+                mongoPath: checkedEnv.MONGO_PATH, 
+                mongoConnectUrl: "", 
                 isWizziDev: checkedEnv.IS_WIZZI_DEV, 
                 wizziBasePath: checkedEnv.WIZZI_BASE_PATH, 
                 ittfPath: __ittfPath, 
@@ -43,11 +51,19 @@ export default function create():  ConfigType {
                 metaHtmlIttfPath: path.join(__ittfPath, 'meta', 'html', 'index.html.ittf'), 
                 metaFolderIttfPath: path.join(__ittfPath, 'meta', 'folder', 'index.html.ittf'), 
                 metaHtmlTextPath: path.join(__ittfPath, 'meta', 'text', 'index.html.ittf'), 
-                jobsBasePath: path.join(__ittfPath, 'data', 'jobs'), 
                 userUserName: "stfnbssl", 
                 userDisplayName: "Stefano Bassoli", 
-                userAvatarUrl: "https://avatars.githubusercontent.com/u/728956?v=4"
+                userAvatarUrl: "https://avatars.githubusercontent.com/u/728956?v=4", 
+                jobsBasePath: "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/data/jobs"
              };
+            const { mongoHost, mongoUser, mongoPassword, mongoPath } = config;
+            if (mongoUser && mongoUser.length > 0 && mongoPassword && mongoPassword.length > 0 && mongoHost && mongoHost.length > 0) {
+                config.mongoConnectUrl = `${mongoHost}://${mongoUser}:${mongoPassword}${mongoPath}`;
+            }
+            // example 'mongodb://localhost/test'
+            else {
+                config.mongoConnectUrl = `${mongoPath}`;
+            }
             Object.keys(config).forEach((element) => {
             
                 if (element.indexOf("Pass") < 0 && element.indexOf("Secr") < 0) {

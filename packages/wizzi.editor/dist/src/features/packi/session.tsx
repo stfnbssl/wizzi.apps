@@ -45,6 +45,9 @@ export default class PackiSession {
                 files: options.files ?? {}, 
                 user: options.user, 
                 packiProduction: options.packiProduction, 
+                isLocalFolder: options.isLocalFolder, 
+                localFolderPath: options.localFolderPath, 
+                localFolderUri: options.localFolderUri, 
                 saveCount: 0
              }, PackiIdentityState)
             ;
@@ -109,17 +112,13 @@ export default class PackiSession {
         }
         
         setPreviewUrl(filePath: string) {
-            let pathPrefix = "/~/";
-            if (this.state.packiProduction == 'package') {
-                pathPrefix = "/~p/";
-            }
-            else if (this.state.packiProduction == 'plugin') {
-                pathPrefix = "/~l/";
-            }
+            const {
+                localFolderUri
+             } = this.state;
             return this.setState((state) => 
                 
                     ({
-                        previewURL: `${process.env.API_SERVER_URL}${pathPrefix}${encodeURIComponent(state.owner)}/${encodeURIComponent(state.name)}?savecount=${state.saveCount}&filepath=${encodeURIComponent(filePath)}`
+                        previewURL: `${process.env.SERVER_URL}${localFolderUri}/${encodeURIComponent(filePath)}`
                      })
                 );
         }
@@ -347,6 +346,32 @@ export default class PackiSession {
             if (done) {
                 done();
             }
+        }
+        async saveLocalFolder() {
+            const {
+                localFolderPath, 
+                files
+             } = this.state;
+            console.log('---*** PackiSession.saveLocalFolder.localFolderPath and files', localFolderPath, files, __filename);
+            const url = `${this.apiURL}/api/v1/local/folder/fs/${encodeURIComponent(localFolderPath)}`;
+            console.log('---*** PackiSession.saveLocalFolder', url, __filename);
+            const response = await fetch(url, {
+                    method: 'PUT', 
+                    body: JSON.stringify({
+                        packiFiles: files
+                     }), 
+                    headers: {
+                        'Content-Type': 'application/json'
+                     }
+                 });
+            const data = await response.json();
+            console.log('---*** PackiSession.saveLocalFolder.response.data', data, __filename);
+        }
+        closeLocalFolder() {
+            const {
+                localFolderUri
+             } = this.state;
+            window.location.href = localFolderUri;
         }
         
         

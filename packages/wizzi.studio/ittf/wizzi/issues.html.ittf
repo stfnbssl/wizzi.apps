@@ -1,5 +1,0 @@
-html
-    body
-        li
-            h3 wizzi-job
-            p The "file copy" of an image corrupts the destination file.

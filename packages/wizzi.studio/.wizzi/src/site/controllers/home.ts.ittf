@@ -9,7 +9,6 @@ module
         v08/ts/route( get, /, this.home )
         $append handlers
             v08/ts/handler( home )
-                log 'Home controller. Received request'
                 $if wzCtx.Build.useDemoControllers
                     _ response.render
                         @ 'demoHome/index.html.ittf'

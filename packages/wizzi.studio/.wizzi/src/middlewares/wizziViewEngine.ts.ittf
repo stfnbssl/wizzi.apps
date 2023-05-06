@@ -33,10 +33,20 @@ module
                                     const twinJsonContext
                                         await
                                             _ wizziProds.inferAndLoadContextFs(filePath, 'wzCtx')
+                                    var optionsLocals
+                                        _ Object.assign
+                                            {
+                                            @ options._locals
+                                            $if wzCtx.App.isLocal
+                                                {
+                                                    { user
+                                                        @ avatar_url config.userAvatarUrl
+                                                        @ name config.userDisplayName
+                                                        @ username config.userUserName
                                     const context
                                         {
                                             @ ...options
-                                            @ locals options._locals
+                                            @ locals optionsLocals
                                             @ ...twinJsonContext
                                             @ isWizziStudio true
                                     const siteCtx

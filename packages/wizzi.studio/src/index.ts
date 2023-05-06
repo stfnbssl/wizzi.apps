@@ -1,15 +1,22 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
+    package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\index.ts.ittf
+    utc time: Sat, 06 May 2023 11:50:24 GMT
 */
 import {ApiType, ControllerType, AppInitializerType, MiddlewareType} from './features/app/types';
+import {ModelBuilderType} from './features/app';
 import {config} from './features/config/index';
+import { mongodbStart } from './services/mongodb';
 import {siteControllers} from './site/index';
+import {packiControllers} from './features/packi/index';
+import {packiStudioFolderEditControllers} from './features/packiStudioFolderEdit/index';
+import {packiProductionsControllers, packiProductionsModelBuilders} from './features/packiProductions/index';
+import {docsControllers} from './features/docs/index';
+import {wizziControllers} from './features/wizzi/index';
 import {wizziFsControllers} from './features/wizziFs/index';
 import {wizziGistControllers} from './features/wizziGist/index';
 import {wizziMetaControllers} from './features/wizziMeta/index';
-import {packiEditControllers} from './features/packiEdit/index';
 import {appMiddlewaresPre, appMiddlewaresPost} from './middlewares/index';
 import App from './App';
 var app: any = {
@@ -17,6 +24,11 @@ var app: any = {
  };
 async function start() {
 
+    let modelBuilders: ModelBuilderType[] = [
+        ...packiProductionsModelBuilders
+    ];
+    await mongodbStart(config, modelBuilders);
+    
     let middlewaresPre: MiddlewareType[] = [
         ...appMiddlewaresPre
     ];
@@ -26,10 +38,14 @@ async function start() {
     let apis: ApiType[] = [];
     let controllers: ControllerType[] = [
         ...siteControllers, 
+        ...packiControllers, 
+        ...packiStudioFolderEditControllers, 
+        ...packiProductionsControllers, 
+        ...docsControllers, 
+        ...wizziControllers, 
         ...wizziFsControllers, 
         ...wizziGistControllers, 
-        ...wizziMetaControllers, 
-        ...packiEditControllers
+        ...wizziMetaControllers
     ];
     console.log("[33m%s[0m", 'Starting app. Config:', config);
     const appInitializer: AppInitializerType = {
@@ -49,9 +65,9 @@ try {
     start();
 } 
 catch (ex) {
-    console.log(ex, __filename);
+    console.log("[31m%s[0m", ex);
 } 
-export function close(done) {
+export function close(done: any) {
 
     try {
         console.log(`Index closing.`)

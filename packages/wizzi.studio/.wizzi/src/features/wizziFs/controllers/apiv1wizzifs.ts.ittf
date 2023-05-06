@@ -16,9 +16,8 @@ module
         _ this.router.put('/ittf', this.putIttfDocument)
         $append handlers
             v08/ts/handler(getIttfDocument)
-                log 'getIttfDocument.request.params', request.params
-                check-params( )
-                    not-empty( query , hash )
+                rest/check-params( )
+                    rest/not-empty( query , hash )
                 _ getIttfDocument
                     @ hash
                     ._ then
@@ -30,12 +29,10 @@ module
                                 @ result
                     v08/ts/catch_fail( ApiV1WizziFs.getIttfDocument )
             v08/ts/handler(putIttfDocument)
-                log 'request.body', request.body
-                log 'request.query', request.query
-                check-params( )
-                    not-empty( body , hash )
-                    not-empty( body , content )
-                    optional( body , prettify )
+                rest/check-params( )
+                    rest/not-empty( body , hash )
+                    rest/not-empty( body , content )
+                    rest/optional( body , prettify )
                 _ putIttfDocument
                     @ hash
                     @ content

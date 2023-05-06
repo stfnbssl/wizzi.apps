@@ -1,7 +1,0 @@
-﻿module
-	kind es6
-	
-	import foo from './foo'
-	export-default 
-		function
-			log foo

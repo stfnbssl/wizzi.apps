@@ -1,5 +1,0 @@
-﻿module
-	kind es6
-
-	$include j/scanners
-	$include j/prettifier

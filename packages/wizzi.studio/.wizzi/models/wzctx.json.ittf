@@ -1,9 +1,9 @@
 {
     $include v08/env/vars
     
-    name "wizzi.studio"
+    name "wizzi.plugin.wizzi.studio"
     version "0.0.1"
-    description "wizzi.studio"
+    description "wizzi.plugin.wizzi.studio"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
@@ -28,12 +28,29 @@
     { Styles
     
     { Build
-        useSite true
-        { site
-            useIttfStatic false
-            { ittfStatic
-        useDemoControllers false
         [ features
+            {
+                name "packi"
+                hasControllers true
+                useMongoDb false
+            {
+                name "packiStudioFolderEdit"
+                hasControllers true
+                useMongoDb false
+            {
+                name "packiProductions"
+                fileName "packi-productions"
+                hasControllers true
+                useMongoDb true
+            {
+                name "docs"
+                hasControllers true
+                useMongoDb false
+            {
+                name "wizzi"
+                fileName "wizzi"
+                hasControllers true
+                useMongoDb false
             {
                 name "wizziFs"
                 fileName "wizzi-fs"
@@ -49,23 +66,28 @@
                 fileName "wizzi-meta"
                 hasControllers true
                 useMongoDb false
-            {
-                name "packiEdit"
-                hasControllers true
-                useMongoDb false
         [ examples
-        $include config.json
-        
         $include code.json
         
-        $include express.json
+        $include tsExpress.json
         
-        $include styles.json
+        $include tsExpressData.json
         
-        $include test.json
+        $include tsExpressFeatureConfig.json
         
-        $include wizzi.json
+        $include tsExpressFeatureWizzi.json
         
-        $include utils.json
+        $include tsExpressFeaturePacki.json
+        
+        $include tsExpressStyles.json
+        
+        $include tsExpressTests.json
+        
+        $include tsExpressUtils.json
+        
+        $include tsExpressWizziSite.json
         
         $include react.json
+        
+        $include tsdbmongodb.json
+        

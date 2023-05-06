@@ -1,4 +1,0 @@
-﻿set html
-	_ html.concat
-		[
-			$hook

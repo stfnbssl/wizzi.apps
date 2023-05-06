@@ -5,7 +5,6 @@ $group
             param request
                 :ref WizziModelTypesRequest
             r_promise_async(
-                log 'wizziProds.generateWizziModelTypes.request', request
                 const storeKind = request.storeKind || 'filesystem'
                 const mTreeBuildupContext = Object.assign({}, request.mTreeBuildupContext)
                 const globalContext = Object.assign({}, request.globalContext)

@@ -17,6 +17,9 @@ $group
                     :ref Promise
                         :param
                             :ref GeneratedArtifact
+                const _options
+                    :ref GenerationOptions
+                    = options || {}
                 return
                     new Promise
                         async=>
@@ -29,7 +32,7 @@ $group
                                             @ action 'wizzi.productions.generateArtifact'
                                             @ message 'files parameter must be an object of type PackiFiles'
                                             @ files
-                            const generator = options && options.generator ? options.generator : wizziMaps.generatorFor(filePath)
+                            const generator = _options.generator ? _options.generator : wizziMaps.generatorFor(filePath)
                             if generator
                                 let jsonwf
                                     :any
@@ -72,7 +75,7 @@ $group
                                         @ ittfDocumentUri
                                         {
                                             @ modelRequestContext generationContext || {}
-                                            @ artifactRequestContext options.artifactContext || {}
+                                            @ artifactRequestContext _options.artifactContext || {}
                                         @ generator
                                         =>
                                             param err
@@ -105,12 +108,15 @@ $group
                 :ref Promise
                     :param
                         :ref GeneratedArtifact
+            const _options
+                :ref GenerationOptions
+                = options || {}
             return
                 new Promise
                     async=>
                         param resolve
                         param reject
-                        const generator = options && options.generator ? options.generator : wizziMaps.generatorFor(filePath)
+                        const generator = _options.generator ? _options.generator : wizziMaps.generatorFor(filePath)
                         if generator
                             # TODO catch error
                             const wf

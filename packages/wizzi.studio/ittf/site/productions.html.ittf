@@ -25,11 +25,11 @@ html
         . flex-row space-between m-t-xxl width-full
             id stickyNavbar
             . flex-row justify-center m-0-auto
-                html/a( Artifacts, /productions/artifacts, ${ca}
-                html/a( Packages, /productions/packages, ${ca}
-                html/a( Plugins, /productions/plugins, ${ca}
-                html/a( Metas, /productions/metas, ${ca}
-                html/a( tFolders, /productions/tfolders, ${ca}
+                html/a( Artifacts, /packi/productions/artifacts, ${ca}
+                html/a( Packages, /packi/productions/packages, ${ca}
+                html/a( Plugins, /packi/productions/plugins, ${ca}
+                html/a( Metas, /packi/productions/metas, ${ca}
+                html/a( tFolders, /packi/productions/tfolders, ${ca}
 
         . m-200 t-grid
             . t-item-l

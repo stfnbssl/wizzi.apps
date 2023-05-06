@@ -217,6 +217,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
             loggedUser, 
             onExecuteWizziJob, 
             onExecuteWizziMetaFolder, 
+            onSaveLocalFolder, 
             onCloseLocalFolder, 
             previewKind, 
             generatedArtifact, 
@@ -284,6 +285,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                     onDismissEditModal={this._handleDismissEditModal}
                     onExecuteWizziJob={onExecuteWizziJob}
                     onExecuteWizziMetaFolder={onExecuteWizziMetaFolder}
+                    onSaveLocalFolder={onSaveLocalFolder}
                     onCloseLocalFolder={onCloseLocalFolder}
                     onSubmitMetadata={this.props.onSubmitMetadata}
                     onDownloadCode={this.props.onDownloadAsync}

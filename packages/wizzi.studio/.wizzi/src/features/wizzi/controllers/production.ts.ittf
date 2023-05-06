@@ -34,7 +34,7 @@ module
                 from '../api/context'
             import
                 @ file
-                from 'wizzi'
+                from '@wizzi/factory'
             const myname = '${myname}'
         $if wzCtx.Build.useAuthentication
             v08/ts/route_api_secured( post, /artifact, this.artifact)

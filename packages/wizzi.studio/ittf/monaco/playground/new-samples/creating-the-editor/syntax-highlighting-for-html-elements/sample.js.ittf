@@ -1,6 +1,0 @@
-module
-    kind react
-    _ monaco.editor.colorizeElement(document.getElementById('code'))
-        # The colorizeElement-function will read the data-lang-attribute
-        # from the element to select the correct language mode. In this
-        # sample it is text/css.

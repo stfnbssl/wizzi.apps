@@ -6,8 +6,6 @@ module
         @ verify
         from 'wizzi-utils'
     import * as cp from 'child_process'
-    $$ var robocopy = require('robocopy')
-    $$ var powershell = require('node-powershell')
     # var npm = require('npm')
     var babelParser = null
     var babelCore = null
@@ -47,17 +45,8 @@ module
             :p __response
                 :any
                 :optional
-    $$ $include robocopy
-    $$ $include powershell
     $include spawn
-    $$ $include git
     $include nodejs
-    $$ $include babelParse
-    $$ $include babelTransform
-    $$ $include flow
-    $$ $include prettier
-    $$ $include eslint
-    $$ $include webpack
     export
         {
             @ spawnExec

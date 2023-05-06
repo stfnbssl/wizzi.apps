@@ -6,7 +6,7 @@ module
     import path from 'path'
     import
         @ file
-        from 'wizzi'
+        from '@wizzi/factory'
     import
         @ config
         from '../../config'

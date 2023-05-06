@@ -1,5 +1,0 @@
-﻿return
-	$params error|Error
-	_ callback
-		new ${error}
-			$hook

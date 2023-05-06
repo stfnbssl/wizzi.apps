@@ -148,3 +148,15 @@ $group
                 =>
                     $$ loog '---*** App._updateFiles.after-filesUpdate.exec-generateArtifact'
                     _ this._generateArtifactOrWizzifyOrCodeAST
+
+    +
+    => _handleSaveLocalFolder
+        log 'App._handleSaveLocalFolder'
+        _ this._PackiSession.saveLocalFolder
+
+    +
+    => _handleCloseLocalFolder
+        log 'App._handleCloseLocalFolder'
+        _ this._PackiSession.closeLocalFolder
+        
+

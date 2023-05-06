@@ -1,6 +1,0 @@
-﻿$group
-	$params title
-
-	div 
-		code ${title}:
-			$hook

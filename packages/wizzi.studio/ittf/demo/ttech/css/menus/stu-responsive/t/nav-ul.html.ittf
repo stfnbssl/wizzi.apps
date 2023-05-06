@@ -1,6 +1,0 @@
-nav
-    $params xclass
-    ul 
-        class ${xclass}
-        $hook
-    . clear

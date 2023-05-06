@@ -130,7 +130,6 @@ $group
                                     { [ mainIttf ]
                                         @ type 'CODE'
                                         @ contents ittftext
-                            log myname, 'wrapIttfText', 'mainIttf',mainIttf
                             _ mTree
                                 @ mainIttf
                                 @ packiFiles
@@ -139,7 +138,6 @@ $group
                                     =>
                                         param result
                                         const requiredRoot = wizziMaps.ittfRootFromSchema(schema)
-                                        log myname, 'wrapIttfText', 'root node', result.mTree.nodes[0].n, 'requiredRoot', requiredRoot
                                         if requiredRoot == 'any' || result.mTree.nodes[0].n == requiredRoot
                                             _ resolve
                                                 @ ittftext

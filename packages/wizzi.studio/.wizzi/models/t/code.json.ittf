@@ -3,10 +3,3 @@ $group
     { typescript
         useBabelLoader true
         useTsxFiles false
-    usePrettier true
-    { prettier
-    usePrismjs false
-    { prismjs
-        [ modes
-    useLint true
-    { lint

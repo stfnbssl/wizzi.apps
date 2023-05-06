@@ -1,10 +1,10 @@
 module
     import
         as wizzi
-        from 'wizzi'
+        from '@wizzi/factory'
     import
         @ JsonFs
-        from 'wizzi-repo'
+        from '@wizzi/repo'
     $if wzCtx.Build.useWizziJsonFactory
         import
             @ packiTypes
@@ -27,6 +27,7 @@ module
             :{
                 :p generator
                     :string
+                    :optional
                 :p artifactContext
                     :any
                     :optional

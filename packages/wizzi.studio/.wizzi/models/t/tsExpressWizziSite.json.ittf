@@ -1,0 +1,13 @@
+$group
+    useSite true
+    { site
+        useIttfStatic false
+        { ittfStatic
+        useDemoHome true
+        { demoHome
+        useDemoWizzi true
+        { demoWizzi
+        usePackiProductions true
+        { packiProductions
+        useWizziDocs true
+        { wizziDocs

@@ -14,7 +14,6 @@ module
         _ this.router.get('/:name', this.getCheatsheet)
         $append handlers
             v08/ts/handler(getCheatsheet)
-                log 'getCheatsheet.request.params', request.params
                 _ getCheatsheet
                     @ request.params.name
                     ._ then

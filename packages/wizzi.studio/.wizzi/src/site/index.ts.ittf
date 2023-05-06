@@ -6,30 +6,31 @@ module
         import
             @ HomeController
             from './controllers/home'
-        $if wzCtx.Build.useDemoControllers
+        $if wzCtx.Build.site.useDemoHome
             import
                 @ DemoHomeController
                 from './controllers/demoHome'
-            $if wzCtx.Build.useWizziViewEngine
+        $if wzCtx.Build.useWizziViewEngine
+            $if wzCtx.Build.site.demoWizzi
                 import
                     @ DemoWizziController
                     from './controllers/demoWizzi'
-        $if wzCtx.Build.useAccount
+        $if wzCtx.Build.site.useAccount
             import
                 @ AccountController
                 from './controllers/account'
-        $if wzCtx.Build.useAuthentication
+        $if wzCtx.Build.site.useAuthentication
             import
                 @ AuthController
                 from './controllers/auth'
-        $if wzCtx.Build.useWizziDocs
+        $if wzCtx.Build.site.useWizziDocs
             import
                 @ DocsController
-                from './controllers/docs'
-        $if wzCtx.Build.useWizziProductions
+                from './controllers/wizziDocs'
+        $if wzCtx.Build.site.usePackiProductions
             import
-                @ ProductionsController
-                from './controllers/productions'
+                @ PackiProductionsController
+                from './controllers/packiProductions'
         $hook imports
     const siteControllers
         :[
@@ -38,18 +39,19 @@ module
             [
                 $if wzCtx.Build.useSite
                     @ new HomeController()
-                    $if wzCtx.Build.useDemoControllers
+                    $if wzCtx.Build.site.useDemoHome
                         @ new DemoHomeController()
-                        $if wzCtx.Build.useWizziViewEngine
+                    $if wzCtx.Build.useWizziViewEngine
+                        $if wzCtx.Build.site.useDemoWizzi
                             @ new DemoWizziController()
-                    $if wzCtx.Build.useAuthentication
+                    $if wzCtx.Build.site.useAuthentication
                         @ new AuthController()
-                    $if wzCtx.Build.useAccount
+                    $if wzCtx.Build.site.useAccount
                         @ new AccountController()
-                    $if wzCtx.Build.useWizziDocs
+                    $if wzCtx.Build.site.useWizziDocs
                         @ new DocsController()
-                    $if wzCtx.Build.useWizziProductions
-                        @ new ProductionsController()
+                    $if wzCtx.Build.site.usePackiProductions
+                        @ new PackiProductionsController()
                 $hook controllers
     export
         @ siteControllers

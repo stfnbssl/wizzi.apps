@@ -24,19 +24,11 @@ export const AstIcon = ({
             viewBox="0 0 400 180"
             {...props}
         >
-            <text 
-                x="200"
-                y="141"
-                font-size="130"
-                font-family="Helvetica,Arial,Sans"
-                font-weight="bold"
-                text-anchor="middle"
-             />
             <path 
                 fill="none"
                 stroke={stroke}
                 d="m199-90a180,180 0 1,0 2,0"
-                stroke-width="40"
+                strokeWidth="40"
              />
             <path
              d="M88,15a135,135 0 0,0 0,150h32a114,114 0 0,1 0-150M280,15a114,114 0 0,1 0,150h32a135,135 0 0,0 0-150" />

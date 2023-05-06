@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
+    package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\middlewares\static.ts.ittf
+    utc time: Sat, 06 May 2023 11:50:24 GMT
 */
 import * as path from 'path';
 import {Application, static as expressStatic} from 'express';
@@ -10,8 +11,6 @@ export const StaticFilesMiddleware: MiddlewareType = (app: Application) => {
 
     console.log("[32m%s[0m", 'StaticFilesMiddleware. Folder served from ', path.resolve(__dirname, '..', '..', 'public'));
     app.use('/public', expressStatic(path.resolve(__dirname, '..', '..', 'public')));
-    console.log("[32m%s[0m", 'StaticFilesMiddleware. Folder served from ', path.resolve(__dirname, '..', '..', 'static'));
-    app.use('/static', expressStatic(path.resolve(__dirname, '..', '..', 'static')));
     console.log("[32m%s[0m", 'StaticFilesMiddleware. Folder served from ', path.resolve(__dirname, '..', '..', 'ittf'));
     // simply browse ittfs when IttfDocumentsMiddleware is not used
     app.use('/ittf', expressStatic(path.resolve(__dirname, '..', '..', 'ittf')));

@@ -1,8 +1,0 @@
-﻿html/layouts/empty()
-
-	$append head-styles
-		css css/reset.css.ittf
-		css css/styles.css.ittf
-	
-	. wrapper
-		. page

@@ -15,10 +15,15 @@ function* handleGenerateArtifactRequest(action: ReturnType<typeof wizziActions.g
 
     try {
         console.log('sagas.handleGenerateArtifactRequest.action', action, __filename);
-        const res = yield call(callApi, 'post', config.API_URL, 'production/generations/artifact/' + encodeURIComponent(action.payload.filePath), {
-                packiFiles: action.payload.files, 
-                productionKind: action.payload.productionKind, 
-                productionName: action.payload.productionName
+        const res = yield call(callApi, 'post', config.API_URL, 'wizzi/production/artifact', {
+                contextItems: [
+                    
+                ], 
+                ittfDocument: {
+                    source: "packi", 
+                    mainIttf: action.payload.filePath, 
+                    packiFiles: action.payload.files
+                 }
              });
         yield put(wizziActions.generateArtifactSuccess(res));
     } 
@@ -36,10 +41,15 @@ function* handleMTreeBuildupScriptRequest(action: ReturnType<typeof wizziActions
 
     try {
         console.log('sagas.handleMTreeBuildupScriptRequest.action', action, __filename);
-        const res = yield call(callApi, 'post', config.API_URL, 'production/generations/mtreescript/' + encodeURIComponent(action.payload.filePath), {
-                packiFiles: action.payload.files, 
-                productionKind: action.payload.productionKind, 
-                productionName: action.payload.productionName
+        const res = yield call(callApi, 'post', config.API_URL, 'wizzi/production/mtreescript', {
+                contextItems: [
+                    
+                ], 
+                ittfDocument: {
+                    source: "packi", 
+                    mainIttf: action.payload.filePath, 
+                    packiFiles: action.payload.files
+                 }
              });
         yield put(wizziActions.mTreeBuildupScriptSuccess(res));
     } 
@@ -57,10 +67,15 @@ function* handleMTreeRequest(action: ReturnType<typeof wizziActions.mTreeRequest
 
     try {
         console.log('sagas.handleMTreeRequest.action', action, __filename);
-        const res = yield call(callApi, 'post', config.API_URL, 'production/generations/mtree/' + encodeURIComponent(action.payload.filePath), {
-                packiFiles: action.payload.files, 
-                productionKind: action.payload.productionKind, 
-                productionName: action.payload.productionName
+        const res = yield call(callApi, 'post', config.API_URL, 'wizzi/production/mtree', {
+                contextItems: [
+                    
+                ], 
+                ittfDocument: {
+                    source: "packi", 
+                    mainIttf: action.payload.filePath, 
+                    packiFiles: action.payload.files
+                 }
              });
         yield put(wizziActions.mTreeSuccess(res));
     } 

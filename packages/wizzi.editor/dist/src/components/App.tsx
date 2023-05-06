@@ -332,17 +332,6 @@ class AppMain extends React.Component<AppProps, State> {
         }
     };
     
-    _handleCloseLocalFolder = (save: boolean) => {
-        console.log('App._handleCloseLocalFolder.save', save, __filename);
-        const files = this.state.session.files;
-        if (save) {
-            this.props.dispatchCloseLocalFolder(this.state.session.localFolderPath, this.state.session.files)
-        }
-        else {
-            window.location.href = this.state.session.localFolderUri;
-        }
-    };
-    
     _getViewKind = (selectedFile, selectedFilePrev) => {
         selectedFilePrev = selectedFilePrev || "";
         if (this.state) {
@@ -525,6 +514,16 @@ class AppMain extends React.Component<AppProps, State> {
                 this._generateArtifactOrWizzifyOrCodeAST()
             )
         }
+    };
+    
+    _handleSaveLocalFolder = () => {
+        console.log('App._handleSaveLocalFolder', __filename);
+        this._PackiSession.saveLocalFolder();
+    };
+    
+    _handleCloseLocalFolder = () => {
+        console.log('App._handleCloseLocalFolder', __filename);
+        this._PackiSession.closeLocalFolder();
     };
     
     _handleGenerateArtifactPreview = async () => 
@@ -711,6 +710,7 @@ class AppMain extends React.Component<AppProps, State> {
                                     onCodeASTPreview={this._handleCodeASTPreview}
                                     onExecuteWizziJob={this._executeJobNotDebounced}
                                     onExecuteWizziMetaFolder={this._executeWizziMetaFolderNotDebounced}
+                                    onSaveLocalFolder={this._handleSaveLocalFolder}
                                     onCloseLocalFolder={this._handleCloseLocalFolder}
                                  />
                                 )

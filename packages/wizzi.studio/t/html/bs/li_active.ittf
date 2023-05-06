@@ -1,4 +1,0 @@
-$group
-    $params text
-    li ${text}
-    	class list-group-item active

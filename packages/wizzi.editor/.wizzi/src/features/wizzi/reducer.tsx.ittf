@@ -102,7 +102,10 @@ module
                             { 
                                 @ ...state
                                 @ loading false
-                                @ generatedArtifact action.payload.generatedArtifact
+                                $if wzConfigIsStudio
+                                    @ generatedArtifact action.payload
+                                $else
+                                    @ generatedArtifact action.payload.generatedArtifact
                 case getType(wizziActions.generateArtifactError)
                     error "wizziActions.generateArtifactError", action.payload
                     return 
@@ -151,6 +154,7 @@ module
                             @ error undefined
                 case getType(wizziActions.mTreeSuccess)
                     info "wizziActions.mTreeSuccess", Object.keys(action.payload)
+                    set action.payload.mTreeIttf = action.payload.mTree
                     if action.payload.error || action.payload.err
                         return 
                             { 

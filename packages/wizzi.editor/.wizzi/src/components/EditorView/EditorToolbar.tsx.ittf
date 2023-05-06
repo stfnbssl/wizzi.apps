@@ -25,6 +25,12 @@ module
     import 
         @ BrowserIcon
         from '../../assets/BrowserIcon'
+    import 
+        @ SaveIcon
+        from '../../assets/SaveIcon'
+    import 
+        @ CloseIcon
+        from '../../assets/CloseIcon'
     import IconButton from '../widgets/IconButton'
     import UserMenu from './UserMenu'
     $if wzCtx.Build.usePackiAspects
@@ -94,10 +100,6 @@ module
                             :ref PackiSaveOptions
                             :optional 
                 $if wzCtx.Build.usePackiAspects
-                    $*
-                    :p saveStatus
-                        :ref SaveStatus
-                    *$
                     :p loggedUser
                         :union 
                             :ref LoggedUser
@@ -115,6 +117,9 @@ module
                         :=> 
                             :void 
                     :p onExecuteWizziMetaFolder
+                        :=> 
+                            :void 
+                    :p onSaveLocalFolder
                         :=> 
                             :void 
                     :p onCloseLocalFolder
@@ -150,6 +155,7 @@ module
                     @ generatedPreviewURL
                     @ onExecuteWizziJob
                     @ onExecuteWizziMetaFolder
+                    @ onSaveLocalFolder
                     @ onCloseLocalFolder
 
                 = props
@@ -161,7 +167,8 @@ module
             
             const isPublishing = saveStatus === 'publishing'
             const isPublished = saveStatus === 'published'
-            $$ loog 'EditorToolbar.props', props, mainIttf, wizziSchema
+            const productionLabel = isLocalFolder ? "Filesystem folder" : packiProduction
+            log 'EditorToolbar.props', props, mainIttf, wizziSchema
 
             return
                 div 
@@ -178,23 +185,26 @@ module
                         className {css(styles.ve_top_bar_control)}
                         div 
                             className {css(styles.ve_top_bar_label)}
-                            + {packiProduction} Production
+                            + {productionLabel} Production
                         div 
                             className {css(styles.ve_top_bar_field)}
                             div 
                                 className {css(styles.ve_top_bar_field_editor)}
                                 + {name + (readOnly ? ' (generated, readonly)': '')}
-                            div 
-                                className {css(styles.ve_top_bar_field_button)}
-                                < IconButton 
-                                    @ responsive
-                                    @ title "Edit production metadata"
-                                    @ onClick {onShowEditModal}
-                                    $$ @ disabled {isDownloading || isPublishing}
-                                    < EditIcon 
-                                        @ theme {theme} 
-                                        width 20
-                                        height 20
+                            {
+                                &&
+                                    + !(isLocalFolder)
+                                    div 
+                                        className {css(styles.ve_top_bar_field_button)}
+                                        < IconButton 
+                                            @ responsive
+                                            @ title "Edit production metadata"
+                                            @ onClick {onShowEditModal}
+                                            $$ @ disabled {isDownloading || isPublishing}
+                                            < EditIcon 
+                                                @ theme {theme} 
+                                                width 20
+                                                height 20
                     div 
                         className {css(styles.ve_top_bar_icons)}
                         {
@@ -257,17 +267,24 @@ module
                                 < React.Fragment
                                     < IconButton 
                                         @ responsive
-                                        @ title "Download as zip"
+                                        @ title "Save"
+                                        @ onClick {onSaveLocalFolder}
+                                        < SaveIcon 
+                                            @ theme {theme} 
+                                            width 20
+                                            height 20
+                        {
+                            &&
+                                + isLocalFolder
+                                < React.Fragment
+                                    < IconButton 
+                                        @ responsive
+                                        @ title "Close"
                                         @ onClick {onCloseLocalFolder}
-                                        svg 
-                                            @ width "20"
-                                            @ height "20"
-                                            path 
-                                                @ d "M14.167 10H5.833L10 16.667 14.167 10z"
-                                            path 
-                                                @ d "M2.5 18.333h15M10 10V1.667"
-                                                @ strokeWidth "2"
-                                                @ strokeLinecap "round"
+                                        < CloseIcon 
+                                            @ theme {theme} 
+                                            width 20
+                                            height 20
                         $if false
                             < IconButton 
                                 @ responsive
