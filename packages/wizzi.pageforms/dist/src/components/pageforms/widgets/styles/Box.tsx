@@ -1,10 +1,10 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\widgets\styles\Box.tsx.ittf
 */
 import styled, {keyframes, css} from 'styled-components';
-import {c} from '../../ThemeProvider';
+import {c} from '../../../ThemeProvider';
 export const Box = styled.div((props: any) => {
 
     const ret = {};
