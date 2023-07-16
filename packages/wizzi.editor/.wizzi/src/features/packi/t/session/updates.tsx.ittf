@@ -45,7 +45,7 @@ $group
         param done
             :=>
                 :any
-        $$ loog 'PackiSession.updatePackiFiles.files', files
+        log 'PackiSession.updatePackiFiles.files', files
         return
             _ this.setState
                 =>
@@ -71,10 +71,12 @@ $group
         param done
             :=>
                 :any
-        $$ loog 'PackiSession.uploadPackiFilesUpdates.payload', payload
-        $if wzConfigIsStudio
+        log 'PackiSession.uploadPackiFilesUpdates.payload', payload, 'this.state.isLocalFolder', this.state.isLocalFolder
+        $$ $if wzConfigIsStudio
+        if this.state.isLocalFolder
             # non update in wizzi.studio
-        $else
+        $$ $else
+        else
             const
                 {
                     @ id
@@ -108,7 +110,8 @@ $group
 
     m saveLocalFolder
         async
-        $if wzConfigIsStudio
+        $$ $if wzConfigIsStudio
+        if this.state.isLocalFolder
             const
                 {
                     @ localFolderPath
@@ -138,8 +141,9 @@ $group
                 await
                     _ response.json()
             log '---*** PackiSession.saveLocalFolder.response.data', data
-        $else
-            # no save if not in wizzi.studio
+        $$ $else
+        else
+            # no save if not local folder
 
     m closeLocalFolder
         const

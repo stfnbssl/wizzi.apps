@@ -1,0 +1,531 @@
+$group
+
+    war nine_years_war_1688
+        title The Nine Years' War
+            alias War of the Grand Alliance
+                it Guerra della Grande Alleanza
+            alias War of the League of Augsburg
+                it Guerra della Lega d'Asburgo
+        date 
+            start 1688
+            end 1697
+        wiki https://en.wikipedia.org/wiki/Nine_Years%27_War
+            + conflitto svoltosi tra il 1688 e il 1697 prevalentemente nell'Europa continentale, 
+                \b ma che coinvolse anche come teatri secondari l'Irlanda ed il Nord America. 
+                \b Essa si colloca nel contesto della grande sfida fra la casata dei Borbone e quella degli Asburgo, 
+                \b nonché del lungo duello personale tra Guglielmo III e Luigi XIV.
+            + The Nine Years' War (1688–1697) was a conflict between France and a European coalition 
+                \b which mainly included the Holy Roman Empire (led by the Habsburg monarchy), the Dutch Republic, England, Spain, Savoy and Portugal. 
+                \b It was fought in Europe and the surrounding seas, in North America, and in India. 
+                \b It is sometimes considered the first global war. 
+                \b The conflict encompassed the Williamite war in Ireland and Jacobite risings in Scotland, 
+                \b where William III and James II struggled for control of England and Ireland, 
+                \b and a campaign in colonial North America between French and English settlers and their respective Native American allies.
+            + Louis XIV of France had emerged from the Franco-Dutch War in 1678 as the most powerful monarch in Europe, 
+                \b an absolute ruler whose armies had won numerous military victories. 
+                \b Using a combination of aggression, annexation, and quasi-legal means, 
+                \b Louis XIV set about extending his gains to stabilize and strengthen France's frontiers, 
+                \b culminating in the brief War of the Reunions (1683–1684). 
+                \b The Truce of Ratisbon guaranteed France's new borders for twenty years, 
+                \b but Louis XIV's subsequent actions—notably his Edict of Fontainebleau (the revocation of the Edict of Nantes) in 1685 — 
+                \b led to the deterioration of his political pre-eminence and raised concerns among European Protestant states. 
+                \b Louis XIV's decision to cross the Rhine in September 1688 was designed to extend his influence and 
+                \b pressure the Holy Roman Empire into accepting his territorial and dynastic claims. 
+                \b However, Holy Roman Emperor Leopold I and German princes resolved to resist. 
+                \b The States General of the Netherlands and William III brought the Dutch and English into the conflict against France and 
+                \b were soon joined by other states, which now meant the French king faced a powerful coalition aimed at curtailing his ambitions.
+            + The main fighting took place around France's borders in the Spanish Netherlands, the Rhineland, the Duchy of Savoy, and Catalonia. 
+                \b The fighting generally favoured Louis XIV's armies, but by 1696 his country was in the grip of an economic crisis. 
+                \b The Maritime Powers (England and the Dutch Republic) were also financially exhausted, 
+                \b and when Savoy defected from the Alliance, 
+                \b all parties were keen to negotiate a settlement. 
+                \b By the terms of the Treaty of Ryswick, Louis XIV retained the whole of Alsace 
+                \b but in exchange had to return Lorraine to its ruler and give up any gains on the right bank of the Rhine. 
+                \b Louis XIV also recognized William III as the rightful king of England, 
+                \b while the Dutch acquired a barrier fortress system in the Spanish Netherlands to help secure their borders.
+            + The peace would be short-lived. With the ailing and childless Charles II of Spain's death approaching, 
+                \b a new dispute over the inheritance of the Spanish Empire 
+                \b was soon to embroil Louis XIV and the Grand Alliance in the War of the Spanish Succession.
+    
+    war great_turkish_war
+        title The Great Turkish War
+            alias Wars of the Holy League
+        date
+            start 1683
+            end 1699
+        wiki https://en.wikipedia.org/wiki/Great_Turkish_War
+            + THe Great Turkish War was a series of conflicts between the Ottoman Empire and 
+                \b the Holy League consisting of the Holy Roman Empire, Poland-Lithuania, Venice, Russia, and Habsburg Hungary. 
+                \b Intensive fighting began in 1683 and ended with the signing of the Treaty of Karlowitz in 1699. 
+                \b The war was a defeat for the Ottoman Empire, which for the first time lost large amounts of territory, 
+                \b in Hungary and the Polish–Lithuanian Commonwealth, as well as part of the western Balkans. 
+                \b The war was significant also by being the first time that Russia was involved in an alliance with Western Europe.
+            + The French did not join the Holy League, 
+                \b as they had agreed to reviving an informal Franco-Ottoman alliance in 1673, 
+                \b in exchange for Louis XIV being recognized as a protector of Catholics in the Ottoman regime.
+            + Initially, Louis XIV took advantage of the start of the war to extend their eastern borders in the War of the Reunions, 
+                \b taking Luxembourg and Strasbourg in the Truce of Ratisbon. 
+                \b However, as the Holy League made gains against the Ottoman Empire, capturing Belgrade by 1688, 
+                \b the French began to worry that their Habsburg rivals will grow too powerful and eventually turn on France. 
+                \b The Glorious Revolution was also a matter of concern for the French, 
+                \b as William III of Orange-Nassau was being invited by English nobles in the Invitation to William letter to take control of England as king. 
+                \b Therefore, the French besieged Philippsburg on 27 September 1688, 
+                \b breaking the truce and triggering the separate Nine Years' War, which relieved the Turks.
+            + As a result, the advance made by the Holy League stalled, allowing the Ottomans to retake Belgrade in 1690. 
+                \b The war then fell into a stalemate, and peace was concluded in 1699 
+                \b which began following the Battle of Zenta in 1697 when an Ottoman attempt to retake their lost possessions in Hungary was crushed by the Holy League.
+            + The war largely overlapped with the Nine Years' War (1688–1697), 
+                \b which took up the vast majority of the Habsburgs' attention while it was active. 
+                \b In 1695, for instance, the Holy Roman Empire states had 280,000 troops in the field, with England, the Dutch Republic, 
+                \b and Spain contributing another 156,000 specifically to the conflict against France. 
+                \b Of those 280,000, only 74,000, or about one quarter, were positioned against the Turks; 
+                \b the rest were fighting France.
+                \b Overall, from 1683 to 1699, the Imperial states had on average 88,100 men fighting the Turks, 
+                \b while from 1689 to 1697, they had on average 127,410 fighting the French.        
+
+
+    war war_of_the_spanish_succession_1701
+        title The war of the Spanish Succession
+        date 
+            start 1701
+            end 1715
+        wiki https://en.wikipedia.org/wiki/War_of_the_Austrian_Succession
+            + The War of the Spanish Succession (1701–1715) was a conflict involving many of the leading European powers 
+                \b that was triggered by the death in November 1700 of the childless Charles II of Spain. 
+                \b It established the principle that dynastic rights were secondary to maintaining the balance of power between different countries.
+                \b Related conflicts include the 1700–1721 Great Northern War, Rákóczi's War of Independence in Hungary, 
+                \b the Camisards revolt in southern France, Queen Anne's War in North America and trade wars in India and South America.
+            + Although weakened by over a century of continuous conflict, 
+                \b in 1700 the Spanish Empire remained a global power with its vast dominions 
+                \b including the Spanish Netherlands, large parts of Italy, the Philippines, and much of the Americas. 
+                \b Charles's closest heirs were members of the Austrian Habsburgs or French Bourbons; 
+                \b acquisition of an undivided Spanish Empire by either threatened the European balance of power.
+            + Attempts by Louis XIV of France and William III of England to partition the empire in 1698 and 1700 were rejected by the Spanish. 
+                \b Instead, Charles named Philip of Anjou, a grandson of Louis XIV, as his heir; 
+                \b if he refused, the alternative was Archduke Charles, younger son of Leopold I, Holy Roman Emperor. 
+                \b Having accepted, Philip was proclaimed king of an undivided Spanish Empire on 16 November 1700. 
+                \b The proclamation led to war, with France and Spain on one side and 
+                \b the Grand Alliance on the other to maintain the separation of the Spanish and French thrones.
+            + The French held the advantage in the early stages, 
+                \b but were forced onto the defensive after 1706; 
+                \b however, by 1710 the Allies had failed to make any significant progress, 
+                \b while Bourbon victories in Spain had secured Philip's position as king. 
+                \b When Emperor Joseph I died in 1711, Archduke Charles succeeded his brother as emperor, 
+                \b and the new British government initiated peace talks. 
+                \b Since only British subsidies kept their allies in the war, 
+                \b this resulted in the 1713–15 Peace of Utrecht treaties, 
+                \b followed by the 1714 Treaties of Rastatt and Baden.
+            + Philip was confirmed as king of Spain in return for renouncing the right of himself or his descendants to inherit the French throne; 
+                \b the Spanish Empire remained largely intact, but ceded territories in Italy and the Low Countries to Austria and Savoy. 
+                \b Britain retained Gibraltar and Menorca which it captured during the war, 
+                \b acquired significant trade concessions in the Spanish Americas, 
+                \b and replaced the Dutch as the leading maritime and commercial European power. 
+                \b The Dutch gained a strengthened defence line in what was now the Austrian Netherlands; 
+                \b although they remained a major commercial power, the cost of the war permanently damaged their economy.
+            + France withdrew backing for the exiled Jacobites and recognised the Hanoverians as heirs to the British throne; 
+                \b ensuring a friendly Spain was a major achievement, but left them financially exhausted. 
+                \b The decentralisation of the Holy Roman Empire continued, 
+                \b with Prussia, Bavaria and Saxony increasingly acting as independent states.
+                \b Combined with victories over the Ottomans, this meant the Austrian Habsburgs increasingly switched their focus to southern Europe.    
+
+    war war_of_the_austrian_succession
+        title The war of the Austrian Succession
+        date 
+            start 1740
+            end 1748
+        wiki https://en.wikipedia.org/wiki/Nine_Years%27_War
+            + The War of the Austrian Succession was the last of the three major Bourbon-Habsburg wars of the first half of the 18th century. 
+                \b It was preceded by the 1700–1715 War of the Spanish Succession, which confirmed Bourbon control of Spain, 
+                \b but where the Spanish crown ceded control of much of its European territory to the Habsburgs, 
+                \b and the 1733–1735 War of the Polish Succession,
+                \b which began as an unrelated conflict, 
+                \b but was primarily used as a proxy war by the Bourbons and Habsburgs and 
+                \b mainly resulted in several significant territorial exchanges between the two great dynasties. 
+                \b The War of the Austrian Succession was fought from 1740 to 1748, 
+                \b and marked the rise of Prussia as a great power.
+                \b Related conflicts included King George's War, the War of Jenkins' Ear, 
+                \b the First Carnatic War and the First and the Second Silesian Wars.
+            + The pretext for the war was Maria Theresa's right to inherit her father Emperor Charles VI's crowns in the Habsburg monarchy, 
+                \b but France, Prussia and Bavaria saw it as an opportunity to challenge Habsburg power. 
+                \b Maria Theresa was backed by Britain, the Dutch Republic and Hanover, 
+                \b which were collectively known as the Pragmatic Allies. 
+                \b As the conflict widened, it drew in other participants, among them Spain, Sardinia, Saxony, Sweden and Russia.
+            + There were four primary theatres of the war: Central Europe, the Austrian Netherlands, Italy, and the seas. 
+                \b Prussia occupied Silesia in 1740 and repulsed Austrian efforts to regain it, 
+                \b and between 1745 and 1748, France conquered most of the Austrian Netherlands. 
+                \b Elsewhere, Austria and Sardinia defeated Spanish attempts to regain territories in Northern Italy, and 
+                \b by 1747, a British naval blockade was crippling French trade.
+            + The war ended with the Treaty of Aix-la-Chapelle (1748) 
+                \b by which Maria Theresa was confirmed as Archduchess of Austria and Queen of Hungary. 
+                \b The treaty reflected that stalemate since most of the commercial issues that had led to the war were left unresolved, 
+                \b and many of the signatories were unhappy with the terms. 
+                \b Although the war had nearly bankrupted the state, 
+                \b Louis XV withdrew from the Low Countries for minimal benefit, 
+                \b to the dismay of France's nobility and populace. 
+                \b The Spanish considered their gains in Italy inadequate since they had failed to recover Menorca or Gibraltar and 
+                \b viewed the reassertion of British commercial rights in the Americas as an insult.
+            + Although Maria Theresa was acknowledged as her father's heir, 
+                \b she did not consider that a concession and deeply resented Britain's role in forcing her to cede Silesia to Prussia. 
+                \b For British statesmen, the war demonstrated the vulnerability of George II's German possession of Hanover to Prussia, 
+                \b and many politicians considered they had received little benefit from the enormous subsidies paid to Austria.
+            + The only state to come out unequivocally better from the war was likely Prussia and its king, Frederick the Great, 
+                \b which not only emerged territorially enriched by the acquisition of the large and productive land of Silesia, 
+                \b but also raised its profile to become a major great power of Europe for the next century, 
+                \b serving as a northern German counterbalance to Austrians.
+            + The result was the realignment known as the Diplomatic Revolution, 
+                \b a major restructuring of the centuries-old alliance system in Europe. 
+                \b Habsburg Austria and Bourbon France emerged as allies to counterbalance the ascendent Prussia, 
+                \b which itself became allied to Great Britain, ending the Anglo-Austrian Alliance which had been in place for the first half of the century. 
+                \b These shifting alliances set up the Seven Years' War in the following decade.
+
+    war seven_years_war_1756_1763
+        title The Seven Years' War (1756-1763)
+        date 
+            start 1756
+            end 1763
+        wiki https://en.wikipedia.org/wiki/Seven_Years%27_War
+            + The Seven Years' War (1756-1763) was a global conflict between Great Britain and France for global pre-eminence.
+                \b Britain, France and Spain fought both in Europe and overseas with land-based armies and naval forces, 
+                \b while Prussia sought territorial expansion in Europe and consolidation of its power. 
+                \b Long-standing colonial rivalries pitting Britain against France and Spain in North America and the Caribbean islands 
+                \b were fought on a grand scale with consequential results. 
+                \b In Europe, the conflict arose from issues left unresolved by the War of the Austrian Succession (1740-1748). 
+                \b Prussia sought greater influence in the German states, while Austria wanted to regain Silesia, captured by Prussia in the previous war, 
+                \b and to contain Prussian influence.
+            + In a realignment of traditional alliances, known as the Diplomatic Revolution of 1756, 
+                \b Prussia became part of a coalition led by Britain, which also included long-time Prussian competitor Hanover, 
+                \b at the time in personal union with Britain. 
+                \b At the same time, Austria ended centuries of conflict between the Bourbon and Habsburg families by allying with France, 
+                \b along with Saxony, Sweden and Russia. 
+                \b Spain aligned formally with France in 1762. 
+                \b Spain unsuccessfully attempted to invade Britain's ally Portugal, 
+                \b attacking with their forces facing British troops in Iberia. 
+                \b Smaller German states either joined the Seven Years' War or supplied mercenaries to the parties involved in the conflict.
+            + Anglo-French conflict over their colonies in North America had begun in 1754 
+                \b in what became known in the United States as the French and Indian War, 
+                \b a nine-year war that ended France's presence as a land power. 
+                \b It was "the most important event to occur in eighteenth-century North America" prior to the American Revolution. 
+                \b Spain entered the war in 1761, joining France in the Third Family Compact between the two Bourbon monarchies. 
+                \b The alliance with France was a disaster for Spain, with the loss to Britain of two major ports, 
+                \b Havana in the Caribbean and Manila in the Philippines, 
+                \b returned in the 1763 Treaty of Paris between France, Spain and Great Britain. 
+                \b In Europe the large-scale conflict that drew in most of the European powers 
+                \b was centered on the desire of Austria (long the political centre of the Holy Roman Empire of the German nation) to recover Silesia from Prussia. 
+                \b The Treaty of Hubertusburg ended the war between Saxony, Austria and Prussia, in 1763. 
+                \b Britain began its rise as the world's predominant colonial and naval power. 
+                \b For a time France's supremacy in Europe was halted until after the French Revolution and the emergence of Napoleon Bonaparte. 
+                \b Prussia confirmed its status as a great power, challenging Austria for dominance within the German states, 
+                \b thus altering the European balance of power.
+
+    war american_revolutionary_war_1775
+        title The American Revolutionary War
+            alias American War of Independence
+        date 
+            start 1775
+            end 1783
+        wiki https://en.wikipedia.org/wiki/Seven_Years%27_War
+            + The American Revolutionary War secured a United States of America independent from Great Britain. 
+                \b Fighting began on April 19, 1775, followed by the Declaration of Independence on July 4, 1776. 
+                \b The American Patriots were supported by France and Spain, conflict taking place in North America, the Caribbean, and Atlantic Ocean.
+            + Established by royal charter in the 17th and 18th centuries, 
+                \b the American colonies were largely autonomous in domestic affairs and commercially prosperous, 
+                \b trading with Britain and its Caribbean colonies, as well as other European powers via their Caribbean entrepôts. 
+                \b After British victory in the Seven Years' War in 1763, tensions arose over trade, 
+                \b colonial policy in the Northwest Territory and taxation measures, 
+                \b including the Stamp Act and Townshend Acts. 
+                \b Colonial opposition led to the 1770 Boston Massacre and 1773 Boston Tea Party, 
+                \b with Parliament responding by imposing the so-called Intolerable Acts.
+            + On September 5, 1774, the First Continental Congress drafted a Petition to the King and organized a boycott of British goods. 
+                \b Despite attempts to achieve a peaceful solution, fighting began with the Battle of Lexington on April 19, 1775 and 
+                \b in June Congress authorized George Washington to create a Continental Army, 
+                \b where John Adams nominated Washington as the commander-in-chief. 
+                \b Although the "coercion policy" advocated by the North ministry was opposed by a faction within Parliament, 
+                \b both sides increasingly viewed conflict as inevitable. 
+                \b The Olive Branch Petition sent by Congress to George III in July 1775 was rejected and 
+                \b in August Parliament declared the colonies to be in a state of rebellion.
+            + Following the loss of Boston in March 1776, Sir William Howe, the new British commander-in-chief, 
+                \b launched the New York and New Jersey campaign. 
+                \b He captured New York City in November, before Washington won small but significant victories at Trenton and Princeton, 
+                \b which restored Patriot confidence. 
+                \b In summer 1777, Howe succeeded in taking Philadelphia, but in October a separate force under John Burgoyne was forced to surrender at Saratoga. 
+                \b This victory was crucial in convincing powers like France and Spain an independent United States was a viable entity. 
+                \b The Continental Army then went into winter quarters in Valley Forge, 
+                \b where General von Steuben drilled it into an organized fighting unit.
+            + France provided the US informal economic and military support from the beginning of the rebellion, 
+                \b and after Saratoga the two countries signed a commercial agreement and a Treaty of Alliance in February 1778. 
+                \b In return for a guarantee of independence, Congress joined France in its global war with Britain and 
+                \b agreed to defend the French West Indies. 
+                \b Spain also allied with France against Britain in the Treaty of Aranjuez (1779), 
+                \b though it did not formally ally with the Americans. 
+                \b Nevertheless, access to ports in Spanish Louisiana allowed the Patriots to import arms and supplies, 
+                \b while the Spanish Gulf Coast campaign deprived the Royal Navy of key bases in the south.
+            + This undermined the 1778 strategy devised by Howe's replacement, Sir Henry Clinton, 
+                \b which took the war into the Southern United States. 
+                \b Despite some initial success, by September 1781 Cornwallis was besieged by a Franco-American force in Yorktown. 
+                \b After an attempt to resupply the garrison failed, Cornwallis surrendered in October, 
+                \b and although the British wars with France and Spain continued for another two years, 
+                \b this ended fighting in North America. 
+                \b In April 1782, the North ministry was replaced by a new British government which accepted American independence and 
+                \b began negotiating the Treaty of Paris, ratified on September 3, 1783. 
+                \b The war officially ended on September 3, 1783 when Britain accepted American independence in the Treaty of Paris, 
+                \b while the Treaties of Versailles resolved separate conflicts with France and Spain.    
+
+    war crimean_war_1853
+        title The Crimean War
+        date
+            start 1853/10
+            end 1856/2 
+        wiki https://en.wikipedia.org/wiki/Crimean_War
+            + The Crimean War was a military conflict in which Russia lost to 
+                \b an alliance of France, the Ottoman Empire, the United Kingdom and Piedmont-Sardinia. 
+                \b The immediate cause of the war involved the rights of Christian minorities in Palestine, 
+                \b which was part of the Ottoman Empire. 
+                \b The French promoted the rights of Roman Catholics, and Russia promoted those of the Eastern Orthodox Church. 
+                \b Longer-term causes involved the decline of the Ottoman Empire, 
+                \b the expansion of the Russian Empire in the preceding Russo-Turkish Wars, 
+                \b and the British and French preference to preserve the Ottoman Empire 
+                \b to maintain the balance of power in the Concert of Europe. 
+                \b It has widely been noted that the causes, in one case involving an argument over a key, 
+                \b had never revealed a "greater confusion of purpose" 
+                \b but led to a war that stood out for its "notoriously incompetent international butchery".
+
+    event austro_hungarian_campaign_in_bosnia_and_herzegovina_in_1878
+        title Austro-Hungarian campaign in Bosnia and Herzegovina (1878)
+        date
+            start 1878/7/29
+            end 1878/10/20
+        wiki https://en.wikipedia.org/wiki/Austro-Hungarian_campaign_in_Bosnia_and_Herzegovina_in_1878
+            + The campaign to establish Austro-Hungarian rule in Bosnia and Herzegovina lasted from 29 July to 20 October 1878 
+                \b against the local resistance fighters supported by the Ottoman Empire. 
+                \b The Austro-Hungarian Army entered the country in two large movements: 
+                \b one from the north into Bosnia, and another from the south into Herzegovina. 
+                \b A series of battles in August culminated in the fall of Sarajevo on the 19th after a day of street-to-street fighting. 
+                \b In the hilly countryside a guerrilla campaign continued until the last rebel stronghold fell after their leader was captured.
+
+    event russo_turkish_war_1877
+        title The Russo-Turkish War
+        date
+            start 1887
+            end 1878
+        wiki https://en.wikipedia.org/wiki/Russo-Turkish_War_(1877%E2%80%931878)
+            + The Russo-Turkish War of 1877–1878  was a conflict between the Ottoman Empire and the Eastern Orthodox Christians coalition
+                \b led by the Russian Empire and composed of Bulgaria, Romania, Serbia, and Montenegro.
+                \b Fought in the Balkans and in the Caucasus, it originated in emerging 19th century Balkan nationalism. 
+                \b Additional factors included the Russian goals of recovering territorial losses endured during the Crimean War of 1853-56, 
+                \b re-establishing itself in the Black Sea and supporting the political movement attempting to free Balkan nations from the Ottoman Empire.
+            + The Russian-led coalition won the war, pushing the Ottomans back all the way to the gates of Constantinople, 
+                \b leading to the intervention of the western European great powers.
+            + As a result, Russia succeeded in claiming provinces in the Caucasus, namely Kars and Batum, and also annexed the Budjak region. 
+                \b The principalities of Romania, Serbia, and Montenegro, each of which had had de facto sovereignty for some years, 
+                \b formally proclaimed independence from the Ottoman Empire. 
+                \b After almost five centuries of Ottoman domination (1396-1878), 
+                \b an autonomous Bulgarian state emerged with the help and military intervention of Russia: 
+                \b the Principality of Bulgaria, covering the land between the Danube River and the Balkan Mountains 
+                \b (except Northern Dobruja which was given to Romania), as well as the region of Sofia, which became the new state's capital. 
+                \b The Congress of Berlin in 1878 also allowed Austria-Hungary to occupy Bosnia and Herzegovina 
+                \b and Great Britain to take over Cyprus.
+            + The initial Treaty of San Stefano, signed on 3 March 1878, is today celebrated on Liberation Day in Bulgaria, 
+                \b although the occasion somewhat fell out of favour during the years of Communist rule.
+
+    event first_boer_war_1880
+        title The First Boer War 
+            alias Transvaal Rebellion
+        date
+            start 1880/12/16
+            end 1881/3/21
+        wiki https://en.wikipedia.org/wiki/First_Boer_War
+            + The First Boer War 1880-1881, 
+                \b was a war fought between the United Kingdom and Boers of the Transvaal 
+                    \b (as the South African Republic was known while under British administration).
+                    \b The war resulted in a Boer victory and eventual independence of the South African Republic.
+    
+    event anglo_egyptian_war_1882
+        title The Anglo-Egyptian War 
+        date
+            start 1882
+            end 1882
+        wiki https://en.wikipedia.org/wiki/Anglo-Egyptian_War
+            + The British conquest of Egypt (1882), also known as Anglo-Egyptian War, occurred in 1882 
+                \b between Egyptian and Sudanese forces under Ahmed ‘Urabi and the United Kingdom. 
+                \b It ended a nationalist uprising against the Khedive Tewfik Pasha. 
+                \b It established firm British influence over Egypt at the expense of the Egyptians, the French, and the Ottoman Empire, 
+                \b whose already weak authority became nominal.
+            + British troops then occupied Egypt until the Anglo-Egyptian Treaty of 1922 and Anglo-Egyptian treaty of 1936, 
+                \b giving gradual control back to the government of Egypt.
+            + Hopkins argues that Britain continued its occupation of Egypt after 1882 in order to guarantee British investments: 
+                \b "Britain had important interests to defend in Egypt and she was prepared to withdraw only if 
+                \b conditions guaranteeing the security of those interests were met—and they never were."
+                \b Consistent with this view, investment in Egypt increased during the British occupation, 
+                \b interest rates fell, and bond prices rose.                
+
+    event greco_turkish_war_1897
+        title The Greco-Turkish War
+            alias Thirty Days' War
+        date
+            start 1898/4/21
+            end 1898/8/13
+        wiki https://en.wikipedia.org/wiki/Greco-Turkish_War_(1897)
+            + The Greco-Turkish War of 1897 was a war fought between the Kingdom of Greece and the Ottoman Empire. 
+                \b Its immediate cause involved the status of the Ottoman province of Crete, 
+                \b whose Greek-majority population had long desired union with Greece. 
+                \b Despite the Ottoman victory on the field, an autonomous Cretan State under Ottoman suzerainty was established the following year 
+                \b (as a result of the intervention of the Great Powers after the war), 
+                \b with Prince George of Greece and Denmark as its first High Commissioner.
+            + The war put the military and political personnel of Greece to test in an official open war for the first time since the Greek War of Independence in 1821. 
+                \b For the Ottoman Empire, this was also the first war-effort to test a re-organized military system. 
+                \b The Ottoman army operated under the guidance of a German military mission led (1883-1895) by Colmar Freiherr von der Goltz, 
+                \b who had reorganized the Ottoman military after its defeat in the Russo-Turkish War of 1877-1878.
+            + The conflict proved that Greece was wholly unprepared for war. 
+                \b Plans, fortifications and weapons were non-existent, 
+                \b the mass of the officer corps was unsuited to its tasks, and training was inadequate. 
+                \b As a result, the numerically superior, better-organized, -equipped and -led Ottoman forces, 
+                \b heavily composed of Albanian warriors with combat experience, 
+                \b pushed the Greek forces south out of Thessaly and threatened Athens, 
+                \b only to cease fire when the Great Powers persuaded the Sultan to agree to an armistice.
+
+    event spanish_american_war_1898
+        title The Spanish-American War
+        date
+            start 1898/4/21
+            end 1898/8/13
+        wiki https://en.wikipedia.org/wiki/Spanish%E2%80%93American_War
+            + The Spanish–American War was a period of armed conflict between Spain and the United States. 
+                \b Hostilities began in the aftermath of the internal explosion of USS Maine in Havana Harbor in Cuba, 
+                \b leading to United States intervention in the Cuban War of Independence. 
+                \b The war led to the United States emerging predominant in the Caribbean region, 
+                \b and resulted in U.S. acquisition of Spain's Pacific possessions. 
+                \b It led to United States involvement in the Philippine Revolution and later to the Philippine-American War.
+            + The main issue was Cuban independence. 
+                \b Revolts had been occurring for some years in Cuba against Spanish colonial rule. 
+                \b The United States backed these revolts upon entering the Spanish-American War. 
+                \b There had been war scares before, as in the Virginius Affair in 1873. 
+                \b But in the late 1890s, American public opinion swayed in support of the rebellion 
+                \b because of reports of concentration camps set up to control the populace. 
+                \b Yellow journalism exaggerated the atrocities to further increase public fervor and to sell more newspapers and magazines.
+            + The business community had just recovered from a deep depression and feared that a war would reverse the gains. 
+                \b Accordingly, most business interests lobbied vigorously against going to war.
+                \b President William McKinley ignored the exaggerated news reporting and sought a peaceful settlement.
+                \b However, after the United States Navy armored cruiser Maine mysteriously exploded and sank in Havana Harbor on February 15, 1898, 
+                \b political pressures from the Democratic Party pushed McKinley into a war that he had wished to avoid.
+            + On April 20, 1898, McKinley signed a joint Congressional resolution demanding Spanish withdrawal and 
+                \b authorizing the President to use military force to help Cuba gain independence.
+                \b In response, Spain severed diplomatic relations with the United States on April 21. 
+                \b On the same day, the United States Navy began a blockade of Cuba.
+                \b Both sides declared war; neither had allies.
+            + The 10-week war was fought in both the Caribbean and the Pacific. 
+                \b As United States agitators for war well knew, United States naval power would prove decisive, 
+                \b allowing expeditionary forces to disembark in Cuba against a Spanish garrison 
+                \b already facing nationwide Cuban insurgent attacks and further devastated by yellow fever.
+                \b The invaders obtained the surrender of Santiago de Cuba and Manila despite the good performance of some Spanish infantry units, 
+                \b and fierce fighting for positions such as San Juan Hill.
+                \b Madrid sued for peace after two Spanish squadrons were sunk in the battles of Santiago de Cuba and Manila Bay, 
+                \b and a third, more modern fleet was recalled home to protect the Spanish coasts.
+            + The war ended with the 1898 Treaty of Paris, negotiated on terms favorable to the United States. 
+                \b The treaty ceded ownership of Puerto Rico, Guam, and the Philippine islands from Spain to the United States and 
+                \b granted the United States temporary control of Cuba. 
+                \b The cession of the Philippines involved payment of $20 million ($650 million today) to Spain by the U.S. 
+                \b to cover infrastructure owned by Spain.
+            + The defeat and loss of the Spanish Empire's last remnants was a profound shock to Spain's national psyche and 
+                \b provoked a thorough philosophical and artistic reevaluation of Spanish society known as the Generation of '98.
+                \b The United States meanwhile not only became a major power, 
+                \b but also gained several island possessions spanning the globe, 
+                \b which provoked rancorous debate over the wisdom of expansionism.
+
+    event second_boer_war_1899
+        title The Second Boer War
+        date
+            start 1899/12/16
+            end 1902/3/21
+        wiki https://en.wikipedia.org/wiki/Second_Boer_War
+            + The Second Boer War 1899-1902, 
+                \b was a conflict fought between the British Empire and the two Boer Republics (the South African Republic and the Orange Free State) 
+                \b over the Empire's influence in Southern Africa from 1899 to 1902. 
+                \b Triggered by the discovery of diamond and gold deposits in the Boer republics, 
+                \b the Boers launched successful attacks against British outposts in the opening stages of the war 
+                \b before being pushed back by imperial reinforcements. 
+                \b Though the British swiftly occupied the Boer republics, 
+                \b numerous Boers refused to accept defeat and engaged in guerrilla warfare. 
+                \b Eventually, British scorched earth policies brought the remaining Boer guerillas to the negotiating table, ending the war.
+            + The conflict broke out in 1899 after the failure of the Bloemfontein Conference and 
+                \b Boer irregulars and militia attacked colonial settlements in nearby British colonies. 
+                \b Starting in October 1899, the Boers placed Ladysmith, Kimberley, and Mafeking under siege, 
+                \b and won a string of victories at Colenso, Magersfontein and Stormberg. 
+                \b In response to these developments, increased numbers of British Army soldiers were brought to Southern Africa, 
+                \b and mounted largely unsuccessful attacks against the Boers. 
+                \b However, British military fortunes changed when their commanding officer, General Redvers Buller was replaced by Lord Roberts and Lord Kitchener, 
+                \b who relieved the three besieged cities and invaded the two Boer Republics in early 1900 at the head of a 180,000-strong expeditionary force. 
+                \b The Boers, aware they were unable to resist such a large force, chose to refrain from fighting pitched battles, 
+                \b allowing the British to occupy both republics and their capitals, Pretoria and Bloemfontein.
+            + Boer politicians, including President of the South African Republic Paul Kruger either fled the region or went into hiding; 
+                \b the British Empire officially annexed the two republics in 1900. 
+                \b In Britain, the Conservative ministry led by Lord Salisbury attempted to capitalise on British military successes by calling an early general election, 
+                \b which was dubbed by contemporary observers as a "khaki election". 
+                \b However, numerous Boer fighters took to the hills and launched a guerrilla campaign against the British occupational forces, 
+                \b becoming known as bittereinders. 
+                \b Led by prominent generals such as Louis Botha, Jan Smuts, Christiaan de Wet, and Koos de la Rey, 
+                \b Boer guerrillas launched a campaign of hit-and-run attacks and ambushes against the British, 
+                \b which would continue for two years.
+            + The Boer guerrilla campaign proved difficult for the British to defeat, 
+                \b due in part to British unfamiliarity with guerrilla tactics 
+                \b and extensive support for the guerrillas among the civilian population in the Boer Republics. 
+                \b In response to continued failures to defeat the Boer guerillas, 
+                \b British high command ordered several scorched earth policies to be implemented as part of a large scale and multi-pronged counterinsurgency campaign; 
+                \b a complex network of nets, blockhouses, strongpoints and barbed wire fences was constructed, 
+                \b virtually partitioning the occupied republics. 
+                \b British troops were ordered to destroy farms and slaughter livestock to deny them to Boer guerillas, 
+                \b and over a hundred thousand Boer civilians (mostly women and children) were forcibly relocated into concentration camps, 
+                \b where 26,000 died of various causes, mostly starvation and disease. 
+                \b Black Africans in the same areas were also interned in concentration camps as well to prevent them from supplying the Boers; 
+                \b 20,000 died in the camps as well, largely due to the same causes as their Boer counterparts.
+            + In addition to these scorched earth policies, British mounted infantry units were deployed to track down and engage individual Boer guerillas units; 
+                \b by this stage of the war, all battles being fought were small-scale skirmishes. 
+                \b Few combatants on either side were killed in action, with most casualties coming via disease. 
+                \b Lord Kitchener began to offer generous terms of surrender to remaining Boer leaders in an effort to bring an end to the conflict. 
+                \b Eager to ensure their fellow Boers were released from the concentration camps, 
+                \b the majority of Boer commanders accepted the British terms in the Treaty of Vereeniging, 
+                \b formally surrendering in May 1902. 
+                \b The former republics were transformed into the British colonies of the Transvaal and Orange River, 
+                \b and in 1910 were merged with the Natal and Cape Colonies to form the Union of South Africa, 
+                \b a self-governing dominion within the British Empire.
+            + British expeditionary efforts were aided significantly by local colonial forces from the Cape Colony, 
+                \b the Natal Colony, Rhodesia, as well as volunteers from the British Isles and the British Empire worldwide, 
+                \b particularly Australia, Canada, India and New Zealand. 
+                \b Later in the war, Black African recruits contributed increasingly to the British war effort.
+                \b International public opinion was generally sympathetic to the Boers and hostile to the British.
+                \b Even within the United Kingdom, there existed significant opposition to the war. 
+                \b As a result, the Boer cause attracted thousands of volunteers from neutral countries all over the world, 
+                \b including German Empire, United States, Russia and even some parts of the British Empire such as Australia and Ireland.
+                \b Many consider the Boer War as marking the beginning of the questioning of the British Empire's veneer of impenetrable global dominance; 
+                \b this is due to the war's surprisingly long duration and the unforeseen, 
+                \b discouraging losses suffered by the British fighting the "cobbled-together army" of Boers.
+
+    event suez_crisis_1956
+        title The Suez Crisis
+            alias Second Arab-Israeli war (1956)
+        date
+            start 1899/12/16
+            end 1902/3/21
+        wiki https://en.wikipedia.org/wiki/Suez_Crisis
+            + The Suez Crisis, or the Second Arab–Israeli war, was an invasion of Egypt in late 1956 by Israel, followed by the United Kingdom and France. 
+                \b The aims were to regain control of the Suez Canal for the Western powers and to remove Egyptian president Gamal Abdel Nasser, 
+                \b who had just nationalised the foreign-owned Suez Canal Company, which administered the canal.
+                \b After the fighting had started, political pressure from the United States, the Soviet Union and the United Nations 
+                \b led to a withdrawal by the three invaders. 
+                \b The episode humiliated the United Kingdom and France and strengthened Nasser.
+            + On 26 July 1956, Nasser nationalised the Suez Canal Company, 
+                \b which prior to that was owned primarily by British and French shareholders. 
+                \b On 29 October, Israel invaded the Egyptian Sinai. Britain and France issued a joint ultimatum to cease fire, which was ignored. 
+                \b On 5 November, Britain and France landed paratroopers along the Suez Canal. 
+                \b Before the Egyptian forces were defeated, they had blocked the canal to all shipping by sinking 40 ships in the canal. 
+                \b It later became clear that Israel, France and Britain had conspired to plan out the invasion. 
+                \b The three allies had attained a number of their military objectives, but the canal was useless. 
+                \b Heavy political pressure from the United States and the USSR led to a withdrawal. 
+                \b U.S. president Dwight D. Eisenhower had strongly warned Britain not to invade; 
+                \b he threatened serious damage to the British financial system by selling the US government's pound sterling bonds. 
+                \b Historians conclude the crisis "signified the end of Great Britain's role as one of the world's major powers".
+            + The Suez Canal was closed from October 1956 until March 1957. 
+                \b Israel fulfilled some of its objectives, such as attaining freedom of navigation through the Straits of Tiran, 
+                \b which Egypt had blocked to Israeli shipping since 1948-50.
+            + As a result of the conflict, the United Nations created the UNEF Peacekeepers to police the Egyptian-Israeli border, 
+                \b British prime minister Anthony Eden resigned, Canadian external affairs minister Lester Pearson won the Nobel Peace Prize, 
+                \b and the USSR may have been emboldened to invade Hungary.

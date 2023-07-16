@@ -81,24 +81,24 @@ module
                             id __main_navbar
                             div
                                 @ className flex-row
-                                a( , /, ${ca2}
+                                html/a( , /, ${ca2}
                                     div
                                         style {{width: "80px", marginTop: "5px", marginLeft: "20px"}}
                             div
                                 @ className flex-row
-                                a( Starter, /ittf/site/starter.html.ittf, ${ca}
-                                a( Lab, /ittf/site/lab.html.ittf, ${ca}
+                                html/a( Starter, /ittf/site/starter.html.ittf, ${ca}
+                                html/a( Lab, /ittf/site/lab.html.ittf, ${ca}
                                 div
                                     className ${ca_inverse}
                                     + Productions
-                                a( Project, /ittf/site/project.html.ittf, ${ca}
+                                html/a( Project, /ittf/site/project.html.ittf, ${ca}
                             div
                                 @ className flex-row
-                                a( Docs, /ittf/site/docs.html.ittf, ${ca}
+                                html/a( Docs, /ittf/site/docs.html.ittf, ${ca}
                             div
                                 @ className flex-row m-r-x
-                                a( Profile, /profile, ${ca}
-                                a( Log Out, /logout, ${ca}
+                                html/a( Profile, /profile, ${ca}
+                                html/a( Log Out, /logout, ${ca}
                         section
                             id root
                         script

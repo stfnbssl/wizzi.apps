@@ -1,0 +1,110 @@
+$group
+
+    react ActList
+
+        list-functions(Act, Acts)
+
+        => handleActOpen
+            param ev
+            param selectedItem
+            # log 'handleActOpen.id', selectedItem.id
+            # log 'handleActOpen.ev', ev
+            _ this.setState
+                =>
+                    param prevState
+                    # log 'handleActOpen'
+                    _ prevState.forms.push
+                        @ prevState.current
+                    var current
+                        {
+                            @ ...prevState.current
+                            @ status 'act'
+                            @ selectedItem selectedItem
+                            @ depth prevState.forms.length
+                            @ title (selectedItem.title && selectedItem.title.text) || selectedItem.id
+                            @ justRenderedItem true
+                    _ this.props.onChangeCurrent(current, this.handleActClose, this.handleChangeSearch)
+                    # log 'onChangeCurrent called'
+                    return
+                        {
+                            @ ...prevState
+                            @ current current
+
+        render
+            prop classes
+            prop jsonData
+            prop selectedState
+
+            const 
+                { 
+                    @ status
+                    @ selectedItem
+                    @ searchText
+                = this.state.current
+            # log 'ActList.render', status, selectedItem
+
+            return
+                div
+                    < Paper
+                        @ style {{maxHeight: '90%', maxWidth:800, padding:10, overflow: 'auto'}}
+                        {
+                            &&
+                                + status == 'list'
+                                div
+                                    {
+                                        _ jsonData.acts.sort(compareByDate).map
+                                            =>
+                                                param item
+                                                param ndx
+                                                if dbFilterIdAndTitleState(item, searchText, selectedState)
+                                                    return
+                                                        < ActListItem
+                                                            @ key {ndx}
+                                                            @ item {item}
+                                                            @ classes {classes}
+                                                            @ onClick {this.handleActOpen}
+
+                        {
+                            &&
+                                + status == 'act'
+                                div
+                                    < Act
+                                        @ item {selectedItem}
+                                        @ jsonData {jsonData}
+    
+    function ActListItem
+        param props
+        const {item, onClick, classes} = props
+        const {id} = item
+        const title = extractTitle(item)
+        # log 'ActListItem', title, id, item
+        return
+            div
+                @ onClick
+                    =>
+                        param event
+                        _ onClick(event, item)
+                
+                div 
+                    + {title}
+                    @ className "li-c-title"
+                div 
+                    + id: {id}
+                    @ className "li-c-id"
+                div
+                    @ className "li-clear"
+
+    function Act
+        param props
+        var {item, jsonData} = props
+        return
+            div 
+                div
+                    div
+                        @ className "li-clear"
+                {
+                    &&
+                        + item.wiki
+                        < WikiPanel
+                            @ item {item.wiki}
+                            @ jsonData {jsonData}                   

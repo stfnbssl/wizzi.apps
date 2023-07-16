@@ -10,7 +10,7 @@ $group
         useExpressValidator true
     useSession true
     { session
-        name "wizzi.plugin.wizzi.studio"
+        name "wizzi.studio"
         secret "${stfnbssl_env.sessionSecret}"
     noCache true
     useSocketIO false

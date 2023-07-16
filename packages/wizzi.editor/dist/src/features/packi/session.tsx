@@ -1,5 +1,5 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
     package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\session.tsx.ittf
 */
@@ -52,7 +52,13 @@ export default class PackiSession {
              }, PackiIdentityState)
             ;
             this.state.unsaved = false;
-            this.setPreviewUrl(options.mainIttf)
+            if (this.state.isLocalFolder) {
+                var k = Object.keys(options.files)[0];
+                this.setPreviewUrl(k || "index.html.ittf")
+            }
+            else {
+                this.setPreviewUrl(options.mainIttf)
+            }
             this.debouncedUploadPackiFilesUpdates = debounce(this.uploadPackiFilesUpdates, 3000, this)
             ;
         }
@@ -112,15 +118,32 @@ export default class PackiSession {
         }
         
         setPreviewUrl(filePath: string) {
-            const {
-                localFolderUri
-             } = this.state;
-            return this.setState((state) => 
-                
-                    ({
-                        previewURL: `${process.env.SERVER_URL}${localFolderUri}/${encodeURIComponent(filePath)}`
-                     })
-                );
+            if (this.state.isLocalFolder) {
+                const {
+                    localFolderUri
+                 } = this.state;
+                return this.setState((state) => 
+                    
+                        ({
+                            previewURL: `${process.env.SERVER_URL}${localFolderUri}/${encodeURIComponent(filePath)}`
+                         })
+                    );
+            }
+            else {
+                let pathPrefix = "/~/";
+                if (this.state.packiProduction == 'package') {
+                    pathPrefix = "/~p/";
+                }
+                else if (this.state.packiProduction == 'plugin') {
+                    pathPrefix = "/~l/";
+                }
+                return this.setState((state) => 
+                    
+                        ({
+                            previewURL: `${process.env.API_SERVER_URL}${pathPrefix}${encodeURIComponent(state.owner)}/${encodeURIComponent(state.name)}?savecount=${state.saveCount}&filepath=${encodeURIComponent(filePath)}`
+                         })
+                    );
+            }
         }
         
         
@@ -325,6 +348,7 @@ export default class PackiSession {
         }
         
         updatePackiFiles(files: PackiFiles, done: () => any) {
+            console.log('PackiSession.updatePackiFiles.files', files, __filename);
             return this.setState((state) => {
                 
                     const newFiles = State.updateObjects(state.files, files);
@@ -340,32 +364,56 @@ export default class PackiSession {
                 );
         }
         
-        
-        // non update in wizzi.studio
         async uploadPackiFilesUpdates(payload: PackiUploadPayload, done: () => any) {
+            console.log('PackiSession.uploadPackiFilesUpdates.payload', payload, 'this.state.isLocalFolder', this.state.isLocalFolder, __filename);
+            
+            // non update in wizzi.studio
+            if (this.state.isLocalFolder) {
+            }
+            else {
+                const {
+                    id, 
+                    packiProduction
+                 } = this.state;
+                const url = `${this.apiURL}/api/v1/production/${packiProduction}/${encodeURIComponent(id)}`;
+                const response = await fetch(url, {
+                        method: 'PUT', 
+                        body: JSON.stringify(payload), 
+                        headers: {
+                            'Content-Type': 'application/json'
+                         }
+                     });
+                const data = await response.json();
+                this.state.saveCount++;
+            }
             if (done) {
                 done();
             }
         }
         async saveLocalFolder() {
-            const {
-                localFolderPath, 
-                files
-             } = this.state;
-            console.log('---*** PackiSession.saveLocalFolder.localFolderPath and files', localFolderPath, files, __filename);
-            const url = `${this.apiURL}/api/v1/local/folder/fs/${encodeURIComponent(localFolderPath)}`;
-            console.log('---*** PackiSession.saveLocalFolder', url, __filename);
-            const response = await fetch(url, {
-                    method: 'PUT', 
-                    body: JSON.stringify({
-                        packiFiles: files
-                     }), 
-                    headers: {
-                        'Content-Type': 'application/json'
-                     }
-                 });
-            const data = await response.json();
-            console.log('---*** PackiSession.saveLocalFolder.response.data', data, __filename);
+            if (this.state.isLocalFolder) {
+                const {
+                    localFolderPath, 
+                    files
+                 } = this.state;
+                console.log('---*** PackiSession.saveLocalFolder.localFolderPath and files', localFolderPath, files, __filename);
+                const url = `${this.apiURL}/api/v1/local/folder/fs/${encodeURIComponent(localFolderPath)}`;
+                console.log('---*** PackiSession.saveLocalFolder', url, __filename);
+                const response = await fetch(url, {
+                        method: 'PUT', 
+                        body: JSON.stringify({
+                            packiFiles: files
+                         }), 
+                        headers: {
+                            'Content-Type': 'application/json'
+                         }
+                     });
+                const data = await response.json();
+                console.log('---*** PackiSession.saveLocalFolder.response.data', data, __filename);
+            }
+            // no save if not local folder
+            else {
+            }
         }
         closeLocalFolder() {
             const {

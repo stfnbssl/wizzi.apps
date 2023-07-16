@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.13
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\root\webpack.config.js.ittf
 */
 'use strict';
@@ -122,7 +122,7 @@ module.exports = {
      }, 
     output: {
         globalObject: 'self', 
-        path: 'C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi-heroku/public/pageforms', 
+        path: 'C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/public/pageforms', 
         publicPath: '/public/pageforms/', 
         filename: '[name].bundle.js', 
         chunkFilename: '[id].[hash].chunk.js'

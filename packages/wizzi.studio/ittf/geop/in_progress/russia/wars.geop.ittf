@@ -1,0 +1,14 @@
+$group
+
+    war Grande guerra del nord
+        start 1700
+        end 1721
+
+    war Battaglia di Poltava
+        start 1709
+        against Cosacchi Ucraina
+        against Svezia
+
+    war Guerra russo turca
+        start 1877
+        end 1878

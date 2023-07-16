@@ -1,0 +1,48 @@
+$group
+
+    namespace freud
+
+        concept investimento
+            title Investimento
+            alias Carica
+            alias Energia
+            + Quantità di energia che un neurone ha ricevuto
+                \b e di cui tenderà a liberarsi.
+
+            quote
+                + le rappresentazioni sono investimenti – sostanzialmente di tracce mnestiche –, 
+                    \b mentre gli affetti e i sentimenti corrispondono a processi di scarica, 
+                    \b le cui manifestazioni ultime vengono percepite come sensazioni [interiori].
+                e-page 4671
+                book freud.opere-complete-kindle
+
+            quote
+                + le dotazioni di energia si presentano sotto due forme,
+                    \b talché bisogna distinguere fra due tipi di investimento dei sistemi psichici (o dei loro elementi): 
+                    \b un investimento liberamente fluttuante che tende alla scarica, 
+                    \b e un investimento quiescente. 
+                    \b Possiamo forse supporre che il processo mediante il quale 
+                    \b l’energia che affluisce nell’apparato psichico viene “legata” 
+                    \b consista in un passaggio dallo stato liberamente fluttuante allo stato quiescente.
+                e-page 5665-5666
+                book freud.opere-complete-kindle
+
+            concept liberamente-fluttuante
+                title Investimento liberamente fluttuante
+                alias Investimento liberamente mobile
+                alias Investimento libero
+                alias Investimento mobile
+
+            concept quiescente
+                title Investimento quiescente
+                alias Investimento legato
+                alias Investimento tonico
+                alias Energia legata
+                quote
+                    + Nel corso di questa trasformazione [da energia libera a legata] 
+                        \b non si può tener conto dello sviluppo del dispiacere, 
+                        \b ma non per questo il principio di piacere è sospeso. 
+                        \b Al contrario, la trasformazione avviene al servizio del principio di piacere; 
+                        \b il legamento è un atto preparatorio che introduce e assicura il dominio del principio di piacere.
+                    e-page 5703
+                    book freud.opere-complete-kindle

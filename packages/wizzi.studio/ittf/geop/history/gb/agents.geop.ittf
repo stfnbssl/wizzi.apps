@@ -1,0 +1,140 @@
+$group
+
+    namespace states.great_britain
+
+        agent re
+            alias corona
+        agent parlamento
+        agent camera_comuni
+            title Camera dei comuni
+                alias Camera bassa
+            wiki https://it.wikipedia.org/wiki/Camera_dei_comuni_(Regno_Unito)#Storia
+        agent camera lords
+        agent giudici della common low
+        agent corti privilegiate
+        agent alta corte del parlamento
+        agent lungo parlamento
+        
+        agent chiesa alta
+            title Chiesa Alta
+                en High Church
+        agent chiesa bassa
+            title Chiesa Bassa
+                en Low Church
+        agent chiesa larga
+            title Chiesa Larga
+                en Broad Church
+        agent chiesa_scozzese
+            title Chiesa scozzese
+                en Kirk
+        agent covenanti_scozzesi
+            title Covenanti
+                en Covenants
+
+        agent corti_spirituali
+
+        agent cavalieri
+            title Cavalieri
+                en Cavaliers
+
+        agent consiglio_privato
+            title Consiglio privato
+        
+        agent trattariani
+            + cattolici del movimento di Oxford
+                
+        agent partito della chiesa alta
+            founder laud
+
+        agent puritani
+
+        agent episcopali_moderati
+            title Episcopali moderati
+
+        agent teste_rotonde
+            title Teste rotonde
+                en roundheads
+            + Espressione con cui furono indicati i sostenitori del Parlamento durante la guerra civile inglese (1642-51),
+                \b e in particolare i puritani e i membri del New model army di O. Cromwell, 
+                \b a causa dell’abitudine di portare i capelli rasi;  
+                \b a essi si contrapponevano i «cavalieri» (ingl. cavaliers), sostenitori del re. 
+                \b Il termine, in origine spregiativo, rimase in uso fino alla Gloriosa rivoluzione del 1688.
+
+        agent presbiteriani
+            title Presbiteriani
+
+        agent parlamento_della_convenzione
+            title Parlamento della convenzione
+            period
+                start 1960
+
+        agent dissenzienti
+            title Dissenzienti
+
+        agent non_conformisti
+            title Non conformisti
+
+        agent corporazioni
+            + élite dei maestri delle corporazioni, 
+                \b che lottavano contro l'oppressione fiscale, 
+                \b quantunque vedessero nella Corona il sostegno e la difesa dei loro privilegi corporativi medievali, 
+                \b con cui continuavano a sfruttare indiscriminatamente gli apprendisti e i garzoni    
+        
+        agent monopolisti_reali
+            + possessori di licenze reali
+            + lo strato superiore della borghesia era composto da alcune centinaia di affaristi di Londra e della provincia, 
+                \b che avevano raccolto i frutti della politica di protezione dei Tudor 
+                \b nei confronti dell'industria e del commercio nazionali e 
+                \b che quindi erano strettamente legati alla Corona, in qualità di appaltatori e finanziatori, 
+                \b possessori di monopoli e licenze reali, e 
+                \b all'aristocrazia feudale come creditori, e in parte compartecipi delle compagnie commerciali privilegiate.
+
+        agent borghesia_mercantile
+            + ostile alla Corona era 
+            + formato dagli imprenditori non legati alle corporazioni, 
+                \b cioè quegli organizzatori delle manifatture accentrate e decentrate, 
+                \b gli iniziatori delle imprese coloniali. 
+
+        agent pari
+            title Pari
+                en Peers
+                alias Lords
+                alias Landlords
+            + nobiltà di antica origine (feudale, militare, terriera); 
+                \b dotata di titolo ereditario (duchi, conti, visconti) da molte generazioni. 
+                \b Nel Cinquecento è limitata a solo 60 famiglie, estese nei primi del Seicento a circa 120 famiglie che, 
+                \b da sole, posseggono il 20-25% della terra. 
+            + gode di grande considerazione sociale e di considerevole potere politico; 
+                \b siede di diritto in uno dei due rami del Parlamento (Camera dei Lords). 
+                \b È quasi sempre di orientamento politico conservatore (tory).
+            + basava sul diritto di maggiorasco (il primogenito ereditava tutto il patrimonio familiare).
+                \b I figli minori dei pari, cioè dei lord titolati, ricevevano dal re unicamente il titolo di cavaliere (il cognome era preceduto dal titolo di sir) 
+                \b ed entravano formalmente a far parte della nobiltà bassa (gentry), senza poter far parte della Camera dei Lord. 
+
+        agent gentry
+            title Gentry
+                alias Nobiltà bassa
+            + nobiltà “di fatto” non dotata di patenti sovrane. 
+                \b Le vengono attribuiti i titoli di cavaliere, baronetto, gentiluomo (knight, esquire, gentleman). 
+                \b Dotata di minor prestigio, ma di notevole autorità in sede locale 
+                \b (giudici di pace, magistrati di Contea, parlamentari). 
+                \b Può essere antica o recente; 
+                \b deriva il suo potere dalla proprietà terriera e dall’autorevolezza acquisita in sede locale. 
+                \b Spesso svolge anche attività imprenditoriali (tessili, minerarie).
+            + è autonoma rispetto al sovrano e in alcuni casi i suoi esponenti sono eletti deputati nella Camera dei Comuni. 
+                \b Non di rado è di orientamento politico progressista (wighs).            
+            + insieme alla borghesia vera e propria, furono i protagonisti della rivoluzione inglese; 
+                \b potevano infatti diventare nobili-imprenditori, simili ai borghesi (nel XVII sec. venivano chiamati gentlemen), 
+                \b perché, pur continuando a far parte della classe dei proprietari terrieri, 
+                \b in parte utilizzavano la loro proprietà fondiaria per trarne profitto capitalistico.
+
+        agent gentleman
+
+        agent yeoman
+            title Yeoman 
+            + è il nome dei coltivatori diretti inglesi benestanti, ma non nobili, 
+                \b che nel XVII secolo gestivano in autonomia i loro poderi; 
+                \b apparteneva a questa classe la maggior parte dei soldati che 
+                \b durante la Prima Rivoluzione Inglese combatteva per il Parlamento contro il Re e 
+                \b contro la chiesa di Stato anglicana. 
+                \b Erano perlopiù volontari del corpo di cavalleria e membri della Guardia Nazionale a cavallo.

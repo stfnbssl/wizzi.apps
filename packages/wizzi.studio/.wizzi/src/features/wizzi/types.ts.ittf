@@ -23,6 +23,16 @@ module
                 :p jsonFs
                     :ref JsonFs
     export
+        :type LoadModelOptions
+            :{
+                :p pluginsBaseFolder
+                    :string
+                    :optional
+                :p plugins
+                    :[
+                        :string
+                    :optional
+    export
         :type GenerationOptions
             :{
                 :p generator
@@ -30,6 +40,13 @@ module
                     :optional
                 :p artifactContext
                     :any
+                    :optional
+                :p pluginsBaseFolder
+                    :string
+                    :optional
+                :p plugins
+                    :[
+                        :string
                     :optional
     export
         :type GeneratedArtifact
@@ -45,6 +62,14 @@ module
             :{
                 :p transformer
                     :string
+                    :optional
+                :p pluginsBaseFolder
+                    :string
+                    :optional
+                :p plugins
+                    :[
+                        :string
+                    :optional
     export
         :type TransformedModel
             :{

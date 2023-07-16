@@ -1,0 +1,7 @@
+$group
+
+    namespace freud
+
+        concept piacere
+            title Piacere
+                de Lust

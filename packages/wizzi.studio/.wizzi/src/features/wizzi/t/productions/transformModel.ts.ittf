@@ -2,7 +2,7 @@ $group
     $if wzCtx.Build.useWizziJsonFactory
         +
         export
-            async-function transformModel
+            async-function loadAndTransformModel
                 param filePath
                     :string
                 param files
@@ -89,7 +89,71 @@ $group
                                 _ reject('No model transformer available for document ' + filePath)
     +
     export
-        async-function transformModelFs
+        async-function transformModel
+            param object
+                :any
+            param context
+                :any
+                :optional
+            param options
+                :ref TransformationOptions
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref TransformedModel
+            const _options
+                :ref TransformationOptions
+                = options || {}
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        const transformer = _options.transformer
+                        if transformer
+                            # TODO catch error
+                            const plugins
+                                iif _options.pluginsBaseFolder && _options.plugins
+                                    then
+                                        {
+                                            @ pluginsBaseFolder _options.pluginsBaseFolder
+                                            @ items _options.plugins
+                                    else null
+                            const wf
+                                await
+                                    _ createFilesystemFactory
+                                        @ plugins
+                                        @ null
+                                        {
+                            const transformationContext
+                                {
+                                    @ modelRequestContext
+                                        ||
+                                            + context
+                                            {
+                            _ wf.transformModel
+                                @ object
+                                @ transformer
+                                {
+                                    @ modelRequestContext transformationContext
+                                =>
+                                    param err
+                                        :any
+                                    param result
+                                        :any
+                                    if err
+                                        return reject(err)
+                                    _ resolve
+                                        {
+                                            @ transformResult result
+                                            @ sourcePath object
+                                            @ modelTransformer transformer
+                        else
+                            _ reject('No model transformer in options')
+    +
+    export
+        async-function loadAndTransformModelFs
             param filePath
                 :string
             param context
@@ -102,17 +166,30 @@ $group
                 :ref Promise
                     :param
                         :ref TransformedModel
+            const _options
+                :ref TransformationOptions
+                = options || {}
             return
                 new Promise
                     async=>
                         param resolve
                         param reject
-                        const transformer = options && options.transformer ? options.transformer : wizziMaps.transformerFor(filePath)
+                        const transformer = _options.transformer ? _options.transformer : wizziMaps.transformerFor(filePath)
                         if transformer
                             # TODO catch error
+                            const plugins
+                                iif _options.pluginsBaseFolder && _options.plugins
+                                    then
+                                        {
+                                            @ pluginsBaseFolder _options.pluginsBaseFolder
+                                            @ items _options.plugins
+                                    else null
                             const wf
                                 await
-                                    _ createFilesystemFactory()
+                                    _ createFilesystemFactory
+                                        @ plugins
+                                        @ null
+                                        {
                             const transformationContext
                                 {
                                     @ modelRequestContext

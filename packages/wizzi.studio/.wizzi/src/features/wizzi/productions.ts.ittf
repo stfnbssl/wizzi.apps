@@ -33,6 +33,7 @@ module
         @ createFilesystemFactoryWithParameters
         from './factory'
     import
+        @ LoadModelOptions
         @ GenerationOptions
         @ GeneratedArtifact
         @ WizziModelTypesRequest

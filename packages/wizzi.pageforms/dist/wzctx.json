@@ -3,12 +3,12 @@
     "version": "0.0.1",
     "description": "wizzi.pageforms",
     "author": {
-        "name": "",
-        "email": ""
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
     },
     "App": {
-        "port": 5000,
-        "baseUrl": "http://localhost:5000",
+        "port": 5100,
+        "baseUrl": "http://localhost:5100",
         "siteUrl": "http://localhost",
         "apiVersion": "1",
         "constants": {
@@ -103,7 +103,7 @@
             "useStatsWriter": false,
             "useIgnore": true,
             "useCodeSplitting": true,
-            "outputPath": "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi-heroku/public/pageforms",
+            "outputPath": "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/public/pageforms",
             "publicPath": "/public/pageforms/",
             "useEnv": true,
             "env": {

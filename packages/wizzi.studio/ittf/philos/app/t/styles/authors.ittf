@@ -1,0 +1,153 @@
+$group
+
+    . paper
+        @ max-height 90%
+        @ max-width 800px
+        @ padding 40px
+        @ overflow auto
+
+    . a-img-list
+        @ width 30px
+        @ height 34px
+    . a-img-box-list
+        @ padding 10px
+        @ float left
+        @ border-right 1px solid gray
+    . a-left-list
+        @ padding 10px
+        @ float left
+
+    . a-d-img        
+        @ padding 10px
+        @ float left
+    . a-d-born
+        @ padding 10px
+        @ float left
+    . a-d-born-label
+        @ padding 10px
+        @ font-weight bold
+        @ font-size small
+    . a-d-born-text
+        @ padding 10px
+        @ float left
+
+    . li-title
+        @ padding 10px
+        @ float left
+        $$ @ font-weight bold
+        @ font-size 1.1em
+        @ cursor pointer
+    . li-id
+        @ padding 10px
+        @ float right
+        @ font-size 9px
+    . li-clear
+        @ clear both
+
+    . li-c-title
+        @ padding 4px
+        @ float left
+        $$ @ font-weight bold
+        @ font-size 1.1em
+        @ cursor pointer
+    . li-c-id
+        @ padding 4px
+        @ float right
+        @ font-size 9px
+
+    . bar
+        @ margin-bottom 20px
+
+    . bar-arrow-left
+        @ padding 15px 0px
+        @ float left
+        @ cursor pointer
+
+    . bar-arrow-left-img
+        @ width 30px
+        @ height 20px
+
+    . bar-title
+        @ padding 10px
+        @ float left
+        @ font-size x-large
+        @ font-weight bold
+
+    . bar-id
+        @ padding 10px
+        @ float right
+        @ font-size 9px
+
+    . rc-box
+        @ border-left 1px solid gray
+        @ margin 0.5em 1em
+    
+    . rc-ref
+        @ font-style italic
+        @ font-size 0.75em
+        @ padding-left 10px
+    
+    . rc-ref-pointer
+        @ font-style italic
+        @ font-size 0.75em
+        @ padding-left 10px
+        @ cursor pointer
+
+    . rc-content
+        @ padding-left 20px
+
+    . alias-box
+    . alias-label
+        @ float left
+        @ font-weight bold
+        @ padding-right 10px
+    . alias-text-box
+        @ float left
+        @ border-left 1px solid gray
+        @ padding-left 10px
+    . alias-text
+        @ font-style italic
+        @ font-size 0.75em
+
+    . abstract-title
+        @ font-weight bold
+    . abstract-box
+        @ margin-top 20px
+        @ padding 20px
+    
+    . quote-comment-box
+        @ background-color #dedede
+        @ margin-top 10px
+        @ padding 10px
+        @ font-size 0.85em
+        @ font-style normal
+
+    . quotes-title
+        @ font-weight bold
+    . quotes-box
+        @ margin-top 20px
+        @ padding 20px
+    . quotes-concept-id
+        @ font-size 0.75em
+
+    . info-box
+        @ margin-top 20px
+        @ padding 20px
+    . info-item-box
+        @ border-bottom 1px solid #ededed
+    . info-item-label
+        @ font-size 0.75em
+    . info-item-text
+        @ font-style italic
+
+
+    media (min-width:1024px)        
+        . info-box
+            @ width 50%
+            @ padding 40px
+        . abstract-box
+            @ width 50%
+            @ padding 40px
+        . quotes-box
+            @ width 50%
+            @ padding 40px

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\api\tfolder.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '../../types';
@@ -236,11 +236,7 @@ export async function getTFolderObjectById(id: string, loadPackiConfig?: boolean
 async function _createTFolderObject(tf: ITFolderModel, loadPackiConfig?: boolean) {
 
     
-    return new Promise(
-        // loog 'myname', '_createTFolderObject.tf', Object.keys(tf)
-        
-        // loog 'myname', '_createTFolderObject.tf_packiFiles_object', Object.keys(tf_packiFiles_object)
-        (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         
             const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
             const obj = {
@@ -263,9 +259,7 @@ async function _createTFolderObject(tf: ITFolderModel, loadPackiConfig?: boolean
                         type: obj.packiConfig.type, 
                         contents: obj.packiConfig.contents
                      }
-                 }, {}).then(
-                // loog myname, '_createTFolderObject', 'obj.packiConfigObj', JSON.stringify(obj.packiConfigObj)
-                (generationResult: any) => {
+                 }, {}).then((generationResult: any) => {
                 
                     obj.packiConfigObj = JSON.parse(generationResult.artifactContent);
                     return resolve(obj);
@@ -279,7 +273,6 @@ async function _createTFolderObject(tf: ITFolderModel, loadPackiConfig?: boolean
                 }
                 )
             }
-            // loog 'myname', '_createTFolderObject.resolve', Object.keys(obj)
             else {
                 return resolve(obj);
             }

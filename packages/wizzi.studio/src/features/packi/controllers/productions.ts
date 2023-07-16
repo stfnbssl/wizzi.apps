@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packi\controllers\productions.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -60,17 +60,13 @@ export class ProductionsController implements ControllerType {
         this.router.post(`/wizzify`, this.wizzify);
     };
     
-    private mTree = 
-    // loog myname, 'mTree.received files', Object.keys(req_files)
-    async (request: Request, response: Response) => {
+    private mTree = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         const req_files: PackiFiles = request.body;
         artifactApi.prepareGenerationFromWizziJson(req_files).then((result: any) => 
         
-            wizziProds.mTree(id, result.packiFiles, result.context).then(
-            // loog myname, 'mTree.result', value
-            (value: any) => 
+            wizziProds.mTree(id, result.packiFiles, result.context).then((value: any) => 
             
                 sendSuccess(response, {
                     mTreeIttf: value
@@ -89,17 +85,13 @@ export class ProductionsController implements ControllerType {
     }
     ;
     
-    private mTreeBuildupScript = 
-    // loog myname, 'mTreeBuildupScript.received files', Object.keys(req_files)
-    async (request: Request, response: Response) => {
+    private mTreeBuildupScript = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         const req_files: PackiFiles = request.body;
         artifactApi.prepareGenerationFromWizziJson(req_files).then((result: any) => 
         
-            wizziProds.mTreeBuildupScript(id, result.packiFiles, result.context).then(
-            // loog myname, 'mTreeBuildupScript.result', value
-            value => 
+            wizziProds.mTreeBuildupScript(id, result.packiFiles, result.context).then(value => 
             
                 sendSuccess(response, {
                     mTreeBuildupScript: value
@@ -118,17 +110,13 @@ export class ProductionsController implements ControllerType {
     }
     ;
     
-    private generateArtifact = 
-    // loog myname, 'generateArtifact.received files', Object.keys(req_files)
-    async (request: Request, response: Response) => {
+    private generateArtifact = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         const req_files: PackiFiles = request.body;
         artifactApi.prepareGenerationFromWizziJson(req_files).then((result: any) => 
         
-            wizziProds.generateArtifact(id, result.packiFiles, result.context).then(
-            // loog myname, 'generateArtifact.result', value
-            value => 
+            wizziProds.generateArtifact(id, result.packiFiles, result.context).then(value => 
             
                 sendSuccess(response, {
                     generatedArtifact: value
@@ -155,20 +143,16 @@ export class ProductionsController implements ControllerType {
     }
     ;
     
-    private transformModel = 
-    // loog myname, 'transformModel.received files', Object.keys(req_files)
-    async (request: Request, response: Response) => {
+    private transformModel = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         const transformer = request.params.transformer;
         const req_files: PackiFiles = request.body;
         artifactApi.prepareGenerationFromWizziJson(req_files).then((result: any) => 
         
-            wizziProds.transformModel(id, result.packiFiles, result.context, {
+            wizziProds.loadAndTransformModel(id, result.packiFiles, result.context, {
                 transformer: transformer
-             }).then(
-            // loog 'generateArtifact.result', value
-            value => 
+             }).then(value => 
             
                 sendSuccess(response, {
                     transformedModel: value.transformResult
@@ -187,16 +171,12 @@ export class ProductionsController implements ControllerType {
     }
     ;
     
-    private executeJob = 
-    // loog 'ProductionsController.executeJob.received files', Object.keys(req_files)
-    async (request: Request, response: Response) => {
+    private executeJob = async (request: Request, response: Response) => {
     
         const req_files: PackiFiles = request.body;
         artifactApi.prepareGenerationFromWizziJson(req_files).then((result: any) => 
         
-            wizziProds.executeJobs(result.packiFiles, result.context).then(
-            // loog 'features.packi.controllers.production.executeJob.generatedArtifacts', Object.keys(files)
-            async (fsJson) => {
+            wizziProds.executeJobs(result.packiFiles, result.context).then(async (fsJson) => {
             
                 const files = await WizziFactory.extractGeneratedFiles(fsJson);
                 sendSuccess(response, {
@@ -217,23 +197,17 @@ export class ProductionsController implements ControllerType {
     }
     ;
     
-    private wizzify = 
-    // loog 'wizzify.received files', Object.keys(files)
-    async (request: Request, response: Response) => {
+    private wizzify = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         const files: PackiFiles = request.body;
-        wizziProds.wizzify(files).then(
-        // loog 'features.packi.controllers.production.wizzify.ittfResult', ittfResult
-        async (ittfResult: PackiFiles) => 
+        wizziProds.wizzify(files).then(async (ittfResult: PackiFiles) => 
         
             sendSuccess(response, {
                 packiResult: ittfResult
              })
         
-        ).catch(
-        // loog 'features.packi.controllers.production.wizzify.err', err
-        err => 
+        ).catch(err => 
         
             sendFailure(response, err, 501)
         )

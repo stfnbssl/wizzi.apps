@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\controllers\meta.tsx.ittf
-    utc time: Sat, 06 May 2023 11:50:26 GMT
+    utc time: Sun, 16 Jul 2023 13:02:25 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -277,7 +277,7 @@ export class MetaProductionController implements ControllerType {
     
     private generateMeta = async (request: Request, response: Response) => {
     
-        generateMetaProduction(request.body.owner, request.body.name, request.body.cliCtx).then(
+        generateMetaProduction(request.body.owner, request.body.name, request.body.metaCtx).then(
         // loog myname, 'getWizziMetaFolderByPackageProductionObject.generateMetaProduction', Object.keys(wizziPackiFiles)
         (wizziPackiFiles: packiTypes.PackiFiles) => 
         

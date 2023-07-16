@@ -1,0 +1,10 @@
+$group
+    author Vygotskij
+        fullname Lev Semënovič Vygotskij
+        born
+            date 17/11/1896
+            place Orša, Russia
+        died
+            date  11/6/1934
+            place Mosca, Russia
+        + Vygotskij è stato uno psicologo e pedagogista sovietico, padre della scuola storico-culturale.

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\controllers\apiv1generations.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -199,7 +199,7 @@ export class ApiV1GenerationsController implements ControllerType {
         const productionName: string = request.body.productionName;
         productionApi.prepareProduction(productionKind, owner, productionName, '', {}).then((packageProductionSet: any) => 
         
-            wizziProds.transformModel(id, packageProductionSet.packiFiles, packageProductionSet.context, {
+            wizziProds.loadAndTransformModel(id, packageProductionSet.packiFiles, packageProductionSet.context, {
                 transformer: transformer
              }).then(
             // loog 'generateArtifact.result', value

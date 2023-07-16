@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\wizzi\productions.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import path from 'path';
 import fs from 'fs';
@@ -14,7 +14,7 @@ import {packiTypes} from '../packi';
 import {config} from '../config';
 import * as wizziMaps from './maps';
 import {createJsonFsAndFactory, ensurePackiFilePrefix, createFilesystemFactory, createFilesystemFactoryWithParameters} from './factory';
-import {GenerationOptions, GeneratedArtifact, WizziModelTypesRequest, WizziJobTypesRequest, TransformationOptions, TransformedModel} from './types';
+import {LoadModelOptions, GenerationOptions, GeneratedArtifact, WizziModelTypesRequest, WizziJobTypesRequest, TransformationOptions, TransformedModel} from './types';
 import {JsonFs} from '@wizzi/repo';
 const myname = 'features/wizzi/productions';
 
@@ -50,8 +50,9 @@ export async function loadModel(filePath: string, files: packiTypes.PackiFiles, 
         );
 }
 
-export async function loadModelFs(filePath: string, context: any):  Promise<wizzi.WizziModel> {
+export async function loadModelFs(filePath: string, context: any, options?: LoadModelOptions):  Promise<wizzi.WizziModel> {
 
+    const _options: LoadModelOptions = options || {};
     return new Promise(
         // TODO catch error
         async (resolve, reject) => {
@@ -60,7 +61,11 @@ export async function loadModelFs(filePath: string, context: any):  Promise<wizz
             if (!schemaName) {
                 return reject('File is not a known ittf document: ' + filePath);
             }
-            const wf = await createFilesystemFactory();
+            const plugins = _options.pluginsBaseFolder && _options.plugins ? {
+                    pluginsBaseFolder: _options.pluginsBaseFolder, 
+                    items: _options.plugins
+                 } : null;
+            const wf = await createFilesystemFactory(plugins, null, {});
             wf.loadModel(schemaName, filePath, {
                 mTreeBuildupContext: context
              }, (err, result) => {
@@ -299,7 +304,11 @@ export async function generateArtifactFs(filePath: string, context?: any, option
             
             // TODO catch error
             if (generator) {
-                const wf = await createFilesystemFactory();
+                const plugins = _options.pluginsBaseFolder && _options.plugins ? {
+                        pluginsBaseFolder: _options.pluginsBaseFolder, 
+                        items: _options.plugins
+                     } : null;
+                const wf = await createFilesystemFactory(plugins, null, {});
                 try {
                     wf.loadModelAndGenerateArtifact(filePath, {
                         modelRequestContext: context || {}, 
@@ -473,7 +482,7 @@ export async function generateWizziModelTypes(request: WizziModelTypesRequest) {
         );
 }
 
-export async function transformModel(filePath: string, files: packiTypes.PackiFiles, context?: any, options?: TransformationOptions):  Promise<TransformedModel> {
+export async function loadAndTransformModel(filePath: string, files: packiTypes.PackiFiles, context?: any, options?: TransformationOptions):  Promise<TransformedModel> {
 
     return new Promise(async (resolve, reject) => {
         
@@ -528,15 +537,59 @@ export async function transformModel(filePath: string, files: packiTypes.PackiFi
         );
 }
 
-export async function transformModelFs(filePath: string, context?: any, options?: TransformationOptions):  Promise<TransformedModel> {
+export async function transformModel(object: any, context?: any, options?: TransformationOptions):  Promise<TransformedModel> {
 
+    const _options: TransformationOptions = options || {};
     return new Promise(async (resolve, reject) => {
         
-            const transformer = options && options.transformer ? options.transformer : wizziMaps.transformerFor(filePath);
+            const transformer = _options.transformer;
             
             // TODO catch error
             if (transformer) {
-                const wf = await createFilesystemFactory();
+                const plugins = _options.pluginsBaseFolder && _options.plugins ? {
+                        pluginsBaseFolder: _options.pluginsBaseFolder, 
+                        items: _options.plugins
+                     } : null;
+                const wf = await createFilesystemFactory(plugins, null, {});
+                const transformationContext = {
+                    modelRequestContext: context || {}
+                 };
+                wf.transformModel(object, transformer, {
+                    modelRequestContext: transformationContext
+                 }, (err: any, result: any) => {
+                
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve({
+                        transformResult: result, 
+                        sourcePath: object, 
+                        modelTransformer: transformer
+                     })
+                }
+                )
+            }
+            else {
+                reject('No model transformer in options');
+            }
+        }
+        );
+}
+
+export async function loadAndTransformModelFs(filePath: string, context?: any, options?: TransformationOptions):  Promise<TransformedModel> {
+
+    const _options: TransformationOptions = options || {};
+    return new Promise(async (resolve, reject) => {
+        
+            const transformer = _options.transformer ? _options.transformer : wizziMaps.transformerFor(filePath);
+            
+            // TODO catch error
+            if (transformer) {
+                const plugins = _options.pluginsBaseFolder && _options.plugins ? {
+                        pluginsBaseFolder: _options.pluginsBaseFolder, 
+                        items: _options.plugins
+                     } : null;
+                const wf = await createFilesystemFactory(plugins, null, {});
                 const transformationContext = {
                     modelRequestContext: context || {}
                  };
@@ -962,7 +1015,7 @@ export async function wizzify(files: packiTypes.PackiFiles):  Promise<packiTypes
             for (const k of Object.keys(files)) {
                 var extension = path.extname(k);
                 try {
-                    const ittfResult = await handleWizzify(jsonwf, extension, files[k].contents);
+                    const ittfResult = await handleWizzify(jsonwf.wf, extension, files[k].contents);
                     result[k + '.ittf'] = {
                         type: 'CODE', 
                         contents: ittfResult
@@ -980,13 +1033,13 @@ export async function wizzify(files: packiTypes.PackiFiles):  Promise<packiTypes
         );
 }
 
-function handleWizzify(jsonwf: any, extension: string, codeSnippet: string):  Promise<string> {
+function handleWizzify(wf: any, extension: string, codeSnippet: string):  Promise<string> {
 
     return new Promise(async (resolve, reject) => {
         
             var schema = wizziMaps.schemaFromExtension(extension);
             if (schema) {
-                jsonwf.getWizziIttfFromText(codeSnippet, schema, (err, ittfDocument) => {
+                wf.getWizziIttfFromText(codeSnippet, schema, (err, ittfDocument) => {
                 
                     if (err) {
                         reject(err)
@@ -1035,7 +1088,7 @@ export async function getCodeAST(files: packiTypes.PackiFiles):  Promise<packiTy
             for (const k of Object.keys(files)) {
                 var extension = path.extname(k);
                 try {
-                    const astResult = await handleGetCodeAST(jsonwf, extension, files[k].contents);
+                    const astResult = await handleGetCodeAST(jsonwf.wf, extension, files[k].contents);
                     result[k + '.ast'] = {
                         type: 'CODE', 
                         contents: stringify(astResult, null, 2)
@@ -1053,13 +1106,13 @@ export async function getCodeAST(files: packiTypes.PackiFiles):  Promise<packiTy
         );
 }
 
-function handleGetCodeAST(jsonwf: any, extension: string, codeSnippet: string):  Promise<any> {
+function handleGetCodeAST(wf: any, extension: string, codeSnippet: string):  Promise<any> {
 
     return new Promise(async (resolve, reject) => {
         
             var schema = wizziMaps.schemaFromExtension(extension);
             if (schema) {
-                jsonwf.getCodeASTFromText(codeSnippet, schema, function(err: any, astResult: any) {
+                wf.getCodeASTFromText(codeSnippet, schema, function(err: any, astResult: any) {
                 
                     if (err) {
                         reject(err)

@@ -1,0 +1,16 @@
+$group
+
+    period origini
+        from 1000
+        to 1300
+        + Proto turchi: Unni e Avari
+
+    period espansione
+        title Espansione e consolidamento dello Stato ottomano
+        from 1300
+        to 1683
+
+    period contrazione
+        title Il lungo XVIII secolo. Sconfitte e perdite territoriali
+        from 1683
+        to 1798

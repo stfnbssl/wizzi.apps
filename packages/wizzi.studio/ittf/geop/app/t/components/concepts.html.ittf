@@ -1,0 +1,136 @@
+$group
+
+    react ConceptList
+        
+        list-functions(Concept, Concetti)
+        
+        => handleConceptOpen
+            param ev
+            param selectedItem
+            # log 'handleConceptOpen.id', selectedItem.id
+            # log 'handleConceptOpen.ev', ev
+            _ this.setState
+                =>
+                    param prevState
+                    log 'handleConceptOpen'
+                    _ prevState.forms.push
+                        @ prevState.current
+                    var current
+                        {
+                            @ ...prevState.current
+                            @ status 'concept'
+                            @ selectedItem selectedItem
+                            @ depth prevState.forms.length
+                            @ title (selectedItem.title && selectedItem.title.text) || selectedItem.id
+                            @ justRenderedItem true
+                    _ this.props.onChangeCurrent(current, this.handleConceptClose, this.handleChangeSearch)
+                    log 'onChangeCurrent called'
+                    return
+                        {
+                            @ ...prevState
+                            @ current current
+
+        render
+            prop jsonData
+            prop onChangeCurrent
+            const 
+                { 
+                    @ status
+                    @ selectedItem
+                    @ searchText
+                = this.state.current
+
+            log 'ConceptList: status,selectedItem,searchText', status, selectedItem, searchText
+
+            return
+                div
+                    < Paper
+                        @ className paper
+                        {
+                            &&
+                                + status == 'list'
+                                div
+                                    {
+                                        _ jsonData.concepts.sort(compareById).map
+                                            =>
+                                                param item
+                                                if dbFilterIdAndTitle(item, searchText)
+                                                    return
+                                                        < ConceptListItem
+                                                            @ key {item.id}
+                                                            @ item {item}
+                                                            @ onClick {this.handleConceptOpen}
+
+                        {
+                            &&
+                                + status == 'concept'
+                                div
+                                    < DetailBar
+                                        @ title {(selectedItem.title && selectedItem.title.text) || selectedItem.id}
+                                        @ id {selectedItem.id}
+                                        @ showFullBar {false}
+                                        @ onClick 
+                                            =>
+                                                _ this.handleConceptClose()
+                                    < Concept
+                                        @ item {selectedItem}
+                                        @ jsonData {jsonData}
+                                        @ handleOpen {this.handleConceptOpen}
+    
+    function ConceptListItem
+        param props
+        var {item, onClick} = props
+        var {id, name, title} = item
+        set title = title && title.text ? title.text : name
+        return
+            div
+                @ onClick
+                    =>
+                        param event
+                        _ onClick(event, item)
+                
+                div {title}
+                    @ className "li-c-title"
+                div id: {id}
+                    @ className "li-c-id"
+                div
+                    @ className "li-clear"
+
+    function Concept
+        param props
+        var {item, handleOpen, jsonData} = props
+        var {id, name, title} = item
+        set title = (title || name)
+        return
+            < div 
+                {
+                    &&
+                        + item.aliases && item.aliases.length > 0
+                        < Aliases
+                            @ item {item}
+                < ContentText
+                    @ item {item}  
+                    @ jsonData {jsonData} 
+                    @ handleOpen {handleOpen}
+
+    function Aliases
+        param props
+        var {item} = props
+        return
+            div
+                @ className alias-box
+                div alias
+                    @ className alias-label
+                div
+                    @ className alias-text-box
+                    {
+                        _ item.aliases.map
+                            =>
+                                param item
+                                param i
+                                return
+                                    div {item.text}
+                                        @ className alias-text
+                                        @ key {i}
+                div
+                    @ className li-clear

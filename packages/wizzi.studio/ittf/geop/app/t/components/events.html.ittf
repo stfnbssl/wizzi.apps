@@ -1,0 +1,110 @@
+$group
+
+    react EventList
+
+        list-functions(Event, Events)
+
+        => handleEventOpen
+            param ev
+            param selectedItem
+            # log 'handleEventOpen.id', selectedItem.id
+            # log 'handleEventOpen.ev', ev
+            _ this.setState
+                =>
+                    param prevState
+                    # log 'handleEventOpen'
+                    _ prevState.forms.push
+                        @ prevState.current
+                    var current
+                        {
+                            @ ...prevState.current
+                            @ status 'event'
+                            @ selectedItem selectedItem
+                            @ depth prevState.forms.length
+                            @ title (selectedItem.title && selectedItem.title.text) || selectedItem.id
+                            @ justRenderedItem true
+                    _ this.props.onChangeCurrent(current, this.handleEventClose, this.handleChangeSearch)
+                    # log 'onChangeCurrent called'
+                    return
+                        {
+                            @ ...prevState
+                            @ current current
+
+        render
+            prop classes
+            prop jsonData
+            prop selectedState
+
+            const 
+                { 
+                    @ status
+                    @ selectedItem
+                    @ searchText
+                = this.state.current
+            # log 'EventList.render', status, selectedItem, selectedState
+
+            return
+                div
+                    < Paper
+                        @ style {{maxHeight: '90%', maxWidth:800, padding:10, overflow: 'auto'}}
+                        {
+                            &&
+                                + status == 'list'
+                                div
+                                    {
+                                        _ jsonData.events.sort(compareByDate).map
+                                            =>
+                                                param item
+                                                param ndx
+                                                if dbFilterIdAndTitleState(item, searchText, selectedState)
+                                                    return
+                                                        < EventListItem
+                                                            @ key {ndx}
+                                                            @ item {item}
+                                                            @ classes {classes}
+                                                            @ onClick {this.handleEventOpen}
+
+                        {
+                            &&
+                                + status == 'event'
+                                div
+                                    < Event
+                                        @ item {selectedItem}
+                                        @ jsonData {jsonData}
+    
+    function EventListItem
+        param props
+        const {item, onClick, classes} = props
+        const {id} = item
+        const title = extractTitle(item)
+        # log 'EventListItem', title, id, item
+        return
+            div
+                @ onClick
+                    =>
+                        param event
+                        _ onClick(event, item)
+                
+                div 
+                    + {title}
+                    @ className "li-c-title"
+                div 
+                    + id: {id}
+                    @ className "li-c-id"
+                div
+                    @ className "li-clear"
+
+    function Event
+        param props
+        var {item, jsonData} = props
+        return
+            div 
+                div
+                    div
+                        @ className "li-clear"
+                {
+                    &&
+                        + item.wiki
+                        < WikiPanel
+                            @ item {item.wiki}
+                            @ jsonData {jsonData}                   

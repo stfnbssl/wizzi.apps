@@ -1,0 +1,104 @@
+$group
+
+    namespace freud
+
+        concept nevrosi
+            title Nevrosi
+
+            concept di-traslazione
+                title Nevrosi di traslazione
+                + La libido è traslata su oggetti reali o immaginari. 
+                    \b Nel trattamento psicoanalitico si prestano al transfert
+                    \b hanno origine dall'infanzia e fanno parte dalle PSICONEVROSI, 
+                    \b dove i sintomi sono espressione simbolica e sovradeterminatan di un conflitto.
+
+            concept di-traslazione-pura
+                title Nevrosi di traslazione pura
+                + Le nevrosi di traslazione pure sono l'isteria e la nevrosi ossessiva.
+            
+            concept psico
+                title Psiconevrosi
+                + La psiconevrosi ha causa sessuale, in un disordine in epoca passata.
+                + La fonte di eccitazione, il fattore precipitante del disturbo
+                    \b si trova nel campo psichico.
+
+                concept isteria-di-conversione
+                    title Isteria di conversione
+                    + La libido sprigionata dal materiale patogeno, 
+                        \b a causa della rimozione viene convertita, 
+                        \b cioè viene sottratta alla sfera psichica per riapparire in un’innervazione somatica, 
+                        \b scegliendo un certo organo in funzione di un simbolismo inconscio.
+                        \b Il punto di fissazione della libido è nella fase edipica (fallica ma anche orale).
+
+                concept isteria-d-angoscia
+                    title Isteria d'angoscia
+                    alias Nevrosi fobica
+                    + La libido sprigionata dal materiale patogeno, 
+                        \b a causa della rimozione viene liberata sotto forma di angoscia. 
+                        \b Il punto di fissazione della libido è nella fase edipica (fallica ma anche orale).                
+
+                concept nevrosi-ossessiva
+                    title Nevrosi ossessiva
+                    + Si manifesta con sintomi coatti.
+                        \b La causa è sempre la difesa dalle pretese libidiche dell’Edipo 
+                        \b ma c’è una regressione alle fissazioni verificatesi nella fase anale. 
+                        \b C’è ambivalenza; c’è tensione tra l’Io e un Super-Io crudele (relazione sadomasochistica) 
+                        \b che porta a formazioni reattive.
+
+            concept attuale
+                title Nevrosi attuale
+                + Una nevrosi attuale ha causa sessuale, in un disordine della vita sessuale attuale.
+                + La fonte di eccitazione, il fattore precipitante del disturbo,
+                    \b si trova nel campo somatico,
+                    \b ad esempio la trasformazione diretta dell'eccitazione in angoscia.
+                + Mancano le mediazioni psichiche che si trovano nelle psiconevrosi,
+                    \b tipo spostamento, condensazione, ecc..
+
+                concept nevrastenia
+                    title Nevrastenia
+                    + Il fattore precipitante della nevrastenia è 
+                        \b un alleviamento inadeguato dell'eccitazione sessuale
+                        \b ad esempio la masturbazione.
+                
+                concept nevrosi-d-angoscia
+                    title Nevrosi d'angoscia
+                    + Il fattore precipitante della nevrosi d'angoscia è 
+                        \b la mancanza di scarica dell'eccitazione sessuale
+                        \b ad esempio l'astinenza sessuale.
+                    + Sulla nevrosi di angoscia si struttura l'isteria.
+                
+                concept ipocondria
+                    title Ipocondria
+
+            concept scatenamento
+                title Scatenamento della nevrosi
+                quote
+                    + L’effetto della frustrazione consiste in primo luogo nel rendere efficaci i fattori predisponenti, 
+                        \b e sino a quel momento inoperanti. 
+                        \b Là dove questi sono presenti in un’organizzazione sufficientemente robusta, 
+                        \b sussiste il pericolo che la libido venga “introvertita”. 
+                        \b La libido si distacca dalla realtà, che ha perduto valore per l’individuo, 
+                        \b a causa dell’ostinata frustrazione che da essa gli deriva, 
+                        \b e si rivolge alla vita fantastica nella quale crea nuove formazioni di desiderio 
+                        \b e ravviva le tracce di formazioni precedenti, di cui si è perso il ricordo. 
+                        \b Per l’intimo rapporto tra l’attività fantastica e il materiale infantile, 
+                        \b rimosso e divenuto inconscio, presente in ogni individuo, 
+                        \b e grazie alla posizione eccezionale concessa alla vita fantastica rispetto all’esame di realtà, 
+                        \b la libido può ora spostarsi sempre più indietro, 
+                        \b e sulla via della regressione scoprire piste infantili 
+                        \b e perseguire mete ad esse confacenti. 
+                        \b Quando queste aspirazioni, incompatibili con lo stato attuale dell’individuo, 
+                        \b hanno raggiunto una sufficiente energia, 
+                        \b si giunge necessariamente a un conflitto fra esse e l’altra parte della personalità, 
+                        \b che è rimasta in relazione con la vita reale. 
+                        \b Questo conflitto viene risolto mediante formazioni sintomatiche 
+                        \b e si conclude col manifestarsi della malattia.
+                    article freud.modi-tipici-di-ammalarsi-nervosamente
+                    e-page 3839-3840
+
+            concept sviluppo
+                title Sviluppo di una nevrosi
+                quote
+                    + Trauma del bambino piccolo - difesa - latenza - scoppio della malattia nevrotica - ritorno parziale del rimosso: 
+                        \b ecco la formula che abbiamo enunciato per lo sviluppo di una nevrosi.
+                    e-page 7281

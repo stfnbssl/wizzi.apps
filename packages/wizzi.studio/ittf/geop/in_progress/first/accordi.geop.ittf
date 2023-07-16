@@ -1,0 +1,7 @@
+$group
+
+    act
+        type Agreement
+        date 1993
+        country India
+        country Cina

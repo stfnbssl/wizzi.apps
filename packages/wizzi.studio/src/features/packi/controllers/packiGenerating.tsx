@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packi\controllers\packiGenerating.tsx.ittf
-    utc time: Sat, 06 May 2023 11:50:26 GMT
+    utc time: Sun, 16 Jul 2023 13:02:25 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -72,11 +72,7 @@ export class PackiGeneratingController implements ControllerType {
         this.router.get("/l/:owner/:name/*", makeHandlerAwareOfAsyncErrors(this.getPackiPluginGeneration))
     };
     
-    private getPackiPackageGeneration = 
-    // loog myname + '.getPackiPackageGeneration', request.path
-    
-    // loog myname + '.getPackiPackageGeneration', parts[1], parts.slice(2).join('/')
-    async (request: Request, response: Response) => {
+    private getPackiPackageGeneration = async (request: Request, response: Response) => {
     
         const queryParams = {};
         const parts = request.path.split('/');
@@ -140,22 +136,14 @@ export class PackiGeneratingController implements ControllerType {
     }
     ;
     
-    private getPackiMetaGeneration = 
-    // loog myname + '.getPackiMetaGeneration', request.path
-    
-    // loog myname + '.getPackiMetaGeneration', parts[1], parts.slice(2).join('/')
-    async (request: Request, response: Response) => {
+    private getPackiMetaGeneration = async (request: Request, response: Response) => {
     
         const queryParams = {};
         const parts = request.path.split('/');
     }
     ;
     
-    private getPackiPluginGeneration = 
-    // loog myname + '.getPackiPluginGeneration', request.path
-    
-    // loog myname + '.getPackiPluginGeneration', parts[1], parts.slice(2).join('/')
-    async (request: Request, response: Response) => {
+    private getPackiPluginGeneration = async (request: Request, response: Response) => {
     
         const queryParams = {};
         const parts = request.path.split('/');

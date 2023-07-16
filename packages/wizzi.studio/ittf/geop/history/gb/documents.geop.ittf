@@ -1,0 +1,16 @@
+$group
+
+    document libro della pregiera
+        title Il libro delle preghiere comuni
+            en Book of Common Prayer
+        + è il testo di riferimento dottrinale e liturgico della Chiesa d'Inghilterra e 
+            \b delle chiese aderenti alla Comunione Anglicana che, 
+            \b diversamente dalle altre confessioni cristiane, 
+            \b non ha storicamente ritenuto opportuno, per l'uniformità della pratica religiosa, 
+            \b la stesura di un catechismo o di un ordinamento dottrinale sistematico (una confessione di fede, a parte i sintetici 39 articoli), 
+            \b bensì la liturgia nella sua concretezza. 
+        enacted
+            date 1662
+            by Carlo II
+
+    document annali

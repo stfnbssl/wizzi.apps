@@ -35,4 +35,4 @@ $group
                 :param 
                     :ref HTMLElement
         _ ev.preventDefault
-        set window.location.href = "/productions/${prods}";
+        set window.location.href = "/packi/productions/${prods}";

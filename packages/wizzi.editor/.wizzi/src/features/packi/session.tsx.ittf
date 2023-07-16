@@ -102,11 +102,11 @@ module
                             @ saveCount 0
                         @ PackiIdentityState
                 set this.state.unsaved = false
-                $if wzConfigIsStudio
+                if this.state.isLocalFolder
                     var k = Object.keys(options.files)[0]
                     _ this.setPreviewUrl
                         @ k || "index.html.ittf"
-                $else
+                else
                     _ this.setPreviewUrl
                         @ options.mainIttf
                 set this.debouncedUploadPackiFilesUpdates
@@ -183,31 +183,37 @@ module
                 param filePath
                     :string
                 $$ loog myname, 'setPreviewUrl', filePath
-                $if wzConfigIsStudio
+                if this.state.isLocalFolder
                     const
                         {
                             @ localFolderUri
                         = this.state
-                $else
+                    return
+                        _ this.setState
+                            =>
+                                param state
+                                (
+                                    {
+                                        @ previewURL
+                                            `lit
+                                                @ process.env.SERVER_URL
+                                                @ localFolderUri
+                                                + /
+                                                @ encodeURIComponent(filePath)
+                else
                     let pathPrefix = "/~/"
                     if this.state.packiProduction == 'package'
                         set pathPrefix = "/~p/"
                     elif this.state.packiProduction == 'plugin'
                         set pathPrefix = "/~l/"
-                return
-                    _ this.setState
-                        =>
-                            param state
-                            (
-                                {
-                                    @ previewURL
-                                        `lit
-                                            $if wzConfigIsStudio
-                                                @ process.env.SERVER_URL
-                                                @ localFolderUri
-                                                + /
-                                                @ encodeURIComponent(filePath)
-                                            $else
+                    return
+                        _ this.setState
+                            =>
+                                param state
+                                (
+                                    {
+                                        @ previewURL
+                                            `lit
                                                 @ process.env.API_SERVER_URL
                                                 @ pathPrefix
                                                 @ encodeURIComponent(state.owner)

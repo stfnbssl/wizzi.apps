@@ -57,10 +57,16 @@ $group
                 :string
             param context
                 :any
+            param options
+                :ref LoadModelOptions
+                :optional
             :return
                 :ref Promise
                     :param
                         :ref wizzi.WizziModel
+            const _options
+                :ref LoadModelOptions
+                = options || {}
             return
                 new Promise
                     async=>
@@ -70,9 +76,19 @@ $group
                         if !schemaName
                             return reject('File is not a known ittf document: ' + filePath)
                         # TODO catch error
+                        const plugins
+                            iif _options.pluginsBaseFolder && _options.plugins
+                                then
+                                    {
+                                        @ pluginsBaseFolder _options.pluginsBaseFolder
+                                        @ items _options.plugins
+                                else null
                         const wf
                             await
-                                _ createFilesystemFactory()
+                                _ createFilesystemFactory
+                                    @ plugins
+                                    @ null
+                                    {
                         _ wf.loadModel
                             @ schemaName
                             @ filePath

@@ -1,0 +1,52 @@
+$group
+
+    state world
+        title World
+    state great_britain
+        title Great Britain
+        alias kingdom_of_england
+        alias kingdom_of_great_britain
+    state united_states
+        title United States
+    state germany
+        title Germany
+        alias kingdom_of_prussia
+        alias german_empire
+        alias republic_of_germany 
+    state russia
+        title Russia
+        alias russian_empire
+        alias republic_of_russia
+    state france
+        title France
+        alias kingdom_of_france
+        alias republic_of_france
+    state spain
+        title Spain
+        alias spanish_empire
+        alias kingdom_of_spain
+    state portugal
+        title Portugal
+        alias kingdom_of_portugal
+    state netherlands
+        title Netherlands
+        alias dutch_republic
+    state belgium
+        title Belgium
+        alias spanish_netherlands
+    state italy
+        title Italy
+        alias kingdom_of_sardinia
+        alias kingdom_of_italy
+        alias republic_of_italy
+    state poland
+        title Poland
+        alias kingdom_of_poland
+    state iran
+        title Iran
+    state turkey
+        title Turkey
+    state china
+        title China
+    state japan
+        title Japan

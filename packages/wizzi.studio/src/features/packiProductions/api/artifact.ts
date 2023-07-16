@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\api\artifact.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import path from 'path';
 import NodeCache from 'node-cache';
@@ -241,11 +241,7 @@ export async function getArtifactProductionObjectById(id: string, loadPackiConfi
 async function _createArtifactProductionObject(ap: IArtifactProductionModel, loadPackiConfig?: boolean) {
 
     
-    return new Promise(
-        // loog 'myname', '_createArtifactProductionObject.ap', Object.keys(ap)
-        
-        // loog 'myname', '_createArtifactProductionObject.ap_packiFiles_object', Object.keys(ap_packiFiles_object)
-        (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         
             const ap_packiFiles_object: packiTypes.PackiFiles = JSON.parse(ap.packiFiles);
             const obj = {
@@ -268,9 +264,7 @@ async function _createArtifactProductionObject(ap: IArtifactProductionModel, loa
                         type: obj.packiConfig.type, 
                         contents: obj.packiConfig.contents
                      }
-                 }, {}).then(
-                // loog myname, '_createArtifactProductionObject', 'obj.packiConfigObj', JSON.stringify(obj.packiConfigObj)
-                (generationResult: any) => {
+                 }, {}).then((generationResult: any) => {
                 
                     obj.packiConfigObj = JSON.parse(generationResult.artifactContent);
                     return resolve(obj);
@@ -284,7 +278,6 @@ async function _createArtifactProductionObject(ap: IArtifactProductionModel, loa
                 }
                 )
             }
-            // loog 'myname', '_createArtifactProductionObject.resolve', Object.keys(obj)
             else {
                 return resolve(obj);
             }
@@ -754,7 +747,7 @@ export async function getArtifactTransformation(owner: string, name: string, con
         
             getArtifactProduction(owner, name).then((ap: any) => 
             
-                wizziProds.transformModel(ap.mainIttf, ap.packiFiles, context, {
+                wizziProds.loadAndTransformModel(ap.mainIttf, ap.packiFiles, context, {
                     transformer: transformerName
                  }).then((result: any) => {
                 
@@ -800,7 +793,7 @@ async function getArtifactTransformation_withPrepare(owner: string, productionNa
             // loog 'getArtifactTransformation_withPrepare.productionObj', 'mainIttf', productionObj.mainIttf, 'packiFiles', Object.keys(productionObj.packiFiles), 'context', Object.keys(productionObj.context),
             (productionObj: any) => 
             
-                wizziProds.transformModel(productionObj.mainIttf, productionObj.packiFiles, productionObj.context, {
+                wizziProds.loadAndTransformModel(productionObj.mainIttf, productionObj.packiFiles, productionObj.context, {
                     transformer: transformerName
                  }).then((result: any) => {
                 
@@ -891,11 +884,7 @@ async function getArtifactGeneration_withPrepare(owner: string, productionName: 
             // loog 'getArtifactGeneration_withPrepare.productionObj', 'mainIttf', productionObj.mainIttf, 'packiFiles', Object.keys(productionObj.packiFiles), 'context', Object.keys(productionObj.context),
             (productionObj: any) => 
             
-                wizziProds.generateArtifact(filePath || productionObj.mainIttf, productionObj.packiFiles, productionObj.context).then(
-                // loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.length
-                
-                // loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.substring(0, 200) + '...'
-                (result: any) => {
+                wizziProds.generateArtifact(filePath || productionObj.mainIttf, productionObj.packiFiles, productionObj.context).then((result: any) => {
                 
                     const response = {
                         content: result.artifactContent, 

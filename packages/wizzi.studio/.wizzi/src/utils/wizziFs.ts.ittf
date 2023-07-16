@@ -158,6 +158,21 @@ module
                 _ promiseFileRead
                     @ filePath
     export
+        async-function readJsonObject
+            param filePath
+                :string
+            r_promise()
+                _ promiseFileRead
+                    @ filePath
+                    ._ then
+                        =>
+                            param content
+                                :string
+                            return
+                                _ resolve
+                                    _ JSON.parse
+                                        @ content
+    export
         async-function writeFsItem
             param filePath
                 :string
@@ -167,6 +182,19 @@ module
                 _ promiseFileWrite
                     @ filePath
                     @ content
+    export
+        async-function writeJsonObject
+            param filePath
+                :string
+            param content
+                :any
+            return
+                _ promiseFileWrite
+                    @ filePath
+                    _ JSON.stringify
+                        @ content
+                        @ null
+                        @ 2
     export
         async-function deleteFsItem
             param filePath

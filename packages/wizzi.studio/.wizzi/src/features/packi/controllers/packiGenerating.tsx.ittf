@@ -54,10 +54,8 @@ module
         v08/ts/route( get, /l/:owner/:name/*, this.getPackiPluginGeneration)
         $append handlers
             v08/ts/handler( getPackiPackageGeneration )
-                # loog myname + '.getPackiPackageGeneration', request.path
                 const queryParams = {}
                 const parts = request.path.split('/')
-                # loog myname + '.getPackiPackageGeneration', parts[1], parts.slice(2).join('/')
                 _ productionApi.prepareProduction
                     @ 'package'
                     @ parts[2]
@@ -107,15 +105,11 @@ module
                                 v08/ts/catch_fail( getPackiPackageGeneration.executeJobs )
                     v08/ts/catch_fail( getPackiPackageGeneration.prepareProduction )
             v08/ts/handler( getPackiMetaGeneration )
-                # loog myname + '.getPackiMetaGeneration', request.path
                 const queryParams = {}
                 const parts = request.path.split('/')
-                # loog myname + '.getPackiMetaGeneration', parts[1], parts.slice(2).join('/')
             v08/ts/handler( getPackiPluginGeneration )
-                # loog myname + '.getPackiPluginGeneration', request.path
                 const queryParams = {}
                 const parts = request.path.split('/')
-                # loog myname + '.getPackiPluginGeneration', parts[1], parts.slice(2).join('/')
                 _ productionApi.prepareProduction
                     @ 'plugin'
                     @ parts[2]

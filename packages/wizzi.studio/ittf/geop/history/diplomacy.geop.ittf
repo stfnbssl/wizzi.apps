@@ -1,0 +1,329 @@
+$group
+
+    treaty treaty_of_karlowitz_1699
+        title Treaty of Karlowitz
+        date 1699/1/26
+        wiki https://en.wikipedia.org/wiki/Treaty_of_Karlowitz
+        + The Treaty of Karlowitz was signed on 26 January 1699 in Karlowitz, Military Frontier of Archduchy of Austria (present-day Sremski Karlovci, Serbia), 
+            \b concluding the Great Turkish War of 1683-1697 in which the Ottoman Empire had been defeated at the Battle of Zenta by the Holy League.
+            \b It marks the end of Ottoman control in much of Central Europe, 
+            \b with their first major territorial losses after centuries of expansion, 
+            \b and established the Habsburg monarchy as the dominant power of the region.
+        context
+            war great_turkish_war
+        mediator dutch_republic
+        mediator kingdom_of_england
+        party ottoman_empire
+        party holy_roman_empire
+        party poland_lithuania
+        party republic_of_venice
+        party papal_states
+
+    treaty peace_of_utrecht_1713
+        title Peace of Utrecht
+        date
+            start 1713/4
+            end 1715/2
+        context
+            war war_of_the_spanish_succession_1701
+        wiki https://en.wikipedia.org/wiki/Peace_of_Utrecht
+            + The Peace of Utrecht was a series of peace treaties signed by the belligerents in the War of the Spanish Succession, 
+                \b in the Dutch city of Utrecht between April 1713 and February 1715. 
+                \b The war involved three contenders for the vacant throne of Spain, and involved much of Europe for over a decade. 
+                \b The main action saw France as the defender of Spain against a multinational coalition. 
+                \b The war was very expensive and bloody and finally stalemated. 
+                \b Essentially, the treaties allowed Philip V (grandson of King Louis XIV of France) to keep the Spanish throne 
+                \b in return for permanently renouncing his claim to the French throne, 
+                \b along with other necessary guarantees that would ensure that France and Spain should not merge, 
+                \b thus preserving the balance of power in Europe.
+            + The treaties between several European states, including Spain, Great Britain, France, Portugal, Savoy and the Dutch Republic, helped end the war. 
+                \b The treaties were concluded between the representatives of Louis XIV of France and of his grandson Philip on one hand, 
+                \b and representatives of Queen Anne of Great Britain, King Victor Amadeus II of Sardinia, King John V of Portugal and 
+                \b the United Provinces of the Netherlands on the other. 
+                \b Though the king of France ensured the Spanish crown for his dynasty, 
+                \b the treaties marked the end of French ambitions of hegemony in Europe expressed in the continuous wars of Louis XIV, 
+                \b and paved the way to the European system based on the balance of power.
+                \b British historian G. M. Trevelyan argued that:
+                \b That Treaty, which ushered in the stable and characteristic period of Eighteenth-Century civilization, 
+                \b marked the end of danger to Europe from the old French monarchy, and it marked a change of no less significance to the world at large, — the maritime, commercial and financial supremacy of Great Britain.
+            + Another enduring result was the creation of the Spanish Bourbon dynasty, 
+                \b which still reigns over Spain up to the present day 
+                \b whilst the French branch of the House of Bourbon has long since been dethroned.        
+        party kingdom_of_france
+        party spanish_empire
+        party kingdom_of_great_britain
+        party holy_roman_empire
+        party kingdom_of_prussia
+        party kingdom_of_portugal
+        party dutch_republic
+        party duchy_of_savoy
+
+    treaty treaty_of_Aix-la-Chapelle_1748
+        title Treaty of Aix-la-Chapelle
+        date 1748
+        context
+            war war_of_the_austrian_succession
+        wiki https://en.wikipedia.org/wiki/Treaty_of_Aix-la-Chapelle_(1748)
+            + The 1748 Treaty of Aix-la-Chapelle, sometimes called the Treaty of Aachen, ended the War of the Austrian Succession, 
+                \b following a congress assembled on 24 April 1748 at the Free Imperial City of Aachen.
+            + The two main protagonists in the war, Britain and France, opened peace talks in the Dutch city of Breda in 1746. 
+                \b Agreement was delayed by British hopes of improving their position; 
+                \b when this failed to occur, a draft treaty was agreed on 30 April 1748. 
+                \b A final version was signed on 18 October 1748 by Britain, France, and the Dutch Republic.
+            + The terms were then presented to the other belligerents, who could either accept them, or continue the war on their own. 
+                \b Austria, Spain, and Sardinia had little choice but to comply, and signed separately. 
+                \b The Modena, and Genoa joined together on 21 January 1749.
+            + The treaty largely failed to resolve the issues that caused the war, 
+                \b while most of the signatories were unhappy with the terms. 
+                \b Maria Theresa resented Austria's exclusion from the talks, 
+                \b and blamed Britain for forcing her to accept concessions, 
+                \b while British politicians felt they had received little benefit for the financial subsidies paid to her. 
+                \b The combination of factors led to the strategic realignment known as the Diplomatic Revolution, 
+                \b and the outbreak of the Seven Years' War in 1756.
+        signature
+            date 1748/10/18
+            party kingdom_of_great_britain
+            party kingdom_of_france
+            party dutch_republic
+        signature
+            date 1748/12/4
+            party spanish_empire
+            party holy_roman_empire
+            party kingdom_of_sardinia
+        signature
+            date 1749/1/21
+            party republic_of_genoa
+            party duchy_of_modena
+
+    treaty treaty_of_paris_1756
+        title Treaty of Paris
+            alias Treaty of 1763
+        date 1763/2/10
+        context
+            war seven_years_war_1756_1763
+        wiki https://en.wikipedia.org/wiki/Treaty_of_Paris_(1763)
+            + The Treaty of Paris was signed by the kingdoms of Great Britain, France and Spain, with Portugal in agreement, 
+                \b after Great Britain and Prussia's victory over France and Spain during the Seven Years' War.
+            + The signing of the treaty formally ended conflict between France and Great Britain over control of North America 
+                \b (the Seven Years' War, known as the French and Indian War in the United States), 
+                \b and marked the beginning of an era of British dominance outside Europe.
+                \b Great Britain and France each returned much of the territory that they had captured during the war, 
+                \b but Great Britain gained much of France's possessions in North America. 
+                \b Additionally, Great Britain agreed to protect Roman Catholicism in the New World. 
+                \b The treaty did not involve Prussia and Austria as they signed a separate agreement, the Treaty of Hubertusburg, five days later.
+        party kingdom_of_great_britain
+        party kingdom_of_france
+        party spanish_empire
+        party kingdom_of_portugal
+
+    treaty treaty_of_hubertusburg_1763
+        title Treaty of Hubertusburg
+        date 1763/2/10
+        context
+            war seven_years_war_1756_1763
+        wiki https://en.wikipedia.org/wiki/Treaty_of_Hubertusburg
+            + The Treaty of Hubertusburg was signed by Austria and Saxony to end the Third Silesian War. 
+                \b Together with the Treaty of Paris, signed five days earlier, it marked the end of the Seven Years' War. 
+                \b The treaty ended the continental conflict with no significant changes in prewar borders. 
+                \b Austria and Saxony renounced all claims to the Silesian territories ceded to Prussia in the 1742 Treaty of Berlin and the 1745 Treaty of Dresden. 
+                \b Prussia clearly stood among the ranks of the European great powers, while the treaty enhanced the rivalry with Austria.            
+        party kingdom_of_prussia
+        party habsburg_empire
+        party electorate_of_saxony
+
+    treaty treaty_of_paris_1783
+        title Treaty of Paris
+            alias Treaty of 1783
+        date 1763/2/10
+        context
+            war american_revolutionary_war_1775
+        wiki https://en.wikipedia.org/wiki/Treaty_of_Paris_(1783)
+            + The Treaty of Paris, signed in Paris by representatives of King George III of Great Britain and 
+                \b representatives of the United States of America on September 3, 1783, 
+                \b officially ended the American Revolutionary War and overall state of conflict between the two countries. 
+                \b The treaty set the boundaries between the British Empire in North America and the United States of America, 
+                \b on lines "exceedingly generous" to the latter.
+                \b Details included fishing rights and restoration of property and prisoners of war.
+            + This treaty and the separate peace treaties between Great Britain and 
+                \b the nations that supported the American cause — France, Spain, and the Dutch Republic — are known collectively as the Peace of Paris.
+                \b Only Article 1 of the treaty, which acknowledges the United States' existence as a free, sovereign, and independent states, remains in force.        
+        party kingdom_of_great_britain
+        party united_states
+
+    treaty treaty_of_paris_1856
+        title Treaty of Paris
+        date 1856/3/30
+        context
+            war crimean_war_1853
+        wiki https://en.wikipedia.org/wiki/Treaty_of_Paris_(1856)
+            + The treaty made the Black Sea neutral territory, 
+                \b closing it to all warships and prohibiting fortifications and the presence of armaments on its shores.
+            + The treaty diminished Russian influence in the region. 
+                \b Conditions for the return of Sevastopol and other towns and cities in the south of Crimea to Russia were severe 
+                \b since no naval or military arsenal could be established by Russia on the coast of the Black Sea.
+
+    treaty treaty_of_london_1871
+        title Treaty of London
+        date 1871/1/17
+        context
+            treaty treaty_of_paris_1856
+        wiki https://en.wikipedia.org/wiki/Treaty_of_London_(1871)
+            + Treaty of London was an international treaty signed on 13 March 1871 by Germany, Austria, Turkey, the United Kingdom, France, Russia, and Italy.
+                \b Foreign Minister of the Russian Empire Alexander Gorchakov on 31 October 1870 denounced the Black Sea clauses of the Treaty of Paris (1856). 
+                \b It violated article XIV of the Treaty, which stated It cannot be either annulled or modified without the assent of the Powers signing the present Treaty.
+            + In the London Protocol of 17 January 1871, it was said that the representatives of Germany, Austro-Hungary, Great Britain, Italy, Russia and Turkey, 
+                \b having met in a conference, recognized as a essential principle of the law of nations that no power can liberate itself from the engagements of a treaty, 
+                \b nor modify the stipulations thereof, except as the result of the consent of the contracting parties, by means of an amicable understanding.
+            + Treaty signed 13 March 1871: 
+                \b Art. I. Articles XI, XIII, and XIV of the Treaty of Paris of March 30, 1856, as well as the special Convention concluded between Russia and the Sublime Porte, and annexed to the said Article XIV, are abrogated, and replaced by the following Article.
+                \b Art. II. The principle of the closing of the Straits of the Dardanelles and the Bosphorus, such as it has been established by the separate Convention of March 30, 1856[132] is maintained, with power to His Imperial Majesty the Sultan to open the said Straits in time of peace to the vessels of war of friendly and allied Powers, in case the Sublime Porte should judge it necessary in order to secure the execution of the stipulations of the Treaty of Paris of March 30, 1856.[2]
+            + Treaty of Berlin (1878):
+                \b Art. LXIII. The Treaty of Paris of March 30, 1856, as well as the Treaty of London of March 13, 1871, are maintained in all such of their provisions as are not abrogated or modified by the preceding stipulation.
+
+    treaty treaty_of_san_stefano_1878
+        title Treaty of San Stefano
+        date 1878/3/3
+        context
+            war russo_turkish_war_1877
+        wiki https://en.wikipedia.org/wiki/Treaty_of_San_Stefano
+            + The Treaty of San Stefano was a treaty between the Russian and Ottoman empires at the conclusion of the Russo-Turkish War of 1877-1878. 
+                \b It was signed at San Stefano, then a village west of Constantinople (present-day Istanbul), on 3 March 1878.
+            + According to the official Russian position, by signing the treaty, Russia had never intended anything more than a temporary rough draft, 
+                \b so as to enable a final settlement with the other Great Powers.
+            + The treaty provided for the establishment of an autonomous Principality of Bulgaria following almost 500 years of Ottoman rule in the Bulgarian lands. 
+                \b Bulgarians celebrate the day the treaty was signed, 3 March 1878, as Liberation Day. 
+                \b However, the enlarged Bulgaria envisioned by the treaty alarmed neighboring states as well as France and Great Britain. 
+                \b As a result, the enlargement was never implemented, being superseded by the Treaty of Berlin 
+                \b following the Congress of the same name that took place three months later.
+        party russian_empire
+        party ottoman_empire
+
+    treaty congress_of_berlin_1878
+        title Treaty of Berlin
+        date
+            start 1878/6/13
+            end 1878/7/13
+        context
+            war russo_turkish_war_1877
+            treaty treaty_of_san_stefano_1878
+        wiki https://en.wikipedia.org/wiki/Treaty_of_Berlin_(1878)
+            + The Congress of Berlin was a diplomatic conference to reorganise the states in the Balkan Peninsula after the Russo-Turkish War of 1877–78, 
+                \b which had been won by Russia against the Ottoman Empire. 
+                \b Represented at the meeting were Europe's then six great powers: Russia, Great Britain, France, Austria-Hungary, Italy and Germany; the Ottomans; 
+                \b and four Balkan states: Greece, Serbia, Romania and Montenegro. 
+                \b The congress concluded with the signing of the Treaty of Berlin, replacing the preliminary Treaty of San Stefano 
+                \b that had been signed three months earlier.
+            + The leader of the congress, German Chancellor Otto von Bismarck, sought to stabilise the Balkans, 
+                \b reduce the role of the defeated Ottoman Empire in the region, 
+                \b and balance the distinct interests of Britain, Russia and Austria-Hungary. 
+                \b He also wanted to avoid domination of the Balkans by Russia or the formation of a Greater Bulgaria, 
+                \b and to keep Constantinople in Ottoman hands. 
+                \b Under Bismarck's influence, the congress stripped the Ottomans of many of their European possessions, 
+                \b but refused to grant them to Russia and massively reduced the gains of Bulgaria 
+                \b (compared to the Principality of Bulgaria envisaged by the preliminary San Stefano treaty).
+            + The affected territories were instead granted varying degrees of independence. 
+                \b Romania became fully independent, though was forced to give part of Bessarabia to Russia, and gained Northern Dobruja. 
+                \b Serbia and Montenegro were also granted full independence but lost territory, 
+                \b with Austria-Hungary occupying the Sandžak region along with Bosnia and Herzegovina.
+                \b Britain took possession of Cyprus. 
+                \b Of the territory that remained within the Ottoman Empire, 
+                \b Bulgaria was made a semi-independent principality, 
+                \b Eastern Rumelia became a special administration, and 
+                \b the region of Macedonia was returned to the Ottomans on condition of reforms to its governance.
+            + The results were initially hailed as a success for peace in the region, 
+                \b but most of the participants were not satisfied with the outcome. 
+                \b The Ottomans were humiliated and had their weakness confirmed as the "sick man of Europe". 
+                \b Russia resented the lack of rewards, despite having won the war that the conference was supposed to resolve, 
+                \b and humiliated by the other great powers in their rejection of the San Stefano settlement. 
+                \b Serbia, Bulgaria and Greece all received far less than they thought they deserved, 
+                \b especially Bulgaria which was left with less than half of the territory envisioned by the Treaty of San Stefano. 
+                \b Bismarck became hated by Russian nationalists and Pan-Slavists, 
+                \b and later found that he had tied Germany too closely to Austria-Hungary in the Balkans.
+                \b Although Austria-Hungary gained substantial territory, 
+                \b this angered the South Slavs and led to decades of tensions in Bosnia and Herzegovina, 
+                \b culminating in the assassination of Franz Ferdinand.
+            + In the long term, the settlement led to rising tensions between Russia and Austria-Hungary, and disputes over nationalism in the Balkans. 
+                \b Grievances with the results of the congress festered until they exploded in the First and Second Balkan Wars (1912 and 1913 respectively). 
+                \b Continuing nationalism in the Balkans was one of the causes of the First World War in 1914.
+
+    treaty treaty_of_berlin_1878
+        title Treaty of Berlin 
+        date 1878/7/13
+        context
+            war russo_turkish_war_1877
+            treaty congress_of_berlin_1878
+        wiki https://en.wikipedia.org/wiki/Treaty_of_Berlin_(1878)
+            + The Treaty of Berlin (for the Settlement of Affairs in the East) was signed on 13 July 1878.[1][2] 
+                \b In the aftermath of the Russian victory against the Ottoman Empire in the Russo-Turkish War of 1877-1878, 
+                \b the major powers restructured the map of the Balkan region. 
+                \b They reversed some of the extreme gains claimed by Russia in the preliminary Treaty of San Stefano, 
+                \b but the Ottomans lost their major holdings in Europe. 
+                \b It was one of three major peace agreements in the period after the 1815 Congress of Vienna. 
+                \b It was the final act of the Congress of Berlin (13 June – 13 July 1878) and 
+                \b included Great Britain and Ireland, Austria-Hungary, France, Germany, Italy, Russia and the Ottoman Empire. 
+                \b Chancellor of Germany Otto von Bismarck was the chairman and dominant personality.
+            + The most important task of the Congress was to decide the fate of Bulgaria, 
+                \b but Bulgaria itself was excluded from participation in the talks, at Russian insistence.
+                \b At the time, as it was not a sovereign state, Bulgaria was not a subject of international law, and the same went for the Bulgarians themselves. 
+                \b The exclusion was already an established fact in the great powers' Constantinople Conference, 
+                \b which had been held one year before without any Bulgarian participation.
+            + The most notable result of the conference was the official recognition of the newly independent states of Romania, Serbia and Montenegro 
+                \b (which had de facto been acting independently for decades).
+        party kingdom_of_great_britain
+        party austro_hungarian_empire
+        party french_republic
+        party german_empire
+        party kingdom_of_italy
+        party russian_empire
+        party ottoman_empire
+
+    treaty treaty_of_constantinople_1897
+        title Treaty of Constantinople
+        date 1897/12/4
+        context
+            war greco_turkish_war_1897
+        wiki https://en.wikipedia.org/wiki/Treaty_of_Constantinople_(1897)
+            + The Treaty of Constantinople was a treaty between the Ottoman Empire and the Kingdom of Greece signed on 4 December 1897 
+                \b following the Greco-Turkish War (1897).
+            + Although the Ottoman army was victorious in the field, 
+                \b the Ottoman Empire did not benefit from the victory. 
+                \b The suzerainty over Crete proved to be completely ineffective and 
+                \b Crete unilaterally declared union with Greece in 1908. 
+                \b This was formalized after the Balkan Wars, with the island joining Greece on 1 December 1913. 
+                \b In the 1923 population exchange between Greece and Turkey, 
+                \b the Muslim population of the island was transferred to Turkey.
+
+    treaty treaty_of_paris_1898
+        title Treaty of Paris
+        date 1898/12/10
+        context
+            war spanish_american_war_1898
+        wiki https://en.wikipedia.org/wiki/Treaty_of_Paris_(1898)
+            + The Treaty of Peace between the United States of America and the Kingdom of Spain, commonly known as the Treaty of Paris of 1898, 
+                \b was a treaty signed by Spain and the United States on December 10, 1898, that ended the Spanish–American War. 
+                \b Under it, Spain relinquished all claim of sovereignty over and title to Cuba and 
+                \b also ceded Puerto Rico, Guam, and the Philippines to the United States. 
+                \b The cession of the Philippines involved a compensation of $20 million from the United States to Spain.
+            + The treaty came into effect on April 11, 1899, when the documents of ratification were exchanged.
+                \b It was the first treaty negotiated between the two governments since the 1819 Adams-Onís Treaty.
+            + The Treaty of Paris marked the end of the Spanish Empire, apart from some small holdings. 
+                \b It had a major cultural impact in Spain known as the "Generation of '98". 
+                \b It marked the beginning of the United States as a world power. 
+                \b Many supporters of the war opposed the treaty, 
+                \b which became one of the major issues in the election of 1900 when it was opposed by Democrat William Jennings Bryan, who opposed imperialism.
+                \b Republican President William McKinley supported the treaty and was easily reelected.
+
+    treaty anglo_egyptian_treaty_1936
+        title Anglo-Egyptian Treaty
+        date 1936/8/26
+        context
+            war spanish_american_war_1898
+        wiki https://en.wikipedia.org/wiki/Anglo-Egyptian_treaty_of_1936
+            + The Anglo-Egyptian Treaty of 1936 was a treaty signed between the United Kingdom and the Kingdom of Egypt.
+            + Under the terms of the treaty, the United Kingdom was required to withdraw all its troops from Egypt, 
+                \b except those necessary to protect the Suez Canal and its surroundings, numbering 10,000 troops plus auxiliary personnel. 
+                \b Additionally, the United Kingdom would supply and train Egypt's army and assist in its defence in case of war. 
+                \b The treaty was to last for 20 years; it was negotiated in the Zaafarana palace, signed in London on 26 August 1936 and ratified on 22 December. 
+                \b It was registered in the League of Nations Treaty Series on 6 January 1937.                
+        party kingdom_of_great_britain
+        party kingdom_of_egypt

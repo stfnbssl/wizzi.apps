@@ -1,0 +1,367 @@
+$group
+
+    react PublicationList
+        
+        state
+            @ status 'list'
+            @ selectedItem null
+            [ forms
+            { current
+                @ status 'list'
+                @ selectedItem null
+                @ scrollTop 0
+                @ scrollingElement null
+                @ justRenderedList false
+                @ justRenderedItem false
+                @ depth 0
+                @ title 'Testi'
+
+        list-functions(Pubblications, Testi)
+
+        => handleOpen
+            param status
+            param item
+            _ this.setState
+                =>
+                    param prevState
+                    _ prevState.forms.push
+                        @ prevState.current
+                    var current
+                        {
+                            @ ...prevState.current
+                            @ status status
+                            @ selectedItem item
+                            @ depth prevState.forms.length
+                            @ title (item.title && item.title.text) || item.id
+                            @ justRenderedItem true
+                    _ this.props.onChangeCurrent(current, this.handlePubblicationsClose, this.handleChangeSearch)
+                    return
+                        {
+                            @ ...prevState
+                            @ current current
+
+        $*
+        => handleClose
+            _ this.setState
+                =>
+                    param prevState
+                    var current = prevState.forms.pop()
+                    if current.status == 'list'
+                        set current.justRenderedList = true
+                        set current.depth = prevState.forms.length
+                        set current.title = 'Testi'
+                        set current.selectedItem = null
+                    _ this.props.onChangeCurrent(current, this.handleConceptClose, this.handleChangeSearch)
+                    return
+                        {
+                            @ ...prevState
+                            @ current current
+        *$
+
+        => handleArticleOpen
+            param ev
+            param articleItem
+            _ this.handleOpen
+                @ 'article'
+                @ articleItem
+
+        => handleBookOpen
+            param ev
+            param bookItem
+            _ this.handleOpen
+                @ 'book'
+                @ bookItem
+
+
+        $*
+        => handlePubblicationsClose
+            _ this.setState
+                =>
+                    param prevState
+                    var current = prevState.forms.pop()
+                    if current.status == 'list'
+                        set current.justRenderedList = true
+                        set current.depth = prevState.forms.length
+                        set current.title = 'Testi'
+                        set current.selectedItem = null
+                    _ this.props.onChangeCurrent(current, this.handleConceptClose, this.handleChangeSearch)
+                    return
+                        {
+                            @ ...prevState
+                            @ current current
+        *$
+
+
+        render
+            prop jsonData
+            const 
+                { 
+                    @ status
+                    @ selectedItem
+                    @ searchText
+                = this.state.current
+
+            var titleText = selectedItem ? dbExtractTitleText(selectedItem.title) || name : ''
+
+            return
+                div
+                    {
+                        &&
+                            + status == 'list'
+                            div
+                                < Paper
+                                    @ style {{maxHeight: '90%', maxWidth:800, padding:10, overflow: 'auto'}}
+                                    < h2 Articoli
+                                    {
+                                        _ jsonData.articles.sort(compareByDatePub).map
+                                            =>
+                                                param item
+                                                if dbFilterIdAndTitle(item, searchText)
+                                                    return
+                                                        div
+                                                            @ key {item.id}
+                                                            < ArticleListItem
+                                                                @ item {item}
+                                                                @ onClick {this.handleArticleOpen}
+                                    < h2 Libri
+                                    {
+                                        _ jsonData.books.sort(compareByDatePub).map
+                                        
+                                            =>
+                                                param item
+                                                if dbFilterIdAndTitle(item, searchText)
+                                                    return
+                                                        div
+                                                            @ key {item.id}
+                                                            < BookListItem
+                                                                @ item {item}
+                                                                @ onClick {this.handleBookOpen}
+                    {
+                        &&
+                            + status == 'book'
+                            div
+                                < Book
+                                    @ item {selectedItem}
+                                    @ jsonData {jsonData}
+
+                    {
+                        &&
+                            + status == 'article'
+                            div
+                                < Article
+                                    @ item {selectedItem}
+                                    @ jsonData {jsonData}
+
+    function ArticleListItem
+        param props
+        var {item, onClick} = props
+        var {id, name, title} = item
+        var titleText = dbExtractTitleText(title) || name
+        var datePub = item.datepub == '9999/99/99' ? '' : '(' + item.datepub + ')'
+        return
+            < div
+                @ onClick
+                    =>
+                        param event
+                        _ onClick(event, item)
+                div {titleText} {datePub}
+                    @ className "li-title"
+                div id: {id}
+                    @ className "li-id"
+                div
+                    @ className "li-clear"
+
+    function Article
+        param props
+        var {item, jsonData} = props
+
+        var bookObj
+            _ dbGetBook                            
+                @ item.book
+                @ jsonData
+        
+        var titleText = dbExtractTitleText(item.title) || 'no title'
+        var bookTitleText = bookObj ? dbExtractTitleText(bookObj.title) || name : ''
+        var quotes = dbGetArticleQuotes(item.id, jsonData) 
+
+        return
+            < div 
+                div
+                    < Paper
+                        @ className "info-box"
+                        < InfoItem 
+                            @ label 'id'
+                            @ text {item.id}
+                        < InfoItem 
+                            @ label 'titolo'
+                            @ text {titleText}
+                        < PublicationAuthors
+                            @ item {item}
+                            @ jsonData {jsonData}
+                        < InfoItem 
+                            @ label 'data pubblicazione'
+                            @ text {item.datepub}
+                        {
+                            &&
+                                + item.edition
+                                < InfoItem 
+                                    @ label 'edizione'
+                                    @ text {item.edition}
+                        {
+                            &&
+                                + bookObj
+                                < InfoItem 
+                                    @ label 'nel libro'
+                                    @ text {bookTitleText}
+                        {
+                            &&
+                                + item.url
+                                < InfoUrl 
+                                    @ label 'link'
+                                    @ url {item.url}
+
+                < ContentText
+                    @ item {item}
+                    @ jsonData {jsonData} 
+
+                {
+                    &&
+                        + item.abstract
+                        < Paper
+                            @ className "abstract-box"
+                            div abstract
+                                @ className "abstract-title"
+                            div
+                                < ContentText
+                                    @ item {item.abstract}
+                                    @ jsonData {jsonData} 
+                {
+                    &&
+                        + quotes.length > 0
+                        < Paper
+                            @ className "quotes-box"
+                            div citazioni
+                                @ className "quotes-title"
+                            div
+                                {
+                                    _ quotes.sort(compareQuotes).map
+                                        =>
+                                            param quote
+                                            param i
+                                            return
+                                                div
+                                                    @ key {i}
+                                                    div concetto {quote.concept.id}
+                                                        @ className "quotes-concept-id"
+                                                    < Quote
+                                                        @ item {quote.quote}
+                                                        @ jsonData {jsonData}
+
+    function BookListItem
+        param props
+        var {item, onClick} = props
+        var {id, name, title} = item
+        set title = (title || name)
+        var titleText = dbExtractTitleText(title) || name
+        var datePub = item.datepub == '9999/99/99' ? '' : '(' + item.datepub + ')'
+        return
+            < div
+                @ onClick
+                    =>
+                        param event
+                        _ onClick(event, item)
+                div {titleText} {datePub}
+                    @ className "li-title"
+                div id: {id}
+                    @ className "li-id"
+                div
+                    @ className "li-clear"
+
+    function Book
+        param props
+        var {item, jsonData} = props
+        var titleText = dbExtractTitleText(item.title) || name        
+        return
+            div 
+                div
+                    < Paper
+                        @ className "info-box"
+                        < InfoItem 
+                            @ label 'id'
+                            @ text {item.id}
+                        < InfoItem 
+                            @ label 'titolo'
+                            @ text {titleText}
+                        < PublicationAuthors
+                            @ item {item}
+                            @ jsonData {jsonData}
+                        < InfoItem 
+                            @ label 'data pubblicazione'
+                            @ text {item.datepub}
+                        {
+                            &&
+                                + item.edition
+                                < InfoItem 
+                                    @ label 'edizione'
+                                    @ text {item.edition}
+                        {
+                            &&
+                                + item.url
+                                < InfoUrl 
+                                    @ label 'link'
+                                    @ url {item.url}
+
+                < ContentText
+                    @ item {item}
+                    @ jsonData {jsonData} 
+
+    function PublicationAuthors
+        param props
+        var {item, jsonData} = props
+        var text = ''
+        _ item.authors.map
+            =>
+                param token
+                param i
+                var authObj
+                    _ dbGetAuthor                            
+                        @ token
+                        @ jsonData
+                set text += (i > 0 ? ', ' : '') 
+                if authObj
+                    set text += (i > 0 ? ', ' : '') + authObj.fullname
+                else
+                    set text += token
+
+        return
+            < InfoItem 
+                @ label 'autore'
+                @ text {text}
+
+    function InfoItem
+        param props
+        var {label, text} = props
+        return 
+            div
+                @ className 'info-item-box'
+                span {label}
+                    @ className 'info-item-label'
+                span &nbsp; : &nbsp;
+                span {text}
+                    @ className 'info-item-text'
+
+    function InfoUrl
+        param props
+        var {label, url} = props
+        return 
+            div
+                @ className 'info-item-box'
+                span {label}
+                    @ className 'info-item-label'
+                span &nbsp; : &nbsp;
+                span
+                    @ className 'info-item-url'
+                    a {url}
+                        href {url}
+                        target _blank
+                        rel noopener noreferrer 

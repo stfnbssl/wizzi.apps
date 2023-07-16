@@ -1,0 +1,226 @@
+$group
+
+    namespace states.great_britain
+        
+        minister pitt_il_vecchio
+            title Pitt il Vecchio
+                en Pitt the Elder
+            born 1708/11/15
+            died 1778/5/11
+            wiki https://en.wikipedia.org/wiki/William_Pitt,_1st_Earl_of_Chatham
+                + was a British statesman of the Whig group who served as Prime Minister of Great Britain in the middle of the 18th century.
+                    \b Historians call him Chatham or William Pitt the Elder to distinguish him from his son, William Pitt the Younger, 
+                    \b who was also a prime minister. 
+                    \b Pitt was also known as the Great Commoner, because of his long-standing refusal to accept a title until 1766.
+            prime-minister
+                start 1766/7/30
+                end 1768/10/14
+
+        minister pitt_il_giovane
+            title Pitt il Giovane
+                en Pitt the Younger
+            born 1759/5/28
+            died 1806/1/23
+            wiki https://en.wikipedia.org/wiki/William_Pitt_the_Younger
+                + was a prominent Tory statesman of the late eighteenth and early nineteenth centuries. 
+                    \b He became the youngest prime minister of Great Britain in 1783 at the age of 24 and 
+                    \b the first prime minister of the United Kingdom of Great Britain and Ireland as of January 1801. 
+                    \b He left office in March 1801, but served as prime minister again from 1804 until his death in 1806. 
+                    \b He was also Chancellor of the Exchequer for all of his time as prime minister. 
+                    \b He is known as "Pitt the Younger" to distinguish him from his father, 
+                    \b William Pitt, 1st Earl of Chatham, who had previously served as prime minister, 
+                    \b and is referred to as "William Pitt the Elder" (or "Chatham" by historians).
+            prime-minister
+                start 1783/12/19
+                end 1801/3/14
+            prime-minister
+                start 1804/5/10
+                end 1806/1/23
+
+        minister duke_of_wellington
+            title Arthur Wellesley, 1st Duke of Wellington
+            born 1769/5/1
+            died 1852/9/14
+            party Tory
+            party Conservative
+            wiki https://en.wikipedia.org/wiki/Henry_John_Temple,_3rd_Viscount_Palmerston
+                + Arthur Wellesley, 1st Duke of Wellington, was an Anglo-Irish soldier and Tory statesman who was one of the leading military 
+                    \b and political figures of 19th-century Britain, serving twice as prime minister of the United Kingdom. 
+                    \b He is among the commanders who won and ended the Napoleonic Wars when the coalition defeated Napoleon at the Battle of Waterloo in 1815.
+                    \b Wellesley was born in Dublin into the Protestant Ascendancy in Ireland. 
+                    \b He was commissioned as an ensign in the British Army in 1787, serving in Ireland as aide-de-camp to two successive lords lieutenant of Ireland. 
+                    \b He was also elected as a member of Parliament in the Irish House of Commons. 
+                    \b He was a colonel by 1796 and saw action in the Netherlands and in India, where he fought in the Fourth Anglo-Mysore War at the Battle of Seringapatam. 
+                    \b He was appointed governor of Seringapatam and Mysore in 1799 and, as a newly appointed major-general, 
+                    \b won a decisive victory over the Maratha Confederacy at the Battle of Assaye in 1803.
+                    \b Wellesley rose to prominence as a general during the Peninsular campaign of the Napoleonic Wars, 
+                    \b and was promoted to the rank of field marshal after leading the allied forces to victory against the French Empire at the Battle of Vitoria in 1813. 
+                    \b Following Napoleon's exile in 1814, he served as the ambassador to France and was granted a dukedom. 
+                    \b During the Hundred Days in 1815, he commanded the allied army which, together with a Prussian Army under Field Marshal Gebhard von Blücher, 
+                    \b defeated Napoleon at Waterloo. 
+                    \b Wellington's battle record is exemplary; he ultimately participated in some 60 battles during the course of his military career.
+                    \b Wellington is famous for his adaptive defensive style of warfare, resulting in several victories against numerically superior forces 
+                    \b while minimising his own losses. 
+                    \b He is regarded as one of the greatest defensive commanders of all time, 
+                    \b and many of his tactics and battle plans are still studied in military academies around the world. 
+                    \b After the end of his active military career, he returned to politics. 
+                    \b He was twice British prime minister as a member of the Tory party from 1828 to 1830 and for a little less than a month in 1834. 
+                    \b He oversaw the passage of the Roman Catholic Relief Act 1829, but opposed the Reform Act 1832. 
+                    \b He continued as one of the leading figures in the House of Lords until his retirement and 
+                    \b remained Commander-in-Chief of the British Army until his death.
+            prime-minister
+                start 1828/1/22
+                end 1830/11/16
+            prime-minister
+                start 1834/11/17
+                end 1834/12/9
+
+
+        minister peel_robert
+            title Robert Peel
+            born 1788/2/5
+            died 1850/7/2
+            wiki https://en.wikipedia.org/wiki/Robert_Peel
+                + was a British Conservative statesman who served twice as Prime Minister of the United Kingdom (1834 - 1835 and 1841 - 1846) 
+                    \b simultaneously serving as Chancellor of the Exchequer (1834 - 1835) and 
+                    \b twice as Home Secretary (1822 - 1827 and 1828 - 1830). 
+                    \b He is regarded as the father of modern British policing, 
+                    \b owing to his founding of the Metropolitan Police Service. 
+                    \b Peel was one of the founders of the modern Conservative Party.            
+            prime-minister
+                start 1834
+                end 1835
+            prime-minister
+                start 1841
+                end 1846
+
+        minister earl_grey
+            title Charles Grey, 2nd Earl Grey
+                alias Viscount Howick
+            born 1764/3/13
+            died 1845/7/17
+            wiki https://en.wikipedia.org/wiki/Charles_Grey,_2nd_Earl_Grey
+                + Charles Grey, 2nd Earl Grey, known as Viscount Howick between 1806 and 1807, 
+                    \b was a British Whig politician who served as Prime Minister of the United Kingdom from 1830 to 1834. 
+                    \b He was a member of the noble House of Grey.
+                + Grey was a long-time leader of multiple reform movements, and during his time as prime minister 
+                    \b his government brought about two notable reforms. 
+                    \b The Reform Act 1832 enacted parliamentary reform, greatly increasing the electorate of the House of Commons.[1] 
+                    \b The Slavery Abolition Act 1833 led to the abolition of slavery in most of the British Empire, 
+                    \b with compensation to be paid to slave-owners.
+                + Grey was a strong opponent of the foreign and domestic policies of William Pitt the Younger in the 1790s. 
+                    \b In 1807, he resigned as foreign secretary to protest against George III's uncompromising rejection of Catholic Emancipation. 
+                    \b Grey finally resigned as prime minister in 1834 over disagreements in his cabinet regarding Ireland, and retired from politics. 
+                    \b Scholars rank him highly among British prime ministers, believing that he averted much civil strife and enabled Victorian progress.[1]
+                + Earl Grey tea may be named after him.[2]
+
+            prime-minister
+                start 1830/11/22
+                end 1834/7/9
+
+        minister palmerston
+            title Henry John Temple, 3rd Viscount Palmerston
+            born 1784/10/20
+            died 1865/10/18
+            party Whigs
+            wiki https://en.wikipedia.org/wiki/Henry_John_Temple,_3rd_Viscount_Palmerston
+                + was a British statesman who was twice Prime Minister of the United Kingdom in the mid-19th century. 
+                    \b Palmerston dominated British foreign policy during the period 1830 to 1865, 
+                    \b when Britain stood at the height of its imperial power. 
+                    \b He held office almost continuously from 1807 until his death in 1865. 
+                    \b He began his parliamentary career as a Tory, 
+                    \b defected to the Whigs in 1830, 
+                    \b and became the first prime minister from the newly formed Liberal Party in 1859. 
+                    \b He was highly popular with the British public. 
+                    \b David Brown argues that "an important part of Palmerston's appeal lay in his dynamism and vigour".
+            foreign-secretary
+                start 1830
+                end 1841
+            foreign-secretary
+                start 1846
+                end 1851
+            home-secretary
+                start 1852
+                end 1855
+            prime-minister
+                start 1855
+                end 1858
+            prime-minister
+                start 1859
+                end 1865
+
+
+        minister russel_john
+            title John Russell, primo conte di Russell
+            born 1792/8/18
+            died 1878/5/28
+            party Whigs
+            wiki https://en.wikipedia.org/wiki/Earl_Russell
+                + è stato un politico inglese. Facente parte del Partito Liberale, 
+                    \b è stato primo ministro del Regno Unito due volte: dal 30 giugno 1846 al 23 febbraio 1852 e dal 29 ottobre 1865 al 18 giugno 1866. 
+                    \b John Russell fu il nonno del famoso filosofo, matematico e logico Bertrand Russell.
+            prime-minister
+                start 1846
+                end 1852
+            prime-minister
+                start 1865
+                end 1866
+
+        minister disraeli
+            title Benjamin Disraeli, 1st Earl of Beaconsfield
+            born 1804/12/21
+            died 1881/4/19
+            wiki https://en.wikipedia.org/wiki/Benjamin_Disraeli
+                + was a British statesman and Conservative politician who twice served as Prime Minister of the United Kingdom. 
+                    \b He played a central role in the creation of the modern Conservative Party, 
+                    \b defining its policies and its broad outreach. 
+                    \b Disraeli is remembered for his influential voice in world affairs, 
+                    \b his political battles with the Liberal Party leader William Ewart Gladstone, 
+                    \b and his one-nation conservatism or "Tory democracy". 
+                    \b He made the Conservatives the party most identified with the British Empire, and military action to expand it, 
+                    \b both of which were popular among British voters. 
+                    \b He is the only British prime minister to have been of Jewish origin. 
+                    \b He was also a novelist, publishing works of fiction even as prime minister.
+            prime-minister
+                start 1874/2/20
+                end 1880/4/21
+            prime-minister
+                start 1868/2/27
+                end 1868/12/1
+            exchequer
+                start 1866/7/6
+                end 1868/2/29
+            exchequer
+                start 1858/2/26
+                end 1859/6/11
+            exchequer
+                start 1852/2/27
+                end 1852/12/17
+
+        prime-minister gladstone
+            title Ewart Gladstone
+            born 1809/12/29
+            died 1898/5/19
+            wiki https://en.wikipedia.org/wiki/William_Ewart_Gladstone
+                + was a British statesman and Liberal politician. 
+                    \b In a career lasting over 60 years, he served for 12 years as Prime Minister of the United Kingdom, 
+                    \b spread over four terms beginning in 1868 and ending in 1894. 
+                    \b He also served as Chancellor of the Exchequer four times, serving over 12 years.
+            exchequer
+                start 1852
+                end 1855
+            exchequer
+                start 1859
+                end 1866
+            prime-minister
+                start 1868
+                end 1874
+            prime-minister
+                start 1880
+                end 1885
+            prime-minister
+                start 1886
+                end 1886
+            prime-minister
+                start 1892
+                end 1894

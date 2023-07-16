@@ -116,7 +116,7 @@ module
                 _ generateMetaProduction
                     @ request.params.owner
                     @ request.params.name
-                    @ request.body.cliCtx
+                    @ request.body.metaCtx
                     ._ then
                         =>
                             param result

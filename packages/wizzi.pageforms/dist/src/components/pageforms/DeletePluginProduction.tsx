@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\DeletePluginProduction.tsx.ittf
 */
 import React, {Component} from 'react';
@@ -74,7 +74,7 @@ export class DeletePluginProduction extends Component<DeletePluginProductionProp
     };
     handleCancel = (ev: React.MouseEvent<HTMLElement>) => {
         ev.preventDefault();
-        window.location.href = "/productions/plugins";
+        window.location.href = "/packi/productions/plugins";
     };
     
     render() {

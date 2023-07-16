@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packi\controllers\packiEditing.tsx.ittf
-    utc time: Sat, 06 May 2023 11:50:26 GMT
+    utc time: Sun, 16 Jul 2023 13:02:25 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -12,6 +12,7 @@ import {restParamsCheck} from '../../../utils/rest';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
 import ReactDOMServer from 'react-dom/server';
+import {config} from '../../config';
 import {artifactApi, packageApi, metaApi, pluginApi, tFolderApi} from '../../packiProductions';
 import EditorDocument from '../../../pages/EditorDocument';
 import PackiItemList from '../components/PackiItemList';
@@ -85,24 +86,17 @@ export class PackiEditingController implements ControllerType {
     
     private getPackiArtifactProductionByUsername_Name = 
     // TODO
-    
-    // loog myname + '.getPackiArtifactProductionByUsername_Name', request.path
-    
-    // loog myname + '.getPackiArtifactProductionByUsername_Name', parts[1], parts.slice(2).join('/')
     async (request: Request, response: Response) => {
     
         const queryParams = {};
         const parts = request.path.split('/');
-        artifactApi.getArtifactProductionObject(parts[2], parts.slice(3).join('/')).then(
-        // loog myname + '.getPackiArtifactProductionByUsername_Name.result', result
-        (result: any) => {
+        artifactApi.getArtifactProductionObject(parts[2], parts.slice(3).join('/')).then((result: any) => {
         
-            const user = (request.session as any).user;
             const loggedUser = {
-                id: user._id, 
-                username: user.username, 
-                displayName: user.name, 
-                picture: user.avatar_url
+                id: 'local_' + config.userUserName, 
+                username: config.userUserName, 
+                displayName: config.userDisplayName, 
+                picture: config.userAvatarUrl
              };
             renderPackiEditor(request, response, {
                 type: 'success', 
@@ -132,24 +126,17 @@ export class PackiEditingController implements ControllerType {
     
     private getPackiPackageProductionByUsername_Name = 
     // TODO
-    
-    // loog myname + '.getPackiPackageProductionByUsername_Name', request.path
-    
-    // loog myname + '.getPackiPackageProductionByUsername_Name', parts[1], parts.slice(2).join('/')
     async (request: Request, response: Response) => {
     
         const queryParams = {};
         const parts = request.path.split('/');
-        packageApi.getPackageProductionObject(parts[2], parts.slice(3).join('/')).then(
-        // loog myname + '.getPackiPackageProductionByUsername_Name.result', Object.keys(result)
-        (result: any) => {
+        packageApi.getPackageProductionObject(parts[2], parts.slice(3).join('/')).then((result: any) => {
         
-            const user = (request.session as any).user;
             const loggedUser = {
-                id: user._id, 
-                username: user.username, 
-                displayName: user.name, 
-                picture: user.avatar_url
+                id: 'local_' + config.userUserName, 
+                username: config.userUserName, 
+                displayName: config.userDisplayName, 
+                picture: config.userAvatarUrl
              };
             renderPackiEditor(request, response, {
                 type: 'success', 
@@ -177,24 +164,17 @@ export class PackiEditingController implements ControllerType {
     
     private getPackiMetaProductionByUsername_Name = 
     // TODO
-    
-    // loog myname + '.getPackiMetaProductionByUsername_Name', request.path
-    
-    // loog myname + '.getPackiMetaProductionByUsername_Name', parts[1], parts.slice(2).join('/')
     async (request: Request, response: Response) => {
     
         const queryParams = {};
         const parts = request.path.split('/');
-        metaApi.getMetaProductionObject(parts[2], parts.slice(3).join('/')).then(
-        // loog myname + '.getPackiMetaProductionByUsername_Name.result', result
-        (result: any) => {
+        metaApi.getMetaProductionObject(parts[2], parts.slice(3).join('/')).then((result: any) => {
         
-            const user = (request.session as any).user;
             const loggedUser = {
-                id: user._id, 
-                username: user.username, 
-                displayName: user.name, 
-                picture: user.avatar_url
+                id: 'local_' + config.userUserName, 
+                username: config.userUserName, 
+                displayName: config.userDisplayName, 
+                picture: config.userAvatarUrl
              };
             renderPackiEditor(request, response, {
                 type: 'success', 
@@ -222,24 +202,17 @@ export class PackiEditingController implements ControllerType {
     
     private getPackiPluginProductionByUsername_Name = 
     // TODO
-    
-    // loog myname + '.getPackiPluginProductionByUsername_Name', request.path
-    
-    // loog myname + '.getPackiPluginProductionByUsername_Name', parts[1], parts.slice(2).join('/')
     async (request: Request, response: Response) => {
     
         const queryParams = {};
         const parts = request.path.split('/');
-        pluginApi.getPluginProductionObject(parts[2], parts.slice(3).join('/')).then(
-        // loog myname + '.getPackiPluginProductionByUsername_Name.result', result
-        (result: any) => {
+        pluginApi.getPluginProductionObject(parts[2], parts.slice(3).join('/')).then((result: any) => {
         
-            const user = (request.session as any).user;
             const loggedUser = {
-                id: user._id, 
-                username: user.username, 
-                displayName: user.name, 
-                picture: user.avatar_url
+                id: 'local_' + config.userUserName, 
+                username: config.userUserName, 
+                displayName: config.userDisplayName, 
+                picture: config.userAvatarUrl
              };
             renderPackiEditor(request, response, {
                 type: 'success', 
@@ -267,24 +240,17 @@ export class PackiEditingController implements ControllerType {
     
     private getPackiTFolderByUsername_Name = 
     // TODO
-    
-    // loog myname + '.getPackiTFolderByUsername_Name', request.path
-    
-    // loog myname + '.getPackiTFolderByUsername_Name', parts[1], parts.slice(2).join('/')
     async (request: Request, response: Response) => {
     
         const queryParams = {};
         const parts = request.path.split('/');
-        tFolderApi.getTFolderObject(parts[2], parts.slice(3).join('/')).then(
-        // loog myname + '.getPackiTFolderByUsername_Name.result', result
-        (result: any) => {
+        tFolderApi.getTFolderObject(parts[2], parts.slice(3).join('/')).then((result: any) => {
         
-            const user = (request.session as any).user;
             const loggedUser = {
-                id: user._id, 
-                username: user.username, 
-                displayName: user.name, 
-                picture: user.avatar_url
+                id: 'local_' + config.userUserName, 
+                username: config.userUserName, 
+                displayName: config.userDisplayName, 
+                picture: config.userAvatarUrl
              };
             renderPackiEditor(request, response, {
                 type: 'success', 

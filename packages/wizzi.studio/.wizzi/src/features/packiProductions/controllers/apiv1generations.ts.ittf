@@ -168,7 +168,7 @@ module
                         =>
                             param packageProductionSet
                                 :any
-                            _ wizziProds.transformModel
+                            _ wizziProds.loadAndTransformModel
                                 @ id
                                 @ packageProductionSet.packiFiles
                                 @ packageProductionSet.context

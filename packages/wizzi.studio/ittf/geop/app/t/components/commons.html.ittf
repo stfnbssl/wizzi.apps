@@ -1,0 +1,53 @@
+$group
+
+    function DetailBar
+        param props
+        var {title, id, showFullBar, onClick} = props
+        return
+            div 
+                @ className "bar"
+                {
+                    &&
+                        + showFullBar
+                        div
+                            @ className "bar-arrow-left"
+                            @ onClick {onClick}
+                            img
+                                @ src {'${wzCtx.assetsURL}/img/arrow-left.png'}
+                                @ className "bar-arrow-left-img"
+                {
+                    &&
+                        + showFullBar
+                        div
+                            @ className "bar-title"
+                            + {title}
+                div id: {id}
+                    @ className "bar-id"
+                div 
+                    @ className "li-clear"
+
+    function extractTitle
+        param item
+        var {id, name, title, date} = item
+        set title = (title || name)
+        set title = title && title.text ? title.text : name
+        if date
+            if date.start
+                if date.end
+                    set title = title + ' (' + date.start + ' - ' + date.end + ')'
+                else
+                    set title = title + ' (' + date.start + ')'
+            else
+                set title = title + ' (' + date + ')'
+        return title
+
+    function extractPersonTitle
+        param item
+        var title = extractTitle(item)
+        if item.kind == 'king'
+            set title = 'King ' + title
+        elif item.kind == 'pretender'
+            set title = 'Pretender ' + title
+        elif item.kind == 'minister'
+            set title = 'Minister ' + title
+        return title        

@@ -1,0 +1,14 @@
+$group
+
+    namespace freud
+
+        concept eccitazione
+            title Eccitazione
+                de Reis
+            
+            r-concept freud.principio-di-costanza
+                + l'organismo deve scaricare ogni eccitazione
+                    \b in ottemperanza al principio di costanza
+        
+            concept esterna
+                title Eccitazione esterna

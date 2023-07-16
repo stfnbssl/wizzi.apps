@@ -1,0 +1,110 @@
+$group
+
+    react AllianceList
+
+        list-functions(Alliance, Alliances)
+
+        => handleAllianceOpen
+            param ev
+            param selectedItem
+            # log 'handleAllianceOpen.id', selectedItem.id
+            # log 'handleAllianceOpen.ev', ev
+            _ this.setState
+                =>
+                    param prevState
+                    # log 'handleAllianceOpen'
+                    _ prevState.forms.push
+                        @ prevState.current
+                    var current
+                        {
+                            @ ...prevState.current
+                            @ status 'alliance'
+                            @ selectedItem selectedItem
+                            @ depth prevState.forms.length
+                            @ title (selectedItem.title && selectedItem.title.text) || selectedItem.id
+                            @ justRenderedItem true
+                    _ this.props.onChangeCurrent(current, this.handleAllianceClose, this.handleChangeSearch)
+                    # log 'onChangeCurrent called'
+                    return
+                        {
+                            @ ...prevState
+                            @ current current
+
+        render
+            prop classes
+            prop jsonData
+            prop selectedState
+
+            const 
+                { 
+                    @ status
+                    @ selectedItem
+                    @ searchText
+                = this.state.current
+            # log 'AllianceList.render', status, selectedItem
+
+            return
+                div
+                    < Paper
+                        @ style {{maxHeight: '90%', maxWidth:800, padding:10, overflow: 'auto'}}
+                        {
+                            &&
+                                + status == 'list'
+                                div
+                                    {
+                                        _ jsonData.alliances.sort(compareByDate).map
+                                            =>
+                                                param item
+                                                param ndx
+                                                if dbFilterIdAndTitleState(item, searchText, selectedState)
+                                                    return
+                                                        < AllianceListItem
+                                                            @ key {ndx}
+                                                            @ item {item}
+                                                            @ classes {classes}
+                                                            @ onClick {this.handleAllianceOpen}
+
+                        {
+                            &&
+                                + status == 'alliance'
+                                div
+                                    < Alliance
+                                        @ item {selectedItem}
+                                        @ jsonData {jsonData}
+    
+    function AllianceListItem
+        param props
+        const {item, onClick, classes} = props
+        const {id} = item
+        const title = extractTitle(item)
+        # log 'AllianceListItem', title, id, item
+        return
+            div
+                @ onClick
+                    =>
+                        param event
+                        _ onClick(event, item)
+                
+                div 
+                    + {title}
+                    @ className "li-c-title"
+                div 
+                    + id: {id}
+                    @ className "li-c-id"
+                div
+                    @ className "li-clear"
+
+    function Alliance
+        param props
+        var {item, jsonData} = props
+        return
+            div 
+                div
+                    div
+                        @ className "li-clear"
+                {
+                    &&
+                        + item.wiki
+                        < WikiPanel
+                            @ item {item.wiki}
+                            @ jsonData {jsonData}                   

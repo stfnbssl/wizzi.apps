@@ -9,13 +9,13 @@ html
         // var ca = 'm-s color-header font-x font-w-s';
         var ca = 'm-s font-x font-w-s';
 
-    html/layouts/site( &opt )
+    layouts/site( &opt )
     
         . flex-row space-between m-t-xxl width-full
             id stickyNavbar
             . flex-row justify-center m-0-auto
-                html/a( TODOS, /ittf/site/project/todo.html.ittf, ${ca}
-                html/a( Issues, /ittf/site/project/issues.html.ittf, ${ca}
+                a( TODOS, /ittf/site/project/todo.html.ittf, ${ca}
+                a( Issues, /ittf/site/project/issues.html.ittf, ${ca}
 
         . container-70 
             . flex-column space-between $$ bg-color-header color-header
@@ -31,16 +31,27 @@ html
                     p A wizzi macro expression should work even if there are spaces between graphs and expression ${'$'}{ '()' }
                     p Delete UTC time from generation headings, they produce false changes to commit.
                     
-                    h1 Mongo Productions repository
+                    h1 wizzi-js
+                    p in lib\artifacts\js\module\gen\codegen\statements\objects.js.ittf when a statement node inside an object '{' is
+                        \b an empty line "+   " it causes a comma ", " to be written, the same as it were a property. 
+                    p A comment node is counted as a statement when emitting arrow expressions, 
+                        \b causing errors in empty expressions.
+                    
+                    h1 wizzi-core
+                    p json-model: errors lines in fragments are reported of mixer instead of mixed
+
+                    h1 wizzi-tools
+                    p wizzify-ts: 'export type' is not recognized, emits simply 'export' instead of 'export-type'
+
+                    h1 Mongo productions repository
                     p The global context artifact 'wzctx' should be optional 
-                    p Before returning a production fron MongoDB always check its integrity
+                    p Before returning a production from MongoDB always check its integrity
                     
                     h1 Packi editor
                     p The editor must show production name and kind (artifact|package|meta|tFolder).
                     p Make a decent splitter work between edit content and result pane.
                     p Result pane icons should be inside the pane. And should be decent.
                     p The 'saved' message should be: 'Not modified', or 'Not yet saved' or 'Saved x seconds|minutes|hours ago'.
-                    p SavedPacki and PackiOptions are the same
                     p pageforms: debounce checkname 1 second
                     p pageforms: reset checkname error color when valid
                     p checkname maybe unnecessary in apiv1* controllers

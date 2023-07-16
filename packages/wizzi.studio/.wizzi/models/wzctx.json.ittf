@@ -1,16 +1,16 @@
 {
     $include v08/env/vars
     
-    name "wizzi.plugin.wizzi.studio"
+    name "wizzi.studio"
     version "0.0.1"
-    description "wizzi.plugin.wizzi.studio"
+    description "Wizzi studio express backend"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     
     { App
-        name "Wizzi Hub"
-        title "The public Wizzi Web App"
+        name "wizzi.studio"
+        title ""
         isLocal true
         isProduction false
         port "5100"
@@ -66,22 +66,31 @@
                 fileName "wizzi-meta"
                 hasControllers true
                 useMongoDb false
+            {
+                name "wizziCdn"
+                fileName "wizzi-cdn"
+                hasControllers true
+                useMongoDb true
+            {
+                name "philos"
+                hasControllers true
+            {
+                name "geop"
+                hasControllers true
         [ examples
+        useWizziFs true
+        { wizziFs
         $include code.json
         
         $include tsExpress.json
         
-        $include tsExpressData.json
+        $include tsExpressFeatureAuth.json
         
         $include tsExpressFeatureConfig.json
         
         $include tsExpressFeatureWizzi.json
         
         $include tsExpressFeaturePacki.json
-        
-        $include tsExpressStyles.json
-        
-        $include tsExpressTests.json
         
         $include tsExpressUtils.json
         
@@ -91,3 +100,15 @@
         
         $include tsdbmongodb.json
         
+        usePackiBrowse true
+        { packiBrowse
+        useWizziCdn true
+        { wizziCdn
+        { utils
+            useAxios true
+            useStringifySafe true
+            useParseUrl true
+            useQueryString true
+            useNanoId true
+            useNodeCache true
+            useDiffMatchPatch true

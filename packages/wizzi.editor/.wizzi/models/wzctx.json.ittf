@@ -1,4 +1,10 @@
 {
+    $$ ATTENTION
+    $$ generate with:  wizzi local || wizzi studio || wizzi
+    $$ remember to execute: $env:NODE_OPTIONS="--openssl-legacy-provider"
+    $$   before: npm run build:client
+    $$ 
+
     name "wizzi.editor"
     version "0.0.1"
     description "wizzi.editor"

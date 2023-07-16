@@ -1,0 +1,44 @@
+module
+    $
+        var ctrl = {
+            name: 'ApiV1Philos',
+            path: '/api/v1/philos',
+        }
+    v08/ts/controller(&ctrl)
+        $append imports
+            import
+                @ getPhilosList
+                @ getPhilosItem
+                from '../api/philos'
+            +
+            const myname = 'features/philos/controllers/apiv1philos'
+        _ this.router.get('/', this.getPhilosList)
+        _ this.router.get('/:name', this.getPhilosItem)
+        $append handlers
+            v08/ts/handler(getPhilosList)
+                _ getPhilosList
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            if result && result.data && result.data.items
+                                _ sendSuccess
+                                    @ response
+                                    @ result.data.items
+                            else
+                                _ sendSuccess
+                                    @ response
+                                    [
+                    v08/ts/catch_fail( ApiV1Philos.getPhilosList )
+            
+            v08/ts/handler(getPhilosItem)
+                _ getPhilosItem
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail( ApiV1Philos.getPhilosItem )

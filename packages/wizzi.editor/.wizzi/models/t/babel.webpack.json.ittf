@@ -44,6 +44,7 @@ $group
         useCodeSplitting true
         $$ outputPath "C:/My/wizzi/stfnbssl/wizzi/packages/wizzi.proto/express/packi/static/webpack/packi"
         $if wzConfigIsStudio
+            $$ outputPath "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/public/packi"
             outputPath "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/public/packi"
         $else
             outputPath "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi-heroku/public/packi"

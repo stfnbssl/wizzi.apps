@@ -1,0 +1,44 @@
+module
+    $
+        var ctrl = {
+            name: 'ApiV1Geop',
+            path: '/api/v1/geop',
+        }
+    v08/ts/controller(&ctrl)
+        $append imports
+            import
+                @ getGeopList
+                @ getGeopItem
+                from '../api/geop'
+            +
+            const myname = 'features/geop/controllers/apiv1geop'
+        _ this.router.get('/', this.getGeopList)
+        _ this.router.get('/:name', this.getGeopItem)
+        $append handlers
+            v08/ts/handler(getGeopList)
+                _ getGeopList
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            if result && result.data && result.data.items
+                                _ sendSuccess
+                                    @ response
+                                    @ result.data.items
+                            else
+                                _ sendSuccess
+                                    @ response
+                                    [
+                    v08/ts/catch_fail( ApiV1Geop.getGeopList )
+            
+            v08/ts/handler(getGeopItem)
+                _ getGeopItem
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail( ApiV1Geop.getGeopItem )

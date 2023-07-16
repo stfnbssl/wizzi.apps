@@ -30,7 +30,6 @@ module
                 const req_files
                     :ref PackiFiles
                     = request.body
-                # loog myname, 'mTree.received files', Object.keys(req_files)
                 _ artifactApi.prepareGenerationFromWizziJson
                     @ req_files
                     ._ then
@@ -45,7 +44,6 @@ module
                                     =>
                                         param value
                                             :any
-                                        # loog myname, 'mTree.result', value
                                         _ sendSuccess
                                             @ response
                                             {
@@ -56,7 +54,6 @@ module
                 const req_files
                     :ref PackiFiles
                     = request.body
-                # loog myname, 'mTreeBuildupScript.received files', Object.keys(req_files)
                 _ artifactApi.prepareGenerationFromWizziJson
                     @ req_files
                     ._ then
@@ -70,7 +67,6 @@ module
                                 ._ then
                                     =>
                                         param value
-                                        # loog myname, 'mTreeBuildupScript.result', value
                                         _ sendSuccess
                                             @ response
                                             {
@@ -81,7 +77,6 @@ module
                 const req_files
                     :ref PackiFiles
                     = request.body
-                # loog myname, 'generateArtifact.received files', Object.keys(req_files)
                 _ artifactApi.prepareGenerationFromWizziJson
                     @ req_files
                     ._ then
@@ -95,7 +90,6 @@ module
                                 ._ then
                                     =>
                                         param value
-                                        # loog myname, 'generateArtifact.result', value
                                         _ sendSuccess
                                             @ response
                                             {
@@ -108,14 +102,13 @@ module
                 const req_files
                     :ref PackiFiles
                     = request.body
-                # loog myname, 'transformModel.received files', Object.keys(req_files)
                 _ artifactApi.prepareGenerationFromWizziJson
                     @ req_files
                     ._ then
                         =>
                             param result
                                 :any
-                            _ wizziProds.transformModel
+                            _ wizziProds.loadAndTransformModel
                                 @ id
                                 @ result.packiFiles
                                 @ result.context
@@ -124,7 +117,6 @@ module
                                 ._ then
                                     =>
                                         param value
-                                        # loog 'generateArtifact.result', value
                                         _ sendSuccess
                                             @ response
                                             {
@@ -134,7 +126,6 @@ module
                 const req_files
                     :ref PackiFiles
                     = request.body
-                # loog 'ProductionsController.executeJob.received files', Object.keys(req_files)
                 _ artifactApi.prepareGenerationFromWizziJson
                     @ req_files
                     ._ then
@@ -150,7 +141,6 @@ module
                                         const files
                                             await
                                                 _ WizziFactory.extractGeneratedFiles(fsJson)
-                                        # loog 'features.packi.controllers.production.executeJob.generatedArtifacts', Object.keys(files)
                                         _ sendSuccess
                                             @ response
                                             {
@@ -161,12 +151,10 @@ module
                 const files
                     :ref PackiFiles
                     = request.body
-                # loog 'wizzify.received files', Object.keys(files)
                 _ wizziProds.wizzify(files).then
                     async=>
                         param ittfResult
                             :ref PackiFiles
-                        # loog 'features.packi.controllers.production.wizzify.ittfResult', ittfResult
                         _ sendSuccess
                             @ response
                             {
@@ -174,5 +162,4 @@ module
                     ._ catch
                         =>
                             param err
-                            # loog 'features.packi.controllers.production.wizzify.err', err
                             _ sendFailure(response, err, 501)

@@ -1,0 +1,30 @@
+$group
+    useExpress true
+    { express
+        useSslCert false
+        useErrors false
+        useStaticFiles true
+        { staticFiles
+            basePath "__dirname, '..', '..'"
+        useSessionStore false
+        useExpressValidator true
+    useSession true
+    { session
+        name "ts.express.starter"
+        secret "${stfnbssl_env.sessionSecret}"
+    noCache true
+    useSocketIO false
+    { socketIO
+    useCookie true
+    { cookie
+    useLogger false
+    { logger
+        useMorgan false
+        { morgan
+    useCompression false
+    { compression
+        level 6
+    useHelmet false
+    { helmet
+    usePromiseMiddleware true
+    { promiseMiddleware

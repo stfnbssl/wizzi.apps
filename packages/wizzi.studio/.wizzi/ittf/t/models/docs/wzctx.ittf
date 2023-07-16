@@ -30,7 +30,7 @@ $group
                     },
                     {
                         title: "Cheatsheets",
-                        url: "/wizzi/docs/cheatsheet/html"
+                        url: "/docs/cheatsheet/html"
                     },
                     {
                         title: "Play",

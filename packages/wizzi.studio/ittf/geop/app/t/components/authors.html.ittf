@@ -1,0 +1,148 @@
+$group
+
+    react AuthorList
+        
+        list-functions(Author, Autori)
+
+        => handleAuthorOpen
+            param ev
+            param selectedItem
+            # log 'handleAuthorOpen.id', selectedItem.id
+            # log 'handleAuthorOpen.ev', ev
+            _ this.setState
+                =>
+                    param prevState
+                    log 'handleAuthorOpen'
+                    _ prevState.forms.push
+                        @ prevState.current
+                    var current
+                        {
+                            @ ...prevState.current
+                            @ status 'author'
+                            @ selectedItem selectedItem
+                            @ depth prevState.forms.length
+                            @ title (selectedItem.title && selectedItem.title.text) || selectedItem.id
+                            @ justRenderedItem true
+                    _ this.props.onChangeCurrent(current, this.handleAuthorClose, this.handleChangeSearch)
+                    log 'onChangeCurrent called'
+                    return
+                        {
+                            @ ...prevState
+                            @ current current
+
+
+        render
+            prop classes
+            prop jsonData
+            prop selectedState
+
+            const 
+                { 
+                    @ status
+                    @ selectedItem
+                    @ searchText
+                = this.state.current
+
+            return
+                div
+                    < Paper
+                        @ style {{maxHeight: '90%', maxWidth:800, padding:10, overflow: 'auto'}}
+                        {
+                            &&
+                                + status == 'list'
+                                div
+                                    {
+                                        _ jsonData.authors.sort(compareById).map
+                                            =>
+                                                param item
+                                                param ndx
+                                                if dbFilterIdAndTitle(item, searchText)
+                                                    return
+                                                        < AuthorListItem
+                                                            @ key {ndx}
+                                                            @ item {item}
+                                                            @ classes {classes}
+                                                            @ onClick {this.handleAuthorOpen}
+
+                        {
+                            &&
+                                + status == 'author'
+                                div
+                                    < Author
+                                        @ item {selectedItem}
+                                        @ jsonData {jsonData}
+    
+    function AuthorListItem
+        param props
+        var {item, onClick, classes} = props
+        var {id, name, title} = item
+        set title = (title || name)
+        return
+            div
+                @ onClick
+                    =>
+                        param event
+                        _ onClick(event, item)
+                div
+                    @ className "a-img-box-list"
+                    img
+                        @ src {item.avatar}
+                        @ className "a-img-list"
+                div
+                    @ className "li-title"
+                    span {item.fullname}
+                div
+                    @ className "li-id"
+                    div id: {item.id}
+                div 
+                    @ className "li-clear"
+
+    function Author
+        param props
+        var {item} = props
+        return
+            div 
+                div
+                    div
+                        @ className "a-d-img"
+                        img
+                            @ src {item.avatar}
+                            @ height {160}
+                            @ width {140}
+                    div
+                        @ className "a-d-born"
+                        {
+                            iif item.born
+                                then
+                                    div
+                                        div
+                                            @ className "li-clear"
+                                        div Nascita
+                                            @ className "a-d-born-label"
+                                        div
+                                            @ className "a-d-born-text"
+                                            span {item.born.date}
+                                            span ,&nbsp;
+                                            span {item.born.place}
+                                else
+                                    + null
+                        {
+                            iif item.died
+                                then
+                                    div
+                                        div
+                                            @ className "li-clear"
+                                        div Morte
+                                            @ className "a-d-born-label"
+                                        div
+                                            @ className "a-d-born-text"
+                                            span {item.died.date}
+                                            span ,&nbsp;
+                                            span {item.died.place}
+                                else
+                                    + null
+                    div
+                        @ className "li-clear"
+                < ContentText
+                    @ item {item}
+        

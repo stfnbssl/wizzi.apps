@@ -1,0 +1,434 @@
+$group
+
+    namespace states.great_britain
+
+        jus-system diritto privilegiato
+            + prodotto del Rinascimento dell'epoca Tudor
+        
+        jus-system diritto comune
+            alias common law
+            + sopravvivenza del medio evo
+
+        jus-act-type royal_charter_of_rights
+
+        act magna_carta_libertatum_1215
+            title Magna Carta Libertatum
+            date 1215/6/15
+            wiki https://en.wikipedia.org/wiki/Magna_Carta
+                + Magna Carta Libertatum, commonly called Magna Carta, is a royal charter of rights agreed to by King John of England 
+                    \b at Runnymede, near Windsor, on 15 June 1215.
+                    \b First drafted by Archbishop of Canterbury, Cardinal Stephen Langton, 
+                    \b to make peace between the unpopular king and a group of rebel barons, 
+                    \b it promised the protection of church rights, protection for the barons from illegal imprisonment, 
+                    \b access to swift justice, and limitations on feudal payments to the Crown, 
+                    \b to be implemented through a council of 25 barons. 
+                    \b Neither side stood behind their commitments, and the charter was annulled by Pope Innocent III, leading to the First Barons' War.
+                + After John's death, the regency government of his young son, Henry III, reissued the document in 1216, 
+                    \b stripped of some of its more radical content, in an unsuccessful bid to build political support for their cause. 
+                    \b At the end of the war in 1217, it formed part of the peace treaty agreed at Lambeth, 
+                    \b where the document acquired the name "Magna Carta", 
+                    \b to distinguish it from the smaller Charter of the Forest which was issued at the same time. 
+                    \b Short of funds, Henry reissued the charter again in 1225 in exchange for a grant of new taxes. 
+                    \b His son, Edward I, repeated the exercise in 1297, this time confirming it as part of England's statute law. 
+                    \b The charter became part of English political life and was typically renewed by each monarch in turn, 
+                    \b although as time went by and the fledgling Parliament of England passed new laws, it lost some of its practical significance.
+                + At the end of the 16th century, there was an upsurge in interest in Magna Carta. 
+                    \b Lawyers and historians at the time believed that there was an ancient English constitution, 
+                    \b going back to the days of the Anglo-Saxons, that protected individual English freedoms. 
+                    \b They argued that the Norman invasion of 1066 had overthrown these rights, 
+                    \b and that Magna Carta had been a popular attempt to restore them, 
+                    \b making the charter an essential foundation for the contemporary powers of Parliament and legal principles such as habeas corpus. 
+                    \b Although this historical account was badly flawed, 
+                    \b jurists such as Sir Edward Coke used Magna Carta extensively in the early 17th century, 
+                    \b arguing against the divine right of kings. 
+                    \b Both James I and his son Charles I attempted to suppress the discussion of Magna Carta. 
+                    \b The political myth of Magna Carta and its protection of ancient personal liberties persisted after the Glorious Revolution of 1688 
+                    \b until well into the 19th century. 
+                    \b It influenced the early American colonists in the Thirteen Colonies and the formation of the United States Constitution, 
+                    \b which became the supreme law of the land in the new republic of the United States.
+                    \b Research by Victorian historians showed that the original 1215 charter had concerned 
+                    \b the medieval relationship between the monarch and the barons, rather than the rights of ordinary people, 
+                    \b but the charter remained a powerful, iconic document, even after almost all of its content was repealed from the statute books in the 19th and 20th centuries. 
+                    \b Three clauses (1, 9, and 29) remain in force in England and Wales.
+                + Magna Carta still forms an important symbol of liberty today, often cited by politicians and campaigners, 
+                    \b and is held in great respect by the British and American legal communities, 
+                    \b Lord Denning describing it as "the greatest constitutional document of all times —
+                    \b the foundation of the freedom of the individual against the arbitrary authority of the despot".
+                    \b In the 21st century, four exemplifications of the original 1215 charter remain in existence, 
+                    \b two at the British Library, one at Lincoln Castle and one at Salisbury Cathedral. 
+                    \b There are also a handful of the subsequent charters in public and private ownership, 
+                    \b including copies of the 1297 charter in both the United States and Australia. 
+                    \b Although scholars refer to the 63 numbered "clauses" of Magna Carta, this is a modern system of numbering, 
+                    \b introduced by Sir William Blackstone in 1759; the original charter formed a single, long unbroken text. 
+                    \b The four original 1215 charters were displayed together at the British Library for one day, 3 February 2015, 
+                    \b to mark the 800th anniversary of Magna Carta.            
+
+        act primo_statuto_di_abrogazione
+            title Primo statuto di abrogazione
+                en First Statute of Repeal
+            date 1553
+            wiki https://en.wikipedia.org/wiki/First_Statute_of_Repeal
+                + following the death of her half brother, Edward VI, and deposing his choice of successor, Lady Jane Grey, 
+                    \b Mary I of England seized the throne, 
+                    \b and soon after repealed the religious legislation of her brother and father, Henry VIII, 
+                    \b through the First Statute of Repeal(1 Mary, st. 2, c. 2). 
+                    \b Was an Act of the Parliament of England (1 Mary, st. 2, c. 2), 
+                    \b passed in the first Parliament of Mary I's reign, 
+                    \b that nullified all religious legislation passed under the previous monarch, the boy-king Edward VI, 
+                    \b and the de facto rulers of that time, Edward Seymour, 1st Duke of Somerset, and 
+                    \b John Dudley, 1st Duke of Northumberland.
+                    \b Restoring England, Wales and Ireland to the Roman Catholic communion. 
+                    \b An English inquisition was established to identify exile, convert, or punish non conforming Catholics, 
+                    \b with over 300 Protestant dissenters branded heretics, and killed, 
+                    \b and many more exiled in her 5 year reign. 
+                    \b A List of Protestant martyrs of the English Reformation was published soon after her death.
+
+        act atto_di_uniformità_1558
+            title Atto di uniformità del 1558
+                en Act of Uniformity 1558
+            date 1558
+            wiki https://en.wikipedia.org/wiki/Act_of_Uniformity_1558
+                + The Act of Uniformity 1558 (1 Eliz 1 c 2) was an act of the Parliament of England, 
+                    \b passed in 1559 to regularise prayer, divine worship and the administration of the sacraments in the English church.
+
+        act petition_of_right_1628
+            title Petition of Right
+            date 1628/6/7
+            wiki https://en.wikipedia.org/wiki/Petition_of_Right
+                + The Petition of Right, passed on 7 June 1628, is an English constitutional document 
+                    \b setting out specific individual protections against the state, 
+                    \b reportedly of equal value to Magna Carta and the Bill of Rights 1689.
+                    \b It was part of a wider conflict between Parliament and the Stuart monarchy that led to the 1638 to 1651 Wars of the Three Kingdoms, 
+                    \b ultimately resolved in the 1688 Glorious Revolution.
+                + Following a series of disputes with Parliament over granting taxes, in 1627 Charles I imposed "forced loans", 
+                    \b and imprisoned those who refused to pay, without trial. 
+                    \b This was followed in 1628 by the use of martial law, forcing private citizens to feed, clothe and accommodate soldiers and sailors, 
+                    \b which implied the king could deprive any individual of property, or freedom, without justification. 
+                    \b It united opposition at all levels of society, particularly those elements the monarchy depended on for financial support, 
+                    \b collecting taxes, administering justice etc, since wealth simply increased vulnerability.
+                + A Commons committee prepared four "Resolutions", declaring each of these illegal, 
+                    \b while re-affirming Magna Carta and habeas corpus. 
+                    \b Charles previously depended on the House of Lords for support against the Commons, 
+                    \b but their willingness to work together forced him to accept the Petition. 
+                    \b It marked a new stage in the constitutional crisis, since it became clear many in both Houses 
+                    \b did not trust him, or his ministers, to interpret the law.
+                + The Petition remains in force in the United Kingdom, and parts of the Commonwealth. 
+                    \b It reportedly influenced elements of the Massachusetts Body of Liberties, and 
+                    \b the Third, Fifth, Sixth and Seventh amendments to the Constitution of the United States.
+
+        act penal-laws
+            title Penal laws
+            date 
+                start 1661
+                end 1665
+            wiki https://en.wikipedia.org/wiki/Penal_law_(British)
+                + In English history, the penal laws were a series of laws that sought 
+                    \b to uphold the establishment of the Church of England against Catholicism and Protestant nonconformists 
+                    \b by imposing various forfeitures, civil penalties, and civil disabilities upon these dissenters. 
+                    \b The penal laws in general were repealed in the early 19th century during the process of Catholic Emancipation. 
+                    \b Penal actions are civil in nature and were not English common law.        
+
+        act codice_clarendon
+            title Codice di Clarendon
+                en Clarendon Code
+            date 
+                start 1661
+                end 1665
+            wiki https://it.wikipedia.org/wiki/Codice_di_Clarendon
+                + Dicesi Codice di Clarendon (Clarendon Code) una serie di quattro documenti legislativi del Parlamento inglese 
+                    \b dal 1661 al 1665, che prendono nome dal Lord Cancelliere Edward Hyde conte di Clarendon. 
+                    \b Esso intendeva proteggere la chiesa nazionale inglese da tendenze eversive che, 
+                    \b secondo i proponenti, ne avrebbero pregiudicato la funzione ed il buon ordine, 
+                    \b contenendo il dissenso soprattutto dopo la drammatica esperienza della guerra civile.
+
+            act corporation_act_1661
+                title Corporation Act 
+                date 1661
+                wiki https://it.wikipedia.org/wiki/Corporation_Act
+                    + Esige da tutti gli ufficiali municipali di accostarsi all'eucaristia anglicana e 
+                        \b respingere formalmente il Patto e Lega solenne (Solemn League and Covenant) del 1643. 
+                        \b L'effetto di quest'atto è quello di escludere tutti i non conformisti dagli uffici pubblici. 
+                        \b Unito con il "Test Act", il "Corporation Act" esclude tutti i non conformisti dall'avere cariche civili o militari e 
+                        \b dal ricevere riconoscimenti universitari dalle università di Oxford e Cambridge. 
+                        \b Questa legislazione è stata abolita nel 1828.
+            
+            act atto_di_uniformità_1662
+                title Atto di uniformità 
+                date 1662
+                wiki https://it.wikipedia.org/wiki/Atto_di_uniformit%C3%A0_del_1662
+                    + Rende obbligatorio l'uso del Book of Common Prayer nel culto pubblico. 
+                        \b Circa 1700 ecclesiastici rifiutano di conformarsi a quest'atto e 
+                        \b sono forzati a dare le dimissioni e perdere i loro mezzi di sussistenza.
+                
+            act atto_sulle_conventicole_1664
+                title Atto sulle conventicole
+                date 1664
+                wiki https://it.wikipedia.org/wiki/Atto_sulle_conventicole
+                    + Proibisce le conventicole (riunioni non autorizzate di culto) per più di 5 persone 
+                        \b che non siano membri di una stessa economia domestica. 
+                        \b Lo scopo è quello di prevenire i gruppi religiosi dissenzienti dal riunirsi.
+
+            act atto_delle_cinque_miglia_1665
+                title Atto delle cinque miglia
+                date 1665
+                wiki https://it.wikipedia.org/wiki/Atto_delle_cinque_miglia
+                    + Destinato ad impedire ai ministri di culto non conformisti dall'allontanarsi oltre le cinque miglia 
+                        \b della propria residenza e quindi condurre culti religiosi altrove. 
+                        \b A loro è pure impedito di insegnare nelle scuole. Quest'atto è stato abolito nel 1812.        
+            
+        act test_act_1673
+            title Test Act
+            date 1673
+            + escludeva i cattolici romani da ogni carica al servizio della corona
+            + metteva in luce che Giacomo, Duca di York, erede al trono, era cattolico
+
+        act habeas_corpus_act_1679
+            title Habeas Corpus Act
+            date 1679
+            wiki https://en.wikipedia.org/wiki/Habeas_Corpus_Act_1679
+                + The Habeas Corpus Act 1679 is an Act of Parliament in England (31 Cha. 2 c. 2) during the reign of King Charles II.
+                    \b It was passed by what became known as the Habeas Corpus Parliament 
+                    \b to define and strengthen the ancient prerogative writ of habeas corpus, 
+                    \b which required a court to examine the lawfulness of a prisoner's detention and 
+                    \b thus prevent unlawful or arbitrary imprisonment.
+
+        act dichiarazione_di_indulgenza_1687
+            title Dichiarazione per la libertà di coscienza
+                alias Dichiarazione di indulgenza del 1687
+                en Declaration for the Liberty of Conscience
+            date 1687/4/4
+
+        act atto_di_tolleranza_1689
+            title Atto di tolleranza
+            date 1689
+            wiki https://it.wikipedia.org/wiki/Atto_di_Tolleranza_del_1689
+        
+        act bill_of_rights_1689
+            title Bill of Rights
+            date 1689/12/16
+            wiki https://en.wikipedia.org/wiki/Bill_of_Rights_1689
+                + The Bill of Rights 1689, also known as the Bill of Rights 1688, is a landmark Act in the constitutional law of England that 
+                    \b sets out certain basic civil rights and clarifies who would be next to inherit the Crown. 
+                    \b It received the Royal Assent on 16 December 1689 and is a restatement in statutory form of the Declaration of Right 
+                    \b presented by the Convention Parliament to William III and Mary II in February 1689, 
+                    \b inviting them to become joint sovereigns of England. 
+                    \b The Bill of Rights lays down limits on the powers of the monarch and sets out the rights of Parliament, 
+                    \b including the requirement for regular parliaments, free elections, and freedom of speech in Parliament.
+                    \b It sets out certain rights of individuals including the prohibition of cruel and unusual punishment and 
+                    \b confirmed that "Protestants may have arms for their defence suitable to their conditions and as allowed by law". 
+                    \b It also includes no right of taxation without Parliament's agreement. 
+                    \b Furthermore, the Bill of Rights described and condemned several misdeeds of James II of England.
+                + These ideas reflected those of the political philosopher John Locke and they quickly became popular in England.
+                    \b It also sets out – or, in the view of its drafters, restates – certain constitutional requirements of the Crown 
+                    \b to seek the consent of the people, as represented in Parliament.
+                + In the United Kingdom, the Bill of Rights is further accompanied by Magna Carta, the Petition of Right, 
+                    \b the Habeas Corpus Act 1679 and the Parliament Acts 1911 and 1949 as some of the basic documents of 
+                    \b the uncodified British constitution. 
+                    \b A separate but similar document, the Claim of Right Act 1689, applies in Scotland. 
+                    \b The Bill of Rights 1689 was one of the models for the United States Bill of Rights of 1789, 
+                    \b the United Nations Declaration of Human Rights of 1948 and the European Convention on Human Rights of 1950.
+                + Along with the Act of Settlement 1701, the Bill of Rights is still in effect in all Commonwealth realms. 
+                    \b Following the Perth Agreement in 2011, legislation amending both of them came into effect across the Commonwealth realms on 26 March 2015.
+        
+        act act_of_settlement_1701
+            title Act of Settlement
+            date 1701
+            wiki https://en.wikipedia.org/wiki/Act_of_Settlement_1701
+                + The Act of Settlement is an Act of the Parliament of England that was passed in 1701 to settle 
+                    \b the succession to the English and Irish crowns on Protestants only. 
+                    \b This had the effect of deposing the descendants of Charles I (other than his Protestant granddaughter Princess (later Queen) Anne) 
+                    \b as the next Protestant in line to the throne was the Electress Sophia of Hanover, a granddaughter of James VI and I. 
+                    \b After her, the crowns would descend only to her non-Catholic heirs.
+                + The Act of Supremacy 1558 had confirmed the Church of England's independence from Roman Catholicism under the English monarch. 
+                    \b One of the principal factors causing the political crisis known as the Glorious Revolution of 1688 was 
+                    \b the perceived assaults made on the Church of England by King James II, a Roman Catholic. 
+                    \b James was deposed in favour of his Protestant elder daughter Mary II and her husband William III. 
+                    \b The need for the Act of Settlement was prompted by the failure of William and Mary, 
+                    \b as well as that of Mary's Protestant sister – the future Queen Anne – to produce any surviving children, 
+                    \b and by the perceived threat posed by the pretensions to the throne by remaining Roman Catholic members of the House of Stuart. 
+                    \b The line founded by Sophia of Hanover was the most junior surviving one amongst the descendants of King James I,
+                    \b but consisted of convinced Protestants willing to uphold the Church of England. 
+                    \b As Sophia died on 8 June 1714, less than two months before the death of Queen Anne on 1 August 1714, 
+                    \b it was Sophia's son who duly succeeded to the throne, as King George I, and started the Hanoverian dynasty in Britain.
+                + The act played a key role in the formation of the Kingdom of Great Britain. 
+                    \b England and Scotland had shared a monarch since 1603, but had remained separately governed countries. 
+                    \b The Scottish parliament was more reluctant than the English to abandon the House of Stuart, 
+                    \b members of which had been Scottish monarchs long before they became English ones.
+                + Under the Act of Settlement anyone who became a Roman Catholic, or who married one, became disqualified to inherit the throne. 
+                    \b The act also placed limits on both the role of foreigners in the British government and 
+                    \b the power of the monarch with respect to the Parliament of England. 
+                    \b Some of those provisions have been altered by subsequent legislation.
+                + Along with the Bill of Rights 1689, the Act of Settlement remains today 
+                    \b one of the main constitutional laws governing the succession not only to the throne of the United Kingdom, 
+                    \b but to those of the other Commonwealth realms, whether by assumption or by patriation.
+                    \b The Act of Settlement cannot be altered in any realm except by that realm's own parliament and, 
+                    \b by convention, only with the consent of all the other realms, as it touches on the succession to the shared crown.
+                + Following the Perth Agreement in 2011, legislation amending the act came into effect across the Commonwealth realms on 26 March 2015, 
+                    \b and removed the disqualification arising from marriage to a Roman Catholic. 
+                    \b Other provisions of the amended act remain in effect.        
+
+        act corn_law_1815
+            title An Act to amend the Laws now in force for regulating the Importation of Corn
+                alias Corn Law
+            date 1815/3/23
+            wiki https://en.wikipedia.org/wiki/Corn_Laws
+                + The Corn Laws were tariffs and other trade restrictions on imported food and corn 
+                    \b enforced in the United Kingdom between 1815 and 1846. 
+                    \b The word corn in British English denotes all cereal grains, including wheat, oats and barley. 
+                    \b They were designed to keep corn prices high to favour domestic producers, and represented British mercantilism.
+                    \b The Corn Laws blocked the import of cheap corn, initially by simply forbidding importation below a set price, 
+                    \b and later by imposing steep import duties, making it too expensive to import it from abroad, 
+                    \b even when food supplies were short.
+                + The Corn Laws enhanced the profits and political power associated with land ownership. 
+                    \b The laws raised food prices and the costs of living for the British public, 
+                    \b and hampered the growth of other British economic sectors, such as manufacturing, 
+                    \b by reducing the disposable income of the British public.
+                + The laws became the focus of opposition from urban groups who had far less political power than rural areas. 
+                    \b The first two years of the Great Famine in Ireland of 1845 - 1852 forced a resolution 
+                    \b because of the urgent need for new food supplies. 
+                    \b The Prime Minister, Sir Robert Peel, a Conservative, achieved repeal with the support of the Whigs in Parliament, 
+                    \b overcoming the opposition of most of his own party.
+                + Economic historians see the repeal of the Corn Laws as a decisive shift toward free trade in Britain.
+                    \b The repeal of the Corn Laws benefitted the bottom 90% of income earners in the United Kingdom economically, 
+                    \b while causing income losses for the top 10% of income earners.
+                    \b The House of Commons passed the corn law bill on March 10, 1815, 
+                    \b the House of Lords on March 20th and the bill received Royal assent on March 23, 1815.
+
+        act roman_catholic_relief_act_1829
+            title Roman Catholic Relief Act 1829
+            date 1829
+            wiki https://en.wikipedia.org/wiki/Roman_Catholic_Relief_Act_1829
+                + The Catholic Relief Act 1829, also known as the Catholic Emancipation Act 1829, 
+                    \b was passed by the Parliament of the United Kingdom in 1829. 
+                    \b It was the culmination of the process of Catholic emancipation throughout the United Kingdom of Great Britain and Ireland.
+                    \b In Ireland, it repealed the Test Act 1672 and the remaining Penal Laws which had been in force 
+                    \b since the passing of the Disenfranchising Act of the Irish Parliament of 1728. 
+                    \b Its passage followed a vigorous campaign led by Irish lawyer Daniel O'Connell that threatened insurrection. 
+                    \b The British prime minister, the Duke of Wellington, and the home secretary, Robert Peel, although initially opposed, 
+                    \b accepted the need for it to avoid civil strife.
+                    \b The act permitted members of the Catholic Church to sit in the parliament at Westminster. 
+                    \b O'Connell had won a seat in a by-election for Clare in 1828 against an Anglican. 
+                    \b Under the extant penal law, O'Connell, as a Catholic, was forbidden to take his seat in Parliament.
+                    \b Peel, the Home Secretary, until then had been called "Orange Peel" because he always supported the Orange (anti-Catholic) position. 
+                    \b Peel now concluded: "though emancipation was a great danger, civil strife was a greater danger."[2] 
+                    \b Fearing a revolution in Ireland, Peel drew up the Catholic Relief Bill and guided it through the House of Commons.
+                    \b To overcome the vehement opposition of both the House of Lords and King George IV, 
+                    \b the Duke of Wellington worked tirelessly to ensure passage in the House of Lords, 
+                    \b and threatened to resign as prime minister if the king did not give royal assent.[3]        
+        
+        act reform_act_1832
+            title The Representation of the People Act
+                alias 1832 Reform Act
+                alias Great Reform Act 
+                alias First Reform Act
+            date 1832
+            wiki https://en.wikipedia.org/wiki/Reform_Act_1832    
+                + The Representation of the People Act 1832 (also known as the 1832 Reform Act, Great Reform Act or First Reform Act) 
+                    \b was an Act of Parliament of the United Kingdom (indexed as 2 & 3 Will. IV c. 45) that introduced major changes to the electoral system of England and Wales. 
+                    \b It abolished tiny districts, gave representation to cities, gave the vote to small landowners, tenant farmers, shopkeepers, 
+                    \b householders who paid a yearly rental of £10 or more, and some lodgers. 
+                    \b Only qualifying men were able to vote; the Act introduced the first explicit statutory bar to women voting, by defining a voter as a male person.        
+
+        act factory_act_1833
+            title Factory Acts
+            date 1833
+            wiki https://en.wikipedia.org/wiki/Factory_Acts
+                + The Factory Acts were a series of acts passed by the Parliament of the United Kingdom to regulate the conditions of industrial employment.
+                + The early Acts concentrated on regulating the hours of work and moral welfare of young children employed in cotton mills 
+                    \b but were effectively unenforced until the Act of 1833 established a professional Factory Inspectorate. 
+                    \b The regulation of working hours was then extended to women by an Act of 1844. 
+                    \b The Factories Act 1847 (known as the Ten Hour Act), together with Acts in 1850 and 1853 remedying defects in the 1847 Act, 
+                    \b met a long-standing (and by 1847 well-organised) demand by the millworkers for a ten-hour day. 
+                    \b The Factory Acts also sought to ameliorate the conditions under which mill-children worked 
+                    \b with requirements on ventilation, sanitation, and guarding of machinery.
+                + Introduction of the ten-hour day proved to have none of the dire consequences predicted by its opponents, 
+                    \b and its apparent success effectively ended theoretical objections to the principle of factory legislation; 
+                    \b from the 1860s onwards more industries were brought within the Factory Act.
+
+        act municipal_corporations_act_1835
+            title Municipal Corporations Act
+            date 1835
+            wiki https://en.wikipedia.org/wiki/Municipal_Corporations_Act_1835
+                + The Municipal Corporations Act 1835 (5 & 6 Will 4 c 76), sometimes known as the Municipal Reform Act, 
+                    \b was an Act of the Parliament of the United Kingdom that reformed local government in the incorporated boroughs of England and Wales. 
+                    \b The legislation was part of the reform programme of the Whigs and followed the Reform Act 1832, 
+                    \b which had abolished most of the rotten boroughs for parliamentary purposes.
+
+        act bank_charter_act_1844
+            title Bank Charter Act 1844
+                alias Peel Banking Act of 1844
+            date 1844
+            repealed Currency and Bank Notes Act 1928, Currency and Bank Notes Act 1939, Banking Act 2009
+            status current_legislation
+            wiki https://en.wikipedia.org/wiki/Bank_Charter_Act_1844
+                + The Bank Charter Act 1844 was an Act of the Parliament of the United Kingdom, passed under the government of Robert Peel, 
+                    \b which restricted the powers of British banks and gave exclusive note-issuing powers to the central Bank of England. 
+                    \b It is one of the Bank of England Acts 1694 to 1892.
+        
+        act corn_laws_repeal_act_1846
+            title Corn laws repeal
+            date 1846
+            wiki https://en.wikipedia.org/wiki/Corn_Laws#Repeal
+                + In 1845 and 1846, the first two years of Great Famine in Ireland, there was a disastrous fall in food supplies. 
+                    \b Prime Minister Peel called for repeal despite the opposition of most of his Conservative Party. 
+                    \b The Anti-Corn Law League played a minor role in the passage of legislation — it had paved the way through its agitation but was now on the sidelines.
+                    \b On 27 January 1846, Peel gave his government's plan. 
+                    \b He said that the Corn Laws would be abolished on 1 February 1849 after three years of gradual reductions of the tariff, 
+                    \b leaving only a 1 shilling duty per quarter. 
+                    \b Benjamin Disraeli and Lord George Bentinck emerged as the most forceful opponents of repeal in Parliamentary debates, 
+                    \b arguing that repeal would weaken landowners socially and politically and therefore destroy the "territorial constitution" of Britain 
+                    \b by empowering commercial interests.
+                + On the third reading of Peel's Bill of Repeal (Importation Act 1846) on 15 May, Members of Parliament (MPs) voted 327 votes to 229 (a majority of 98) to repeal the Corn Laws. 
+                    \b On 25 June the Duke of Wellington persuaded the House of Lords to pass it. 
+                    \b On that same night Peel's Irish Coercion Bill was defeated in the Commons by 292 to 219 by "a combination of Whigs, Radicals, and Tory protectionists." 
+                    \b The latter defeat forced Peel to resign as Prime Minister. 
+                    \b In his resignation speech he attributed the success of repeal to Cobden.
+
+        act ballot_act_1872
+            title Ballot Act
+            date 1872
+            wiki https://en.wikipedia.org/wiki/Ballot_Act_1872      
+                + The Ballot Act 1872 was an Act of the Parliament of the United Kingdom that 
+                    \b introduced the requirement for parliamentary and local government elections in the United Kingdom to be held by secret ballot.
+
+        act corrupt_and_illegal_practices_prevention_act_1883
+            title The Corrupt and Illegal Practices Prevention Act 
+            date 1883
+            wiki https://en.wikipedia.org/wiki/Corrupt_and_Illegal_Practices_Prevention_Act_1883            
+                + The Corrupt and Illegal Practices Prevention Act 1883 (46 & 47 Vict c. 51) was an Act of the Parliament of the United Kingdom of Great Britain and Ireland.
+                    \b It was a continuation of policy to make voters free from the intimidation of landowners and politicians.
+                    \b It criminalised attempts to bribe voters and standardised the amount that could be spent on election expenses.
+
+        act parliament_act_1911
+            title Parliament Act
+            date 1911
+            wiki https://en.wikipedia.org/wiki/Parliament_Act_1911
+                + The Parliament Act 1911 (1 & 2 Geo. 5 c. 13) is an Act of the Parliament of the United Kingdom. 
+                    \b It is constitutionally important and partly governs the relationship between the House of Commons and the House of Lords, 
+                    \b the two Houses of Parliament. 
+                    \b The Parliament Act 1949 provides that the Parliament Act 1911 and the Parliament Act 1949 
+                    \b are to be construed together "as one" in their effects and that the two Acts may be cited together as the Parliament Acts 1911 and 1949.
+                + Following the House of Lords' rejection of the 1909 "People's Budget", 
+                    \b the House of Commons sought to establish its formal dominance over the House of Lords, 
+                    \b which had broken convention in opposing the bill. 
+                    \b The budget was eventually passed by the Lords, 
+                    \b after the Commons' democratic mandate was confirmed by holding a general election in January 1910. 
+                    \b The following Parliament Act, which looked to prevent a recurrence of the budget problems, 
+                    \b was also widely opposed in the House of Lords, and cross-party discussion failed, 
+                    \b particularly because of the proposed Act's applicability to the passage of an Irish Home Rule Bill. 
+                    \b Following a second general election in December, the Act was passed with the assent of the monarch, George V, 
+                    \b after the House of Lords conceded due to the Government's threat that the then Conservative majority in the Lords could be overcome.
+                + The Act effectively removed the right of the House of Lords to veto money bills completely, 
+                    \b and replaced its right of veto over other public bills with the ability to delay them for a maximum of two years (the Parliament Act 1949 reduced this to one). 
+                    \b It also reduced the maximum term of a parliament from seven years (as set by the Septennial Act 1716) to five.
+
+        act parliament_act_1949
+            title Parliament Act
+            date 1949
+            wiki https://en.wikipedia.org/wiki/Parliament_Act_1949
+            + The Parliament Act 1949 (12, 13 & 14 Geo. 6 c. 103) is an Act of the Parliament of the United Kingdom. 
+                \b It reduced the power of the House of Lords to delay certain types of legislation – specifically public bills other than money bills – 
+                \b by amending the Parliament Act 1911.
+            + This Act is interpreted as one with the Parliament Act 1911. 
+                \b This Act, and that Act, may be cited together as the "Parliament Acts 1911 and 1949".
+                

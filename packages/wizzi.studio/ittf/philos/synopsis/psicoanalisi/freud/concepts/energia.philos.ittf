@@ -1,0 +1,13 @@
+$group
+
+    namespace freud
+
+        concept energia
+            title Energia mentale
+
+            concept legata
+                title Energia legata
+
+            concept mobile
+                title Energia mobile
+                alias Energia libera

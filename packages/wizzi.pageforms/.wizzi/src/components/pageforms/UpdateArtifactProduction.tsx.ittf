@@ -14,10 +14,13 @@ module
                 { name: "ap_name_new", type: "string" },
                 { name: "ap_description", type: "string" },
                 { name: "ap_add_context", type: "boolean" },
+                { name: "ap_mainIttf", type: "string" },
+                { name: "ap_wizziSchema", type: "string" },
                 { name: "ap_contexts", type: "[" },
                 { name: "ap_add_tfolder", type: "boolean" },
                 { name: "ap_dependencies", type: "[" },
                 { name: "ap_name_new_available", type: "boolean" },
+                { name: "ap_name_new_checked", type: "boolean" },
             ]
         }
 
@@ -75,7 +78,7 @@ module
                     @ ap_owner owner
                     @ ap_name_old name
                     @ ap_name_new name
-                    @ mp_name_new_available true
+                    @ ap_name_new_available true
                     @ ap_description description
                     @ ap_mainIttf mainIttf
                     @ ap_wizziSchema wizziSchema

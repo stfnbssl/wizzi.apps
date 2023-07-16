@@ -1,0 +1,6 @@
+$group
+
+    namespace freud.progetto
+
+        concept quantità-di-stimolo
+            title Quantità di stimolo

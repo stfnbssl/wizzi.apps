@@ -1,0 +1,21 @@
+$group
+
+    area Ior
+        title India ocean region
+        article
+            url https://www.geopoliticalmonitor.com/japans-indian-ocean-dilemma/
+
+    area Gwadar
+        type Porto
+        + Approdo sull'Oceano Indiano in prossimità del Golfo Arabico per la Cina
+    
+    area Malacca
+        type Stretto
+
+    area Prima catena di isole
+        country Giappone
+        country Filippine
+        country Taiwan
+        country Malaysia
+        country Indonesia
+        country Singapore

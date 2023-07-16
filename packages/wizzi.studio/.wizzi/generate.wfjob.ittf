@@ -1,4 +1,4 @@
-wfjob wizzi.plugin.wizzi.studio/job
+wfjob wizzi.studio/job
     
     $
         var jobCtx = {
@@ -99,7 +99,8 @@ wfjob wizzi.plugin.wizzi.studio/job
         dest-folder ${jobCtx.dest_folder}
         line-ref ittf-models
         line-ref ittf-root
-        line-ref ittf-public
+        $if false
+            line-ref ittf-public
         line-ref ittf-src
         line-ref ittf-src-images
         line-ref ittf-src-models

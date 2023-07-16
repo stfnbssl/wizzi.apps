@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\wizzi\types.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import * as wizzi from '@wizzi/factory';
 import {JsonFs} from '@wizzi/repo';
@@ -15,9 +15,15 @@ export type JsonWizziFactory = {
     wf: wizzi.WizziFactory;
     jsonFs: JsonFs;
 };
+export type LoadModelOptions = { 
+    pluginsBaseFolder?: string;
+    plugins?: string[];
+};
 export type GenerationOptions = { 
     generator?: string;
     artifactContext?: any;
+    pluginsBaseFolder?: string;
+    plugins?: string[];
 };
 export type GeneratedArtifact = { 
     artifactContent: string;
@@ -25,7 +31,9 @@ export type GeneratedArtifact = {
     artifactGenerator: string;
 };
 export type TransformationOptions = { 
-    transformer: string;
+    transformer?: string;
+    pluginsBaseFolder?: string;
+    plugins?: string[];
 };
 export type TransformedModel = { 
     transformResult: any;

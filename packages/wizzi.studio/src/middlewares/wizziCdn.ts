@@ -1,21 +1,21 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\middlewares\wizziCdn.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\middlewares\wizziCdn.ts.ittf
+    utc time: Sun, 16 Jul 2023 13:34:45 GMT
 */
 import util from 'util';
 import path from 'path';
 import stringify from 'json-stringify-safe';
 import parseUrl from 'parseurl';
 import {Application, RequestHandler, Request, Response} from 'express';
-import {resourceApi} from '../features/cdn';
+import {resourceApi} from '../features/wizziCdn';
 import {MiddlewareType} from '../features/app/types';
 import {config} from '../features/config';
 import {sendFailure, sendHtml} from '../utils/sendResponse';
 
 const myname = 'express.middleware.wizziCdn';
-const cdnPath = '/cdn/v1';
+const cdnPath = '/wizzicdn/v1';
 
 export const WizziCdnMiddleware: MiddlewareType = (app: Application) => 
 
@@ -32,25 +32,34 @@ function cdnMiddleware():  RequestHandler {
             if (!parsedUrl || !parsedUrl.pathname) {
                 return next();
             }
+            console.log(myname + '.parsedUrl', parsedUrl, __filename);
             const pathname = decodeURIComponent(parsedUrl.pathname);
             const parts = pathname.split('/');
             let owner, cdnName;
             owner = parts[1];
             cdnName = parts.slice(2).join('/');
+            console.log(myname + '.owner', owner, 'cdnName', cdnName, __filename);
             
-            _renderCdn(owner, cdnName, request, response)
+            _renderCdn(owner, cdnName, request, response, next)
         }
     ;
 }
-function _renderCdn(owner: string, cdnName: string, request: Request, response: Response) {
+function _renderCdn(owner: string, cdnName: string, request: Request, response: Response, next: Function) {
 
     
-    resourceApi.getCdnResource(owner, cdnName).then((contents: string) => {
+    resourceApi.getWizziCdnResource(owner, cdnName).then((result: any) => {
     
-        response.status(200);
-        response.set('Content-Type', getContentType(cmdName));
-        response.set('Content-Length', contents);
-        response.send(contents);
+        if (result.ok) {
+            const item = result.item;
+            console.log(myname + '.getCdnResource.contents.length:', item.contents.length, __filename);
+            response.status(200);
+            response.set('Content-Type', getContentType(cdnName));
+            response.set('Content-Length', item.contents.length);
+            response.send(item.contents);
+        }
+        else {
+            next();
+        }
     }
     ).catch((err: any) => {
     

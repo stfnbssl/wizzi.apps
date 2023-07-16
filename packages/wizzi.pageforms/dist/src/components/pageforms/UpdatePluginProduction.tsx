@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdatePluginProduction.tsx.ittf
 */
 import React, {Component} from 'react';
@@ -135,7 +135,7 @@ export class UpdatePluginProduction extends Component<UpdatePluginProductionProp
     };
     handleCancel = (ev: React.MouseEvent<HTMLElement>) => {
         ev.preventDefault();
-        window.location.href = "/productions/plugins";
+        window.location.href = "/packi/productions/plugins";
     };
     componentDidMount() {
         console.log('UpdatePluginProduction.componentDidMount.props', this.props, __filename);
@@ -154,7 +154,7 @@ export class UpdatePluginProduction extends Component<UpdatePluginProductionProp
             pl_owner: owner, 
             pl_name_old: name, 
             pl_name_new: name, 
-            mp_name_new_available: true, 
+            pl_name_new_available: true, 
             pl_description: description, 
             pl_add_context: pl_contexts.length > 0, 
             pl_contexts, 

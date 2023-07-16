@@ -1,0 +1,39 @@
+$group
+
+    institution consiglio_regio
+
+    institution parlamento
+        wiki https://www.treccani.it/enciclopedia/parlamento-inglese_%28Dizionario-di-Storia%29/
+
+    intitution camera_dei_lords 
+        title Camera dei Lords
+        + Ereditaria
+        + 126 Lords
+        + Ne fanno parte di diritto solo i Pari d’Inghilterra (duchi, marchesi, conti, visconti, baroni), 
+            \b gli alti magistrati e i Vescovi anglicani.
+        + I Lords assenti alle riunioni possono delegare ad altri.
+        + Si rinnova solo per trasmissione ereditaria del titolo di padre in figlio.
+
+    institution contea
+        + governata da Giudici di pace, con l'obbligo di ottemperare 
+            \b alle leggi del Consiglio regio e del parlamento
+    
+    institution giudice_di_pace
+
+    institution commonwealth_puritano
+        title Commonwealth puritano
+
+    institution camera_stellata
+        title Camera stellata
+            en Star chamber
+        wiki https://it.wikipedia.org/wiki/Star_Chamber
+
+    institution alta_commissione_ecclesiastica
+        title Alta commissione ecclesiastica
+
+    institution gabinetto_primo_ministro
+        title Gabinetto
+        
+    institution circoscrizione_elettorale
+        title Circoscrizione elettorale
+            en nomination burough

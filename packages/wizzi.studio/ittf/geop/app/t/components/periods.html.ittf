@@ -1,0 +1,110 @@
+$group
+
+    react PeriodList
+
+        list-functions(Period, Periods)
+
+        => handlePeriodOpen
+            param ev
+            param selectedItem
+            # log 'handlePeriodOpen.id', selectedItem.id
+            # log 'handlePeriodOpen.ev', ev
+            _ this.setState
+                =>
+                    param prevState
+                    # log 'handlePeriodOpen'
+                    _ prevState.forms.push
+                        @ prevState.current
+                    var current
+                        {
+                            @ ...prevState.current
+                            @ status 'period'
+                            @ selectedItem selectedItem
+                            @ depth prevState.forms.length
+                            @ title (selectedItem.title && selectedItem.title.text) || selectedItem.id
+                            @ justRenderedItem true
+                    _ this.props.onChangeCurrent(current, this.handlePeriodClose, this.handleChangeSearch)
+                    # log 'onChangeCurrent called'
+                    return
+                        {
+                            @ ...prevState
+                            @ current current
+
+        render
+            prop classes
+            prop jsonData
+            prop selectedState
+
+            const 
+                { 
+                    @ status
+                    @ selectedItem
+                    @ searchText
+                = this.state.current
+            # log 'PeriodList.render', status, selectedItem
+
+            return
+                div
+                    < Paper
+                        @ style {{maxHeight: '90%', maxWidth:800, padding:10, overflow: 'auto'}}
+                        {
+                            &&
+                                + status == 'list'
+                                div
+                                    {
+                                        _ jsonData.periods.sort(compareByDate).map
+                                            =>
+                                                param item
+                                                param ndx
+                                                if dbFilterIdAndTitleState(item, searchText, selectedState)
+                                                    return
+                                                        < PeriodListItem
+                                                            @ key {ndx}
+                                                            @ item {item}
+                                                            @ classes {classes}
+                                                            @ onClick {this.handlePeriodOpen}
+
+                        {
+                            &&
+                                + status == 'period'
+                                div
+                                    < Period
+                                        @ item {selectedItem}
+                                        @ jsonData {jsonData}
+    
+    function PeriodListItem
+        param props
+        const {item, onClick, classes} = props
+        const {id} = item
+        const title = extractTitle(item)
+        # log 'PeriodListItem', title, id, item
+        return
+            div
+                @ onClick
+                    =>
+                        param event
+                        _ onClick(event, item)
+                
+                div 
+                    + {title}
+                    @ className "li-c-title"
+                div 
+                    + id: {id}
+                    @ className "li-c-id"
+                div
+                    @ className "li-clear"
+
+    function Period
+        param props
+        var {item, jsonData} = props
+        return
+            div 
+                div
+                    div
+                        @ className "li-clear"
+                {
+                    &&
+                        + item.wiki
+                        < WikiPanel
+                            @ item {item.wiki}
+                            @ jsonData {jsonData}                   

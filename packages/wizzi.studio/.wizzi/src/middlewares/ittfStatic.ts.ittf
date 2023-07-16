@@ -371,7 +371,7 @@ module
                 :string
             param response
                 :ref Response
-            _ wizziProds.transformModelFs
+            _ wizziProds.loadAndTransformModelFs
                 @ filePath
                 {
                     @ isWizziStudio true

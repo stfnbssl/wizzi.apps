@@ -1,0 +1,1028 @@
+$group
+
+    namespace states.great_britain
+        
+        event incendio_di_londra
+        event peste_inghilterra
+        event disastro_medway
+
+        event guerra_delle_due_rose
+            title Guerra delle due rose
+            period
+                start 1455/5/22
+                end 1487/6/16
+            wiki
+                + The Wars of the Roses, known at the time and for more than a century after as the Civil Wars, 
+                    \b were a series of civil wars fought over control of the English throne in the mid-to-late fifteenth century, 
+                    \b fought between supporters of two rival cadet branches of the royal House of Plantagenet: Lancaster and York. 
+                    \b The wars extinguished the male lines of the two dynasties, 
+                    \b leading to the Tudor family inheriting the Lancastrian claim. 
+                    \b Following the war, the Houses of Tudor and York were united, creating a new royal dynasty, 
+                    \b thereby resolving the rival claims.
+                + The conflict had its roots in the wake of the Hundred Years' War and its emergent socio-economic troubles, 
+                    \b which weakened the prestige of the English monarchy,
+                    \b unfolding structural problems of bastard feudalism and the powerful duchies created by Edward III,
+                    \b and the mental infirmity and weak rule of Henry VI, 
+                    \b which revived interest in the Yorkist claim to the throne by Richard of York. 
+                    \b Historians disagree over which of these factors were the main catalyst for the wars.
+        
+        event rivolta_dei_papisti_1569
+            title Rivolta dei papisti
+            date 1569
+            + costituì l'occasione per la pubblicazione del documento papale Regnans in excelsis
+            wiki https://it.wikipedia.org/wiki/Rivolta_dei_papisti
+        
+        event scomunica_regina_elisabetta_1570
+            title Scomunica della regina Elisabetta
+            date 1570/2/25
+            + Regnans in excelsis è l'incipit della bolla pontificia, 
+                \b pubblicata il 25 febbraio 1570, con la quale papa Pio V dichiarò 
+                \b la regina d'Inghilterra Elisabetta I eretica e di conseguenza scomunicata e deposta dal suo trono.
+            wiki https://it.wikipedia.org/wiki/Regnans_in_Excelsis
+
+        event congiura_delle_polveri_1605
+            title Congiura delle polveri
+            date 1605
+            + cattolica e antiparlamentare
+
+        event istituzione_titolo_baronetto
+            date 1611
+            + Per risolvere la crisi fiscale dello stato e sostenere le spese della corte, 
+                \b Giacomo I crea il nuovo titolo nobiliare di baronetto e lo mette in vendita per denaro.
+                \b Il titolo è acquistabile versando 1.100 sterline: somma con la quale si può mantenere per tre anni 
+                \b un reparto di fanteria composto da 30 uomini.        
+        
+
+        event prima_spedizione_de_la_rochelle
+            date 1627
+            wiki https://it.wikipedia.org/wiki/Assedio_di_La_Rochelle
+            + Il re Carlo I d'Inghilterra inviò una flotta di 80 navi al comando del proprio favorito, George Villiers, I duca di Buckingham, 
+                \b per incoraggiare una maggiore ribellione a La Rochelle. 
+                \b Nel giugno del 1627 Buckingham organizzò il proprio sbarco pressò l'isola dell'Île de Ré con 6.000 uomini 
+                \b di modo da dare man forte agli ugonotti, 
+                \b fatto che fece difatti iniziare la guerra anglo-francese (1627-1629), 
+                \b con l'obbiettivo di controllare gli approdi al porto di La Rochelle 
+                \b ed incoraggiare come si è detto l'insurrezione popolare contro i cattolici.    
+
+        event convocazione_parlamento_per_finanziare_guerra_30_anni
+            title convocazione del Parlamento per finanziare la guerra dei Trent’anni 
+            date 1628
+            + Carlo I convoca il parlamento affinché approvi le tasse necessarie a 
+                \b finanziare una spedizione in appoggio degli ugonotti assediati a La Rochelle.
+            + Le due Camere riunite concedono i finanziamenti solo sotto condizione: 
+                \b presentano al re la Petizione dei Diritti (Petition of Rights) 
+                \b con la quale chiedono al sovrano di impegnarsi a ottenere l'approvazione del parlamento 
+                \b per l'imposizione di ogni nuova tassa e a far cessare ogni pratica illegale 
+                \b (arresti immotivati, imposizione di prestiti forzosi, alloggiamento forzato di truppe presso i civili, ecc.). 
+            + Carlo I accoglie la Petition of Rights.
+
+        event terza_spedizione_de_la_rochelle
+            date 1628
+
+        event impeachement_duca_di_buckingham
+            title L’impeachement del duca di Buckingham
+            date 1628
+            + l Parlamento mette accusa il sovrano per le spese eccessive e 
+                \b ottiene l’impeachement del duca di Buckingham (sospettato di intrighi con la regina di Francia) 
+        
+        event assassinio_duca_di_buckingham
+            title Assassinio del duca di Buckingham
+            date 1628
+            + il duca viene assassinato da un ufficiale di marina
+
+        event carlo_i_scioglie_il_parlamento
+            title Carlo I scioglie il parlamento
+            date 1629/3
+            + Nel marzo Carlo I scioglie le due camere e 
+                \b dichiara ufficialmente la sua intenzione di governare senza l'ausilio del parlamento (29 marzo). 
+                \b Fa confinare il leader parlamentare John Eliot nella torre di Londra (dove morirà nel 1632). 
+                \b Carlo I governa senza parlamento, 
+                \b affidando al primo ministro, Thomas Wentworth (1593-1641), conte di Strafford, la politica interna e 
+                \b a Willian Laud (1573-1645), arcivescovo di Canterbury, la politica religiosa.
+
+        event carlo_i_impone_a_londra_la_ship_money
+            title Carlo I impone a Londra la ship money
+            date 1634 
+            + Carlo I impone a Londra la ship money, 
+                \b una tassa originariamente pagata solo dalle città costiere per il mantenimento della flotta.
+
+        event carlo_i_impone_a_tutto_il_paese_la_ship_money
+            title Carlo I impone a tutto il paese la ship money
+            date 1635 
+            + La ship money viene estesa a tutto il Paese.
+
+        event rivolta_armata_in_scozia_1638
+            period
+                start 1638
+                end 1639 
+            title Rivolta armata in Scozia (Presbiteriani e Calvinisti contro Anglicani)
+            + Il tentativo dell'arcivescovo di Canterbury di 
+                \b imporre l'English Book of Common Prayer (Libro inglese delle preghiere comuni) in Scozia 
+                \b provoca la ribellione degli Scozzesi e la decisione di muovere guerra al re.
+
+        event hampden_rifiuta_di_pagare_la_ship_money
+            date 1638
+            + John Hampden, ex-deputato della camera dei comuni, 
+                \b viene processato per essersi rifiutato di pagare la ship money; 
+                \b il processo viene seguito e commentato dall'opinione pubblica con grande interesse.
+        
+        event convocazione_del_corto_parlamento
+            date 1640/4
+            + Il 13 aprile Carlo I è costretto a convocare il parlamento (short parliament) 
+                \b per reperire i mezzi finanziari con i quali affrontare la rivolta scozzese; 
+                \b di fronte alla richiesta dei parlamentari di abolire la ship money e 
+                \b di approvare norme che impediscano lo scioglimento arbitrario del parlamento, 
+                \b il re lo chiuse nuovamente (5 maggio).
+
+        event convocazione_del_lungo_parlamento
+            date 1640
+            + Sconfitto dagli Scozzesi a Newburn, 
+                \b Carlo I deve accordare all'armata di Scozia il pagamento di un soldo giornaliero fino alla definitiva soluzione della controversia. 
+                \b A novembre il re è costretto a riconvocare il parlamento (long parliament); 
+                \b il nuovo parlamento, guidato da leader puritani come John Pym (1584-1643) e John Hampden (1594-1643), 
+                \b chiede la convocazione periodica delle camere, 
+                \b l'abolizione degli ordini repressivi della corona (camera stellata, alta commissione, consiglio del nord), e 
+                \b la nomina di una commissione che riformi «nelle radici e nei rami» la Chiesa anglicana (Root and Branch Bill).
+            + Nacquero anche tre partiti, i moderati, gli estremisti e i radicali che 
+                \b rappresentavano i vari ceti sociali. 
+
+        event rivolta_cattolica_irlandese
+            title Scoppia in Irlanda una rivolta dei cattolici contro la colonizzazione inglese
+            date 1641
+
+        event strafford_e_laud_incriminati
+            date 1641
+            + Il parlamento, guidato da Oliver Cromwell (1599-1658), 
+                \b chiede e ottiene che Thomas Wentworth e William Laud vengano sottoposti a processo; 
+                \b il conte di Strafford sarà giustiziato il 12 maggio, 
+                \b l'arcivescovo di Canterbury il 10 gennaio 1645.
+
+        event grande_rimostranza_parlamento
+            title “Grande rimostranza” approvata dal Parlamento
+            date 1641
+            + Il 22 novembre il parlamento approva la Grande Rimostranza (Grand Remonstrance) (159/148 voti), 
+                \b un lungo e articolato documento che elenca tutte le violazioni commesse dai ministri e dal clero e 
+                \b chiede il controllo parlamentare sull'attività dei ministri e sulla Chiesa.
+                \b Ma il re respinge il documento.
+
+        event carlo_i_tenta_arresto_esponenti_opposizione
+            date 1642/1/3
+            + II 3 gennaio Carlo I irrompe con una scorta armata in parlamento 
+                \b con l'intenzione di arrestare gli esponenti dell'opposizione, i quali però non sono in aula. 
+
+        event fuga_di_carlo_i_da_londra
+            title Fuga di Carlo I da Londra
+            date 1642/6
+            + A giugno il re fugge da Londra e si rifugia a Oxford, 
+                \b dove inizia a organizzare un esercito (detto dei cavalieri, perché formato da aristocratici) 
+                \b per marciare sulla capitale. 
+                \b Contemporaneamente il parlamento inizia ad allestire un proprio esercito, 
+                \b detto dei round heads («teste rotonde») per l'uso puritano di portare i capelli corti.                    
+
+        event inizio_guerra_civile
+            title Inizio della guerra civile
+            date 1642/8/2
+            + Carlo I è accusato di tradimento dal Parlamento che si proclama difensore dello Stato e “luogo della sovranità”
+            + Due eserciti di 20.000 uomini ciascuno si affrontano armati.
+
+        event creazione_degli_ironsides
+            title Creazione degli ironsides
+            date 1643
+            + Nella battaglia di Edgehill (23 ottobre) l'esercito dei cavalieri sconfigge quello parlamentare. 
+                \b Il parlamento affida a Oliver Cromwell il compito di formare un corpo di cavalleria 
+                \b in grado di affrontare i cavalieri del re; 
+                \b nasce il corpo degli ironsides («fianchi di ferro»), 
+                \b nucleo del futuro esercito rivoluzionario, 
+                \b il cosiddetto New Model Anny (nuovo modello di esercito).
+
+        event battaglia_di_marston_moor
+            title Battaglia di Marston Moor
+            date 1644/7
+            + Nella battaglia di Marston Moor (2 luglio) gli ironsides sconfiggono la cavalleria del re.
+                \b Prima grande vittoria parlamentare (4000 morti fra i realisti)
+
+        event
+            date 1645/6/15. 
+            + a Naseby il New Model Army ottiene un'importante vittoria sull'esercito di Carlo I.
+
+        event
+            date 1646/5
+            + Carlo I cerca rifugio presso gli Scozzesi, 
+                \b i quali nel gennaio dell'anno dopo lo consegneranno al parlamento inglese.
+
+        event
+            date 1647
+            + Il Parlamento intima a Cromwell di sciogliere l'esercito (maggio); 
+                \b per tutta risposta Cromwell abbandona Londra per ricongiungersi con i suoi uomini. 
+                \b A giugno il New Model Arrny chiede lo scioglimento della camera dei comuni e nuove elezioni. 
+                \b Dal 28 ottobre all’11 novembre i rappresentanti dell'esercito si riuniscono a Putney
+                \b per decidere la linea da seguire; 
+                \b il dibattito è monopolizzato dai levellers («livellatori») 
+                \b che propongono l'Agreement of People (patto del popolo), 
+                \b in cui chiedono una costituzione repubblicana, le elezioni a suffragio universale, 
+                \b libertà religiosa, uguaglianza giuridica dei cittadini, abolizione dei monopoli, 
+                \b Cromwell riesce a non far approvare l’Agreement of People. 
+                \b In novembre Carlo I fugge e si rifugia in Scozia; 
+                \b poco dopo gli Scozzesi riprenderanno le armi contro l'Inghilterra.
+
+        event
+            date 1648/8/17
+            + l'esercito guidato da Oliver Cromwell sconfigge gli Scozzesi a Preston e 
+                \b li costringe a deporre le armi. 
+                \b Carlo I, consegnato agli Inglesi, dimostra maggiore disponibilità a concessioni nelle trattative con il parlamento. 
+                \b Gli esponenti del New Model Arny presentano al parlamento una Rimostranza 
+                \b in cui chiedono che il re sia portato di fronte alla giustizia. 
+                \b Rimasti senza risposta occupano Londra. 
+                \b Il 6 dicembre truppe comandate da Thomas Pride occupano la camera dei comuni e 
+                \b provvedono a epurarla di tutti i deputati «moderati» (è la Pride's purge, la «purga di Pride»).
+
+        event carlo_i_condannato_a_morte
+            title Condanna a morte di Carlo I
+            date 1649/1/30
+            + il «parlamento tronco» (rump parliantent) giudica il re per alto tradimento e lo condanna a morte. 
+
+        event carlo_i_giustiziato
+            title Decapitazione di Carlo I
+            date 1649/2/9
+            + La sentenza, che reca la firma di Oliver Cromwell, verrà eseguita il 9 febbraio. 
+
+        event proclamazione_della_repubblica_del_commonwealth
+            title Fine della monarchia e proclamazione della repubblica ()
+            date 1649/5/19
+            + il parlamento dichiara ufficialmente la fine della monarchia e instaura la repubblica (denominata Commonwealth).
+
+    $*
+    La seconda fase (1649 –1653)
+    • Tutela del diritto di proprietà, libertà religiosa e indipendenza della chiesa dallo stato
+    • Eliminazione di tutte le posizioni estremistiche
+    • Irlanda mano pesante 600.000 irlandesi uccisi le terre dei cattolici distribuiti fra i soldati protestanti
+    inglesi
+    1651 L’Atto di Navigazione
+    1653 Cromwell scioglie il Lungo Parlamento e insedia nuova assemblea eletta dall’esercito.
+    Cromwell è Lord protettore del Commonwealth
+    La terza fase (1653-1658)
+    • Si istaura una vera e propria dittatura militare
+    *$
+
+
+        event prima_guerra_anglo_olandese
+            period
+                start 1652
+                end 1654
+            wiki https://it.wikipedia.org/wiki/Prima_guerra_anglo-olandese
+            context
+                treaty trattato_di_westminster_1654
+
+        event
+            date 1658 
+            + Cromwell muore lasciando l’Inghilterra in una condizione di profonda lacerazione.
+
+        event
+            date 1659 
+            + Il figlio di Cromwell, Richard non riesce a controllare la successione e si dimette
+
+        event
+            date 1659 
+            + riconvocazione del Rump Parliament; il generale Monk marcia su Londra
+        
+        event
+            date 1660/2/21
+            + Monk riporta in servizio i parlamentari allontanati nella Pride's Purge, 
+                \b ed il vecchio Lungo Parlamento poté così nuovamente riunirsi. 
+                \b Esso si sciolse nuovamente il 16 aprile
+
+        event instaurazione_parlamento_della_convenzione
+            date 1660 /4/25
+            + vi furono nuove elezioni ed il 25 aprile si riunì per la prima volta il nuovo Parlamento della Convenzione. 
+
+        event il_parlamento_accetta_la_dichiarazione_di_breda
+            date 1660/5/8 
+            + il Parlamento della Convenzione accetta la Dichiarazione di Breda, 
+                \b inviata al parlamento per tramite dello stesso Monck, 
+                \b nella quale il futuro Carlo II elencava le condizioni che poneva ed 
+                \b accettava per salire al trono inglese, del quale era legittimo pretendente. 
+                \b Carlo II Stuart, figlio di Carlo I, è richiamato dall’esilio nei Paesi Bassi.
+
+        event incoronazione_carlo_ii_stuart
+            date 1661/4/23 
+            + Carlo II Stuart, è incoronato re d'Inghilterra nell'Abbazia di Westminster.
+
+        event
+            date 1662
+            + L’assolutismo di stampo francese di Carlo II, 
+                \b la persecuzione dei puritani e la restaurazione della Chiesa di Stato anglicana (Act of Uniformity, 1662) 
+                \b che comporta l’obbligo per gli ecclesiastici di accettare la dottrina e la liturgia anglicana, 
+                \b portano a nuove tensioni tra la Corona e il Parlamento.
+
+        event
+            date 1664
+            + Atto contro le conventicole, cioè contro le correnti religiose “non conformiste”.
+
+        event
+            period
+                start 1665
+                end 1666
+            + La peste e un terribile incendio devastano Londra.
+
+        event
+            date 1667
+            + Nella pace di Breda con l’Olanda (1667), 
+                \b Nuova Amsterdam passa agli inglesi e diventa New York (scambiata con il Suriname).
+
+        event
+            date 1670
+            + Appoggiato dal “Ministero della Cabala” (1667-73), il re conclude 
+                \b il trattato segreto di Dover con Luigi XIV in funzione anti-olandese.
+
+        event
+            date 1672
+            + Guerra contro l’Olanda. Dichiarazione di tolleranza o d’indulgenza del re (1672) 
+                \b con cui viene data la libertà di culto ai cattolici e ai dissidenti. 
+                \b L’orientamento filo-francese di Carlo II scontenta gli inglesi, 
+                \b perché Luigi XIV è contrario al calvinismo. 
+                \b Carlo II dichiara nuovamente guerra all’Olanda (1672-74) contro il parere del Parlamento.
+
+        event
+            date 1673
+            + Il Parlamento con il Test Act (esclusione dalle cariche pubbliche di tutti i non-anglicani, 
+                \b ovvero imposizione di una professione di fede anticattolica a tutti i funzionari) si oppone al sovrano. 
+                \b Il Parlamento riesce a ottenere la pace con l’Olanda.
+
+        event
+            date 1679-80
+            + Con l’Habeas Corpus Act (protezione contro incarceramenti arbitrari e garanzia della libertà personale), 
+                \b il Parlamento continua a opporsi alla Corona, 
+                \b anche se si formano due partiti: 
+                \b Whigs (borghesi, avversari dei cattolici Stuart) e 
+                \b Tories (conservatori, anglicani e fedeli al re). 
+                \b I Whigs sono in maggioranza. 
+                \b Il fratello ed erede di Carlo II, Giacomo, aderisce al cattolicesimo. 
+                \b Approvazione in Parlamento della “legge di esclusione” (respinta però dal re e dai lord).
+
+        event seconda_guerra_anglo_olandese
+            + venne combattuta tra Inghilterra e Repubblica delle Sette Province Unite dal 4 marzo 1665 al 31 luglio 1667
+            period
+                start 1665
+                end 1667
+            wiki https://it.wikipedia.org/wiki/Seconda_guerra_anglo-olandese
+            context
+                treaty trattato_di_breda_1667
+
+        event
+            date 1668
+            + un esercito olandese porta al trono Guglielmo III
+
+        event
+            date 
+            + Il Bill of rights definisce il nuovo equilibrio costituzionale: il re regna non governa
+
+        event terza_guerra_anglo_olandese
+            period
+                start 1672
+                end 1674
+            wiki https://it.wikipedia.org/wiki/Terza_guerra_anglo-olandese
+            context
+                treaty trattato_di_westminster_1674
+
+        event carlo_ii_abbandona_progetti_cattolico_romani
+            date 1674
+
+        event
+            date 1685
+            + Morte di Carlo II. Al trono succede il cattolico Giacomo di York con il nome di Giacomo II (1685-1688). 
+                \b Si avvia una politica di restaurazione cattolica, 
+                \b che incontra la forte opposizione della Chiesa anglicana e dei Whigs. 
+                \b La figlia di Giacomo II (Maria II Stuart, di religione protestante) va in sposa 
+                \b – in segno di conciliazione – a Guglielmo III di Orange, Statolder d’Olanda, 
+                \b figlio di Guglielmo II di Orange e di Maria Stuart.
+
+        event rivolta_di_monmouth
+            period
+                start 1685/6
+                end 1685/7
+            + sollevazione di puritani contro le persecuzioni di cui erano oggetto
+
+
+        event fuga_di_giacomo_ii_in_francia
+            date 1688/12
+
+        event
+            date 1689
+            + “Rivoluzione Gloriosa” senza spargimento di sangue. 
+                \b La nascita inattesa di un erede al trono, Giacomo III Stuart, 
+                \b fa sorgere per l’Inghilterra la minaccia di una dinastia cattolica stabile. 
+                \b Whigs e Tories chiamano al trono il protestante Guglielmo III d’Orange. 
+                \b Fuga di Giacomo II in Francia.
+
+        event
+            date 1689
+            + Declaration of Rights (approvazione delle tasse, libertà di parola, esercito non permanente) 
+                \b dettata dal Parlamento e poi tradotta in legge nel Bill of rights (“legge dei diritti”), 
+                \b con cui l’Inghilterra diventa una monarchia costituzionale. 
+                \b Si concretizzano le idee di John Locke che nel Saggio sul governo civile (1689) 
+                \b teorizza la separazione del potere legislativo da quello esecutivo 
+                \b a garanzia della libertà personale e della proprietà del cittadino, 
+                \b riaffermando le prerogative del Parlamento. 
+                \b Atto di tolleranza con cui vengono abrogati, ma solo per i protestanti, non per i cattolici, 
+                \b i limiti imposti dal Test Act alla libertà religiosa e all’accesso alle cariche pubbliche.
+
+        event
+            date 1690
+            + Giacomo II tenta, con l’aiuto di Luigi XIV, di riconquistare l’Irlanda (filo-cattolica), 
+                \b ma viene sconfitto a La Boyne.
+
+        event
+            date 1694
+            + Fondazione della Banca d’Inghilterra. 
+                \b La B., che era una privata società per azioni, 
+                \b ebbe dal Parlamento la facoltà di emettere cartamoneta e di svolgere funzioni di tesoreria per lo Stato. 
+                \b Ma divenne soprattutto il canale privilegiato di raccolta della ricchezza privata, 
+                \b consentendo da un lato ai risparmiatori di investire nel debito pubblico 
+                \b ['non più soggetto ad esser ripudiato a capriccio del monarca'] 
+                \b con la garanzia della stabilità e della certezza del credito, 
+                \b dall'altro al governo di trovare i capitali necessari per finanziare le guerre all'estero. 
+                \b Guerre che avranno sempre più, accanto alle ragioni politiche, obiettivi commerciali, e,
+                \b come nemico principale, la Francia.    
+        
+        event
+            date 1694
+            + Prima alleata con l’Olanda (lo sarà sino al 1702) in funzione anti-francese, 
+                \b l’Inghilterra eliminerà progressivamente dal dominio dei mari sia gli olandesi che i francesi, 
+                \b diventando la più importante nazione capitalistica del mondo. 
+                \b Il Triennal Act limita a tre anni la durata della legislatura, 
+                \b prescrive elezioni periodiche, 
+                \b togliendo al re di fatto la facoltà di convocare o non convocare i parlamenti.
+
+        event
+            date 1707
+            + Atto di Unione definitivo tra Scozia e Inghilterra: 
+                \b nasce la Gran Bretagna (Regno Unito di Gran Bretagna e di Irlanda).
+
+        event battle_of_la_hogue
+            quote
+                + The battle of Cape La Hougue, with its consequential actions  ... 
+                    \b broke decisively for the whole of the wars of William and Anne all French pretensions to supremacy at sea. 
+                    \b It was the Trafalgar of the seventeenth century.
+                author churchill_winston
+        
+        event dichiarazione_luigi_xiv_1701
+            + pretendente al trono di Inghilterra è Giacomo III
+            author luigi_xiv_francia
+            date 1701/9
+        
+        war guerra_di_successione_spagnola_1701
+            title Guerra di successione spagnola
+            start 1701
+            end 1714
+            wiki https://it.wikipedia.org/wiki/Guerra_di_successione_spagnola
+
+        event ribellione_giacobita_1715
+            title Ribellione giacobita
+            date 1715
+            wiki https://en.wikipedia.org/wiki/Jacobite_rising_of_1715
+            + was the attempt by James Edward Stuart (the Old Pretender) to regain the thrones of England, Ireland and Scotland for the exiled Stuarts.
+            + At Braemar, Aberdeenshire, local landowner the Earl of Mar raised the Jacobite standard on 27 August. 
+                \b Aiming to capture Stirling Castle, he was checked by the much-outnumbered Hanoverians, 
+                \b commanded by the Duke of Argyll, at Sheriffmuir on 13 November. 
+                \b There was no clear result, but the Earl appeared to believe, mistakenly, that he had won the battle, and left the field. 
+                \b After the Jacobite surrender at Preston (14 November), the rebellion was over.
+
+        event appello_al_papa_di_giacomo_iii
+            date 1715/3/14
+            + James appealed to Pope Clement XI for help with a Jacobite rising: 
+                \b "It is not so much a devoted son, oppressed by the injustices of his enemies, 
+                \b as a persecuted Church threatened with destruction, which appeals for the protection and help of its worthy pontiff".
+                \b On 19 August, Bolingbroke wrote to James that "..things are hastening to that point, that either you, Sir, 
+                \b at the head of the Tories, must save the Church and Constitution of England or 
+                \b both must be irretrievably lost for ever". 
+                \b Believing the great general Marlborough would join him, on 23 August James wrote to the Duke of Berwick, 
+                \b his illegitimate brother and Marlborough's nephew, that; "I think it is now more than ever Now or Never".
+        
+        event battaglia_di_sheriffmuir
+            date 1715/11/14
+            + At Braemar, Aberdeenshire, local landowner the Earl of Mar raised the Jacobite standard on 27 August. 
+                \b Aiming to capture Stirling Castle, he was checked by the much-outnumbered Hanoverians, 
+                \b commanded by the Duke of Argyll, at Sheriffmuir on 13 November. 
+                \b There was no clear result, but the Earl appeared to believe, mistakenly, that he had won the battle, and left the field.    
+        
+        event battaglia_di_preston
+            date 1715/11/14
+            + The English Jacobites joined with a force of Scottish Borderer Jacobites, led by William Gordon, 6th Viscount Kenmure, 
+                \b and this small army received Mackintosh's contingent. 
+                \b They marched into England, where the Government forces caught up with them at the Battle of Preston on 12–14 November. 
+                \b The Jacobites won the first day of the battle, killing large numbers of Government forces, 
+                \b but Government reinforcements arrived the next day and the Jacobites eventually surrendered.    
+        
+        event james_iii_abbandona_la_scozia
+            date 1716/2/4
+            + James wrote a farewell letter to Scotland, sailing from Montrose the following day.
+        
+        event battaglia_di_glenshiel
+            date 1719
+            + despite Spanish support, pretender James III, the Old Pretender, was again defeated in the Battle of Glenshiel. 
+
+        
+        war Guerra di successione polacca (1733-1738)
+            start 1733
+            end 1738
+            wiki https://it.wikipedia.org/wiki/Guerra_di_successione_polacca
+
+        event battaglia_di_culloden
+            date 1745
+            + James's son pretender Charles III, the Young Pretender, attempted to win the throne for his father in 1745, 
+                \b but was defeated at the Battle of Culloden. James died in 1766.
+        
+        war Guerra di successione austriaca (1740-1748)
+            start 1740
+            end 1748
+            + Coinvolse quasi tutte le potenze europee, 
+                \b scoppiò all'ascesa al trono austriaco di Maria Teresa d'Austria, 
+                \b fondamentalmente a causa delle mire espansionistiche di Federico II di Prussia. 
+            wiki https://it.wikipedia.org/wiki/Guerra_di_successione_austriaca
+
+        event guerra_dei_sette_anni
+            period
+                start 1756
+                end 1763
+            + was a global conflict between Great Britain and France for global pre-eminence. 
+                \b Britain, France and Spain fought both in Europe and overseas with land-based armies and naval forces, 
+                \b while Prussia sought territorial expansion in Europe and consolidation of its power. 
+                \b Long-standing colonial rivalries pitting Britain against France and Spain in North America and the Caribbean islands 
+                \b were fought on a grand scale with consequential results. 
+                \b In Europe, the conflict arose from issues left unresolved by the War of the Austrian Succession (1740–1748). 
+                \b Prussia sought greater influence in the German states, while Austria wanted to regain Silesia, 
+                \b captured by Prussia in the previous war, and to contain Prussian influence.
+            + In America era iniziata nel 1754.
+            + L'Inghilterra ottenne una vittoria completa, estromettendo la Francia dal Nordamerica, 
+                \b togliendole basi negriere e relegandola in posizione di secondo piano in India.
+            + La vittoria inglese provocò una crisi del sistema imperiale britannico, 
+                \b la scomparsa della minaccia francese accentuò le spinte autonomistiche
+                \b delle colonie inglesi nel continente nordamericano 
+                \b che sfociarono nella guerra di indipendenza americana.
+
+        event congresso_di_vienna_1815
+            date 1815
+            wiki https://en.wikipedia.org/wiki/Congress_of_Vienna
+            + The Congress of Vienna of 1814–1815 was an international diplomatic conference to reconstitute the European political order 
+                \b after the downfall of the French Emperor Napoleon I. 
+                \b It was a meeting of ambassadors of European states chaired by Austrian statesman Klemens von Metternich, 
+                \b and held in Vienna from September 1814 to June 1815.            
+            + The objective of the Congress was to provide a long-term peace plan for Europe 
+                \b by settling critical issues arising from the French Revolutionary Wars and the Napoleonic Wars. 
+                \b The goal was not simply to restore old boundaries but to resize the main powers so they could balance each other and remain at peace. 
+                \b More fundamentally, the conservative leaders of the Congress sought to restrain or eliminate the republicanism and revolution 
+                \b which had upended the constitutional order of the European old regime, and which continued to threaten it. 
+                \b In the settlement, France lost all its recent conquests, while Prussia, Austria and Russia made major territorial gains. 
+                \b Prussia added smaller German states in the west, Swedish Pomerania, 60% of the Kingdom of Saxony, and the western part of the former Duchy of Warsaw; 
+                \b Austria gained Venice and much of northern Italy. 
+                \b Russia gained the central and eastern part of the Duchy of Warsaw. 
+                \b It ratified the new Kingdom of the Netherlands which had been created just months before 
+                \b from the formerly Austrian territory that in 1830 became Belgium.
+
+        event moti_rivoluzionari_1820
+            date 1820
+            wiki https://en.wikipedia.org/wiki/Revolutions_during_the_1820s
+            + Revolutions during the 1820s included revolutions in Russia (Decembrist revolt), Spain, Portugal, and Italy for constitutional monarchies, 
+                \b and for independence from Ottoman rule in Greece. 
+                \b Unlike the revolutionary wave in the 1830s, these tended to take place in the peripheries of Europe.           
+
+        event rivolta_decabrista
+            date 1825/12/26
+            wiki https://en.wikipedia.org/wiki/Decembrist_revolt
+            + The Decembrist Revolt took place in Russia on 26 December 1825, 
+                \b during the interregnum following the sudden death of Emperor Alexander I.        
+            + Alexander's heir apparent, Constantine, had privately declined the succession, unknown to the court, 
+                \b and his younger brother Nicholas decided to take power as Emperor Nicholas I, pending formal confirmation. 
+                \b While some of the army had sworn loyalty to Nicholas, a force of about 3,000 troops tried to mount a military coup in favour of Constantine. 
+                \b The rebels, although weakened by dissension between their leaders, confronted the loyalists outside the Senate building in the presence of a large crowd. 
+                \b In the confusion, the Emperor's envoy, Mikhail Miloradovich, was assassinated. 
+                \b Eventually, the loyalists opened fire with heavy artillery, which scattered the rebels. 
+                \b Many were sentenced to hanging, prison, or exile to Siberia. 
+                \b The conspirators became known as the Decembrists.
+
+        event occupazione_francese_dell_algeria
+            date 1830
+            wiki https://en.wikipedia.org/wiki/French_conquest_of_Algeria
+            + The French conquest of Algeria took place between 1830 and 1903. 
+                \b In 1827, an argument between Hussein Dey, the ruler of the Deylik of Algiers, and the French consul escalated into a blockade, 
+                \b following which the July Monarchy of France invaded and quickly seized Algiers in 1830, and seized other coastal communities. 
+                \b Amid internal political strife in France, decisions were repeatedly taken to retain control of the territory, 
+                \b and additional military forces were brought in over the following years to quell resistance in the interior of the country.        
+
+        event rivoluzione_di_luglio_francese_1830
+            date 1830
+            wiki https://en.wikipedia.org/wiki/July_Revolution
+            + The French Revolution of 1830, also known as the July Revolution, Second French Revolution or Trois Glorieuses in French, 
+                \b was a second French Revolution after the First, that of 1789. 
+                \b It led to the overthrow of King Charles X, the French Bourbon monarch, and the ascent of his cousin Louis Philippe, Duke of Orléans, 
+                \b who himself, after 18 precarious years on the throne, would be overthrown in 1848. 
+                \b It marked the shift from one constitutional monarchy, under the restored House of Bourbon, to another, the July Monarchy; 
+                \b the transition of power from the House of Bourbon to its cadet branch, the House of Orléans; 
+                \b and the replacement of the principle of hereditary right by that of popular sovereignty. 
+                \b Supporters of the Bourbon would be called Legitimists, and supporters of Louis Philippe Orléanists.
+
+        event rivoluzione_del_belgio
+            date 1830
+            wiki https://en.wikipedia.org/wiki/Belgian_Revolution
+            + The Belgian Revolution was the conflict which led to the secession of the southern provinces (mainly the former Southern Netherlands) 
+                \b from the United Kingdom of the Netherlands and the establishment of an independent Kingdom of Belgium.
+            + The people of the south were mainly Flemings and Walloons. 
+                \b Both peoples were traditionally Roman Catholic as contrasted with Protestant-dominated (Dutch Reformed) people of the north. 
+                \b Many outspoken liberals regarded King William I's rule as despotic. 
+                \b There were high levels of unemployment and industrial unrest among the working classes.
+            + On 25 August 1830, riots erupted in Brussels and shops were looted. 
+                \b Theatregoers who had just watched the nationalistic opera La muette de Portici joined the mob. 
+                \b Uprisings followed elsewhere in the country. Factories were occupied and machinery destroyed. 
+                \b Order was restored briefly after William committed troops to the Southern Provinces 
+                \b but rioting continued and leadership was taken up by radicals, who started talking of secession.
+            + Dutch units saw the mass desertion of recruits from the southern provinces and pulled out. 
+                \b The States-General in Brussels voted in favour of secession and declared independence. 
+                \b In the aftermath, a National Congress was assembled. King William refrained from future military action and appealed to the Great Powers. 
+                \b The resulting 1830 London Conference of major European powers recognized Belgian independence. 
+                \b Following the installation of Leopold I as "King of the Belgians" in 1831, 
+                \b King William made a belated attempt to reconquer Belgium and restore his position through a military campaign. 
+                \b This "Ten Days' Campaign" failed because of French military intervention. 
+                \b The Dutch only accepted the decision of the London conference and Belgian independence in 1839 by signing the Treaty of London.
+        
+        event guerra_russo_polacca_1830
+            date 1830
+            wiki https://en.wikipedia.org/wiki/November_Uprising
+            + The November Uprising (1830–31), also known as the Polish–Russian War 1830–31[3] or the Cadet Revolution, 
+                \b was an armed rebellion in the heartland of partitioned Poland against the Russian Empire. 
+                \b The uprising began on 29 November 1830 in Warsaw when young Polish officers from the military academy of the Army of Congress Poland revolted, 
+                \b led by Lieutenant Piotr Wysocki. 
+                \b Large segments of the peoples of Lithuania, Belarus, and the Right-bank Ukraine soon joined the uprising. 
+                \b Although the insurgents achieved local successes, a numerically superior Imperial Russian Army under Ivan Paskevich eventually crushed the uprising.
+                \b The Russian Emperor Nicholas I decreed that henceforth Russian-occupied Poland would lose its autonomy and become an integral part of the Russian Empire. 
+                \b Warsaw became little more than a military garrison, and its university closed.
+
+        event assemblea_di_uster_1830
+            date 1830
+            wiki https://en.wikipedia.org/wiki/Ustertag
+            + The Ustertag occurred on 22 November 1830, 
+                \b when 10,000 men of the Canton of Zürich gathered on Zimiker hill and demanded a new constitution. 
+                \b Their primary concern was parity between the urban and rural areas. 
+                \b The Ustertag is described as a "revolution" due to its impact, its focus, and its speed of events,
+                \b which caused great change in the Canton of Zurich.
+
+        event moti_rivoluzionari_1848
+            date 1848
+            wiki https://en.wikipedia.org/wiki/Revolutions_of_1848
+            + The Revolutions of 1848, known in some countries as the Springtime of the Peoples or the Springtime of Nations, 
+                \b were a series of political upheavals throughout Europe starting in 1848. 
+                \b It remains the most widespread revolutionary wave in European history to date.
+                \b The revolutions were essentially democratic and liberal in nature, with the aim of removing the old monarchical structures and 
+                \b creating independent nation-states, as envisioned by romantic nationalism. 
+                \b The revolutions spread across Europe after an initial revolution began in France in February. 
+                \b Over 50 countries were affected, but with no significant coordination or cooperation among their respective revolutionaries. 
+                \b Some of the major contributing factors were widespread dissatisfaction with political leadership, 
+                \b demands for more participation in government and democracy, demands for freedom of the press, 
+                \b other demands made by the working class for economic rights, the upsurge of nationalism, 
+                \b the regrouping of established government forces, and the European Potato Failure, 
+                \b which triggered mass starvation, migration, and civil unrest.
+            + The uprisings were led by temporary coalitions of reformers, 
+                \b the middle classes (the bourgeoisie) and workers; however, the coalitions did not hold together for long. 
+                \b Many of the revolutions were quickly suppressed, as tens of thousands of people were killed, and many more were forced into exile. 
+                \b Significant lasting reforms included the abolition of serfdom in Austria and Hungary, 
+                \b the end of absolute monarchy in Denmark, and the introduction of representative democracy in the Netherlands. 
+                \b The revolutions were most important in France, the Netherlands, Italy, the Austrian Empire, 
+                \b and the states of the German Confederation that would make up the German Empire in the late 19th and early 20th centuries.
+
+        event colpo_di_stato_di_luigi_bonaparte
+            date 1851/12/2
+            wiki https://en.wikipedia.org/wiki/1851_French_coup_d%27%C3%A9tat
+            + In Francia colpo di stato di Luigi Bonaparte
+            + The Coup d'état of 2 December 1851 was a self-coup staged by Louis-Napoléon Bonaparte (later Napoleon III), 
+                \b at the time President of France under the Second Republic. 
+                \b Code-named Operation Rubicon and timed to coincide with the anniversary of Napoleon I's coronation and victory at Austerlitz, 
+                \b the coup dissolved the National Assembly, granted dictatorial powers to the president and 
+                \b preceded the establishment of the Second French Empire the next year.
+
+
+        event seconda_guerra_di_indipendenza_italiana
+            period
+                start 1859/4/27
+                end 1859/7/12
+            wiki https://it.wikipedia.org/wiki/Seconda_guerra_d%27indipendenza_italiana
+            + La seconda guerra d'indipendenza italiana è un episodio del Risorgimento. 
+                \b Fu combattuta dalla Francia e dal Regno di Sardegna contro l'Austria dal 27 aprile al 12 luglio 1859.
+            + La guerra ebbe come prologo gli accordi di Plombières del 21 luglio 1858 e l'alleanza sardo-francese del gennaio 1859 
+                \b con i quali il Regno di Sardegna e la Francia prepararono la guerra all'Austria.
+            + Si aprì nell'aprile 1859 con l'attacco dell'Austria al Regno di Sardegna che non aveva accettato di smobilitare l'esercito. 
+                \b Proseguì con una serie di vittorie militari dei sardo-francesi, fra le quali la battaglia di Magenta e quella di Solferino e San Martino. 
+                \b Si concluse con l'armistizio di Villafranca (11-12 luglio 1859) e 
+                \b la sconfitta dell'Austria che fu costretta a cedere alla Francia la Lombardia, girata poi al Regno di Sardegna.
+            + La guerra ebbe come effetto il declino del sistema di ingerenze politiche dell'Austria in Italia stabilito dal congresso di Vienna. 
+                \b Come conseguenze portò all'annessione da parte del Regno di Sardegna, oltre che della Lombardia, 
+                \b anche dei territori (Toscana, Parma, Modena e Romagna pontificia) le cui autorità lasciarono il potere a governi provvisori filopiemontesi. 
+                \b Determinò inoltre la fase più incisiva del Risorgimento (spedizione dei Mille), 
+                \b al termine della quale si ebbe la formazione del Regno d'Italia (1861).
+
+        event proclamazione_del_regno_d_italia
+            date 1861/3/17
+            wiki https://it.wikipedia.org/wiki/Proclamazione_del_Regno_d%27Italia
+            + La proclamazione del Regno d'Italia fu l'atto formale che sancì la nascita della nazione italiana, istituendo il Regno d'Italia. 
+                \b Avvenne con un atto normativo del Regno di Sardegna sabaudo (legge 17 marzo 1861, n. 4671) 
+                \b col quale Vittorio Emanuele II assunse per sé e per i suoi successori il titolo di Re d'Italia. 
+                \b Con la legge 5 maggio 1861, n. 7, fu istituito l'anniversario dell'Unità d'Italia, festa nazionale, 
+                \b con ricorrenza la prima domenica di giugno di ogni anno.
+
+        event guerra_di_secessione_americana
+            period
+                start 1861/4/12
+                end 1865/5/9
+            wiki https://en.wikipedia.org/wiki/American_Civil_War
+            + The American Civil War (April 12, 1861 – May 9, 1865; also known by other names) was a civil war in the United States 
+                \b between the Union (states that remained loyal to the federal union, or "the North") and 
+                \b the Confederacy (states that voted to secede, or "the South"). 
+                \b The central cause of the war was the status of slavery, 
+                \b especially the expansion of slavery into territories acquired as a result of the Louisiana Purchase and the Mexican–American War.
+                \b On the eve of the Civil War in 1860, four million of the 32 million Americans (~13%) were enslaved black people, almost all in the South.
+
+        event fondazione_della_prima_internazionale_dei_lavoratori
+            date 1864
+            + Creazione della prima Internazionale dei lavoratori
+
+        event guerra_austro_prussiana
+            period
+                start 1866/6/14
+                end 1866/7/22 
+            wiki https://en.wikipedia.org/wiki/Austro-Prussian_War
+            + The Austro-Prussian War, Seven Weeks' War, German Civil War, Brothers War or Fraternal War, 
+                \b known in Germany as Deutscher Krieg ("German War"), 
+                \b Deutscher Bruderkrieg ("German war of brothers") and by a variety of other names, 
+                \b was fought in 1866 between the Austrian Empire and the Kingdom of Prussia, 
+                \b with each also being aided by various allies within the German Confederation. 
+                \b Prussia had also allied with the Kingdom of Italy, 
+                \b linking this conflict to the Third Independence War of Italian unification. 
+                \b The Austro-Prussian War was part of the wider rivalry between Austria and Prussia, 
+                \b and resulted in Prussian dominance over the German states.
+            + The major result of the war was a shift in power among the German states 
+                \b away from Austrian and towards Prussian hegemony. 
+                \b It resulted in the abolition of the German Confederation and 
+                \b its partial replacement by the unification of all of the northern German states in the North German Confederation 
+                \b that excluded Austria and the other Southern German states, a Kleindeutsches Reich. 
+                \b The war also resulted in the Italian annexation of the Austrian province of Venetia.
+
+        event guerra_franco_prussiana
+            period
+                start 1870/7/19
+                end 1871/1/28 
+            wiki https://en.wikipedia.org/wiki/Franco-Prussian_War
+            + The Franco-Prussian War or Franco-German War, often referred to in France as the War of 1870, 
+                \b was a conflict between the Second French Empire and the North German Confederation led by the Kingdom of Prussia. 
+                \b The conflict was caused primarily by France's determination to reassert its dominant position in continental Europe, 
+                \b which appeared in question following the decisive Prussian victory over Austria in 1866.
+                \b According to some historians, Prussian chancellor Otto von Bismarck deliberately provoked the French 
+                \b into declaring war on Prussia in order to induce four independent southern German states —
+                \b Baden, Württemberg, Bavaria and Hesse-Darmstadt — to join the North German Confederation; 
+                \b other historians contend that Bismarck exploited the circumstances as they unfolded. 
+                \b All agree that Bismarck recognized the potential for new German alliances, given the situation as a whole.            
+
+        event proclamazione_impero_tedesco
+            date 1871/1/18
+            wiki https://en.wikipedia.org/wiki/Proclamation_of_the_German_Empire
+            + The proclamation of the German Empire, also known as the Deutsche Reichsgründung, took place in January 1871 
+                \b after the joint victory of the German states in the Franco-Prussian War. 
+                \b As a result of the November Treaties of 1870, the southern German states of Baden, Hesse-Darmstadt, 
+                \b with their territories south of the Main line, Württemberg and Bavaria, joined the Prussian-dominated "German Confederation" on 1 January 1871.[
+                \b On the same day, the new Constitution of the German Confederation came into force, 
+                \b thereby significantly extending the federal German lands to the newly created German Empire.
+                \b The Day of the founding of the German Empire, January 18, became a day of celebration, 
+                \b marking when the Prussian King William I was proclaimed German Emperor in Versailles.        
+
+        event comune_di_parigi
+            period
+                start 1871/3/18
+                end 1871/5/28
+            wiki https://en.wikipedia.org/wiki/Paris_Commune
+            + The Paris Commune was a revolutionary government that seized power in Paris, the capital of France, from 18 March to 28 May 1871.
+            + During the Franco-Prussian War of 1870 to 1871, the French National Guard had defended Paris, 
+                \b and working-class radicalism grew among its soldiers. 
+                \b Following the establishment of the Third Republic in September 1870 (under French chief executive Adolphe Thiers from February 1871) and 
+                \b the complete defeat of the French Army by the Germans by March 1871, soldiers of the National Guard seized control of the city on March 18. 
+                \b They killed two French army generals and refused to accept the authority of the Third Republic, 
+                \b instead attempting to establish an independent government.        
+
+        event grande_depressione_economica_mondiale
+            period
+                start 1873
+                end 1896
+            wiki https://en.wikipedia.org/wiki/Long_Depression
+            + Una grande depressione si abbatte (sino al 1896) sull'economia europea, con ribasso dei corsi monetari, 
+                \b rallentamento del ritmo di crescita e generale prima sfiducia nell'immagine di progresso indefinito
+            + The Long Depression was a worldwide price and economic recession, beginning in 1873 and running either through March 1879, or 1896, 
+                \b depending on the metrics used. 
+                \b It was most severe in Europe and the United States, which had been experiencing strong economic growth 
+                \b fueled by the Second Industrial Revolution in the decade following the American Civil War. 
+                \b The episode was labeled the "Great Depression" at the time, and it held that designation until the Great Depression of the 1930s. 
+                \b Though a period of general deflation and a general contraction, it did not have the severe economic retrogression of the Great Depression.
+
+
+        event stipula_triplice_alleanza
+            date 1882/5/20
+            wiki https://en.wikipedia.org/wiki/Triple_Alliance_(1882)
+            + Stipula della Triplice alleanza fra Berlino, Vienna e Roma
+            + The Triple Alliance was a military alliance between Germany, Austria-Hungary, and Italy. 
+                \b It was formed on 20 May 1882 and renewed periodically until it expired in 1915 during World War I. 
+                \b Germany and Austria-Hungary had been closely allied since 1879. 
+                \b Italy was looking for support against France shortly after it lost North African ambitions to the French. 
+                \b Each member promised mutual support in the event of an attack by any other great power. 
+                \b The treaty provided that Germany and Austria-Hungary were to assist Italy if it was attacked by France without provocation. 
+                \b In turn, Italy would assist Germany if attacked by France. 
+                \b In the event of a war between Austria-Hungary and Russia, Italy promised to remain neutral. 
+                \b The existence and membership of the treaty were well known, but its exact provisions were kept secret until 1919.
+
+        event la_germania_inizia_espansione_coloniale
+            date 1884
+            wiki https://en.wikipedia.org/wiki/German_colonial_empire
+            + Dopo che (1881) la Francia va a Tunisi e che 
+                \b (1882) l'Inghilterra va in Egitto e il Belgio in Congo, 
+                \b anche la Germania si getta sulla via dell'espansione coloniale. 
+            + The year 1884 marks the beginning of actual German colonial acquisitions, 
+                \b building on the overseas possessions and rights that had been acquired for the German Empire since 1876. 
+                \b In one year, Germany's holdings became the third-largest colonial empire, after the British and French empires. 
+                \b Following the British model, Bismarck placed many possessions of German merchants under the protection of the German empire. 
+                \b He took advantage of a period of foreign peace to begin the "colonial experiment," 
+                \b which he remained sceptical of. 
+                \b The transition to official acceptance of colonialism and to colonial government thus occurred during the last quarter of Bismarck's tenure of office.
+            + First, Adolf Lüderitz's trading post in the Bay of Angara Pequena and the surrounding hinterland 
+                \b was placed under the protection of the German Empire in April 1884 as German South West Africa. 
+                \b In July, Togoland and Adolph Woermann's possessions in Cameroon followed, 
+                \b then the northeastern section of New Guinea ('Kaiser-Wilhelmsland') and the neighbouring islands ('the Bismarck Archipelago'). 
+                \b In January 1885, the German flag was raised at Kapitaï and Koba on the west African coast. 
+                \b In February, imperialist and "man-of-action" Carl Peters accumulated vast tracts of land for his Society for German Colonization, 
+                \b "emerging from the bush with X-marks [affixed by unlettered tribal chiefs] on documents ... 
+                \b for some 60 thousand square miles of the Zanzibar Sultanate's mainland property." which became German East Africa. 
+                \b Such exploratory missions required security measures that could be solved with small private, 
+                \b armed contingents recruited mainly in the Sudan and usually led by adventurous former military personnel of lower rank. 
+                \b Brutality, hanging and flogging prevailed during these land-grab expeditions under Peters' control as well as others as 
+                \b no-one "held a monopoly in the mistreatment of Africans." , and In April 1885, 
+                \b the brothers Clemens and Gustav Denhardt acquired Wituland in modern Kenya. 
+                \b With this, the first wave of German colonial acquisitions was largely completed.            
+                
+        event conferenza_per_l_africa_1884
+            period
+                start 1884
+                end 1885
+            wiki https://en.wikipedia.org/wiki/Berlin_Conference
+            + The Berlin Conference of 1884–1885, also known as the Congo Conference, 
+                \b regulated European colonization and trade in Africa during the New Imperialism period and coincided with Germany's sudden emergence as an imperial power. 
+                \b The conference was organized by Otto von Bismarck, the first chancellor of Germany. 
+                \b Its outcome, the General Act of the Berlin Conference, can be seen as the formalisation of the Scramble for Africa, 
+                \b but some scholars of history warn against an overemphasis of its role in the colonial partitioning of Africa and 
+                \b draw attention to bilateral agreements concluded before and after the conference. 
+                \b The conference contributed to ushering in a period of heightened colonial activity by European powers, 
+                \b which eliminated or overrode most existing forms of African autonomy and self-governance. 
+                \b Of the fourteen countries being represented, six of them – Austria-Hungary, Russia, Denmark, the Netherlands, Sweden-Norway, and the United States – 
+                \b came home without any formal possessions in Africa.        
+
+        event fondazione_della_seconda_internazionale_dei_lavoratori
+            date 1889
+            + Fondazione della seconda Internazionale dei lavoratori e dei partiti socialisti e operai
+
+        event stipula_alleanza_franco_russa
+            date 1894
+            wiki https://en.wikipedia.org/wiki/Franco-Russian_Alliance
+            + The Franco-Russian Alliance, or Russo-French Rapprochement, was an alliance formed by the agreements of 1891–94; 
+                \b it lasted until 1917. 
+                \b The strengthening of the German Empire, the creation of the Triple Alliance of 1882, and 
+                \b the exacerbation of Franco-German and Russo-German contradictions at the end of the 1880s led to 
+                \b a common foreign policy and mutual strategic military interests between France and Russia. 
+                \b The development of financial ties between the two countries created the economic prerequisites for the Russo-French Alliance.
+
+        event battaglia_di_adua_1896
+            date 1896
+            wiki https://en.wikipedia.org/wiki/Battle_of_Adwa
+            + The Battle of Adwa was the climactic battle of the First Italo-Ethiopian War. 
+                \b The Ethiopian forces defeated the Italian invading force on Sunday 1 March 1896, near the town of Adwa. 
+                \b The decisive victory thwarted the campaign of the Kingdom of Italy to expand its colonial empire in the Horn of Africa. 
+                \b By the end of the 19th century, European powers had carved up almost all of Africa after the Berlin Conference; 
+                \b only Ethiopia and Liberia still maintained their independence.
+                \b Adwa became a pre-eminent symbol of pan-Africanism and secured Ethiopian sovereignty until the Second Italo-Ethiopian War forty years later.
+
+        event incidente_di_fashoda
+            date 1898
+            wiki https://en.wikipedia.org/wiki/Fashoda_Incident
+            + Corpi di spedizioni coloniali inglesi e francesi si scontrano a Fashoda: 
+                \b l'incidente rappresenta il punto più alto delle tensioni inter-imperialistiche fra Parigi e Londra. 
+            + The Fashoda Incident, also known as the Fashoda Crisis, was an international incident and the climax of imperialist territorial disputes between 
+                \b Britain and France in East Africa, occurring in 1898. 
+                \b A French expedition to Fashoda on the White Nile river sought to gain control of the Upper Nile river basin and thereby exclude Britain from the Sudan. 
+                \b The French party and a British-Egyptian force (outnumbering the French by 10 to 1) met on friendly terms, but back in Europe, it became a war scare. 
+                \b The British held firm as both empires stood on the verge of war with heated rhetoric on both sides. 
+                \b Under heavy pressure, the French withdrew, ensuring Anglo-Egyptian control over the area.
+
+        event guerra_ispano_americana
+            date 1898
+            wiki https://en.wikipedia.org/wiki/Spanish%E2%80%93American_War
+            + L'espansionismo statunitense si scontra con la Spagna per Cuba in una guerra ispano-americana che 
+                \b segna l'avvio formale del nuovo imperialismo USA
+            + The Spanish–American War (April 21 – August 13, 1898) was a period of armed conflict between Spain and the United States. 
+                \b Hostilities began in the aftermath of the internal explosion of USS Maine in Havana Harbor in Cuba, 
+                \b leading to United States intervention in the Cuban War of Independence. 
+                \b The war led to the United States emerging predominant in the Caribbean region, and 
+                \b resulted in U.S. acquisition of Spain's Pacific possessions. 
+                \b It led to United States involvement in the Philippine Revolution and later to the Philippine–American War.
+
+        event guerra_anglo_boera
+            period
+                start 1899
+                end 1901
+            wiki https://en.wikipedia.org/wiki/Second_Boer_War
+            + The Second Boer War, also known as the Boer War, the Anglo–Boer War, or the South African War, 
+                \b was a conflict fought between the British Empire and the two Boer Republics (the South African Republic and the Orange Free State) 
+                \b over the Empire's influence in Southern Africa from 1899 to 1902. 
+                \b Triggered by the discovery of diamond and gold deposits in the Boer republics, 
+                \b the Boers launched successful attacks against British outposts in the opening stages of the war 
+                \b before being pushed back by imperial reinforcements. 
+                \b Though the British swiftly occupied the Boer republics, numerous Boers refused to accept defeat and engaged in guerrilla warfare. 
+                \b Eventually, British scorched earth policies brought the remaining Boer guerillas to the negotiating table, ending the war.
+        
+        event stipula_dell_entente_cordiale_1904
+            date 1904
+            wiki https://en.wikipedia.org/wiki/Entente_Cordiale
+            + The Entente Cordiale comprised a series of agreements signed on 8 April 1904 between the United Kingdom and the French Republic which 
+                \b saw a significant improvement in Anglo-French relations. 
+                \b Beyond the immediate concerns of colonial demarcation addressed by the agreement, 
+                \b the signing of the Entente Cordiale marked the end of almost a thousand years of intermittent conflict between the two states and their predecessors, 
+                \b and replaced the modus vivendi that had existed since the end of the Napoleonic Wars in 1815 with a more formal agreement.
+                \b The Entente Cordiale represented the culmination of the policy of Théophile Delcassé (France's foreign minister from 1898 to 1905), 
+                \b who believed that a Franco-British understanding would give France some security in Western Europe 
+                \b against any German system of alliances (see Triple Alliance (1882)). 
+                \b Credit for the success of the negotiation of the Entente Cordiale belongs chiefly to Paul Cambon (France's ambassador in London from 1898 to 1920) and 
+                \b to the British Foreign Secretary, Lord Lansdowne.
+
+        event guerra_russo_giapponese
+            period
+                start 1904
+                end 1905
+            wiki https://en.wikipedia.org/wiki/Russo-Japanese_War
+            + The Russo-Japanese War was fought between the Empire of Japan and the Russian Empire during 1904 and 1905 
+                \b over rival imperial ambitions in Manchuria and the Korean Empire.
+                \b The major theatres of military operations were located in Liaodong Peninsula and Mukden in Southern Manchuria, 
+                \b and the seas around Korea, Japan, and the Yellow Sea.        
+            + The complete victory of the Japanese military surprised international observers and transformed the balance of power in both East Asia and Eastern Europe, 
+                \b resulting in Japan's emergence as a great power and a decline in the Russian Empire's prestige and influence in eastern Europe. 
+                \b Russia's incurrence of substantial casualties and losses for a cause that resulted in humiliating defeat 
+                \b contributed to a growing domestic unrest which culminated in the 1905 Russian Revolution, 
+                \b and severely damaged the prestige of the Russian autocracy. 
+                \b The war also marked the first victory of an Asian country against a Western power in modern times.
+
+        event stipula_della_triplice_intesa_1907
+            date 1907
+            wiki https://en.wikipedia.org/wiki/Triple_Entente
+            + The Triple Entente (from French entente meaning "friendship, understanding, agreement") describes 
+                \b the informal understanding between the Russian Empire, the French Third Republic and the United Kingdom of Great Britain and Ireland. 
+                \b It was built upon the Franco-Russian Alliance of 1894, the Entente Cordiale of 1904 between Paris and London, and the Anglo-Russian Entente of 1907. 
+                \b It formed a powerful counterweight to the Triple Alliance of Germany, Austria-Hungary, and Italy. 
+                \b The Triple Entente, unlike the Triple Alliance or the Franco-Russian Alliance itself, was not an alliance of mutual defence.
+        
+        event l_austria_annette_bosnia_ed_erzegovina
+            date 1908 
+            wiki https://en.wikipedia.org/wiki/Bosnian_Crisis
+            + The Bosnian Crisis, also known as the Annexation Crisis or the First Balkan Crisis, erupted on 5 October 1908 
+                \b when Austria-Hungary announced the annexation of Bosnia and Herzegovina,
+                \b territories formerly within the sovereignty of the Ottoman Empire but 
+                \b under Austro-Hungarian administration since 1878.        
+        
+        event guerra_italo_turca
+            title Guerra italo-turca
+                alias Guerra di Libia
+            period
+                start 1911/9/29
+                end 1912/10/18
+            wiki https://en.wikipedia.org/wiki/Italo-Turkish_War
+            + The Italo-Turkish War was fought between the Kingdom of Italy and the Ottoman Empire from 29 September 1911, to 18 October 1912. 
+                \b As a result of this conflict, Italy captured the Ottoman Tripolitania Vilayet, 
+                \b of which the main sub-provinces were Fezzan, Cyrenaica, and Tripoli itself. 
+                \b These territories became the colonies of Italian Tripolitania and Cyrenaica, 
+                \b which would later merge into Italian Libya.
+
+        event prima_guerra_balcanica_1912
+            period
+                start 1912/10
+                end 1913/5
+            wiki https://en.wikipedia.org/wiki/First_Balkan_War
+            + The First Balkan War lasted from October 1912 to May 1913 and involved actions of the Balkan League 
+                \b (the Kingdoms of Bulgaria, Serbia, Greece and Montenegro) against the Ottoman Empire. 
+                \b The Balkan states' combined armies overcame the initially numerically inferior (significantly superior by the end of the conflict) 
+                \b and strategically disadvantaged Ottoman armies and achieved rapid success.
+            + The war was a comprehensive and unmitigated disaster for the Ottomans, who lost 83% of their European territories and 69% of their European population.
+                \b As a result of the war, the League captured and partitioned almost all of the Ottoman Empire's remaining territories in Europe. 
+                \b Ensuing events also led to the creation of an independent Albania, which angered the Serbs. 
+                \b Bulgaria, meanwhile, was dissatisfied over the division of the spoils in Macedonia, and 
+                \b attacked its former allies, Serbia and Greece, on 16 June 1913 which provoked the start of the Second Balkan War.        
+
+        event seconda_guerra_balcanica_1913
+            date 1912    
+            wiki https://en.wikipedia.org/wiki/Second_Balkan_War
+            + The Second Balkan War was a conflict which broke out when Bulgaria, dissatisfied with its share of the spoils of the First Balkan War, 
+                \b attacked its former allies, Serbia and Greece, on 29 June 1913. 
+                \b Serbian and Greek armies repulsed the Bulgarian offensive and counter-attacked, entering Bulgaria. 
+                \b With Bulgaria also having previously engaged in territorial disputes with Romania and the bulk of Bulgarian forces engaged in the south, 
+                \b the prospect of an easy victory incited Romanian intervention against Bulgaria. 
+                \b The Ottoman Empire also took advantage of the situation to regain some lost territories from the previous war. 
+                \b When Romanian troops approached the capital Sofia, Bulgaria asked for an armistice, resulting in the Treaty of Bucharest, 
+                \b in which Bulgaria had to cede portions of its First Balkan War gains to Serbia, Greece and Romania. 
+                \b In the Treaty of Constantinople, it lost Adrianople to the Ottomans.

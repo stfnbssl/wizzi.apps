@@ -1,0 +1,490 @@
+$group
+
+    period age_of_discovery
+        title The Age of Discovery
+        date
+            start 1336
+            end 1660
+        wiki https://en.wikipedia.org/wiki/Age_of_Discovery
+            + The Age of Discovery (or the Age of Exploration) is an informal and loosely defined term for the early modern period, 
+                \b largely overlapping with the Age of Sail, approximately from the 15th century to the 17th century in European history, 
+                \b in which seafaring Europeans explored regions across the globe.
+            + The extensive overseas exploration, with the Portuguese and the Spanish at the forefront, 
+                \b later joined by the Dutch, the English and the French, 
+                \b emerged as a powerful factor in European culture, most notably the European encounter and colonization of the Americas. 
+                \b It also marks an increased adoption of colonialism as a government policy in several European states. 
+                \b As such, it is sometimes synonymous with the first wave of European colonization.
+            + European exploration outside the Mediterranean started with the maritime expeditions of Portugal to the Canary Islands in 1336,
+                \b and later with the Portuguese discoveries of the Atlantic archipelagos of Madeira and Azores, 
+                \b the coast of West Africa in 1434 and the establishment of the sea route to India in 1498 by Vasco da Gama, 
+                \b which is often considered a very remarkable voyage, 
+                \b as it initiated the Portuguese maritime and trade presence in Kerala and the Indian Ocean.
+            + A main event in the Age of Discovery took place when Spain (with the sponsor and crew of the Crown of Castile) 
+                \b made the transatlantic voyages of Christopher Columbus to the Americas between 1492 and 1504, 
+                \b which saw the colonization of the Americas, a related biological exchange, and the trans-Atlantic trade, 
+                \b whose events, effects and consequences persisted to the present and are often cited as the beginning of the Early Modern Period. 
+                \b Years later, the Spanish expedition of Magellan-Elcano expedition made the first circumnavigation of the globe between 1519 and 1522, 
+                \b which was regarded as a major achievement in seamanship, and had a significant impact on the European understanding of the world. 
+                \b These discoveries led to numerous naval expeditions across the Atlantic, Indian, and Pacific oceans, and 
+                \b land expeditions in the Americas, Asia, Africa, and Australia that continued into the late 19th century, 
+                \b followed by the exploration of the polar regions in the 20th century.
+            + European overseas exploration led to the rise of global trade and the European colonial empires, 
+                \b with the contact between the Old World (Europe, Asia, and Africa) and the New World (the Americas), as well as Australia, 
+                \b producing the Columbian exchange, a wide transfer of plants, animals, food, human populations (including slaves), 
+                \b communicable diseases and culture between the Eastern and Western Hemispheres. 
+                \b The Age of Discovery and later European exploration allowed the mapping of the world, 
+                \b resulting in a new worldview and distant civilizations coming into contact. 
+                \b At the same time, new diseases were propagated, decimating populations not previously in contact with the Old World, 
+                \b particularly concerning Native Americans. 
+                \b The era saw the widespread enslavement, exploitation and military conquest of native populations 
+                \b concurrent with the growing economic influence and spread of European culture and technology.
+
+    period age_of_colonisation
+        title The Age of Colonisation 
+        date
+            start 1415
+            end 1914
+        wiki https://en.wikipedia.org/wiki/History_of_colonialism
+            + The historical phenomenon of colonization is one that stretches around the globe and across time. 
+                \b Ancient and medieval colonialism was practiced by the Phoenicians, the Greeks, the Turks, and the Arabs. 
+                \b Colonialism in the modern sense began with the "Age of Discovery", led by Portuguese, 
+                \b and then by the Spanish exploration of the Americas, the coasts of Africa, Southwest Asia which is also known as the Middle East, India, and East Asia. 
+                \b The Portuguese and Spanish empires were the first global empires because they were the first to stretch across different continents, 
+                \b covering vast territories around the globe. 
+                \b Between 1580 and 1640, the two empires were both ruled by the Spanish monarchs in personal union. 
+                \b During the late 16th and 17th centuries, England, France and the Dutch Republic also established their own overseas empires, 
+                \b in direct competition with one another.                
+            + Some commentators identify three waves of European colonialism.[1]
+            + The three main countries in the first wave of European colonialism were Portugal, Spain and the early Ottoman Empire.
+                \b The Portuguese started the long age of European colonisation with the conquest of Ceuta, Morocco in 1415, 
+                \b and the conquest and discovery of other African territories and islands, 
+                \b this would also start the movement known as the Age of Discoveries. 
+                \b The Ottomans conquered South Eastern Europe, the Middle East and much of Northern and Eastern Africa between 1359 and 1653 - 
+                \b with the latter territories subjected to colonial occupation, rather than traditional territorial conquest. 
+                \b The Spanish and Portuguese launched the colonisation of the Americas, basing their territorial claims on the Treaty of Tordesillas of 1494. 
+                \b This treaty demarcated the respective spheres of influence of Spain and Portugal.
+            + The expansion achieved by Spain and Portugal caught the attention of Britain, France and the Netherlands.
+                \b The entrance of these three powers into the Caribbean and North America perpetuated European colonialism in these regions.
+            + The second wave of European colonialism commenced with Britain's involvement in Asia in support of the British East India Company; 
+                \b other countries such as France, Portugal and the Netherlands also had involvement in European expansion in Asia.
+                \b The third wave ("New Imperialism") consisted of the Scramble for Africa regulated by the terms of the Berlin Conference of 1884-1885. 
+                \b The conference effectively divided Africa among the European powers. 
+                \b Vast regions of Africa came under the sway of Britain, France, Germany, Portugal, Belgium, Italy and Spain.
+            + Gilmartin argues that these three waves of colonialism were linked to capitalism. 
+                \b The first wave of European expansion involved exploring the world to find new revenue and perpetuating European feudalism. 
+                \b The second wave focused on developing the mercantile capitalism system and the manufacturing industry in Europe. 
+                \b The last wave of European colonialism solidified all capitalistic endeavours by providing new markets and raw materials.
+            + As a result of these waves of European colonial expansion, 
+                \b only following thirteen present-day independent countries escaped formal colonization by European powers: 
+                \b Afghanistan, Bhutan, China, Iran, Japan, Liberia, Mongolia, Nepal, North Korea, Saudi Arabia, South Korea, 
+                \b Thailand and Turkey as well as North Yemen, the former independent country which is now part of Yemen.
+
+    period hasburgh_bid_for_mastery
+        title The Hasburgh bid for mastery
+        date
+            start 1519
+                context
+                    king charles_v_habsburg
+            end 1659
+                context
+                    treaty treaty_of_the_pirenees
+
+    period european_wars_of_religion
+        title The European wars of religion
+        date
+            start 1522
+            end 1712
+        wiki https://en.wikipedia.org/wiki/European_wars_of_religion
+            + The European wars of religion were a series of wars waged in Europe during the 16th, 17th and early 18th centuries.
+                \b Fought after the Protestant Reformation began in 1517, 
+                \b the wars disrupted the religious and political order in the Catholic countries of Europe, or Christendom. 
+                \b Other motives during the wars involved revolt, territorial ambitions and Great Power conflicts. 
+                \b By the end of the Thirty Years' War (1618-1648), Catholic France had allied with the Protestant forces against the Catholic Habsburg monarchy.
+                \b The wars were largely ended by the Peace of Westphalia (1648), 
+                \b which established a new political order that is now known as Westphalian sovereignty.
+            + The conflicts began with the minor Knights' Revolt (1522), followed by the larger German Peasants' War (1524–1525) in the Holy Roman Empire. 
+                \b Warfare intensified after the Catholic Church began the Counter-Reformation in 1545 against the growth of Protestantism. 
+                \b The conflicts culminated in the Thirty Years' War, which devastated Germany and killed one third of its population, 
+                \b a mortality rate twice that of World War I.
+                \b The Peace of Westphalia broadly resolved the conflicts by recognising three separate Christian traditions in the Holy Roman Empire: 
+                \b Roman Catholicism, Lutheranism and Calvinism.
+                \b Although many European leaders were sickened by the bloodshed by 1648, 
+                \b smaller religious wars continued to be waged until the 1710s, 
+                \b including the Wars of the Three Kingdoms (1639-1651) on the British Isles, 
+                \b the Savoyard-Waldensian wars (1655-1690), 
+                \b and the Toggenburg War (1712) in the Western Alps.    
+    
+    period dutch_golden_age
+        title The Dutch Golden Age
+        date
+            start 1588
+            end 1672
+        wiki https://en.wikipedia.org/wiki/Dutch_Golden_Age
+            + The Dutch Golden Age was a period in the history of the Netherlands, roughly spanning the era 
+                \b from 1588 (the birth of the Dutch Republic) to 1672 (the Rampjaar, "Disaster Year"), 
+                \b in which Dutch trade, science, and art and the Dutch military were among the most acclaimed in Europe. 
+                \b The first section is characterized by the Eighty Years' War, which ended in 1648. 
+                \b The Golden Age continued in peacetime during the Dutch Republic until the end of the century, 
+                \b when costly conflicts, including the Franco-Dutch War and War of the Spanish Succession fuelled economic decline.
+            + The transition by the Netherlands to becoming the foremost maritime and economic power in the world 
+                \b has been called the "Dutch Miracle" by historian K. W. Swart.
+
+    period thirty_years_war
+        title The Thirty Years' War
+        date
+            start 1618
+            end 1648
+        wiki https://en.wikipedia.org/wiki/Thirty_Years%27_War
+            + The Thirty Years' War took place largely within the Holy Roman Empire from 1618 to 1648. 
+                \b One of the most destructive wars in European history, 
+                \b it caused an estimated 4.5 to 8 million deaths, 
+                \b while some areas of Germany experienced population declines of over 50%.
+                \b Related conflicts include the Eighty Years' War, War of the Mantuan Succession, the Franco-Spanish War, and Portuguese Restoration War.
+            + Until the 20th century, it was seen as part of the German religious struggle initiated by the 16th century Reformation. 
+                \b The 1555 Peace of Augsburg divided the Empire into Lutheran and Catholic states, 
+                \b but over the next 50 years the expansion of Protestantism beyond these boundaries destabilised Imperial authority. 
+                \b Although religion was a significant factor in starting the war, 
+                \b scholars now generally agree its scope and extent was driven by the contest for European dominance 
+                \b between Habsburgs in Austria and Spain, and the French House of Bourbon.
+            + The war began in 1618 when Ferdinand II was deposed as King of Bohemia and replaced by Frederick V of the Palatinate. 
+                \b Although the Bohemian Revolt was quickly suppressed, fighting expanded into the Palatinate, 
+                \b whose strategic importance drew in the Dutch Republic and Spain, 
+                \b then engaged in the Eighty Years War. 
+                \b Since ambitious external rulers like Christian IV of Denmark and Gustavus Adolphus of Sweden also held territories within the Empire, 
+                \b what began as an internal dynastic dispute was transformed into a far more destructive European conflict.
+            + The first phase from 1618 until 1635 was primarily a civil war between German members of the Holy Roman Empire, 
+                \b with external powers playing supportive roles. 
+                \b After 1635, the Empire became one theatre in a wider struggle between 
+                \b France, supported by Sweden, and Spain in alliance with Emperor Ferdinand III. 
+                \b This concluded with the 1648 Peace of Westphalia, 
+                \b whose provisions included greater autonomy within the Empire for states like Bavaria and Saxony, 
+                \b as well as acceptance of Dutch independence by Spain. 
+                \b By weakening the Habsburgs relative to France, 
+                \b the conflict altered the European balance of power and set the stage for the wars of Louis XIV.
+
+    period english_civil_war
+        title The English Civil War
+        date
+            start 1642
+            end 1651
+        wiki
+            + The English Civil War was a series of civil wars and political machinations between Parliamentarians ("Roundheads") and Royalists ("Cavaliers"), 
+                \b mainly over the manner of England's governance and issues of religious freedom.
+                \b It was part of the wider Wars of the Three Kingdoms. 
+                \b The first (1642–1646) and second (1648–1649) wars pitted the supporters of King Charles I against the supporters of the Long Parliament, 
+                \b while the third (1649–1651) saw fighting between supporters of King Charles II and supporters of the Rump Parliament. 
+                \b The wars also involved the Scottish Covenanters and Irish Confederates. 
+                \b The war ended with Parliamentarian victory at the Battle of Worcester on 3 September 1651.
+            + Unlike other civil wars in England, which were mainly fought over who should rule, 
+                \b these conflicts were also concerned with how the three Kingdoms of England, Scotland and Ireland should be governed. 
+                \b The outcome was threefold: 
+                \b the trial of and execution of Charles I (1649); 
+                \b the exile of his son, Charles II (1651); 
+                \b and the replacement of English monarchy with the Commonwealth of England, 
+                \b which from 1653 (as the Commonwealth of England, Scotland, and Ireland) 
+                \b unified the British Isles under the personal rule of Oliver Cromwell (1653–1658) 
+                \b and briefly his son Richard (1658–1659). 
+                \b In England, the monopoly of the Church of England on Christian worship was ended, 
+                \b and in Ireland, the victors consolidated the established Protestant Ascendancy. 
+                \b Constitutionally, the outcome of the wars established the precedent that an English monarch cannot govern without Parliament's consent, 
+                \b though the idea of Parliamentary sovereignty was legally established only as part of the Glorious Revolution in 1688.    
+
+    period golden_age_of_piracy
+        title The Golden Age of Piracy
+        date
+            start 1760
+            end 1840
+        wiki https://en.wikipedia.org/wiki/Golden_Age_of_Piracy
+            + The Golden Age of Piracy is a common designation for the period between the 1650s and the 1730s, 
+                \b when maritime piracy was a significant factor in the histories of 
+                \b the Caribbean, the United Kingdom, the Indian Ocean, North America, and West Africa.
+            + Histories of piracy often subdivide the Golden Age of Piracy into three periods:
+                \b The buccaneering period (approximately 1650 to 1680), 
+                \b characterized by Anglo-French seamen based in Jamaica and Tortuga attacking Spanish colonies, 
+                \b and shipping in the Caribbean and eastern Pacific.
+                \b The Pirate Round (1690s), associated with long-distance voyages from the Americas 
+                \b to rob Muslim and East India Company targets in the Indian Ocean and Red Sea.
+                \b The post-Spanish Succession period (1715 to 1726), 
+                \b when Anglo-American sailors and privateers left unemployed by the end of the War of the Spanish Succession 
+                \b turned en masse to piracy in the Caribbean, the Indian Ocean, the North American eastern seaboard, and the West African coast.
+            + Narrower definitions of the Golden Age sometimes exclude the first or second periods, 
+                \b but most include at least some portion of the third. 
+                \b The modern conception of pirates as depicted in popular culture is derived largely, 
+                \b although not always accurately, from the Golden Age of Piracy.
+            + Factors contributing to piracy during the Golden Age included the rise in quantities of valuable cargoes being shipped to Europe over vast ocean areas, 
+                \b reduced European navies in certain regions, 
+                \b the training and experience that many sailors had gained in European navies (particularly the British Royal Navy), 
+                \b and corrupt and ineffective government in European overseas colonies. 
+                \b Colonial powers at the time constantly fought with pirates and engaged in several notable battles and other related events.
+    
+    period industrial_revolution    
+        title The Industrial Revolution
+        date
+            start 1760
+            end 1840
+        wiki https://en.wikipedia.org/wiki/Industrial_Revolution
+            + The Industrial Revolution was the transition to new manufacturing processes in Great Britain, continental Europe, and the United States, 
+                \b in the period from about 1760 to sometime between 1820 and 1840.
+                \b This transition included going from hand production methods to machines, 
+                \b new chemical manufacturing and iron production processes, 
+                \b the increasing use of steam power and water power, 
+                \b the development of machine tools and the rise of the mechanized factory system. 
+                \b The Industrial Revolution also led to an unprecedented rise in the rate of population growth.
+            + Textiles were the dominant industry of the Industrial Revolution in terms of employment, value of output and capital invested. 
+                \b The textile industry was also the first to use modern production methods.
+            + The Industrial Revolution began in Great Britain, 
+                \b and many of the technological and architectural innovations were of British origin.
+                \b By the mid-18th century, Britain was the world's leading commercial nation,
+                \b controlling a global trading empire with colonies in North America and the Caribbean. 
+                \b Britain had major military and political hegemony on the Indian subcontinent; 
+                \b particularly with the proto-industrialised Mughal Bengal, 
+                \b through the activities of the East India Company.
+                \b The development of trade and the rise of business were among the major causes of the Industrial Revolution.
+            + The Industrial Revolution marked a major turning point in history; 
+                \b almost every aspect of daily life was influenced in some way. 
+                \b In particular, average income and population began to exhibit unprecedented sustained growth. 
+                \b Some economists have said the most important effect of the Industrial Revolution was that 
+                \b the standard of living for the general population in the western world began to increase consistently for the first time in history, 
+                \b although others have said that it did not begin to meaningfully improve until the late 19th and 20th centuries.
+
+    period second_industrial_revolution    
+        title The Second Industrial Revolution
+        date
+            start 1870
+            end 1914
+        wiki https://en.wikipedia.org/wiki/Second_Industrial_Revolution
+            + The Second Industrial Revolution, also known as the Technological Revolution,
+                \b was a phase of rapid scientific discovery, standardization, mass production, and industrialization 
+                \b from the late 19th century into the early 20th century. 
+                \b The First Industrial Revolution, which ended in the middle of the 19th century, 
+                \b was punctuated by a slowdown in important inventions before the Second Industrial Revolution in 1870. 
+                \b Though a number of its events can be traced to earlier innovations in manufacturing, 
+                \b such as the establishment of a machine tool industry, 
+                \b the development of methods for manufacturing interchangeable parts, 
+                \b and the invention of the Bessemer process to produce steel, 
+                \b the Second Industrial Revolution is generally dated between 1870 and 1914 (the beginning of World War I).
+            + Advancements in manufacturing and production technology enabled the widespread adoption of technological systems such as 
+                \b telegraph and railroad networks, gas and water supply, and sewage systems, which had earlier been concentrated to a few select cities. 
+                \b The enormous expansion of rail and telegraph lines after 1870 allowed unprecedented movement of people and ideas, 
+                \b which culminated in a new wave of globalization. 
+                \b In the same time period, new technological systems were introduced, most significantly electrical power and telephones. 
+                \b The Second Industrial Revolution continued into the 20th century with early factory electrification and the production line, 
+                \b and ended at the beginning of World War I.    
+
+    period american_revolutionary_war
+        title The American Revolutionary War
+            alias The Revolutionary War
+            alias The American War of Independence
+        date
+            start 1775/4/19
+            end 1783/9/3
+        wiki https://en.wikipedia.org/wiki/American_Revolutionary_War
+            + The American Revolutionary War, secured a United States of America independent from Great Britain. 
+                \b Fighting began on April 19, 1775, followed by the Declaration of Independence on July 4, 1776. 
+                \b The American Patriots were supported by France and Spain, 
+                \b conflict taking place in North America, the Caribbean, and Atlantic Ocean.
+            + Established by royal charter in the 17th and 18th centuries, the American colonies were largely autonomous in domestic affairs and commercially prosperous, 
+                \b trading with Britain and its Caribbean colonies, as well as other European powers via their Caribbean entrepôts. 
+                \b After British victory in the Seven Years' War in 1763, 
+                \b tensions arose over trade, colonial policy in the Northwest Territory and taxation measures, 
+                \b including the Stamp Act and Townshend Acts. 
+                \b Colonial opposition led to the 1770 Boston Massacre and 1773 Boston Tea Party, 
+                \b with Parliament responding by imposing the so-called Intolerable Acts.
+            + On September 5, 1774, the First Continental Congress drafted a Petition to the King and organized a boycott of British goods. 
+                \b Despite attempts to achieve a peaceful solution, fighting began with the Battle of Lexington on April 19, 1775 
+                \b and in June Congress authorized George Washington to create a Continental Army, 
+                \b where John Adams nominated Washington as the commander-in-chief. 
+                \b Although the "coercion policy" advocated by the North ministry was opposed by a faction within Parliament, 
+                \b both sides increasingly viewed conflict as inevitable. 
+                \b The Olive Branch Petition sent by Congress to George III in July 1775 was rejected and 
+                \b in August Parliament declared the colonies to be in a state of rebellion.
+            + Following the loss of Boston in March 1776, Sir William Howe, the new British commander-in-chief, 
+                \b launched the New York and New Jersey campaign. 
+                \b He captured New York City in November, before Washington won small but significant victories at Trenton and Princeton, 
+                \b which restored Patriot confidence. 
+                \b In summer 1777, Howe succeeded in taking Philadelphia, 
+                \b but in October a separate force under John Burgoyne was forced to surrender at Saratoga. 
+                \b This victory was crucial in convincing powers like France and Spain an independent United States was a viable entity. 
+                \b The Continental Army then went into winter quarters in Valley Forge, 
+                \b where General von Steuben drilled it into an organized fighting unit.
+            + France provided the US informal economic and military support from the beginning of the rebellion, 
+                \b and after Saratoga the two countries signed a commercial agreement and a Treaty of Alliance in February 1778. 
+                \b In return for a guarantee of independence, Congress joined France in its global war with Britain and agreed to defend the French West Indies. 
+                \b Spain also allied with France against Britain in the Treaty of Aranjuez (1779), 
+                \b though it did not formally ally with the Americans. 
+                \b Nevertheless, access to ports in Spanish Louisiana allowed the Patriots to import arms and supplies, 
+                \b while the Spanish Gulf Coast campaign deprived the Royal Navy of key bases in the south.
+            + This undermined the 1778 strategy devised by Howe's replacement, Sir Henry Clinton, 
+                \b which took the war into the Southern United States. 
+                \b Despite some initial success, by September 1781 Cornwallis was besieged by a Franco-American force in Yorktown. 
+                \b After an attempt to resupply the garrison failed, Cornwallis surrendered in October, 
+                \b and although the British wars with France and Spain continued for another two years, this ended fighting in North America. 
+                \b In April 1782, the North ministry was replaced by a new British government which accepted American independence 
+                \b and began negotiating the Treaty of Paris, ratified on September 3, 1783. 
+                \b The war officially ended on September 3, 1783 when Britain accepted American independence in the Treaty of Paris, 
+                \b while the Treaties of Versailles resolved separate conflicts with France and Spain.
+
+    period french_revolution
+        title The French Revolution
+        date
+            start 1789
+            end 1799
+        wiki https://en.wikipedia.org/wiki/French_Revolution
+            + The French Revolution was a period of radical political and societal change in France 
+                \b that began with the Estates General of 1789 and ended with the formation of the French Consulate in November 1799. 
+                \b Many of its ideas are considered fundamental principles of liberal democracy,
+                \b while phrases like liberté, égalité, fraternité reappeared in other revolts, 
+                \b such as the 1917 Russian Revolution, 
+                \b and inspired campaigns for the abolition of slavery and universal suffrage.
+                \b The values and institutions it created dominate French politics to this day.
+            + Its causes are generally agreed to be a combination of social, political and economic factors, 
+                \b which the existing regime proved unable to manage. 
+                \b In May 1789, widespread social distress led to the convocation of the Estates General, 
+                \b which was converted into a National Assembly in June. 
+                \b Continuing unrest culminated in the Storming of the Bastille on 14 July, 
+                \b which led to a series of radical measures by the Assembly, 
+                \b including the abolition of feudalism, the imposition of state control over the Catholic Church in France, and extension of the right to vote.
+            + The next three years were dominated by the struggle for political control, 
+                \b exacerbated by economic depression and Civil disorder. 
+                \b Opposition from external powers like Austria, Britain, and Prussia resulted in the outbreak of the French Revolutionary Wars in April 1792. 
+                \b Disillusionment with Louis XVI led to the establishment of the French First Republic on 22 September 1792, 
+                \b followed by his execution in January 1793. 
+                \b In June, an uprising in Paris replaced the Girondins who dominated the National Assembly with 
+                \b the Committee of Public Safety, headed by Maximilien Robespierre.
+            + This sparked the Reign of Terror, an attempt to eradicate alleged "counter-revolutionaries"; 
+                \b by the time it ended in July 1794, over 16,600 had been executed in Paris and the provinces. 
+                \b As well as its external enemies, the Republic faced internal opposition from both Royalists and Jacobins and 
+                \b in order to deal with these threats, the French Directory took power in November 1795. 
+                \b Despite a series of military victories, many won by Napoleon Bonaparte, 
+                \b political divisions and economic stagnation resulted in the Directory being replaced by the Consulate in November 1799. 
+                \b This is generally seen as marking the end of the Revolutionary period.
+
+    period napoleonic_wars
+        title The Napoleonic Wars
+        date
+            start 1803
+            end 1815
+        wiki https://en.wikipedia.org/wiki/Napoleonic_Wars
+            + The Napoleonic Wars (1803–1815) were a series of major global conflicts pitting the French Empire and its allies, led by Napoleon I, 
+                \b against a fluctuating array of European states formed into various coalitions. 
+                \b It produced a period of French domination over most of continental Europe. 
+                \b The wars stemmed from the unresolved disputes associated with the French Revolution and the French Revolutionary Wars 
+                \b consisting of the War of the First Coalition (1792-1797) and the War of the Second Coalition (1798–1802). 
+                \b The Napoleonic wars are often described as five conflicts, 
+                \b each termed after the coalition that fought Napoleon: 
+                \b the Third Coalition (1803-1806), the Fourth (1806–07), the Fifth (1809), the Sixth (1813–14), and the Seventh (1815) 
+                \b plus the Peninsular War (1807–1814) and the French invasion of Russia (1812).
+            + Napoleon, upon ascending to First Consul of France in 1799, 
+                \b had inherited a republic in chaos; 
+                \b he subsequently created a state with stable finances, a strong bureaucracy, and a well-trained army. 
+                \b In December 1805 Napoleon achieved what is considered his greatest victory, 
+                \b defeating the allied Russo-Austrian army at Austerlitz. 
+                \b At sea, the British severely defeated the joint Franco-Spanish navy in the Battle of Trafalgar on 21 October 1805. 
+                \b This victory secured British control of the seas and prevented the invasion of Britain. 
+                \b Concerned about increasing French power, 
+                \b Prussia led the creation of the Fourth Coalition with Russia, Saxony, and Sweden, which resumed war in October 1806. 
+                \b Napoleon quickly defeated the Prussians at Jena and the Russians at Friedland, bringing an uneasy peace to the continent. 
+                \b The peace failed, though, as war broke out in 1809, with the badly prepared Fifth Coalition, led by Austria. 
+                \b At first, the Austrians won a stunning victory at Aspern-Essling, but were quickly defeated at Wagram.
+            + Hoping to isolate and weaken Britain economically through his Continental System, 
+                \b Napoleon launched an invasion of Portugal, the only remaining British ally in continental Europe. 
+                \b After occupying Lisbon in November 1807, and with the bulk of French troops present in Spain, 
+                \b Napoleon seized the opportunity to turn against his former ally, 
+                \b depose the reigning Spanish royal family and declare his brother King of Spain in 1808 as José I. 
+                \b The Spanish and Portuguese revolted with British support and expelled the French from Iberia in 1814 after six years of fighting.
+            + Concurrently, Russia, unwilling to bear the economic consequences of reduced trade, 
+                \b routinely violated the Continental System, prompting Napoleon to launch a massive invasion of Russia in 1812. 
+                \b The resulting campaign ended in disaster for France and the near destruction of Napoleon's Grande Armée.
+            + Encouraged by the defeat, Austria, Prussia, Sweden, and Russia formed the Sixth Coalition and began a new campaign against France, 
+                \b decisively defeating Napoleon at Leipzig in October 1813 after several inconclusive engagements. 
+                \b The Allies then invaded France from the east, while the Peninsular War spilled over into southwestern France. 
+                \b Coalition troops captured Paris at the end of March 1814 and forced Napoleon to abdicate in April. 
+                \b He was exiled to the island of Elba, and the Bourbons were restored to power. 
+                \b But Napoleon escaped in February 1815, and reassumed control of France for around one hundred days. 
+                \b After forming the Seventh Coalition, the allies defeated him at Waterloo in June 1815 and 
+                \b exiled him to the island of Saint Helena, where he died six years later.
+            + The Congress of Vienna redrew the borders of Europe and brought a period of relative peace. 
+                \b The wars had profound consequences on global history, 
+                \b including the spread of nationalism and liberalism, 
+                \b the rise of Britain as the world's foremost naval and economic power, 
+                \b the appearance of independence movements in Latin America and subsequent decline of the Spanish and Portuguese Empires, 
+                \b the fundamental reorganization of German and Italian territories into larger states, 
+                \b and the introduction of radically new methods of conducting warfare, as well as civil law. 
+                \b After the end of the Napoleonic Wars there was a period of relative peace in continental Europe, 
+                \b lasting until the Crimean War in 1853.    
+
+    period pax_britannica
+        title The Pax Britannica
+        date
+            start 1815
+            end 1914
+        wiki https://en.wikipedia.org/wiki/Pax_Britannica
+            + Pax Britannica was the period of relative peace between the Great Powers 
+                \b during which the British Empire became the global hegemonic power and adopted the role of a "global policeman".
+            + Between 1815 and 1914, a period referred to as Britain's "imperial century", 
+                \b around 10,000,000 square miles (26,000,000 km2) of territory and roughly 400 million people were added to the British Empire.
+                \b Victory over Napoleonic France left the British without any serious international rival, 
+                \b other than perhaps Russia in Central Asia.
+                \b When Russia tried expanding its influence in the Balkans, 
+                \b the British and French defeated them in the Crimean War (1853-1856), 
+                \b thereby protecting the Ottoman Empire.
+            + Britain's Royal Navy controlled most of the key maritime trade routes and enjoyed unchallenged sea power. 
+                \b Alongside the formal control exerted over its own colonies, 
+                \b Britain's dominant position in world trade meant that it effectively controlled access to many regions, 
+                \b such as Asia, North America, Oceania, and Africa. 
+                \b The British also, much to the dismay of other colonial empires, 
+                \b helped the United States uphold the Monroe Doctrine which upheld its economic dominance in the Americas. 
+                \b British merchants, shippers and bankers had such an overwhelming advantage over those of other empires 
+                \b that in addition to its colonies it had an informal empire.
+
+    period long_depression
+        title The Long Depression
+        date
+            start 1879
+            end 1896
+        wiki https://en.wikipedia.org/wiki/Long_Depression
+            + The Long Depression was a worldwide price and economic recession, beginning in 1873 and running either through March 1879, or 1896, 
+                \b depending on the metrics used.
+                \b It was most severe in Europe and the United States, 
+                \b which had been experiencing strong economic growth fueled by the Second Industrial Revolution in the decade following the American Civil War. 
+                \b The episode was labeled the "Great Depression" at the time, and it held that designation until the Great Depression of the 1930s. 
+                \b Though a period of general deflation and a general contraction, 
+                \b it did not have the severe economic retrogression of the Great Depression.
+            + It was most notable in Western Europe and North America, 
+                \b at least in part because reliable data from the period is most readily available in those parts of the world. 
+                \b The United Kingdom is often considered to have been the hardest hit; 
+                \b during this period it lost some of its large industrial lead over the economies of continental Europe.
+                \b While it was occurring, the view was prominent that the economy of the United Kingdom 
+                \b had been in continuous depression from 1873 to as late as 1896 and some texts refer to the period as the Great Depression of 1873-1896, 
+                \b with financial and manufacturing losses reinforced by a long recession in the UK agricultural sector.
+            + In the United States, economists typically refer to the Long Depression as the Depression of 1873-1879, 
+                \b kicked off by the Panic of 1873, and followed by the Panic of 1893, 
+                \b book-ending the entire period of the wider Long Depression.
+                \b The U.S. National Bureau of Economic Research dates the contraction following the panic as lasting from October 1873 to March 1879. 
+                \b At 65 months, it is the longest-lasting contraction identified by the NBER, 
+                \b eclipsing the Great Depression's 43 months of contraction.
+                \b In the United States, from 1873 to 1879, 18,000 businesses went bankrupt, including 89 railroads.
+                \b Ten states and hundreds of banks went bankrupt. 
+                \b Unemployment peaked in 1878, long after the initial financial panic of 1873 had ended. 
+                \b Different sources peg the peak U.S. unemployment rate anywhere from 8.25% to 14%.
+    
+    period scramble_for_africa
+        title The Scramble for Africa
+            alias The Partition of Africa
+            alias The Conquest of Africa 
+        date
+            start 1881
+            end 1914
+        wiki https://en.wikipedia.org/wiki/Scramble_for_Africa
+            + The Scramble for Africa, also called the Partition of Africa, or the Conquest of Africa, 
+                \b was the invasion, annexation, division, and colonization of most of Africa by seven Western European powers 
+                \b during a short date known as New Imperialism (between 1881 and 1914). 
+                \b The 10 percent of Africa that was under formal European control in 1870 
+                \b increased to almost 90 percent by 1914, with only Ethiopia (Abyssinia) and Liberia remaining independent, 
+                \b though Ethiopia would later be invaded and occupied by Italy from 1936 to 1941.
+            + The Berlin Conference of 1884, which regulated European colonization and trade in Africa, 
+                \b is usually accepted as the beginning.
+                \b There were considerable political rivalries among the European empires in the last quarter of the 19th century. 
+                \b Africa was partitioned without wars between European nations.
+                \b The later years of the 19th century saw a transition from "informal imperialism" 
+                \b — military influence and economic dominance — to direct rule.

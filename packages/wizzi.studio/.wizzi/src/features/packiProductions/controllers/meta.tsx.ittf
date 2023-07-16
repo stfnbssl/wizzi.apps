@@ -110,7 +110,7 @@ module
                 _ generateMetaProduction
                     @ request.body.owner
                     @ request.body.name
-                    @ request.body.cliCtx
+                    @ request.body.metaCtx
                     ._ then
                         =>
                             param wizziPackiFiles

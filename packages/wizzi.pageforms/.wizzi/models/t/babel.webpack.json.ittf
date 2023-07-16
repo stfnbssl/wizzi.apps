@@ -42,7 +42,10 @@ $group
         useStatsWriter false
         useIgnore true
         useCodeSplitting true
-        outputPath "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi-heroku/public/pageforms"
+        $if wzConfigIsLocal
+            outputPath "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/public/pageforms"
+        $else
+            outputPath "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi-heroku/public/pageforms"
         publicPath "/public/pageforms/"
         useEnv true
         { env

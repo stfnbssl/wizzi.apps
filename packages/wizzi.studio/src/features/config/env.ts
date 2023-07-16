@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\config\env.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import path from 'path';
 import dotenv from 'dotenv';
@@ -51,10 +51,10 @@ export default function create():  ConfigType {
                 metaHtmlIttfPath: path.join(__ittfPath, 'meta', 'html', 'index.html.ittf'), 
                 metaFolderIttfPath: path.join(__ittfPath, 'meta', 'folder', 'index.html.ittf'), 
                 metaHtmlTextPath: path.join(__ittfPath, 'meta', 'text', 'index.html.ittf'), 
+                jobsBasePath: path.join(__ittfPath, 'data', 'jobs'), 
                 userUserName: "stfnbssl", 
                 userDisplayName: "Stefano Bassoli", 
-                userAvatarUrl: "https://avatars.githubusercontent.com/u/728956?v=4", 
-                jobsBasePath: "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/data/jobs"
+                userAvatarUrl: "https://avatars.githubusercontent.com/u/728956?v=4"
              };
             const { mongoHost, mongoUser, mongoPassword, mongoPath } = config;
             if (mongoUser && mongoUser.length > 0 && mongoPassword && mongoPassword.length > 0 && mongoHost && mongoHost.length > 0) {

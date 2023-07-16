@@ -1,0 +1,38 @@
+html
+    $
+        var page = {
+            id: 'home',
+            section: 'demo',
+            title: 'ConceptDb',
+            description: 'Database di elementi filosofici',
+            author: site.Params.author,
+        };
+        var color = wzCtx.Styles.palette.dark_1
+        var assetsURL = wzCtx.assetsURL;
+    
+    layouts/basic(&page)
+
+        $append styles
+            @style 
+                css
+                    < body
+                        background ${color.foreSofter}
+                    . wrapper
+                        padding 30px 150px
+                        background-color ${color.foreSofter}
+                        color ${color.backStrong}
+
+        $append navigate
+        
+        . wrapper
+            h1 &nbsp;
+            h1 Freud DB
+            div
+                a 
+                    href ./anteprima.html
+                    title Freud concepts DB
+                    target _top
+                    img
+                        src ${assetsURL}/img/authors/Freud.jpg
+                        width 200px
+                        height 220px

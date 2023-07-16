@@ -1,0 +1,30 @@
+$group
+
+    author Schmitt_Carl
+    author Pecchioli_Roberto
+    article pecchioli.Uscire_dal_XX_secolo
+        title Uscire dal XX secolo. Un’idea nuova per il Terzo Millennio. Per una Quarta teoria politica. 
+        author Pecchioli_Roberto
+        url http://www.accademianuovaitalia.it/media/com_form2content/documents/c3/a2122/f30/Uscire%20dal%20XX%20secolo%20R.Pecchioli.pdf
+    
+    theory Teoria del Partigiano
+        author Schmitt_Carl
+        quote
+            + Nel corso del XX secolo, un grande giurista di profonda cultura storica e filosofica, Carl Schmitt, 
+                \b tematizzò, nella “Teoria del Partigiano” la nuova figura del nemico assoluto, il nemico ideologico, 
+                \b nei confronti del quale non ci poteva più essere conciliazione, ma solo conflitto. 
+
+    idea Destra economica
+        + Il liberalismo/liberismo classico è la destra economica
+    idea Sinistra economica
+        + La sinistra economica comprende le varie componenti politiche di orientamento socialista, 
+            \b dirigista e solidarista.
+    idea Destra politica
+        + La destra politica, che potremmo anche definire morale o civica, è la casa di chi vuol conservare
+            \b valori morali e tradizionali. Spesso, ma non necessariamente, è associata a nazionalismo,
+            \b patriottismo e statalismo. 
+    idea Sinistra politica
+        + La sinistra politica è il luogo del radicalismo e del progressismo sociale, 
+            \b l’ideologia dei diritti dell’uomo, 
+            \b l’enfatizzazione delle marginalità di ogni sorta (immigrati, omosessuali, eccetera)
+                

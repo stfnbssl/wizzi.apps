@@ -49,7 +49,7 @@ html
                         {
                             @ paths
                                 {
-                                    @ vs '/static/lib/monaco-editor/min/vs'
+                                    @ vs '/public/lib/monaco-editor/min/vs'
                     
                     log 'rendering'
                     _ ReactDOM.render

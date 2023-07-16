@@ -1,0 +1,214 @@
+$group
+
+    function ImageParagraph
+        param props
+        var {src} = props
+        return 
+            < img
+                @ src {src}
+
+    function Quote
+        param props
+        var {item, jsonData} = props
+        var page = null
+        # log 'Quote', item
+        if item.page
+            set page = 'pag. ' + item.page
+        elif item.epage
+            set page = 'kindle pag. ' + item.epage
+        elif item.eloc
+            set page = 'kindle loc. ' + item.eloc
+        return
+            blockquote
+                {
+                    _ item.lines.map
+                        function
+                            param token
+                            param i
+                            if token.quote
+                                return 
+                                    < Quote
+                                        @ key {i}
+                                        @ item {token.quote}
+                                        @ jsonData {jsonData}
+                            elif token.img
+                                return
+                                    < ImageParagraph
+                                        @ src {token.img}
+                            else
+                                return 
+                                    < p {token}
+                                        @ key {i}
+                cite
+                    {
+                        &&
+                            + item.article && item.article.length > 0
+                            < QuoteArticle
+                                @ id {item.article}
+                                @ page {page}
+                                @ jsonData {jsonData}
+                    {
+                        &&
+                            + item.book && item.book.length > 0
+                            < QuoteBook
+                                @ id {item.book}
+                                @ page {page}
+                                @ jsonData {jsonData}
+                {
+                    &&
+                        + item.comment
+                        div
+                            @ className quote-comment-box
+                            < ContentText
+                                @ item {item.comment}
+                                @ jsonData {jsonData} 
+
+    function QuoteArticle
+        param props
+        var {id, page, jsonData} = props
+        var title = id, author = null
+        # log 'QuoteArticle', id, page
+        var articleObj = dbGetArticle(id, jsonData)
+        # log 'QuoteArticle.articleObj', articleObj
+        if articleObj
+            var authorsObj = dbGetAuthors(articleObj.authors, jsonData)
+            var titleText = dbExtractTitleText(articleObj.title)
+            set title = titleText || articleObj.url || articleObj.id
+            # log 'QuoteArticle.title', title
+            if authorsObj.length > 0
+                set author = authorsObj[0].fullname
+            else
+                if authorsObj.book
+                    var bookObj = dbGetBook(authorsObj.book, jsonData)
+                    if bookObj
+                        var authorsObj = dbGetAuthors(bookObj.authors, jsonData)
+                        if authorsObj.length > 0
+                            set author = authorsObj[0].fullname
+                else
+                    set author = 'missing author'
+        else
+            set title = 'missing article: '+ title
+            set author = 'missing author'
+        return
+            div
+                + {author}, {title} {page && ','} {page}
+
+    function QuoteBook
+        param props
+        var {id, page, jsonData} = props
+        var title = id, author = null
+        var bookObj = dbGetBook(id, jsonData)
+        # log 'QuoteBook', id, page
+        if bookObj
+            # log 'QuoteBook.bookObj.authors', bookObj.authors
+            var authorsObj = dbGetAuthors(bookObj.authors, jsonData)
+            # log 'QuoteBook.authorsObj', authorsObj
+            var titleText = dbExtractTitleText(bookObj.title)
+            set title = titleText || bookObj.url || bookObj.id
+            if authorsObj.length > 0
+                set author = authorsObj[0].fullname
+            else
+                set author = 'missing author'
+        else
+            set title = title + ' missing article'
+            set author = 'missing author'
+        return
+            div
+                + {author}, {title} {page && ','} {page}
+
+    function RConcept
+        param props
+        var {item, jsonData, handleOpen} = props
+        var {id} = item
+        var conceptObj = dbGetConcept(id, jsonData)
+        # log 'RConcept.conceptObj', id, conceptObj
+        var conceptTitle = conceptObj ? dbExtractTitleText(conceptObj.title) : 'missing concept: ' + id
+        return
+            div 
+                @ className rc-box
+                div
+                    div
+                        @ className {conceptObj ? 'rc-ref-pointer' : 'rc-ref'}
+                        @ onClick
+                            =>
+                                param ev
+                                if conceptObj
+                                    _ handleOpen(ev, conceptObj)
+                        span Si veda il concetto &nbsp;
+                        span {conceptTitle}
+                        
+                div
+                    @ className rc-content
+                    < ContentText
+                        @ item {item}
+                        @ jsonData {jsonData} 
+
+    function RArticle
+        param props
+        var {item, jsonData, handleOpen} = props
+        var {id} = item
+        var articleObj = dbGetArticle(id, jsonData)
+        log 'RArticle.articleObj', id, articleObj
+        var articleTitle = articleObj ? dbExtractTitleText(articleObj.title) : 'missing article: ' + id
+        return
+            div 
+                @ className rc-box
+                div
+                    div
+                        @ className {articleObj ? 'rc-ref-pointer' : 'rc-ref'}
+                        @ onClick
+                            =>
+                                param ev
+                                if articleObj
+                                    _ handleOpen(ev, articleObj)
+                        span Si veda l'articolo &nbsp;
+                        span {articleTitle}
+                        
+                div
+                    @ className rc-content
+                    < ContentText
+                        @ item {item}
+                        @ jsonData {jsonData} 
+
+    function ContentText
+        param props
+        var {item, jsonData, handleOpen} = props
+        if item.contents && item.contents.length > 0
+            return
+                < div
+                    {
+                        _ item.contents.map
+                            function
+                                param token
+                                param i
+                                if token.line
+                                    return 
+                                        < p {token.line}
+                                            @ key {i}
+                                elif token.image
+                                    return
+                                        < ImageParagraph
+                                            @ src {token.image}
+                                elif token.quote
+                                    return 
+                                        < Quote
+                                            @ key {i}
+                                            @ item {token.quote}
+                                            @ jsonData {jsonData}
+                                elif token.kind == "rconcept"
+                                    return 
+                                        < RConcept
+                                            @ key {i}
+                                            @ item {token}
+                                            @ handleOpen {handleOpen}
+                                            @ jsonData {jsonData}
+                                elif token.kind == "rarticle"
+                                    return 
+                                        < RArticle
+                                            @ key {i}
+                                            @ item {token}
+                                            @ handleOpen {handleOpen}
+                                            @ jsonData {jsonData}
+
+        else
+            return null

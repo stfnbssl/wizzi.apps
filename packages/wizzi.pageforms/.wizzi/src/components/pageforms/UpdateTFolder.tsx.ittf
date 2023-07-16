@@ -18,6 +18,7 @@ module
                 { name: "tf_add_tfolder", type: "boolean" },
                 { name: "tf_dependencies", type: "[" },
                 { name: "tf_name_new_available", type: "boolean" },
+                { name: "tf_name_new_checked", type: "boolean" },
             ]
         }
 
@@ -73,7 +74,7 @@ module
                     @ tf_owner owner
                     @ tf_name_old name
                     @ tf_name_new name
-                    @ mp_name_new_available true
+                    @ tf_name_new_available true
                     @ tf_description description
                     @ tf_add_context tf_contexts.length > 0
                     @ tf_contexts

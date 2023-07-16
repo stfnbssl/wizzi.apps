@@ -1,0 +1,111 @@
+$group
+
+    person pym_john
+        title John Pym
+        born 1584
+        died 1643/12/8
+        + politico inglese, esponente di spicco del Parlamento Lungo 
+            \b avverso alla politica del re d'Inghilterra Giacomo I e di suo figlio Carlo I.
+
+    person villiers_george
+        title George Villiers
+            alias Duca di Buckingham 
+        born 1592/8/28
+        died 1628/8/23 
+        wiki https://it.wikipedia.org/wiki/George_Villiers,_I_duca_di_Buckingham
+        + nobile e politico inglese, favorito di Giacomo I Stuart, 
+            \b nonché guida de facto dello Stato negli ultimi anni del regno di Giacomo, suo grande protettore, 
+            \b e nei primi del figlio di questi e successore Carlo I Stuart.
+    
+    person wentworth_thomas
+        title Thomas Wentworth
+            alias Conte di Strafford 
+        born 1593/4/13
+        died 1641/5/12
+        wiki https://it.wikipedia.org/wiki/Thomas_Wentworth,_I_conte_di_Strafford
+        + politico inglese e una figura di grande rilievo nel periodo precedente la guerra civile.
+        + uno dei capi dell'opposizione fu inizialmente parlamentare sotto Carlo I, 
+            \b divenendo in seguito consigliere fidato del re, tanto da assumere nel 1640 il titolo di conte di Strafford. 
+            \b Fu però messo in stato d'accusa dal Lungo Parlamento, condannato a morte e giustiziato.
+    
+    person hampden_john
+        title John Hampden
+        born 1595/6
+        died 1643/6/24
+        + landowner and politician whose opposition to arbitrary taxes imposed by Charles I made him a national figure. 
+            \b An ally of Parliamentarian leader John Pym, and cousin to Oliver Cromwell, 
+            \b he was one of the Five Members whose attempted arrest in January 1642 
+            \b sparked the First English Civil War.    
+    
+    person cromwell_oliver
+        title Oliver Cromwell 
+        born 1599/4/25
+        died 1658/9/3
+        wiki https://it.wikipedia.org/wiki/Oliver_Cromwell
+        + condottiero e politico inglese.
+        + Di fede puritana calvinista e in contrasto sia con la Chiesa anglicana che con la Chiesa cattolica, 
+            \b dopo essere stato alla testa delle forze che abbatterono temporaneamente la monarchia inglese, 
+            \b instaurando la repubblica del Commonwealth of England, 
+            \b governò Inghilterra, Scozia e Irlanda con il titolo di Lord Protettore, dal 16 dicembre 1653 fino alla morte. 
+            \b Pochi anni dopo la sepoltura, la sua salma fu riesumata e sottoposta al rituale dell'esecuzione postuma.    
+    
+    person hyde_edward
+        title Edward Hyde
+            alias Conte di Clarendon
+        born 1609/2/18
+        died 1674/12/9
+        wiki https://it.wikipedia.org/wiki/Edward_Hyde,_I_conte_di_Clarendon
+        + storico e politico inglese, nonno delle regine d'Inghilterra Maria II e Anna
+    
+    person osborne_thomas 
+        title Thomas Osborne
+        born 1631/2/20
+        died 1712/7/26 
+        wiki https://it.wikipedia.org/wiki/Thomas_Osborne,_I_duca_di_Leeds
+        + si può considerare il fondatore del partito Tory
+
+    person locke_john
+        title John Locke
+        born 1632
+        died 1704
+        + formatosi durante la repubblica, è considerato il padre del moderno liberalismo; 
+            \b fautore della tolleranza religiosa e della libertà politica.
+            \b È uno degli ispiratori della politica di Guglielmo III.
+        book locke_john.epistola_sulla_tolleranza
+        book locke_john.trattato_sul_governo_civile
+
+    person churchill_john
+        title John Churchill
+            alias Duca di Marlborough
+        born 1650/5/26
+        died 1722/6/16
+        wiki https://it.wikipedia.org/wiki/John_Churchill,_I_duca_di_Marlborough
+        + generale e politico
+
+    person walpole_robert
+        title Robert Walpole
+        born 1676/8/26
+        died 1745/3/18
+        wiki https://it.wikipedia.org/wiki/Robert_Walpole
+        + È generalmente ritenuto il 1º Primo ministro del Regno Unito. 
+            \b La posizione di Primo Ministro non era allora sancita dalla legge, 
+            \b ma a Walpole si riconosce di averne esercitato de facto l'ufficio, 
+            \b grazie all'estensione della sua influenza all'interno del Gabinetto.
+        + esponente del partito Whig, esercitò le sue funzioni durante i regni di Giorgio I e Giorgio II. 
+            \b La sua ascesa è normalmente datata a partire dal 1721, quando ottenne la carica di Primo Lord del Tesoro; 
+            \b Walpole continuò a governare fino alle sue dimissioni nel 1742, 
+            \b facendo della sua amministrazione la più lunga della storia inglese        
+    
+    person bolingbroke_saint-john_henry
+        title Henry Saint-John Bolingbroke
+            alias Bolingbroke
+        born 1678/9/16
+        died 1751/12/12
+
+    person pitt_william_vecchio
+        title William Pitt
+            alias Conte di Chatham
+            alias Pitt il Vecchio 
+        born 1708/11/15
+        died 1778/5/11
+        + politico

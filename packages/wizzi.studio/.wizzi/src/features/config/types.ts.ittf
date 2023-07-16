@@ -85,5 +85,3 @@ module
                         :string
                     :p userAvatarUrl
                         :string
-                :p jobsBasePath
-                    :string

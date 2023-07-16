@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\index.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import {ApiType, ControllerType, AppInitializerType, MiddlewareType} from './features/app/types';
 import {ModelBuilderType} from './features/app';
@@ -17,6 +17,9 @@ import {wizziControllers} from './features/wizzi/index';
 import {wizziFsControllers} from './features/wizziFs/index';
 import {wizziGistControllers} from './features/wizziGist/index';
 import {wizziMetaControllers} from './features/wizziMeta/index';
+import {wizziCdnControllers, wizziCdnModelBuilders} from './features/wizziCdn/index';
+import {philosControllers} from './features/philos/index';
+import {geopControllers} from './features/geop/index';
 import {appMiddlewaresPre, appMiddlewaresPost} from './middlewares/index';
 import App from './App';
 var app: any = {
@@ -25,7 +28,8 @@ var app: any = {
 async function start() {
 
     let modelBuilders: ModelBuilderType[] = [
-        ...packiProductionsModelBuilders
+        ...packiProductionsModelBuilders, 
+        ...wizziCdnModelBuilders
     ];
     await mongodbStart(config, modelBuilders);
     
@@ -45,7 +49,10 @@ async function start() {
         ...wizziControllers, 
         ...wizziFsControllers, 
         ...wizziGistControllers, 
-        ...wizziMetaControllers
+        ...wizziMetaControllers, 
+        ...wizziCdnControllers, 
+        ...philosControllers, 
+        ...geopControllers
     ];
     console.log("[33m%s[0m", 'Starting app. Config:', config);
     const appInitializer: AppInitializerType = {

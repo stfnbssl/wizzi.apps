@@ -1,0 +1,12 @@
+$group
+    
+    author Pani_Federico
+        fullname Federico Pani
+        born
+            date 1990
+            place Cremona, Italia
+        avatar ./assets/img/authors/geop/pani_federico.png
+        + Giornalista e responsabile dei contenuti della rivista MoneyController
+        url https://federicopani.com/about/
+        articles
+            url https://iari.site/author/federico-pani/

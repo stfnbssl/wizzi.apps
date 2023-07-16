@@ -1,0 +1,13 @@
+$group
+
+    namespace freud.progetto
+
+        concept affetto
+            title Affetto
+            alias stato di affetto
+            + Residuo [assieme al desiderio] dell'esperienza del dolore o del soddisfacimento.
+            + Aumenta la tensione di Qἠ in ψ,
+                \b mediante una improvvisa emissione.
+            + Combinazione tra determinate sensazioni della serie piacere-dispiacere 
+                \b e le corrispondenti innervazioni di scarica e la loro percezione.
+

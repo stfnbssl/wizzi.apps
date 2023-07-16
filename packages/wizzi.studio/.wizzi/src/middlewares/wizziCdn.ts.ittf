@@ -79,7 +79,7 @@ module
                     param contents
                         :string
                     _ response.status(200)
-                    _ response.set('Content-Type', getContentType(cmdName))
+                    _ response.set('Content-Type', getContentType(cdnName))
                     _ response.set('Content-Length', contents)
                     _ response.send(contents)
             v08/ts/catch_fail_html(' + myname + '_renderCdn.resourceApi.getCdnResource )

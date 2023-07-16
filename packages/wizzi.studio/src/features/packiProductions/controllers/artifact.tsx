@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\controllers\artifact.tsx.ittf
-    utc time: Sat, 06 May 2023 11:50:26 GMT
+    utc time: Sun, 16 Jul 2023 13:02:25 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -40,9 +40,9 @@ function getPackiConfigFile():  packiTypes.PackiFiles {
                     '{', 
                     '    { meta', 
                     '        $$ name "..name.."', 
-                    '        { cliCtx"', 
+                    '        { metaCtx"', 
                     '            kind "artifact" $$ file|artifact', 
-                    '            $$ filePath ".packi/cliCtx.json.ittf" $$ when kind = "file"', 
+                    '            $$ filePath ".packi/metaCtx.json.ittf" $$ when kind = "file"', 
                     '            { artifact', 
                     '                $$ name "..name.." $$ when kind = "artifact"', 
                     '            [ contexts', 

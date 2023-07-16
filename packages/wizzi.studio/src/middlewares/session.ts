@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\middlewares\session.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import {Application, CookieOptions} from 'express';
 import {MiddlewareType} from '../features/app/types';
@@ -23,7 +23,7 @@ export const SessionMiddleware: MiddlewareType = (app: Application) => {
         maxAge: 14 * 24 * 60 * 60 * 1000
      };
     const sessionOptions: session.SessionOptions = {
-        name: 'wizzi.plugin.wizzi.studio.sid', 
+        name: 'wizzi.studio.sid', 
         secret: config.sessionSecret, 
         resave: false, 
         saveUninitialized: false

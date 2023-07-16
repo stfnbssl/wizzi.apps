@@ -1,0 +1,54 @@
+$group
+
+    namespace states.great_britain
+        
+        treaty trattato_di_westminster_1654
+            title Trattato di Westminster
+            date 1654
+            context
+                war prima_guerra_anglo_olandese
+            wiki https://it.wikipedia.org/wiki/Trattato_di_Westminster_(1654)
+
+        treaty trattato_di_breda_1667
+            title Trattato di breda 
+            date 1667
+            context
+                war seconda_guerra_anglo_olandese
+            wiki https://it.wikipedia.org/wiki/Trattato_di_Breda_(1667)
+
+        treaty trattato_di_dover_1670
+            title Trattato di Dover
+                alias Trattato segreto di Dover
+            date 1670/6/1
+            wiki https://en.wikipedia.org/wiki/Secret_Treaty_of_Dover
+                + The Treaty of Dover, also known as the Secret Treaty of Dover, 
+                    \b was a treaty between England and France signed at Dover on 1 June 1670. 
+                    \b It required that Charles II of England would convert to the Roman Catholic Church at some future date and 
+                    \b that he would assist Louis XIV with 60 warships and 4,000 soldiers 
+                    \b to help in France's war of conquest against the Dutch Republic. 
+                    \b In exchange, Charles would secretly receive a yearly pension of £230,000, 
+                    \b as well as an extra sum of money when Charles informed the English people of his conversion, 
+                    \b and France would send 6,000 French troops if there was ever a rebellion against Charles in England. 
+                    \b The secret treaty was signed by Arlington, Arundell, Clifford, and Bellings for England and 
+                    \b Colbert de Croissy for France. 
+                    \b The two kings exchanged letters of ratification and kept secret the existence of the treaty.
+                    \b A public treaty of Dover was also negotiated, 
+                    \b but it was a screen designed for propaganda purposes and to hide the religious dimension of the secret treaty.
+                    \b The Third Anglo-Dutch War was a direct consequence of this treaty. 
+                    \b The actual treaty was published by historians a century later.        
+
+        treaty trattato_di_westminster_1674
+            title Trattato di Westminster
+            date 1674
+            context
+                war terza_guerra_anglo_olandese
+            wiki https://it.wikipedia.org/wiki/Trattato_di_Westminster_(1674)
+
+        treaty trattato_di_utrecht_1713
+            title Trattato di Utrecht
+            date
+                start 1713
+                end 1714
+            context
+                war guerra_di_successione_spagnola
+            wiki https://it.wikipedia.org/wiki/Trattato_di_Utrecht

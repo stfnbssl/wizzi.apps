@@ -1,0 +1,10 @@
+$group
+
+    namespace freud
+
+        concept isteria
+            title Isteria
+
+            r-concept freud.meccanismo-di-difesa
+                period 1984-86
+                    + la conversione

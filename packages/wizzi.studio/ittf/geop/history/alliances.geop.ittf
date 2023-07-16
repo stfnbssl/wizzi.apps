@@ -1,0 +1,200 @@
+$group
+
+    alliance the_grand_alliance_league_of_augsburg
+        title The Grand Alliance
+            alias League of Augsburg
+                it Lega di Augusta
+        date
+            start 1689
+            end 1713
+        friends
+            state kingdom_of_great_britain
+            state dutch_republic
+            state holy_roman_empire
+        enemies
+            state kingdom_of_france
+        wiki https://en.wikipedia.org/wiki/Grand_Alliance_(League_of_Augsburg)
+            + The Grand Alliance was the anti-French coalition formed on 20 December 1689 
+                \b between England, the Dutch Republic and the Holy Roman Empire. 
+                \b It was signed by the two leading opponents of France: William III, King of England and Stadtholder of the Dutch Republic, 
+                \b and Emperor Leopold, on behalf of the Archduchy of Austria.
+            + With the later additions of Spain and Savoy, the coalition fought the 1688 – 1697 Nine Years' War against France 
+                \b that ended with the 1697 Treaty of Ryswick.
+            + The Second Grand Alliance was reformed by the 1701 Treaty of The Hague prior to the War of the Spanish Succession and 
+                \b was dissolved after the 1713 Treaty of Utrecht.
+
+    alliance rivoluzione_diplomatica_del_1756
+        title The Diplomatic Revolution
+        date 1756
+        friends
+            state kingdom_of_great_britain
+            state kingdom_of_prussia
+        enemies
+            state kingdom_of_france
+            state holy_roman_empire
+        wiki https://en.wikipedia.org/wiki/Diplomatic_Revolution
+            + The Diplomatic Revolution of 1756 was the reversal of longstanding alliances in Europe 
+                \b between the War of the Austrian Succession and the Seven Years' War.
+                \b Austria went from an ally of Britain to an ally of France, 
+                \b while Prussia became an ally of Britain.
+                \b The most influential diplomat involved was an Austrian statesman, Wenzel Anton von Kaunitz.
+            + The change was part of the stately quadrille, 
+                \b a constantly shifting pattern of alliances throughout the 18th century 
+                \b in efforts to preserve or upset the European balance of power.
+
+    alliance dual_alliance_1879
+        title Dual Alliance
+        date
+            start 1879/10/70
+        friends
+            state german_empire
+            state habsburg_empire
+        wiki https://en.wikipedia.org/wiki/Dual_Alliance_(1879)
+            + The Dual Alliance was a defensive alliance between Germany and Austria-Hungary, 
+                \b which was created by treaty as part of Germany's Otto von Bismarck's system of alliances to prevent or limit war.
+                \b The two powers promised each other support in case of attack by Russia. 
+                \b Also, each state promised benevolent neutrality to the other 
+                \b if one of them was attacked by another European power (generally taken to be France, even more so after the Franco-Russian Alliance of 1894). 
+                \b Bismarck saw the alliance as a way to prevent the isolation of the German Empire, 
+                \b which had just been founded a few years before, and to preserve peace, 
+                \b as Russia would not wage war against both empires.
+
+    alliance triple_alliance_1882
+        title Triple Alliance
+        date
+            start 1882/5/20
+            end 1915
+        friends
+            state german_empire
+            state habsburg_empire
+            state kingdom_of_italy
+        wiki https://en.wikipedia.org/wiki/Triple_Alliance_(1882)
+            + The Triple Alliance was a military alliance between Germany, Austria-Hungary, and Italy. 
+                \b It was renewed periodically until it expired in 1915 during World War I. 
+                \b Germany and Austria-Hungary had been closely allied since 1879. 
+                \b Italy was looking for support against France shortly after it lost North African ambitions to the French. 
+                \b Each member promised mutual support in the event of an attack by any other great power. 
+                \b The treaty provided that Germany and Austria-Hungary were to assist Italy if it was attacked by France without provocation. 
+                \b In turn, Italy would assist Germany if attacked by France. 
+                \b In the event of a war between Austria-Hungary and Russia, Italy promised to remain neutral. 
+                \b The existence and membership of the treaty were well known, but its exact provisions were kept secret until 1919.
+            + When the treaty was renewed in February 1887, 
+                \b Italy gained an empty promise of German support of Italian colonial ambitions in North Africa in return for Italy's continued friendship. 
+                \b Austria-Hungary had to be pressured by German chancellor Otto von Bismarck 
+                \b into accepting the principles of consultation and mutual agreement with Italy on any territorial changes 
+                \b initiated in the Balkans or on the coasts and islands of the Adriatic and Aegean seas. 
+                \b Italy and Austria-Hungary did not overcome their basic conflict of interest in that region despite the treaty. 
+                \b In 1891, attempts were made to join Britain to the Triple Alliance, which, 
+                \b though unsuccessful, were widely believed to have succeeded in Russian diplomatic circles.
+            + Shortly after renewing the Alliance in June 1902, Italy secretly extended a similar guarantee to France.
+                \b By a particular agreement, neither Austria-Hungary nor Italy would change the status quo in the Balkans without previous consultation.
+                \b On 18 October 1883 Carol I of Romania, through his Prime Minister Ion C. Brătianu, had also secretly pledged to support the Triple Alliance, 
+                \b but he later remained neutral in the First World War due to viewing Austria-Hungary as the aggressor.
+                \b On 1 November 1902, five months after the Triple Alliance was renewed, 
+                \b Italy reached an understanding with France that each would remain neutral in the event of an attack on the other.
+            + When Austria-Hungary found itself at war in August 1914 with the rival Triple Entente, 
+                \b Italy proclaimed its neutrality, considering Austria-Hungary the aggressor. 
+                \b Italy also defaulted on the obligation to consult and agree to compensations before changing the status quo in the Balkans, 
+                \b as agreed in 1912 renewal of the Triple Alliance. 
+                \b Following parallel negotiation with both Triple Alliance (which aimed to keep Italy neutral) and 
+                \b the Triple Entente (which aimed to make Italy enter the conflict), 
+                \b Italy sided with the Triple Entente and declared war on Austria-Hungary.
+
+    alliance franco_russian_alliance_1894
+        title Franco-Russian Alliance
+        date
+            start 1894
+            end 1917
+        friends
+            state russian_empire
+            state french_republic
+        wiki https://en.wikipedia.org/wiki/Franco-Russian_Alliance
+            + The Franco-Russian Alliance was an alliance formed by the agreements of 1891-94; it lasted until 1917. 
+                \b The strengthening of the German Empire, the creation of the Triple Alliance of 1882, 
+                \b and the exacerbation of Franco-German and Russo-German contradictions at the end of the 1880s 
+                \b led to a common foreign policy and mutual strategic military interests between France and Russia. 
+                \b The development of financial ties between the two countries created the economic prerequisites for the Russo-French Alliance.
+
+    alliance entente_cordiale
+        title Entente cordiale
+            en Cordial agreement
+        date 1904/4/8
+        friends
+            state kingdom_of_great_britain
+            state french_republic
+        wiki https://en.wikipedia.org/wiki/Entente_Cordiale
+            + The Entente Cordiale comprised a series of agreements which saw a significant improvement in Anglo-French relations.
+                \b Beyond the immediate concerns of colonial demarcation addressed by the agreement, 
+                \b the signing of the Entente Cordiale marked the end of almost a thousand years of intermittent conflict between the two states and their predecessors, 
+                \b and replaced the modus vivendi that had existed since the end of the Napoleonic Wars in 1815 with a more formal agreement.
+                \b The Entente Cordiale represented the culmination of the policy of Théophile Delcassé (France's foreign minister from 1898 to 1905), 
+                \b who believed that a Franco-British understanding would give France some security in Western Europe 
+                \b against any German system of alliances (see Triple Alliance (1882)). 
+                \b Credit for the success of the negotiation of the Entente Cordiale belongs chiefly to 
+                \b Paul Cambon (France's ambassador in London from 1898 to 1920) and to the British Foreign Secretary, Lord Lansdowne.
+            + The most important feature of the agreement was the mutual recognition that Britain was in full control of Egypt and likewise France of Morocco, 
+                \b with the proviso that France's eventual dispositions for Morocco include reasonable allowance for Spain's interests there. 
+                \b At the same time, Britain ceded the Los Islands (off French Guinea) to France, 
+                \b defined the frontier of Nigeria in France's favour, 
+                \b and agreed to French control of the upper Gambia valley; 
+                \b while France renounced its exclusive right to certain fisheries off Newfoundland. 
+                \b Furthermore, French and British proposed zones of influence in Siam (Thailand), 
+                \b which was eventually decided not to be colonised, 
+                \b were outlined, with the eastern territories, adjacent to French Indochina, becoming a proposed French zone, 
+                \b and the western, adjacent to Burmese Tenasserim, a proposed British zone. 
+                \b Arrangements were also made to allay the rivalry between British and French colonists in the New Hebrides.
+            + In signing of the Entente Cordiale both powers reduced the virtual isolation into which they had withdrawn
+                \b — France involuntarily, Britain complacently — while they had eyed each other over African affairs. 
+                \b Britain had no major-power ally apart from Japan (1902), which held little in European waters; 
+                \b France had none but the Russian Empire, soon to become militarily discredited in the Russo-Japanese War of 1904-05. 
+                \b The agreement upset the diplomacy of Germany, whose policy had long relied on Franco-British antagonism. 
+                \b A German attempt to check the French in Morocco in 1905 (the Tangier Incident, or First Moroccan Crisis), 
+                \b and thus to upset the Entente, served only to strengthen it. 
+                \b Military discussions between the French and the British general staffs were soon initiated. 
+                \b Franco-British solidarity was confirmed at the Algeciras Conference (1906) and 
+                \b reconfirmed in the Second Moroccan Crisis (1911).
+
+    alliance anglo_russian_convention_1907
+        title Anglo-Russian Convention
+        date 1907/8/31
+        friends
+            state kingdom_of_great_britain
+            state russian_empire
+        wiki https://en.wikipedia.org/wiki/Anglo-Russian_Convention
+            + The Anglo-Russian Convention of 1907 relating to Persia, Afghanistan, and Tibet, was signed on August 31, 1907, in Saint Petersburg. 
+                \b It ended the longstanding rivalry in Central Asia and enabled the two countries to outflank the Germans, 
+                \b who were threatening to connect Berlin to Baghdad with a new railroad that could potentially align the Ottoman Empire with Imperial Germany.
+            + The Convention ended the long dispute over Persia. 
+                \b Great Britain promised to stay out of northern Persia, 
+                \b and Russia recognized southern Persia as part of the British sphere of influence. 
+                \b Russia also promised to stay out of Tibet and Afghanistan. 
+                \b In exchange, London extended loans and some political support.
+                \b The convention brought shaky British-Russian relations to the forefront 
+                \b by solidifying boundaries that identified respective control in Persia, Afghanistan and Tibet. 
+                \b It delineated spheres of influence in Persia, stipulated that neither country would interfere in Tibet's internal affairs, 
+                \b and recognized Britain's influence over Afghanistan.
+                \b The agreement led to the formation of the Triple Entente.
+
+    alliance triple_entente_1907
+        title Triple Entente
+        date
+            start 1907
+            end 1917
+        friends
+            state kingdom_of_great_britain
+            state russian_empire
+            state french_third_republic
+        wiki https://en.wikipedia.org/wiki/Triple_Entente
+            + The Triple Entente describes the informal understanding between the Russian Empire, the French Third Republic and the United Kingdom of Great Britain and Ireland. 
+                \b It was built upon the Franco-Russian Alliance of 1894, the Entente Cordiale of 1904 between Paris and London, and the Anglo-Russian Entente of 1907. 
+                \b It formed a powerful counterweight to the Triple Alliance of Germany, Austria-Hungary, and Italy. 
+                \b The Triple Entente, unlike the Triple Alliance or the Franco-Russian Alliance itself, was not an alliance of mutual defence.
+            + The Franco-Japanese Treaty of 1907 was a key part of building a coalition 
+                \b as France took the lead in creating alliances with Japan, Russia, and (informally) with Britain. 
+                \b Japan wanted to raise a loan in Paris, so France made the loan contingent on a Russo-Japanese agreement and 
+                \b a Japanese guarantee for France's strategically vulnerable possessions in Indochina. 
+                \b Britain encouraged the Russo-Japanese rapprochement. Thus was built the Triple Entente coalition that fought World War I.
+            + At the start of World War I in 1914, all three Triple Entente members entered it as Allied Powers against the Central Powers: Germany and Austria-Hungary.
+                \b On September 4, 1914, the Triple Entente issued a declaration undertaking not to conclude a separate peace and 
+                \b only to demand terms of peace agreed between the three parties.
+                \b Historians continue to debate the importance of the alliance system as one of the causes of World War I.

@@ -1,0 +1,12 @@
+$group
+
+    theory Giurisdizionalismo
+    
+    theory Costituzionalismo aristocratico
+        author Montesquieu
+
+    theory Dispotismo illuminato
+        author Voltaire
+
+    theory Stato rappresentativo della sovranità popolare
+        author Rousseau

@@ -1,0 +1,13 @@
+$group
+
+    theory liberalismo_aristocratico
+
+    theory liberalismo_democratico
+
+    party tory
+
+    party whig
+
+    party liberale_whig
+        Russel 
+        Gladstone

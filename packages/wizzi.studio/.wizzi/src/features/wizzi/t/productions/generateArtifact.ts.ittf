@@ -119,9 +119,19 @@ $group
                         const generator = _options.generator ? _options.generator : wizziMaps.generatorFor(filePath)
                         if generator
                             # TODO catch error
+                            const plugins
+                                iif _options.pluginsBaseFolder && _options.plugins
+                                    then
+                                        {
+                                            @ pluginsBaseFolder _options.pluginsBaseFolder
+                                            @ items _options.plugins
+                                    else null
                             const wf
                                 await
-                                    _ createFilesystemFactory()
+                                    _ createFilesystemFactory
+                                        @ plugins
+                                        @ null
+                                        {
                             try
                                 _ wf.loadModelAndGenerateArtifact
                                     @ filePath

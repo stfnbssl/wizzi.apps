@@ -1,0 +1,64 @@
+module
+    import path from 'path'
+    import
+        @ verify
+        @ fSystem
+        from 'wizzi-utils'
+    import
+        @ config
+        from '../../config'
+    import
+        @ wizziProds
+        from '../../wizzi'
+    import * as wizziFs from '../../../utils/wizziFs'
+    var fsfile = fSystem.vfile()
+    var plugins
+        [
+            @ "./wizzi.plugin.philos/index.js"
+            @ "./wizzi.plugin.json/index.js"
+    var pluginsBaseFolder = "C:/My/wizzi/stfnbssl/wizzi.plugins/packages" 
+    +
+    async-function getPhilosList
+        r_promise()
+            let philosFolderPath
+                _ path.join
+                    @ config.ittfPath
+                    @ 'philos'
+            _ wizziFs.getFolderFiles
+                @ philosFolderPath
+                @ philosFolderPath
+                @ '/philos'
+                a_then( philos )
+                    log 'api/philos/getPhilosList', philos
+                    return
+                        _ resolve
+                            @ philos
+                catch_reject( features.philos.api.getPhilosList )
+    +
+    async-function getPhilosItem
+        param name
+            :string
+        r_promise()
+            let philosItemPath
+                _ path.join
+                    @ config.ittfPath
+                    @ 'philos'
+                    @ name + '.philos.ittf'
+            _ wizziProds.loadAndTransformModelFs
+                @ philosItemPath
+                {
+                {
+                    @ plugins plugins
+                    @ pluginsBaseFolder pluginsBaseFolder
+                    @ transformer "philos/extended"
+                a_then( philosModelTransformed )
+                    log 'api/philos/getPhilosItem/philosModelTransformed', Object.keys(philosModelTransformed)
+                    return
+                        _ resolve
+                            @ philosModelTransformed.transformResult
+                catch_reject( features.philos.api.getPhilosItem )
+
+    +
+    export
+        @ getPhilosList
+        @ getPhilosItem

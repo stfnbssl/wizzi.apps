@@ -26,7 +26,7 @@ module
         import {HelmetMiddleware} from './helmet'
     $if wzCtx.Build.useNetlify
         import { NetlifyServerMiddleware } from './netlifyServer'
-    $if wzCtx.Build.useAuthentication
+    $if wzCtx.Build.useAuthentication || wzCtx.Build.useLocalUserFromConfig
         import {UserInViewMiddleware} from './userInViews'
     $if wzCtx.Build.express.useStaticFiles
         import { StaticFilesMiddleware } from './static'
@@ -69,7 +69,7 @@ module
                     @ HelmetMiddleware
                 $if wzCtx.Build.useNetlify
                     @ NetlifyServerMiddleware
-                $if wzCtx.Build.useAuthentication
+                $if wzCtx.Build.useAuthentication || wzCtx.Build.useLocalUserFromConfig
                     @ UserInViewMiddleware
                 $if wzCtx.Build.express.useStaticFiles
                     @ StaticFilesMiddleware

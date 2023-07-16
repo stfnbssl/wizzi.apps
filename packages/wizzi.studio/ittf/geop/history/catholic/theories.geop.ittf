@@ -1,0 +1,38 @@
+$group
+
+    gov-principle costituzionalismo
+        title Costituzionalismo
+            alias Costituzionalismo aristocratico
+    gov-principle legge
+        title Legge
+            alias Giurisdizionalismo
+                + ???
+    gov-principle tradizione
+    gov-principle parlamentarismo
+    gov-principle assolutismo
+        title Assolutismo
+            alias Dominio della spada
+            alias Dispotismo
+    gov-principle repubblicanesimo
+        title Repubblicanesimo
+
+    theory Giurisdizionalismo
+    
+    theory Costituzionalismo aristocratico
+        author Montesquieu
+
+    theory Dispotismo illuminato
+        author Voltaire
+
+    theory Stato rappresentativo della sovranità popolare
+        author Rousseau
+
+    school british_currency_school
+        title British Currency School
+        wiki https://en.wikipedia.org/wiki/British_Currency_School
+
+    school british_banking_school
+        title British Banking School
+        wiki https://en.wikipedia.org/wiki/British_Banking_School        
+        see
+            url https://sovereignmoney.site/1-currency-versus-banking-teachings/

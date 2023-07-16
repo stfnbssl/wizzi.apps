@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdateTFolder.tsx.ittf
 */
 import React, {Component} from 'react';
@@ -44,6 +44,7 @@ type UpdateTFolderProductionState = {
     tf_add_tfolder: boolean;
     tf_dependencies: any[];
     tf_name_new_available: boolean;
+    tf_name_new_checked: boolean;
 };
 
 interface RootStyleProps {
@@ -74,7 +75,8 @@ export class UpdateTFolderProduction extends Component<UpdateTFolderProductionPr
         tf_dependencies: [
             
         ], 
-        tf_name_new_available: false
+        tf_name_new_available: false, 
+        tf_name_new_checked: false
     }
     ;
     async _checkAvalibleTFolderName() {
@@ -135,7 +137,7 @@ export class UpdateTFolderProduction extends Component<UpdateTFolderProductionPr
     };
     handleCancel = (ev: React.MouseEvent<HTMLElement>) => {
         ev.preventDefault();
-        window.location.href = "/productions/tfolders";
+        window.location.href = "/packi/productions/tfolders";
     };
     componentDidMount() {
         console.log('UpdateTFolderProduction.componentDidMount.props', this.props, __filename);
@@ -154,7 +156,7 @@ export class UpdateTFolderProduction extends Component<UpdateTFolderProductionPr
             tf_owner: owner, 
             tf_name_old: name, 
             tf_name_new: name, 
-            mp_name_new_available: true, 
+            tf_name_new_available: true, 
             tf_description: description, 
             tf_add_context: tf_contexts.length > 0, 
             tf_contexts, 

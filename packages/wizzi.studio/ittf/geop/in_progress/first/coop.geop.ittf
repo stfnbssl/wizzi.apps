@@ -1,0 +1,188 @@
+$group
+
+    coop ASEAN
+        title Associazione delle Nazioni del Sud-est asiatico
+            en Association of South-East Asian Nations
+        type Organizzazione_politica_economica_culturale
+        from 8/8/1967
+        country Filippine
+        country Indonesia
+        country Malaysia
+        country Singapore
+        country Thailandia
+        country Brunei
+            from 7/1/1984
+        country Vietnam
+            from 28/7/1995
+        country Birmania
+            from 23/7/1997
+        country Laos
+            from 23/7/1997
+        country Cambogia
+            from 30/4/1999
+        url https://asean.org/
+        wiki https://it.wikipedia.org/wiki/Associazione_delle_Nazioni_del_Sud-est_asiatico
+
+    coop SCO
+        title Organizzazione per la Cooperazione di Shanghai
+            en Shanghai Cooperation Organization
+        acronym OCS
+            en SCO
+        type Organismo_Intergovernativo
+        country India
+            from 9/6/2017
+        country Cina
+            from 26/4/1996
+        country Russia
+            from 26/4/1996
+        country Kazakistan
+            from 26/4/1996
+        country Kirghizistan
+            from 26/4/1996
+        country Tagikistan
+            from 26/4/1996
+        country Uzbekistan
+            from 15/6/2001
+        country Pakistan
+            from 9/6/2017
+        country Iran
+            from 17/9/2021
+        url http://eng.sectsco.org/
+        wiki https://it.wikipedia.org/wiki/Organizzazione_per_la_Cooperazione_di_Shanghai
+
+    coop QUAD
+        title Dialogo quadrilaterale di sicurezza
+            en Quadrilateral Security Dialogue
+        type Military_Cooperation
+        country USA
+        country India
+        country Giappone
+        country Australia
+        wiki https://it.wikipedia.org/wiki/Dialogo_quadrilaterale_di_sicurezza
+        article pani.stati-uniti-quale-rilevanza-assumera-il-quad-nel-contrasto-alla-cina
+            url https://iari.site/2021/11/15/stati-uniti-quale-rilevanza-assumera-il-quad-nel-contrasto-alla-cina/
+            title STATI UNITI: QUALE RILEVANZA ASSUMERÀ IL QUAD NEL CONTRASTO ALLA CINA?
+            date 15/11/2021
+            author Pani_Federico
+
+    coop AUKUS
+        title Patto di sicurezza trilaterale tra Australia, Gran Bretagna e USA per la regione del Pacifico
+            en Trilateral security pact between Australia, the United Kingdom, and the United States, for the Indo-Pacific region[
+        type Patto_Sicurezza
+        date 15/9/2021
+        country USA
+        country GranBretagna
+        country Australia
+        wiki https://it.wikipedia.org/wiki/AUKUS
+        url https://www.whitehouse.gov/briefing-room/statements-releases/2021/09/15/joint-leaders-statement-on-aukus/
+        article pani.quali-saranno-le-conseguenze-dellaccordo-aukus-contrastera-la-cina-o-sfilaccera-lalleanza-transatlantica
+            url https://iari.site/2021/10/24/quali-saranno-le-conseguenze-dellaccordo-aukus-contrastera-la-cina-o-sfilaccera-lalleanza-transatlantica/
+            title QUALI SARANNO LE CONSEGUENZE DELL’ACCORDO AUKUS? CONTRASTERÀ LA CINA O SFILACCERÀ L’ALLEANZA TRANSATLANTICA?
+            date 24/10/2021
+            author Pani_Federico
+
+    coop CSI
+        title Comunità degli Stati Indipendenti
+        + La CSI è un'organizzazione internazionale composta da nove delle quindici ex repubbliche sovietiche, 
+            \b cui si aggiunge il Turkmenistan come membro associato.
+            \b La sede della CSI è a Minsk, capitale della Bielorussia.
+        country Armenia
+            from 21/12/1991
+        country Azerbaigian
+            from 21/12/1991
+        country Bielorussia Bielorussia
+            from 8/12/1991
+        country Kazakistan
+            from 21/12/1991
+        country Kirghizistan
+            from 21/12/1991
+        country Moldavia
+            from 21/12/1991
+        country Russia
+            from 8/12/1991
+        country Tagikistan
+            from 21/12/1991
+        country Uzbekistan Uzbekistan	21 dicembre 1991	1º aprile 1992	9 febbraio 1994
+            from 21/12/1991
+        wiki https://it.wikipedia.org/wiki/Comunit%C3%A0_degli_Stati_Indipendenti
+    
+    coop UEE
+        title Unione economica eurasiatica
+        + L'Unione economica eurasiatica (UEE) è un'unione economica 
+            \b ispirata all'integrazione tra i paesi dell'Unione europea, 
+            \b è stata annunciata nell'ottobre 2011 dall'allora primo ministro russo Vladimir Putin, 
+            \b che riprese una proposta lanciata originariamente dal presidente kazako Nursultan Nazarbaev nel 1994.
+        country Russia
+            from 1/1/2015
+        country Bielorussia
+            from 1/1/2015
+        country Kazakistan
+            from 1/1/2015
+        country Armenia
+            from 2/1/2015
+        country Kirghizistan
+            from 12/8/2015
+        wiki https://it.wikipedia.org/wiki/Unione_economica_eurasiatica
+
+    coop OIC
+        title Organization of Islamic Cooperation
+        + Ha come finalità la salvaguardia degli interessi e lo sviluppo delle popolazioni musulmane nel mondo.
+        country Afghanistan
+        country Albania
+        country Algeria
+        country Azerbaijan
+        country Bahrain
+        country Bangladesh
+        country Benin
+        country Brunei
+        country Burkina-Faso
+        country Cameroon
+        country Chad
+        country Comoros
+        country Cot D’Ivoire
+        country Djibouti
+        country Egypt
+        country Gabon
+        country Gambia
+        country Guinea
+        country Guinea-Bissau
+        country Guyana
+        country Indonesia
+        country Iran
+        country Iraq
+        country Jordan
+        country Kazakhstan
+        country Kuwait
+        country Kyrgyzstan
+        country Lebanon
+        country Libya
+        country Malaysia
+        country Maldives
+        country Mali
+        country Mauritania
+        country Morocco
+        country Mozambique
+        country Niger
+        country Nigeria
+        country Oman
+        country Pakistan
+        country Palestine
+        country Qatar
+        country Saudi Arabia
+        country Senegal
+        country Sierra Leone
+        country Somalia
+        country Sudan
+        country Suriname
+        country Syria
+        country Tajikistan
+        country Togo
+        country Tunisia
+        country Turkey
+        country Turkmenistan
+        country Uganda
+        country United Arab Emirates
+        country Uzbekistan
+        country Yemen
+        url https://www.oic-oci.org/home/?lan=en
+        wiki https://it.wikipedia.org/wiki/Organizzazione_della_cooperazione_islamica

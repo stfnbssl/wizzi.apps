@@ -1,0 +1,19 @@
+$group
+
+    concept Non interventismo
+        title Non interventismo dei paesi non allineati
+
+    concept Autonomia strategica
+
+    concept Prigione dei popoli
+        author Lenin
+        quote
+            + Le parole “prigione dei popoli”, con cui Lenin descrisse l'impero zarista, 
+                \b non sono meno assurde per la Russia sovietica di quanto fossero per la Russia imperiale o per l'Austria-Ungheria. 
+                \b Usarle significa dimenticare quali vantaggi morali, culturali, religiosi, economici 
+                \b molte minoranze abbiano tratto dalla loro appartenenza a un grande stato. 
+            book romano_sergio.disegno-della-storia-d-europa-1789-1989
+            page 235
+
+
+    

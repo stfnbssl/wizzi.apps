@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.13
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
+    package: wizzi-js@0.7.14
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\pageforms\UpdateArtifactProduction.tsx.ittf
 */
 import React, {Component} from 'react';
@@ -40,10 +40,13 @@ type UpdateArtifactProductionState = {
     ap_name_new: string;
     ap_description: string;
     ap_add_context: boolean;
+    ap_mainIttf: string;
+    ap_wizziSchema: string;
     ap_contexts: any[];
     ap_add_tfolder: boolean;
     ap_dependencies: any[];
     ap_name_new_available: boolean;
+    ap_name_new_checked: boolean;
 };
 
 interface RootStyleProps {
@@ -67,6 +70,8 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
         ap_name_new: "", 
         ap_description: "", 
         ap_add_context: false, 
+        ap_mainIttf: "", 
+        ap_wizziSchema: "", 
         ap_contexts: [
             
         ], 
@@ -74,7 +79,8 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
         ap_dependencies: [
             
         ], 
-        ap_name_new_available: false
+        ap_name_new_available: false, 
+        ap_name_new_checked: false
     }
     ;
     async _checkAvalibleArtifactName() {
@@ -135,7 +141,7 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
     };
     handleCancel = (ev: React.MouseEvent<HTMLElement>) => {
         ev.preventDefault();
-        window.location.href = "/productions/artifacts";
+        window.location.href = "/packi/productions/artifacts";
     };
     componentDidMount() {
         console.log('UpdateArtifactProduction.componentDidMount.props', this.props, __filename);
@@ -156,7 +162,7 @@ export class UpdateArtifactProduction extends Component<UpdateArtifactProduction
             ap_owner: owner, 
             ap_name_old: name, 
             ap_name_new: name, 
-            mp_name_new_available: true, 
+            ap_name_new_available: true, 
             ap_description: description, 
             ap_mainIttf: mainIttf, 
             ap_wizziSchema: wizziSchema, 

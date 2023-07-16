@@ -22,7 +22,7 @@ $group
                                 =>
                                     param ap
                                         :any
-                                    _ wizziProds.transformModel
+                                    _ wizziProds.loadAndTransformModel
                                         @ ap.mainIttf
                                         @ ap.packiFiles
                                         @ context
@@ -75,7 +75,7 @@ $group
                                     param productionObj
                                         :any
                                     # loog 'getArtifactTransformation_withPrepare.productionObj', 'mainIttf', productionObj.mainIttf, 'packiFiles', Object.keys(productionObj.packiFiles), 'context', Object.keys(productionObj.context),
-                                    _ wizziProds.transformModel
+                                    _ wizziProds.loadAndTransformModel
                                         @ productionObj.mainIttf
                                         @ productionObj.packiFiles
                                         @ productionObj.context

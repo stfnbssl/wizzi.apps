@@ -1,0 +1,12 @@
+$group
+
+    namespace freud.progetto
+
+        concept traccia
+            title Traccia
+
+        concept traccia-di-realtà
+            title Traccia di realtà
+
+        concept traccia-di-processo
+            title Traccia di pensiero

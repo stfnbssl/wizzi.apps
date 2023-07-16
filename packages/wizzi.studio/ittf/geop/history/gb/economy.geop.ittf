@@ -1,0 +1,14 @@
+$group
+
+    crisis 1825
+    crisis 1836-39
+    crisis 1847
+    crisis 1857
+    crisis 1866
+    crisis 1873
+    crisis 1882
+    crisis 1890
+
+    crisis harvest_failure_1845
+
+    mania railway_mania_1845

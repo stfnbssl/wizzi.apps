@@ -1,0 +1,23 @@
+$group
+
+    king charles_v_habsburg 
+        title Charles V
+            it Carlo V
+        house Habsburg
+        born 1500/2/24
+        died 1558/9/21
+        in-charge
+            start 1516
+            end 1556
+        wiki https://en.wikipedia.org/wiki/Charles_V,_Holy_Roman_Emperor
+        + was Holy Roman Emperor and Archduke of Austria from 1519 to 1556, 
+            \b King of Spain (Castile and Aragon) from 1516 to 1556, 
+            \b and Lord of the Netherlands as titular Duke of Burgundy from 1506 to 1555. 
+            \b As he was head of the rising House of Habsburg during the first half of the 16th century, 
+            \b his dominions in Europe included the Holy Roman Empire, extending from Germany to northern Italy 
+            \b with direct rule over the Austrian hereditary lands and the Burgundian Low Countries, 
+            \b and the Kingdom of Spain with its southern Italian possessions of Naples, Sicily, and Sardinia. 
+            \b Furthermore, he oversaw both the continuation of the long-lasting Spanish colonization of the Americas and 
+            \b the short-lived German colonization of the Americas. 
+            \b The personal union of the European and American territories of Charles V was the first collection of realms 
+            \b labelled "the empire on which the sun never sets".        

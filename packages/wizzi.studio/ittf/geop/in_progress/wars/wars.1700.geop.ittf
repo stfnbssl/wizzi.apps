@@ -1,0 +1,31 @@
+$group
+
+    war Guerra di successione spagnola (1701-1714)
+        start 1701
+        end 1714
+        wiki https://it.wikipedia.org/wiki/Guerra_di_successione_spagnola
+    
+    war Guerra di successione polacca (1733-1738)
+        start 1733
+        end 1738
+        wiki https://it.wikipedia.org/wiki/Guerra_di_successione_polacca
+    
+    war Guerra di successione austriaca (1740-1748)
+        start 1740
+        end 1748
+        + Coinvolse quasi tutte le potenze europee, 
+            \b scoppiò all'ascesa al trono austriaco di Maria Teresa d'Austria, 
+            \b fondamentalmente a causa delle mire espansionistiche di Federico II di Prussia. 
+        wiki https://it.wikipedia.org/wiki/Guerra_di_successione_austriaca
+    
+    war Guerra dei Sette anni (1756-1763)
+        start 1754
+        end 1763
+        + In America era iniziata nel 1754.
+        + L'Inghilterra ottenne una vittoria completa, estromettendo la Francia dal Nordamerica, 
+            \b togliendole basi negriere e relegandola in posizione di secondo piano in India.
+        + La vittoria inglese provocò una crisi del sistema imperiale britannico, 
+            \b la scomparsa della minaccia francese accentuò le spinte autonomistiche
+            \b delle colonie inglesi nel continente nordamericano 
+            \b che sfociarono nella guerra di indipendenza americana.
+        wiki https://it.wikipedia.org/wiki/Guerra_dei_sette_anni

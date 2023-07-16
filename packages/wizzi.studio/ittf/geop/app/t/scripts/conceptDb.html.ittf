@@ -1,0 +1,118 @@
+$group
+
+    script
+        type text/babel
+        module
+            function dbGetArticleQuotes
+                param id
+                param dbParam
+
+                var quotes = []
+
+                foreach c in dbParam.concepts
+                    if c.contents
+                        foreach item in c.contents
+                            if item.quote && item.quote.article == id
+                                log 'dbGetArticleQuotes', c.id 
+                                _ quotes.push
+                                    {
+                                        @ concept c
+                                        @ quote item.quote
+                
+                return quotes
+
+            function dbGetById
+                param coll
+                param id
+                return
+                    _ coll.find
+                        =>
+                            param item
+                            return item.id == id
+
+            function dbGetAuthor
+                param id
+                param dbParam
+                var db = dbParam || gJsonData
+                log 'dbGetAuthor', id
+                return
+                    _ dbGetById
+                        @ db.authors
+                        @ id
+
+            function dbGetConcept
+                param id
+                param dbParam
+                var db = dbParam || gJsonData
+                return
+                    _ dbGetById
+                        @ db.concepts
+                        @ id
+
+            function dbGetArticle
+                param id
+                param dbParam
+                var db = dbParam || gJsonData
+                return
+                    _ dbGetById
+                        @ db.articles
+                        @ id
+
+            function dbGetBook
+                param id
+                param dbParam
+                var db = dbParam || gJsonData
+                return
+                    _ dbGetById
+                        @ db.books
+                        @ id
+
+            function dbGetAuthors
+                param authorIdColl
+                param dbParam
+                var db = dbParam || gJsonData
+                var authorObjColl = []
+                foreach item in authorIdColl
+                    var aObj = dbGetAuthor(item, dbParam)
+                    if !aObj
+                        set aObj
+                            {
+                                @ id item.id
+                                @ fullname 'missing author info'
+                    _ authorObjColl.push
+                        @ aObj
+                return authorObjColl
+
+            function dbExtractTitleText
+                param title
+                param defaultValue
+                if !title
+                    return defaultValue
+                return title.text || defaultValue
+
+            function dbFilterIdAndTitle
+                param item
+                param searchText
+                if !searchText || searchText.length == 0
+                    return true
+                if item.id.indexOf(searchText) > -1
+                    return true
+                var titleText = dbExtractTitleText(item)
+                if titleText && titleText.indexOf(searchText) > -1
+                    return true
+
+            function dbFilterIdAndTitleState
+                param item
+                param searchText
+                param selectedState
+                if item.ns != 'states.' + selectedState
+                    return false
+                if !searchText || searchText.length == 0
+                    return true
+                if item.id.indexOf(searchText) > -1
+                    return true
+                var titleText = dbExtractTitleText(item)
+                if titleText && titleText.indexOf(searchText) > -1
+                    return true
+
+

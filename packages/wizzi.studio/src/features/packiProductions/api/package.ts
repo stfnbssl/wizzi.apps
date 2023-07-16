@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\api\package.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '../../types';
@@ -237,11 +237,7 @@ export async function getPackageProductionObjectById(id: string, loadPackiConfig
 async function _createPackageProductionObject(pp: IPackageProductionModel, loadPackiConfig?: boolean) {
 
     
-    return new Promise(
-        // loog 'myname', '_createPackageProductionObject.pp', Object.keys(pp)
-        
-        // loog 'myname', '_createPackageProductionObject.pp_packiFiles_object', Object.keys(pp_packiFiles_object)
-        (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         
             const pp_packiFiles_object: packiTypes.PackiFiles = JSON.parse(pp.packiFiles);
             const obj = {
@@ -264,9 +260,7 @@ async function _createPackageProductionObject(pp: IPackageProductionModel, loadP
                         type: obj.packiConfig.type, 
                         contents: obj.packiConfig.contents
                      }
-                 }, {}).then(
-                // loog myname, '_createPackageProductionObject', 'obj.packiConfigObj', JSON.stringify(obj.packiConfigObj)
-                (generationResult: any) => {
+                 }, {}).then((generationResult: any) => {
                 
                     obj.packiConfigObj = JSON.parse(generationResult.artifactContent);
                     return resolve(obj);
@@ -280,7 +274,6 @@ async function _createPackageProductionObject(pp: IPackageProductionModel, loadP
                 }
                 )
             }
-            // loog 'myname', '_createPackageProductionObject.resolve', Object.keys(obj)
             else {
                 return resolve(obj);
             }
@@ -599,9 +592,9 @@ async function getWizziMetaFolderByPackageProductionObject(packageProductionObje
 
     return new Promise((resolve, reject) => 
         
-            productionApi.getCliCtxFromPackiConfig(packageProductionObject.owner, packageProductionObject.packiConfigObj, packageProductionObject.packiFiles, progressiveContext).then((cliCtx: any) => 
+            productionApi.getCliCtxFromPackiConfig(packageProductionObject.owner, packageProductionObject.packiConfigObj, packageProductionObject.packiFiles, progressiveContext).then((metaCtx: any) => 
             
-                metaApi.generateMetaProduction(packageProductionObject.owner, packageProductionObject.packiConfigObj.meta.name, cliCtx).then(
+                metaApi.generateMetaProduction(packageProductionObject.owner, packageProductionObject.packiConfigObj.meta.name, metaCtx).then(
                 // loog myname, 'getWizziMetaFolderByPackageProductionObject.generateMetaProduction', Object.keys(wizziPackiFiles)
                 (wizziPackiFiles: packiTypes.PackiFiles) => {
                 

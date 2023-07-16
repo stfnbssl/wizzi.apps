@@ -1,0 +1,8 @@
+geop history_gb
+
+    $include ./history/periods
+    $include ./history/alliances
+    $include ./history/military
+    $include ./history/diplomacy
+    $include ./history/states
+    $include ./history/gb/index

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\api\meta.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '../../types';
@@ -236,11 +236,7 @@ export async function getMetaProductionObjectById(id: string, loadPackiConfig?: 
 async function _createMetaProductionObject(mp: IMetaProductionModel, loadPackiConfig?: boolean) {
 
     
-    return new Promise(
-        // loog 'myname', '_createMetaProductionObject.mp', Object.keys(mp)
-        
-        // loog 'myname', '_createMetaProductionObject.mp_packiFiles_object', Object.keys(mp_packiFiles_object)
-        (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         
             const mp_packiFiles_object: packiTypes.PackiFiles = JSON.parse(mp.packiFiles);
             const obj = {
@@ -263,9 +259,7 @@ async function _createMetaProductionObject(mp: IMetaProductionModel, loadPackiCo
                         type: obj.packiConfig.type, 
                         contents: obj.packiConfig.contents
                      }
-                 }, {}).then(
-                // loog myname, '_createMetaProductionObject', 'obj.packiConfigObj', JSON.stringify(obj.packiConfigObj)
-                (generationResult: any) => {
+                 }, {}).then((generationResult: any) => {
                 
                     obj.packiConfigObj = JSON.parse(generationResult.artifactContent);
                     return resolve(obj);
@@ -279,7 +273,6 @@ async function _createMetaProductionObject(mp: IMetaProductionModel, loadPackiCo
                 }
                 )
             }
-            // loog 'myname', '_createMetaProductionObject.resolve', Object.keys(obj)
             else {
                 return resolve(obj);
             }
@@ -529,8 +522,7 @@ export async function getMetaProductionObjectById_stop(id: string) {
         );
 }
 
-export // loog 'getMetaProduction_withCache.cacheKey', cacheKey
-async function getMetaProduction_withCache(owner: string, name: string) {
+export async function getMetaProduction_withCache(owner: string, name: string) {
 
     var cacheKey = owner + '|' + name;
     return new Promise((resolve, reject) => {
@@ -570,8 +562,8 @@ export function invalidateCache(owner: string, name?: string) {
     metaProductionCache.del(cacheKey);
 }
 
-export // loog myname, 'getTemplatePackiFiles', 'metaId', metaId, 'cliCtx', Object.keys(cliCtx), 'queryString', queryString, 'rootContext', Object.keys(rootContext), 'options', Object.keys(options)
-async function getTemplatePackiFiles(metaId: string, cliCtx: any, queryString: string, rootContext: any, options: any):  Promise<packiTypes.PackiFiles> {
+export // loog myname, 'getTemplatePackiFiles', 'metaId', metaId, 'metaCtx', Object.keys(metaCtx), 'queryString', queryString, 'rootContext', Object.keys(rootContext), 'options', Object.keys(options)
+async function getTemplatePackiFiles(metaId: string, metaCtx: any, queryString: string, rootContext: any, options: any):  Promise<packiTypes.PackiFiles> {
 
     function getPackiFiles(wizziSchema: string, mainIttf: string):  packiTypes.PackiFiles {
     
@@ -594,7 +586,7 @@ async function getTemplatePackiFiles(metaId: string, cliCtx: any, queryString: s
             (metaProductionSet: any) => {
             
                 const context = Object.assign({}, metaProductionSet.context, {
-                    cliCtx: cliCtx
+                    metaCtx: metaCtx
                  });
                 wizziProds.generateFolderArtifacts('template', 'output', metaProductionSet.packiFiles, context).then(
                 // loog 'getTemplatePackiFiles.generatedFolderArtifacts', 'packiFiles', Object.keys(packiFiles),
@@ -623,20 +615,20 @@ async function getTemplatePackiFiles(metaId: string, cliCtx: any, queryString: s
 }
 
 export // loog myname, 'generateMetaProduction', 'owner', owner, 'name', name
-async function generateMetaProduction(owner: string, name: string, cliCtx: any):  Promise<packiTypes.PackiFiles> {
+async function generateMetaProduction(owner: string, name: string, metaCtx: any):  Promise<packiTypes.PackiFiles> {
 
     return getMetaProduction(owner, name).then(
         // loog myname, 'generateMetaProduction.gotMetaProductionItem', 'CRUDResult.item.id,keys', metaProduction.item.id, Object.keys(metaProduction.item)
         (metaProduction: CRUDResult) => {
         
-            return generateMetaProductionById(metaProduction.item.id, cliCtx);
+            return generateMetaProductionById(metaProduction.item.id, metaCtx);
         }
         )
     ;
 }
 
-export // loog myname, 'generateMetaProductionById', 'metaId', metaId, 'cliCtx', Object.keys(cliCtx)
-async function generateMetaProductionById(metaId: string, cliCtx: any):  Promise<packiTypes.PackiFiles> {
+export // loog myname, 'generateMetaProductionById', 'metaId', metaId, 'metaCtx', Object.keys(metaCtx)
+async function generateMetaProductionById(metaId: string, metaCtx: any):  Promise<packiTypes.PackiFiles> {
 
     return new Promise((resolve, reject) => 
         
@@ -644,7 +636,7 @@ async function generateMetaProductionById(metaId: string, cliCtx: any):  Promise
             
                 console.log('generateMetaProductionById.metaProductionSet', 'packiFiles', Object.keys(metaProductionSet.packiFiles), 'context', Object.keys(metaProductionSet.context),__filename);
                 const metaContext = Object.assign({}, metaProductionSet.context, {
-                    cliCtx: cliCtx
+                    metaCtx: metaCtx
                  });
                 wizziProds.metaGenerate(metaProductionSet.packiFiles, metaContext).then(
                 // loog 'generateMetaProductionById.metaGenerate.result', 'packiFiles', Object.keys(packiFiles),

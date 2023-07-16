@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\api\production.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import {packiTypes} from '../../packi';
 import {wizziProds} from '../../wizzi';
@@ -663,24 +663,24 @@ export async function getCliCtxFromPackiConfig(owner: string, packiConfigObj: an
     return new Promise((resolve, reject) => {
         
             
-            // loog 'api.production.getCliCtxFromPackiConfig', 'no cliCtx found'
-            if (!packiConfigObj.meta || !packiConfigObj.meta.cliCtx) {
+            // loog 'api.production.getCliCtxFromPackiConfig', 'no metaCtx found'
+            if (!packiConfigObj.meta || !packiConfigObj.meta.metaCtx) {
                 return resolve({});
             }
-            const kind = packiConfigObj.meta.cliCtx.kind;
+            const kind = packiConfigObj.meta.metaCtx.kind;
             let filePath;
             let artifact;
             
             // loog 'api.production.getCliCtxFromPackiConfig', 'getting from filePath', filePath
             if (kind == "file") {
-                filePath = packiConfigObj.meta.cliCtx.filePath;
+                filePath = packiConfigObj.meta.metaCtx.filePath;
                 return resolve(getCliCtxFromPackiFile(filePath, packiFiles, progressiveContext));
             }
             
             // loog 'api.production.getCliCtxFromPackiConfig', 'getting from artifact', artifact.name
             else if (kind == "artifact") {
-                artifact = packiConfigObj.meta.cliCtx.artifact;
-                artifactApi.getArtifactGeneration_withPrepare(owner, packiConfigObj.meta.cliCtx.artifact.name, null, progressiveContext, "").then((generationResult: any) => 
+                artifact = packiConfigObj.meta.metaCtx.artifact;
+                artifactApi.getArtifactGeneration_withPrepare(owner, packiConfigObj.meta.metaCtx.artifact.name, null, progressiveContext, "").then((generationResult: any) => 
                 
                     resolve(JSON.parse(generationResult.content))
                 ).catch((err: any) => {
@@ -692,7 +692,7 @@ export async function getCliCtxFromPackiConfig(owner: string, packiConfigObj: an
                 }
                 )
             }
-            // loog 'api.production.getCliCtxFromPackiConfig', 'no valid cliCtx kind found'
+            // loog 'api.production.getCliCtxFromPackiConfig', 'no valid metaCtx kind found'
             else {
                 return resolve({});
             }

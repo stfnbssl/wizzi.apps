@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\wizzi\factory.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import path from 'path';
 import wizzi from '@wizzi/factory';
@@ -21,15 +21,16 @@ function getWzCtxFactoryPlugins() {
     return {
             items: [
                 './wizzi.plugin.css/index.js', 
-                './wizzi.plugin.graphql/index.js', 
                 './wizzi.plugin.html/index.js', 
                 './wizzi.plugin.ittf/index.js', 
                 './wizzi.plugin.js/index.js', 
                 './wizzi.plugin.json/index.js', 
+                './wizzi.plugin.md/index.js', 
                 './wizzi.plugin.svg/index.js', 
                 './wizzi.plugin.text/index.js', 
                 './wizzi.plugin.ts/index.js', 
-                './wizzi.plugin.xml/index.js'
+                './wizzi.plugin.xml/index.js', 
+                './wizzi.plugin.yaml/index.js'
             ], 
             pluginsBaseFolder: 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages'
          };
@@ -39,15 +40,7 @@ function getWzCtxMetaPlugins() {
 
     return {
             items: [
-                './wizzi.meta.cloud/index', 
-                './wizzi.meta.commons/index', 
-                './wizzi.meta.docs/index', 
-                './wizzi.meta.js/index', 
-                './wizzi.meta.ts/index', 
-                './wizzi.meta.ts.express/index', 
-                './wizzi.meta.ts.db/index', 
-                './wizzi.meta.web/index', 
-                './wizzi.meta.wizzi/index'
+                
             ], 
             metaPluginsBaseFolder: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages'
          };

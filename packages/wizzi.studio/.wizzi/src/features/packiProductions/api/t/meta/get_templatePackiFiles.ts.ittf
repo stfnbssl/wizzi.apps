@@ -4,7 +4,7 @@ $group
         async-function getTemplatePackiFiles
             param metaId
                 :string
-            param cliCtx
+            param metaCtx
                 :any
             param queryString
                 :string
@@ -16,7 +16,7 @@ $group
                 :ref Promise
                     :param
                         :ref packiTypes.PackiFiles
-            # loog myname, 'getTemplatePackiFiles', 'metaId', metaId, 'cliCtx', Object.keys(cliCtx), 'queryString', queryString, 'rootContext', Object.keys(rootContext), 'options', Object.keys(options)
+            # loog myname, 'getTemplatePackiFiles', 'metaId', metaId, 'metaCtx', Object.keys(metaCtx), 'queryString', queryString, 'rootContext', Object.keys(rootContext), 'options', Object.keys(options)
             function getPackiFiles
                 param wizziSchema
                     :string
@@ -59,7 +59,7 @@ $group
                                             {
                                             @ metaProductionSet.context
                                             {
-                                                @ cliCtx cliCtx
+                                                @ metaCtx metaCtx
                                     _ wizziProds.generateFolderArtifacts
                                         @ 'template'
                                         @ 'output'

@@ -1,0 +1,7 @@
+$group
+
+    role Security_Actor
+        title Security actor
+
+    role Non_Conforming_Security_Actor
+        title Non conforming security actor

@@ -1,0 +1,33 @@
+$group
+
+    war Presa di Adrianopoli (Edirne)
+        start 1361
+
+    war Presa di Salonicco
+        start 1430
+        add Salonicco
+            from Venezia
+
+    war Presa di Costantinopoli
+        start 1453
+        add Costantinopoli
+            from Bisanzio
+
+    war Presa di Belgrado
+        start 1521
+        add Serbia
+
+    war Battaglia di Mohacs
+        start 1526
+        add Ungheria        
+
+    war Presa di Cipro
+        start 1571
+        add Cipro
+            from Venezia
+
+    war Guerra polacco-ottomana
+        start 1672
+        end 1676
+        add Podolia
+            from Polonia

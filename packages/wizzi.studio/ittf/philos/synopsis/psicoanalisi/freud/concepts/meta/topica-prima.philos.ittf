@@ -1,0 +1,11 @@
+$group
+
+    namespace freud.meta
+
+        concept prima-topica
+            title Prima topica
+            alias Prima teoria dell'apparato psichico
+            alias Dottrina/teoria delle provincie psichiche
+            
+
+        

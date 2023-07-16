@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\utils\wizziFs.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import path from 'path';
 import {verify, fSystem, crypto} from '@wizzi/utils';
@@ -132,9 +132,25 @@ export async function readFsItem(filePath: string) {
 
     return promiseFileRead(filePath);
 }
+export async function readJsonObject(filePath: string) {
+
+    return new Promise((resolve, reject) => 
+        
+            promiseFileRead(filePath).then((content: string) => {
+            
+                return resolve(JSON.parse(content));
+            }
+            )
+        
+        );
+}
 export async function writeFsItem(filePath: string, content: string) {
 
     return promiseFileWrite(filePath, content);
+}
+export async function writeJsonObject(filePath: string, content: any) {
+
+    return promiseFileWrite(filePath, JSON.stringify(content, null, 2));
 }
 export async function deleteFsItem(filePath: string) {
 

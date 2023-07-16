@@ -69,12 +69,12 @@ $group
                 @ progressiveContext
                 ._ then
                     =>
-                        param cliCtx
+                        param metaCtx
                             :any
                         _ metaApi.generateMetaProduction
                             @ packageProductionObject.owner
                             @ packageProductionObject.packiConfigObj.meta.name
-                            @ cliCtx
+                            @ metaCtx
                             ._ then
                                 =>
                                     param wizziPackiFiles

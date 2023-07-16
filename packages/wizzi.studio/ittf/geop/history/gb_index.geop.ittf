@@ -1,0 +1,8 @@
+$group
+
+    $include .\periods
+    $include .\alliances
+    $include .\military
+    $include .\diplomacy
+    $include .\states
+    $include .\gb\index

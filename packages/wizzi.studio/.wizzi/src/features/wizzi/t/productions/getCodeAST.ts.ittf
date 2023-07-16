@@ -59,7 +59,7 @@ $group
                                     const astResult
                                         await
                                             _ handleGetCodeAST
-                                                @ jsonwf
+                                                @ jsonwf.wf
                                                 @ extension
                                                 @ files[k].contents
                                     set result[k + '.ast']
@@ -84,7 +84,7 @@ $group
                                     @ result
         +
         function handleGetCodeAST
-            param jsonwf
+            param wf
                 :any
             param extension
                 :string
@@ -101,7 +101,7 @@ $group
                         param reject
                         var schema = wizziMaps.schemaFromExtension(extension)
                         if schema
-                            _ jsonwf.getCodeASTFromText
+                            _ wf.getCodeASTFromText
                                 @ codeSnippet
                                 @ schema
                                 function

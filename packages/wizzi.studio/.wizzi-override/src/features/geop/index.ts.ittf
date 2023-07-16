@@ -1,0 +1,29 @@
+module
+    import
+        @ ControllerType
+        from '../app/types'
+    import
+        as geopTypes
+        from './types'
+    import
+        as apis
+        from './api/geop'
+    import
+        @ ApiV1GeopController
+        from './controllers/apiv1geop'
+    +
+    const geopControllers
+        :[
+            :ref ControllerType
+        =
+            [
+                @ new ApiV1GeopController()
+    +
+    const geopApi
+        {
+            ... apis
+    +
+    export
+        @ geopTypes
+        @ geopControllers
+        @ geopApi

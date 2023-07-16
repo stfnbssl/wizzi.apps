@@ -1,0 +1,260 @@
+$group
+
+    namespace states.great_britain
+
+        period hundred_years_war
+            title The Hundred Years' War
+            date
+                start 1337
+                end 1453
+            wiki https://en.wikipedia.org/wiki/Hundred_Years%27_War
+                + The Hundred Years' War was a series of armed conflicts between the kingdoms of England and France during the Late Middle Ages. 
+                    \b It originated from disputed claims to the French throne 
+                    \b between the English royal House of Plantagenet and the French royal House of Valois. 
+                    \b Over time, the war grew into a broader power struggle involving factions from across Western Europe, 
+                    \b fuelled by emerging nationalism on both sides.
+                + The Hundred Years' War was one of the most significant conflicts of the Middle Ages. 
+                    \b For 116 years, interrupted by several truces, 
+                    \b five generations of kings from two rival dynasties fought for the throne of the largest kingdom in Western Europe. 
+                    \b The war's effect on European history was lasting. 
+                    \b Both sides produced innovations in military technology and tactics, including professional standing armies and artillery, 
+                    \b that permanently changed warfare in Europe; 
+                    \b chivalry, which had reached its height during the conflict, subsequently declined. 
+                    \b Stronger national identities took root in both countries, 
+                    \b which became more centralised and gradually rose as global powers.
+                + The term "Hundred Years' War" was adopted by later historians as a historiographical periodisation to encompass related conflicts, 
+                    \b constructing the longest military conflict in European history. 
+                    \b The war is commonly divided into three phases separated by truces: 
+                    \b the Edwardian War (1337–1360), 
+                    \b the Caroline War (1369–1389), 
+                    \b and the Lancastrian War (1415–1453). 
+                    \b Each side drew many allies into the conflict, with English forces initially prevailing. 
+                    \b The House of Valois ultimately retained control over France, 
+                    \b with the previously-intertwined French and English monarchies thereafter remaining separate.
+
+        period tudor_period
+            title The Tudor Period
+            date
+                start 1485
+                end 1603
+            wiki https://en.wikipedia.org/wiki/Tudor_period
+                + The Tudor period occurred between 1485 and 1603 in England and Wales and 
+                    \b includes the Elizabethan period during the reign of Elizabeth I until 1603. 
+                    \b The Tudor period coincides with the dynasty of the House of Tudor in England 
+                    \b that began with the reign of Henry VII (b. 1457, r. 1485–1509). 
+                    \b Historian John Guy (1988) argued that "England was economically healthier, more expansive, 
+                    \b and more optimistic under the Tudors" than at any time since the Roman occupation.
+        
+        period stuart_period
+            title The Stuart Period
+            date
+                start 1603
+                end 1714
+            wiki https://en.wikipedia.org/wiki/Stuart_period
+                + The Stuart period of British history lasted from 1603 to 1714 during the dynasty of the House of Stuart. 
+                    \b The period ended with the death of Queen Anne and the accession of King George I from the German House of Hanover.
+                + The period was plagued by internal and religious strife, 
+                    \b and a large-scale civil war which resulted in the execution of King Charles I in 1649. 
+                    \b The Interregnum, largely under the control of Oliver Cromwell, is included here for continuity, 
+                    \b even though the Stuarts were in exile. 
+                    \b The Cromwell regime collapsed and Charles II had very wide support for his taking of the throne in 1660. 
+                    \b His brother James II was overthrown in 1689 in the Glorious Revolution. 
+                    \b He was replaced by his Protestant daughter Mary II and her Dutch husband William III. 
+                    \b Mary's sister Anne was the last of the line. 
+                    \b For the next half century James II and his son James Francis Edward Stuart and grandson Charles Edward Stuart 
+                    \b claimed that they were the true Stuart kings, but they were in exile and their attempts to return with French aid were defeated.
+        
+        period thirty_years_war
+            title The Thirty Years' War
+            date
+                start 1618
+                end 1648
+            wiki https://en.wikipedia.org/wiki/Thirty_Years%27_War
+                + The Thirty Years' War took place largely within the Holy Roman Empire from 1618 to 1648. 
+                    \b One of the most destructive wars in European history, 
+                    \b it caused an estimated 4.5 to 8 million deaths, 
+                    \b while some areas of Germany experienced population declines of over 50%.
+                    \b Related conflicts include the Eighty Years' War, War of the Mantuan Succession, the Franco-Spanish War, and Portuguese Restoration War.
+                + Until the 20th century, it was seen as part of the German religious struggle initiated by the 16th century Reformation. 
+                    \b The 1555 Peace of Augsburg divided the Empire into Lutheran and Catholic states, 
+                    \b but over the next 50 years the expansion of Protestantism beyond these boundaries destabilised Imperial authority. 
+                    \b Although religion was a significant factor in starting the war, 
+                    \b scholars now generally agree its scope and extent was driven by the contest for European dominance 
+                    \b between Habsburgs in Austria and Spain, and the French House of Bourbon.
+                + The war began in 1618 when Ferdinand II was deposed as King of Bohemia and replaced by Frederick V of the Palatinate. 
+                    \b Although the Bohemian Revolt was quickly suppressed, fighting expanded into the Palatinate, 
+                    \b whose strategic importance drew in the Dutch Republic and Spain, 
+                    \b then engaged in the Eighty Years War. 
+                    \b Since ambitious external rulers like Christian IV of Denmark and Gustavus Adolphus of Sweden also held territories within the Empire, 
+                    \b what began as an internal dynastic dispute was transformed into a far more destructive European conflict.
+                + The first phase from 1618 until 1635 was primarily a civil war between German members of the Holy Roman Empire, 
+                    \b with external powers playing supportive roles. 
+                    \b After 1635, the Empire became one theatre in a wider struggle between 
+                    \b France, supported by Sweden, and Spain in alliance with Emperor Ferdinand III. 
+                    \b This concluded with the 1648 Peace of Westphalia, 
+                    \b whose provisions included greater autonomy within the Empire for states like Bavaria and Saxony, 
+                    \b as well as acceptance of Dutch independence by Spain. 
+                    \b By weakening the Habsburgs relative to France, 
+                    \b the conflict altered the European balance of power and set the stage for the wars of Louis XIV.
+
+        period english_civil_war
+            title The English Civil War
+            date
+                start 1642
+                end 1651
+            wiki
+                + The English Civil War was a series of civil wars and political machinations between Parliamentarians ("Roundheads") and Royalists ("Cavaliers"), 
+                    \b mainly over the manner of England's governance and issues of religious freedom.
+                    \b It was part of the wider Wars of the Three Kingdoms. 
+                    \b The first (1642–1646) and second (1648–1649) wars pitted the supporters of King Charles I against the supporters of the Long Parliament, 
+                    \b while the third (1649–1651) saw fighting between supporters of King Charles II and supporters of the Rump Parliament. 
+                    \b The wars also involved the Scottish Covenanters and Irish Confederates. 
+                    \b The war ended with Parliamentarian victory at the Battle of Worcester on 3 September 1651.
+                + Unlike other civil wars in England, which were mainly fought over who should rule, 
+                    \b these conflicts were also concerned with how the three Kingdoms of England, Scotland and Ireland should be governed. 
+                    \b The outcome was threefold: 
+                    \b the trial of and execution of Charles I (1649); 
+                    \b the exile of his son, Charles II (1651); 
+                    \b and the replacement of English monarchy with the Commonwealth of England, 
+                    \b which from 1653 (as the Commonwealth of England, Scotland, and Ireland) 
+                    \b unified the British Isles under the personal rule of Oliver Cromwell (1653–1658) 
+                    \b and briefly his son Richard (1658–1659). 
+                    \b In England, the monopoly of the Church of England on Christian worship was ended, 
+                    \b and in Ireland, the victors consolidated the established Protestant Ascendancy. 
+                    \b Constitutionally, the outcome of the wars established the precedent that an English monarch cannot govern without Parliament's consent, 
+                    \b though the idea of Parliamentary sovereignty was legally established only as part of the Glorious Revolution in 1688.    
+
+        
+        period industrial_revolution    
+            title The Industrial Revolution
+            date
+                start 1760
+                end 1840
+            wiki https://en.wikipedia.org/wiki/Industrial_Revolution
+                + The Industrial Revolution was the transition to new manufacturing processes in Great Britain, continental Europe, and the United States, 
+                    \b in the period from about 1760 to sometime between 1820 and 1840.
+                    \b This transition included going from hand production methods to machines, 
+                    \b new chemical manufacturing and iron production processes, 
+                    \b the increasing use of steam power and water power, 
+                    \b the development of machine tools and the rise of the mechanized factory system. 
+                    \b The Industrial Revolution also led to an unprecedented rise in the rate of population growth.
+                + Textiles were the dominant industry of the Industrial Revolution in terms of employment, value of output and capital invested. 
+                    \b The textile industry was also the first to use modern production methods.
+                + The Industrial Revolution began in Great Britain, 
+                    \b and many of the technological and architectural innovations were of British origin.
+                    \b By the mid-18th century, Britain was the world's leading commercial nation,
+                    \b controlling a global trading empire with colonies in North America and the Caribbean. 
+                    \b Britain had major military and political hegemony on the Indian subcontinent; 
+                    \b particularly with the proto-industrialised Mughal Bengal, 
+                    \b through the activities of the East India Company.
+                    \b The development of trade and the rise of business were among the major causes of the Industrial Revolution.
+                + The Industrial Revolution marked a major turning point in history; 
+                    \b almost every aspect of daily life was influenced in some way. 
+                    \b In particular, average income and population began to exhibit unprecedented sustained growth. 
+                    \b Some economists have said the most important effect of the Industrial Revolution was that 
+                    \b the standard of living for the general population in the western world began to increase consistently for the first time in history, 
+                    \b although others have said that it did not begin to meaningfully improve until the late 19th and 20th centuries.
+
+        period second_industrial_revolution    
+            title The Second Industrial Revolution
+            date
+                start 1870
+                end 1914
+            wiki https://en.wikipedia.org/wiki/Second_Industrial_Revolution
+                + The Second Industrial Revolution, also known as the Technological Revolution,
+                    \b was a phase of rapid scientific discovery, standardization, mass production, and industrialization 
+                    \b from the late 19th century into the early 20th century. 
+                    \b The First Industrial Revolution, which ended in the middle of the 19th century, 
+                    \b was punctuated by a slowdown in important inventions before the Second Industrial Revolution in 1870. 
+                    \b Though a number of its events can be traced to earlier innovations in manufacturing, 
+                    \b such as the establishment of a machine tool industry, 
+                    \b the development of methods for manufacturing interchangeable parts, 
+                    \b and the invention of the Bessemer process to produce steel, 
+                    \b the Second Industrial Revolution is generally dated between 1870 and 1914 (the beginning of World War I).
+                + Advancements in manufacturing and production technology enabled the widespread adoption of technological systems such as 
+                    \b telegraph and railroad networks, gas and water supply, and sewage systems, which had earlier been concentrated to a few select cities. 
+                    \b The enormous expansion of rail and telegraph lines after 1870 allowed unprecedented movement of people and ideas, 
+                    \b which culminated in a new wave of globalization. 
+                    \b In the same time period, new technological systems were introduced, most significantly electrical power and telephones. 
+                    \b The Second Industrial Revolution continued into the 20th century with early factory electrification and the production line, 
+                    \b and ended at the beginning of World War I.    
+
+
+        period napoleonic_wars
+            title The Napoleonic Wars
+            date
+                start 1803
+                end 1815
+            wiki https://en.wikipedia.org/wiki/Napoleonic_Wars
+                + The Napoleonic Wars (1803–1815) were a series of major global conflicts pitting the French Empire and its allies, led by Napoleon I, 
+                    \b against a fluctuating array of European states formed into various coalitions. 
+                    \b It produced a period of French domination over most of continental Europe. 
+                    \b The wars stemmed from the unresolved disputes associated with the French Revolution and the French Revolutionary Wars 
+                    \b consisting of the War of the First Coalition (1792-1797) and the War of the Second Coalition (1798–1802). 
+                    \b The Napoleonic wars are often described as five conflicts, 
+                    \b each termed after the coalition that fought Napoleon: 
+                    \b the Third Coalition (1803-1806), the Fourth (1806–07), the Fifth (1809), the Sixth (1813–14), and the Seventh (1815) 
+                    \b plus the Peninsular War (1807–1814) and the French invasion of Russia (1812).
+                + Napoleon, upon ascending to First Consul of France in 1799, 
+                    \b had inherited a republic in chaos; 
+                    \b he subsequently created a state with stable finances, a strong bureaucracy, and a well-trained army. 
+                    \b In December 1805 Napoleon achieved what is considered his greatest victory, 
+                    \b defeating the allied Russo-Austrian army at Austerlitz. 
+                    \b At sea, the British severely defeated the joint Franco-Spanish navy in the Battle of Trafalgar on 21 October 1805. 
+                    \b This victory secured British control of the seas and prevented the invasion of Britain. 
+                    \b Concerned about increasing French power, 
+                    \b Prussia led the creation of the Fourth Coalition with Russia, Saxony, and Sweden, which resumed war in October 1806. 
+                    \b Napoleon quickly defeated the Prussians at Jena and the Russians at Friedland, bringing an uneasy peace to the continent. 
+                    \b The peace failed, though, as war broke out in 1809, with the badly prepared Fifth Coalition, led by Austria. 
+                    \b At first, the Austrians won a stunning victory at Aspern-Essling, but were quickly defeated at Wagram.
+                + Hoping to isolate and weaken Britain economically through his Continental System, 
+                    \b Napoleon launched an invasion of Portugal, the only remaining British ally in continental Europe. 
+                    \b After occupying Lisbon in November 1807, and with the bulk of French troops present in Spain, 
+                    \b Napoleon seized the opportunity to turn against his former ally, 
+                    \b depose the reigning Spanish royal family and declare his brother King of Spain in 1808 as José I. 
+                    \b The Spanish and Portuguese revolted with British support and expelled the French from Iberia in 1814 after six years of fighting.
+                + Concurrently, Russia, unwilling to bear the economic consequences of reduced trade, 
+                    \b routinely violated the Continental System, prompting Napoleon to launch a massive invasion of Russia in 1812. 
+                    \b The resulting campaign ended in disaster for France and the near destruction of Napoleon's Grande Armée.
+                + Encouraged by the defeat, Austria, Prussia, Sweden, and Russia formed the Sixth Coalition and began a new campaign against France, 
+                    \b decisively defeating Napoleon at Leipzig in October 1813 after several inconclusive engagements. 
+                    \b The Allies then invaded France from the east, while the Peninsular War spilled over into southwestern France. 
+                    \b Coalition troops captured Paris at the end of March 1814 and forced Napoleon to abdicate in April. 
+                    \b He was exiled to the island of Elba, and the Bourbons were restored to power. 
+                    \b But Napoleon escaped in February 1815, and reassumed control of France for around one hundred days. 
+                    \b After forming the Seventh Coalition, the allies defeated him at Waterloo in June 1815 and 
+                    \b exiled him to the island of Saint Helena, where he died six years later.
+                + The Congress of Vienna redrew the borders of Europe and brought a period of relative peace. 
+                    \b The wars had profound consequences on global history, 
+                    \b including the spread of nationalism and liberalism, 
+                    \b the rise of Britain as the world's foremost naval and economic power, 
+                    \b the appearance of independence movements in Latin America and subsequent decline of the Spanish and Portuguese Empires, 
+                    \b the fundamental reorganization of German and Italian territories into larger states, 
+                    \b and the introduction of radically new methods of conducting warfare, as well as civil law. 
+                    \b After the end of the Napoleonic Wars there was a period of relative peace in continental Europe, 
+                    \b lasting until the Crimean War in 1853.    
+
+        period pax_britannica
+            title The Pax Britannica
+            date
+                start 1815
+                end 1914
+            wiki https://en.wikipedia.org/wiki/Pax_Britannica
+                + Pax Britannica was the period of relative peace between the Great Powers 
+                    \b during which the British Empire became the global hegemonic power and adopted the role of a "global policeman".
+                + Between 1815 and 1914, a period referred to as Britain's "imperial century", 
+                    \b around 10,000,000 square miles (26,000,000 km2) of territory and roughly 400 million people were added to the British Empire.
+                    \b Victory over Napoleonic France left the British without any serious international rival, 
+                    \b other than perhaps Russia in Central Asia.
+                    \b When Russia tried expanding its influence in the Balkans, 
+                    \b the British and French defeated them in the Crimean War (1853-1856), 
+                    \b thereby protecting the Ottoman Empire.
+                + Britain's Royal Navy controlled most of the key maritime trade routes and enjoyed unchallenged sea power. 
+                    \b Alongside the formal control exerted over its own colonies, 
+                    \b Britain's dominant position in world trade meant that it effectively controlled access to many regions, 
+                    \b such as Asia, North America, Oceania, and Africa. 
+                    \b The British also, much to the dismay of other colonial empires, 
+                    \b helped the United States uphold the Monroe Doctrine which upheld its economic dominance in the Americas. 
+                    \b British merchants, shippers and bankers had such an overwhelming advantage over those of other empires 
+                    \b that in addition to its colonies it had an informal empire.
+

@@ -1,0 +1,12 @@
+$group
+
+    namespace freud
+
+        concept istinto
+            title Istinto
+                de Instinkt
+            
+            + Un comportamento animale fissato dall'eredità, 
+                \b caratteristico della specie, 
+                \b preformato nel suo svolgimento
+                \b e adattato al suo oggetto.

@@ -1,5 +1,0 @@
-md
-    h1 ${wzCtx.App.name}
-    br
-    p ${wzCtx.App.title}
-    br

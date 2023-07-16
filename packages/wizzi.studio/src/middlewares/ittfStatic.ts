@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\middlewares\ittfStatic.ts.ittf
-    utc time: Sat, 06 May 2023 11:50:24 GMT
+    utc time: Sun, 16 Jul 2023 13:02:23 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -305,7 +305,7 @@ async function sendFolderScan(folderPath: string, root: string, meta: string, re
 
 function sendTransform(filePath: string, transformer: string, response: Response) {
 
-    wizziProds.transformModelFs(filePath, {
+    wizziProds.loadAndTransformModelFs(filePath, {
         isWizziStudio: true
      }, {
         transformer: transformer

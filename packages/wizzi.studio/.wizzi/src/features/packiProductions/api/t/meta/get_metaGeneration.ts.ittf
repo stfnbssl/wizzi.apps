@@ -6,7 +6,7 @@ $group
                 :string
             param name
                 :string
-            param cliCtx
+            param metaCtx
                 :any
             :return
                 :ref Promise
@@ -25,19 +25,19 @@ $group
                             return
                                 _ generateMetaProductionById
                                     @ metaProduction.item.id
-                                    @ cliCtx
+                                    @ metaCtx
     +
     export
         async-function generateMetaProductionById
             param metaId
                 :string
-            param cliCtx
+            param metaCtx
                 :any
             :return
                 :ref Promise
                     :param
                         :ref packiTypes.PackiFiles
-            # loog myname, 'generateMetaProductionById', 'metaId', metaId, 'cliCtx', Object.keys(cliCtx)
+            # loog myname, 'generateMetaProductionById', 'metaId', metaId, 'metaCtx', Object.keys(metaCtx)
             return
                 new Promise
                     =>
@@ -58,7 +58,7 @@ $group
                                             {
                                             @ metaProductionSet.context
                                             {
-                                                @ cliCtx cliCtx
+                                                @ metaCtx metaCtx
                                     _ wizziProds.metaGenerate
                                         @ metaProductionSet.packiFiles
                                         @ metaContext

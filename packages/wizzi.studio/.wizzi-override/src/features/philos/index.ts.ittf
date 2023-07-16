@@ -1,0 +1,29 @@
+module
+    import
+        @ ControllerType
+        from '../app/types'
+    import
+        as philosTypes
+        from './types'
+    import
+        as apis
+        from './api/philos'
+    import
+        @ ApiV1PhilosController
+        from './controllers/apiv1philos'
+    +
+    const philosControllers
+        :[
+            :ref ControllerType
+        =
+            [
+                @ new ApiV1PhilosController()
+    +
+    const philosApi
+        {
+            ... apis
+    +
+    export
+        @ philosTypes
+        @ philosControllers
+        @ philosApi

@@ -1,0 +1,34 @@
+$group
+
+    colonisation plantation_of_ulster
+        title Plantation of Ulster
+        period
+            start 1609
+        colonizer kingdom_of_england
+        colonized province_of_ireland
+        wiki https://en.wikipedia.org/wiki/Plantation_of_Ulster
+            + The Plantation of Ulster was the organised colonisation (plantation) of Ulster – a province of Ireland – 
+                \b by people from Great Britain during the reign of King James I. 
+                \b Most of the settlers (or planters) came from southern Scotland and northern England; 
+                \b their culture differed from that of the native Irish. 
+                \b Small privately funded plantations by wealthy landowners began in 1606, 
+                \b while the official plantation began in 1609. 
+                \b Most of the colonised land had been confiscated from the native Gaelic chiefs, 
+                \b several of whom had fled Ireland for mainland Europe in 1607 following the Nine Years' War against English rule. 
+                \b The official plantation comprised an estimated half a million acres (2,000 km2) of arable land 
+                \b in counties Armagh, Cavan, Fermanagh, Tyrone, Tyrconnell, and Londonderry.
+                \b Land in counties Antrim, Down, and Monaghan was privately colonised with the king's support.
+            + Among those involved in planning and overseeing the plantation were King James, 
+                \b the Lord Deputy of Ireland, Arthur Chichester, and the Attorney-General for Ireland, John Davies.
+                \b They saw the plantation as a means of controlling, anglicising, and "civilising" Ulster.
+                \b The province was almost wholly Gaelic, Catholic, and rural and had been the region most resistant to English control. 
+                \b The plantation was also meant to sever Gaelic Ulster's links with the Gaelic Highlands of Scotland. 
+                \b The colonists (or "British tenants") were required to be English-speaking, Protestant, and loyal to the king. 
+                \b Some of the undertakers and settlers, however, were Catholic. 
+                \b The Scottish settlers were mostly Presbyterian Lowlanders and the English mostly Anglicans. 
+                \b Although some "loyal" natives were granted land, the native Irish reaction to the plantation was generally hostile,
+                \b and native writers bewailed what they saw as the decline of Gaelic society and the influx of foreigners.
+            + The Plantation of Ulster was the biggest of the Plantations of Ireland. 
+                \b led to the founding of many of Ulster's towns and created a lasting Ulster Protestant community in the province with ties to Britain. 
+                \b It also resulted in many of the native Irish nobility losing their land and led to centuries of ethnic and sectarian animosity, 
+                \b which at times spilled into conflict, notably in the Irish Rebellion of 1641 and more recently, the Troubles.

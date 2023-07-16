@@ -1,0 +1,14 @@
+$group
+    author Dewey
+        fullname John Dewey
+        born
+            date 20/10/1859
+            place Burlington, Vermont, Stati Uniti
+        died
+            date 1/6/1952
+            place New York, New York, Stati Uniti
+        avatar https://cdn.studenti.stbm.it/images/2019/06/12/john-dewey_200x200.jpeg
+        + è stato un filosofo e pedagogista statunitense. 
+            \b È stato anche scrittore e professore universitario.
+            \b Ha esercitato una profonda influenza sulla cultura, sul costume politico 
+            \b e sui sistemi educativi del proprio paese.

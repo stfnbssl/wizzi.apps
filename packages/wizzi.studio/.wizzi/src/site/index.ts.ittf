@@ -11,10 +11,14 @@ module
                 @ DemoHomeController
                 from './controllers/demoHome'
         $if wzCtx.Build.useWizziViewEngine
-            $if wzCtx.Build.site.demoWizzi
+            $if wzCtx.Build.site.useDemoWizzi
                 import
                     @ DemoWizziController
                     from './controllers/demoWizzi'
+            $if wzCtx.Build.site.useDemoWebpack
+                import
+                    @ DemoWebpackController
+                    from './controllers/demoWebpack'
         $if wzCtx.Build.site.useAccount
             import
                 @ AccountController
@@ -44,6 +48,8 @@ module
                     $if wzCtx.Build.useWizziViewEngine
                         $if wzCtx.Build.site.useDemoWizzi
                             @ new DemoWizziController()
+                        $if wzCtx.Build.site.useDemoWebpack
+                            @ new DemoWebpackController()
                     $if wzCtx.Build.site.useAuthentication
                         @ new AuthController()
                     $if wzCtx.Build.site.useAccount

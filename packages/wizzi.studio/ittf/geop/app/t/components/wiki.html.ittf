@@ -1,0 +1,19 @@
+$group
+
+    function WikiPanel
+        param props
+        var {item, jsonData, handleOpen} = props
+        var {url, contents} = item
+        log 'WikiPanel', url, contents
+        return
+            div 
+                @ className "bar"
+                div
+                    a
+                        + wikipedia
+                        href {url}
+                        target _blank
+                < ContentText
+                    @ item {item}  
+                    @ jsonData {jsonData} 
+                    @ handleOpen {handleOpen}

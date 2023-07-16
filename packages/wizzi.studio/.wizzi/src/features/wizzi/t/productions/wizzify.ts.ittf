@@ -59,7 +59,7 @@ $group
                                     const ittfResult
                                         await
                                             _ handleWizzify
-                                                @ jsonwf
+                                                @ jsonwf.wf
                                                 @ extension
                                                 @ files[k].contents
                                     set result[k + '.ittf']
@@ -80,7 +80,7 @@ $group
                                     @ result
         +
         function handleWizzify
-            param jsonwf
+            param wf
                 :any
             param extension
                 :string
@@ -97,7 +97,7 @@ $group
                         param reject
                         var schema = wizziMaps.schemaFromExtension(extension)
                         if schema
-                            _ jsonwf.getWizziIttfFromText
+                            _ wf.getWizziIttfFromText
                                 @ codeSnippet
                                 @ schema
                                 =>

@@ -73,7 +73,7 @@ module
                     @ pl_owner owner
                     @ pl_name_old name
                     @ pl_name_new name
-                    @ mp_name_new_available true
+                    @ pl_name_new_available true
                     @ pl_description description
                     @ pl_add_context pl_contexts.length > 0
                     @ pl_contexts
