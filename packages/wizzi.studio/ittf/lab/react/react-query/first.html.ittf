@@ -1,0 +1,278 @@
+html
+
+    $
+        var opt = {
+            useReact: true,
+            react: {
+                useReactQuery: true,
+                reactQuery: {},
+            },
+        }
+
+    layouts/site( &opt )
+
+        div 
+            id root
+
+        $append body-scripts
+            js scripts/api.js.ittf
+            script
+                type text/babel
+                data-presets env,react
+                module
+                    kind react
+                    log 'QueryClient', ReactQuery.QueryClient
+                    log 'QueryClientProvider', ReactQuery.QueryClientProvider
+                    log 'useQuery', ReactQuery.useQuery
+                    log 'useMutation', ReactQuery.useMutation
+                    const useState = React.useState
+                    const QueryClient = ReactQuery.QueryClient
+                    const QueryClientProvider = ReactQuery.QueryClientProvider
+                    const useQuery = ReactQuery.useQuery
+                    const queryClient = new QueryClient()
+                    const useMutation = ReactQuery.useMutation
+
+                    function App
+                        return 
+                            < QueryClientProvider 
+                                @ client {queryClient}
+                                < ListWizziTable 
+                                < AddWizziTable 
+                                < CreateWizziTable 
+
+                    function getWizziTables
+                        return
+                            _ api.Fetch.get
+                                @ "/api/v1/wizziTable/stfnbssl"
+                                ._ then
+                                    =>
+                                        param result
+                                        return result.item
+                    
+                    function createWizziTable
+                        param data
+                        log 'createWizziTable', data
+                        return
+                            _ api.Fetch.post
+                                {
+                                    @ url "/api/v1/wizziTable/stfnbssl/" + data.name
+                                    @ body data
+                                ._ then
+                                    =>
+                                        param result
+                                        return result
+
+                    _ getWizziTables
+                        ._ then
+                            =>
+                                param data
+                                log 'getWizziTables', data
+                    
+                    function ListWizziTable
+                        const 
+                            { 
+                                @ isLoading
+                                @ error
+                                @ data
+                                @ isFetching
+                            =
+                                _ useQuery
+                                    {
+                                        [ queryKey
+                                            @ 'wizziTables'
+                                        @ queryFn getWizziTables
+                        if isLoading
+                            return "Loading..."
+                        if error
+                            log "error", error
+                            return "An error has occurred: " + error.message
+                        log 'render'
+                        return 
+                            _ data.map
+                                =>
+                                    param wizziTable
+                                    div 
+                                        @ key {wizziTable._id}
+                                        h1 
+                                            + {wizziTable.name}
+                                        p 
+                                            + {wizziTable.field1}
+                                        strong 
+                                            + 👀
+                                            + {wizziTable.field2}
+                                        + {" "}
+                                        div 
+                                            { 
+                                                iif isFetching
+                                                    then "Updating..."
+                                                    else ""
+
+
+                    function AddWizziTable
+                        const mutation
+                            _ useMutation
+                                { 
+                                    @ mutationFn createWizziTable
+                        return 
+                            div 
+                                { 
+                                    iif mutation.isLoading
+                                        then 'Adding wizziTable...'
+                                        else
+                                            < React.Fragment
+                                                { 
+                                                    iif mutation.isError
+                                                        then
+                                                            div 
+                                                                + An error occurred:
+                                                                + {mutation.error.message}
+                                                        else null
+                                                { 
+                                                    iif mutation.isSuccess
+                                                        then
+                                                            div 
+                                                                + WizziTable added!
+                                                        else null
+                                                button 
+                                                    @ onClick
+                                                        => 
+                                                            _ mutation.mutate
+                                                                { 
+                                                                    @ name "Table 3"
+                                                                    @ field1 'Field 1 of table 3'
+                                                                    @ field2 'Field 2 of table 3'
+                                                    + Create WizziTable
+
+                    const CreateWizziTable
+                        => 
+                            const [name, setName] = useState('')
+                            const [field1, setField1] = useState('')
+                            const [field2, setField2] = useState('')
+                            const mutation
+                                _ useMutation
+                                    { 
+                                        @ mutationFn createWizziTable
+                                        $*
+                                        @ onSuccess
+                                            => 
+                                                param data
+                                                param variables
+                                                _ queryClient.setQueryData
+                                                    [ 
+                                                        @ 'wizziTables'
+                                                        { 
+                                                            @ _id variables._id
+                                                        @ data
+                                        *$
+                                        @ onMutate
+                                            async=> 
+                                                param newWizziTable
+                                                await 
+                                                    _ queryClient.cancelQueries
+                                                        { 
+                                                            [ queryKey
+                                                                @ 'wizziTables'
+                                                    # Cancel any outgoing refetches
+                                                    # (so they don't overwrite our optimistic update)
+                                                    # Snapshot the previous value
+                                                const previousWizziTables
+                                                    _ queryClient.getQueryData
+                                                        [ 
+                                                            @ 'wizziTables'
+                                                    # Snapshot the previous value
+                                                    # Optimistically update to the new value
+                                                _ queryClient.setQueryData
+                                                    [ 
+                                                        @ 'wizziTables'
+                                                    => 
+                                                        param old
+                                                        return
+                                                            [ 
+                                                                @ ...old
+                                                                @ newWizziTable
+                                                    # Optimistically update to the new value
+                                                    # Return a context object with the snapshotted value
+                                                return 
+                                                    { 
+                                                        @ previousWizziTables
+                                                    # Return a context object with the snapshotted value
+                                            # When mutate is called:
+                                        @ onError
+                                            => 
+                                                param err
+                                                param newWizziTable
+                                                param context
+                                                _ queryClient.setQueryData
+                                                    [ 
+                                                        @ 'wizziTables'
+                                                    @expr context.previousWizziTables
+                                            # If the mutation fails,
+                                            # use the context returned from onMutate to roll back
+                                        @ onSettled
+                                            => 
+                                                _ queryClient.invalidateQueries
+                                                    { 
+                                                        [ queryKey
+                                                            @ 'wizziTables'
+                                            # Always refetch after error or success:
+
+                            const onCreateWizziTable
+                                => 
+                                    param e
+                                    _ e.preventDefault()
+                                    _ mutation.mutate
+                                        { 
+                                            @ name
+                                            @ field1
+                                            @ field2
+                            return 
+                                form 
+                                    @ onSubmit {onCreateWizziTable}
+                                    { 
+                                        && 
+                                            + mutation.error
+                                            h5 
+                                                @ onClick
+                                                    => 
+                                                        _ mutation.reset()
+                                                + {mutation.error}
+                                    { 
+                                        && 
+                                            + mutation.isSuccess
+                                            h5
+                                                @ onClick
+                                                    => 
+                                                        _ mutation.reset()
+                                                + WizziTable added!
+                                    input 
+                                        @ type "text"
+                                        @ value {name}
+                                        @ onChange
+                                            => 
+                                                param e
+                                                _ setName(e.target.value)
+                                    input 
+                                        @ type "text"
+                                        @ value {field1}
+                                        @ onChange
+                                            => 
+                                                param e
+                                                _ setField1(e.target.value)
+                                    input 
+                                        @ type "text"
+                                        @ value {field2}
+                                        @ onChange
+                                            => 
+                                                param e
+                                                _ setField2(e.target.value)
+                                    br 
+                                    button 
+                                        @ type "submit"
+                                        + Create WizziTable
+
+
+                    if true
+                        const container = document.getElementById('root')
+                        const root = ReactDOM.createRoot(container) 
+                        _ root.render
+                            < App

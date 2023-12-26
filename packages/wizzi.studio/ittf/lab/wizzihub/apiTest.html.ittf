@@ -1,0 +1,42 @@
+html
+
+    $
+        var opt = {
+            useReact: true,
+            react: {
+                useReactQuery: true,
+                reactQuery: {},
+            },
+        }
+
+    layouts/site( &opt )
+        $append body-scripts
+            js scripts/api.js.ittf
+            script
+                module
+                    kind es6
+                    _ api.Fetch.get
+                        @ "/api/v1/production/artifact/stfnbssl"
+                        ._ then
+                            =>
+                                param result
+                                log '/api/v1/production/artifact/stfnbssl', result
+
+                    _ api.Fetch.post
+                        {
+                            @ url "/api/v1/wizziTable/stfnbssl/table3"
+                            { body
+                                @ field1 "Hello field1 of table3"
+                                @ field2 "Hello field2 of table3"
+                        ._ then
+                            =>
+                                param result
+                                log 'post /api/v1/wizziTable/stfnbssl/table3', result
+                                _ api.Fetch.get
+                                    @ "/api/v1/wizziTable/stfnbssl"
+                                    ._ then
+                                        =>
+                                            param result
+                                            log '/api/v1/wizziTable/stfnbssl', result
+
+

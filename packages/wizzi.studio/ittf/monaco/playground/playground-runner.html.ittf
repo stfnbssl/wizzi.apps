@@ -1,0 +1,94 @@
+html 
+    style height:100%
+    head 
+        link 
+            data-inline yes-please
+            href ./spinner.css
+            rel stylesheet
+        link 
+            data-name vs/editor/editor.main
+            rel stylesheet
+            href ../../release/dev/vs/editor/editor.main.css
+        @style 
+            type text/css
+            css
+                < body
+                    margin 0
+                    padding 0
+                    border 0
+                    overflow hidden
+    body 
+        div 
+            id loading
+            . spinner
+                . rect1
+                . rect2
+                . rect3
+                . rect4
+                . rect5
+        script 
+            module
+                kind react
+                var require
+                    { 
+                        { paths
+                            @ 'vs' '../../release/dev/vs'
+        js ../../release/dev/vs/loader.js
+        js ../../release/dev/vs/editor/editor.main.nls.js
+        js ../../release/dev/vs/editor/editor.main.js
+        script 
+            type text/javascript
+            module
+                kind react
+                var receivedCall = null
+                set window.load =
+                    function 
+                        param js
+                        param html
+                        param css
+                        set receivedCall =
+                            { 
+                                @ js
+                                @ html
+                                @ css
+        script 
+            type text/javascript
+            module
+                kind react
+                var geval = eval
+                _ require
+                    [ 
+                        @ 'require'
+                        @ 'vs/editor/editor.main'
+                    function 
+                        param require
+                        var loading = document.getElementById('loading')
+                        _ loading.parentNode.removeChild(loading)
+                        set document.body.style.height = '100%'
+                            # Switch `automaticLayout` property to true by default
+                            # TODO: var config = require('vs/editor/common/config/config');
+                            # config.getActiveEditor().automaticLayout = true;
+                        set window.load =
+                            function 
+                                param js
+                                param html
+                                param css
+                                if css
+                                    var style = document.createElement("style")
+                                    set style.type = "text/css"
+                                    set style.innerHTML = css
+                                    _ document.body.appendChild(style)
+                                if html
+                                    set document.body.innerHTML += html
+                                if js
+                                    try 
+                                        _ geval(js)
+                                    catch err
+                                        var pre = document.createElement("pre")
+                                        _ pre.appendChild(document.createTextNode(err))
+                                        _ document.body.insertBefore(pre, document.body.firstChild)
+                            # Switch `automaticLayout` property to true by default
+                            # TODO: var config = require('vs/editor/common/config/config');
+                            # config.getActiveEditor().automaticLayout = true;
+                        if receivedCall
+                            _ window.load(receivedCall.js, receivedCall.html, receivedCall.css)

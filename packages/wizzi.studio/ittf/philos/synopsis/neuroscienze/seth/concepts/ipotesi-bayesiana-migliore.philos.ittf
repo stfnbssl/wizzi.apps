@@ -1,0 +1,13 @@
+$group
+
+    namespace seth
+
+        concept ipotesi-bayesiana-migliore
+            title Ipotesi bayesiana migliore
+
+            + ...
+
+            quote
+                + ...
+                    \b ...
+                e-page ...

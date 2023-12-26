@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\controllers\package.tsx.ittf
-    utc time: Sun, 16 Jul 2023 13:02:25 GMT
+    utc time: Mon, 24 Jul 2023 09:37:47 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -295,7 +295,7 @@ export class PackageProductionController implements ControllerType {
     async (request: Request, response: Response) => {
     
         const obj = request.body;
-        deletePackageProduction(obj.pp_id, obj.pp_owner, obj.pp_name, obj.pp_description).then((result: any) => {
+        deletePackageProduction(obj.pp_id, obj.pp_owner, obj.pp_name).then((result: any) => {
         
             if (result.ok) {
                 response.redirect('/productions/packages');

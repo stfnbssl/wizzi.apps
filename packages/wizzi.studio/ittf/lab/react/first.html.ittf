@@ -1,0 +1,104 @@
+html
+
+    $
+        var opt = {
+            useReact: true,
+            react: {},
+            useRouter: true,
+            router: {},
+        }
+        var ca = 'm-s font-x font-w-s';
+        var clazz = 'm-s color-header font-x font-w-s';
+
+    layouts/site( &opt )
+        div 
+            id root
+        script 
+            type text/babel
+            data-presets env,react
+            module 
+                kind react
+                const 
+                    { 
+                        @ createMemoryRouter $$ createBrowserRouter
+                        @ RouterProvider
+                        @ Route
+                        @ Link
+                    = window.ReactRouterDOM
+                const 
+                    { 
+                        @ useRoutes
+                        @ useNavigate
+                    = window.ReactRouter
+                    # Header component
+                function Header
+                    const navigate = useNavigate()
+                    return 
+                        header 
+                            nav 
+                                button 
+                                    @ onClick
+                                        => 
+                                            _ navigate('/')
+                                    + Home (path is /)
+                                button 
+                                    @ onClick
+                                        => 
+                                            _ navigate('/about')
+                                    + About Us (path is /about)
+                    # Header component
+                    # Footer component
+                function Footer
+                    return 
+                        pre 
+                            + Just view source this page and you will see all of the code there, easy to follow and learn
+                    # Footer component
+                    # Home component
+                function Home
+                    return 
+                        div 
+                            < Header 
+                            h1 
+                                + Welcome to the Home Page!
+                            p 
+                                + This is the home page content.
+                            { 
+                                # 
+                                    # <Link to="about">About Us</Link>
+                            < Footer 
+                    # Home component
+                    # About component
+                function About
+                    return 
+                        div 
+                            < Header 
+                            h1 
+                                + About Us
+                            p 
+                                + This is the about page content.
+                            { 
+                                # 
+                                    # <Link to="/">Home</Link>
+                            < Footer 
+                    # About component
+                const router
+                    _ createMemoryRouter $$ createBrowserRouter
+                        [ 
+                            { 
+                                @ path '/'
+                                @ element
+                                    < Home 
+                                        @ a 1
+                            { 
+                                @ path '/about'
+                                @ element
+                                    < About 
+                                        @ a 1
+                const container = document.getElementById('root');
+                const root = ReactDOM.createRoot(container); 
+                log "RouterProvider", RouterProvider
+                log "router", router
+                _ root.render
+                    < RouterProvider 
+                        @ router {router}
+                    # Render the router

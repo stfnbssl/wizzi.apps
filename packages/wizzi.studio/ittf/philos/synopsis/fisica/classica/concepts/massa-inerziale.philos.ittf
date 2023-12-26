@@ -1,0 +1,7 @@
+$group
+
+    namespace fisica.classica
+
+        concept massa-inerziale
+
+            + La massa inerziale è la resistenza che un corpo oppone a una forza che cerca di accelerarlo.

@@ -53,3 +53,7 @@ $group
         s( https://cdn.jsdelivr.net/npm/sweetalert2@7.31.1/dist/sweetalert2.min.css
     $if opt.mainCss && opt.mainCss.length > 0
         s( ${opt.mainCss}
+    $if opt.useTailwind
+        s( https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css
+    $if opt.useFlowbyte
+        s( https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.7.0/flowbite.min.css

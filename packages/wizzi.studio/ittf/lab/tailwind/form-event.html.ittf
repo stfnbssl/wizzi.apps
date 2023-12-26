@@ -1,0 +1,1394 @@
+html 
+    lang en
+    class light
+    head 
+        meta 
+            charset UTF-8
+        meta 
+            http-equiv X-UA-Compatible
+            content IE=edge
+        meta 
+            name viewport
+            content width=device-width, initial-scale=1.0
+        link 
+            href https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap
+            rel stylesheet
+        js https://cdn.tailwindcss.com
+        script 
+            module 
+                kind react
+                set tailwind.config =
+                    { 
+                        @ darkMode "class"
+                        { theme
+                            { extend
+                                { colors
+                                    { primary
+                                        @ "50" "#eff6ff"
+                                        @ "100" "#dbeafe"
+                                        @ "200" "#bfdbfe"
+                                        @ "300" "#93c5fd"
+                                        @ "400" "#60a5fa"
+                                        @ "500" "#3b82f6"
+                                        @ "600" "#2563eb"
+                                        @ "700" "#1d4ed8"
+                                        @ "800" "#1e40af"
+                                        @ "900" "#1e3a8a"
+                                        @ "950" "#172554"
+                            { fontFamily
+                                [ "body"
+                                    @ "Inter"
+                                    @ "ui-sans-serif"
+                                    @ "system-ui"
+                                    @ "-apple-system"
+                                    @ "system-ui"
+                                    @ "Segoe UI"
+                                    @ "Roboto"
+                                    @ "Helvetica Neue"
+                                    @ "Arial"
+                                    @ "Noto Sans"
+                                    @ "sans-serif"
+                                    @ "Apple Color Emoji"
+                                    @ "Segoe UI Emoji"
+                                    @ "Segoe UI Symbol"
+                                    @ "Noto Color Emoji"
+                                [ "sans"
+                                    @ "Inter"
+                                    @ "ui-sans-serif"
+                                    @ "system-ui"
+                                    @ "-apple-system"
+                                    @ "system-ui"
+                                    @ "Segoe UI"
+                                    @ "Roboto"
+                                    @ "Helvetica Neue"
+                                    @ "Arial"
+                                    @ "Noto Sans"
+                                    @ "sans-serif"
+                                    @ "Apple Color Emoji"
+                                    @ "Segoe UI Emoji"
+                                    @ "Segoe UI Symbol"
+                                    @ "Noto Color Emoji"
+        link 
+            rel stylesheet
+            href https://d2s3ptptdai04x.cloudfront.net/get-flowbite-pro.79ec10a5-43b7-4672-ab74-bc849be5cc88.css?Expires=1699010152&amp;Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kMnMzcHRwdGRhaTA0eC5jbG91ZGZyb250Lm5ldC9nZXQtZmxvd2JpdGUtcHJvLjc5ZWMxMGE1LTQzYjctNDY3Mi1hYjc0LWJjODQ5YmU1Y2M4OC5jc3MiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE2OTkwMTAxNTJ9fX1dfQ__&amp;Signature=iI1OGBaKB2lx~aZTbxAnnx01Xbw2uQiPH~DdajDLLo91aZtRgvgTtGL-YTkSloHjfL4Bg3xMUYH2l2fsNrWND1Bn37aFQYMp8UqHzr5EMjQjGkHvuYiOgYhEqz5gYmu9FeYY1OsgS2SpC93OZvio0d5MekP~9tv5OMbmyMvcYsZD0hg-PM6g6i~bAZNnfMnnxgMaHHxz6bXkdzOWiPJu9ArvPyvd5xdzg9F3Ggcq-WRrkgHXmqvz5QYqve3YGXyAcMuB-5F8GNmz0HQNMyYwMKflbHjZUp3Orj8I0crJLpHOI-HGZOi2825iKf2pJFpu3nhcAQMkX9BVP1xUHnRX4Q__&amp;Key-Pair-Id=K2J5W1U51CTOXP
+        @style 
+            css 
+                # ! tailwindcss v3.3.3 | MIT License | https://tailwindcss.com
+                < *
+                    + ::after
+                    + ::before
+                    box-sizing border-box
+                    border-width 0
+                    border-style solid
+                    border-color #e5e7eb
+                < ::after
+                    + ::before
+                    --tw-content ''
+                < html
+                    line-height 1.5
+                    -webkit-text-size-adjust 100%
+                    -moz-tab-size 4
+                    tab-size 4
+                    font-family Inter, ui-sans-serif, system-ui, -apple-system, system-ui, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji
+                    font-feature-settings normal
+                    font-variation-settings normal
+                < body
+                    margin 0
+                    line-height inherit
+                < hr
+                    height 0
+                    color inherit
+                    border-top-width 1px
+                < abbr:where([title])
+                    -webkit-text-decoration underline dotted
+                    text-decoration underline dotted
+                < h1
+                    + h2
+                    + h3
+                    + h4
+                    + h5
+                    + h6
+                    font-size inherit
+                    font-weight inherit
+                < a
+                    color inherit
+                    text-decoration inherit
+                < b
+                    + strong
+                    font-weight bolder
+                < code
+                    + kbd
+                    + pre
+                    + samp
+                    font-family ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+                    font-size 1em
+                < small
+                    font-size 80%
+                < sub
+                    + sup
+                    font-size 75%
+                    line-height 0
+                    position relative
+                    vertical-align baseline
+                < sub
+                    bottom -.25em
+                < sup
+                    top -.5em
+                < table
+                    text-indent 0
+                    border-color inherit
+                    border-collapse collapse
+                < button
+                    + input
+                    + optgroup
+                    + select
+                    + textarea
+                    font-family inherit
+                    font-feature-settings inherit
+                    font-variation-settings inherit
+                    font-size 100%
+                    font-weight inherit
+                    line-height inherit
+                    color inherit
+                    margin 0
+                    padding 0
+                < button
+                    + select
+                    text-transform none
+                < [type=button]
+                    + [type=reset]
+                    + [type=submit]
+                    + button
+                    -webkit-appearance button
+                    background-color transparent
+                    background-image none
+                < :-moz-focusring
+                    outline auto
+                < :-moz-ui-invalid
+                    box-shadow none
+                < progress
+                    vertical-align baseline
+                < ::-webkit-inner-spin-button
+                    + ::-webkit-outer-spin-button
+                    height auto
+                < [type=search]
+                    -webkit-appearance textfield
+                    outline-offset -2px
+                < ::-webkit-search-decoration
+                    -webkit-appearance none
+                < ::-webkit-file-upload-button
+                    -webkit-appearance button
+                    font inherit
+                < summary
+                    display list-item
+                < blockquote
+                    + dd
+                    + dl
+                    + figure
+                    + h1
+                    + h2
+                    + h3
+                    + h4
+                    + h5
+                    + h6
+                    + hr
+                    + p
+                    + pre
+                    margin 0
+                < fieldset
+                    margin 0
+                    padding 0
+                < legend
+                    padding 0
+                < menu
+                    + ol
+                    + ul
+                    list-style none
+                    margin 0
+                    padding 0
+                < dialog
+                    padding 0
+                < textarea
+                    resize vertical
+                < input::placeholder
+                    + textarea::placeholder
+                    opacity 1
+                    color #9ca3af
+                < [role=button]
+                    + button
+                    cursor pointer
+                < :disabled
+                    cursor default
+                < audio
+                    + canvas
+                    + embed
+                    + iframe
+                    + img
+                    + object
+                    + svg
+                    + video
+                    display block
+                    vertical-align middle
+                < img
+                    + video
+                    max-width 100%
+                    height auto
+                < [hidden]
+                    display none
+                < *
+                    + ::before
+                    + ::after
+                    --tw-border-spacing-x 0
+                    --tw-border-spacing-y 0
+                    --tw-translate-x 0
+                    --tw-translate-y 0
+                    --tw-rotate 0
+                    --tw-skew-x 0
+                    --tw-skew-y 0
+                    --tw-scale-x 1
+                    --tw-scale-y 1
+                    --tw-pan-x 
+                    --tw-pan-y 
+                    --tw-pinch-zoom 
+                    --tw-scroll-snap-strictness proximity
+                    --tw-gradient-from-position 
+                    --tw-gradient-via-position 
+                    --tw-gradient-to-position 
+                    --tw-ordinal 
+                    --tw-slashed-zero 
+                    --tw-numeric-figure 
+                    --tw-numeric-spacing 
+                    --tw-numeric-fraction 
+                    --tw-ring-inset 
+                    --tw-ring-offset-width 0px
+                    --tw-ring-offset-color #fff
+                    --tw-ring-color rgb(59 130 246 / 0.5)
+                    --tw-ring-offset-shadow 0 0 #0000
+                    --tw-ring-shadow 0 0 #0000
+                    --tw-shadow 0 0 #0000
+                    --tw-shadow-colored 0 0 #0000
+                    --tw-blur 
+                    --tw-brightness 
+                    --tw-contrast 
+                    --tw-grayscale 
+                    --tw-hue-rotate 
+                    --tw-invert 
+                    --tw-saturate 
+                    --tw-sepia 
+                    --tw-drop-shadow 
+                    --tw-backdrop-blur 
+                    --tw-backdrop-brightness 
+                    --tw-backdrop-contrast 
+                    --tw-backdrop-grayscale 
+                    --tw-backdrop-hue-rotate 
+                    --tw-backdrop-invert 
+                    --tw-backdrop-opacity 
+                    --tw-backdrop-saturate 
+                    --tw-backdrop-sepia 
+                < ::backdrop
+                    --tw-border-spacing-x 0
+                    --tw-border-spacing-y 0
+                    --tw-translate-x 0
+                    --tw-translate-y 0
+                    --tw-rotate 0
+                    --tw-skew-x 0
+                    --tw-skew-y 0
+                    --tw-scale-x 1
+                    --tw-scale-y 1
+                    --tw-pan-x 
+                    --tw-pan-y 
+                    --tw-pinch-zoom 
+                    --tw-scroll-snap-strictness proximity
+                    --tw-gradient-from-position 
+                    --tw-gradient-via-position 
+                    --tw-gradient-to-position 
+                    --tw-ordinal 
+                    --tw-slashed-zero 
+                    --tw-numeric-figure 
+                    --tw-numeric-spacing 
+                    --tw-numeric-fraction 
+                    --tw-ring-inset 
+                    --tw-ring-offset-width 0px
+                    --tw-ring-offset-color #fff
+                    --tw-ring-color rgb(59 130 246 / 0.5)
+                    --tw-ring-offset-shadow 0 0 #0000
+                    --tw-ring-shadow 0 0 #0000
+                    --tw-shadow 0 0 #0000
+                    --tw-shadow-colored 0 0 #0000
+                    --tw-blur 
+                    --tw-brightness 
+                    --tw-contrast 
+                    --tw-grayscale 
+                    --tw-hue-rotate 
+                    --tw-invert 
+                    --tw-saturate 
+                    --tw-sepia 
+                    --tw-drop-shadow 
+                    --tw-backdrop-blur 
+                    --tw-backdrop-brightness 
+                    --tw-backdrop-contrast 
+                    --tw-backdrop-grayscale 
+                    --tw-backdrop-hue-rotate 
+                    --tw-backdrop-invert 
+                    --tw-backdrop-opacity 
+                    --tw-backdrop-saturate 
+                    --tw-backdrop-sepia 
+                . absolute
+                    position absolute
+                . left-0
+                    left 0px
+                . top-0
+                    top 0px
+                . z-50
+                    z-index 50
+                . mb-1
+                    margin-bottom 0.25rem
+                . mb-2
+                    margin-bottom 0.5rem
+                . mt-2
+                    margin-top 0.5rem
+                . block
+                    display block
+                . inline-block
+                    display inline-block
+                . flex
+                    display flex
+                . grid
+                    display grid
+                . hidden
+                    display none
+                . h-4
+                    height 1rem
+                . h-6
+                    height 1.5rem
+                . w-1\/2
+                    width 50%
+                . w-4
+                    width 1rem
+                . w-64
+                    width 16rem
+                . flex-1
+                    flex 1 1 0%
+                . cursor-pointer
+                    cursor pointer
+                . grid-cols-7
+                    grid-template-columns repeat(7, minmax(0, 1fr))
+                . justify-between
+                    justify-content space-between
+                . space-x-2 > :not([hidden]) ~ :not([hidden])
+                    --tw-space-x-reverse 0
+                    margin-right calc(0.5rem * var(--tw-space-x-reverse))
+                    margin-left calc(0.5rem * calc(1 - var(--tw-space-x-reverse)))
+                . rounded-lg
+                    border-radius 0.5rem
+                . rounded-r-lg
+                    border-top-right-radius 0.5rem
+                    border-bottom-right-radius 0.5rem
+                . border
+                    border-width 1px
+                . border-0
+                    border-width 0px
+                . border-gray-300
+                    --tw-border-opacity 1
+                    border-color rgb(209 213 219 / var(--tw-border-opacity))
+                . bg-primary-600
+                    --tw-bg-opacity 1
+                    background-color rgb(37 99 235 / var(--tw-bg-opacity))
+                . bg-primary-700
+                    --tw-bg-opacity 1
+                    background-color rgb(29 78 216 / var(--tw-bg-opacity))
+                . bg-blue-700
+                    --tw-bg-opacity 1
+                    background-color rgb(29 78 216 / var(--tw-bg-opacity))
+                . bg-white
+                    --tw-bg-opacity 1
+                    background-color rgb(255 255 255 / var(--tw-bg-opacity))
+                . p-1
+                    padding 0.25rem
+                . p-2
+                    padding 0.5rem
+                . p-2\.5
+                    padding 0.625rem
+                . p-4
+                    padding 1rem
+                . px-2
+                    padding-left 0.5rem
+                    padding-right 0.5rem
+                . px-5
+                    padding-left 1.25rem
+                    padding-right 1.25rem
+                . py-2
+                    padding-top 0.5rem
+                    padding-bottom 0.5rem
+                . py-2\.5
+                    padding-top 0.625rem
+                    padding-bottom 0.625rem
+                . py-3
+                    padding-top 0.75rem
+                    padding-bottom 0.75rem
+                . pt-2
+                    padding-top 0.5rem
+                . text-center
+                    text-align center
+                . text-lg
+                    font-size 1.125rem
+                    line-height 1.75rem
+                . text-sm
+                    font-size 0.875rem
+                    line-height 1.25rem
+                . font-medium
+                    font-weight 500
+                . font-semibold
+                    font-weight 600
+                . leading-6
+                    line-height 1.5rem
+                . leading-9
+                    line-height 2.25rem
+                . text-primary-600
+                    --tw-text-opacity 1
+                    color rgb(37 99 235 / var(--tw-text-opacity))
+                . text-gray-500
+                    --tw-text-opacity 1
+                    color rgb(107 114 128 / var(--tw-text-opacity))
+                . text-gray-900
+                    --tw-text-opacity 1
+                    color rgb(17 24 39 / var(--tw-text-opacity))
+                . text-white
+                    --tw-text-opacity 1
+                    color rgb(255 255 255 / var(--tw-text-opacity))
+                . shadow-lg
+                    --tw-shadow 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)
+                    --tw-shadow-colored 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color)
+                    box-shadow var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+                . hover\:bg-primary-800:hover
+                    --tw-bg-opacity 1
+                    background-color rgb(30 64 175 / var(--tw-bg-opacity))
+                . hover\:bg-blue-800:hover
+                    --tw-bg-opacity 1
+                    background-color rgb(30 64 175 / var(--tw-bg-opacity))
+                . hover\:bg-gray-100:hover
+                    --tw-bg-opacity 1
+                    background-color rgb(243 244 246 / var(--tw-bg-opacity))
+                . hover\:text-primary-700:hover
+                    --tw-text-opacity 1
+                    color rgb(29 78 216 / var(--tw-text-opacity))
+                . hover\:text-gray-900:hover
+                    --tw-text-opacity 1
+                    color rgb(17 24 39 / var(--tw-text-opacity))
+                . focus\:border-primary-500:focus
+                    --tw-border-opacity 1
+                    border-color rgb(59 130 246 / var(--tw-border-opacity))
+                . focus\:border-primary-600:focus
+                    --tw-border-opacity 1
+                    border-color rgb(37 99 235 / var(--tw-border-opacity))
+                . focus\:outline-none:focus
+                    outline 2px solid transparent
+                    outline-offset 2px
+                . focus\:ring-2:focus
+                    --tw-ring-offset-shadow var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color)
+                    --tw-ring-shadow var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color)
+                    box-shadow var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+                . focus\:ring-4:focus
+                    --tw-ring-offset-shadow var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color)
+                    --tw-ring-shadow var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color)
+                    box-shadow var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+                . focus\:ring-primary-300:focus
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(147 197 253 / var(--tw-ring-opacity))
+                . focus\:ring-primary-500:focus
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(59 130 246 / var(--tw-ring-opacity))
+                . focus\:ring-primary-600:focus
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(37 99 235 / var(--tw-ring-opacity))
+                . focus\:ring-blue-300:focus
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(147 197 253 / var(--tw-ring-opacity))
+                . focus\:ring-gray-200:focus
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(229 231 235 / var(--tw-ring-opacity))
+                < :is(.dark .dark\:border-gray-600)
+                    --tw-border-opacity 1
+                    border-color rgb(75 85 99 / var(--tw-border-opacity))
+                < :is(.dark .dark\:bg-primary-600)
+                    --tw-bg-opacity 1
+                    background-color rgb(37 99 235 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:bg-blue-600)
+                    --tw-bg-opacity 1
+                    background-color rgb(37 99 235 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:bg-gray-700)
+                    --tw-bg-opacity 1
+                    background-color rgb(55 65 81 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:text-gray-400)
+                    --tw-text-opacity 1
+                    color rgb(156 163 175 / var(--tw-text-opacity))
+                < :is(.dark .dark\:text-white)
+                    --tw-text-opacity 1
+                    color rgb(255 255 255 / var(--tw-text-opacity))
+                < :is(.dark .dark\:hover\:bg-primary-700:hover)
+                    --tw-bg-opacity 1
+                    background-color rgb(29 78 216 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:hover\:bg-blue-700:hover)
+                    --tw-bg-opacity 1
+                    background-color rgb(29 78 216 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:hover\:bg-gray-600:hover)
+                    --tw-bg-opacity 1
+                    background-color rgb(75 85 99 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:hover\:text-white:hover)
+                    --tw-text-opacity 1
+                    color rgb(255 255 255 / var(--tw-text-opacity))
+                < :is(.dark .dark\:focus\:border-primary-500:focus)
+                    --tw-border-opacity 1
+                    border-color rgb(59 130 246 / var(--tw-border-opacity))
+                < :is(.dark .dark\:focus\:ring-primary-500:focus)
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(59 130 246 / var(--tw-ring-opacity))
+                < :is(.dark .dark\:focus\:ring-primary-600:focus)
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(37 99 235 / var(--tw-ring-opacity))
+                < :is(.dark .dark\:focus\:ring-primary-800:focus)
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(30 64 175 / var(--tw-ring-opacity))
+    body 
+        section 
+            class yjGyQxv8jnYk9_MGMqLN zlFmyfujKXCLCPyPEOIS
+            . OmM4wtdsNjVR2r7OSzsm veFXkDzfJN473U3ycrV8 RV8RoaI_SlEMC5CEQ3ms SbPKkTqWXkzvA2E0REZ8 jj0BrgkBpq72EXwWuBh5
+                h2 Add a new event
+                    class _9OKVeTXzfSwD_NYO6_G uyo8h_4Kh1IoUwm8bwJI _WfIfkoGCi0vvUrnNs4M g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0
+                form 
+                    action #
+                    . Ced8tRkG1VjcbmNVdBtj qPk6ygVqUyrzTx0CVDbs hAFtnIdYDiO6M_67F11P _yVFMQjJHRhTCuZdvVB5 rVDZiB_sQDW_cniUhBYT ErxvPfEi6Z6YsQPQkidi
+                        . _9OKVeTXzfSwD_NYO6_G FLfl_xS1XCloWU2wRi87 _36PTq56G0_g2PgsxjuS
+                            div 
+                                label Title
+                                    for title
+                                    class ttxtqsLWp2pFRX8yUvWd rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0
+                                input 
+                                    type text
+                                    name title
+                                    id title
+                                    class jCHKuJ3G7rklx_LiAfbf PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa g3OYBOqwXUEW4dRGogkH MxG1ClE4KPrIvlL5_Q5x _Qk4_E9_iLqcHsRZZ4ge focus:ring-primary-600 focus:border-primary-600 ttxtqsLWp2pFRX8yUvWd jCISvWkW5oStPH6Wrb_H _4wtDMQ2AdJOlYvml5sL _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk _DJ2tfp6E9c_teMKVD3z a0Ed69aMSu0vgf4oysz0 dark:focus:ring-primary-500 dark:focus:border-primary-500
+                                    placeholder Add title here
+                                    required 
+                            div 
+                                label Select Date
+                                    for date_start
+                                    class ttxtqsLWp2pFRX8yUvWd rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0
+                                . neyUwteEn7DOg9pBSJJE FLfl_xS1XCloWU2wRi87 vfo_NTQESTTZ3OItIoEN GHTkY6_vcDBrE7v2PrzJ
+                                    @ date-rangepicker 
+                                    . QYPW4nl6nHaIbrtaXf4h jCISvWkW5oStPH6Wrb_H
+                                        . kqgYncRJQ7spwKfig6It iZ8W30HPRQAuO6al90LU BlSalPC4mE3l43xyY9d0 _J57_xJ7KhmAX1D2Pnei neyUwteEn7DOg9pBSJJE _mzhSDAYlA3W05MgSqAf ubsPczbxEg7lOg0_Eg1A
+                                            svg 
+                                                aria-hidden true
+                                                class eUuXwBkW5W4__eatjSfd RRXFBumaW2SHdseZaWm6 K1PPCJwslha8GUIvV_Cr eCx_6PNzncAD5yo7Qcic
+                                                fill currentColor
+                                                viewBox 0 0 20 20
+                                                xmlns http://www.w3.org/2000/svg
+                                                path 
+                                                    fill-rule evenodd
+                                                    d M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z
+                                                    clip-rule evenodd
+                                        input 
+                                            id date_start
+                                            name start
+                                            type text
+                                            class jCHKuJ3G7rklx_LiAfbf PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa g3OYBOqwXUEW4dRGogkH MxG1ClE4KPrIvlL5_Q5x _Qk4_E9_iLqcHsRZZ4ge focus:ring-primary-500 focus:border-primary-500 ttxtqsLWp2pFRX8yUvWd jCISvWkW5oStPH6Wrb_H PSQP9kvsunDmw48W3Bk4 _4wtDMQ2AdJOlYvml5sL _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk _DJ2tfp6E9c_teMKVD3z a0Ed69aMSu0vgf4oysz0 dark:focus:ring-primary-500 dark:focus:border-primary-500 datepicker-input
+                                            placeholder Select date start
+                                    span to
+                                        class j2x7_17hqRVmwte_tWFa K1PPCJwslha8GUIvV_Cr BRYfetjr5WbpNe5zZl9x vfo_NTQESTTZ3OItIoEN
+                                    . QYPW4nl6nHaIbrtaXf4h jCISvWkW5oStPH6Wrb_H
+                                        . kqgYncRJQ7spwKfig6It iZ8W30HPRQAuO6al90LU BlSalPC4mE3l43xyY9d0 _J57_xJ7KhmAX1D2Pnei neyUwteEn7DOg9pBSJJE _mzhSDAYlA3W05MgSqAf ubsPczbxEg7lOg0_Eg1A
+                                            svg 
+                                                aria-hidden true
+                                                class eUuXwBkW5W4__eatjSfd RRXFBumaW2SHdseZaWm6 K1PPCJwslha8GUIvV_Cr eCx_6PNzncAD5yo7Qcic
+                                                fill currentColor
+                                                viewBox 0 0 20 20
+                                                xmlns http://www.w3.org/2000/svg
+                                                path 
+                                                    fill-rule evenodd
+                                                    d M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z
+                                                    clip-rule evenodd
+                                        input 
+                                            id date_end
+                                            name end
+                                            type text
+                                            class jCHKuJ3G7rklx_LiAfbf PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa g3OYBOqwXUEW4dRGogkH MxG1ClE4KPrIvlL5_Q5x _Qk4_E9_iLqcHsRZZ4ge focus:ring-primary-500 focus:border-primary-500 ttxtqsLWp2pFRX8yUvWd jCISvWkW5oStPH6Wrb_H PSQP9kvsunDmw48W3Bk4 _4wtDMQ2AdJOlYvml5sL _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk _DJ2tfp6E9c_teMKVD3z a0Ed69aMSu0vgf4oysz0 dark:focus:ring-primary-500 dark:focus:border-primary-500 datepicker-input
+                                            placeholder Select date end
+                            . kqgYncRJQ7spwKfig6It neyUwteEn7DOg9pBSJJE B1cgbA6Bb4LQo0qFJKck
+                                . kqgYncRJQ7spwKfig6It neyUwteEn7DOg9pBSJJE HzSN_B__bXx8FUbQhXu_
+                                    input 
+                                        id event-duration-checkbox
+                                        type checkbox
+                                        value 
+                                        class kbeH5ty3CtPKxXm5TXph eVNhx7m5tjSVbfYQzDdT _iRPzRRWy2UNkvZFG8iO YPSoR6AXtPgkmylUmcbT T_tFENbpK8DMDNjQRyQa text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 apRlbPZRJ4JWA5RVdURT X3ifvK6lzvLzkZabaIQd _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk
+                                    label All day
+                                        for event-duration-checkbox
+                                        class QGosQoeY76W_hWM2rgwJ MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH _Rz9TooiK_4jTN_Ub8Gm
+                                label Select an option
+                                    for time
+                                    class BWabIWdbZ5qWNbPXxuBc
+                                select 
+                                    id time
+                                    class _ai51jxW84YycfjuGyBg jCHKuJ3G7rklx_LiAfbf PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa g3OYBOqwXUEW4dRGogkH MxG1ClE4KPrIvlL5_Q5x _Qk4_E9_iLqcHsRZZ4ge focus:ring-primary-500 focus:border-primary-500 ttxtqsLWp2pFRX8yUvWd _4wtDMQ2AdJOlYvml5sL _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk _DJ2tfp6E9c_teMKVD3z a0Ed69aMSu0vgf4oysz0 dark:focus:ring-primary-500 dark:focus:border-primary-500
+                                    option Does not repeat
+                                        selected 
+                                    option Daily
+                                        value DA
+                                    option Weekly on Wednesday
+                                        value WW
+                                    option Every weekday
+                                        value EW
+                                    option Custom
+                                        value CU
+                            button 
+                                type button
+                                class wP9HMsqy6b96l2HBRbgb cpvySQJhi7WPQ1TJZjyD Bazdf0LUPiBYVkukEV3i _FONMPVaCsLFJJGDaaIL qHIOIw8TObHgD3VvKa5x Xf_nkaEk9RWCaqvQByvp _A6LflweZRUwrcL6M2Tk _Qk4_E9_iLqcHsRZZ4ge MxG1ClE4KPrIvlL5_Q5x bFARDnno0HUtfhktTXfR _gKcj49wZgnwx1LpcJi6 _F_1gdhzusC6tSOWHtx_ ay0ziTPUL4Ag5d1DkSY7 neyUwteEn7DOg9pBSJJE dark:focus:ring-[#4285F4]/55 _gmxfZ2BpOHxa6nWwqBB rD4HtsUG_hahmbh2Kj09
+                                svg 
+                                    aria-hidden true
+                                    class _gmxfZ2BpOHxa6nWwqBB wikskPDYEBn0nlvDss8h kbeH5ty3CtPKxXm5TXph eVNhx7m5tjSVbfYQzDdT
+                                    focusable false
+                                    data-prefix fab
+                                    data-icon google
+                                    @ role img
+                                    xmlns http://www.w3.org/2000/svg
+                                    viewBox 0 0 488 512
+                                    path 
+                                        fill currentColor
+                                        d M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z
+                                ++ Add Google Meet video conference
+                            div 
+                                div Tag Color
+                                    class ttxtqsLWp2pFRX8yUvWd rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0
+                                . kqgYncRJQ7spwKfig6It neyUwteEn7DOg9pBSJJE rALiclNssVZsLNt7zOhR
+                                    button 
+                                        type button
+                                        class nLhohPz5FpffXM9RSdFT _XD2a764x49B1E2F9f8X XDk1_npkBoOBSU2LMU0G kgpUDAwSszZxVH0K_LQT
+                                    button 
+                                        type button
+                                        class nLhohPz5FpffXM9RSdFT _XD2a764x49B1E2F9f8X E8z2PxxMQ5eIT2O_qpQx kgpUDAwSszZxVH0K_LQT
+                                    button 
+                                        type button
+                                        class nLhohPz5FpffXM9RSdFT _XD2a764x49B1E2F9f8X kgpUDAwSszZxVH0K_LQT bg-primary-600
+                                    button 
+                                        type button
+                                        class nLhohPz5FpffXM9RSdFT _XD2a764x49B1E2F9f8X jLwNgOJvJbT8CgmDxohW kgpUDAwSszZxVH0K_LQT
+                                    button 
+                                        type button
+                                        class nLhohPz5FpffXM9RSdFT _XD2a764x49B1E2F9f8X _WXL3OTCvMA1WTA2Kd__ kgpUDAwSszZxVH0K_LQT
+                                    button 
+                                        type button
+                                        class nLhohPz5FpffXM9RSdFT _XD2a764x49B1E2F9f8X JH3Lv27VDS9S3CkhGBXx kgpUDAwSszZxVH0K_LQT
+                                    button 
+                                        type button
+                                        class nLhohPz5FpffXM9RSdFT _XD2a764x49B1E2F9f8X Vg4qo7M_3Yiawl64oMmJ kgpUDAwSszZxVH0K_LQT
+                                    button 
+                                        type button
+                                        class nLhohPz5FpffXM9RSdFT _XD2a764x49B1E2F9f8X g5QKJ7_U6hvpT2Wwm2JF kgpUDAwSszZxVH0K_LQT
+                                    button 
+                                        type button
+                                        class nLhohPz5FpffXM9RSdFT _XD2a764x49B1E2F9f8X mSU27_LHUL7etCkQqE7s kgpUDAwSszZxVH0K_LQT
+                            div 
+                                label Description
+                                    for description
+                                    class ttxtqsLWp2pFRX8yUvWd rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0
+                                . _9OKVeTXzfSwD_NYO6_G jCISvWkW5oStPH6Wrb_H _iRPzRRWy2UNkvZFG8iO _Qk4_E9_iLqcHsRZZ4ge PWreZZgitgAm_Nv4Noh9 pxHuWvF853ck68OLN6ef _uoTEG_CU7r6UxI59Mw4 _BIVSYBXQUqEf_ltPrSk
+                                    . kqgYncRJQ7spwKfig6It _T15kfOPGkvwZnqhqKce neyUwteEn7DOg9pBSJJE zhRMeqbg7JsftloqW_W6 MQMN74ivNmI6x68DZajA umaBek2qJLzF9vdDPtgc _BIVSYBXQUqEf_ltPrSk
+                                        . kqgYncRJQ7spwKfig6It SaxexKs0G0X_YQvtMxF3 neyUwteEn7DOg9pBSJJE yGKSom6xHdY1EhaYGurI Nlj9GFezeDrrSMc8mB0T WoQqugRcWrYbmsWhxCUr
+                                            . kqgYncRJQ7spwKfig6It neyUwteEn7DOg9pBSJJE pz8Hkt0c6QoT_d0LgJ4L sCLAUGaesab9D0cBf8e_
+                                                button 
+                                                    type button
+                                                    class Y34SQMYAJVIAdOFKA3gG K1PPCJwslha8GUIvV_Cr YPSoR6AXtPgkmylUmcbT avTmsFU5TwHXQh07Ji35 _xQT_qSXfwWf6ZhwRle4 DpMPWwlSESiYA8EE1xKM eCx_6PNzncAD5yo7Qcic DTyjKhtXBNaebZa5L0l9 xotVay0PVtR3gElm6ql5
+                                                    svg 
+                                                        aria-hidden true
+                                                        class eUuXwBkW5W4__eatjSfd RRXFBumaW2SHdseZaWm6
+                                                        fill currentColor
+                                                        viewBox 0 0 20 20
+                                                        xmlns http://www.w3.org/2000/svg
+                                                        path 
+                                                            fill-rule evenodd
+                                                            d M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z
+                                                            clip-rule evenodd
+                                                    span Attach file
+                                                        class BWabIWdbZ5qWNbPXxuBc
+                                                button 
+                                                    type button
+                                                    class Y34SQMYAJVIAdOFKA3gG K1PPCJwslha8GUIvV_Cr YPSoR6AXtPgkmylUmcbT avTmsFU5TwHXQh07Ji35 _xQT_qSXfwWf6ZhwRle4 DpMPWwlSESiYA8EE1xKM eCx_6PNzncAD5yo7Qcic DTyjKhtXBNaebZa5L0l9 xotVay0PVtR3gElm6ql5
+                                                    svg 
+                                                        aria-hidden true
+                                                        class eUuXwBkW5W4__eatjSfd RRXFBumaW2SHdseZaWm6
+                                                        fill currentColor
+                                                        viewBox 0 0 20 20
+                                                        xmlns http://www.w3.org/2000/svg
+                                                        path 
+                                                            fill-rule evenodd
+                                                            d M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z
+                                                            clip-rule evenodd
+                                                    span Embed map
+                                                        class BWabIWdbZ5qWNbPXxuBc
+                                                button 
+                                                    type button
+                                                    class Y34SQMYAJVIAdOFKA3gG K1PPCJwslha8GUIvV_Cr YPSoR6AXtPgkmylUmcbT avTmsFU5TwHXQh07Ji35 _xQT_qSXfwWf6ZhwRle4 DpMPWwlSESiYA8EE1xKM eCx_6PNzncAD5yo7Qcic DTyjKhtXBNaebZa5L0l9 xotVay0PVtR3gElm6ql5
+                                                    svg 
+                                                        aria-hidden true
+                                                        class eUuXwBkW5W4__eatjSfd RRXFBumaW2SHdseZaWm6
+                                                        fill currentColor
+                                                        viewBox 0 0 20 20
+                                                        xmlns http://www.w3.org/2000/svg
+                                                        path 
+                                                            fill-rule evenodd
+                                                            d M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z
+                                                            clip-rule evenodd
+                                                    span Upload image
+                                                        class BWabIWdbZ5qWNbPXxuBc
+                                                button 
+                                                    type button
+                                                    class Y34SQMYAJVIAdOFKA3gG K1PPCJwslha8GUIvV_Cr YPSoR6AXtPgkmylUmcbT avTmsFU5TwHXQh07Ji35 _xQT_qSXfwWf6ZhwRle4 DpMPWwlSESiYA8EE1xKM eCx_6PNzncAD5yo7Qcic DTyjKhtXBNaebZa5L0l9 xotVay0PVtR3gElm6ql5
+                                                    svg 
+                                                        aria-hidden true
+                                                        class eUuXwBkW5W4__eatjSfd RRXFBumaW2SHdseZaWm6
+                                                        fill currentColor
+                                                        viewBox 0 0 20 20
+                                                        xmlns http://www.w3.org/2000/svg
+                                                        path 
+                                                            fill-rule evenodd
+                                                            d M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z
+                                                            clip-rule evenodd
+                                                    span Format code
+                                                        class BWabIWdbZ5qWNbPXxuBc
+                                                button 
+                                                    type button
+                                                    class Y34SQMYAJVIAdOFKA3gG K1PPCJwslha8GUIvV_Cr YPSoR6AXtPgkmylUmcbT avTmsFU5TwHXQh07Ji35 _xQT_qSXfwWf6ZhwRle4 DpMPWwlSESiYA8EE1xKM eCx_6PNzncAD5yo7Qcic DTyjKhtXBNaebZa5L0l9 xotVay0PVtR3gElm6ql5
+                                                    svg 
+                                                        aria-hidden true
+                                                        class eUuXwBkW5W4__eatjSfd RRXFBumaW2SHdseZaWm6
+                                                        fill currentColor
+                                                        viewBox 0 0 20 20
+                                                        xmlns http://www.w3.org/2000/svg
+                                                        path 
+                                                            fill-rule evenodd
+                                                            d M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z
+                                                            clip-rule evenodd
+                                                    span Add emoji
+                                                        class BWabIWdbZ5qWNbPXxuBc
+                                            . j2x7_17hqRVmwte_tWFa SaxexKs0G0X_YQvtMxF3 neyUwteEn7DOg9pBSJJE pz8Hkt0c6QoT_d0LgJ4L U4m6yFbNbl_ea9gVo2Uw UOs3xk7_SKo_Hcsbq8nt
+                                                button 
+                                                    type button
+                                                    class Y34SQMYAJVIAdOFKA3gG K1PPCJwslha8GUIvV_Cr YPSoR6AXtPgkmylUmcbT avTmsFU5TwHXQh07Ji35 _xQT_qSXfwWf6ZhwRle4 DpMPWwlSESiYA8EE1xKM eCx_6PNzncAD5yo7Qcic DTyjKhtXBNaebZa5L0l9 xotVay0PVtR3gElm6ql5
+                                                    svg 
+                                                        aria-hidden true
+                                                        class eUuXwBkW5W4__eatjSfd RRXFBumaW2SHdseZaWm6
+                                                        fill currentColor
+                                                        viewBox 0 0 20 20
+                                                        xmlns http://www.w3.org/2000/svg
+                                                        path 
+                                                            fill-rule evenodd
+                                                            d M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z
+                                                            clip-rule evenodd
+                                                    span Timeline
+                                                        class BWabIWdbZ5qWNbPXxuBc
+                                                button 
+                                                    type button
+                                                    class Y34SQMYAJVIAdOFKA3gG K1PPCJwslha8GUIvV_Cr YPSoR6AXtPgkmylUmcbT avTmsFU5TwHXQh07Ji35 _xQT_qSXfwWf6ZhwRle4 DpMPWwlSESiYA8EE1xKM eCx_6PNzncAD5yo7Qcic DTyjKhtXBNaebZa5L0l9 xotVay0PVtR3gElm6ql5
+                                                    svg 
+                                                        aria-hidden true
+                                                        class eUuXwBkW5W4__eatjSfd RRXFBumaW2SHdseZaWm6
+                                                        fill currentColor
+                                                        viewBox 0 0 20 20
+                                                        xmlns http://www.w3.org/2000/svg
+                                                        path 
+                                                            fill-rule evenodd
+                                                            d M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z
+                                                            clip-rule evenodd
+                                                    span Download
+                                                        class BWabIWdbZ5qWNbPXxuBc
+                                        button 
+                                            type button
+                                            data-tooltip-target tooltip-fullscreen
+                                            class Y34SQMYAJVIAdOFKA3gG K1PPCJwslha8GUIvV_Cr YPSoR6AXtPgkmylUmcbT avTmsFU5TwHXQh07Ji35 lk_Qvs8GwdI2Q78kOWK_ _xQT_qSXfwWf6ZhwRle4 DpMPWwlSESiYA8EE1xKM eCx_6PNzncAD5yo7Qcic DTyjKhtXBNaebZa5L0l9 xotVay0PVtR3gElm6ql5
+                                            svg 
+                                                aria-hidden true
+                                                class eUuXwBkW5W4__eatjSfd RRXFBumaW2SHdseZaWm6
+                                                fill currentColor
+                                                viewBox 0 0 20 20
+                                                xmlns http://www.w3.org/2000/svg
+                                                path 
+                                                    fill-rule evenodd
+                                                    d M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 11-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15 13.586V12a1 1 0 011-1z
+                                                    clip-rule evenodd
+                                            span Full screen
+                                                class BWabIWdbZ5qWNbPXxuBc
+                                        . ADhvqXKjAizJqFADNpvd iZ8W30HPRQAuO6al90LU p3NM1OB16vfk_yD2siUB _v8hjA9ct_v6OhSQD7fC zhRMeqbg7JsftloqW_W6 MQMN74ivNmI6x68DZajA MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk wP9HMsqy6b96l2HBRbgb J_ldU2ISOuzV8yupuBpE _Qk4_E9_iLqcHsRZZ4ge ltPMSn_g3PKyqeS8vmZk AtHBVur__RVIv6BHiI4a M4SAv60iaayh2_Cd_QyF KB__y25H2tVACg2mjb4C Usqns9w__onp5CWoXDJ0 _t2wg7hRcyKsNN8CSSeU
+                                            id tooltip-fullscreen
+                                            role tooltip
+                                            data-popper-placement top
+                                            style position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(779px, -444px);
+                                            ++ Show full screen
+                                            . POMYoNHqN8pOsNYFYFHr
+                                                data-popper-arrow 
+                                                style position: absolute; left: 0px; transform: translate(63px, 0px);
+                                    . zhRMeqbg7JsftloqW_W6 veFXkDzfJN473U3ycrV8 jCHKuJ3G7rklx_LiAfbf HCKAzjPNYaEE1SstZz5I _t2wg7hRcyKsNN8CSSeU
+                                        textarea 
+                                            id description
+                                            rows 8
+                                            class ttxtqsLWp2pFRX8yUvWd psGSaoX3vEaTuVjCVZ1M jCISvWkW5oStPH6Wrb_H MxG1ClE4KPrIvlL5_Q5x _k4LlnOHrNO4Fe0v_QGs jCHKuJ3G7rklx_LiAfbf cMZ6g1VlTxVbLLDgApBS _t2wg7hRcyKsNN8CSSeU W83fbcqTDAidAC5iVTZ9 a0Ed69aMSu0vgf4oysz0 _DJ2tfp6E9c_teMKVD3z
+                                            placeholder Write a description here
+                                            required 
+                            div 
+                                div Reminder
+                                    class ttxtqsLWp2pFRX8yUvWd rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0
+                                . FLfl_xS1XCloWU2wRi87 vfo_NTQESTTZ3OItIoEN GHTkY6_vcDBrE7v2PrzJ oMWvLBjtaY1vTdo7u3vN
+                                    . jCISvWkW5oStPH6Wrb_H
+                                        label Reminder type
+                                            for reminder-type
+                                            class BWabIWdbZ5qWNbPXxuBc
+                                        select 
+                                            id reminder-type
+                                            class jCHKuJ3G7rklx_LiAfbf PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa g3OYBOqwXUEW4dRGogkH MxG1ClE4KPrIvlL5_Q5x _Qk4_E9_iLqcHsRZZ4ge focus:ring-primary-500 focus:border-primary-500 ttxtqsLWp2pFRX8yUvWd jCISvWkW5oStPH6Wrb_H _4wtDMQ2AdJOlYvml5sL _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk _DJ2tfp6E9c_teMKVD3z a0Ed69aMSu0vgf4oysz0 dark:focus:ring-primary-500 dark:focus:border-primary-500
+                                            option Notification
+                                                selected 
+                                            option Alarm
+                                                value AL
+                                            option Email
+                                                value EM
+                                            option SMS
+                                                value SM
+                                    . jCISvWkW5oStPH6Wrb_H
+                                        label Counter
+                                            for reminder-counter
+                                            class BWabIWdbZ5qWNbPXxuBc
+                                        input 
+                                            type number
+                                            name reminder-counter
+                                            id reminder-counter-days
+                                            class jCHKuJ3G7rklx_LiAfbf MxG1ClE4KPrIvlL5_Q5x PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa g3OYBOqwXUEW4dRGogkH _Qk4_E9_iLqcHsRZZ4ge focus:ring-primary-600 focus:border-primary-600 ttxtqsLWp2pFRX8yUvWd jCISvWkW5oStPH6Wrb_H _4wtDMQ2AdJOlYvml5sL _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk _DJ2tfp6E9c_teMKVD3z a0Ed69aMSu0vgf4oysz0 dark:focus:ring-primary-500 dark:focus:border-primary-500
+                                            placeholder 1
+                                            required 
+                                    . jCISvWkW5oStPH6Wrb_H
+                                        label Length
+                                            for reminder-length-type
+                                            class BWabIWdbZ5qWNbPXxuBc
+                                        select 
+                                            id reminder-length-type
+                                            class jCHKuJ3G7rklx_LiAfbf PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa g3OYBOqwXUEW4dRGogkH MxG1ClE4KPrIvlL5_Q5x _Qk4_E9_iLqcHsRZZ4ge focus:ring-primary-500 focus:border-primary-500 ttxtqsLWp2pFRX8yUvWd jCISvWkW5oStPH6Wrb_H _4wtDMQ2AdJOlYvml5sL _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk _DJ2tfp6E9c_teMKVD3z a0Ed69aMSu0vgf4oysz0 dark:focus:ring-primary-500 dark:focus:border-primary-500
+                                            option Days
+                                                selected 
+                                            option Weeks
+                                                value WE
+                                            option Months
+                                                value MO
+                        . _9OKVeTXzfSwD_NYO6_G FLfl_xS1XCloWU2wRi87
+                            div 
+                                label Add guests
+                                    for add-guests
+                                    class ttxtqsLWp2pFRX8yUvWd rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0
+                                . QYPW4nl6nHaIbrtaXf4h
+                                    input 
+                                        type text
+                                        id add-guests
+                                        class ttxtqsLWp2pFRX8yUvWd _7ErNxHG5jDLGpANMK93 mhot0RlBMBaJgbqzaf8O jCISvWkW5oStPH6Wrb_H MxG1ClE4KPrIvlL5_Q5x g3OYBOqwXUEW4dRGogkH jCHKuJ3G7rklx_LiAfbf _Qk4_E9_iLqcHsRZZ4ge PWreZZgitgAm_Nv4Noh9 T_tFENbpK8DMDNjQRyQa focus:ring-primary-500 focus:border-primary-500 _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk _DJ2tfp6E9c_teMKVD3z a0Ed69aMSu0vgf4oysz0 dark:focus:ring-primary-500 dark:focus:border-primary-500
+                                        placeholder Add guest email
+                                        required 
+                                    button 
+                                        type button
+                                        class wP9HMsqy6b96l2HBRbgb iZ8W30HPRQAuO6al90LU ay0ziTPUL4Ag5d1DkSY7 neyUwteEn7DOg9pBSJJE RuYIYC_9cfaevyC_j3SK Y46Wpo9_BAWI3OQBHUjI bg-primary-700 hover:bg-primary-800 _FONMPVaCsLFJJGDaaIL qHIOIw8TObHgD3VvKa5x focus:ring-primary-300 _A6LflweZRUwrcL6M2Tk _Qk4_E9_iLqcHsRZZ4ge XklWzT8y98pp042XEQp4 MQMN74ivNmI6x68DZajA yT1GQH4LxzcERAjp6XzU dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800
+                                        svg 
+                                            class kbeH5ty3CtPKxXm5TXph eVNhx7m5tjSVbfYQzDdT _g_tVEs0RNoEZPzttEU8 gFQHHdBH5ucepz2cp78t
+                                            fill currentColor
+                                            viewBox 0 0 20 20
+                                            xmlns http://www.w3.org/2000/svg
+                                            path 
+                                                fill-rule evenodd
+                                                d M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z
+                                                clip-rule evenodd
+                                        ++ Add
+                            . neyUwteEn7DOg9pBSJJE vfo_NTQESTTZ3OItIoEN oMWvLBjtaY1vTdo7u3vN
+                                . kqgYncRJQ7spwKfig6It dJBCIyiM9cLL9095_Hmw _9OKVeTXzfSwD_NYO6_G _LFTxJkvRWfI_UdU8mi1 l6arCEZTFGzswM8n_uhr
+                                    img 
+                                        class _vZPglRSyqi4oTXg5L1_ _pwSRUXRHN5bHphyTRKz n8e6ORKgPTnY6zgs5HS7 bQPRusdUv2Wr50Lq2KOG _WlCPLL0LIv8ViOuJIFs Hy7fSoMkW1_3XuxzLIXq
+                                        src https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png
+                                        alt Helene Engels
+                                    img 
+                                        class _vZPglRSyqi4oTXg5L1_ _pwSRUXRHN5bHphyTRKz n8e6ORKgPTnY6zgs5HS7 bQPRusdUv2Wr50Lq2KOG _WlCPLL0LIv8ViOuJIFs Hy7fSoMkW1_3XuxzLIXq
+                                        src https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/robert-brown.png
+                                        alt Robert Brown
+                                    img 
+                                        class _vZPglRSyqi4oTXg5L1_ _pwSRUXRHN5bHphyTRKz n8e6ORKgPTnY6zgs5HS7 bQPRusdUv2Wr50Lq2KOG _WlCPLL0LIv8ViOuJIFs Hy7fSoMkW1_3XuxzLIXq
+                                        src https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png
+                                        alt Bonnie Green
+                                    a +9
+                                        class kqgYncRJQ7spwKfig6It _WclR59Ji8jwfmjPtOei neyUwteEn7DOg9pBSJJE _vZPglRSyqi4oTXg5L1_ _pwSRUXRHN5bHphyTRKz XklWzT8y98pp042XEQp4 _A6LflweZRUwrcL6M2Tk wP9HMsqy6b96l2HBRbgb lxr73ToDk8rdp_lBYfnv n8e6ORKgPTnY6zgs5HS7 bQPRusdUv2Wr50Lq2KOG _WlCPLL0LIv8ViOuJIFs DbHtwQ2oxLVcSAxoB6Lv Hy7fSoMkW1_3XuxzLIXq
+                                        href #
+                                button 
+                                    type button
+                                    class ay0ziTPUL4Ag5d1DkSY7 neyUwteEn7DOg9pBSJJE zhRMeqbg7JsftloqW_W6 MQMN74ivNmI6x68DZajA XklWzT8y98pp042XEQp4 _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH yjGyQxv8jnYk9_MGMqLN _Qk4_E9_iLqcHsRZZ4ge PWreZZgitgAm_Nv4Noh9 pxHuWvF853ck68OLN6ef qHIOIw8TObHgD3VvKa5x DpMPWwlSESiYA8EE1xKM hover:text-primary-700 m_8FxTcpOfmK___hAaJ6 _FONMPVaCsLFJJGDaaIL ySeTR5mxhrLv_M5M51IE __8kBLtrR_iuU2wW25Lp _cpMMPjFQqjJu4i0Puod eCx_6PNzncAD5yo7Qcic _BIVSYBXQUqEf_ltPrSk DTyjKhtXBNaebZa5L0l9 _OovBxfPdK7Rjv2nh2Ot
+                                    svg 
+                                        aria-hidden true
+                                        class b7Lf_ucBvHbZEidPjF8t wikskPDYEBn0nlvDss8h kbeH5ty3CtPKxXm5TXph eVNhx7m5tjSVbfYQzDdT
+                                        fill currentColor
+                                        viewBox 0 0 20 20
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            fill-rule evenodd
+                                            d M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z
+                                            clip-rule evenodd
+                                    ++ Add member
+                                button 
+                                    type button
+                                    class ay0ziTPUL4Ag5d1DkSY7 neyUwteEn7DOg9pBSJJE zhRMeqbg7JsftloqW_W6 MQMN74ivNmI6x68DZajA QGosQoeY76W_hWM2rgwJ XklWzT8y98pp042XEQp4 _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH yjGyQxv8jnYk9_MGMqLN _Qk4_E9_iLqcHsRZZ4ge PWreZZgitgAm_Nv4Noh9 pxHuWvF853ck68OLN6ef hgL0WEiGLNST9A6vRVaz qHIOIw8TObHgD3VvKa5x DpMPWwlSESiYA8EE1xKM hover:text-primary-700 m_8FxTcpOfmK___hAaJ6 _FONMPVaCsLFJJGDaaIL ySeTR5mxhrLv_M5M51IE __8kBLtrR_iuU2wW25Lp _cpMMPjFQqjJu4i0Puod eCx_6PNzncAD5yo7Qcic _BIVSYBXQUqEf_ltPrSk DTyjKhtXBNaebZa5L0l9 _OovBxfPdK7Rjv2nh2Ot
+                                    svg 
+                                        aria-hidden true
+                                        class b7Lf_ucBvHbZEidPjF8t wikskPDYEBn0nlvDss8h kbeH5ty3CtPKxXm5TXph eVNhx7m5tjSVbfYQzDdT
+                                        fill none
+                                        stroke currentColor
+                                        viewBox 0 0 24 24
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            stroke-linecap round
+                                            stroke-linejoin round
+                                            stroke-width 2
+                                            d M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z
+                                    ++ Find a time
+                            div 
+                                label Guest Permissions
+                                    class ttxtqsLWp2pFRX8yUvWd rD4HtsUG_hahmbh2Kj09 MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0
+                                . __Iv72FadFpzwcpFl5_5
+                                    . kqgYncRJQ7spwKfig6It neyUwteEn7DOg9pBSJJE _ryfipzijJEI18CFfJIm
+                                        input 
+                                            id guest-permission-1-checkbox
+                                            type checkbox
+                                            value 
+                                            name guest-permission-checkbox
+                                            class kbeH5ty3CtPKxXm5TXph eVNhx7m5tjSVbfYQzDdT _iRPzRRWy2UNkvZFG8iO YPSoR6AXtPgkmylUmcbT T_tFENbpK8DMDNjQRyQa text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 apRlbPZRJ4JWA5RVdURT X3ifvK6lzvLzkZabaIQd _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk
+                                        label Modify event
+                                            for guest-permission-1-checkbox
+                                            class QGosQoeY76W_hWM2rgwJ MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH _Rz9TooiK_4jTN_Ub8Gm
+                                    . kqgYncRJQ7spwKfig6It neyUwteEn7DOg9pBSJJE _ryfipzijJEI18CFfJIm
+                                        input 
+                                            id guest-permission-2-checkbox
+                                            type checkbox
+                                            value 
+                                            name guest-permission-checkbox
+                                            class kbeH5ty3CtPKxXm5TXph eVNhx7m5tjSVbfYQzDdT _iRPzRRWy2UNkvZFG8iO YPSoR6AXtPgkmylUmcbT T_tFENbpK8DMDNjQRyQa text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 apRlbPZRJ4JWA5RVdURT X3ifvK6lzvLzkZabaIQd _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk
+                                        label Invite others
+                                            for guest-permission-2-checkbox
+                                            class QGosQoeY76W_hWM2rgwJ MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH _Rz9TooiK_4jTN_Ub8Gm
+                                    . kqgYncRJQ7spwKfig6It neyUwteEn7DOg9pBSJJE _ryfipzijJEI18CFfJIm
+                                        input 
+                                            checked 
+                                            id guest-permission-3-checkbox
+                                            type checkbox
+                                            value 
+                                            name guest-permission-checkbox
+                                            class kbeH5ty3CtPKxXm5TXph eVNhx7m5tjSVbfYQzDdT _iRPzRRWy2UNkvZFG8iO YPSoR6AXtPgkmylUmcbT T_tFENbpK8DMDNjQRyQa text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 apRlbPZRJ4JWA5RVdURT X3ifvK6lzvLzkZabaIQd _t2wg7hRcyKsNN8CSSeU _BIVSYBXQUqEf_ltPrSk
+                                        label See guest list
+                                            for guest-permission-3-checkbox
+                                            class QGosQoeY76W_hWM2rgwJ MxG1ClE4KPrIvlL5_Q5x _A6LflweZRUwrcL6M2Tk g3OYBOqwXUEW4dRGogkH _Rz9TooiK_4jTN_Ub8Gm
+                    button 
+                        type submit
+                        class wP9HMsqy6b96l2HBRbgb _WclR59Ji8jwfmjPtOei bg-primary-700 hover:bg-primary-800 _FONMPVaCsLFJJGDaaIL qHIOIw8TObHgD3VvKa5x focus:ring-primary-300 _A6LflweZRUwrcL6M2Tk _Qk4_E9_iLqcHsRZZ4ge MxG1ClE4KPrIvlL5_Q5x bFARDnno0HUtfhktTXfR _gKcj49wZgnwx1LpcJi6 _F_1gdhzusC6tSOWHtx_ dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800
+                        ++ Add new event
+        js https://unpkg.com/flowbite@1.5.3/dist/datepicker.js
+        js https://d2s3ptptdai04x.cloudfront.net/get-flowbite-pro.d08a84c5-e701-467f-90dc-df96fd0bc37a.js?Expires=1699010160&amp;Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kMnMzcHRwdGRhaTA0eC5jbG91ZGZyb250Lm5ldC9nZXQtZmxvd2JpdGUtcHJvLmQwOGE4NGM1LWU3MDEtNDY3Zi05MGRjLWRmOTZmZDBiYzM3YS5qcyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTY5OTAxMDE2MH19fV19&amp;Signature=C3jTdJgLE22kF2KVRdRcI0om0OSSjOA4uacxcn~fLkrSPHOJVFTrVj23HvTTynDj6BjQAPJsjwR2wmZkIKYzl7YYYv5feK9tMygBTQS0vyIEnBHH7mSKa5194F2BNkSfQE1iRZJ10YOxlZTPmyAukrG0YX0NSpECfbA1fdnXIbNv5h9oxgRQwWI5pbsh6QNNnUZNNnYj69kuL7NUSG8I0~5mnpLRkslR-5KcCUnX7rdd2Z4F-C1ZhGJKjQekR7W2h-tB~S8mWemExSPB7m-qghKPLWNb6IYsqGp7VFaTwk1biT~w4-mlFXNlTXNWZv8AC6sRgKhGC8rL6Xjg7n5mXA__&amp;Key-Pair-Id=K2J5W1U51CTOXP
+        script 
+            module 
+                kind react
+                _ window.addEventListener
+                    @ "load"
+                    function 
+                        param event
+                        const links = document.querySelectorAll("a")
+                        const buttons = document.querySelectorAll("button")
+                        _ links.forEach
+                            function 
+                                param link
+                                _ link.addEventListener
+                                    @ "click"
+                                    function 
+                                        param ev
+                                        _ ev.preventDefault()
+                        _ buttons.forEach
+                            function 
+                                param button
+                                _ button.addEventListener
+                                    @ "click"
+                                    function 
+                                        param ev
+                                        _ ev.preventDefault()
+        . datepicker datepicker-dropdown dropdown absolute top-0 left-0 z-50 pt-2 active block hidden datepicker-orient-top datepicker-orient-left
+            style top: 222px; left: 139px;
+            . datepicker-picker inline-block rounded-lg bg-white dark:bg-gray-700 shadow-lg p-4
+                . datepicker-header
+                    . datepicker-title bg-white dark:bg-gray-700 dark:text-white px-2 py-3 text-center font-semibold
+                        style display: none;
+                    . datepicker-controls flex justify-between mb-2
+                        button 
+                            type button
+                            class bg-white dark:bg-gray-700 rounded-lg text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white text-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-200 prev-btn
+                            svg 
+                                class w-4 h-4
+                                fill currentColor
+                                viewBox 0 0 20 20
+                                xmlns http://www.w3.org/2000/svg
+                                path 
+                                    fill-rule evenodd
+                                    d M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z
+                                    clip-rule evenodd
+                        button July 2023
+                            type button
+                            class text-sm rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-700 font-semibold py-2.5 px-5 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-200 view-switch
+                        button 
+                            type button
+                            class bg-white dark:bg-gray-700 rounded-lg text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white text-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-200 next-btn
+                            svg 
+                                class w-4 h-4
+                                fill currentColor
+                                viewBox 0 0 20 20
+                                xmlns http://www.w3.org/2000/svg
+                                path 
+                                    fill-rule evenodd
+                                    d M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z
+                                    clip-rule evenodd
+                . datepicker-main p-1
+                    . datepicker-view flex
+                        . days
+                            . days-of-week grid grid-cols-7 mb-1
+                                span Su
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                                span Mo
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                                span Tu
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                                span We
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                                span Th
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                                span Fr
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                                span Sa
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                            . datepicker-grid w-64 grid grid-cols-7
+                                span 25
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day prev text-gray-500
+                                    data-date 1687644000000
+                                span 26
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day prev text-gray-500
+                                    data-date 1687730400000
+                                span 27
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day prev text-gray-500
+                                    data-date 1687816800000
+                                span 28
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day prev text-gray-500
+                                    data-date 1687903200000
+                                span 29
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day prev text-gray-500
+                                    data-date 1687989600000
+                                span 30
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day prev text-gray-500
+                                    data-date 1688076000000
+                                span 1
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688162400000
+                                span 2
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688248800000
+                                span 3
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688335200000
+                                span 4
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688421600000
+                                span 5
+                                    class datepicker-cell block flex-1 leading-9 border-0 cursor-pointer text-center font-semibold text-sm day range-start range-end rounded-r-lg selected bg-blue-700 text-white dark:bg-blue-600 focused
+                                    data-date 1688508000000
+                                span 6
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688594400000
+                                span 7
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688680800000
+                                span 8
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688767200000
+                                span 9
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688853600000
+                                span 10
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688940000000
+                                span 11
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689026400000
+                                span 12
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689112800000
+                                span 13
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689199200000
+                                span 14
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689285600000
+                                span 15
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689372000000
+                                span 16
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689458400000
+                                span 17
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689544800000
+                                span 18
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689631200000
+                                span 19
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689717600000
+                                span 20
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689804000000
+                                span 21
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689890400000
+                                span 22
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689976800000
+                                span 23
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690063200000
+                                span 24
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690149600000
+                                span 25
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690236000000
+                                span 26
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690322400000
+                                span 27
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 font-semibold text-sm day dark:text-white
+                                    data-date 1690408800000
+                                span 28
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690495200000
+                                span 29
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690581600000
+                                span 30
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690668000000
+                                span 31
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690754400000
+                                span 1
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day next text-gray-500
+                                    data-date 1690840800000
+                                span 2
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day next text-gray-500
+                                    data-date 1690927200000
+                                span 3
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day next text-gray-500
+                                    data-date 1691013600000
+                                span 4
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day next text-gray-500
+                                    data-date 1691100000000
+                                span 5
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day next text-gray-500
+                                    data-date 1691186400000
+                . datepicker-footer
+                    . datepicker-controls flex space-x-2 mt-2
+                        button Today
+                            type button
+                            class button today-btn text-white bg-blue-700 dark:bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center w-1/2
+                            style display: none;
+                        button Clear
+                            type button
+                            class button clear-btn text-gray-900 dark:text-white bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center w-1/2
+                            style display: none;
+        . datepicker datepicker-dropdown dropdown absolute top-0 left-0 z-50 pt-2 active block hidden datepicker-orient-top datepicker-orient-left
+            style top: 222px; left: 531.969px;
+            . datepicker-picker inline-block rounded-lg bg-white dark:bg-gray-700 shadow-lg p-4
+                . datepicker-header
+                    . datepicker-title bg-white dark:bg-gray-700 dark:text-white px-2 py-3 text-center font-semibold
+                        style display: none;
+                    . datepicker-controls flex justify-between mb-2
+                        button 
+                            type button
+                            class bg-white dark:bg-gray-700 rounded-lg text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white text-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-200 prev-btn
+                            svg 
+                                class w-4 h-4
+                                fill currentColor
+                                viewBox 0 0 20 20
+                                xmlns http://www.w3.org/2000/svg
+                                path 
+                                    fill-rule evenodd
+                                    d M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z
+                                    clip-rule evenodd
+                        button July 2023
+                            type button
+                            class text-sm rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-700 font-semibold py-2.5 px-5 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-200 view-switch
+                        button 
+                            type button
+                            class bg-white dark:bg-gray-700 rounded-lg text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white text-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-200 next-btn
+                            svg 
+                                class w-4 h-4
+                                fill currentColor
+                                viewBox 0 0 20 20
+                                xmlns http://www.w3.org/2000/svg
+                                path 
+                                    fill-rule evenodd
+                                    d M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z
+                                    clip-rule evenodd
+                . datepicker-main p-1
+                    . datepicker-view flex
+                        . days
+                            . days-of-week grid grid-cols-7 mb-1
+                                span Su
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                                span Mo
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                                span Tu
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                                span We
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                                span Th
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                                span Fr
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                                span Sa
+                                    class dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400
+                            . datepicker-grid w-64 grid grid-cols-7
+                                span 25
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day prev text-gray-500
+                                    data-date 1687644000000
+                                span 26
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day prev text-gray-500
+                                    data-date 1687730400000
+                                span 27
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day prev text-gray-500
+                                    data-date 1687816800000
+                                span 28
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day prev text-gray-500
+                                    data-date 1687903200000
+                                span 29
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day prev text-gray-500
+                                    data-date 1687989600000
+                                span 30
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day prev text-gray-500
+                                    data-date 1688076000000
+                                span 1
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688162400000
+                                span 2
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688248800000
+                                span 3
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688335200000
+                                span 4
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688421600000
+                                span 5
+                                    class datepicker-cell block flex-1 leading-9 border-0 cursor-pointer text-center font-semibold text-sm day range-start range-end rounded-r-lg selected bg-blue-700 text-white dark:bg-blue-600 focused
+                                    data-date 1688508000000
+                                span 6
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688594400000
+                                span 7
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688680800000
+                                span 8
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688767200000
+                                span 9
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688853600000
+                                span 10
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1688940000000
+                                span 11
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689026400000
+                                span 12
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689112800000
+                                span 13
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689199200000
+                                span 14
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689285600000
+                                span 15
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689372000000
+                                span 16
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689458400000
+                                span 17
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689544800000
+                                span 18
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689631200000
+                                span 19
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689717600000
+                                span 20
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689804000000
+                                span 21
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689890400000
+                                span 22
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1689976800000
+                                span 23
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690063200000
+                                span 24
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690149600000
+                                span 25
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690236000000
+                                span 26
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690322400000
+                                span 27
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 font-semibold text-sm day dark:text-white
+                                    data-date 1690408800000
+                                span 28
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690495200000
+                                span 29
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690581600000
+                                span 30
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690668000000
+                                span 31
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day
+                                    data-date 1690754400000
+                                span 1
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day next text-gray-500
+                                    data-date 1690840800000
+                                span 2
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day next text-gray-500
+                                    data-date 1690927200000
+                                span 3
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day next text-gray-500
+                                    data-date 1691013600000
+                                span 4
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day next text-gray-500
+                                    data-date 1691100000000
+                                span 5
+                                    class datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm day next text-gray-500
+                                    data-date 1691186400000
+                . datepicker-footer
+                    . datepicker-controls flex space-x-2 mt-2
+                        button Today
+                            type button
+                            class button today-btn text-white bg-blue-700 dark:bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center w-1/2
+                            style display: none;
+                        button Clear
+                            type button
+                            class button clear-btn text-gray-900 dark:text-white bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center w-1/2
+                            style display: none;

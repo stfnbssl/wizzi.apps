@@ -1,0 +1,9 @@
+$group
+
+    namespace fisica.relatività
+
+        concept massa-inerziale
+
+            + L'inerzia di un sistema dipende dal suo contenuto di energia,
+                \b ciò che porta direttamente alla concezione della massa inerte
+                \b come pura energia latente.

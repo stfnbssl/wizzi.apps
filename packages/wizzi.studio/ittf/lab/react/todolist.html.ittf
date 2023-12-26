@@ -1,0 +1,169 @@
+html
+
+    $
+        var opt = {
+            useReact: true,
+            react: {
+                /* useReactQuery: true,
+                reactQuery: {}, */
+            },
+            useTailwind: true,
+            tailwind: {},
+        }
+
+    layouts/site( &opt )
+
+        div 
+            id root
+
+        $append body-scripts
+            script
+                type text/babel
+                data-presets env,react
+                module
+                    kind react
+                    if true
+                        const container = document.getElementById('root')
+                        const root = ReactDOM.createRoot(container) 
+                        _ root.render
+                            < App
+                    function App
+                        const [todos, setTodos] = React.useState([])
+                        const [todo, setTodo] = React.useState("")
+                        const [todoEditing, setTodoEditing] = React.useState(null)
+                        const [editingText, setEditingText] = React.useState("")
+                        _ React.useEffect
+                            => 
+                                const json = localStorage.getItem("todos")
+                                const loadedTodos = JSON.parse(json)
+                                if loadedTodos
+                                    _ setTodos(loadedTodos)
+                            [ 
+                        _ React.useEffect
+                            => 
+                                const json = JSON.stringify(todos)
+                                _ localStorage.setItem("todos", json)
+                            [ 
+                                @ todos
+                        function handleSubmit
+                            param e
+                            _ e.preventDefault()
+                            const newTodo
+                                { 
+                                    @ id new Date().getTime()
+                                    @ text todo
+                                    @ completed false
+                            _ setTodos
+                                [ 
+                                    @ ...todos
+                                    ._ concat
+                                        @ newTodo
+                            _ setTodo("")
+                        function deleteTodo
+                            param id
+                            let updatedTodos
+                                [ 
+                                    @ ...todos
+                                    ._ filter
+                                        => 
+                                            param todo
+                                            set todo.id !== id
+                            _ setTodos(updatedTodos)
+                        function toggleComplete
+                            param id
+                            let updatedTodos
+                                [ 
+                                    @ ...todos
+                                    ._ map
+                                        => 
+                                            param todo
+                                            if todo.id === id
+                                                set todo.completed = !todo.completed
+                                            return todo
+                            _ setTodos(updatedTodos)
+                        function submitEdits
+                            param id
+                            const updatedTodos
+                                [ 
+                                    @ ...todos
+                                    ._ map
+                                        => 
+                                            param todo
+                                            if todo.id === id
+                                                set todo.text = editingText
+                                                _ setEditingText(null)
+                                            return todo
+                            _ setTodos(updatedTodos)
+                            _ setTodoEditing(null)
+                        return 
+                            div 
+                                @ id "todo-list"
+                                @ className "m-10"
+                                h1 
+                                    + Todo List
+                                < form 
+                                    @ onSubmit {handleSubmit}
+                                    input 
+                                        @ type "text"
+                                        @ onChange
+                                            => 
+                                                param e
+                                                _ setTodo(e.target.value)
+                                        @ value {todo}
+                                    button 
+                                        @ type "submit"
+                                        + Add Todo
+                                { 
+                                    _ todos.map
+                                        => 
+                                            param todo
+                                            div 
+                                                @ key {todo.id}
+                                                @ className "flex border-t-4 border-indigo-500"
+                                                div 
+                                                    @ className "flex items-center"
+                                                    input 
+                                                        @ type "checkbox"
+                                                        @ id "completed"
+                                                        @ checked {todo.completed}
+                                                        @ onChange
+                                                            => 
+                                                                _ toggleComplete(todo.id)
+                                                    { 
+                                                        iif todo.id === todoEditing
+                                                            then
+                                                                input 
+                                                                    @ type "text"
+                                                                    @ value {editingText || todo.text}
+                                                                    @ onChange
+                                                                        => 
+                                                                            param e
+                                                                            _ setEditingText(e.target.value)
+                                                            else
+                                                                div 
+                                                                    @ className "p-2"
+                                                                    + {todo.text}
+                                                div 
+                                                    @ className "p-4"
+                                                    { 
+                                                        iif todo.id === todoEditing
+                                                            then
+                                                                button 
+                                                                    @ className "p-2"
+                                                                    @ onClick
+                                                                        => 
+                                                                            _ submitEdits(todo.id)
+                                                                    + Submit Edits
+                                                            else
+                                                                button 
+                                                                    @ className "p-2"
+                                                                    @ onClick
+                                                                        => 
+                                                                            _ setTodoEditing(todo.id)
+                                                                    + Edit
+                                                    button 
+                                                        @ className "p-2"
+                                                        @ onClick
+                                                            => 
+                                                                _ deleteTodo(todo.id)
+                                                        + Delete

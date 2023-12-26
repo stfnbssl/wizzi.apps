@@ -6,7 +6,8 @@ $group
             $if md.update_delete_by_id
                 param id
                     :string
-            $foreach item in md.fields
+                    :optional
+            $foreach item in md.query
                 param ${item.name}
                     $if item.type == 'date'
                         :ref Date

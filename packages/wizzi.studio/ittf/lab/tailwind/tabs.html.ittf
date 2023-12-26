@@ -1,0 +1,141 @@
+html 
+    lang en
+    head 
+        meta 
+            charset UTF-8
+        meta 
+            name viewport
+            content width=device-width, initial-scale=1.0
+        link 
+            rel preconnect
+            href https://fonts.googleapis.com
+        link 
+            rel preconnect
+            href https://fonts.gstatic.com
+            crossorigin 
+        link 
+            href https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap
+            rel stylesheet
+        link 
+            rel stylesheet
+            href https://flowbite.com/docs/flowbite.css?v=1.7.0a
+    body 
+        class p-5 bg-white dark:bg-gray-900 antialiased
+        div 
+            id exampleWrapper
+            class 
+            . mb-4 border-b border-gray-200 dark:border-gray-700
+                ul 
+                    class flex flex-wrap -mb-px text-sm font-medium text-center
+                    id myTab
+                    data-tabs-toggle #myTabContent
+                    role tablist
+                    li 
+                        class mr-2
+                        role presentation
+                        button Profile
+                            class inline-block p-4 border-b-2 rounded-t-lg dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300
+                            id profile-tab
+                            data-tabs-target #profile
+                            type button
+                            role tab
+                            aria-controls profile
+                            aria-selected false
+                    li 
+                        class mr-2
+                        role presentation
+                        button Dashboard
+                            class inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700
+                            id dashboard-tab
+                            data-tabs-target #dashboard
+                            type button
+                            role tab
+                            aria-controls dashboard
+                            aria-selected false
+                    li 
+                        class mr-2
+                        role presentation
+                        button Settings
+                            class inline-block p-4 border-b-2 border-transparent rounded-t-lg text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500
+                            id settings-tab
+                            data-tabs-target #settings
+                            type button
+                            role tab
+                            aria-controls settings
+                            aria-selected true
+                    li 
+                        role presentation
+                        button Contacts
+                            class inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700
+                            id contacts-tab
+                            data-tabs-target #contacts
+                            type button
+                            role tab
+                            aria-controls contacts
+                            aria-selected false
+            div 
+                id myTabContent
+                . p-4 rounded-lg bg-gray-50 dark:bg-gray-800 hidden
+                    id profile
+                    role tabpanel
+                    aria-labelledby profile-tab
+                    p This is some placeholder content the
+                        class text-sm text-gray-500 dark:text-gray-400
+                        strong Profile tab's associated content
+                            class font-medium text-gray-800 dark:text-white
+                        + . Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.
+                . hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800
+                    id dashboard
+                    role tabpanel
+                    aria-labelledby dashboard-tab
+                    p This is some placeholder content the
+                        class text-sm text-gray-500 dark:text-gray-400
+                        strong Dashboard tab's associated content
+                            class font-medium text-gray-800 dark:text-white
+                        + . Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.
+                . p-4 rounded-lg bg-gray-50 dark:bg-gray-800
+                    id settings
+                    role tabpanel
+                    aria-labelledby settings-tab
+                    p This is some placeholder content the
+                        class text-sm text-gray-500 dark:text-gray-400
+                        strong Settings tab's associated content
+                            class font-medium text-gray-800 dark:text-white
+                        + . Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.
+                . hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800
+                    id contacts
+                    role tabpanel
+                    aria-labelledby contacts-tab
+                    p This is some placeholder content the
+                        class text-sm text-gray-500 dark:text-gray-400
+                        strong Contacts tab's associated content
+                            class font-medium text-gray-800 dark:text-white
+                        + . Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.
+        js https://flowbite.com/docs/flowbite.min.js
+        js https://flowbite.com/docs/datepicker.min.js
+        script 
+            module 
+                kind react
+                set window.onload =
+                    function 
+                        const anchorTags = document.querySelectorAll('a')
+                        _ anchorTags.forEach
+                            function 
+                                param a
+                                _ a.addEventListener
+                                    @ 'click'
+                                    function 
+                                        param ev
+                                        _ ev.preventDefault()
+                        const dropdownEl = document.querySelector('[data-dropdown-toggle]')
+                        if dropdownEl
+                            _ dropdownEl.click()
+                        const modalEl = document.querySelector('[data-modal-toggle]')
+                        if modalEl
+                            _ modalEl.click()
+                        const dateRangePickerEl = document.querySelector('[data-rangepicker] input')
+                        if dateRangePickerEl
+                            _ dateRangePickerEl.focus()
+                        const drawerEl = document.querySelector('[data-drawer-show]')
+                        if drawerEl
+                            _ drawerEl.click()

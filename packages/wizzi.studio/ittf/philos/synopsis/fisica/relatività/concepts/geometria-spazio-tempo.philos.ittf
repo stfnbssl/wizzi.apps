@@ -1,0 +1,9 @@
+$group
+
+    namespace fisica.relatività
+
+        concept geometria-spazio-tempo
+            title Geometria dello spazio-tempo
+
+            + La geometria dello spazio-tempo indica alla materia come muoversi, e la materia deforma la geometria dello spazio-tempo.
+            + Una piccola massa a grande velocità o una grande massa in quiete hanno lo stesso effetto sulla curvatura dello spazio-tempo circostante.

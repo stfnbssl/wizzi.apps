@@ -1,0 +1,9 @@
+$group
+
+    namespace fisica.elettromagnetismo
+
+        concept carica
+            title Carica elettrica
+
+            + Il centro di massa di un sistema di particelle è un punto immaginario 
+                \b che rappresenta la posizione media delle masse nel sistema.

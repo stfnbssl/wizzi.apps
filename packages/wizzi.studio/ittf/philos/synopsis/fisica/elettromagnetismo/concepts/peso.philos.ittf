@@ -1,0 +1,11 @@
+$group
+
+    namespace fisica.elettromagnetismo
+
+        concept peso
+
+            + Il peso di un oggetto è la forza con cui è attratto verso il centro di un corpo celeste, come la Terra, a causa della gravità.
+            + Il peso di un oggetto dipende dalla sua massa e dall'intensità del campo gravitazionale in cui si trova. 
+                \b La formula fondamentale per calcolare il peso è: Peso (N) = Massa (kg) x Accelerazione gravitazionale (m/s^2)
+            + Sulla Terra, l'accelerazione gravitazionale media è di circa 9,81 m/s^2.
+                \b Pertanto, il peso di un oggetto con una massa di 1 kg sulla Terra è di circa 9,81 newton (N).

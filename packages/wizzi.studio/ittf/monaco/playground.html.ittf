@@ -1,0 +1,123 @@
+html 
+    lang en
+    head 
+        meta 
+            http-equiv Content-Type
+            content text/html; charset=UTF-8
+        meta 
+            name viewport
+            content width=device-width
+        @title Monaco Editor Playground
+        link 
+            data-inline yes-please
+            href ./lib/bootstrap-cosmo.css
+            rel stylesheet
+        link 
+            data-inline yes-please
+            href ./lib/bootstrap-responsive.min.css
+            rel stylesheet
+        link 
+            data-inline yes-please
+            href ./all.css
+            rel stylesheet
+            type text/css
+        link 
+            data-inline yes-please
+            href ./playground/spinner.css
+            rel stylesheet
+        link 
+            data-inline yes-please
+            href ./playground/playground.css.ittf
+            rel stylesheet
+        link 
+            data-name vs/editor/editor.main
+            rel stylesheet
+            href /static/lib/monaco-editor/dev/vs/editor/editor.main.css
+    body 
+        class playground-page
+        pre 
+            data-preload playground/new-samples/creating-the-editor/hello-world/sample.js.ittf
+        pre 
+            data-preload playground/new-samples/creating-the-editor/hello-world/sample.css.ittf
+        pre 
+            data-preload playground/new-samples/creating-the-editor/hello-world/sample.html.ittf
+        a 
+            id gh-link
+            href https://github.com/Microsoft/monaco-editor
+            img 
+                width 149
+                height 149
+                alt Fork me on GitHub
+                src ./fork.png
+        nav 
+            class navbar navbar-inverse navbar-fixed-top
+            . navbar-inner
+                . container
+                    . logo
+                        a Monaco Editor
+                            href index.html
+                    button 
+                        type button
+                        class btn btn-navbar
+                        data-toggle collapse
+                        data-target .nav-collapse
+                        span 
+                            class icon-bar
+                        span 
+                            class icon-bar
+                        span 
+                            class icon-bar
+                    . nav-collapse collapse
+                        ul 
+                            class nav
+                            li 
+                                a Home
+                                    class nav-item
+                                    href index.html
+                            li 
+                                a API Doc
+                                    class nav-item
+                                    href api/index.html
+                            li 
+                                a Playground
+                                    class nav-item
+                                    href playground.html.ittf
+                            li 
+                                a Monarch
+                                    class nav-item
+                                    href monarch.html
+                            li 
+                                a Download {{version}}
+                                    class nav-item
+                                    target _blank
+                                    href https://registry.npmjs.org/monaco-editor/-/monaco-editor-{{version}}.tgz
+        div 
+            id loading
+            . spinner
+                . rect1
+                . rect2
+                . rect3
+                . rect4
+                . rect5
+        section 
+            id playground
+        footer 
+            class container
+            hr 
+            p 
+                class text-center
+                small &copy; {{year}} Microsoft
+        js https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js
+        js https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js
+        script 
+            module
+                kind react
+                var require
+                    { 
+                        { paths
+                            @ 'vs' '/static/lib/monaco-editor/dev/vs'
+        js /static/lib/monaco-editor/dev/vs/loader.js
+        js /static/lib/monaco-editor/dev/vs/editor/editor.main.nls.js
+        js /static/lib/monaco-editor/dev/vs/editor/editor.main.js
+        js ./playground/new-samples/all.js.ittf
+        js ./playground/playground.js.ittf

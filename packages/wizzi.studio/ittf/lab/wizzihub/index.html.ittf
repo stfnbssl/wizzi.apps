@@ -1,0 +1,7 @@
+html
+
+    $
+        var opt = {
+        }
+
+    layouts/site( &opt )

@@ -1,0 +1,13 @@
+$group
+
+    namespace seth
+
+        concept allucinazione-controllata
+            title Allucinazione controllata
+
+            + ...
+
+            quote
+                + ...
+                    \b ...
+                e-page ...

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\controllers\artifact.tsx.ittf
-    utc time: Sun, 16 Jul 2023 13:02:25 GMT
+    utc time: Mon, 24 Jul 2023 09:37:47 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -229,7 +229,7 @@ export class ArtifactProductionController implements ControllerType {
     async (request: Request, response: Response) => {
     
         const obj = request.body;
-        deleteArtifactProduction(obj.ap_id, obj.ap_owner, obj.ap_name, obj.ap_description, obj.ap_mainIttf, obj.ap_wizziSchema).then((result: any) => {
+        deleteArtifactProduction(obj.ap_id, obj.ap_owner, obj.ap_name).then((result: any) => {
         
             if (result.ok) {
                 response.redirect('/packi/productions/artifacts');

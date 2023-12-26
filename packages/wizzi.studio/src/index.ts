@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\index.ts.ittf
-    utc time: Sun, 16 Jul 2023 13:02:23 GMT
+    utc time: Mon, 24 Jul 2023 09:37:45 GMT
 */
 import {ApiType, ControllerType, AppInitializerType, MiddlewareType} from './features/app/types';
 import {ModelBuilderType} from './features/app';
@@ -20,6 +20,8 @@ import {wizziMetaControllers} from './features/wizziMeta/index';
 import {wizziCdnControllers, wizziCdnModelBuilders} from './features/wizziCdn/index';
 import {philosControllers} from './features/philos/index';
 import {geopControllers} from './features/geop/index';
+import {wizziTableControllers, wizziTableModelBuilders} from './features/wizziTable/index';
+import {wizziActionControllers, wizziActionModelBuilders} from './features/wizziAction/index';
 import {appMiddlewaresPre, appMiddlewaresPost} from './middlewares/index';
 import App from './App';
 var app: any = {
@@ -29,7 +31,9 @@ async function start() {
 
     let modelBuilders: ModelBuilderType[] = [
         ...packiProductionsModelBuilders, 
-        ...wizziCdnModelBuilders
+        ...wizziCdnModelBuilders, 
+        ...wizziTableModelBuilders, 
+        ...wizziActionModelBuilders
     ];
     await mongodbStart(config, modelBuilders);
     
@@ -52,7 +56,9 @@ async function start() {
         ...wizziMetaControllers, 
         ...wizziCdnControllers, 
         ...philosControllers, 
-        ...geopControllers
+        ...geopControllers, 
+        ...wizziTableControllers, 
+        ...wizziActionControllers
     ];
     console.log("[33m%s[0m", 'Starting app. Config:', config);
     const appInitializer: AppInitializerType = {

@@ -1,0 +1,12 @@
+module
+    kind es6
+
+    # from wizziHub: http://localhost:5100/~~/a/stfnbssl/wizziway.js
+    #   tfolder: http://localhost:5100/~~/t/stfnbssl/wizzihub/js
+
+    $include wizzihub/utils/index
+    $include wizzihub/styles/index
+    $include wizzihub/mvc/index
+    $include wizzihub/api/index
+    $include wizzihub/editors/index 
+    $include wizzihub/controls/index   

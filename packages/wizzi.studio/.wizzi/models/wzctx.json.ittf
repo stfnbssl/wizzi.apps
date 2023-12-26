@@ -77,6 +77,14 @@
             {
                 name "geop"
                 hasControllers true
+            {
+                name "wizziTable"
+                hasControllers true
+                useMongoDb true
+            {
+                name "wizziAction"
+                hasControllers true
+                useMongoDb true
         [ examples
         useWizziFs true
         { wizziFs

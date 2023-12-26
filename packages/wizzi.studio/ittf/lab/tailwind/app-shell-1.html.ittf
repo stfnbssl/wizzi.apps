@@ -1,0 +1,1882 @@
+html 
+    lang en
+    class light
+    head 
+        meta 
+            charset UTF-8
+        meta 
+            http-equiv X-UA-Compatible
+            content IE=edge
+        meta 
+            name viewport
+            content width=device-width, initial-scale=1.0
+        link 
+            href https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap
+            rel stylesheet
+        js https://cdn.tailwindcss.com
+        script 
+            module 
+                kind react
+                set tailwind.config =
+                    { 
+                        @ darkMode "class"
+                        { theme
+                            { extend
+                                { colors
+                                    { primary
+                                        @ "50" "#eff6ff"
+                                        @ "100" "#dbeafe"
+                                        @ "200" "#bfdbfe"
+                                        @ "300" "#93c5fd"
+                                        @ "400" "#60a5fa"
+                                        @ "500" "#3b82f6"
+                                        @ "600" "#2563eb"
+                                        @ "700" "#1d4ed8"
+                                        @ "800" "#1e40af"
+                                        @ "900" "#1e3a8a"
+                                        @ "950" "#172554"
+                            { fontFamily
+                                [ "body"
+                                    @ "Inter"
+                                    @ "ui-sans-serif"
+                                    @ "system-ui"
+                                    @ "-apple-system"
+                                    @ "system-ui"
+                                    @ "Segoe UI"
+                                    @ "Roboto"
+                                    @ "Helvetica Neue"
+                                    @ "Arial"
+                                    @ "Noto Sans"
+                                    @ "sans-serif"
+                                    @ "Apple Color Emoji"
+                                    @ "Segoe UI Emoji"
+                                    @ "Segoe UI Symbol"
+                                    @ "Noto Color Emoji"
+                                [ "sans"
+                                    @ "Inter"
+                                    @ "ui-sans-serif"
+                                    @ "system-ui"
+                                    @ "-apple-system"
+                                    @ "system-ui"
+                                    @ "Segoe UI"
+                                    @ "Roboto"
+                                    @ "Helvetica Neue"
+                                    @ "Arial"
+                                    @ "Noto Sans"
+                                    @ "sans-serif"
+                                    @ "Apple Color Emoji"
+                                    @ "Segoe UI Emoji"
+                                    @ "Segoe UI Symbol"
+                                    @ "Noto Color Emoji"
+        @style 
+            css 
+                # ! tailwindcss v3.3.3 | MIT License | https://tailwindcss.com
+                < *
+                    + ::after
+                    + ::before
+                    box-sizing border-box
+                    border-width 0
+                    border-style solid
+                    border-color #e5e7eb
+                < ::after
+                    + ::before
+                    --tw-content ''
+                < html
+                    line-height 1.5
+                    -webkit-text-size-adjust 100%
+                    -moz-tab-size 4
+                    tab-size 4
+                    font-family Inter, ui-sans-serif, system-ui, -apple-system, system-ui, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji
+                    font-feature-settings normal
+                    font-variation-settings normal
+                < body
+                    margin 0
+                    line-height inherit
+                < hr
+                    height 0
+                    color inherit
+                    border-top-width 1px
+                < abbr:where([title])
+                    -webkit-text-decoration underline dotted
+                    text-decoration underline dotted
+                < h1
+                    + h2
+                    + h3
+                    + h4
+                    + h5
+                    + h6
+                    font-size inherit
+                    font-weight inherit
+                < a
+                    color inherit
+                    text-decoration inherit
+                < b
+                    + strong
+                    font-weight bolder
+                < code
+                    + kbd
+                    + pre
+                    + samp
+                    font-family ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+                    font-size 1em
+                < small
+                    font-size 80%
+                < sub
+                    + sup
+                    font-size 75%
+                    line-height 0
+                    position relative
+                    vertical-align baseline
+                < sub
+                    bottom -.25em
+                < sup
+                    top -.5em
+                < table
+                    text-indent 0
+                    border-color inherit
+                    border-collapse collapse
+                < button
+                    + input
+                    + optgroup
+                    + select
+                    + textarea
+                    font-family inherit
+                    font-feature-settings inherit
+                    font-variation-settings inherit
+                    font-size 100%
+                    font-weight inherit
+                    line-height inherit
+                    color inherit
+                    margin 0
+                    padding 0
+                < button
+                    + select
+                    text-transform none
+                < [type=button]
+                    + [type=reset]
+                    + [type=submit]
+                    + button
+                    -webkit-appearance button
+                    background-color transparent
+                    background-image none
+                < :-moz-focusring
+                    outline auto
+                < :-moz-ui-invalid
+                    box-shadow none
+                < progress
+                    vertical-align baseline
+                < ::-webkit-inner-spin-button
+                    + ::-webkit-outer-spin-button
+                    height auto
+                < [type=search]
+                    -webkit-appearance textfield
+                    outline-offset -2px
+                < ::-webkit-search-decoration
+                    -webkit-appearance none
+                < ::-webkit-file-upload-button
+                    -webkit-appearance button
+                    font inherit
+                < summary
+                    display list-item
+                < blockquote
+                    + dd
+                    + dl
+                    + figure
+                    + h1
+                    + h2
+                    + h3
+                    + h4
+                    + h5
+                    + h6
+                    + hr
+                    + p
+                    + pre
+                    margin 0
+                < fieldset
+                    margin 0
+                    padding 0
+                < legend
+                    padding 0
+                < menu
+                    + ol
+                    + ul
+                    list-style none
+                    margin 0
+                    padding 0
+                < dialog
+                    padding 0
+                < textarea
+                    resize vertical
+                < input::placeholder
+                    + textarea::placeholder
+                    opacity 1
+                    color #9ca3af
+                < [role=button]
+                    + button
+                    cursor pointer
+                < :disabled
+                    cursor default
+                < audio
+                    + canvas
+                    + embed
+                    + iframe
+                    + img
+                    + object
+                    + svg
+                    + video
+                    display block
+                    vertical-align middle
+                < img
+                    + video
+                    max-width 100%
+                    height auto
+                < [hidden]
+                    display none
+                < *
+                    + ::before
+                    + ::after
+                    --tw-border-spacing-x 0
+                    --tw-border-spacing-y 0
+                    --tw-translate-x 0
+                    --tw-translate-y 0
+                    --tw-rotate 0
+                    --tw-skew-x 0
+                    --tw-skew-y 0
+                    --tw-scale-x 1
+                    --tw-scale-y 1
+                    --tw-pan-x 
+                    --tw-pan-y 
+                    --tw-pinch-zoom 
+                    --tw-scroll-snap-strictness proximity
+                    --tw-gradient-from-position 
+                    --tw-gradient-via-position 
+                    --tw-gradient-to-position 
+                    --tw-ordinal 
+                    --tw-slashed-zero 
+                    --tw-numeric-figure 
+                    --tw-numeric-spacing 
+                    --tw-numeric-fraction 
+                    --tw-ring-inset 
+                    --tw-ring-offset-width 0px
+                    --tw-ring-offset-color #fff
+                    --tw-ring-color rgb(59 130 246 / 0.5)
+                    --tw-ring-offset-shadow 0 0 #0000
+                    --tw-ring-shadow 0 0 #0000
+                    --tw-shadow 0 0 #0000
+                    --tw-shadow-colored 0 0 #0000
+                    --tw-blur 
+                    --tw-brightness 
+                    --tw-contrast 
+                    --tw-grayscale 
+                    --tw-hue-rotate 
+                    --tw-invert 
+                    --tw-saturate 
+                    --tw-sepia 
+                    --tw-drop-shadow 
+                    --tw-backdrop-blur 
+                    --tw-backdrop-brightness 
+                    --tw-backdrop-contrast 
+                    --tw-backdrop-grayscale 
+                    --tw-backdrop-hue-rotate 
+                    --tw-backdrop-invert 
+                    --tw-backdrop-opacity 
+                    --tw-backdrop-saturate 
+                    --tw-backdrop-sepia 
+                < ::backdrop
+                    --tw-border-spacing-x 0
+                    --tw-border-spacing-y 0
+                    --tw-translate-x 0
+                    --tw-translate-y 0
+                    --tw-rotate 0
+                    --tw-skew-x 0
+                    --tw-skew-y 0
+                    --tw-scale-x 1
+                    --tw-scale-y 1
+                    --tw-pan-x 
+                    --tw-pan-y 
+                    --tw-pinch-zoom 
+                    --tw-scroll-snap-strictness proximity
+                    --tw-gradient-from-position 
+                    --tw-gradient-via-position 
+                    --tw-gradient-to-position 
+                    --tw-ordinal 
+                    --tw-slashed-zero 
+                    --tw-numeric-figure 
+                    --tw-numeric-spacing 
+                    --tw-numeric-fraction 
+                    --tw-ring-inset 
+                    --tw-ring-offset-width 0px
+                    --tw-ring-offset-color #fff
+                    --tw-ring-color rgb(59 130 246 / 0.5)
+                    --tw-ring-offset-shadow 0 0 #0000
+                    --tw-ring-shadow 0 0 #0000
+                    --tw-shadow 0 0 #0000
+                    --tw-shadow-colored 0 0 #0000
+                    --tw-blur 
+                    --tw-brightness 
+                    --tw-contrast 
+                    --tw-grayscale 
+                    --tw-hue-rotate 
+                    --tw-invert 
+                    --tw-saturate 
+                    --tw-sepia 
+                    --tw-drop-shadow 
+                    --tw-backdrop-blur 
+                    --tw-backdrop-brightness 
+                    --tw-backdrop-contrast 
+                    --tw-backdrop-grayscale 
+                    --tw-backdrop-hue-rotate 
+                    --tw-backdrop-invert 
+                    --tw-backdrop-opacity 
+                    --tw-backdrop-saturate 
+                    --tw-backdrop-sepia 
+                . sr-only
+                    position absolute
+                    width 1px
+                    height 1px
+                    padding 0
+                    margin -1px
+                    overflow hidden
+                    clip rect(0, 0, 0, 0)
+                    white-space nowrap
+                    border-width 0
+                . pointer-events-none
+                    pointer-events none
+                . invisible
+                    visibility hidden
+                . fixed
+                    position fixed
+                . absolute
+                    position absolute
+                . relative
+                    position relative
+                . inset-y-0
+                    top 0px
+                    bottom 0px
+                . bottom-0
+                    bottom 0px
+                . left-0
+                    left 0px
+                . right-0
+                    right 0px
+                . top-0
+                    top 0px
+                . z-10
+                    z-index 10
+                . z-20
+                    z-index 20
+                . z-40
+                    z-index 40
+                . z-50
+                    z-index 50
+                . mx-3
+                    margin-left 0.75rem
+                    margin-right 0.75rem
+                . mx-auto
+                    margin-left auto
+                    margin-right auto
+                . my-4
+                    margin-top 1rem
+                    margin-bottom 1rem
+                . -mt-5
+                    margin-top -1.25rem
+                . mb-1
+                    margin-bottom 0.25rem
+                . mb-1\.5
+                    margin-bottom 0.375rem
+                . mb-2
+                    margin-bottom 0.5rem
+                . mb-4
+                    margin-bottom 1rem
+                . ml-3
+                    margin-left 0.75rem
+                . ml-6
+                    margin-left 1.5rem
+                . mr-1
+                    margin-right 0.25rem
+                . mr-2
+                    margin-right 0.5rem
+                . mr-3
+                    margin-right 0.75rem
+                . mr-4
+                    margin-right 1rem
+                . mt-0
+                    margin-top 0px
+                . mt-0\.5
+                    margin-top 0.125rem
+                . mt-5
+                    margin-top 1.25rem
+                . block
+                    display block
+                . inline-block
+                    display inline-block
+                . flex
+                    display flex
+                . inline-flex
+                    display inline-flex
+                . grid
+                    display grid
+                . hidden
+                    display none
+                . h-11
+                    height 2.75rem
+                . h-3
+                    height 0.75rem
+                . h-3\.5
+                    height 0.875rem
+                . h-32
+                    height 8rem
+                . h-4
+                    height 1rem
+                . h-48
+                    height 12rem
+                . h-5
+                    height 1.25rem
+                . h-6
+                    height 1.5rem
+                . h-7
+                    height 1.75rem
+                . h-8
+                    height 2rem
+                . h-96
+                    height 24rem
+                . h-auto
+                    height auto
+                . h-full
+                    height 100%
+                . h-screen
+                    height 100vh
+                . w-11
+                    width 2.75rem
+                . w-3
+                    width 0.75rem
+                . w-3\.5
+                    width 0.875rem
+                . w-4
+                    width 1rem
+                . w-5
+                    width 1.25rem
+                . w-56
+                    width 14rem
+                . w-6
+                    width 1.5rem
+                . w-64
+                    width 16rem
+                . w-7
+                    width 1.75rem
+                . w-8
+                    width 2rem
+                . w-full
+                    width 100%
+                . max-w-sm
+                    max-width 24rem
+                . flex-1
+                    flex 1 1 0%
+                . flex-shrink-0
+                    flex-shrink 0
+                . -translate-x-full
+                    --tw-translate-x -100%
+                    transform translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+                . cursor-pointer
+                    cursor pointer
+                . list-none
+                    list-style-type none
+                . grid-cols-1
+                    grid-template-columns repeat(1, minmax(0, 1fr))
+                . grid-cols-2
+                    grid-template-columns repeat(2, minmax(0, 1fr))
+                . grid-cols-3
+                    grid-template-columns repeat(3, minmax(0, 1fr))
+                . flex-wrap
+                    flex-wrap wrap
+                . items-center
+                    align-items center
+                . justify-start
+                    justify-content flex-start
+                . justify-center
+                    justify-content center
+                . justify-between
+                    justify-content space-between
+                . gap-4
+                    gap 1rem
+                . space-x-4 > :not([hidden]) ~ :not([hidden])
+                    --tw-space-x-reverse 0
+                    margin-right calc(1rem * var(--tw-space-x-reverse))
+                    margin-left calc(1rem * calc(1 - var(--tw-space-x-reverse)))
+                . space-y-2 > :not([hidden]) ~ :not([hidden])
+                    --tw-space-y-reverse 0
+                    margin-top calc(0.5rem * calc(1 - var(--tw-space-y-reverse)))
+                    margin-bottom calc(0.5rem * var(--tw-space-y-reverse))
+                . divide-y > :not([hidden]) ~ :not([hidden])
+                    --tw-divide-y-reverse 0
+                    border-top-width calc(1px * calc(1 - var(--tw-divide-y-reverse)))
+                    border-bottom-width calc(1px * var(--tw-divide-y-reverse))
+                . divide-gray-100 > :not([hidden]) ~ :not([hidden])
+                    --tw-divide-opacity 1
+                    border-color rgb(243 244 246 / var(--tw-divide-opacity))
+                . self-center
+                    align-self center
+                . overflow-hidden
+                    overflow hidden
+                . overflow-y-auto
+                    overflow-y auto
+                . truncate
+                    overflow hidden
+                    text-overflow ellipsis
+                    white-space nowrap
+                . whitespace-nowrap
+                    white-space nowrap
+                . rounded
+                    border-radius 0.25rem
+                . rounded-full
+                    border-radius 9999px
+                . rounded-lg
+                    border-radius 0.5rem
+                . rounded-xl
+                    border-radius 0.75rem
+                . border
+                    border-width 1px
+                . border-2
+                    border-width 2px
+                . border-b
+                    border-bottom-width 1px
+                . border-r
+                    border-right-width 1px
+                . border-t
+                    border-top-width 1px
+                . border-dashed
+                    border-style dashed
+                . border-gray-200
+                    --tw-border-opacity 1
+                    border-color rgb(229 231 235 / var(--tw-border-opacity))
+                . border-gray-300
+                    --tw-border-opacity 1
+                    border-color rgb(209 213 219 / var(--tw-border-opacity))
+                . border-white
+                    --tw-border-opacity 1
+                    border-color rgb(255 255 255 / var(--tw-border-opacity))
+                . bg-gray-50
+                    --tw-bg-opacity 1
+                    background-color rgb(249 250 251 / var(--tw-bg-opacity))
+                . bg-gray-800
+                    --tw-bg-opacity 1
+                    background-color rgb(31 41 55 / var(--tw-bg-opacity))
+                . bg-gray-900
+                    --tw-bg-opacity 1
+                    background-color rgb(17 24 39 / var(--tw-bg-opacity))
+                . bg-green-400
+                    --tw-bg-opacity 1
+                    background-color rgb(74 222 128 / var(--tw-bg-opacity))
+                . bg-primary-100
+                    --tw-bg-opacity 1
+                    background-color rgb(219 234 254 / var(--tw-bg-opacity))
+                . bg-primary-700
+                    --tw-bg-opacity 1
+                    background-color rgb(29 78 216 / var(--tw-bg-opacity))
+                . bg-purple-500
+                    --tw-bg-opacity 1
+                    background-color rgb(168 85 247 / var(--tw-bg-opacity))
+                . bg-red-600
+                    --tw-bg-opacity 1
+                    background-color rgb(220 38 38 / var(--tw-bg-opacity))
+                . bg-white
+                    --tw-bg-opacity 1
+                    background-color rgb(255 255 255 / var(--tw-bg-opacity))
+                . p-2
+                    padding 0.5rem
+                . p-2\.5
+                    padding 0.625rem
+                . p-4
+                    padding 1rem
+                . px-3
+                    padding-left 0.75rem
+                    padding-right 0.75rem
+                . px-4
+                    padding-left 1rem
+                    padding-right 1rem
+                . py-1
+                    padding-top 0.25rem
+                    padding-bottom 0.25rem
+                . py-2
+                    padding-top 0.5rem
+                    padding-bottom 0.5rem
+                . py-2\.5
+                    padding-top 0.625rem
+                    padding-bottom 0.625rem
+                . py-3
+                    padding-top 0.75rem
+                    padding-bottom 0.75rem
+                . py-5
+                    padding-top 1.25rem
+                    padding-bottom 1.25rem
+                . pl-10
+                    padding-left 2.5rem
+                . pl-11
+                    padding-left 2.75rem
+                . pl-3
+                    padding-left 0.75rem
+                . pt-14
+                    padding-top 3.5rem
+                . pt-20
+                    padding-top 5rem
+                . pt-5
+                    padding-top 1.25rem
+                . text-left
+                    text-align left
+                . text-center
+                    text-align center
+                . text-2xl
+                    font-size 1.5rem
+                    line-height 2rem
+                . text-base
+                    font-size 1rem
+                    line-height 1.5rem
+                . text-sm
+                    font-size 0.875rem
+                    line-height 1.25rem
+                . text-xs
+                    font-size 0.75rem
+                    line-height 1rem
+                . font-medium
+                    font-weight 500
+                . font-normal
+                    font-weight 400
+                . font-semibold
+                    font-weight 600
+                . text-gray-400
+                    --tw-text-opacity 1
+                    color rgb(156 163 175 / var(--tw-text-opacity))
+                . text-gray-500
+                    --tw-text-opacity 1
+                    color rgb(107 114 128 / var(--tw-text-opacity))
+                . text-gray-600
+                    --tw-text-opacity 1
+                    color rgb(75 85 99 / var(--tw-text-opacity))
+                . text-gray-700
+                    --tw-text-opacity 1
+                    color rgb(55 65 81 / var(--tw-text-opacity))
+                . text-gray-900
+                    --tw-text-opacity 1
+                    color rgb(17 24 39 / var(--tw-text-opacity))
+                . text-primary-600
+                    --tw-text-opacity 1
+                    color rgb(37 99 235 / var(--tw-text-opacity))
+                . text-primary-800
+                    --tw-text-opacity 1
+                    color rgb(30 64 175 / var(--tw-text-opacity))
+                . text-white
+                    --tw-text-opacity 1
+                    color rgb(255 255 255 / var(--tw-text-opacity))
+                . antialiased
+                    -webkit-font-smoothing antialiased
+                    -moz-osx-font-smoothing grayscale
+                . opacity-0
+                    opacity 0
+                . shadow
+                    --tw-shadow 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)
+                    --tw-shadow-colored 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color)
+                    box-shadow var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+                . shadow-lg
+                    --tw-shadow 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)
+                    --tw-shadow-colored 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color)
+                    box-shadow var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+                . shadow-sm
+                    --tw-shadow 0 1px 2px 0 rgb(0 0 0 / 0.05)
+                    --tw-shadow-colored 0 1px 2px 0 var(--tw-shadow-color)
+                    box-shadow var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+                . transition
+                    transition-property color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter
+                    transition-property color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter
+                    transition-property color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter
+                    transition-timing-function cubic-bezier(0.4, 0, 0.2, 1)
+                    transition-duration 150ms
+                . transition-opacity
+                    transition-property opacity
+                    transition-timing-function cubic-bezier(0.4, 0, 0.2, 1)
+                    transition-duration 150ms
+                . transition-transform
+                    transition-property transform
+                    transition-timing-function cubic-bezier(0.4, 0, 0.2, 1)
+                    transition-duration 150ms
+                . duration-300
+                    transition-duration 300ms
+                . duration-75
+                    transition-duration 75ms
+                . hover\:bg-gray-100:hover
+                    --tw-bg-opacity 1
+                    background-color rgb(243 244 246 / var(--tw-bg-opacity))
+                . hover\:text-gray-900:hover
+                    --tw-text-opacity 1
+                    color rgb(17 24 39 / var(--tw-text-opacity))
+                . focus\:border-primary-500:focus
+                    --tw-border-opacity 1
+                    border-color rgb(59 130 246 / var(--tw-border-opacity))
+                . focus\:bg-gray-100:focus
+                    --tw-bg-opacity 1
+                    background-color rgb(243 244 246 / var(--tw-bg-opacity))
+                . focus\:ring-2:focus
+                    --tw-ring-offset-shadow var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color)
+                    --tw-ring-shadow var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color)
+                    box-shadow var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+                . focus\:ring-4:focus
+                    --tw-ring-offset-shadow var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color)
+                    --tw-ring-shadow var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color)
+                    box-shadow var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+                . focus\:ring-gray-100:focus
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(243 244 246 / var(--tw-ring-opacity))
+                . focus\:ring-gray-300:focus
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(209 213 219 / var(--tw-ring-opacity))
+                . focus\:ring-primary-500:focus
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(59 130 246 / var(--tw-ring-opacity))
+                . group:hover .group-hover\:text-gray-500
+                    --tw-text-opacity 1
+                    color rgb(107 114 128 / var(--tw-text-opacity))
+                . group:hover .group-hover\:text-gray-900
+                    --tw-text-opacity 1
+                    color rgb(17 24 39 / var(--tw-text-opacity))
+                < :is(.dark .dark\:divide-gray-600) > :not([hidden]) ~ :not([hidden])
+                    --tw-divide-opacity 1
+                    border-color rgb(75 85 99 / var(--tw-divide-opacity))
+                < :is(.dark .dark\:border-gray-600)
+                    --tw-border-opacity 1
+                    border-color rgb(75 85 99 / var(--tw-border-opacity))
+                < :is(.dark .dark\:border-gray-700)
+                    --tw-border-opacity 1
+                    border-color rgb(55 65 81 / var(--tw-border-opacity))
+                < :is(.dark .dark\:bg-gray-600)
+                    --tw-bg-opacity 1
+                    background-color rgb(75 85 99 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:bg-gray-700)
+                    --tw-bg-opacity 1
+                    background-color rgb(55 65 81 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:bg-gray-800)
+                    --tw-bg-opacity 1
+                    background-color rgb(31 41 55 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:bg-gray-900)
+                    --tw-bg-opacity 1
+                    background-color rgb(17 24 39 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:bg-primary-200)
+                    --tw-bg-opacity 1
+                    background-color rgb(191 219 254 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:text-gray-300)
+                    --tw-text-opacity 1
+                    color rgb(209 213 219 / var(--tw-text-opacity))
+                < :is(.dark .dark\:text-gray-400)
+                    --tw-text-opacity 1
+                    color rgb(156 163 175 / var(--tw-text-opacity))
+                < :is(.dark .dark\:text-primary-500)
+                    --tw-text-opacity 1
+                    color rgb(59 130 246 / var(--tw-text-opacity))
+                < :is(.dark .dark\:text-primary-800)
+                    --tw-text-opacity 1
+                    color rgb(30 64 175 / var(--tw-text-opacity))
+                < :is(.dark .dark\:text-white)
+                    --tw-text-opacity 1
+                    color rgb(255 255 255 / var(--tw-text-opacity))
+                < :is(.dark .dark\:placeholder-gray-400)::placeholder
+                    --tw-placeholder-opacity 1
+                    color rgb(156 163 175 / var(--tw-placeholder-opacity))
+                < :is(.dark .dark\:hover\:bg-gray-600:hover)
+                    --tw-bg-opacity 1
+                    background-color rgb(75 85 99 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:hover\:bg-gray-700:hover)
+                    --tw-bg-opacity 1
+                    background-color rgb(55 65 81 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:hover\:text-white:hover)
+                    --tw-text-opacity 1
+                    color rgb(255 255 255 / var(--tw-text-opacity))
+                < :is(.dark .dark\:hover\:underline:hover)
+                    -webkit-text-decoration-line underline
+                    text-decoration-line underline
+                < :is(.dark .dark\:focus\:border-primary-500:focus)
+                    --tw-border-opacity 1
+                    border-color rgb(59 130 246 / var(--tw-border-opacity))
+                < :is(.dark .dark\:focus\:bg-gray-700:focus)
+                    --tw-bg-opacity 1
+                    background-color rgb(55 65 81 / var(--tw-bg-opacity))
+                < :is(.dark .dark\:focus\:ring-gray-600:focus)
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(75 85 99 / var(--tw-ring-opacity))
+                < :is(.dark .dark\:focus\:ring-gray-700:focus)
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(55 65 81 / var(--tw-ring-opacity))
+                < :is(.dark .dark\:focus\:ring-primary-500:focus)
+                    --tw-ring-opacity 1
+                    --tw-ring-color rgb(59 130 246 / var(--tw-ring-opacity))
+                < :is(.dark .group:hover .dark\:group-hover\:text-gray-400)
+                    --tw-text-opacity 1
+                    color rgb(156 163 175 / var(--tw-text-opacity))
+                < :is(.dark .group:hover .dark\:group-hover\:text-white)
+                    --tw-text-opacity 1
+                    color rgb(255 255 255 / var(--tw-text-opacity))
+                media (min-width: 640px)
+                    . sm\:grid-cols-2
+                        grid-template-columns repeat(2, minmax(0, 1fr))
+                media (min-width: 768px)
+                    . md\:ml-64
+                        margin-left 16rem
+                    . md\:mr-0
+                        margin-right 0px
+                    . md\:block
+                        display block
+                    . md\:hidden
+                        display none
+                    . md\:h-64
+                        height 16rem
+                    . md\:h-72
+                        height 18rem
+                    . md\:w-64
+                        width 16rem
+                    . md\:w-96
+                        width 24rem
+                    . md\:translate-x-0
+                        --tw-translate-x 0px
+                        transform translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+                    . md\:pl-2
+                        padding-left 0.5rem
+                media (min-width: 1024px)
+                    . lg\:order-2
+                        order 2
+                    . lg\:flex
+                        display flex
+                    . lg\:grid-cols-4
+                        grid-template-columns repeat(4, minmax(0, 1fr))
+    body 
+        . antialiased bg-gray-50 dark:bg-gray-900
+            nav 
+                class bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50
+                . flex flex-wrap justify-between items-center
+                    . flex justify-start items-center
+                        button 
+                            data-drawer-target drawer-navigation
+                            data-drawer-toggle drawer-navigation
+                            aria-controls drawer-navigation
+                            class p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white
+                            svg 
+                                aria-hidden true
+                                class w-6 h-6
+                                fill currentColor
+                                viewBox 0 0 20 20
+                                xmlns http://www.w3.org/2000/svg
+                                path 
+                                    fill-rule evenodd
+                                    d M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z
+                                    clip-rule evenodd
+                            svg 
+                                aria-hidden true
+                                class hidden w-6 h-6
+                                fill currentColor
+                                viewBox 0 0 20 20
+                                xmlns http://www.w3.org/2000/svg
+                                path 
+                                    fill-rule evenodd
+                                    d M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z
+                                    clip-rule evenodd
+                            span Toggle sidebar
+                                class sr-only
+                        a 
+                            href https://flowbite.com
+                            class flex items-center justify-between mr-4
+                            img 
+                                src https://flowbite.s3.amazonaws.com/logo.svg
+                                class mr-3 h-8
+                                alt Flowbite Logo
+                            span Flowbite
+                                class self-center text-2xl font-semibold whitespace-nowrap dark:text-white
+                        form 
+                            action #
+                            method GET
+                            class hidden md:block md:pl-2
+                            label Search
+                                for topbar-search
+                                class sr-only
+                            . relative md:w-64 md:w-96
+                                . flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none
+                                    svg 
+                                        class w-5 h-5 text-gray-500 dark:text-gray-400
+                                        fill currentColor
+                                        viewBox 0 0 20 20
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            fill-rule evenodd
+                                            clip-rule evenodd
+                                            d M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z
+                                input 
+                                    type text
+                                    name email
+                                    id topbar-search
+                                    class bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500
+                                    placeholder Search
+                    . flex items-center lg:order-2
+                        button 
+                            type button
+                            data-drawer-toggle drawer-navigation
+                            aria-controls drawer-navigation
+                            class p-2 mr-1 text-gray-500 rounded-lg md:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600
+                            span Toggle search
+                                class sr-only
+                            svg 
+                                aria-hidden true
+                                class w-6 h-6
+                                fill currentColor
+                                viewBox 0 0 20 20
+                                xmlns http://www.w3.org/2000/svg
+                                path 
+                                    clip-rule evenodd
+                                    fill-rule evenodd
+                                    d M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z
+                        button 
+                            type button
+                            data-dropdown-toggle notification-dropdown
+                            class p-2 mr-1 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600
+                            span View notifications
+                                class sr-only
+                            svg 
+                                aria-hidden true
+                                class w-6 h-6
+                                fill currentColor
+                                viewBox 0 0 20 20
+                                xmlns http://www.w3.org/2000/svg
+                                path 
+                                    d M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z
+                        . hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700 rounded-xl
+                            id notification-dropdown
+                            data-popper-placement bottom
+                            style position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(1257px, 1533px);
+                            . block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300
+                                ++ Notifications
+                            div 
+                                a 
+                                    href #
+                                    class flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600
+                                    . flex-shrink-0
+                                        img 
+                                            class w-11 h-11 rounded-full
+                                            src https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png
+                                            alt Bonnie Green avatar
+                                        . flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 rounded-full border border-white bg-primary-700 dark:border-gray-700
+                                            svg 
+                                                aria-hidden true
+                                                class w-3 h-3 text-white
+                                                fill currentColor
+                                                viewBox 0 0 20 20
+                                                xmlns http://www.w3.org/2000/svg
+                                                path 
+                                                    d M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z
+                                                path 
+                                                    d M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z
+                                    . pl-3 w-full
+                                        . text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400
+                                            ++ New message from
+                                            span Bonnie Green
+                                                class font-semibold text-gray-900 dark:text-white
+                                            ++ : "Hey, what's up? All set for the presentation?"
+                                        . text-xs font-medium text-primary-600 dark:text-primary-500
+                                            ++ a few moments ago
+                                a 
+                                    href #
+                                    class flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600
+                                    . flex-shrink-0
+                                        img 
+                                            class w-11 h-11 rounded-full
+                                            src https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png
+                                            alt Jese Leos avatar
+                                        . flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-gray-900 rounded-full border border-white dark:border-gray-700
+                                            svg 
+                                                aria-hidden true
+                                                class w-3 h-3 text-white
+                                                fill currentColor
+                                                viewBox 0 0 20 20
+                                                xmlns http://www.w3.org/2000/svg
+                                                path 
+                                                    d M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z
+                                    . pl-3 w-full
+                                        . text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400
+                                            span Jese leos
+                                                class font-semibold text-gray-900 dark:text-white
+                                            ++ and
+                                            span 5 others
+                                                class font-medium text-gray-900 dark:text-white
+                                            ++ started following you.
+                                        . text-xs font-medium text-primary-600 dark:text-primary-500
+                                            ++ 10 minutes ago
+                                a 
+                                    href #
+                                    class flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600
+                                    . flex-shrink-0
+                                        img 
+                                            class w-11 h-11 rounded-full
+                                            src https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/joseph-mcfall.png
+                                            alt Joseph McFall avatar
+                                        . flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-red-600 rounded-full border border-white dark:border-gray-700
+                                            svg 
+                                                aria-hidden true
+                                                class w-3 h-3 text-white
+                                                fill currentColor
+                                                viewBox 0 0 20 20
+                                                xmlns http://www.w3.org/2000/svg
+                                                path 
+                                                    fill-rule evenodd
+                                                    d M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z
+                                                    clip-rule evenodd
+                                    . pl-3 w-full
+                                        . text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400
+                                            span Joseph Mcfall
+                                                class font-semibold text-gray-900 dark:text-white
+                                            ++ and
+                                            span 141 others
+                                                class font-medium text-gray-900 dark:text-white
+                                            ++ love your story. See it and view more stories.
+                                        . text-xs font-medium text-primary-600 dark:text-primary-500
+                                            ++ 44 minutes ago
+                                a 
+                                    href #
+                                    class flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600
+                                    . flex-shrink-0
+                                        img 
+                                            class w-11 h-11 rounded-full
+                                            src https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png
+                                            alt Roberta Casas image
+                                        . flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-green-400 rounded-full border border-white dark:border-gray-700
+                                            svg 
+                                                aria-hidden true
+                                                class w-3 h-3 text-white
+                                                fill currentColor
+                                                viewBox 0 0 20 20
+                                                xmlns http://www.w3.org/2000/svg
+                                                path 
+                                                    fill-rule evenodd
+                                                    d M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z
+                                                    clip-rule evenodd
+                                    . pl-3 w-full
+                                        . text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400
+                                            span Leslie Livingston
+                                                class font-semibold text-gray-900 dark:text-white
+                                            ++ mentioned you in a comment:
+                                            span @bonnie.green
+                                                class font-medium text-primary-600 dark:text-primary-500
+                                            ++ what do you say?
+                                        . text-xs font-medium text-primary-600 dark:text-primary-500
+                                            ++ 1 hour ago
+                                a 
+                                    href #
+                                    class flex py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-600
+                                    . flex-shrink-0
+                                        img 
+                                            class w-11 h-11 rounded-full
+                                            src https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/robert-brown.png
+                                            alt Robert image
+                                        . flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-purple-500 rounded-full border border-white dark:border-gray-700
+                                            svg 
+                                                aria-hidden true
+                                                class w-3 h-3 text-white
+                                                fill currentColor
+                                                viewBox 0 0 20 20
+                                                xmlns http://www.w3.org/2000/svg
+                                                path 
+                                                    d M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z
+                                    . pl-3 w-full
+                                        . text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400
+                                            span Robert Brown
+                                                class font-semibold text-gray-900 dark:text-white
+                                            ++ posted a new video: Glassmorphism - learn how to implement
+                                            ++ the new design trend.
+                                        . text-xs font-medium text-primary-600 dark:text-primary-500
+                                            ++ 3 hours ago
+                            a 
+                                href #
+                                class block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:underline
+                                . inline-flex items-center
+                                    svg 
+                                        aria-hidden true
+                                        class mr-2 w-4 h-4 text-gray-500 dark:text-gray-400
+                                        fill currentColor
+                                        viewBox 0 0 20 20
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            d M10 12a2 2 0 100-4 2 2 0 000 4z
+                                        path 
+                                            fill-rule evenodd
+                                            d M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z
+                                            clip-rule evenodd
+                                    ++ View all
+                        button 
+                            type button
+                            data-dropdown-toggle apps-dropdown
+                            class p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600
+                            span View notifications
+                                class sr-only
+                            svg 
+                                class w-6 h-6
+                                fill currentColor
+                                viewBox 0 0 20 20
+                                xmlns http://www.w3.org/2000/svg
+                                path 
+                                    d M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z
+                        . hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg dark:bg-gray-700 dark:divide-gray-600 rounded-xl
+                            id apps-dropdown
+                            data-popper-placement bottom
+                            style position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(1301px, 1533px);
+                            . block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300
+                                ++ Apps
+                            . grid grid-cols-3 gap-4 p-4
+                                a 
+                                    href #
+                                    class block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group
+                                    svg 
+                                        aria-hidden true
+                                        class mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400
+                                        fill currentColor
+                                        viewBox 0 0 20 20
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            fill-rule evenodd
+                                            d M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z
+                                            clip-rule evenodd
+                                    div Sales
+                                        class text-sm text-gray-900 dark:text-white
+                                a 
+                                    href #
+                                    class block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group
+                                    svg 
+                                        aria-hidden true
+                                        class mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400
+                                        fill currentColor
+                                        viewBox 0 0 20 20
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            d M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z
+                                    div Users
+                                        class text-sm text-gray-900 dark:text-white
+                                a 
+                                    href #
+                                    class block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group
+                                    svg 
+                                        aria-hidden true
+                                        class mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400
+                                        fill currentColor
+                                        viewBox 0 0 20 20
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            fill-rule evenodd
+                                            d M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z
+                                            clip-rule evenodd
+                                    div Inbox
+                                        class text-sm text-gray-900 dark:text-white
+                                a 
+                                    href #
+                                    class block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group
+                                    svg 
+                                        aria-hidden true
+                                        class mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400
+                                        fill currentColor
+                                        viewBox 0 0 20 20
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            fill-rule evenodd
+                                            d M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z
+                                            clip-rule evenodd
+                                    . text-sm text-gray-900 dark:text-white
+                                        ++ Profile
+                                a 
+                                    href #
+                                    class block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group
+                                    svg 
+                                        aria-hidden true
+                                        class mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400
+                                        fill currentColor
+                                        viewBox 0 0 20 20
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            fill-rule evenodd
+                                            d M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z
+                                            clip-rule evenodd
+                                    . text-sm text-gray-900 dark:text-white
+                                        ++ Settings
+                                a 
+                                    href #
+                                    class block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group
+                                    svg 
+                                        aria-hidden true
+                                        class mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400
+                                        fill currentColor
+                                        viewBox 0 0 20 20
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            d M4 3a2 2 0 100 4h12a2 2 0 100-4H4z
+                                        path 
+                                            fill-rule evenodd
+                                            d M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z
+                                            clip-rule evenodd
+                                    . text-sm text-gray-900 dark:text-white
+                                        ++ Products
+                                a 
+                                    href #
+                                    class block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group
+                                    svg 
+                                        aria-hidden true
+                                        class mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400
+                                        fill currentColor
+                                        viewBox 0 0 20 20
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            d M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z
+                                        path 
+                                            fill-rule evenodd
+                                            d M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z
+                                            clip-rule evenodd
+                                    . text-sm text-gray-900 dark:text-white
+                                        ++ Pricing
+                                a 
+                                    href #
+                                    class block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group
+                                    svg 
+                                        aria-hidden true
+                                        class mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400
+                                        fill currentColor
+                                        viewBox 0 0 20 20
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            fill-rule evenodd
+                                            d M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm2.5 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm6.207.293a1 1 0 00-1.414 0l-6 6a1 1 0 101.414 1.414l6-6a1 1 0 000-1.414zM12.5 10a1.5 1.5 0 100 3 1.5 1.5 0 000-3z
+                                            clip-rule evenodd
+                                    . text-sm text-gray-900 dark:text-white
+                                        ++ Billing
+                                a 
+                                    href #
+                                    class block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group
+                                    svg 
+                                        aria-hidden true
+                                        class mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400
+                                        fill none
+                                        stroke currentColor
+                                        viewBox 0 0 24 24
+                                        xmlns http://www.w3.org/2000/svg
+                                        path 
+                                            stroke-linecap round
+                                            stroke-linejoin round
+                                            stroke-width 2
+                                            d M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1
+                                    . text-sm text-gray-900 dark:text-white
+                                        ++ Logout
+                        button 
+                            type button
+                            class flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600
+                            id user-menu-button
+                            aria-expanded false
+                            data-dropdown-toggle dropdown
+                            span Open user menu
+                                class sr-only
+                            img 
+                                class w-8 h-8 rounded-full
+                                src https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png
+                                alt user photo
+                        . hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl
+                            id dropdown
+                            data-popper-placement bottom
+                            style position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(1349px, 1529px);
+                            . py-3 px-4
+                                span Neil Sims
+                                    class block text-sm font-semibold text-gray-900 dark:text-white
+                                span name@flowbite.com
+                                    class block text-sm text-gray-900 truncate dark:text-white
+                            ul 
+                                class py-1 text-gray-700 dark:text-gray-300
+                                aria-labelledby dropdown
+                                li 
+                                    a My profile
+                                        href #
+                                        class block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white
+                                li 
+                                    a Account settings
+                                        href #
+                                        class block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white
+                            ul 
+                                class py-1 text-gray-700 dark:text-gray-300
+                                aria-labelledby dropdown
+                                li 
+                                    a 
+                                        href #
+                                        class flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white
+                                        svg 
+                                            class mr-2 w-5 h-5 text-gray-400
+                                            fill currentColor
+                                            viewBox 0 0 20 20
+                                            xmlns http://www.w3.org/2000/svg
+                                            path 
+                                                fill-rule evenodd
+                                                d M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z
+                                                clip-rule evenodd
+                                        ++ My likes
+                                li 
+                                    a 
+                                        href #
+                                        class flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white
+                                        svg 
+                                            class mr-2 w-5 h-5 text-gray-400
+                                            fill currentColor
+                                            viewBox 0 0 20 20
+                                            xmlns http://www.w3.org/2000/svg
+                                            path 
+                                                d M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z
+                                        ++ Collections
+                                li 
+                                    a 
+                                        href #
+                                        class flex justify-between items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white
+                                        span 
+                                            class flex items-center
+                                            svg 
+                                                aria-hidden true
+                                                class mr-2 w-5 h-5 text-primary-600 dark:text-primary-500
+                                                fill currentColor
+                                                viewBox 0 0 20 20
+                                                xmlns http://www.w3.org/2000/svg
+                                                path 
+                                                    fill-rule evenodd
+                                                    d M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z
+                                                    clip-rule evenodd
+                                            ++ Pro version
+                                        svg 
+                                            aria-hidden true
+                                            class w-5 h-5 text-gray-400
+                                            fill currentColor
+                                            viewBox 0 0 20 20
+                                            xmlns http://www.w3.org/2000/svg
+                                            path 
+                                                fill-rule evenodd
+                                                d M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z
+                                                clip-rule evenodd
+                            ul 
+                                class py-1 text-gray-700 dark:text-gray-300
+                                aria-labelledby dropdown
+                                li 
+                                    a Sign out
+                                        href #
+                                        class block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white
+            aside 
+                class fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700
+                aria-label Sidenav
+                id drawer-navigation
+                aria-hidden true
+                . overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800
+                    form 
+                        action #
+                        method GET
+                        class md:hidden mb-2
+                        label Search
+                            for sidebar-search
+                            class sr-only
+                        . relative
+                            . flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none
+                                svg 
+                                    class w-5 h-5 text-gray-500 dark:text-gray-400
+                                    fill currentColor
+                                    viewBox 0 0 20 20
+                                    xmlns http://www.w3.org/2000/svg
+                                    path 
+                                        fill-rule evenodd
+                                        clip-rule evenodd
+                                        d M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z
+                            input 
+                                type text
+                                name search
+                                id sidebar-search
+                                class bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500
+                                placeholder Search
+                    ul 
+                        class space-y-2
+                        li 
+                            a 
+                                href #
+                                class flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group
+                                svg 
+                                    aria-hidden true
+                                    class w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white
+                                    fill currentColor
+                                    viewBox 0 0 20 20
+                                    xmlns http://www.w3.org/2000/svg
+                                    path 
+                                        d M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z
+                                    path 
+                                        d M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z
+                                span Overview
+                                    class ml-3
+                        li 
+                            button 
+                                type button
+                                class flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                                aria-controls dropdown-pages
+                                data-collapse-toggle dropdown-pages
+                                aria-expanded false
+                                svg 
+                                    aria-hidden true
+                                    class flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white
+                                    fill currentColor
+                                    viewBox 0 0 20 20
+                                    xmlns http://www.w3.org/2000/svg
+                                    path 
+                                        fill-rule evenodd
+                                        d M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z
+                                        clip-rule evenodd
+                                span Pages
+                                    class flex-1 ml-3 text-left whitespace-nowrap
+                                svg 
+                                    aria-hidden true
+                                    class w-6 h-6
+                                    fill currentColor
+                                    viewBox 0 0 20 20
+                                    xmlns http://www.w3.org/2000/svg
+                                    path 
+                                        fill-rule evenodd
+                                        d M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z
+                                        clip-rule evenodd
+                            ul 
+                                id dropdown-pages
+                                class py-2 space-y-2 hidden
+                                li 
+                                    a Settings
+                                        href #
+                                        class flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                                li 
+                                    a Kanban
+                                        href #
+                                        class flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                                li 
+                                    a Calendar
+                                        href #
+                                        class flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                        li 
+                            button 
+                                type button
+                                class flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                                aria-controls dropdown-sales
+                                data-collapse-toggle dropdown-sales
+                                aria-expanded false
+                                svg 
+                                    aria-hidden true
+                                    class flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white
+                                    fill currentColor
+                                    viewBox 0 0 20 20
+                                    xmlns http://www.w3.org/2000/svg
+                                    path 
+                                        fill-rule evenodd
+                                        d M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z
+                                        clip-rule evenodd
+                                span Sales
+                                    class flex-1 ml-3 text-left whitespace-nowrap
+                                svg 
+                                    aria-hidden true
+                                    class w-6 h-6
+                                    fill currentColor
+                                    viewBox 0 0 20 20
+                                    xmlns http://www.w3.org/2000/svg
+                                    path 
+                                        fill-rule evenodd
+                                        d M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z
+                                        clip-rule evenodd
+                            ul 
+                                id dropdown-sales
+                                class py-2 space-y-2 hidden
+                                li 
+                                    a Products
+                                        href #
+                                        class flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                                li 
+                                    a Billing
+                                        href #
+                                        class flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                                li 
+                                    a Invoice
+                                        href #
+                                        class flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                        li 
+                            a 
+                                href #
+                                class flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group
+                                svg 
+                                    aria-hidden true
+                                    class flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white
+                                    fill currentColor
+                                    viewBox 0 0 20 20
+                                    xmlns http://www.w3.org/2000/svg
+                                    path 
+                                        d M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z
+                                    path 
+                                        d M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z
+                                span Messages
+                                    class flex-1 ml-3 whitespace-nowrap
+                                span 
+                                    class inline-flex justify-center items-center w-5 h-5 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800
+                                    ++ 4
+                        li 
+                            button 
+                                type button
+                                class flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                                aria-controls dropdown-authentication
+                                data-collapse-toggle dropdown-authentication
+                                aria-expanded false
+                                svg 
+                                    aria-hidden true
+                                    class flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white
+                                    fill currentColor
+                                    viewBox 0 0 20 20
+                                    xmlns http://www.w3.org/2000/svg
+                                    path 
+                                        fill-rule evenodd
+                                        d M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z
+                                        clip-rule evenodd
+                                span Authentication
+                                    class flex-1 ml-3 text-left whitespace-nowrap
+                                svg 
+                                    aria-hidden true
+                                    class w-6 h-6
+                                    fill currentColor
+                                    viewBox 0 0 20 20
+                                    xmlns http://www.w3.org/2000/svg
+                                    path 
+                                        fill-rule evenodd
+                                        d M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z
+                                        clip-rule evenodd
+                            ul 
+                                id dropdown-authentication
+                                class py-2 space-y-2 hidden
+                                li 
+                                    a Sign In
+                                        href #
+                                        class flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                                li 
+                                    a Sign Up
+                                        href #
+                                        class flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                                li 
+                                    a Forgot Password
+                                        href #
+                                        class flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                    ul 
+                        class pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700
+                        li 
+                            a 
+                                href #
+                                class flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group
+                                svg 
+                                    aria-hidden true
+                                    class flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white
+                                    fill currentColor
+                                    viewBox 0 0 20 20
+                                    xmlns http://www.w3.org/2000/svg
+                                    path 
+                                        d M9 2a1 1 0 000 2h2a1 1 0 100-2H9z
+                                    path 
+                                        fill-rule evenodd
+                                        d M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z
+                                        clip-rule evenodd
+                                span Docs
+                                    class ml-3
+                        li 
+                            a 
+                                href #
+                                class flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group
+                                svg 
+                                    aria-hidden true
+                                    class flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white
+                                    fill currentColor
+                                    viewBox 0 0 20 20
+                                    xmlns http://www.w3.org/2000/svg
+                                    path 
+                                        d M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z
+                                span Components
+                                    class ml-3
+                        li 
+                            a 
+                                href #
+                                class flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group
+                                svg 
+                                    aria-hidden true
+                                    class flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white
+                                    fill currentColor
+                                    viewBox 0 0 20 20
+                                    xmlns http://www.w3.org/2000/svg
+                                    path 
+                                        fill-rule evenodd
+                                        d M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-2 0c0 .993-.241 1.929-.668 2.754l-1.524-1.525a3.997 3.997 0 00.078-2.183l1.562-1.562C15.802 8.249 16 9.1 16 10zm-5.165 3.913l1.58 1.58A5.98 5.98 0 0110 16a5.976 5.976 0 01-2.516-.552l1.562-1.562a4.006 4.006 0 001.789.027zm-4.677-2.796a4.002 4.002 0 01-.041-2.08l-.08.08-1.53-1.533A5.98 5.98 0 004 10c0 .954.223 1.856.619 2.657l1.54-1.54zm1.088-6.45A5.974 5.974 0 0110 4c.954 0 1.856.223 2.657.619l-1.54 1.54a4.002 4.002 0 00-2.346.033L7.246 4.668zM12 10a2 2 0 11-4 0 2 2 0 014 0z
+                                        clip-rule evenodd
+                                span Help
+                                    class ml-3
+                . hidden absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full lg:flex bg-white dark:bg-gray-800 z-20
+                    a 
+                        href #
+                        class inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600
+                        svg 
+                            aria-hidden true
+                            class w-6 h-6
+                            fill currentColor
+                            viewBox 0 0 20 20
+                            xmlns http://www.w3.org/2000/svg
+                            path 
+                                d M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z
+                    a 
+                        href #
+                        data-tooltip-target tooltip-settings
+                        class inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 dark:hover:text-white hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-600
+                        svg 
+                            aria-hidden true
+                            class w-6 h-6
+                            fill currentColor
+                            viewBox 0 0 20 20
+                            xmlns http://www.w3.org/2000/svg
+                            path 
+                                fill-rule evenodd
+                                d M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z
+                                clip-rule evenodd
+                    . inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip
+                        id tooltip-settings
+                        role tooltip
+                        data-popper-placement top
+                        style position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(71px, -64px);
+                        ++ Settings page
+                        . tooltip-arrow
+                            data-popper-arrow 
+                            style position: absolute; left: 0px; transform: translate(59px, 0px);
+                    button 
+                        type button
+                        data-dropdown-toggle language-dropdown
+                        class inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:hover:text-white dark:text-gray-400 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-600
+                        svg 
+                            aria-hidden true
+                            class h-5 w-5 rounded-full mt-0.5
+                            xmlns http://www.w3.org/2000/svg
+                            xmlns:xlink http://www.w3.org/1999/xlink
+                            viewBox 0 0 3900 3900
+                            path 
+                                fill #b22234
+                                d M0 0h7410v3900H0z
+                            path 
+                                d M0 450h7410m0 600H0m0 600h7410m0 600H0m0 600h7410m0 600H0
+                                stroke #fff
+                                stroke-width 300
+                            path 
+                                fill #3c3b6e
+                                d M0 0h2964v2100H0z
+                            g 
+                                fill #fff
+                                g 
+                                    id d
+                                    g 
+                                        id c
+                                        g 
+                                            id e
+                                            g 
+                                                id b
+                                                path 
+                                                    id a
+                                                    d M247 90l70.534 217.082-184.66-134.164h228.253L176.466 307.082z
+                                                use 
+                                                    xlink:href #a
+                                                    y 420
+                                                use 
+                                                    xlink:href #a
+                                                    y 840
+                                                use 
+                                                    xlink:href #a
+                                                    y 1260
+                                            use 
+                                                xlink:href #a
+                                                y 1680
+                                        use 
+                                            xlink:href #b
+                                            x 247
+                                            y 210
+                                    use 
+                                        xlink:href #c
+                                        x 494
+                                use 
+                                    xlink:href #d
+                                    x 988
+                                use 
+                                    xlink:href #c
+                                    x 1976
+                                use 
+                                    xlink:href #e
+                                    x 2470
+                    . hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700
+                        id language-dropdown
+                        data-popper-placement bottom
+                        style position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(184px, 890px);
+                        ul 
+                            class py-1
+                            role none
+                            li 
+                                a 
+                                    href #
+                                    class block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:text-white dark:text-gray-300 dark:hover:bg-gray-600
+                                    role menuitem
+                                    . inline-flex items-center
+                                        svg 
+                                            aria-hidden true
+                                            class h-3.5 w-3.5 rounded-full mr-2
+                                            xmlns http://www.w3.org/2000/svg
+                                            id flag-icon-css-us
+                                            viewBox 0 0 512 512
+                                            g 
+                                                fill-rule evenodd
+                                                g 
+                                                    stroke-width 1pt
+                                                    path 
+                                                        fill #bd3d44
+                                                        d M0 0h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0z
+                                                        transform scale(3.9385)
+                                                    path 
+                                                        fill #fff
+                                                        d M0 10h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0z
+                                                        transform scale(3.9385)
+                                                path 
+                                                    fill #192f5d
+                                                    d M0 0h98.8v70H0z
+                                                    transform scale(3.9385)
+                                                path 
+                                                    fill #fff
+                                                    d M8.2 3l1 2.8H12L9.7 7.5l.9 2.7-2.4-1.7L6 10.2l.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7L74 8.5l-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 7.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 24.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 21.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 38.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 35.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 52.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 49.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 66.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 63.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9z
+                                                    transform scale(3.9385)
+                                        ++ English (US)
+                            li 
+                                a 
+                                    href #
+                                    class block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-600
+                                    role menuitem
+                                    . inline-flex items-center
+                                        svg 
+                                            aria-hidden true
+                                            class h-3.5 w-3.5 rounded-full mr-2
+                                            xmlns http://www.w3.org/2000/svg
+                                            id flag-icon-css-de
+                                            viewBox 0 0 512 512
+                                            path 
+                                                fill #ffce00
+                                                d M0 341.3h512V512H0z
+                                            path 
+                                                d M0 0h512v170.7H0z
+                                            path 
+                                                fill #d00
+                                                d M0 170.7h512v170.6H0z
+                                        ++ Deutsch
+                            li 
+                                a 
+                                    href #
+                                    class block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-600
+                                    role menuitem
+                                    . inline-flex items-center
+                                        svg 
+                                            aria-hidden true
+                                            class h-3.5 w-3.5 rounded-full mr-2
+                                            xmlns http://www.w3.org/2000/svg
+                                            id flag-icon-css-it
+                                            viewBox 0 0 512 512
+                                            g 
+                                                fill-rule evenodd
+                                                stroke-width 1pt
+                                                path 
+                                                    fill #fff
+                                                    d M0 0h512v512H0z
+                                                path 
+                                                    fill #009246
+                                                    d M0 0h170.7v512H0z
+                                                path 
+                                                    fill #ce2b37
+                                                    d M341.3 0H512v512H341.3z
+                                        ++ Italiano
+                            li 
+                                a 
+                                    href #
+                                    class block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:text-white dark:text-gray-300 dark:hover:bg-gray-600
+                                    role menuitem
+                                    . inline-flex items-center
+                                        svg 
+                                            aria-hidden true
+                                            class h-3.5 w-3.5 rounded-full mr-2
+                                            xmlns http://www.w3.org/2000/svg
+                                            xmlns:xlink http://www.w3.org/1999/xlink
+                                            id flag-icon-css-cn
+                                            viewBox 0 0 512 512
+                                            defs 
+                                                path 
+                                                    id a
+                                                    fill #ffde00
+                                                    d M1-.3L-.7.8 0-1 .6.8-1-.3z
+                                            path 
+                                                fill #de2910
+                                                d M0 0h512v512H0z
+                                            use 
+                                                width 30
+                                                height 20
+                                                transform matrix(76.8 0 0 76.8 128 128)
+                                                xlink:href #a
+                                            use 
+                                                width 30
+                                                height 20
+                                                transform rotate(-121 142.6 -47) scale(25.5827)
+                                                xlink:href #a
+                                            use 
+                                                width 30
+                                                height 20
+                                                transform rotate(-98.1 198 -82) scale(25.6)
+                                                xlink:href #a
+                                            use 
+                                                width 30
+                                                height 20
+                                                transform rotate(-74 272.4 -114) scale(25.6137)
+                                                xlink:href #a
+                                            use 
+                                                width 30
+                                                height 20
+                                                transform matrix(16 -19.968 19.968 16 256 230.4)
+                                                xlink:href #a
+                                        ++ 中文 (繁體)
+            main 
+                class p-4 md:ml-64 h-auto pt-20
+                . grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4
+                    . border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 h-32 md:h-64
+                    . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64
+                    . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64
+                    . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64
+                . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4
+                . grid grid-cols-2 gap-4 mb-4
+                    . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72
+                    . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72
+                    . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72
+                    . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72
+                . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4
+                . grid grid-cols-2 gap-4
+                    . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72
+                    . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72
+                    . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72
+                    . border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72
+        js https://unpkg.com/flowbite@1.5.3/dist/flowbite.js
+        script 
+            module 
+                kind react
+                _ window.addEventListener
+                    @ "load"
+                    function 
+                        param event
+                        const links = document.querySelectorAll("a")
+                        const buttons = document.querySelectorAll("button")
+                        _ links.forEach
+                            function 
+                                param link
+                                _ link.addEventListener
+                                    @ "click"
+                                    function 
+                                        param ev
+                                        _ ev.preventDefault()
+                        _ buttons.forEach
+                            function 
+                                param button
+                                _ button.addEventListener
+                                    @ "click"
+                                    function 
+                                        param ev
+                                        _ ev.preventDefault()

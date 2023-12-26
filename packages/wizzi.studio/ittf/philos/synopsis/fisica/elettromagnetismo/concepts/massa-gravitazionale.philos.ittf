@@ -1,0 +1,12 @@
+$group
+
+    namespace fisica.elettromagnetismo
+
+        concept massa-gravitazionale
+
+            + La massa gravitazionale è una misura della quantità di materia in un oggetto. 
+                \b È una proprietà intrinseca dell'oggetto e non cambia da un luogo all'altro.
+            + L'unità di misura standard per la massa è il chilogrammo (kg) nel sistema internazionale (SI).
+            + La massa gravitazionale è responsabile dell'inerzia di un oggetto, 
+                \b ovvero della sua tendenza a resistere ai cambiamenti di stato di moto (accelerazione). 
+                \b Più un oggetto ha massa, più sarà difficile accelerarlo o decelerarlo.
