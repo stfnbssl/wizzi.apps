@@ -30,7 +30,7 @@ module
     export
         @ wizziTypes
         @ wizziProds
-        @ WizziFactory
+        @ wizziFactory
         @ wizziMaps
         $if wzCtx.Build.useExpress
             @ wizziControllers

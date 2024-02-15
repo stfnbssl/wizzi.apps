@@ -47,5 +47,6 @@ $group
                 ._ catch
                     =>
                         param err
+                        error err
                         _ alert
                             @ 'editSave error: ' + err

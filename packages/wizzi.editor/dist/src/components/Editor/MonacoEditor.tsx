@@ -1,13 +1,13 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
+    package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Editor\MonacoEditor.tsx.ittf
+    utc time: Mon, 29 Jan 2024 07:09:54 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.main';
-import {SimpleEditorModelResolverService} from 'monaco-editor/esm/vs/editor/standalone/browser/simpleServices';
 import {StaticServices} from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices';
 import * as React from 'react';
 import {Annotation} from '../../features/annotations/index';
@@ -21,27 +21,12 @@ import ittfLang from './languages/ittf.language';
 import ittfDarkTheme from './themes/ittf.dark.theme';
 import ittfLightTheme from './themes/ittf.light.theme';
 import overrides from './themes/monaco-overrides';
-
-
-/**
-    * 
-    * Monkeypatch to make 'Find All References' work across multiple files
-    * https://github.com/Microsoft/monaco-editor/issues/779#issuecomment-374258435
-    * 
-*/
-
-// @ts-ignore
-SimpleEditorModelResolverService.prototype.findModel = function(_: any, resource: any) { 
-    return monaco.editor.getModels().find(model => 
-        
-            model.uri.toString() === resource.toString()
-        );
-}
-;
+console.log('MonacoEditor', 1, __filename);
 
 
 // @ts-ignore
 global.MonacoEnvironment = { getWorkerUrl(moduleId: string, label: string) { switch (label) { case 'json': { return '/public/packi/json.worker.bundle.js'; } case 'html': { return '/public/packi/html.worker.bundle.js'; } case 'css': case 'scss': case 'less': { return '/public/packi/css.worker.bundle.js'; } case 'typescript': case 'javascript': { return '/public/packi/ts.worker.bundle.js'; } default: { return '/public/packi/editor.worker.bundle.js'; } } }   }; 
+console.log('MonacoEditor', 2, __filename);
 monaco.languages.register({
     id: 'ittf'
  })
@@ -50,6 +35,7 @@ monaco.editor.defineTheme('ittfLight', ittfLightTheme);
 monaco.editor.defineTheme('ittfDark', ittfDarkTheme);
 monaco.editor.defineTheme('light', light);
 monaco.editor.defineTheme('dark', dark);
+console.log('MonacoEditor', 3, __filename);
 
 /**
     * 
@@ -69,9 +55,11 @@ const documentFormattingProvider: monaco.languages.DocumentFormattingEditProvide
     }
     
  };
+console.log('MonacoEditor', 4, __filename);
 monaco.languages.registerDocumentFormattingEditProvider('javascript', documentFormattingProvider);
 monaco.languages.registerDocumentFormattingEditProvider('typescript', documentFormattingProvider);
 monaco.languages.registerDocumentFormattingEditProvider('markdown', documentFormattingProvider);
+console.log('MonacoEditor', 5, __filename);
 export type MonacoEditorProps = EditorProps & { 
     theme: ThemeName;
 };
@@ -85,6 +73,7 @@ const editorStates = new Map();
 const requestedTypings = new Map();
 const extraLibs = new Map();
 const codeEditorService = StaticServices.codeEditorService.get();
+console.log('MonacoEditor', 6, __filename);
 const findModel = (path: string) => 
 
     monaco.editor.getModels().find(model => 
@@ -351,3 +340,4 @@ const styles = StyleSheet.create({
         width: '100%'
      }
  });
+console.log('MonacoEditor', 100, __filename);

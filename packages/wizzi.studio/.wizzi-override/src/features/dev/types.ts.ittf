@@ -1,0 +1,16 @@
+module
+    export
+        :type ScanDevFoldersOptions
+            :{
+                :p hasPlugins
+                    :boolean
+                    :optional
+                :p hasPluginContents
+                    :boolean
+                    :optional
+                :p hasMetaPlugins
+                    :boolean
+                    :optional
+                :p hasMetaPluginContents
+                    :boolean
+                    :optional

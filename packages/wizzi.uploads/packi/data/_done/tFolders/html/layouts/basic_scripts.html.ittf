@@ -3,7 +3,7 @@ $group
 	$include v08/env/vars
     
     $if opt.Build.useAce
-		js /static/lib/ace/src-noconflict/ace.js
+		js /public/lib/ace/src-noconflict/ace.js
 
     $if opt.Build.useAxios
         js /static/lib/axios/axios.js

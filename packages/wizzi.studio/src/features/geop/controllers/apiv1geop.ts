@@ -2,12 +2,12 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\geop\controllers\apiv1geop.ts.ittf
-    utc time: Thu, 27 Jul 2023 15:16:13 GMT
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
+import {sendHtml, sendSuccess, sendPromiseResult, sendError, sendFailure} from '../../../utils/sendResponse';
 import {restParamsCheck} from '../../../utils/rest';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';

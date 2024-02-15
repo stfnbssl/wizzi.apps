@@ -1,10 +1,12 @@
 $group
     $params &ctrl
+    $
+        var suffix = ctrl.Production == 'TFolder' || ctrl.Production == 'Job' ? '' : 'Production';
 
     import
         @ wizziTypes
         @ wizziProds
-        @ WizziFactory
+        @ wizziFactory
         from '../../wizzi'
     import
         @ packiTypes
@@ -15,11 +17,11 @@ $group
         from '../utils'
 
     import
-        @ get${ctrl.Production}${ctrl.Production == 'TFolder' ? '' : 'Production'}List
-        @ validate${ctrl.Production}${ctrl.Production == 'TFolder' ? '' : 'Production'}
-        @ get${ctrl.Production}${ctrl.Production == 'TFolder' ? '' : 'Production'}
-        @ get${ctrl.Production}${ctrl.Production == 'TFolder' ? '' : 'Production'}ObjectById
-        @ update${ctrl.Production}${ctrl.Production == 'TFolder' ? '' : 'Production'}
-        @ create${ctrl.Production}${ctrl.Production == 'TFolder' ? '' : 'Production'}
+        @ get${ctrl.Production}${suffix}List
+        @ validate${ctrl.Production}${suffix}
+        @ get${ctrl.Production}${suffix}
+        @ get${ctrl.Production}${suffix}ObjectById
+        @ update${ctrl.Production}${suffix}
+        @ create${ctrl.Production}${suffix}
         @ invalidateCache
         from '../api/${ctrl.production}'

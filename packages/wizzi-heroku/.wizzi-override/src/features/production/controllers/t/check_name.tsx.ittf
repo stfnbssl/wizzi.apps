@@ -3,7 +3,7 @@ $group
 
     $
         var Prod = _.capitalize(prod);
-        var suffix = prod == 'tFolder' ? '' : 'Production';
+        var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
 
     # loog 'getCheck${Prod}Name.request.params', request.params
     _ validate${Prod}${suffix}

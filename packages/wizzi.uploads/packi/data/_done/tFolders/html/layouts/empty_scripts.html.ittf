@@ -43,9 +43,9 @@ $group
     $if opt.useAce
         $if isWizziStudio
             $if opt.production
-                j( /static/lib/ace/src-min-noconflict/ace.js
+                j( /public/lib/ace/src-min-noconflict/ace.js
             $else
-                j( /static/lib/ace/src-noconflict/ace.js
+                j( /public/lib/ace/src-noconflict/ace.js
         $else
             j( https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.2/ace.js
 

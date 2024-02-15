@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\api\production.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:44 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\production.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import {packiTypes} from '../../packi';
 import {wizziProds} from '../../wizzi';
@@ -399,11 +399,12 @@ async function getArtifactContextItem(owner: string, queryContextString: string,
                     )
                 }
                 else {
-                    getArtifactGeneration(owner, artifactName, progressiveContext).then(
-                    // loog 'getArtifactContextItem.getArtifactGeneration.result.content.length', result.content.length
-                    (result: any) => {
+                    console.log('features.packiProductions.production.ctx_get.try.getArtifactGeneration', 'owner', owner, 'artifactName', artifactName, __filename);
+                    getArtifactGeneration(owner, artifactName, progressiveContext).then((result: any) => {
                     
+                        console.log('features.packiProductions.production.ctx_get.getArtifactContextItem.getArtifactGeneration.result.content.length', result.content.length, __filename);
                         const contextObject = JSON.parse(result.content);
+                        console.log('features.packiProductions.production.ctx_get.getArtifactContextItem.getArtifactGeneration.contextPropertyName.contextObject', contextPropertyName, contextObject, __filename);
                         resolve(Object.assign({}, progressiveContext, {
                             [contextPropertyName]: contextObject
                          }))

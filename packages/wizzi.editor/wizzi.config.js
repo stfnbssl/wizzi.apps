@@ -11,11 +11,27 @@ module.exports = {
     wfjobPath: path.join(__dirname, '.wizzi', 'generate.wfjob.ittf'), 
     destPath: path.join(__dirname, 'dist'), 
     plugins: [
-        './wizzi-core/index.js', 
-        './wizzi-js/index.js', 
-        './wizzi-web/index.js'
+        "./wizzi.plugin.css/index.js", 
+        "./wizzi.plugin.docx/index.js", 
+        "./wizzi.plugin.graphql/index.js", 
+        "./wizzi.plugin.html/index.js", 
+        "./wizzi.plugin.ittf/index.js", 
+        "./wizzi.plugin.js/index.js", 
+        "./wizzi.plugin.ts/index.js", 
+        "./wizzi.plugin.json/index.js", 
+        "./wizzi.plugin.md/index.js", 
+        "./wizzi.plugin.pandoc/index.js", 
+        "./wizzi.plugin.pdf/index.js", 
+        "./wizzi.plugin.plain/index.js", 
+        "./wizzi.plugin.ppt/index.js", 
+        "./wizzi.plugin.text/index.js", 
+        "./wizzi.plugin.svg/index.js", 
+        "./wizzi.plugin.wzjob/index.js", 
+        "./wizzi.plugin.wzschema/index.js", 
+        "./wizzi.plugin.xml/index.js", 
+        "./wizzi.plugin.yaml/index.js"
     ], 
-    pluginsBaseFolder: "C:/My/wizzi/stfnbssl/wizzi.v07/packages", 
+    pluginsBaseFolder: "C:/My/wizzi/stfnbssl/wizzi.plugins/packages", 
     schemas: [
         
     ], 

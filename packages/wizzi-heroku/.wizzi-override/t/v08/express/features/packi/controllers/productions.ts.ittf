@@ -15,7 +15,7 @@ $group
             import
                 @ wizziTypes
                 @ wizziProds
-                @ WizziFactory
+                @ wizziFactory
                 from '../../wizzi'
             import
                 @ PackiFiles

@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
+    package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\preferences\withPreferences.tsx.ittf
+    utc time: Mon, 29 Jan 2024 07:09:54 GMT
 */
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import * as React from 'react';

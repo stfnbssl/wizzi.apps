@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
+    package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.pageforms\.wizzi\src\components\App.tsx.ittf
+    utc time: Mon, 12 Feb 2024 08:27:22 GMT
 */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -32,6 +33,10 @@ import ListTFolder from './pageforms/ListTFolder';
 import CreateTFolder from './pageforms/CreateTFolder';
 import UpdateTFolder from './pageforms/UpdateTFolder';
 import DeleteTFolder from './pageforms/DeleteTFolder';
+import ListJob from './pageforms/ListJob';
+import CreateJob from './pageforms/CreateJob';
+import UpdateJob from './pageforms/UpdateJob';
+import DeleteJob from './pageforms/DeleteJob';
 import ThemeDemo from './pageforms/widgets/ThemeDemo';
 import PropertyEditor from './pageforms/PropertyEditor';
 
@@ -132,6 +137,18 @@ export class App extends Component<AppProps, {}> {
         }
         else if (this.props.formName == 'UpdateTFolder') {
             Comp = UpdateTFolder;
+        }
+        else if (this.props.formName == 'ListJob') {
+            Comp = ListJob;
+        }
+        else if (this.props.formName == 'CreateJob') {
+            Comp = CreateJob;
+        }
+        else if (this.props.formName == 'DeleteJob') {
+            Comp = DeleteJob;
+        }
+        else if (this.props.formName == 'UpdateJob') {
+            Comp = UpdateJob;
         }
         else if (this.props.formName == 'ThemeDemo') {
             Comp = () => {

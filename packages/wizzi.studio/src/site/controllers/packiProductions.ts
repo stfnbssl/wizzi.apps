@@ -1,18 +1,18 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\site\controllers\packiProductions.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:45 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\site\controllers\packiProductions.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
 import {ControllerType, AppInitializerType} from '../../features/app/types';
-import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../utils/sendResponse';
+import {sendHtml, sendSuccess, sendPromiseResult, sendError, sendFailure} from '../../utils/sendResponse';
 import {restParamsCheck} from '../../utils/rest';
 import {FcError, SYSTEM_ERROR} from '../../utils/error';
 import {statusCode} from '../../utils';
 import jsesc from 'jsesc';
-import {artifactApi, packageApi, pluginApi, metaApi, tFolderApi} from '../../features/packiProductions';
+import {artifactApi, packageApi, pluginApi, metaApi, tFolderApi, jobApi} from '../../features/packiProductions';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
 
@@ -55,6 +55,7 @@ export class PackiProductionsController implements ControllerType {
         this.router.get("/plugins", makeHandlerAwareOfAsyncErrors(this.plugins))
         this.router.get("/metas", makeHandlerAwareOfAsyncErrors(this.metas))
         this.router.get("/tfolders", makeHandlerAwareOfAsyncErrors(this.tfolders))
+        this.router.get("/jobs", makeHandlerAwareOfAsyncErrors(this.jobs))
     };
     
     private artifacts = async (request: Request, response: Response) => 
@@ -227,6 +228,42 @@ export class PackiProductionsController implements ControllerType {
         ).catch((err: any) => {
         
             console.log("[31m%s[0m", 'tFolders.error', err);
+            var content = err;
+            if (typeof err === 'object' && err !== null) {
+                content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
+            }
+            sendHtml(response, content)
+        }
+        )
+    
+    ;
+    
+    private jobs = async (request: Request, response: Response) => 
+    
+        jobApi.getJobList().then(result => 
+        
+            response.render('packi/productions/jobs.html.ittf', {
+                title: 'job · Wizzi', 
+                jobs: result.item, 
+                __INITIAL_DATA__: `  window.__INITIAL_DATA__ = ${jsesc({
+                    data: {
+                        type: 'success', 
+                        formName: 'ListJob', 
+                        formData: {
+                            jobs: result.item
+                         }
+                     }, 
+                    queryParams: {
+                        
+                     }
+                 }, {
+                    quotes: 'double', 
+                    isScriptContext: true
+                 })}`
+             })
+        ).catch((err: any) => {
+        
+            console.log("[31m%s[0m", 'jobs.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {
                 content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';

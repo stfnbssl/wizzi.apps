@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\index.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:44 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\index.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import {ModelBuilderType, ControllerType} from '../app/types';
 import * as packiProductionsTypes from './types';
@@ -11,6 +11,7 @@ import {PackageProductionModelBuilder, GetPackageProductionModel} from './mongo/
 import {PluginProductionModelBuilder, GetPluginProductionModel} from './mongo/plugin';
 import {MetaProductionModelBuilder, GetMetaProductionModel} from './mongo/meta';
 import {TFolderModelBuilder, GetTFolderModel} from './mongo/tfolder';
+import {JobModelBuilder, GetJobModel} from './mongo/job';
 import {ArtifactProductionController} from './controllers/artifact';
 import {ApiV1ArtifactProductionController} from './controllers/apiv1artifact';
 import {PackageProductionController} from './controllers/package';
@@ -21,12 +22,15 @@ import {MetaProductionController} from './controllers/meta';
 import {ApiV1MetaProductionController} from './controllers/apiv1meta';
 import {TFolderController} from './controllers/tfolder';
 import {ApiV1TFolderController} from './controllers/apiv1tfolder';
+import {JobController} from './controllers/job';
+import {ApiV1JobController} from './controllers/apiv1job';
 import {ApiV1GenerationsController} from './controllers/apiv1generations';
 import * as artifactApi from './api/artifact';
 import * as packageApi from './api/package';
 import * as pluginApi from './api/plugin';
 import * as metaApi from './api/meta';
 import * as tFolderApi from './api/tfolder';
+import * as jobApi from './api/job';
 import * as productionApi from './api/production';
 
 const packiProductionsModelGetters = {
@@ -34,7 +38,8 @@ const packiProductionsModelGetters = {
     GetPackageProductionModel, 
     GetPluginProductionModel, 
     GetMetaProductionModel, 
-    GetTFolderModel
+    GetTFolderModel, 
+    GetJobModel
  };
 
 const packiProductionsModelBuilders: ModelBuilderType[] = [
@@ -42,7 +47,8 @@ const packiProductionsModelBuilders: ModelBuilderType[] = [
     PackageProductionModelBuilder, 
     PluginProductionModelBuilder, 
     MetaProductionModelBuilder, 
-    TFolderModelBuilder
+    TFolderModelBuilder, 
+    JobModelBuilder
 ];
 
 const packiProductionsControllers: ControllerType[] = [
@@ -56,6 +62,8 @@ const packiProductionsControllers: ControllerType[] = [
     new ApiV1MetaProductionController(), 
     new TFolderController(), 
     new ApiV1TFolderController(), 
+    new JobController(), 
+    new ApiV1JobController(), 
     new ApiV1GenerationsController()
 ];
-export {packiProductionsTypes, packiProductionsModelGetters, packiProductionsModelBuilders, packiProductionsControllers, artifactApi, packageApi, pluginApi, metaApi, tFolderApi, productionApi};
+export {packiProductionsTypes, packiProductionsModelGetters, packiProductionsModelBuilders, packiProductionsControllers, artifactApi, packageApi, pluginApi, metaApi, tFolderApi, jobApi, productionApi};

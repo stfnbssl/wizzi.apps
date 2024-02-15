@@ -6,3 +6,9 @@ md
     p Is served from the \b
         a wizzi.backend
         + server app.
+
+    p To patch error:0308010C:digital envelope routines::unsupported
+    p do this:
+    p set NODE_OPTIONS=--openssl-legacy-provider 
+    p or this:
+    p $env:NODE_OPTIONS="--openssl-legacy-provider"

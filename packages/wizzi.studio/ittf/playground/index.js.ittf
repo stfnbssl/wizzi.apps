@@ -17,7 +17,7 @@ module
 	$include js/dataManager
 	$include js/treeManager
 
-	let glEventHub = new EventEmitter3()
+	let glEventHub = new EventEmitter()
 	set window.glEventHub = glEventHub
 	$$ TODO set window.path = wz.utils.path
 

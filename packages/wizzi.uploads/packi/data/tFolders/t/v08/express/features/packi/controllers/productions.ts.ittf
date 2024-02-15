@@ -15,7 +15,7 @@ $group
             import
                 @ wizziTypes
                 @ wizziProds
-                @ WizziFactory
+                @ wizziFactory
                 from '../../wizzi'
             import
                 @ PackiFiles
@@ -113,7 +113,7 @@ $group
                         param fsJson
                         const files
                             await
-                                _ WizziFactory.extractGeneratedFiles(fsJson)
+                                _ wizziFactory.extractGeneratedFiles(fsJson)
                         _ sendSuccess
                             @ response
                             {

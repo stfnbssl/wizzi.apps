@@ -1,0 +1,142 @@
+module
+    
+    $
+        var md = {
+            styled: true,
+            name: "UpdateJobProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "job_id", type: "string" },
+                { name: "job_owner", type: "string" },
+                { name: "job_name_old", type: "string" },
+                { name: "job_name_new", type: "string" },
+                { name: "job_description", type: "string" },
+                { name: "job_add_context", type: "boolean" },
+                { name: "job_contexts", type: "[" },
+                { name: "job_add_job", type: "boolean" },
+                { name: "job_dependencies", type: "[" },
+                { name: "job_name_new_available", type: "boolean" },
+                { name: "job_name_new_checked", type: "boolean" },
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        check_name( job, job_name_new )
+        +
+        $include handle_input_change
+        +
+        => handleJobNameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            log 'handleJobNameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ job_name_new ev.target.value
+                =>
+                    if ev.target.value !== this.state.job_name_old
+                        _ this._checkAvalibleJobName
+        +
+        handle_submit( Update, job )
+        
+        m componentDidMount
+            log 'UpdateJobProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ _id
+                    @ owner
+                    @ name
+                    @ description
+                    @ contexts
+                    @ dependencies
+                = this.props.data
+            
+            const job_contexts = contexts || []
+            const job_dependencies = dependencies || []
+            
+            _ this.setState
+                {
+                    @ job_id _id
+                    @ job_owner owner
+                    @ job_name_old name
+                    @ job_name_new name
+                    @ job_name_new_available true
+                    @ job_description description
+                    @ job_add_context job_contexts.length > 0
+                    @ job_contexts
+                    @ job_add_tfolder job_dependencies.length > 0
+                    @ job_dependencies 
+
+        +
+        m render
+            log 'UpdatePacki.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Update job'
+                        @ subtitle 'A Job defines a folder template for generating 
+                            \b the tasks that execute a Wizzi production.'
+                    < HR
+                    form
+                        action /job/update
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormHidden
+                            @ name 'job_id'
+                            @ id 'job_id'
+                            @ value {this.state.job_id}
+                        < FormHidden
+                            @ name 'job_owner'
+                            @ id 'job_owner'
+                            @ value {this.state.job_owner}
+                        < FormHidden
+                            @ name 'job_name_old'
+                            @ id 'job_name_old'
+                            @ value {this.state.job_name_old}
+                        < FormGroup
+                            @ label 'Job name'
+                            @ name 'job_name_new'
+                            @ id 'job_name_new'
+                            @ required {true}
+                            @ value {this.state.job_name_new}
+                            @ onChange {this.handleJobNameChange}
+                        {
+                            &&
+                                + this.state.job_name_new.length > 0 &&
+                                    \b this.state.job_name_old !== this.state.job_name_new &&
+                                    \b this.state.job_name_new_available
+                                < Para
+                                    + {'Job name ' + this.state.job_name_new_checked + ' is available'}
+                        {
+                            &&
+                                + this.state.job_name_new.length > 0 &&
+                                    \b this.state.job_name_old !== this.state.job_name_new &&
+                                    \b !this.state.job_name_new_available
+                                < Para
+                                    @ color '#ff0000'
+                                    + {'Job name ' + this.state.job_name_new_checked + ' is not available'}
+                        < HR
+                        < FormGroup
+                            @ label 'Description'
+                            @ name 'job_description'
+                            @ id 'job_description'
+                            @ required {true}
+                            @ value {this.state.job_description}
+                            @ onChange {this.handleInputChange}
+                        
+                        form_buttons(Update, job)

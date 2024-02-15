@@ -15,7 +15,8 @@ $group
     $if opt.useBootstrap
         html/j( /public/lib/bootstrap/dist/js/bootstrap.min.js
     $if opt.useEventEmitter
-        html/j( https://unpkg.com/eventemitter3@latest/umd/eventemitter3.min.js
+        $$ html/j( https://unpkg.com/eventemitter3@latest/umd/eventemitter3.min.js
+        html/j( https://cdn.jsdelivr.net/npm/eventemitter3@5.0.1/index.min.js
     $if opt.useCodemirror
         html/j( /public/lib/codemirror/lib/codemirror.js
         html/j( /public/lib/codemirror/mode/javascript/javascript.js
@@ -140,11 +141,13 @@ $group
             html/j( /public/lib/underscore/underscore.js
     $if opt.useVue
         html/j( https://unpkg.com/vue
+    $* 29/1/24
     $if opt.useWizzi
         $if opt.isWizziStudio
             html/j( /public/wizzi-play/scripts/wizzi.standalone.js
         $else
             html/j( /scripts/wizzi.standalone.js
+    *$
     $if opt.useMathJax
         script
             #

@@ -8,6 +8,7 @@ $group
         if (prefix == 'pl') { prods = 'plugins'; }
         if (prefix == 'mp') { prods = 'metas'; }
         if (prefix == 'tf') { prods = 'tfolders'; }
+        if (prefix == 'job') { prods = 'job'; }
         if (kind == 'Update') { name = 'name_new'; }
 
     => handleSubmit${kind}

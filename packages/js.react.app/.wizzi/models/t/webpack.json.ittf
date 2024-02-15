@@ -1,0 +1,46 @@
+$group
+    useWebpack true
+    { webpack
+        [ entries
+        useCss true
+        { css
+        useStyleLoader true
+        { styles
+        useImages true
+        { images
+        useFonts true
+        { fonts
+        useYaml true
+        { yaml
+        useHtml true
+        { html
+            title "js.react.app"
+            template "./index.html"
+            filename "index.html"
+        useMinimizer false
+        useWorker false
+        useStatsWriter false
+        useIgnore false
+        useCodeSplitting false
+        useOutput true
+        { output
+            filename "main.js"
+            path "path.resolve(__dirname, 'dist')"
+        useEnv false
+        { env
+            [ items
+                {
+                    name "NODE_ENV"
+                    value "env('NODE_ENV')"
+                {
+                    name "API_SERVER_URL"
+                    value "env('API_SERVER_URL')"
+                {
+                    name "BUILD_TIMESTAMP"
+                    value "Date.now()"
+        useNodePolifills false
+        { nodePolifills
+            useBuffer false
+        useDevServer true
+        { devServer
+            static "__dirname"

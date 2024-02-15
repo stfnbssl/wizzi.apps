@@ -86,10 +86,10 @@ module
                 => 
                     param result
                         :any
-                    $$ log myname + '.getCdnResource.result', result
+                    $$ log myname + '.getWizziCdnResource.result', result
                     if result.ok
                         const item = result.item
-                        log myname + '.getCdnResource.contents.length:', item.contents.length
+                        log myname + '.getWizziCdnResource.contents.length:', item.contents.length
                         _ response.status(200)
                         _ response.set('Content-Type', getContentType(cdnName))
                         _ response.set('Content-Length', item.contents.length)
@@ -101,7 +101,7 @@ module
                         _ response.send(item.contents)
                     else
                         _ next
-            v08/ts/catch_fail_html(' + myname + '_renderCdn.resourceApi.getCdnResource )
+            v08/ts/catch_fail_html(' + myname + '_renderCdn.resourceApi.getWizziCdnResource )
 
     function getContentType
         param name

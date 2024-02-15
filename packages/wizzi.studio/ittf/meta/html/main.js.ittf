@@ -23,7 +23,7 @@
 			var ctx
 				{
 					@ editorImpl editorImpl
-					@ editSaveUrl '/api/v1/ittf/fs'
+					@ editSaveUrl '/api/v1/wizzifs/ittf'
 					@ editSaveHttpMethod 'put'
 					@ modalsContainerId 'modalsContainer'
 			

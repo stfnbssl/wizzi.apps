@@ -1,15 +1,15 @@
 {
     $include v08/env/vars
     
-    name "ts.express.starter"
+    name "wizzi.studio"
     version "0.0.1"
-    description "Typescript express starter"
+    description "Wizzi studio express backend"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     
     { App
-        name "ts.express.starter"
+        name "wizzi.studio"
         title ""
         isLocal true
         isProduction false
@@ -31,6 +31,10 @@
         [ features
             {
                 name "packi"
+                hasControllers true
+                useMongoDb false
+            {
+                name "packiStudioFolderEdit"
                 hasControllers true
                 useMongoDb false
             {
@@ -62,12 +66,37 @@
                 fileName "wizzi-meta"
                 hasControllers true
                 useMongoDb false
+            {
+                name "wizziCdn"
+                fileName "wizzi-cdn"
+                hasControllers true
+                useMongoDb true
+            {
+                name "philos"
+                hasControllers true
+            {
+                name "geop"
+                hasControllers true
+            {
+                name "wizziTable"
+                hasControllers true
+                useMongoDb true
+            {
+                name "wizziAction"
+                hasControllers true
+                useMongoDb true
+            {
+                name "dev"
+                hasControllers true
+                useMongoDb false
         [ examples
         useWizziFs true
         { wizziFs
         $include code.json
         
         $include tsExpress.json
+        
+        $include tsExpressFeatureAuth.json
         
         $include tsExpressFeatureConfig.json
         
@@ -83,6 +112,10 @@
         
         $include tsdbmongodb.json
         
+        usePackiBrowse true
+        { packiBrowse
+        useWizziCdn true
+        { wizziCdn
         { utils
             useAxios true
             useStringifySafe true

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\middlewares\wizziCdn.ts.ittf
-    utc time: Thu, 27 Jul 2023 15:16:13 GMT
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -51,7 +51,7 @@ function _renderCdn(owner: string, cdnName: string, request: Request, response: 
     
         if (result.ok) {
             const item = result.item;
-            console.log(myname + '.getCdnResource.contents.length:', item.contents.length, __filename);
+            console.log(myname + '.getWizziCdnResource.contents.length:', item.contents.length, __filename);
             response.status(200);
             response.set('Content-Type', getContentType(cdnName));
             response.set('Content-Length', item.contents.length);
@@ -63,7 +63,7 @@ function _renderCdn(owner: string, cdnName: string, request: Request, response: 
     }
     ).catch((err: any) => {
     
-        console.log("[31m%s[0m", '' + myname + '_renderCdn.resourceApi.getCdnResource.error', err);
+        console.log("[31m%s[0m", '' + myname + '_renderCdn.resourceApi.getWizziCdnResource.error', err);
         var content = err;
         if (typeof err === 'object' && err !== null) {
             content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';

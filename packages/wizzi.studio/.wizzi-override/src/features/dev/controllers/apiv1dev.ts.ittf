@@ -1,0 +1,28 @@
+module
+    $
+        var ctrl = {
+            name: 'ApiV1Dev',
+            path: '/api/v1/dev',
+        }
+    v08/ts/controller(&ctrl)
+        $append imports
+            import
+                @ scanDevFolders
+                from '../api/index'
+            +
+            const myname = 'features/dev/controllers/apiv1dev'
+        _ this.router.get('/scan', this.getDevScan)
+        $append handlers
+            v08/ts/handler(getDevScan)
+                _ scanDevFolders
+                    {
+                        @ hasPlugins true
+                        @ hasMetaPlugins true
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail( ApiV1Dev.getDevScan )

@@ -1,13 +1,13 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\wizziFs\controllers\apiv1wizzifs.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:44 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziFs\controllers\apiv1wizzifs.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
+import {sendHtml, sendSuccess, sendPromiseResult, sendError, sendFailure} from '../../../utils/sendResponse';
 import {restParamsCheck} from '../../../utils/rest';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
@@ -59,7 +59,7 @@ export class ApiV1WizziFsController implements ControllerType {
     
         var __check = restParamsCheck(request);
         var hash = __check.notEmpty('query', 'hash');
-        if (__check.hasErrors) {
+        if (__check.hasErrors()) {
             return __check.sendErrors(response);
         }
         getIttfDocument(hash).then((result: any) => 
@@ -83,7 +83,7 @@ export class ApiV1WizziFsController implements ControllerType {
         var hash = __check.notEmpty('body', 'hash');
         var content = __check.notEmpty('body', 'content');
         var prettify = __check.optional('body', 'prettify');
-        if (__check.hasErrors) {
+        if (__check.hasErrors()) {
             return __check.sendErrors(response);
         }
         putIttfDocument(hash, content, prettify).then((result: any) => 

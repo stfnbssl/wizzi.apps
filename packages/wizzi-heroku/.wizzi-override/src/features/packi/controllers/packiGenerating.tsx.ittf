@@ -15,7 +15,7 @@ module
             import
                 @ wizziTypes
                 @ wizziProds
-                @ WizziFactory
+                @ wizziFactory
                 from '../../wizzi'
             import
                 @ packageApi
@@ -81,7 +81,7 @@ module
                                     =>
                                         param fsJson
                                             :any
-                                        _ WizziFactory.extractGeneratedFiles
+                                        _ wizziFactory.extractGeneratedFiles
                                             @ fsJson
                                             ._ then
                                                 =>
@@ -147,7 +147,7 @@ module
                                     =>
                                         param fsJson
                                             :any
-                                        _ WizziFactory.extractGeneratedFiles
+                                        _ wizziFactory.extractGeneratedFiles
                                             @ fsJson
                                             ._ then
                                                 =>

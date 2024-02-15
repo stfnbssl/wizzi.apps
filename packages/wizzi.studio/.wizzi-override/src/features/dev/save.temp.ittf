@@ -1,0 +1,115 @@
+html
+  
+  $global
+    var locals = {
+      user: {}
+    }
+  
+  $
+    var opt = {
+      useReact: true,
+      react: {},
+      useAxios: true,
+    }
+    //
+
+  html/layouts/site(&opt)
+    # root
+
+    $append body-scripts
+      js /~/stfnbssl/wizziway.js?savecount=1&filepath=react.js.ittf
+      script
+        type text/babel
+        module
+          kind react
+          const useState = React.useState
+          const useEffect = React.useEffect
+          log 'useState', useState
+          log 'useEffect', useEffect
+          $$ $include js/wizziapis.js
+          $$ $include js/useFetchGet.js
+          function MetaProduction
+              param params
+              return
+                div 
+                  @ key {params.key}
+                  p {params.item.name}
+          function Artifact
+              param params
+              return
+                div 
+                  @ key {params.key}
+                  p {params.item.name}
+          function Meta
+              param params
+              return
+                div 
+                  @ key {params.key}
+                  h3 Meta {params.item.name}
+                  p full path {params.item.fullPath}
+                  h4 Productions
+                        _ params.item.metaProductions
+                          =>
+                            param item
+                            param ndx
+                            div
+                              @ key {ndx}
+                              < MetaProduction
+                                @ item {item}
+          function Plugin
+              param params
+              return
+                div 
+                  @ key {params.key}
+                  h3 Plugin {params.item.name}
+                  p full path {params.item.fullPath}
+                  h4 Artifacts
+                        _ params.item.artifacts
+                          =>
+                            param item
+                            param ndx
+                            div
+                              @ key {ndx}
+                              < Artifact
+                                @ item {item}
+          function App
+              const 
+                  { 
+                      @ data
+                      @ isLoading
+                      @ reloadData
+                  =
+                      _ react.Effect.setLoadData
+                          {
+                              @ action api.Wizzi.getDevScan
+                              @ initialState []
+                              @ skip false
+              log 'data', data
+              return 
+                  div
+                    @ style
+                      {
+                        @ margin '30px'
+                    h1 
+                      + Hello
+                    iif isLoading == false && data 
+                      then
+                        _ data.wizziPackages.map
+                          =>
+                            param item
+                            param ndx
+                            iif item.isPlugin
+                              then
+                                < Plugin
+                                  @ key {ndx}
+                                  @ item {item}
+                              else
+                                < Meta
+                                  @ key {ndx}
+                                  @ item {item}
+                      else
+                        p 
+                          + Loading ...
+          _ ReactDOM.render
+              < Demo 
+              _ document.getElementById('root')        

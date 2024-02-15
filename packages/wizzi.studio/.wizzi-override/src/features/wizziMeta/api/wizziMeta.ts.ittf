@@ -1,0 +1,143 @@
+module
+    import path from 'path'
+    import
+        @ verify
+        @ fSystem
+        from 'wizzi-utils'
+    import
+        @ WizziMetaRequest
+        from '../types'
+    import
+        @ wizziProds
+        @ wizziFactory
+        from '../../wizzi'
+    import
+        @ packiTypes
+        from '../../packi'
+    const file = fSystem.vfile()
+    +
+    export
+        async-function getMetaParameters
+            param options
+                :ref WizziMetaRequest
+            const jsonwf
+                await
+                    _ wizziFactory.createJsonFsAndFactory
+                        {        $$ :ref packiTypes.PackiFiles
+                        @ null   $$ factoryPlugins
+                        @ null   $$ metaPlugins
+                        {        $$ globalContext
+            r_promise()
+                log 'wizziMeta.getMetaParameters.options', options
+                const mpOptions = {} as any;
+                if options.metaProductions
+                    set mpOptions.metaCtx = {}
+                    foreach prod in options.metaProductions
+                        const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1)
+                        set mpOptions.metaCtx[useProductionVar] = true
+                _ jsonwf.wf.getMetaParameters
+                    @ mpOptions
+                    =>
+                        param err
+                        param metaParameters
+                        if err
+                            r_reject( err )
+                        r_resolve( metaParameters )
+    +
+    export
+        async-function getProvidedMetas
+            param options
+                :ref WizziMetaRequest
+            const jsonwf
+                await
+                    _ wizziFactory.createJsonFsAndFactory
+                        {        $$ :ref packiTypes.PackiFiles
+                        @ null   $$ factoryPlugins
+                        @ null   $$ metaPlugins
+                        {        $$ globalContext
+            r_promise()
+                log 'wizziMeta.getMetaProvides.options', options
+                _ jsonwf.wf.getProvidedMetas
+                    =>
+                        param err
+                        param providedMetas
+                        if err
+                            r_reject( err )
+                        r_resolve( providedMetas )
+    +
+    export
+        async-function executeMetaProduction
+            param options
+                :ref WizziMetaRequest
+            r_promise()
+                log 'wizziMeta.executeMetaProduction.options', options
+                _ createMetaCtx
+                    @ options
+                    a_then( metaCtx )
+                        log 'wizziMeta.createWizziPackage.metaCtx', metaCtx
+                        var pluginsBaseFolder = 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages'
+                        var metaPluginsBaseFolder = 'C:/My/wizzi/stfnbssl/wizzi.metas/packages'
+                        var globalContext = {}
+                        _ wizziProds.metaGenerate
+                            @ metaCtx
+                            {
+                                [ items
+                                    @ './wizzi.plugin.ittf/index'
+                                    @ './wizzi.plugin.json/index'
+                                @ pluginsBaseFolder pluginsBaseFolder
+                            {
+                                [ items
+                                    @ './wizzi.meta.cloud/index'
+                                    @ './wizzi.meta.commons/index'
+                                    @ './wizzi.meta.docs/index'
+                                    @ './wizzi.meta.js/index'
+                                    @ './wizzi.meta.ts/index'
+                                    @ './wizzi.meta.ts.express/index'
+                                    @ './wizzi.meta.ts.db/index'
+                                    @ './wizzi.meta.web/index'
+                                    @ './wizzi.meta.wizzi/index'
+                                @ metaPluginsBaseFolder metaPluginsBaseFolder
+                            @ globalContext
+                            a_then( packiFiles )
+                                return
+                                    _ persistPackageFiles
+                                        @ packiFiles
+                                        @ options
+                            catch_reject( wizziMeta.executeMetaProduction.persistPackageFiles )
+                    catch_reject( wizziMeta.executeMetaProduction.createMetaCtx )
+    async-function createMetaCtx
+        param options
+            :ref WizziMetaRequest
+        r_promise()
+            if options.metaCtx
+                r_resolve()
+                    @ options.metaCtx
+            if verify.isEmpty(options.metaCtxFilepath)
+                r_reject()
+                    @ 'wizziMeta.createMetaCtx. Missing both metaCtx and metaCtxFilepath: ' + options.metaCtxFilepath
+            log 'createMetaCtx.options.metaCtxFilepath', options.metaCtxFilepath
+            _ wizziProds.loadModelFs
+                @ options.metaCtxFilepath
+                {
+                    { metaCtx
+                        @ pkgName options.outputPackageName
+                        @ description options.description || options.outputPackageName
+                a_then( metaCtx )
+                    r_resolve()
+                        @ metaCtx
+                catch_reject( wizziMeta.createMetaCtx )
+    async-function persistPackageFiles
+        param packiFiles
+            :ref packiTypes.PackiFiles
+        param options
+            :ref WizziMetaRequest
+        r_promise()
+            if options.persist
+                if options.persist.type == 'filesystem'
+                    # TODO
+                    r_resolve( packiFiles )
+                else
+                    r_reject()
+                        @ 'wizziMeta.persistPackageFiles. Unknown persist type: ' + options.persist.type
+            else
+                r_resolve( packiFiles )

@@ -1,17 +1,63 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\wizziMeta\api\wizziMeta.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:44 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziMeta\api\wizziMeta.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import path from 'path';
 import {verify, fSystem} from 'wizzi-utils';
 import {WizziMetaRequest} from '../types';
-import {wizziProds} from '../../wizzi';
+import {wizziProds, wizziFactory} from '../../wizzi';
 import {packiTypes} from '../../packi';
 const file = fSystem.vfile();
 
-async function executeMetaProduction(options: WizziMetaRequest) {
+export async function getMetaParameters(options: WizziMetaRequest) {
+
+    const jsonwf = await wizziFactory.createJsonFsAndFactory({}, null, null, {});
+    return new Promise((resolve, reject) => {
+        
+            console.log('wizziMeta.getMetaParameters.options', options, __filename);
+            const mpOptions = {} as any;
+            if (options.metaProductions) {
+                mpOptions.metaCtx = {};
+                var i, i_items=options.metaProductions, i_len=options.metaProductions.length, prod;
+                for (i=0; i<i_len; i++) {
+                    prod = options.metaProductions[i];
+                    const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1);
+                    mpOptions.metaCtx[useProductionVar] = true;
+                }
+            }
+            jsonwf.wf.getMetaParameters(mpOptions, (err, metaParameters) => {
+            
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(metaParameters);
+            }
+            )
+        }
+        );
+}
+
+export async function getProvidedMetas(options: WizziMetaRequest) {
+
+    const jsonwf = await wizziFactory.createJsonFsAndFactory({}, null, null, {});
+    return new Promise((resolve, reject) => {
+        
+            console.log('wizziMeta.getMetaProvides.options', options, __filename);
+            jsonwf.wf.getProvidedMetas((err, providedMetas) => {
+            
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(providedMetas);
+            }
+            )
+        }
+        );
+}
+
+export async function executeMetaProduction(options: WizziMetaRequest) {
 
     return new Promise((resolve, reject) => {
         
@@ -116,5 +162,3 @@ async function persistPackageFiles(packiFiles: packiTypes.PackiFiles, options: W
         }
         );
 }
-
-export {executeMetaProduction};

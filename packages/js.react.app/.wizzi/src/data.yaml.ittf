@@ -1,0 +1,6 @@
+yaml
+    : name Build and Deploy node Express app to azure
+    : on
+        : push
+            : branches
+                - master

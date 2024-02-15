@@ -58,7 +58,7 @@ html
                         
                             . sh-bo-co-ge-ittf
                                 . sh-bo-co-title
-                                    + Ittf
+                                    + Ittf for Fede
                                 # gen-ittf-editor
 
                             . sh-bo-co-ge-result

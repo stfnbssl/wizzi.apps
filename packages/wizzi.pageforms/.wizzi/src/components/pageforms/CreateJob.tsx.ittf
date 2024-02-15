@@ -1,0 +1,157 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "CreateJob",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "job_name", type: "string" },
+                { name: "job_name_available", type: "boolean" },
+                { name: "job_name_checked", type: "string" },
+                { name: "job_description", type: "string" },
+                { name: "job_schema", type: "string" },
+                { name: "job_type", type: "string" },
+                { name: "job_add_context", type: "boolean" },
+                { name: "job_contexts", type: "[" },
+                { name: "job_add_job", type: "boolean" },
+                { name: "job_dependencies", type: "[" },
+                { name: "job_upload_files", type: "[" },
+            ]
+        }
+
+    v08/ts/react/component(&md)
+        $append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports( top )
+        
+        $append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        p formRef 
+            = React.createRef()
+        +
+        check_name_create( job, job  )
+        $*
+        m _checkAvalibleJobName
+            async
+            const job_checked = this.state.job_name
+            const endpoint
+                `lit
+                    _ nullthrows(process.env.API_SERVER_URL)
+                    + /production/job/checkname/
+                    @ job_checked
+            log 'CreateJob._checkAvalibleJobName.endpoint', endpoint
+            const response
+                await 
+                    _ fetch(endpoint)
+            if !response.ok
+                throw 
+                    new Error
+                        `lit 
+                            + checkAvalibleJobName error
+                            + &nbsp;-&nbsp;
+                            @ response.status
+                            + &nbsp;-&nbsp;
+                            @ response.statusText
+            const result
+                await 
+                    _ response.json()
+            log 'CreateJob._checkAvalibleJobName.result', result
+            _ this.setState
+                {
+                    @ job_name_available result.isValid
+                    @ job_name_checked job_checked
+        *$
+        
+        m componentDidMount
+
+            set this._checkAvalibleJobName
+                _ debounce
+                    @ this._checkAvalibleJobName
+                    @ 100
+
+        +
+        m componentDidMount
+        +
+        
+        $include handle_input_change
+        
+        add_context_handlers( job )
+        add_tfolder_handlers( job )
+
+        +
+        => handleJobNameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            log 'handleJobNameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ job_name ev.target.value
+            _ this._checkAvalibleJobName
+        +
+        handle_submit( Create, job )
+        +       
+        => handleJobUploadChange
+            param files
+            log 'CreateJob.handleJobUploadChange', files
+            const uploadfiles = []
+            foreach file in files
+                if file.webkitRelativePath.endsWith('.ittf')
+                    _ uploadfiles.push
+                        {
+                            @ relPath file.webkitRelativePath
+                            @ file file
+            _ this.setState
+                { 
+                    @ job_upload_files uploadfiles
+
+        +
+        m render
+            log 'CreatePacki.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Create a new job'
+                        @ subtitle 'A Job defines a folder template for generating 
+                            \b the tasks that execute a Wizzi production.'
+                    < HR
+                    form
+                        action /job/new
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormGroup
+                            @ label 'Job name'
+                            @ name 'job_name'
+                            @ id 'job_name'
+                            @ required {true}
+                            @ value {this.state.job_name}
+                            @ onChange {this.handleJobNameChange}
+                        < HR
+                        < FormGroup
+                            @ label 'Description'
+                            @ name 'job_description'
+                            @ id 'job_description'
+                            @ required {true}
+                            @ value {this.state.job_description}
+                            @ onChange {this.handleInputChange}
+                        < HR
+                        
+                        add_context_render( job )
+                        add_tfolder_render( job )
+                        
+                        < FormFile
+                            @ label 'Upload fragments'
+                            @ name 'job_upload'
+                            @ id 'job_upload'
+                            @ value {this.state.job_upload_files}
+                            @ onChange {this.handleJobUploadChange}
+                        
+                        form_buttons(Create, job)

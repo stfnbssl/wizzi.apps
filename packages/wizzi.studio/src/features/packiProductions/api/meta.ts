@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\api\meta.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:44 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\meta.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '../../types';
@@ -459,66 +459,6 @@ async function deleteMetaProduction(id?: string, owner?: string, name?: string):
             }
             )
         }
-        );
-}
-
-export async function getMetaProductionObject_stop(owner: string, name: string) {
-
-    return new Promise((resolve, reject) => 
-        
-            getMetaProduction(owner, name).then((result) => {
-            
-                if (!result.ok) {
-                    return reject(result);
-                }
-                const tf: IMetaProductionModel = result.item;
-                const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
-                const obj = {
-                    ...tf._doc, 
-                    packiFiles: tf_packiFiles_object, 
-                    _id: tf._id.toString()
-                 };
-                return resolve(obj);
-            }
-            ).catch((err: any) => {
-            
-                if (typeof err === 'object' && err !== null) {
-                }
-                console.log("[31m%s[0m", 'getMetaProductionObject.getMetaProduction.error', err);
-                return reject(err);
-            }
-            )
-        
-        );
-}
-
-export async function getMetaProductionObjectById_stop(id: string) {
-
-    return new Promise((resolve, reject) => 
-        
-            getMetaProductionById(id).then((result) => {
-            
-                if (!result.ok) {
-                    return reject(result);
-                }
-                const tf: IMetaProductionModel = result.item;
-                const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
-                const obj = {
-                    ...tf._doc, 
-                    packiFiles: tf_packiFiles_object, 
-                    _id: tf._id.toString()
-                 };
-                return resolve(obj);
-            }
-            ).catch((err: any) => {
-            
-                if (typeof err === 'object' && err !== null) {
-                }
-                console.log("[31m%s[0m", 'getMetaProductionObjectById.getMetaProductionById.error', err);
-                return reject(err);
-            }
-            )
-        
         );
 }
 

@@ -1,0 +1,72 @@
+$group
+    $if wzCtx.Build.useWizziJsonFactory
+        +
+        export
+            async-function metaExecute
+                param metaCtx
+                    :any
+                param tempFolder
+                    :string
+                    :optional
+                param wizziFolder
+                    :string
+                    :optional
+                param globalContext
+                    :{
+                        :index
+                            :any
+                            param k
+                                :string
+                    :optional
+                param metaProductions
+                    :[
+                        :ref packiTypes.PackiFiles
+                    :optional
+                :return
+                    :ref Promise
+                        :param
+                            :ref packiTypes.PackiFiles
+                set tempFolder = tempFolder || "___template"
+                set wizziFolder = wizziFolder || ".wizzi"
+                set globalContext = globalContext || {}
+                set metaProductions = metaProductions || []
+                return
+                    new Promise
+                        async=>
+                            param resolve
+                            param reject
+                            log myname, 'metaGenerate.metaCtx', Object.keys(metaCtx)
+                            let jsonwf
+                                :any
+                                =
+                                    {
+                            try
+                                set jsonwf =
+                                    await
+                                        _ createJsonFsAndFactory
+                                            {
+                                            $* VIA is the default 
+                                            { plugins
+                                                [ items
+                                                    $foreach item in wzCtx.Build.wizzi.plugins
+                                                        @ '${item}'
+                                                @ pluginsBaseFolder "${wzCtx.Build.wizzi.pluginsBaseFolder}"
+                                            { metaPlugins
+                                                [ items
+                                                    $foreach item in wzCtx.Build.wizzi.metaPlugins
+                                                        @ '${item}'
+                                                @ metaPluginsBaseFolder "${wzCtx.Build.wizzi.metaPluginsBaseFolder}"
+                                            *$
+                                _ jsonwf.wf.metaExecute
+                                    {
+                                        @ metaCtx metaCtx
+                                        { paths
+                                            @ metaProductionTempFolder tempFolder
+                                            @ metaProductionWizziFolder wizziFolder
+                                        @ globalContext
+                                        @ metaProductions
+                                    a_reject(wizziPackiFiles, :ref, packiTypes.PackiFiles)
+                                        _ resolve
+                                            @ wizziPackiFiles
+                            catch ex
+                                return reject(ex)

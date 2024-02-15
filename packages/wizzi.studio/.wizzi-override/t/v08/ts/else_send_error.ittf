@@ -1,0 +1,7 @@
+$group
+    $params method, err
+    else
+        error '${method}.error', ${err}
+        _ sendError
+            @ response
+            @ ${err}

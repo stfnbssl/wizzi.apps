@@ -8,6 +8,7 @@ $group
             : prod == 'meta' ? 'mp' 
             : prod == 'package' ? 'pp' 
             : prod == 'plugin' ? 'pl' 
+            : prod == 'job' ? 'job' 
             : 'ap';
 
     m _checkAvalible${Prod}Name

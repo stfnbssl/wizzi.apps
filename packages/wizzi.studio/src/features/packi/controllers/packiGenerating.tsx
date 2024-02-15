@@ -1,18 +1,18 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packi\controllers\packiGenerating.tsx.ittf
-    utc time: Mon, 24 Jul 2023 09:37:47 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packi\controllers\packiGenerating.tsx.ittf
+    utc time: Thu, 15 Feb 2024 20:31:56 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
+import {sendHtml, sendSuccess, sendPromiseResult, sendError, sendFailure} from '../../../utils/sendResponse';
 import {restParamsCheck} from '../../../utils/rest';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
 import ReactDOMServer from 'react-dom/server';
-import {wizziTypes, wizziProds, WizziFactory} from '../../wizzi';
+import {wizziTypes, wizziProds, wizziFactory} from '../../wizzi';
 import {packageApi, metaApi, pluginApi, productionApi} from '../../packiProductions';
 import EditorDocument from '../../../pages/EditorDocument';
 const myname = 'features/packi/controller/packiGenerating';
@@ -80,7 +80,7 @@ export class PackiGeneratingController implements ControllerType {
         
             wizziProds.executeJobs(packageProductionSet.packiFiles, packageProductionSet.context).then((fsJson: any) => {
             
-                WizziFactory.extractGeneratedFiles(fsJson).then((packiFiles) => {
+                wizziFactory.extractGeneratedFiles(fsJson).then((packiFiles) => {
                 
                     const user = (request.session as any).user;
                     const loggedUser = {
@@ -151,7 +151,7 @@ export class PackiGeneratingController implements ControllerType {
         
             wizziProds.executeJobs(packageProductionSet.packiFiles, packageProductionSet.context).then((fsJson: any) => {
             
-                WizziFactory.extractGeneratedFiles(fsJson).then((packiFiles) => {
+                wizziFactory.extractGeneratedFiles(fsJson).then((packiFiles) => {
                 
                     const user = (request.session as any).user;
                     const loggedUser = {

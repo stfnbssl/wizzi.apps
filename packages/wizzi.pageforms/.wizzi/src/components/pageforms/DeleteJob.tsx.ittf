@@ -1,0 +1,77 @@
+module
+    $
+        var md = {
+            styled: true,
+            name: "DeleteJobProduction",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "job_id", type: "string" },
+                { name: "job_owner", type: "string" },
+                { name: "job_name", type: "string" },
+                { name: "job_description", type: "string" },
+            ]
+        }
+        
+    v08/ts/react/component(&md)
+
+        $append imports
+            common_imports( top )
+        +
+        p formRef 
+            = React.createRef()
+        +
+        m componentDidMount
+            log 'DeleteJobProduction.componentDidMount.props', this.props
+            const
+                {
+                    @ _id
+                    @ owner
+                    @ name
+                    @ description
+                = this.props.data
+            
+            _ this.setState
+                {
+                    @ job_id _id
+                    @ job_owner owner
+                    @ job_name name
+                    @ job_description description
+        +
+        handle_submit( Delete, job )
+        +
+        m render
+            log 'DeleteJobProduction.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Delete job'
+                    < HR
+                    form
+                        action /job/delete
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref {this.formRef}
+                        < FormStatic
+                            @ label 'Job id'
+                            @ name 'job_id'
+                            @ id 'job_id'
+                            @ value {this.state.job_id}
+                        < FormStatic
+                            @ label 'Job owner'
+                            @ name 'job_owner'
+                            @ id 'job_owner'
+                            @ value {this.state.job_owner}
+                        < FormStatic
+                            @ label 'Job name'
+                            @ name 'job_name'
+                            @ id 'job_name'
+                            @ value {this.state.job_name}
+                        < HR
+                        < FormStatic
+                            @ label 'Description'
+                            @ name 'job_description'
+                            @ id 'job_description'
+                            @ value {this.state.job_description}
+                        form_buttons(Delete, job)

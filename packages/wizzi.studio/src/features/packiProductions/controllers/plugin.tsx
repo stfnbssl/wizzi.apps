@@ -1,13 +1,13 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\controllers\plugin.tsx.ittf
-    utc time: Mon, 24 Jul 2023 09:37:47 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\plugin.tsx.ittf
+    utc time: Thu, 15 Feb 2024 20:31:56 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
+import {sendHtml, sendSuccess, sendPromiseResult, sendError, sendFailure} from '../../../utils/sendResponse';
 import {restParamsCheck} from '../../../utils/rest';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
@@ -188,10 +188,10 @@ export class PluginProductionController implements ControllerType {
             mainIttf: "index.js.ittf"
          }).then((packiFiles: packiTypes.PackiFiles) => 
         
-            createPluginProduction((request.session as any).user.username, request.body.pp_name, request.body.pp_description, JSON.stringify(mergePackiFiles(packiFiles, getPackiConfigFile()))).then((result: CRUDResult) => {
+            createPluginProduction((request.session as any).user.username, request.body.pl_name, request.body.pl_description, JSON.stringify(mergePackiFiles(packiFiles, getPackiConfigFile()))).then((result: CRUDResult) => {
             
                 if (result.ok) {
-                    response.redirect('/~~/l/' + (request.session as any).user.username + '/' + request.body.pp_name)
+                    response.redirect('/~~/l/' + (request.session as any).user.username + '/' + request.body.pl_name)
                 }
                 else {
                     response.render('error.html.ittf', {

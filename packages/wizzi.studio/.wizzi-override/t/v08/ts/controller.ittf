@@ -35,6 +35,7 @@ $group
         @ sendHtml
         @ sendSuccess
         @ sendPromiseResult
+        @ sendError
         @ sendFailure
         $if ctrl.kind == 'site'
             from '../../utils/sendResponse'

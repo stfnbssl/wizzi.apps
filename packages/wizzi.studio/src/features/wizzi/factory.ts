@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\wizzi\factory.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:44 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\factory.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import path from 'path';
 import wizzi from '@wizzi/factory';
@@ -26,6 +26,7 @@ function getWzCtxFactoryPlugins() {
                 './wizzi.plugin.js/index.js', 
                 './wizzi.plugin.json/index.js', 
                 './wizzi.plugin.md/index.js', 
+                './wizzi.plugin.pdf/index.js', 
                 './wizzi.plugin.svg/index.js', 
                 './wizzi.plugin.text/index.js', 
                 './wizzi.plugin.ts/index.js', 
@@ -40,7 +41,21 @@ function getWzCtxMetaPlugins() {
 
     return {
             items: [
-                
+                './wizzi.meta.cloud/index', 
+                './wizzi.meta.commons/index', 
+                './wizzi.meta.docs/index', 
+                './wizzi.meta.documents/index', 
+                './wizzi.meta.js/index', 
+                './wizzi.meta.js.db/index', 
+                './wizzi.meta.js.node/index', 
+                './wizzi.meta.js.vanilla/index', 
+                './wizzi.meta.js.react/index', 
+                './wizzi.meta.ts/index', 
+                './wizzi.meta.ts.express/index', 
+                './wizzi.meta.ts.react/index', 
+                './wizzi.meta.ts.db/index', 
+                './wizzi.meta.web/index', 
+                './wizzi.meta.wizzi/index'
             ], 
             metaPluginsBaseFolder: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages'
          };
@@ -148,6 +163,8 @@ export async function createJsonFsAndFactory(files: packiTypes.PackiFiles, facto
                 if (err) {
                     return reject(err);
                 }
+                console.log("[31m%s[0m", myname, 'factoryPlugins', factoryPlugins, getWzCtxFactoryPlugins());
+                console.log("[31m%s[0m", myname, 'metaPlugins', metaPlugins, getWzCtxMetaPlugins());
                 wizzi.jsonFactory({
                     jsonFs, 
                     plugins: factoryPlugins ? factoryPlugins : getWzCtxFactoryPlugins(), 

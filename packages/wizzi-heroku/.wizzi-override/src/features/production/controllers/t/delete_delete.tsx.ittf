@@ -3,18 +3,20 @@ $group
 
     $
         var Prod = _.capitalize(prod);
-        var suffix = prod == 'tFolder' ? '' : 'Production';
+        var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
         var prefix = 
             prod == 'tFolder' ? 'tf' 
             : prod == 'meta' ? 'mp' 
             : prod == 'package' ? 'pp' 
             : prod == 'plugin' ? 'pl' 
+            : prod == 'job' ? 'job' 
             : 'ap';
         var redirect = 
             prod == 'tFolder' ? '/productions/tfolders' 
             : prod == 'meta' ? '/productions/metas' 
             : prod == 'package' ? '/productions/packages' 
             : prod == 'plugin' ? '/productions/plugins' 
+            : prod == 'job' ? '/productions/job' 
             : '/productions/artifacts';
 
     # loog myname + '.delete${Prod}.request.path', request.path

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\index.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:45 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\index.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import {ApiType, ControllerType, AppInitializerType, MiddlewareType} from './features/app/types';
 import {ModelBuilderType} from './features/app';
@@ -22,6 +22,7 @@ import {philosControllers} from './features/philos/index';
 import {geopControllers} from './features/geop/index';
 import {wizziTableControllers, wizziTableModelBuilders} from './features/wizziTable/index';
 import {wizziActionControllers, wizziActionModelBuilders} from './features/wizziAction/index';
+import {devControllers} from './features/dev/index';
 import {appMiddlewaresPre, appMiddlewaresPost} from './middlewares/index';
 import App from './App';
 var app: any = {
@@ -58,7 +59,8 @@ async function start() {
         ...philosControllers, 
         ...geopControllers, 
         ...wizziTableControllers, 
-        ...wizziActionControllers
+        ...wizziActionControllers, 
+        ...devControllers
     ];
     console.log("[33m%s[0m", 'Starting app. Config:', config);
     const appInitializer: AppInitializerType = {

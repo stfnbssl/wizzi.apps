@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\wizzi\types.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:44 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\types.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import * as wizzi from '@wizzi/factory';
 import {JsonFs} from '@wizzi/repo';
@@ -55,6 +55,15 @@ export type MetaIttfDocument = {
     text?: string;
 };
 
+export type MetaIttfFolder = { 
+    source: IttfDocumentSource;
+    path?: string;
+    sourceFolderUri?: string;
+    destFolderUri?: string;
+    generateFragments?: boolean;
+    packiFiles?: packiTypes.PackiFiles;
+};
+
 export type MetaContext = { 
     name?: string;
     source: ContextSource;
@@ -65,7 +74,8 @@ export type MetaContext = {
 };
 
 export type ArtifactRequest = { 
-    ittfDocument: MetaIttfDocument;
+    ittfDocument?: MetaIttfDocument;
+    ittfFolder?: MetaIttfFolder;
     contextItems: MetaContext[];
 };
 
@@ -88,4 +98,10 @@ export type WizziJobTypesRequest = {
     pluginsBaseFolder: string;
     plugins: string[];
     productionOptions?: wizzi.ProductionOptions;
+};
+
+export type MetaExecuteRequest = { 
+    metaCtx?: any;
+    globalContext?: any;
+    metaProductions?: any;
 };

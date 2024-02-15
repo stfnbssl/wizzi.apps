@@ -50,7 +50,7 @@ $group
     => _executeJobNotDebounced
         $$ loog 'App._executeJobNotDebounced'
         const files = this.state.session.files
-        set filePath = this.state.selectedFile
+        const filePath = this.state.selectedFile
         if Object.keys(files).length && filePath
             _ this.setState
                 { 

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\wizzi\productions.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:44 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\productions.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import path from 'path';
 import fs from 'fs';
@@ -342,7 +342,7 @@ export async function generateArtifactDb(owner: string, name: string, context?: 
     throw new Error(myname + '.generateArtifactDb not yet implemented');
 }
 
-export async function generateFolderArtifacts(sourceFolderUri: string, destFolderUri: string, files: packiTypes.PackiFiles, context?: any):  Promise<packiTypes.PackiFiles> {
+export async function generateFolderArtifacts(sourceFolderUri: string, destFolderUri: string, files: packiTypes.PackiFiles, context?: any, options?: any):  Promise<packiTypes.PackiFiles> {
 
     return new Promise(async (resolve, reject) => {
         
@@ -361,10 +361,15 @@ export async function generateFolderArtifacts(sourceFolderUri: string, destFolde
                     modelRequestContext: context, 
                     artifactRequestContext: context
                  }, {
-                    destFolder: packiFilePrefix + destFolderUri
+                    destFolder: packiFilePrefix + destFolderUri, 
+                    deep: true, 
+                    generateFragments: options && options.generateFragments, 
+                    copyInclude: options.copyInclude || ['*'], 
+                    copyExclude: options.copyExclude || []
                  }, (err: any, result: string) => {
                 
                     if (err) {
+                        console.log("[31m%s[0m", myname, 'generateFolderArtifacts', 'error', err);
                         return reject(err);
                     }
                     jsonwf.wf.fileService.getFiles(packiFilePrefix + destFolderUri, {
@@ -611,6 +616,45 @@ export async function loadAndTransformModelFs(filePath: string, context?: any, o
             else {
                 reject('No model transformer available for document ' + filePath);
             }
+        }
+        );
+}
+
+export async function metaExecute(metaCtx: any, tempFolder?: string, wizziFolder?: string, globalContext?: { 
+    [k: string]: any;
+}, metaProductions?: packiTypes.PackiFiles[]):  Promise<packiTypes.PackiFiles> {
+
+    tempFolder = tempFolder || "___template";
+    wizziFolder = wizziFolder || ".wizzi";
+    globalContext = globalContext || {};
+    metaProductions = metaProductions || [];
+    return new Promise(async (resolve, reject) => {
+        
+            console.log(myname, 'metaGenerate.metaCtx', Object.keys(metaCtx), __filename);
+            let jsonwf: any = {};
+            try {
+                jsonwf = await createJsonFsAndFactory({});
+                ;
+                jsonwf.wf.metaExecute({
+                    metaCtx: metaCtx, 
+                    paths: {
+                        metaProductionTempFolder: tempFolder, 
+                        metaProductionWizziFolder: wizziFolder
+                     }, 
+                    globalContext, 
+                    metaProductions
+                 }, (err: any, wizziPackiFiles: packiTypes.PackiFiles) => {
+                
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(wizziPackiFiles)
+                }
+                )
+            } 
+            catch (ex) {
+                return reject(ex);
+            } 
         }
         );
 }

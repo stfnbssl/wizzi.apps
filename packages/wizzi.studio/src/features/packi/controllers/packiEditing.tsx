@@ -1,19 +1,19 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packi\controllers\packiEditing.tsx.ittf
-    utc time: Mon, 24 Jul 2023 09:37:47 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packi\controllers\packiEditing.tsx.ittf
+    utc time: Thu, 15 Feb 2024 20:31:56 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
+import {sendHtml, sendSuccess, sendPromiseResult, sendError, sendFailure} from '../../../utils/sendResponse';
 import {restParamsCheck} from '../../../utils/rest';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
 import ReactDOMServer from 'react-dom/server';
 import {config} from '../../config';
-import {artifactApi, packageApi, metaApi, pluginApi, tFolderApi} from '../../packiProductions';
+import {artifactApi, packageApi, metaApi, pluginApi, tFolderApi, jobApi} from '../../packiProductions';
 import EditorDocument from '../../../pages/EditorDocument';
 import PackiItemList from '../components/PackiItemList';
 const myname = 'features/packi/controller/packiEditing';
@@ -76,6 +76,8 @@ export class PackiEditingController implements ControllerType {
         this.router.get("/l/:owner/:name/*", makeHandlerAwareOfAsyncErrors(this.getPackiPluginProductionByUsername_Name))
         this.router.get("/t/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getPackiTFolderByUsername_Name))
         this.router.get("/t/:owner/:name/*", makeHandlerAwareOfAsyncErrors(this.getPackiTFolderByUsername_Name))
+        this.router.get("/j/:owner/:name", makeHandlerAwareOfAsyncErrors(this.getPackiJobByUsername_Name))
+        this.router.get("/j/:owner/:name/*", makeHandlerAwareOfAsyncErrors(this.getPackiJobByUsername_Name))
     };
     
     private getPackiItemList = async (request: Request, response: Response) => {
@@ -261,6 +263,44 @@ export class PackiEditingController implements ControllerType {
                     description: result.description, 
                     packiFiles: result.packiFiles, 
                     packiProduction: 'tfolder'
+                 }
+             }, loggedUser, queryParams)
+        }
+        ).catch((err: any) => {
+        
+            if (typeof err === 'object' && err !== null) {
+            }
+            sendFailure(response, {
+                err: err
+             }, 501)
+        }
+        )
+    }
+    ;
+    
+    private getPackiJobByUsername_Name = 
+    // TODO
+    async (request: Request, response: Response) => {
+    
+        const queryParams = {};
+        const parts = request.path.split('/');
+        jobApi.getJobObject(parts[2], parts.slice(3).join('/')).then((result: any) => {
+        
+            const loggedUser = {
+                id: 'local_' + config.userUserName, 
+                username: config.userUserName, 
+                displayName: config.userDisplayName, 
+                picture: config.userAvatarUrl
+             };
+            renderPackiEditor(request, response, {
+                type: 'success', 
+                packi: {
+                    _id: result._id, 
+                    owner: result.owner, 
+                    name: result.name, 
+                    description: result.description, 
+                    packiFiles: result.packiFiles, 
+                    packiProduction: 'job'
                  }
              }, loggedUser, queryParams)
         }

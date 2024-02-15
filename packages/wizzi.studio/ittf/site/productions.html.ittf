@@ -30,6 +30,7 @@ html
                 a( Plugins, /packi/productions/plugins, ${ca}
                 a( Metas, /packi/productions/metas, ${ca}
                 a( tFolders, /packi/productions/tfolders, ${ca}
+                a( Jobs, /packi/productions/jobs, ${ca}
 
         . m-200 t-grid
             . t-item-l

@@ -48,10 +48,13 @@ module
         param request
             :ref Request
         return
-            {
-                @ isWizziStudio false
-                { locals
-                    @ user (request.session as any).user                    
+            _ Object.assign
+                {
+                @ request.query 
+                {
+                    @ isWizziStudio ${wzConfigIsDevelopment}
+                    { locals
+                        @ user (request.session as any).user                    
 
     function packiBrowseMiddleware
         param packiProduction

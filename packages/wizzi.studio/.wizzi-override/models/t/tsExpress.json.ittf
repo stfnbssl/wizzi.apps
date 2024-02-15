@@ -10,7 +10,7 @@ $group
         useExpressValidator true
     useSession true
     { session
-        name "ts.express.starter"
+        name "wizzi.studio"
         secret "${stfnbssl_env.sessionSecret}"
     noCache true
     useSocketIO false

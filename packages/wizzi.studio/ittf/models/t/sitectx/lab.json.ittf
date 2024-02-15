@@ -6,25 +6,55 @@ $group
                 [ items
                     {
                         title "Playground"
+                        abstract "Playground"
                         href "/ittf/playground/index.html.ittf"
             {
                 title "Project"
                 [ items
                     {
                         title "TODO"
+                        abstract "TODO"
                         href "/ittf/site/project/todo.html.ittf"
                     {
                         title "Issues"
+                        abstract "Issues"
                         href "/ittf/site/project/issues.html.ittf"
+                    {
+                        title "Status"
+                        abstract "Status"
+                        href "/ittf/site/project/status.html.ittf"
+                    {
+                        title "Tech start"
+                        abstract "Tech start"
+                        href "/ittf/site/project/tech-start.html.ittf"
+
+            {
+                title "Packi labs"
+                [ items
+                    {
+                        title "Meta lab"
+                        abstract "Lab for setting up meta generations from Html pages"
+                        href "http://localhost:5100/~~/a/stfnbssl/lab-meta.html"
+                    {
+                        title "Html lab"
+                        abstract "Lab for testing html productions from Html pages"
+                        href "http://localhost:5100/~~/a/stfnbssl/lab-html.html"
+                    {
+                        title "Js lab"
+                        abstract "Lab for testing javascript productions from Html pages"
+                        href "http://localhost:5100/~~/a/stfnbssl/lab-js.html"
+
+                    {
+                        title "Css lab"
+                        abstract "Lab for testing css productions from Html pages"
+                        href "http://localhost:5100/~~/a/stfnbssl/lab-css.html"
             {
                 title "Dev"
                 [ items
                     {
-                        title "Styles"
-                        href "/ittf/styles"
-                    {
                         title "Web API"
-                        href "/ittf/webapi/index.html.ittf"
+                        abstract "Web API"
+                        href "/ittf/site/webapi/index.html.ittf"
             {
                 { title "Work in progress"
                 [ items

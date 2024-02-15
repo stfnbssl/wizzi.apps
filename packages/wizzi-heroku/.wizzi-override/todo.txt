@@ -26,7 +26,7 @@ module
             import
                 @ wizziTypes
                 @ wizziProds
-                @ WizziFactory
+                @ wizziFactory
                 from '../../wizzi'
             +
             const myname = 'features/production/controllers/apiv1artifactproduction'

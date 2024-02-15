@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\api\artifact.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:44 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\artifact.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import path from 'path';
 import NodeCache from 'node-cache';
@@ -490,66 +490,6 @@ function mergePackiFiles(a: any, b: any) {
     return ret;
 }
 
-export async function getArtifactProductionObject_stop(owner: string, name: string) {
-
-    return new Promise((resolve, reject) => 
-        
-            getArtifactProduction(owner, name).then((result) => {
-            
-                if (!result.ok) {
-                    return reject(result);
-                }
-                const ap: IArtifactProductionModel = result.item;
-                const ap_packiFiles_object: packiTypes.PackiFiles = JSON.parse(ap.packiFiles);
-                const obj = {
-                    ...ap._doc, 
-                    packiFiles: ap_packiFiles_object, 
-                    _id: ap._id.toString()
-                 };
-                return resolve(obj);
-            }
-            ).catch((err: any) => {
-            
-                if (typeof err === 'object' && err !== null) {
-                }
-                console.log("[31m%s[0m", 'getArtifactProductionObject.getArtifactProduction.error', err);
-                return reject(err);
-            }
-            )
-        
-        );
-}
-
-export async function getArtifactProductionObjectById_stop(id: string) {
-
-    return new Promise((resolve, reject) => 
-        
-            getArtifactProductionById(id).then((result) => {
-            
-                if (!result.ok) {
-                    return reject(result);
-                }
-                const ap: IArtifactProductionModel = result.item;
-                const ap_packiFiles_object: packiTypes.PackiFiles = JSON.parse(ap.packiFiles);
-                const obj = {
-                    ...ap._doc, 
-                    packiFiles: ap_packiFiles_object, 
-                    _id: ap._id.toString()
-                 };
-                return resolve(obj);
-            }
-            ).catch((err: any) => {
-            
-                if (typeof err === 'object' && err !== null) {
-                }
-                console.log("[31m%s[0m", 'getArtifactProductionObjectById.getArtifactProductionById.error', err);
-                return reject(err);
-            }
-            )
-        
-        );
-}
-
 export async function getArtifactProduction_withCache(owner: string, name: string) {
 
     var cacheKey = owner + '|' + name;
@@ -832,11 +772,18 @@ async function getArtifactTransformation_withPrepare(owner: string, productionNa
 
 export async function getArtifactGeneration(owner: string, name: string, context: any) {
 
-    return new Promise((resolve, reject) => 
+    return new Promise((resolve, reject) => {
         
-            getArtifactProduction_withCache(owner, name).then((ap: any) => 
+            var artifactName = name;
+            var filePathTobeGenerated = null;
+            const ss = name.split('!');
+            if (ss.length == 2) {
+                artifactName = ss[0];
+                filePathTobeGenerated = ss[1];
+            }
+            getArtifactProduction_withCache(owner, artifactName).then((ap: any) => 
             
-                wizziProds.generateArtifact(ap.mainIttf, ap.packiFiles, context).then((result: any) => {
+                wizziProds.generateArtifact(filePathTobeGenerated || ap.mainIttf, ap.packiFiles, context).then((result: any) => {
                 
                     const response = {
                         content: result.artifactContent, 
@@ -850,8 +797,9 @@ export async function getArtifactGeneration(owner: string, name: string, context
                     if (typeof err === 'object' && err !== null) {
                         err.parameter = {
                             artifactOwner: owner, 
-                            artifactName: name, 
-                            mainIttf: ap.mainIttf
+                            requestArtifactName: name, 
+                            artifactName: artifactName, 
+                            mainIttf: filePathTobeGenerated || ap.mainIttf
                          };
                     }
                     console.log("[31m%s[0m", 'getArtifactGeneration.generateArtifact.error', err);
@@ -864,14 +812,15 @@ export async function getArtifactGeneration(owner: string, name: string, context
                 if (typeof err === 'object' && err !== null) {
                     err.parameter = {
                         artifactOwner: owner, 
-                        artifactName: name
+                        requestArtifactName: name, 
+                        artifactName: artifactName
                      };
                 }
                 console.log("[31m%s[0m", 'getArtifactGeneration.getArtifactProduction.error', err);
                 return reject(err);
             }
             )
-        
+        }
         );
 }
 
@@ -889,7 +838,7 @@ async function getArtifactGeneration_withPrepare(owner: string, productionName: 
                     const response = {
                         content: result.artifactContent, 
                         contentLength: result.artifactContent.length, 
-                        contentType: wizziMaps.contentTypeFor(productionObj.mainIttf)
+                        contentType: wizziMaps.contentTypeFor(filePath || productionObj.mainIttf)
                      };
                     return resolve(response);
                 }

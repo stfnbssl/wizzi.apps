@@ -16,6 +16,7 @@ module
             'PluginProduction',
             'MetaProduction',
             'TFolder',
+            'Job',
         ]
         
     v08/ts/react/component(&md)

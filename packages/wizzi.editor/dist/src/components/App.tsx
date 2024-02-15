@@ -1,7 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\packages\wizzi-js\lib\artifacts\ts\module\gen\main.js
-    package: wizzi-js@0.7.14
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
+    package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\App.tsx.ittf
+    utc time: Mon, 29 Jan 2024 07:09:54 GMT
 */
 import * as React from 'react';
 // Redux
@@ -310,7 +311,7 @@ class AppMain extends React.Component<AppProps, State> {
     
     _executeJobNotDebounced = () => {
         const files = this.state.session.files;
-        filePath = this.state.selectedFile;
+        const filePath = this.state.selectedFile;
         if (Object.keys(files).length && filePath) {
             this.setState({
                 isWizziJobWaiting: false

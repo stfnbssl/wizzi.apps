@@ -11,7 +11,7 @@ module
             import
                 @ wizziTypes
                 @ wizziProds
-                @ WizziFactory
+                @ wizziFactory
                 from '../../wizzi'
             import
                 @ artifactApi
@@ -221,7 +221,7 @@ module
                                         param fsJson
                                         const files
                                             await
-                                                _ WizziFactory.extractGeneratedFiles(fsJson)
+                                                _ wizziFactory.extractGeneratedFiles(fsJson)
                                         # loog 'features.production.controllers.production.executeJob.generatedArtifacts', Object.keys(files)
                                         _ sendSuccess
                                             @ response

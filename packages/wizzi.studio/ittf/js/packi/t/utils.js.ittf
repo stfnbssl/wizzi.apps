@@ -1,0 +1,98 @@
+$group
+
+    # import escapeRegExp from 'escape-string-regexp'
+
+    iife_window( api, ${myName}, increment )
+        
+        function escapeRegExp
+            param string
+            return string.replace(/[/\-\\^${'$'}*+?.()|[\]{}]/g, '\\$&')
+
+        set ${myName}.isInsideFolder
+            =>
+                param path
+                param folderPath
+                return
+                    _ path.startsWith
+                        `lit
+                            +
+                            @ folderPath
+                            + /
+        
+        set ${myName}.getParentPath
+            =>
+                param path
+                return
+                    iif path.includes('/')
+                        then path.replace(/\/[^/]+$/, '')
+                        else undefined
+        
+        set ${myName}.changeParentPath
+            =>
+                param path
+                param oldParentPath
+                param newParentPath
+                return path.replace(RegExp('^' + escapeRegExp(oldParentPath + '/')), newParentPath + '/')
+        
+        set ${myName}.getUniquePath
+            =>
+                param allPaths
+                param suggestedPath
+                param initialSuffix
+                const parts
+                    iif suggestedPath.includes('.')
+                        then suggestedPath.split('.')
+                        else undefined
+                const ext
+                    iif parts
+                        then parts.pop()
+                        else ''
+                const initialPath
+                    iif parts
+                        then parts.join('.')
+                        else suggestedPath
+                let path = suggestedPath
+                let counter
+                    iif initialSuffix
+                        then 0
+                        else 1
+                while
+                    test
+                        _ allPaths.some
+                            =>
+                                param p
+                                set p.toLowerCase() === path.toLowerCase()
+                    const suffix
+                        _
+                            `lit
+                                +
+                                @ initialSuffix ?? ''
+                                + &nbsp;
+                                @ counter || ''
+                                +
+                            ._ trim
+                    if ext
+                        set path =
+                            `lit
+                                +
+                                @ initialPath
+                                + &nbsp;
+                                @ suffix
+                                + .
+                                @ ext
+                                +
+                    else
+                        set path =
+                            `lit
+                                +
+                                @ initialPath
+                                + &nbsp;
+                                @ suffix
+                                +
+                    set counter++
+                return path
+        
+        set ${myName}.isEntryPoint
+            =>
+                param name
+                return /^App\.(js|tsx?)$/.test(name)

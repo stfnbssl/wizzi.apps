@@ -4,7 +4,7 @@ ITTF Document editor for a web app.
 
 
 
-<p>Is served from the <a>wizzi.backend</a>`server app.`
+<p>Is served from the <a>wizzi.backend</a>server app.
 </p>
 
 To patch error:0308010C:digital envelope routines::unsupported

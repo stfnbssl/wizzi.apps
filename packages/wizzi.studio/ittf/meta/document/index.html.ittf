@@ -155,5 +155,6 @@ html
                     # ittf-editor-cancel
                         class editor-button
                         + Cancel
-        js /static/lib/ace/src-noconflict/ace.js
+        $$ js /public/lib/ace/src-noconflict/ace.js
+        js https://www.unpkg.com/ace-builds@latest/src-noconflict/ace.js
         js /ittf/meta/html/main.js.ittf

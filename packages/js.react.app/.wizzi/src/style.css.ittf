@@ -1,0 +1,9 @@
+css
+    font-face
+        font-family 'MyFont'
+        src url('./Smile Kids.otf') format('otf'), url('Smile Kids.ttf') format('ttf')
+        font-weight 600
+        font-style normal
+    . hello
+        color red
+        font-family 'MyFont'

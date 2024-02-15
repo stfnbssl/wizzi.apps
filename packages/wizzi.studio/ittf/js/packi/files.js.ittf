@@ -1,0 +1,12 @@
+module
+    kind react
+
+    $
+        var myName = 'packiFiles';
+
+    iife_window( api, ${myName}, increment )
+
+    $include ./utils
+    $include ./convert
+
+    log 'window.api', window.api

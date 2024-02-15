@@ -6,6 +6,7 @@ $group
         if (prefix == 'pl') { prod = 'plugin'; }
         if (prefix == 'mp') { prod = 'meta'; }
         if (prefix == 'tf') { prod = 'tfolder'; }
+        if (prefix == 'job') { prod = 'job'; }
 
     < React.Fragment
         < HR

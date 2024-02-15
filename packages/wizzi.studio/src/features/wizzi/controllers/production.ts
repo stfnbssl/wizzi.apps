@@ -1,13 +1,13 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\wizzi\controllers\production.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:44 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\controllers\production.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
 import {ControllerType, AppInitializerType} from '../../../features/app/types';
-import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../utils/sendResponse';
+import {sendHtml, sendSuccess, sendPromiseResult, sendError, sendFailure} from '../../../utils/sendResponse';
 import {restParamsCheck} from '../../../utils/rest';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
@@ -59,9 +59,11 @@ export class ProductionController implements ControllerType {
     initialize = (app: express.Application, initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ProductionController.initialize');
         this.router.post("/artifact", makeHandlerAwareOfAsyncErrors(this.artifact))
+        this.router.post("/folder/artifacts", makeHandlerAwareOfAsyncErrors(this.folderArtifacts))
         this.router.post("/mtree", makeHandlerAwareOfAsyncErrors(this.mTree))
         this.router.post("/mtreescript", makeHandlerAwareOfAsyncErrors(this.mTreeBuildupScript))
         this.router.post("/mtreescan", makeHandlerAwareOfAsyncErrors(this.mTreeScan))
+        this.router.post("/meta/execute", makeHandlerAwareOfAsyncErrors(this.metaExecute))
         this.router.post("/wrapittf", makeHandlerAwareOfAsyncErrors(this.wrapIttfText))
     };
     
@@ -78,9 +80,8 @@ export class ProductionController implements ControllerType {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
-                    sendFailure(response, {
-                        err: err
-                     }, 501)
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.artifact.wizziProds.generateArtifactFs.error', err);
+                    sendError(response, err)
                 }
                 )
             }
@@ -92,9 +93,8 @@ export class ProductionController implements ControllerType {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
-                    sendFailure(response, {
-                        err: err
-                     }, 501)
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.artifact.wizziProds.generateArtifact.error', err);
+                    sendError(response, err)
                 }
                 )
             }
@@ -106,9 +106,8 @@ export class ProductionController implements ControllerType {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
-                    sendFailure(response, {
-                        err: err
-                     }, 501)
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.artifact.wizziProds.generateArtifact.error', err);
+                    sendError(response, err)
                 }
                 )
             }
@@ -117,9 +116,51 @@ export class ProductionController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
-            sendFailure(response, {
-                err: err
-             }, 501)
+            console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.artifact.resolveContexts.error', err);
+            sendError(response, err)
+        }
+        )
+    }
+    ;
+    
+    private folderArtifacts = async (request: Request, response: Response) => {
+    
+        const artifactRequest: ArtifactRequest = request.body;
+        resolveContexts(artifactRequest.contextItems).then((context: any) => {
+        
+            const sourceError = {
+                err: {
+                    message: "Invalid artifactRequest.ittfFolder.source: " + artifactRequest.ittfFolder.source
+                 }
+             };
+            if (artifactRequest.ittfFolder.source == 'packi') {
+                wizziProds.generateFolderArtifacts(artifactRequest.ittfFolder.sourceFolderUri, artifactRequest.ittfFolder.destFolderUri, artifactRequest.ittfFolder.packiFiles, context, {
+                    generateFragments: artifactRequest.ittfFolder.generateFragments
+                 }).then((packiFiles: any) => {
+                
+                    console.log("features/wizzi/controller/productions.handler.folderArtifacts.generateFolderArtifacts.result", Object.keys(packiFiles), __filename);
+                    sendSuccess(response, packiFiles)
+                }
+                ).catch((err: any) => {
+                
+                    if (typeof err === 'object' && err !== null) {
+                    }
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.folderArtifacts.generateFolderArtifacts.error', err);
+                    sendError(response, err)
+                }
+                )
+            }
+            else {
+                console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.folderArtifacts.error', sourceError);
+                sendError(response, sourceError)
+            }
+        }
+        ).catch((err: any) => {
+        
+            if (typeof err === 'object' && err !== null) {
+            }
+            console.log("[31m%s[0m", '} features/wizzi/controller/productions.handler.folderArtifacts.resolveContexts.error', err);
+            sendError(response, err)
         }
         )
     }
@@ -140,9 +181,8 @@ export class ProductionController implements ControllerType {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
-                    sendFailure(response, {
-                        err: err
-                     }, 501)
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTree.wizziProds.mTreeFs.error', err);
+                    sendError(response, err)
                 }
                 )
             }
@@ -156,9 +196,8 @@ export class ProductionController implements ControllerType {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
-                    sendFailure(response, {
-                        err: err
-                     }, 501)
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTree.wizziProds.mTree.error', err);
+                    sendError(response, err)
                 }
                 )
             }
@@ -172,9 +211,8 @@ export class ProductionController implements ControllerType {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
-                    sendFailure(response, {
-                        err: err
-                     }, 501)
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTree.wizziProds.mTreeDb.error', err);
+                    sendError(response, err)
                 }
                 )
             }
@@ -183,9 +221,8 @@ export class ProductionController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
-            sendFailure(response, {
-                err: err
-             }, 501)
+            console.log("[31m%s[0m", '} features/wizzi/controller/productions.handler.mTree.resolveContexts.error', err);
+            sendError(response, err)
         }
         )
     }
@@ -204,9 +241,8 @@ export class ProductionController implements ControllerType {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
-                    sendFailure(response, {
-                        err: err
-                     }, 501)
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeBuildupScript.wizziProds.mTreeBuildupScriptFs.error', err);
+                    sendError(response, err)
                 }
                 )
             }
@@ -218,9 +254,8 @@ export class ProductionController implements ControllerType {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
-                    sendFailure(response, {
-                        err: err
-                     }, 501)
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeBuildupScript.wizziProds.mTreeBuildupScript.error', err);
+                    sendError(response, err)
                 }
                 )
             }
@@ -232,9 +267,8 @@ export class ProductionController implements ControllerType {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
-                    sendFailure(response, {
-                        err: err
-                     }, 501)
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeBuildupScript.wizziProds.mTreeBuildupScriptDb.error', err);
+                    sendError(response, err)
                 }
                 )
             }
@@ -243,9 +277,8 @@ export class ProductionController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
-            sendFailure(response, {
-                err: err
-             }, 501)
+            console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeBuildupScript.resolveContexts.error', err);
+            sendError(response, err)
         }
         )
     }
@@ -265,9 +298,8 @@ export class ProductionController implements ControllerType {
             
                 if (typeof err === 'object' && err !== null) {
                 }
-                sendFailure(response, {
-                    err: err
-                 }, 501)
+                console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeScan.wizziProds.mTreeScanFs.error', err);
+                sendError(response, err)
             }
             )
         }
@@ -282,9 +314,8 @@ export class ProductionController implements ControllerType {
             
                 if (typeof err === 'object' && err !== null) {
                 }
-                sendFailure(response, {
-                    err: err
-                 }, 501)
+                console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeScan.wizziProds.mTreeScan.error', err);
+                sendError(response, err)
             }
             )
         }
@@ -299,9 +330,8 @@ export class ProductionController implements ControllerType {
             
                 if (typeof err === 'object' && err !== null) {
                 }
-                sendFailure(response, {
-                    err: err
-                 }, 501)
+                console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeScan.wizziProds.mTreeScanDb.error', err);
+                sendError(response, err)
             }
             )
         }
@@ -326,11 +356,16 @@ export class ProductionController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
-            sendFailure(response, {
-                err: err
-             }, 501)
+            console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeScan.wizziProds.wrapIttfText.error', err);
+            sendError(response, err)
         }
         )
     
+    ;
+    
+    private metaExecute = async (request: Request, response: Response) => {
+    
+        throw new Error("features/wizzi/controller/productions.handler.metaExecute not implemented");
+    }
     ;
 }

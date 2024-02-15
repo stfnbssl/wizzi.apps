@@ -1,4 +1,4 @@
-wfjob ts.express.starter/job
+wfjob wizzi.studio/job
     
     $
         var jobCtx = {
@@ -97,16 +97,12 @@ wfjob ts.express.starter/job
     
     production
         dest-folder ${jobCtx.dest_folder}
-        $*
         line-ref ittf-models
         line-ref ittf-root
         $if false
             line-ref ittf-public
-        *$
         line-ref ittf-src
-        $*
         line-ref ittf-src-images
         line-ref ittf-src-models
         line-ref ittf-ittf
         line-ref ittf-tests
-        *$

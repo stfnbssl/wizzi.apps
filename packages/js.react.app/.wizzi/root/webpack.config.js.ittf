@@ -1,0 +1,28 @@
+module
+    kind es6
+    $include webpack/0_0_1/imports
+    set module.exports
+        {
+            @ mode
+                iif process.env.NODE_ENV === 'production'
+                    then 'production'
+                    else 'development'
+            @ devtool
+                iif process.env.NODE_ENV === 'production'
+                    then 'source-map'
+                    else 'cheap-module-source-map'
+            { entry
+                $include webpack/0_0_1/entry
+            { module
+                [ rules
+                    $include webpack/0_0_1/module.rules
+            { resolve
+                $include webpack/0_0_1/resolve
+            { output
+                $include webpack/0_0_1/output
+            [ plugins
+                $include webpack/0_0_1/plugins
+            { devServer
+                $include webpack/0_0_1/devServer
+            { optimization
+                $include webpack/0_0_1/optimization

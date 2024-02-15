@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi\src\features\packiProductions\api\tfolder.ts.ittf
-    utc time: Mon, 24 Jul 2023 09:37:44 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\tfolder.ts.ittf
+    utc time: Thu, 15 Feb 2024 20:31:55 GMT
 */
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '../../types';
@@ -33,7 +33,7 @@ export async function validateTFolder(owner: string, name: string):  Promise<Val
                 if (result.length == 1) {
                     return resolve({
                             isValid: false, 
-                            message: 'tFolder already exists'
+                            message: 'A tFolder contains ITTF Fragments that Wizzi productions can mix/include. already exists'
                          });
                 }
                 resolve({
@@ -137,7 +137,7 @@ async function getTFolder(owner: string, name: string):  Promise<CRUDResult> {
                 resolve({
                     oper: 'get', 
                     ok: false, 
-                    message: 'tFolder not found'
+                    message: 'A tFolder contains ITTF Fragments that Wizzi productions can mix/include. not found'
                  })
             }
             )
@@ -178,7 +178,7 @@ async function getTFolderById(id: string):  Promise<CRUDResult> {
                 resolve({
                     oper: 'getTFolder', 
                     ok: false, 
-                    message: 'tFolder not found'
+                    message: 'A tFolder contains ITTF Fragments that Wizzi productions can mix/include. not found'
                  })
             }
             )
@@ -315,7 +315,7 @@ async function createTFolder(owner?: string, name?: string, description?: string
                     return resolve({
                             oper: 'create', 
                             ok: false, 
-                            message: 'tFolder already exists'
+                            message: 'A tFolder contains ITTF Fragments that Wizzi productions can mix/include. already exists'
                          });
                 }
                 const newTFolder = new TFolder({
@@ -336,7 +336,7 @@ async function createTFolder(owner?: string, name?: string, description?: string
                             oper: 'createTFolder', 
                             ok: true, 
                             item: doc._doc, 
-                            message: 'tFolder created'
+                            message: 'A tFolder contains ITTF Fragments that Wizzi productions can mix/include. created'
                          });
                 })
             }
@@ -401,14 +401,14 @@ async function updateTFolder(id?: string, owner?: string, name?: string, descrip
                     return reject({
                             oper: 'updateTFolder', 
                             ok: false, 
-                            message: 'tFolder document not found: ' + id
+                            message: 'A tFolder contains ITTF Fragments that Wizzi productions can mix/include. document not found: ' + id
                          });
                 }
                 
                 return resolve({
                         oper: 'updateTFolder', 
                         ok: true, 
-                        message: 'tFolder updated'
+                        message: 'A tFolder contains ITTF Fragments that Wizzi productions can mix/include. updated'
                      });
             }
             )
@@ -454,71 +454,11 @@ async function deleteTFolder(id?: string, owner?: string, name?: string):  Promi
                 resolve({
                     oper: 'deleteTFolder', 
                     ok: true, 
-                    message: 'tFolder'
+                    message: 'A tFolder contains ITTF Fragments that Wizzi productions can mix/include.'
                  })
             }
             )
         }
-        );
-}
-
-export async function getTFolderObject_stop(owner: string, name: string) {
-
-    return new Promise((resolve, reject) => 
-        
-            getTFolder(owner, name).then((result) => {
-            
-                if (!result.ok) {
-                    return reject(result);
-                }
-                const tf: ITFolderModel = result.item;
-                const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
-                const obj = {
-                    ...tf._doc, 
-                    packiFiles: tf_packiFiles_object, 
-                    _id: tf._id.toString()
-                 };
-                return resolve(obj);
-            }
-            ).catch((err: any) => {
-            
-                if (typeof err === 'object' && err !== null) {
-                }
-                console.log("[31m%s[0m", 'getTFolderObject.getTFolder.error', err);
-                return reject(err);
-            }
-            )
-        
-        );
-}
-
-export async function getTFolderObjectById_stop(id: string) {
-
-    return new Promise((resolve, reject) => 
-        
-            getTFolderById(id).then((result) => {
-            
-                if (!result.ok) {
-                    return reject(result);
-                }
-                const tf: ITFolderModel = result.item;
-                const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
-                const obj = {
-                    ...tf._doc, 
-                    packiFiles: tf_packiFiles_object, 
-                    _id: tf._id.toString()
-                 };
-                return resolve(obj);
-            }
-            ).catch((err: any) => {
-            
-                if (typeof err === 'object' && err !== null) {
-                }
-                console.log("[31m%s[0m", 'getTFolderObjectById.getTFolderById.error', err);
-                return reject(err);
-            }
-            )
-        
         );
 }
 
