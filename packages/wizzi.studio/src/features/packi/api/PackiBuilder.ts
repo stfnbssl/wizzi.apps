@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packi\api\PackiBuilder.ts.ittf
-    utc time: Thu, 15 Feb 2024 20:31:55 GMT
+    utc time: Sat, 17 Feb 2024 04:55:15 GMT
 */
 import DiffMatchPatch from 'diff-match-patch';
 import {PackiFiles} from '../types';
@@ -104,10 +104,15 @@ export class PackiBuilder {
                 this.putCodeFile(key, packiChanges[key].contents)
             }
             else if (packiChanges[key].d == 0) {
-                const textToPatch = this.packiFiles[key].contents;
-                const patches = this.dmp.patch_make(textToPatch, packiChanges[key].diffs);
-                const [patchedText, results] = this.dmp.patch_apply(patches, textToPatch);
-                this.putCodeFile(key, patchedText)
+                if (packiChanges[key].contents && packiChanges[key].contents.length > 0) {
+                    this.putCodeFile(key, packiChanges[key].contents)
+                }
+                else {
+                    const textToPatch = this.packiFiles[key].contents;
+                    const patches = this.dmp.patch_make(textToPatch, packiChanges[key].diffs);
+                    const [patchedText, results] = this.dmp.patch_apply(patches, textToPatch);
+                    this.putCodeFile(key, patchedText)
+                }
             }
             else if (packiChanges[key].d == -1) {
                 this.deleteFile(key)

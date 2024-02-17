@@ -143,7 +143,8 @@ $group
         $if wzCtx.Build.useVExpo
             monaco-editor "^0.18.1"
         $else
-            monaco-editor "^0.33.0"
+            monaco-editor "0.32.0-dev.20211214"
+            $$ 0.32.0-dev.20211214
             $$ monaco-editor "^0.23.0"
     $if wzCtx.Build.useMoment
         moment "^2.24.0"

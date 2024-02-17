@@ -2,9 +2,9 @@ $group
     $params method
     ._ catch
         =>
-            param err
+            param error
                 :any
-            if typeof err === 'object' && err !== null
+            if typeof error === 'object' && error !== null
                 $hook
-            error '${method}.error', err
-            return reject(err)
+            error '${method}.error', error
+            return reject(error)

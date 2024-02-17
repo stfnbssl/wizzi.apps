@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziGist\api\wizziGist.ts.ittf
-    utc time: Thu, 15 Feb 2024 20:31:55 GMT
+    utc time: Sat, 17 Feb 2024 04:55:15 GMT
 */
 import path from 'path';
 import {verify, fSystem, pretty, crypto} from 'wizzi-utils';
@@ -47,12 +47,12 @@ async function getGistList(kind: GistKind) {
                          });
                 }
             }
-            ).catch((err: any) => {
+            ).catch((error: any) => {
             
-                if (typeof err === 'object' && err !== null) {
+                if (typeof error === 'object' && error !== null) {
                 }
-                console.log("[31m%s[0m", 'wizziGist.getGistList.gistFs.getGistFiles.error', err);
-                return reject(err);
+                console.log("[31m%s[0m", 'wizziGist.getGistList.gistFs.getGistFiles.error', error);
+                return reject(error);
             }
             )
         
@@ -131,30 +131,30 @@ async function createGist(kind: GistKind, name: string, schema: string) {
                                  });
                         }
                     }
-                    ).catch((err: any) => {
+                    ).catch((error: any) => {
                     
-                        if (typeof err === 'object' && err !== null) {
+                        if (typeof error === 'object' && error !== null) {
                         }
-                        console.log("[31m%s[0m", 'wizziGist.createGist.getGistList.error', err);
-                        return reject(err);
+                        console.log("[31m%s[0m", 'wizziGist.createGist.getGistList.error', error);
+                        return reject(error);
                     }
                     )
                 
-                ).catch((err: any) => {
+                ).catch((error: any) => {
                 
-                    if (typeof err === 'object' && err !== null) {
+                    if (typeof error === 'object' && error !== null) {
                     }
-                    console.log("[31m%s[0m", 'wizziGist.createGist.putGistFile.error', err);
-                    return reject(err);
+                    console.log("[31m%s[0m", 'wizziGist.createGist.putGistFile.error', error);
+                    return reject(error);
                 }
                 )
             }
-            ).catch((err: any) => {
+            ).catch((error: any) => {
             
-                if (typeof err === 'object' && err !== null) {
+                if (typeof error === 'object' && error !== null) {
                 }
-                console.log("[31m%s[0m", 'wizziGist.createGist.gistFileExists.error', err);
-                return reject(err);
+                console.log("[31m%s[0m", 'wizziGist.createGist.gistFileExists.error', error);
+                return reject(error);
             }
             )
         }
@@ -177,12 +177,12 @@ async function updateGist(hash: string, content: string) {
                          }
                      });
             }
-            ).catch((err: any) => {
+            ).catch((error: any) => {
             
-                if (typeof err === 'object' && err !== null) {
+                if (typeof error === 'object' && error !== null) {
                 }
-                console.log("[31m%s[0m", 'wizziGist.updateGist.gistFs.putFile.error', err);
-                return reject(err);
+                console.log("[31m%s[0m", 'wizziGist.updateGist.gistFs.putFile.error', error);
+                return reject(error);
             }
             )
         }
@@ -215,21 +215,21 @@ async function deleteGist(hash: string) {
                              });
                     }
                 }
-                ).catch((err: any) => {
+                ).catch((error: any) => {
                 
-                    if (typeof err === 'object' && err !== null) {
+                    if (typeof error === 'object' && error !== null) {
                     }
-                    console.log("[31m%s[0m", 'wizziGist.deleteGist.getGistList.error', err);
-                    return reject(err);
+                    console.log("[31m%s[0m", 'wizziGist.deleteGist.getGistList.error', error);
+                    return reject(error);
                 }
                 )
             
-            ).catch((err: any) => {
+            ).catch((error: any) => {
             
-                if (typeof err === 'object' && err !== null) {
+                if (typeof error === 'object' && error !== null) {
                 }
-                console.log("[31m%s[0m", 'wizziGist.deleteGist.gistFs.deleteFile.error', err);
-                return reject(err);
+                console.log("[31m%s[0m", 'wizziGist.deleteGist.gistFs.deleteFile.error', error);
+                return reject(error);
             }
             )
         }
@@ -262,21 +262,21 @@ async function duplicateGist(hash: string, newname: string) {
                              });
                     }
                 }
-                ).catch((err: any) => {
+                ).catch((error: any) => {
                 
-                    if (typeof err === 'object' && err !== null) {
+                    if (typeof error === 'object' && error !== null) {
                     }
-                    console.log("[31m%s[0m", 'wizziGist.duplicateGist.getGistList.error', err);
-                    return reject(err);
+                    console.log("[31m%s[0m", 'wizziGist.duplicateGist.getGistList.error', error);
+                    return reject(error);
                 }
                 )
             
-            ).catch((err: any) => {
+            ).catch((error: any) => {
             
-                if (typeof err === 'object' && err !== null) {
+                if (typeof error === 'object' && error !== null) {
                 }
-                console.log("[31m%s[0m", 'wizziGist.duplicateGist.wizziFs.duplicateFsItem.error', err);
-                return reject(err);
+                console.log("[31m%s[0m", 'wizziGist.duplicateGist.wizziFs.duplicateFsItem.error', error);
+                return reject(error);
             }
             )
         }
@@ -309,21 +309,21 @@ async function renameGist(hash: string, newname: string) {
                              });
                     }
                 }
-                ).catch((err: any) => {
+                ).catch((error: any) => {
                 
-                    if (typeof err === 'object' && err !== null) {
+                    if (typeof error === 'object' && error !== null) {
                     }
-                    console.log("[31m%s[0m", 'wizziGist.renameGist.getGistList.error', err);
-                    return reject(err);
+                    console.log("[31m%s[0m", 'wizziGist.renameGist.getGistList.error', error);
+                    return reject(error);
                 }
                 )
             
-            ).catch((err: any) => {
+            ).catch((error: any) => {
             
-                if (typeof err === 'object' && err !== null) {
+                if (typeof error === 'object' && error !== null) {
                 }
-                console.log("[31m%s[0m", 'wizziGist.renameGist.wizziFs.renameFsItem.error', err);
-                return reject(err);
+                console.log("[31m%s[0m", 'wizziGist.renameGist.wizziFs.renameFsItem.error', error);
+                return reject(error);
             }
             )
         }
@@ -354,12 +354,12 @@ async function getGist(hash: string) {
                          });
                 }
             }
-            ).catch((err: any) => {
+            ).catch((error: any) => {
             
-                if (typeof err === 'object' && err !== null) {
+                if (typeof error === 'object' && error !== null) {
                 }
-                console.log("[31m%s[0m", 'gistFs.getGist.wizziFs.getFile.error', err);
-                return reject(err);
+                console.log("[31m%s[0m", 'gistFs.getGist.wizziFs.getFile.error', error);
+                return reject(error);
             }
             )
         }
@@ -389,30 +389,30 @@ async function executeGist(hash: string) {
                         
                             return resolve(result);
                         }
-                        ).catch((err: any) => {
+                        ).catch((error: any) => {
                         
-                            if (typeof err === 'object' && err !== null) {
+                            if (typeof error === 'object' && error !== null) {
                             }
-                            console.log("[31m%s[0m", 'gistFs.executeGist.executeNodeJsGist.error', err);
-                            return reject(err);
+                            console.log("[31m%s[0m", 'gistFs.executeGist.executeNodeJsGist.error', error);
+                            return reject(error);
                         }
                         )
                     
-                    ).catch((err: any) => {
+                    ).catch((error: any) => {
                     
-                        if (typeof err === 'object' && err !== null) {
+                        if (typeof error === 'object' && error !== null) {
                         }
-                        console.log("[31m%s[0m", 'gistFs.executeGist.gistFs.putGistExecutable.error', err);
-                        return reject(err);
+                        console.log("[31m%s[0m", 'gistFs.executeGist.gistFs.putGistExecutable.error', error);
+                        return reject(error);
                     }
                     )
                 }
-                ).catch((err: any) => {
+                ).catch((error: any) => {
                 
-                    if (typeof err === 'object' && err !== null) {
+                    if (typeof error === 'object' && error !== null) {
                     }
-                    console.log("[31m%s[0m", 'gistFs.executeGist.wizziProds.generateArtifactFs.error', err);
-                    return reject(err);
+                    console.log("[31m%s[0m", 'gistFs.executeGist.wizziProds.generateArtifactFs.error', error);
+                    return reject(error);
                 }
                 )
             }
@@ -421,12 +421,12 @@ async function executeGist(hash: string) {
                 
                     return resolve(result);
                 }
-                ).catch((err: any) => {
+                ).catch((error: any) => {
                 
-                    if (typeof err === 'object' && err !== null) {
+                    if (typeof error === 'object' && error !== null) {
                     }
-                    console.log("[31m%s[0m", 'gistFs.executeGist.executeNodeJsGist.error', err);
-                    return reject(err);
+                    console.log("[31m%s[0m", 'gistFs.executeGist.executeNodeJsGist.error', error);
+                    return reject(error);
                 }
                 )
             }
@@ -454,12 +454,12 @@ async function executeNodeJsGist(hash: string, executablePath: string, response?
                     
                         return resolve(result);
                     }
-                    ).catch((err: any) => {
+                    ).catch((error: any) => {
                     
-                        if (typeof err === 'object' && err !== null) {
+                        if (typeof error === 'object' && error !== null) {
                         }
-                        console.log("[31m%s[0m", 'gistFs.executeNodeJsGist.scriptManager.nodeJsExecToEventStream.error', err);
-                        return reject(err);
+                        console.log("[31m%s[0m", 'gistFs.executeNodeJsGist.scriptManager.nodeJsExecToEventStream.error', error);
+                        return reject(error);
                     }
                     )
                 } 
@@ -482,12 +482,12 @@ async function executeNodeJsGist(hash: string, executablePath: string, response?
                                 message: 'NodeJs script executed'
                              });
                     }
-                    ).catch((err: any) => {
+                    ).catch((error: any) => {
                     
-                        if (typeof err === 'object' && err !== null) {
+                        if (typeof error === 'object' && error !== null) {
                         }
-                        console.log("[31m%s[0m", 'gistFs.executeNodeJsGist.scriptManager.nodeJsExec.error', err);
-                        return reject(err);
+                        console.log("[31m%s[0m", 'gistFs.executeNodeJsGist.scriptManager.nodeJsExec.error', error);
+                        return reject(error);
                     }
                     )
                 } 

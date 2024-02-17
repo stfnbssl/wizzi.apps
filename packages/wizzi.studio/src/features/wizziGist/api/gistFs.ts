@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziGist\api\gistFs.ts.ittf
-    utc time: Thu, 15 Feb 2024 20:31:55 GMT
+    utc time: Sat, 17 Feb 2024 04:55:15 GMT
 */
 import path from 'path';
 import {verify, fSystem} from 'wizzi-utils';
@@ -95,12 +95,12 @@ async function getGistFiles(kind: GistKind) {
                              }
                          });
                 }
-                ).catch((err: any) => {
+                ).catch((error: any) => {
                 
-                    if (typeof err === 'object' && err !== null) {
+                    if (typeof error === 'object' && error !== null) {
                     }
-                    console.log("[31m%s[0m", 'gistFs.getGistFiles.getFolderFiles.snippets.error', err);
-                    return reject(err);
+                    console.log("[31m%s[0m", 'gistFs.getGistFiles.getFolderFiles.snippets.error', error);
+                    return reject(error);
                 }
                 )
             
@@ -124,30 +124,30 @@ async function getGistFiles(kind: GistKind) {
                                      }
                                  });
                         }
-                        ).catch((err: any) => {
+                        ).catch((error: any) => {
                         
-                            if (typeof err === 'object' && err !== null) {
+                            if (typeof error === 'object' && error !== null) {
                             }
-                            console.log("[31m%s[0m", 'gistFs.getGistFiles.getFolderFiles.context.error', err);
-                            return reject(err);
+                            console.log("[31m%s[0m", 'gistFs.getGistFiles.getFolderFiles.context.error', error);
+                            return reject(error);
                         }
                         )
                     
-                    ).catch((err: any) => {
+                    ).catch((error: any) => {
                     
-                        if (typeof err === 'object' && err !== null) {
+                        if (typeof error === 'object' && error !== null) {
                         }
-                        console.log("[31m%s[0m", 'gistFs.getGistFiles.getFolderFiles.fragments.error', err);
-                        return reject(err);
+                        console.log("[31m%s[0m", 'gistFs.getGistFiles.getFolderFiles.fragments.error', error);
+                        return reject(error);
                     }
                     )
                 
-                ).catch((err: any) => {
+                ).catch((error: any) => {
                 
-                    if (typeof err === 'object' && err !== null) {
+                    if (typeof error === 'object' && error !== null) {
                     }
-                    console.log("[31m%s[0m", 'gistFs.getGistFiles.getFolderFiles.gists.error', err);
-                    return reject(err);
+                    console.log("[31m%s[0m", 'gistFs.getGistFiles.getFolderFiles.gists.error', error);
+                    return reject(error);
                 }
                 )
             }
@@ -177,12 +177,12 @@ async function putGistFile(kind: GistKind, name: string, content: string) {
                          }
                      });
             }
-            ).catch((err: any) => {
+            ).catch((error: any) => {
             
-                if (typeof err === 'object' && err !== null) {
+                if (typeof error === 'object' && error !== null) {
                 }
-                console.log("[31m%s[0m", 'gistFs.putGistFile.wizziFs.writeFsItem.error', err);
-                return reject(err);
+                console.log("[31m%s[0m", 'gistFs.putGistFile.wizziFs.writeFsItem.error', error);
+                return reject(error);
             }
             )
         }
@@ -200,12 +200,12 @@ async function putGistExecutable(kind: GistKind, filePath: string, content: stri
                         executablePath: executablePath
                      });
             }
-            ).catch((err: any) => {
+            ).catch((error: any) => {
             
-                if (typeof err === 'object' && err !== null) {
+                if (typeof error === 'object' && error !== null) {
                 }
-                console.log("[31m%s[0m", 'gistFs.putGistExecutable.wizziFs.writeFsItem.error', err);
-                return reject(err);
+                console.log("[31m%s[0m", 'gistFs.putGistExecutable.wizziFs.writeFsItem.error', error);
+                return reject(error);
             }
             )
         }

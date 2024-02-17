@@ -20,7 +20,7 @@ module
         async-function getMetaParameters
             param options
                 :ref WizziMetaRequest
-            const jsonwf
+            let jsonwf
                 await
                     _ wizziFactory.createJsonFsAndFactory
                         {        $$ :ref packiTypes.PackiFiles
@@ -37,12 +37,94 @@ module
                         set mpOptions.metaCtx[useProductionVar] = true
                 _ jsonwf.wf.getMetaParameters
                     @ mpOptions
-                    =>
+                    async=>
                         param err
                         param metaParameters
                         if err
                             r_reject( err )
-                        r_resolve( metaParameters )
+                        _ console.log   
+                            _ JSON.stringify
+                                @ metaParameters
+                                @ null
+                                @ 4
+                        const metaParametersObj
+                            {
+                        for var k in metaParameters
+                            const parts = k.split('/')
+                            if parts.length == 3 && parts[2] == 'index.json.ittf'
+                                const mpName = parts[1]
+                                let mpObj = metaParametersObj[mpName]
+                                if !mpObj
+                                    set mpObj = metaParametersObj[mpName] = {}
+                                set mpObj.index = k
+                                set mpObj.metaProductionName = mpName
+                            if parts.length == 3 && parts[2] == 'globals.json.ittf'
+                                const mpName = parts[1]
+                                let mpObj = metaParametersObj[mpName]
+                                if !mpObj
+                                    set mpObj = metaParametersObj[mpName] = {}
+                                set mpObj.globals = k
+                                set mpObj.metaProductionName = mpName
+                        const metaParametersObjArray = Object.values(metaParametersObj)
+                        const jsonwf2
+                            await
+                                _ wizziFactory.createJsonFsAndFactory
+                                    @ metaParameters $$ :ref packiTypes.PackiFiles
+                                    @ null   $$ factoryPlugins
+                                    @ null   $$ metaPlugins
+                                    {        $$ globalContext
+                        function generateJson
+                            param count
+                            const mpObj = metaParametersObjArray[count] as any
+                            if !mpObj
+                                const result
+                                    {
+                                        @ metaParametersObj metaParametersObj
+                                        @ packiFiles metaParameters
+                                r_resolve( result )
+                            if mpObj.index
+                                _ jsonwf2.wf.loadModelAndGenerateArtifact
+                                    _ wizziFactory.ensurePackiFilePrefix
+                                        @ mpObj.index
+                                    {
+                                        @ modelRequestContext {}
+                                        @ artifactRequestContext {}
+                                    @ 'json/document'
+                                    a_cb_promise(result)
+                                        set mpObj.parametersIndexObj = JSON.parse(result)
+                                        if mpObj.globals
+                                            _ jsonwf2.wf.loadModelAndGenerateArtifact
+                                                _ wizziFactory.ensurePackiFilePrefix
+                                                    @ mpObj.globals
+                                                {
+                                                    @ modelRequestContext {}
+                                                    @ artifactRequestContext {}
+                                                @ 'json/document'
+                                                a_cb_promise(result)
+                                                    set mpObj.parametersGlobalsObj = JSON.parse(result)
+                                                    _ generateJson
+                                                        @ count + 1
+                                        else
+                                            _ generateJson
+                                                @ count + 1
+                            else
+                                if mpObj.globals
+                                    _ jsonwf2.wf.loadModelAndGenerateArtifact
+                                        _ wizziFactory.ensurePackiFilePrefix
+                                            @ mpObj.globals
+                                        {
+                                            @ modelRequestContext {}
+                                            @ artifactRequestContext {}
+                                        @ 'json/document'
+                                        a_cb_promise(result)
+                                            set mpObj.parametersGlobalsObj = JSON.parse(result)
+                                            _ generateJson
+                                                @ count + 1
+                                else
+                                    _ generateJson
+                                        @ count + 1
+                        _ generateJson
+                            @ 0
     +
     export
         async-function getProvidedMetas

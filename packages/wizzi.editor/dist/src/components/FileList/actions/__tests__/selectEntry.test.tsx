@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\actions\__tests__\selectEntry.test.tsx.ittf
-    utc time: Mon, 29 Jan 2024 07:09:54 GMT
+    utc time: Fri, 16 Feb 2024 22:02:11 GMT
 */
 import {FileSystemEntry} from '../../types';
 import selectEntry from '../selectEntry';

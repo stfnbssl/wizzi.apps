@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\philos\api\philos.ts.ittf
-    utc time: Thu, 15 Feb 2024 20:31:55 GMT
+    utc time: Sat, 17 Feb 2024 04:55:15 GMT
 */
 import path from 'path';
 import {verify, fSystem} from 'wizzi-utils';
@@ -26,12 +26,12 @@ async function getPhilosList() {
                 console.log('api/philos/getPhilosList', philos, __filename);
                 return resolve(philos);
             }
-            ).catch((err: any) => {
+            ).catch((error: any) => {
             
-                if (typeof err === 'object' && err !== null) {
+                if (typeof error === 'object' && error !== null) {
                 }
-                console.log("[31m%s[0m", 'features.philos.api.getPhilosList.error', err);
-                return reject(err);
+                console.log("[31m%s[0m", 'features.philos.api.getPhilosList.error', error);
+                return reject(error);
             }
             )
         }
@@ -52,12 +52,12 @@ async function getPhilosItem(name: string) {
                 console.log('api/philos/getPhilosItem/philosModelTransformed', Object.keys(philosModelTransformed), __filename);
                 return resolve(philosModelTransformed.transformResult);
             }
-            ).catch((err: any) => {
+            ).catch((error: any) => {
             
-                if (typeof err === 'object' && err !== null) {
+                if (typeof error === 'object' && error !== null) {
                 }
-                console.log("[31m%s[0m", 'features.philos.api.getPhilosItem.error', err);
-                return reject(err);
+                console.log("[31m%s[0m", 'features.philos.api.getPhilosItem.error', error);
+                return reject(error);
             }
             )
         }

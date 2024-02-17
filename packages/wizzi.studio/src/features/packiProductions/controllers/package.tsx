@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\package.tsx.ittf
-    utc time: Thu, 15 Feb 2024 20:31:56 GMT
+    utc time: Sat, 17 Feb 2024 04:55:17 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -58,18 +58,18 @@ function getPackiConfigFile():  packiTypes.PackiFiles {
                     '            $$ artifactName "..name.."'
                 ].join('\n')
              }, 
-            ['.packi/properties/index.json.ittf']: {
+            ['.packi/parameters/index.json.ittf']: {
                 type: 'CODE', 
                 contents: [
                     '{', 
-                    '    [ properties', 
+                    '    [ parameters', 
                     '        {', 
                     '            name "name"', 
                     '            type "string"', 
                     '        string$( kind )'
                 ].join('\n')
              }, 
-            ['.packi/properties/t/string.json.ittf']: {
+            ['.packi/parameters/t/string.json.ittf']: {
                 type: 'CODE', 
                 contents: [
                     '{', 
@@ -79,7 +79,7 @@ function getPackiConfigFile():  packiTypes.PackiFiles {
                     '    $hook'
                 ].join('\n')
              }, 
-            ['.packi/properties/t/boolean.json.ittf']: {
+            ['.packi/parameters/t/boolean.json.ittf']: {
                 type: 'CODE', 
                 contents: [
                     '{', 
@@ -89,36 +89,37 @@ function getPackiConfigFile():  packiTypes.PackiFiles {
                     '    $hook'
                 ].join('\n')
              }, 
-            ['.packi/properties/t/number.json.ittf']: {
+            ['.packi/parameters/t/integer.json.ittf']: {
                 type: 'CODE', 
                 contents: [
                     '{', 
                     '    $params name', 
                     '    name "${name}"', 
-                    '    type "number"', 
+                    '    type "integer"', 
                     '    $hook'
                 ].join('\n')
              }, 
-            ['.packi/properties/t/object.json.ittf']: {
+            ['.packi/parameters/t/object.json.ittf']: {
                 type: 'CODE', 
                 contents: [
                     '{', 
                     '    $params name', 
                     '    name "${name}"', 
                     '    type "object"', 
-                    '    [ properties', 
+                    '    [ parameters', 
                     '        $hook'
                 ].join('\n')
              }, 
-            ['.packi/properties/t/array.json.ittf']: {
+            ['.packi/parameters/t/array.json.ittf']: {
                 type: 'CODE', 
                 contents: [
                     '{', 
                     '    $params name', 
                     '    name "${name}"', 
                     '    type "array"', 
-                    '    [ properties', 
-                    '        $hook'
+                    '    { item', 
+                    '        [ parameters', 
+                    '            $hook'
                 ].join('\n')
              }
          };

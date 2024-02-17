@@ -127,16 +127,21 @@ module
                             @ key
                             @ packiChanges[key].contents
                     elif packiChanges[key].d == 0
-                        const textToPatch = this.packiFiles[key].contents
-                        const patches
-                            _ this.dmp.patch_make
-                                @ textToPatch
-                                @ packiChanges[key].diffs
-                        const [patchedText, results]
-                            _ this.dmp.patch_apply(patches, textToPatch)
-                        _ this.putCodeFile
-                            @ key
-                            @ patchedText
+                        if packiChanges[key].contents && packiChanges[key].contents.length > 0
+                            _ this.putCodeFile
+                                @ key
+                                @ packiChanges[key].contents
+                        else
+                            const textToPatch = this.packiFiles[key].contents
+                            const patches
+                                _ this.dmp.patch_make
+                                    @ textToPatch
+                                    @ packiChanges[key].diffs
+                            const [patchedText, results]
+                                _ this.dmp.patch_apply(patches, textToPatch)
+                            _ this.putCodeFile
+                                @ key
+                                @ patchedText
                     elif packiChanges[key].d == -1
                         _ this.deleteFile
                             @ key
