@@ -2,12 +2,14 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\config\env.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import path from 'path';
 import dotenv from 'dotenv';
 import {cleanEnv, str, bool, port} from 'envalid';
+import wizzi from '@wizzi/factory';
 import {ConfigType} from './types';
+const costants = wizzi.costants;
 function validateEnv() {
 
     dotenv.config();
@@ -24,8 +26,8 @@ function validateEnv() {
      });
     return checkedEnv;
 }
-export const packiFilePrefix = 'json:/';
-export const packiFilePrefixExtract = 'json:/';
+export const packiFilePrefix = costants.packiFilePrefix;
+export const packiFilePrefixExtract = costants.packiFilePrefixExtract;
 export const packiConfigPath = '.packi/config.json.ittf';
 let config: ConfigType;
 export default function create():  ConfigType {

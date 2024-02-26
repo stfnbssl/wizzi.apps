@@ -206,6 +206,10 @@ module
                         set pathPrefix = "/~p/"
                     elif this.state.packiProduction == 'plugin'
                         set pathPrefix = "/~l/"
+                    elif this.state.packiProduction == 'meta'
+                        set pathPrefix = "/~m/"
+                    elif this.state.packiProduction == 'tfolder'
+                        set pathPrefix = "/~t/"
                     return
                         _ this.setState
                             =>

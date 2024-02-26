@@ -22,7 +22,7 @@ $group
             # context property 'db' will contain json document 'item.db.json'
             # fragments from tFolders html, css and js will be added to production packiFiles
         +
-        # loog 'executing getProductionSetByQueryContext', 
+        $$ loog 'executing getProductionSetByQueryContext', 
             \b 'owner', owner, 
             \b 'productionName', productionName, 
             \b 'queryContextString', queryContextString, 
@@ -41,12 +41,12 @@ $group
                     param reject
                     if queryContextString && queryContextString.length > 0
                         const queryContextItems = queryContextString.split('|')
-                        # loog 'getProductionSetByQueryContext', queryContextItems
+                        $$ loog 'getProductionSetByQueryContext', queryContextItems
                         var j = 0
                         iife next
                             var queryContextItem = queryContextItems[j++]
                             if !queryContextItem
-                                # loog 'getProductionSetByQueryContext.done.keys', Object.keys(progressiveContext)
+                                $$ loog 'getProductionSetByQueryContext.done.keys', Object.keys(progressiveContext)
                                 return 
                                     _ resolve
                                         {
@@ -68,7 +68,7 @@ $group
                                         _ next()
                                 v08/ts/catch_reject( getProductionSetByQueryContext.getArtifactContextItem )
                     else
-                        # loog 'getProductionSetByQueryContext', 'no queryContextString'
+                        $$ loog 'getProductionSetByQueryContext', 'no queryContextString'
                         _ resolve
                             {
                                 @ packiFiles progressivePackiFiles

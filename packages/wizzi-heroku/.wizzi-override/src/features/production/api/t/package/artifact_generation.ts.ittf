@@ -12,7 +12,7 @@ $group
                 :string
             param rootContext
                 :any
-            # loog myname, 'getArtifactGeneration_withPrepare',
+            $$ loog myname, 'getArtifactGeneration_withPrepare',
                 \b 'owner', owner,
                 \b 'productionName', productionName,
                 \b 'filePath', filePath,
@@ -33,7 +33,7 @@ $group
                                 => 
                                     param productionObj
                                         :any
-                                    # loog myname, 'getArtifactGeneration_withPrepare.productionObj',
+                                    $$ loog myname, 'getArtifactGeneration_withPrepare.productionObj',
                                         \b 'packiFiles', Object.keys(productionObj.packiFiles),
                                         \b 'context', Object.keys(productionObj.context),
                                     _ wizziProds.generateArtifact
@@ -44,8 +44,8 @@ $group
                                             => 
                                                 param result
                                                     :any
-                                                # loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.length
-                                                # loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.substring(0, 120) + '...'
+                                                $$ loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.length
+                                                $$ loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.substring(0, 120) + '...'
                                                 const response
                                                     { 
                                                         @ content result.artifactContent

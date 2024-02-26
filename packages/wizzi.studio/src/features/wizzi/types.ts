@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\types.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import * as wizzi from '@wizzi/factory';
 import {JsonFs} from '@wizzi/repo';
@@ -100,8 +100,21 @@ export type WizziJobTypesRequest = {
     productionOptions?: wizzi.ProductionOptions;
 };
 
+export type ExtraMetaProductionData = { 
+    name: string;
+    folderTemplates: packiTypes.PackiFiles;
+    ittfDocumentTemplates?: packiTypes.PackiFiles;
+    plainDocuments?: packiTypes.PackiFiles;
+};
+
+export type MetaProductionPaths = { 
+    tempProductionFolder: string;
+    wizziProductionFolder: string;
+};
+
 export type MetaExecuteRequest = { 
     metaCtx?: any;
     globalContext?: any;
-    metaProductions?: any;
+    paths?: MetaProductionPaths;
+    metaProductions?: ExtraMetaProductionData[];
 };

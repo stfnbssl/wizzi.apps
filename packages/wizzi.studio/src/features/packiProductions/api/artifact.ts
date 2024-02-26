@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\artifact.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import path from 'path';
 import NodeCache from 'node-cache';
@@ -310,9 +310,7 @@ async function createArtifactProduction(owner?: string, name?: string, descripti
                 name: name
              };
             
-            ArtifactProduction.find(query, 
-            // loog myname, 'getArtifactProduction', 'ArtifactProduction.find', 'result', result
-            (err: any, result: any) => {
+            ArtifactProduction.find(query, (err: any, result: any) => {
             
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getArtifactProduction', 'ArtifactProduction.find', 'error', err);
@@ -724,14 +722,11 @@ export async function getArtifactTransformation(owner: string, name: string, con
         );
 }
 
-export // loog 'getArtifactMTree_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext), 'transformerName', transformerName
-async function getArtifactTransformation_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any, transformerName: string) {
+export async function getArtifactTransformation_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any, transformerName: string) {
 
     return new Promise((resolve, reject) => 
         
-            productionApi.prepareProduction('artifact', owner, productionName, queryContext, rootContext).then(
-            // loog 'getArtifactTransformation_withPrepare.productionObj', 'mainIttf', productionObj.mainIttf, 'packiFiles', Object.keys(productionObj.packiFiles), 'context', Object.keys(productionObj.context),
-            (productionObj: any) => 
+            productionApi.prepareProduction('artifact', owner, productionName, queryContext, rootContext).then((productionObj: any) => 
             
                 wizziProds.loadAndTransformModel(productionObj.mainIttf, productionObj.packiFiles, productionObj.context, {
                     transformer: transformerName
@@ -824,14 +819,11 @@ export async function getArtifactGeneration(owner: string, name: string, context
         );
 }
 
-export // loog 'getArtifactGeneration_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
-async function getArtifactGeneration_withPrepare(owner: string, productionName: string, filePath: string, queryContext: string, rootContext: any) {
+export async function getArtifactGeneration_withPrepare(owner: string, productionName: string, filePath: string, queryContext: string, rootContext: any) {
 
     return new Promise((resolve, reject) => 
         
-            productionApi.prepareProduction('artifact', owner, productionName, queryContext, rootContext).then(
-            // loog 'getArtifactGeneration_withPrepare.productionObj', 'mainIttf', productionObj.mainIttf, 'packiFiles', Object.keys(productionObj.packiFiles), 'context', Object.keys(productionObj.context),
-            (productionObj: any) => 
+            productionApi.prepareProduction('artifact', owner, productionName, queryContext, rootContext).then((productionObj: any) => 
             
                 wizziProds.generateArtifact(filePath || productionObj.mainIttf, productionObj.packiFiles, productionObj.context).then((result: any) => {
                 
@@ -916,8 +908,7 @@ export async function getArtifactMTree(owner: string, productionName: string, ro
         );
 }
 
-export // loog 'getArtifactMTree_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
-async function getArtifactMTree_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any) {
+export async function getArtifactMTree_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any) {
 
     return new Promise((resolve, reject) => 
         
@@ -1005,8 +996,7 @@ export async function getArtifactMTreeBuildupScript(owner: string, productionNam
         );
 }
 
-export // loog 'getArtifactMTreeBuildupScript_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
-async function getArtifactMTreeBuildupScript_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any) {
+export async function getArtifactMTreeBuildupScript_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any) {
 
     return new Promise((resolve, reject) => 
         

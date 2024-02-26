@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\package.tsx.ittf
-    utc time: Sat, 17 Feb 2024 04:55:17 GMT
+    utc time: Sun, 25 Feb 2024 13:18:10 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -183,11 +183,7 @@ export class PackageProductionController implements ControllerType {
     
     ;
     
-    private postPackage = 
-    // loog myname + '.postNewPackage.request.body', JSON.stringify(request.body, null, 2)
-    
-    // loog myname + '.postNewPackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
-    async (request: Request, response: Response) => 
+    private postPackage = async (request: Request, response: Response) => 
     
         getTemplatePackiFiles(request.body.meta_id, request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}, request.query.context as string, request.body.context ? JSON.parse(request.body.context) : {}, {
             wizziSchema: null, 
@@ -230,9 +226,7 @@ export class PackageProductionController implements ControllerType {
     
     ;
     
-    private getUpdatePackageForm = 
-    // loog myname + '.getUpdatePackageForm.id', id
-    async (request: Request, response: Response) => {
+    private getUpdatePackageForm = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         getPackageProductionObjectById(id).then((result: any) => 
@@ -270,9 +264,7 @@ export class PackageProductionController implements ControllerType {
     }
     ;
     
-    private getDeletePackageForm = 
-    // loog myname + '.getDeletePackageForm.id', id
-    async (request: Request, response: Response) => {
+    private getDeletePackageForm = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         getPackageProductionObjectById(id).then((result: any) => 
@@ -291,9 +283,7 @@ export class PackageProductionController implements ControllerType {
     }
     ;
     
-    private deletePackage = 
-    // loog myname + '.deletePackage.request.path', request.path
-    async (request: Request, response: Response) => {
+    private deletePackage = async (request: Request, response: Response) => {
     
         const obj = request.body;
         deletePackageProduction(obj.pp_id, obj.pp_owner, obj.pp_name).then((result: any) => {

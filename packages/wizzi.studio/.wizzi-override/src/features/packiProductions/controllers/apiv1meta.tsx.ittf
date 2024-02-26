@@ -59,7 +59,7 @@ module
                                 ._ then
                                     =>
                                         param value
-                                        # loog myname, 'getMetaProperties.generateArtifact.result', value
+                                        $$ loog myname, 'getMetaProperties.generateArtifact.result', value
                                         _ sendSuccess
                                             @ response
                                             {
@@ -81,8 +81,8 @@ module
                                 @ result
                     v08/ts/catch_send_fail( getMetaProduction )
             v08/ts/handler( postMetaProduction )
-                # loog 'postMetaProduction.request.params', request.params
-                # loog 'postMetaProduction.request.body', request.body
+                $$ loog 'postMetaProduction.request.params', request.params
+                $$ loog 'postMetaProduction.request.body', request.body
                 _ createMetaProduction
                     @ request.params.owner
                     @ request.params.name

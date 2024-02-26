@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\meta.tsx.ittf
-    utc time: Sat, 17 Feb 2024 04:55:17 GMT
+    utc time: Sun, 25 Feb 2024 13:18:10 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -194,9 +194,7 @@ export class MetaProductionController implements ControllerType {
     
     ;
     
-    private getUpdateMetaForm = 
-    // loog myname + '.getUpdateMetaForm.id', id
-    async (request: Request, response: Response) => {
+    private getUpdateMetaForm = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         getMetaProductionObjectById(id).then((result: any) => 
@@ -234,9 +232,7 @@ export class MetaProductionController implements ControllerType {
     }
     ;
     
-    private getDeleteMetaForm = 
-    // loog myname + '.getDeleteMetaForm.id', id
-    async (request: Request, response: Response) => {
+    private getDeleteMetaForm = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         getMetaProductionObjectById(id).then((result: any) => 
@@ -255,9 +251,7 @@ export class MetaProductionController implements ControllerType {
     }
     ;
     
-    private deleteMeta = 
-    // loog myname + '.deleteMeta.request.path', request.path
-    async (request: Request, response: Response) => {
+    private deleteMeta = async (request: Request, response: Response) => {
     
         const obj = request.body;
         deleteMetaProduction(obj.mp_id, obj.mp_owner, obj.mp_name).then((result: any) => {
@@ -278,9 +272,7 @@ export class MetaProductionController implements ControllerType {
     
     private generateMeta = async (request: Request, response: Response) => {
     
-        generateMetaProduction(request.body.owner, request.body.name, request.body.metaCtx).then(
-        // loog myname, 'getWizziMetaFolderByPackageProductionObject.generateMetaProduction', Object.keys(wizziPackiFiles)
-        (wizziPackiFiles: packiTypes.PackiFiles) => 
+        generateMetaProduction(request.body.owner, request.body.name, request.body.metaCtx).then((wizziPackiFiles: packiTypes.PackiFiles) => 
         
             sendSuccess(response, wizziPackiFiles)
         )

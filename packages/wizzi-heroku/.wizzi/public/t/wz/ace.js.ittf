@@ -63,7 +63,7 @@ $group
         m initialize
             if this.editor
                 return
-            # loog 'AceEditor.initialize start on', this.options.editorElementId
+            $$ loog 'AceEditor.initialize start on', this.options.editorElementId
             if typeof ace === 'undefined' || !ace.edit
                 throw new Error('wz.ace initialize methods requires the `ace` component. Check that the ace script has been included.')
             set this.element = wz.element('#' + this.options.editorElementId)
@@ -89,7 +89,7 @@ $group
                         @ 'change'
                         [
                             _ that.getValue
-            # loog 'AceEditor.initialize end'
+            $$ loog 'AceEditor.initialize end'
         m on
             param name
             param handler

@@ -116,7 +116,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog 'post${md.Name}.create.result', result
+                            $$ loog 'post${md.Name}.create.result', result
                             #
                                 _ invalidateCache
                                     $foreach field in md.fields
@@ -137,7 +137,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog 'put${md.Name}.update.result', result
+                            $$ loog 'put${md.Name}.update.result', result
                             #
                                 _ invalidateCache
                                     @ request.params.id
@@ -156,7 +156,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog 'delete${md.Name}.delete.result', result
+                            $$ loog 'delete${md.Name}.delete.result', result
                             #
                                 _ invalidateCache
                                     @ request.params.id

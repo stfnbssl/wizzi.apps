@@ -3,7 +3,7 @@ $group
     $
         var Prod = _.capitalize(prod);
         var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
-    # loog 'getCheck${Prod}Name.request.params', request.params
+    $$ loog 'getCheck${Prod}Name.request.params', request.params
     _ validate${Prod}${suffix}
         @ request.params.owner
         @ request.params.name
@@ -11,7 +11,7 @@ $group
             =>
                 param result
                     :any
-                # loog 'getCheck${Prod}Name.result', result
+                $$ loog 'getCheck${Prod}Name.result', result
                 _ sendSuccess
                     @ response
                     @ result

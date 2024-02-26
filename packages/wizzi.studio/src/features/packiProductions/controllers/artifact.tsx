@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\artifact.tsx.ittf
-    utc time: Sat, 17 Feb 2024 04:55:17 GMT
+    utc time: Sun, 25 Feb 2024 13:18:10 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -120,9 +120,7 @@ export class ArtifactProductionController implements ControllerType {
     
     ;
     
-    private postArtifact = 
-    // loog myname + '.postNewArtifact.request.body', JSON.stringify(request.body, null, 2)
-    async (request: Request, response: Response) => {
+    private postArtifact = async (request: Request, response: Response) => {
     
         const wizziSchema = request.body.ap_wizzi_schema || 'html';
         const mainIttf = request.body.ap_main_ittf || 'index.' + wizziSchema + '.ittf';
@@ -159,9 +157,7 @@ export class ArtifactProductionController implements ControllerType {
     }
     ;
     
-    private getUpdateArtifactForm = 
-    // loog myname + '.getUpdateArtifactForm.id', id
-    async (request: Request, response: Response) => {
+    private getUpdateArtifactForm = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         getArtifactProductionObjectById(id).then((result: any) => 
@@ -201,9 +197,7 @@ export class ArtifactProductionController implements ControllerType {
     }
     ;
     
-    private getDeleteArtifactForm = 
-    // loog myname + '.getDeleteArtifactForm.id', id
-    async (request: Request, response: Response) => {
+    private getDeleteArtifactForm = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         getArtifactProductionObjectById(id).then((result: any) => 
@@ -224,9 +218,7 @@ export class ArtifactProductionController implements ControllerType {
     }
     ;
     
-    private deleteArtifact = 
-    // loog myname + '.deleteArtifact.request.path', request.path
-    async (request: Request, response: Response) => {
+    private deleteArtifact = async (request: Request, response: Response) => {
     
         const obj = request.body;
         deleteArtifactProduction(obj.ap_id, obj.ap_owner, obj.ap_name).then((result: any) => {

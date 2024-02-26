@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\apiv1job.tsx.ittf
-    utc time: Sat, 17 Feb 2024 04:55:17 GMT
+    utc time: Sun, 25 Feb 2024 13:18:10 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -84,13 +84,9 @@ export class ApiV1JobController implements ControllerType {
     
     ;
     
-    private getCheckJobName = 
-    // loog 'getCheckJobName.request.params', request.params
-    async (request: Request, response: Response) => 
+    private getCheckJobName = async (request: Request, response: Response) => 
     
-        validateJob(request.params.owner, request.params.name).then(
-        // loog 'getCheckJobName.result', result
-        (result: any) => 
+        validateJob(request.params.owner, request.params.name).then((result: any) => 
         
             sendSuccess(response, result)
         ).catch((err: any) => {
@@ -187,9 +183,7 @@ export class ApiV1JobController implements ControllerType {
 }
 function exec_updateJob(request: any, response: any, packiFiles: any) {
 
-    updateJob(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then(
-    // loog 'putJob.update.result', result
-    (result: any) => {
+    updateJob(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then((result: any) => {
     
         invalidateCache(request.params.id)
         sendSuccess(response, result)

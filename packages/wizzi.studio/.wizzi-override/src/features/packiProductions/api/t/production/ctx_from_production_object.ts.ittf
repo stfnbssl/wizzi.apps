@@ -16,7 +16,7 @@ $group
             # Called by production.api.production.prepareProduction
             # increments progressivePackiFiles and progressiveContext
         +
-        # loog 'executing getProductionSetFromProductionObject', 'owner', owner, 'productionName', productionName, 'packiConfig', packiConfig, 'progressivePackiFiles', Object.keys(progressivePackiFiles), 'progressiveContext', Object.keys(progressiveContext)
+        $$ loog 'executing getProductionSetFromProductionObject', 'owner', owner, 'productionName', productionName, 'packiConfig', packiConfig, 'progressivePackiFiles', Object.keys(progressivePackiFiles), 'progressiveContext', Object.keys(progressiveContext)
         +
         set progressiveContext
             _ Object.assign
@@ -43,7 +43,7 @@ $group
                                     param generationResult
                                         :any
                                     const packiConfigObj = JSON.parse(generationResult.artifactContent)
-                                    # loog myname, 'getProductionSetFromProductionObject', 'packiConfigObj', JSON.stringify(packiConfigObj)
+                                    $$ loog myname, 'getProductionSetFromProductionObject', 'packiConfigObj', JSON.stringify(packiConfigObj)
                                     _ getTFoldersPackiFilesFromProductionData
                                         @ owner
                                         @ packiConfigObj
@@ -51,7 +51,7 @@ $group
                                             =>
                                                 param tFoldersPackiFiles
                                                     :ref packiTypes.PackiFiles
-                                                # loog myname, 'getProductionSetFromProductionObject', 'tFoldersPackiFiles', Object.keys(tFoldersPackiFiles)
+                                                $$ loog myname, 'getProductionSetFromProductionObject', 'tFoldersPackiFiles', Object.keys(tFoldersPackiFiles)
                                                 set progressivePackiFiles
                                                     _ mergePackiFiles
                                                         @ progressivePackiFiles
@@ -63,7 +63,7 @@ $group
                                                     ._ then
                                                         =>
                                                             param resultProductionContext
-                                                            # loog myname, 'getProductionSetFromProductionObject', 'resultProductionContext', Object.keys(resultProductionContext)
+                                                            $$ loog myname, 'getProductionSetFromProductionObject', 'resultProductionContext', Object.keys(resultProductionContext)
                                                             return
                                                                 _ resolve
                                                                     {
@@ -73,7 +73,7 @@ $group
                                         v08/ts/catch_reject( getArtifactGeneration.getTFoldersPackiFilesFromProductionData )
                             v08/ts/catch_reject( getArtifactGeneration.generateArtifact )
                     else
-                        # loog owner, productionName, packiConfig, 'has no production data'
+                        $$ loog owner, productionName, packiConfig, 'has no production data'
                         _ resolve
                             {
                                 @ packiFiles progressivePackiFiles
@@ -100,7 +100,7 @@ $group
                             :ref packiTypes.PackiFiles
                             {
                         const hasTFolders = packiConfigObj && packiConfigObj.tfolders && packiConfigObj.tfolders.length > 0;
-                        # loog myname, 'getTFoldersPackiFilesFromProductionData', 'hastFolders', hasTFolders
+                        $$ loog myname, 'getTFoldersPackiFilesFromProductionData', 'hastFolders', hasTFolders
                         if !hasTFolders
                             return
                                 _ resolve
@@ -110,12 +110,12 @@ $group
                         iife next
                             var tfolder = packiConfigObj.tfolders[j++]
                             if !tfolder
-                                # loog 'getTFoldersPackiFilesFromProductionData.done.keys', Object.keys(tFoldersPackiFiles)
+                                $$ loog 'getTFoldersPackiFilesFromProductionData.done.keys', Object.keys(tFoldersPackiFiles)
                                 return resolve(tFoldersPackiFiles)
                             if !tfolder.name
                                 return
                                     _ next
-                            # loog myname, 'getTFoldersPackiFilesFromProductionData', 'getting tFolder', tfolder.name
+                            $$ loog myname, 'getTFoldersPackiFilesFromProductionData', 'getting tFolder', tfolder.name
                             _ tFolderApi.getTFolder
                                 @ owner
                                 @ tfolder.name
@@ -147,7 +147,7 @@ $group
             :ref Promise
                 :param
                     :any
-        # loog 'addContextPropertiesFromProductionData', 'owner', owner, 'packiConfigObj', packiConfigObj, 'progressiveContext', Object.keys(progressiveContext)
+        $$ loog 'addContextPropertiesFromProductionData', 'owner', owner, 'packiConfigObj', packiConfigObj, 'progressiveContext', Object.keys(progressiveContext)
         +
         return
             new Promise
@@ -163,7 +163,7 @@ $group
                     iife next
                         var contextConfig = packiConfigObj.contexts[j++]
                         if !contextConfig
-                            # loog 'addContextPropertiesFromProductionData.done.keys', Object.keys(progressiveContext)
+                            $$ loog 'addContextPropertiesFromProductionData.done.keys', Object.keys(progressiveContext)
                             return resolve(progressiveContext)
                         if !contextConfig.propertyName || !contextConfig.artifactName
                             return

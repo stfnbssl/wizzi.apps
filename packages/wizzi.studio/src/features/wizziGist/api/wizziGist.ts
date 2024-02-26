@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziGist\api\wizziGist.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import path from 'path';
 import {verify, fSystem, pretty, crypto} from 'wizzi-utils';
@@ -21,9 +21,7 @@ function isGistKind(kind) {
 
 async function getGistList(kind: GistKind) {
 
-    return new Promise(
-        // loog 'wizziGist.api.getGistList.kind', kind
-        (resolve, reject) => 
+    return new Promise((resolve, reject) => 
         
             gistFs.getGistFiles(kind).then((result: any) => {
             

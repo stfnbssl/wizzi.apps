@@ -51,7 +51,7 @@ $group
                     _ this.value
                         @ value
                     set this.isSettingValue = false
-            # loog 'EditorControl initialized'
+            $$ loog 'EditorControl initialized'
         m theme
             param value
             if typeof value === 'undefined'

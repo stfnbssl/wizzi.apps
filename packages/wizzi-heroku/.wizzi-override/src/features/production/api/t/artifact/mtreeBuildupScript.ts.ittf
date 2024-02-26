@@ -58,7 +58,7 @@ $group
                 :string
             param rootContext
                 :any
-            # loog 'getArtifactMTreeBuildupScript_withPrepare',
+            $$ loog 'getArtifactMTreeBuildupScript_withPrepare',
                 \b 'owner', owner,
                 \b 'productionName', productionName,
                 \b 'queryContext', queryContext,

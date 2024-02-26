@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\apiv1meta.tsx.ittf
-    utc time: Sat, 17 Feb 2024 04:55:17 GMT
+    utc time: Sun, 25 Feb 2024 13:18:10 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -100,9 +100,7 @@ export class ApiV1MetaProductionController implements ControllerType {
     
         productionApi.prepareProductionById('meta', request.params.id, '', {}).then((metaProductionSet: any) => 
         
-            wizziProds.generateArtifact('properties/index.json.ittf', metaProductionSet.packiFiles, metaProductionSet.context).then(
-            // loog myname, 'getMetaProperties.generateArtifact.result', value
-            value => 
+            wizziProds.generateArtifact('properties/index.json.ittf', metaProductionSet.packiFiles, metaProductionSet.context).then(value => 
             
                 sendSuccess(response, {
                     meta: JSON.parse(value.artifactContent)
@@ -131,13 +129,9 @@ export class ApiV1MetaProductionController implements ControllerType {
     
     ;
     
-    private getCheckMetaName = 
-    // loog 'getCheckMetaName.request.params', request.params
-    async (request: Request, response: Response) => 
+    private getCheckMetaName = async (request: Request, response: Response) => 
     
-        validateMetaProduction(request.params.owner, request.params.name).then(
-        // loog 'getCheckMetaName.result', result
-        (result: any) => 
+        validateMetaProduction(request.params.owner, request.params.name).then((result: any) => 
         
             sendSuccess(response, result)
         ).catch((err: any) => {
@@ -170,11 +164,7 @@ export class ApiV1MetaProductionController implements ControllerType {
     
     ;
     
-    private postMetaProduction = 
-    // loog 'postMetaProduction.request.params', request.params
-    
-    // loog 'postMetaProduction.request.body', request.body
-    async (request: Request, response: Response) => 
+    private postMetaProduction = async (request: Request, response: Response) => 
     
         createMetaProduction(request.params.owner, request.params.name, request.body.description, JSON.stringify(request.body.packiFiles)).then((result: any) => 
         
@@ -256,9 +246,7 @@ export class ApiV1MetaProductionController implements ControllerType {
 }
 function exec_updateMetaProduction(request: any, response: any, packiFiles: any) {
 
-    updateMetaProduction(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then(
-    // loog 'putMetaProduction.update.result', result
-    (result: any) => {
+    updateMetaProduction(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then((result: any) => {
     
         invalidateCache(request.params.id)
         sendSuccess(response, result)

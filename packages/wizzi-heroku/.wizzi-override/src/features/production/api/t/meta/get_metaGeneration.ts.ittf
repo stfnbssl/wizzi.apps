@@ -13,7 +13,7 @@ $group
                 :ref Promise
                     :param 
                         :ref packiTypes.PackiFiles
-            # loog myname, 'generateMetaProduction', 
+            $$ loog myname, 'generateMetaProduction', 
                 \b 'owner', owner, 
                 \b 'name', name
             return
@@ -24,7 +24,7 @@ $group
                         => 
                             param metaProduction
                                 :ref CRUDResult
-                            # loog myname, 'generateMetaProduction.gotMetaProductionItem', 
+                            $$ loog myname, 'generateMetaProduction.gotMetaProductionItem', 
                                 \b 'CRUDResult.item.id,keys', metaProduction.item.id, Object.keys(metaProduction.item)
                             return
                                 _ generateMetaProductionById
@@ -41,7 +41,7 @@ $group
                 :ref Promise
                     :param 
                         :ref packiTypes.PackiFiles
-            # loog myname, 'generateMetaProductionById', 
+            $$ loog myname, 'generateMetaProductionById', 
                 \b 'metaId', metaId, 
                 \b 'cliCtx', Object.keys(cliCtx)
             return 
@@ -74,7 +74,7 @@ $group
                                             =>
                                                 param packiFiles
                                                     :ref packiTypes.PackiFiles
-                                                # loog 'generateMetaProductionById.metaGenerate.result',
+                                                $$ loog 'generateMetaProductionById.metaGenerate.result',
                                                     \b 'packiFiles', Object.keys(packiFiles),
                                                 _ resolve
                                                     @ packiFiles

@@ -37,6 +37,7 @@ module.exports = {
     ], 
     globalContext: {
         wzConfigIsDevelopment: true, 
+        wzConfigIsHeroku: false, 
         wzConfigIsPackageDeploy: false, 
         wzConfigIsDocumentation: true
      }

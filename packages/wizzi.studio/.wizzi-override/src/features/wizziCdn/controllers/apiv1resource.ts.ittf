@@ -51,7 +51,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog 'getCheckResourceName.result', result
+                            $$ loog 'getCheckResourceName.result', result
                             _ sendSuccess
                                 @ response
                                 @ result
@@ -81,7 +81,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog 'postWizziCdnResource.create.result', result
+                            $$ loog 'postWizziCdnResource.create.result', result
                             _ invalidateCache
                                 @ request.params.owner
                                 @ request.params.name

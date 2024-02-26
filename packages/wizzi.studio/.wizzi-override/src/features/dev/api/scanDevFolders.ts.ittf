@@ -30,8 +30,8 @@ module
                 :param
                     :any
         r_promise()
-            # loog myname, 'options', options
-            # loog myname, 'config', config
+            $$ loog myname, 'options', options
+            $$ loog myname, 'config', config
             var baseDevFolderPath = "C:/My/wizzi/stfnbssl"
             var searchInFolders
                 [ 
@@ -48,7 +48,7 @@ module
                     @ baseDevFolderPath
                     { 
                         @ deep false
-            # loog myname, "folders of baseDevFolderPath", folders
+            $$ loog myname, "folders of baseDevFolderPath", folders
             +
             function exec
                 param i
@@ -66,7 +66,7 @@ module
                         @ folder
                     @ options
                     a_then( packagesInfo )
-                        # loog myname, 'execScanDevFolders', 'packagesInfo.length', packagesInfo.length
+                        $$ loog myname, 'execScanDevFolders', 'packagesInfo.length', packagesInfo.length
                         set result.wizziPackages
                             _ result.wizziPackages.concat
                                 @ packagesInfo
@@ -84,7 +84,7 @@ module
                     :any
         r_promise()
             var packagesFolder = path.join(folderPath, 'packages')
-            # loog myname, 'scanFolderPackages.packagesFolder', packagesFolder
+            $$ loog myname, 'scanFolderPackages.packagesFolder', packagesFolder
             var packagesFolderFolders
                 _ file.getFolders
                     @ packagesFolder
@@ -169,7 +169,7 @@ module
             function exec
                 param i
                 const childFileName = files[i]
-                # loog myname, 'detectWizziPackage', childFileName
+                $$ loog myname, 'detectWizziPackage', childFileName
                 if !childFileName
                     return
                         _ detectPlugin
@@ -265,7 +265,7 @@ module
             function exec
                 param i
                 const schemaFilePath = schemaFilePaths[i]
-                # loog myname, 'detectSchema', schemaFilePath
+                $$ loog myname, 'detectSchema', schemaFilePath
                 if !schemaFilePath
                     return 
                         _ resolve
@@ -315,7 +315,7 @@ module
             function exec
                 param i
                 const schema = artifactSchemas[i]
-                # loog myname, 'detectArtifact', 'schema', schema
+                $$ loog myname, 'detectArtifact', 'schema', schema
                 if !schema
                     return 
                         _ resolve
@@ -357,7 +357,7 @@ module
             function exec
                 param i
                 const artifact = artifactSchemaArtifacts[i]
-                # loog myname, 'detectArtifactSchemaArtifacts', artifact
+                $$ loog myname, 'detectArtifactSchemaArtifacts', artifact
                 if !artifact
                     return 
                         _ resolve
@@ -396,7 +396,7 @@ module
             function exec
                 param i
                 const genortrans = artifactSchemaArtifactGenOrTrans[i]
-                # loog myname, 'detectArtifactSchemaArtifactGenOrTrans', genortrans
+                $$ loog myname, 'detectArtifactSchemaArtifactGenOrTrans', genortrans
                 if !genortrans
                     return 
                         _ resolve
@@ -455,7 +455,7 @@ module
             function exec
                 param i
                 const schemaName = wizzifierFolderSchemas[i]
-                # loog myname, "detectWizzifier", schemaName
+                $$ loog myname, "detectWizzifier", schemaName
                 if !schemaName
                     return 
                         _ resolve

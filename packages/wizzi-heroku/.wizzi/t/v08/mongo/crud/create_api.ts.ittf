@@ -51,7 +51,7 @@ $group
                                 if err
                                     error myname, 'get${md.Name}', '${md.Name}.find', 'error', err
                                     return reject(err)
-                                # loog myname, 'get${md.Name}', '${md.Name}.find', 'result', result
+                                $$ loog myname, 'get${md.Name}', '${md.Name}.find', 'result', result
                                 if result.length > 0
                                     return
                                         _ resolve

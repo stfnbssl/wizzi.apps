@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziAction\api\wizziAction.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import {ValidateResult, CRUDResult} from '../../types';
 import {GetWizziActionModel} from '../mongo/wizziAction';;
@@ -178,9 +178,7 @@ async function createWizziAction(owner?: string, kind?: string, name?: string, d
                 name: name
              };
             
-            WizziAction.find(query, 
-            // loog myname, 'getWizziAction', 'WizziAction.find', 'result', result
-            (err: any, result: any) => {
+            WizziAction.find(query, (err: any, result: any) => {
             
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getWizziAction', 'WizziAction.find', 'error', err);

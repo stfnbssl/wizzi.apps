@@ -12,7 +12,7 @@ $group
                 :any
             r_promise()
                 if !packiConfigObj.meta || !packiConfigObj.meta.metaCtx
-                    # loog 'api.production.getCliCtxFromPackiConfig', 'no metaCtx found'
+                    $$ loog 'api.production.getCliCtxFromPackiConfig', 'no metaCtx found'
                     return
                         _ resolve
                             {
@@ -21,7 +21,7 @@ $group
                 let artifact
                 if kind == "file"
                     set filePath = packiConfigObj.meta.metaCtx.filePath
-                    # loog 'api.production.getCliCtxFromPackiConfig', 'getting from filePath', filePath
+                    $$ loog 'api.production.getCliCtxFromPackiConfig', 'getting from filePath', filePath
                     return
                         _ resolve
                             _ getCliCtxFromPackiFile
@@ -30,7 +30,7 @@ $group
                                 @ progressiveContext
                 elif kind == "artifact"
                     set artifact = packiConfigObj.meta.metaCtx.artifact
-                    # loog 'api.production.getCliCtxFromPackiConfig', 'getting from artifact', artifact.name
+                    $$ loog 'api.production.getCliCtxFromPackiConfig', 'getting from artifact', artifact.name
                     _ artifactApi.getArtifactGeneration_withPrepare
                         @ owner
                         @ packiConfigObj.meta.metaCtx.artifact.name
@@ -45,7 +45,7 @@ $group
                                     _ JSON.parse(generationResult.content)
                         v08/ts/catch_reject( api.production.getCliCtxFromPackiConfig.getArtifactGeneration_withPrepare )
                 else
-                    # loog 'api.production.getCliCtxFromPackiConfig', 'no valid metaCtx kind found'
+                    $$ loog 'api.production.getCliCtxFromPackiConfig', 'no valid metaCtx kind found'
                     return
                         _ resolve
                             {
@@ -67,7 +67,7 @@ $group
                         =>
                             param generationResult
                                 :any
-                            # loog 'api.production.getCliCtxFromPackiFile', generationResult.artifactContent
+                            $$ loog 'api.production.getCliCtxFromPackiFile', generationResult.artifactContent
                             _ resolve
                                 _ JSON.parse(generationResult.artifactContent)
                     v08/ts/catch_reject( api.production.getCliCtxFromPackiFile.generateArtifact )

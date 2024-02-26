@@ -82,7 +82,7 @@ $group
             var clickThis
                 =>
                     param event
-                    # loog 'clickThis', 'expanded', this.item.expanded, 'needs populate',  this.children.length == 0 && !this.item.loadedAt && this.item.isFolder
+                    $$ loog 'clickThis', 'expanded', this.item.expanded, 'needs populate',  this.children.length == 0 && !this.item.loadedAt && this.item.isFolder
                     var selectThis
                         =>
                             if this.item.isFolder
@@ -127,7 +127,7 @@ $group
             param skipEmit
             _ svg['folder-opened']
                 @ this.svg
-            # loog 'expand', this.children.length
+            $$ loog 'expand', this.children.length
             if this.children.length > 0
                 var childrenEl = this.el.querySelector('.tree-child-leaves')
                 _ childrenEl.classList.remove('hidden')
@@ -142,7 +142,7 @@ $group
             param skipEmit
             _ svg['folder-closed']
                 @ this.svg
-            # loog 'collapse', this.children.length
+            $$ loog 'collapse', this.children.length
             if this.children.length > 0
                 var childrenEl = this.el.querySelector('.tree-child-leaves')
                 _ childrenEl.classList.add('hidden')
@@ -154,7 +154,7 @@ $group
                 {
                     @ treeNode this
         m renameStart
-            # loog 'renameStart', this
+            $$ loog 'renameStart', this
             if !this.input
                 set this.input = document.createElement('input')
                 _ this.input.setAttribute('style', 'margin: 1px 4px;')
@@ -197,7 +197,7 @@ $group
             var newName
                 _ wz.value
                     @ this.input
-            # loog 'renameFinish', newName, this.item.name
+            $$ loog 'renameFinish', newName, this.item.name
             if newName !== this.item.name
                 _ this.getTreeview().rename
                     @ this
@@ -221,12 +221,12 @@ $group
                     @ event
         m copyCutStart
             param oper
-            # loog 'copyCutStart', oper, this
+            $$ loog 'copyCutStart', oper, this
             _ wz.addClass
                 @ this.el
                 @ oper === 'copy' ? 'copying' : 'cutting'
         m copyCutFinish
-            # loog 'copyCutFinish', this
+            $$ loog 'copyCutFinish', this
             _ wz.removeClass
                 @ this.el
                 @ 'copying'

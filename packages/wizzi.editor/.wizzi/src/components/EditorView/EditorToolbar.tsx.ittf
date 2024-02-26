@@ -207,18 +207,20 @@ module
                                                 height 20
                     div 
                         className {css(styles.ve_top_bar_icons)}
+                        $* 22/2/2024
                         {
                             &&
                                 + packiProduction == 'artifact'
-                                < IconButton 
-                                    @ responsive
-                                    @ title "Browse generated"
-                                    @ onClick
-                                        =>
-                                            _ window.open
-                                                @ generatedPreviewURL
-                                    $$ @ disabled {isDownloading || isPublishing}
-                                    < BrowserIcon
+                        *$
+                        < IconButton 
+                            @ responsive
+                            @ title "Browse generated"
+                            @ onClick
+                                =>
+                                    _ window.open
+                                        @ generatedPreviewURL
+                            $$ @ disabled {isDownloading || isPublishing}
+                            < BrowserIcon
                         {
                             &&
                                 + packiProduction == 'package'

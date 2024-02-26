@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\tfolder.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '../../types';
@@ -303,9 +303,7 @@ async function createTFolder(owner?: string, name?: string, description?: string
                 name: name
              };
             
-            TFolder.find(query, 
-            // loog myname, 'getTFolder', 'TFolder.find', 'result', result
-            (err: any, result: any) => {
+            TFolder.find(query, (err: any, result: any) => {
             
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getTFolder', 'TFolder.find', 'error', err);

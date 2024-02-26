@@ -33,7 +33,7 @@ module
             :string
         r_promise()
             var filePath = crypto.decrypt(hash)
-            # loog 'putIttfFileContentByHash', hash, filePath
+            $$ loog 'putIttfFileContentByHash', hash, filePath
             try
                 _ fsfile.write
                     @ filePath

@@ -212,6 +212,11 @@ module
                                     param item
                                     if plugins.indexOf(item) < 0
                                         _ plugins.push(item)
+                const metaPluginsDef
+                    _ Object.assign
+                        {
+                        _ getWzCtxMetaPlugins
+                        @ metaPlugins || {}
                 return
                     new Promise
                         =>
@@ -223,9 +228,11 @@ module
                                     param err
                                     param jsonFs
                                     if err
+                                        error myname, 'createJsonFsAndFactory.createJsonFs', err
                                         return reject(err)
-                                    error myname, 'factoryPlugins', factoryPlugins, getWzCtxFactoryPlugins()
-                                    error myname, 'metaPlugins', metaPlugins, getWzCtxMetaPlugins()
+                                    # error myname, 'factoryPlugins', factoryPlugins, getWzCtxFactoryPlugins()
+                                    error myname, 'metaPlugins', metaPlugins
+                                    # error myname, 'metaPlugins', metaPlugins, getWzCtxMetaPlugins()
                                     _ wizzi.jsonFactory
                                         {
                                             @ jsonFs
@@ -233,10 +240,7 @@ module
                                                 iif factoryPlugins
                                                     then factoryPlugins
                                                     else getWzCtxFactoryPlugins()
-                                            @ metaPlugins
-                                                iif metaPlugins
-                                                    then metaPlugins
-                                                    else getWzCtxMetaPlugins()
+                                            @ metaPlugins metaPluginsDef
                                             @ globalContext
                                                 _ Object.assign
                                                     {
@@ -249,6 +253,7 @@ module
                                             param wf
                                                 :ref wizzi.WizziFactory
                                             if err
+                                                error myname, 'createJsonFsAndFactory.jsonFactory', err
                                                 return reject(err)
                                             _ resolve
                                                 {

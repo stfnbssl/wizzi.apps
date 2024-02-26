@@ -107,7 +107,7 @@ $group
                     ._ then
                         =>
                             param json
-                            # loog 'uploadPackiItem.response', json
+                            $$ loog 'uploadPackiItem.response', json
                             _ callback
                                 @ null
                                 @ json

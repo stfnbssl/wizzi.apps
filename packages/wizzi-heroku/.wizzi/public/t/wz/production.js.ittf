@@ -92,8 +92,8 @@ $group
                 param mainIttf
                 param packiFiles
                 param callback
-                # loog 'wz.production.createItem.mainIttf', mainIttf
-                # loog 'wz.production.createItem.packiFiles', packiFiles
+                $$ loog 'wz.production.createItem.mainIttf', mainIttf
+                $$ loog 'wz.production.createItem.packiFiles', packiFiles
                 _ wz.fetch.post
                     @ wz.production.apiUrl + '/' + kind + '/:owner/:name'
                     [

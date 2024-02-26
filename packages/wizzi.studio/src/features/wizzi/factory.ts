@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\factory.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import path from 'path';
 import wizzi from '@wizzi/factory';
@@ -43,6 +43,7 @@ function getWzCtxMetaPlugins() {
             items: [
                 './wizzi.meta.cloud/index', 
                 './wizzi.meta.commons/index', 
+                './wizzi.meta.demo/index', 
                 './wizzi.meta.docs/index', 
                 './wizzi.meta.documents/index', 
                 './wizzi.meta.js/index', 
@@ -156,23 +157,29 @@ export async function createJsonFsAndFactory(files: packiTypes.PackiFiles, facto
         }
     }
     )
+    const metaPluginsDef = Object.assign({}, getWzCtxMetaPlugins(), metaPlugins || {});
     return new Promise((resolve, reject) => 
         
-            JsonComponents.createJsonFs(jsonDocuments, (err, jsonFs) => {
+            JsonComponents.createJsonFs(jsonDocuments, 
+            // error myname, 'factoryPlugins', factoryPlugins, getWzCtxFactoryPlugins()
+            
+            // error myname, 'metaPlugins', metaPlugins, getWzCtxMetaPlugins()
+            (err, jsonFs) => {
             
                 if (err) {
+                    console.log("[31m%s[0m", myname, 'createJsonFsAndFactory.createJsonFs', err);
                     return reject(err);
                 }
-                console.log("[31m%s[0m", myname, 'factoryPlugins', factoryPlugins, getWzCtxFactoryPlugins());
-                console.log("[31m%s[0m", myname, 'metaPlugins', metaPlugins, getWzCtxMetaPlugins());
+                console.log("[31m%s[0m", myname, 'metaPlugins', metaPlugins);
                 wizzi.jsonFactory({
                     jsonFs, 
                     plugins: factoryPlugins ? factoryPlugins : getWzCtxFactoryPlugins(), 
-                    metaPlugins: metaPlugins ? metaPlugins : getWzCtxMetaPlugins(), 
+                    metaPlugins: metaPluginsDef, 
                     globalContext: Object.assign({}, globalContext || {})
                  }, function(err: any, wf: wizzi.WizziFactory) {
                 
                     if (err) {
+                        console.log("[31m%s[0m", myname, 'createJsonFsAndFactory.jsonFactory', err);
                         return reject(err);
                     }
                     resolve({

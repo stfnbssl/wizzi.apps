@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\dev\api\scanDevFolders.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import path from 'path';
 import {verify, fSystem} from 'wizzi-utils';
@@ -20,13 +20,7 @@ const pluginsBaseFolder = "C:/My/wizzi/stfnbssl/wizzi.plugins/packages";
 
 async function execScanDevFolders(options: ScanDevFoldersOptions):  Promise<any> {
 
-    return new Promise(
-        // loog myname, 'options', options
-        
-        // loog myname, 'config', config
-        
-        // loog myname, "folders of baseDevFolderPath", folders
-        (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         
             var baseDevFolderPath = "C:/My/wizzi/stfnbssl";
             var searchInFolders = [];
@@ -53,9 +47,7 @@ async function execScanDevFolders(options: ScanDevFoldersOptions):  Promise<any>
                 if (folder == 't' || searchInFolders.indexOf(folder) < 0) {
                     return exec(i+1);
                 }
-                scanFolderPackages(path.join(baseDevFolderPath, folder), options).then(
-                // loog myname, 'execScanDevFolders', 'packagesInfo.length', packagesInfo.length
-                (packagesInfo: any) => {
+                scanFolderPackages(path.join(baseDevFolderPath, folder), options).then((packagesInfo: any) => {
                 
                     result.wizziPackages = result.wizziPackages.concat(packagesInfo)
                     ;
@@ -70,9 +62,7 @@ async function execScanDevFolders(options: ScanDevFoldersOptions):  Promise<any>
 
 async function scanFolderPackages(folderPath: string, options: ScanDevFoldersOptions):  Promise<any> {
 
-    return new Promise(
-        // loog myname, 'scanFolderPackages.packagesFolder', packagesFolder
-        (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         
             var packagesFolder = path.join(folderPath, 'packages');
             var packagesFolderFolders = file.getFolders(packagesFolder, {
@@ -158,7 +148,6 @@ async function detectWizziPackage(folderPath: string, options: ScanDevFoldersOpt
             var files = file.getFiles(path.join(folderPath), {
                 deep: false
              });
-            // loog myname, 'detectWizziPackage', childFileName
             function exec(i) {
             
                 const childFileName = files[i];
@@ -232,7 +221,6 @@ async function detectSchema(packageInfo: any, wizziFolder: string, options: Scan
             var schemaFilePaths = file.getFiles(wizziSchemasFolder, {
                 deep: false
              });
-            // loog myname, 'detectSchema', schemaFilePath
             function exec(i) {
             
                 const schemaFilePath = schemaFilePaths[i];
@@ -283,7 +271,6 @@ async function detectArtifact(packageInfo: any, wizziFolder: string, options: Sc
             var artifactSchemas = file.getFolders(artifactsFolder, {
                 deep: false
              });
-            // loog myname, 'detectArtifact', 'schema', schema
             function exec(i) {
             
                 const schema = artifactSchemas[i];
@@ -314,7 +301,6 @@ async function detectArtifactSchemaArtifacts(packageInfo: any, wizziFolder: stri
             var artifactSchemaArtifacts = file.getFolders(artifactSchemaFolder, {
                 deep: false
              });
-            // loog myname, 'detectArtifactSchemaArtifacts', artifact
             function exec(i) {
             
                 const artifact = artifactSchemaArtifacts[i];
@@ -339,7 +325,6 @@ async function detectArtifactSchemaArtifactGenOrTrans(packageInfo: any, wizziFol
             var artifactSchemaArtifactGenOrTrans = file.getFolders(artifactSchemaArtifactGenOrTransFolder, {
                 deep: false
              });
-            // loog myname, 'detectArtifactSchemaArtifactGenOrTrans', genortrans
             function exec(i) {
             
                 const genortrans = artifactSchemaArtifactGenOrTrans[i];
@@ -396,7 +381,6 @@ async function detectWizzifier(packageInfo: any, wizziFolder: string, options: S
             var wizzifierFolderSchemas = file.getFolders(wizzifiersFolder, {
                 deep: false
              });
-            // loog myname, "detectWizzifier", schemaName
             function exec(i) {
             
                 const schemaName = wizzifierFolderSchemas[i];

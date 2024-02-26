@@ -54,7 +54,7 @@ module
             v08/ts/handler( getThemesDemo )
             
                 # TODO
-                # loog myname + '.getThemesDemo', 
+                $$ loog myname + '.getThemesDemo', 
                 _ renderPackiPageForm
                     @ request
                     @ response

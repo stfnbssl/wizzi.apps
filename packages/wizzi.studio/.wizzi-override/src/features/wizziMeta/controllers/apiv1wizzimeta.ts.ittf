@@ -10,6 +10,7 @@ module
                 @ getProvidedMetas
                 @ getMetaParameters
                 @ executeMetaProduction
+                @ executeMetaProductionWithInMemoryPlugins
                 from '../api/wizziMeta'
             import
                 @ WizziMetaRequest
@@ -19,6 +20,7 @@ module
         _ this.router.get('/provides', this.provides)
         _ this.router.post('/parameters', this.metaParameters)
         _ this.router.post('/execute', this.execute)
+        _ this.router.post('/executeinmemory', this.executeinmemory)
         $append handlers
             v08/ts/handler(provides)
                 _ getProvidedMetas
@@ -48,10 +50,11 @@ module
                     v08/ts/catch_fail( ApiV1WizziMeta.parameters.getParameters )
 
             v08/ts/handler(execute)
-                rest/check-params( )
-                    rest/not-empty( query , hash )
+                const metaRequest
+                    :ref WizziMetaRequest
+                    = request.body
                 _ executeMetaProduction
-                    {
+                    @ metaRequest
                     ._ then
                         =>
                             param result
@@ -60,3 +63,18 @@ module
                                 @ response
                                 @ result
                     v08/ts/catch_fail( ApiV1WizziMeta.execute.executeMetaProduction )
+
+            v08/ts/handler(executeinmemory)
+                const metaRequest
+                    :ref WizziMetaRequest
+                    = request.body
+                _ executeMetaProductionWithInMemoryPlugins
+                    @ metaRequest
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail( ApiV1WizziMeta.executeinmemory.executeMetaProductionWithInMemoryPlugins )

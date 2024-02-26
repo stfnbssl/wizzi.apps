@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\plugin.tsx.ittf
-    utc time: Sat, 17 Feb 2024 04:55:17 GMT
+    utc time: Sun, 25 Feb 2024 13:18:10 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -225,9 +225,7 @@ export class PluginProductionController implements ControllerType {
     
     ;
     
-    private getUpdatePluginForm = 
-    // loog myname + '.getUpdatePluginForm.id', id
-    async (request: Request, response: Response) => {
+    private getUpdatePluginForm = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         getPluginProductionObjectById(id).then((result: any) => 
@@ -265,9 +263,7 @@ export class PluginProductionController implements ControllerType {
     }
     ;
     
-    private getDeletePluginForm = 
-    // loog myname + '.getDeletePluginForm.id', id
-    async (request: Request, response: Response) => {
+    private getDeletePluginForm = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         getPluginProductionObjectById(id).then((result: any) => 
@@ -286,9 +282,7 @@ export class PluginProductionController implements ControllerType {
     }
     ;
     
-    private deletePlugin = 
-    // loog myname + '.deletePlugin.request.path', request.path
-    async (request: Request, response: Response) => {
+    private deletePlugin = async (request: Request, response: Response) => {
     
         const obj = request.body;
         deletePluginProduction(obj.pl_id, obj.pl_owner, obj.pl_name).then((result: any) => {

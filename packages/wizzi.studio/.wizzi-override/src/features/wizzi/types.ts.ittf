@@ -231,6 +231,28 @@ module
 
     +
     export
+        :type ExtraMetaProductionData
+            :{
+                :p name
+                    :string
+                :p folderTemplates
+                    :ref packiTypes.PackiFiles
+                :p ittfDocumentTemplates
+                    :ref packiTypes.PackiFiles
+                    :optional
+                :p plainDocuments
+                    :ref packiTypes.PackiFiles
+                    :optional
+    +
+    export
+        :type MetaProductionPaths
+            :{
+                :p tempProductionFolder
+                    :string
+                :p wizziProductionFolder
+                    :string
+    +
+    export
         :type MetaExecuteRequest
             :{
                 :p metaCtx
@@ -239,12 +261,10 @@ module
                 :p globalContext
                     :any
                     :optional
-                :p metaProductions
-                    :any
+                :p paths
+                    :ref MetaProductionPaths
                     :optional
-                $*
+                :p metaProductions
                     :[
-                        :ref packiTypes.packiFiles
-                *$
-
-                     
+                        :ref ExtraMetaProductionData
+                    :optional

@@ -64,7 +64,7 @@ module
                             =>
                                 param err
                                 param result
-                                # loog myname, 'validateTFolder', 'TFolder.find', 'error', err
+                                $$ loog myname, 'validateTFolder', 'TFolder.find', 'error', err
                                 if err
                                     return reject(err)
                                 if result.length == 1

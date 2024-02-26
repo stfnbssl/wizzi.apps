@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziMeta\controllers\apiv1wizzimeta.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -11,7 +11,7 @@ import {sendHtml, sendSuccess, sendPromiseResult, sendError, sendFailure} from '
 import {restParamsCheck} from '../../../utils/rest';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
-import {getProvidedMetas, getMetaParameters, executeMetaProduction} from '../api/wizziMeta';
+import {getProvidedMetas, getMetaParameters, executeMetaProduction, executeMetaProductionWithInMemoryPlugins} from '../api/wizziMeta';
 import {WizziMetaRequest} from '../types';
 
 const myname = 'features/wizzimeta/controllers/wizzimeta';
@@ -55,6 +55,7 @@ export class ApiV1WizziMetaController implements ControllerType {
         this.router.get('/provides', this.provides);
         this.router.post('/parameters', this.metaParameters);
         this.router.post('/execute', this.execute);
+        this.router.post('/executeinmemory', this.executeinmemory);
     };
     
     private provides = async (request: Request, response: Response) => 
@@ -94,12 +95,26 @@ export class ApiV1WizziMetaController implements ControllerType {
     
     private execute = async (request: Request, response: Response) => {
     
-        var __check = restParamsCheck(request);
-        var hash = __check.notEmpty('query', 'hash');
-        if (__check.hasErrors()) {
-            return __check.sendErrors(response);
+        const metaRequest: WizziMetaRequest = request.body;
+        executeMetaProduction(metaRequest).then((result: any) => 
+        
+            sendSuccess(response, result)
+        ).catch((err: any) => {
+        
+            if (typeof err === 'object' && err !== null) {
+            }
+            sendFailure(response, {
+                err: err
+             }, 501)
         }
-        executeMetaProduction({}).then((result: any) => 
+        )
+    }
+    ;
+    
+    private executeinmemory = async (request: Request, response: Response) => {
+    
+        const metaRequest: WizziMetaRequest = request.body;
+        executeMetaProductionWithInMemoryPlugins(metaRequest).then((result: any) => 
         
             sendSuccess(response, result)
         ).catch((err: any) => {

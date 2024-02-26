@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziAction\controllers\apiv1wizziAction.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -130,8 +130,6 @@ export class ApiV1WizziActionController implements ControllerType {
     private postWizziAction = async (request: Request, response: Response) => 
     
         createWizziAction(request.params.owner, request.params.kind, request.params.name, request.body.description).then(
-        // loog 'postWizziAction.create.result', result
-        
         /**
             * invalidateCache
                 * request.params.owner
@@ -159,8 +157,6 @@ export class ApiV1WizziActionController implements ControllerType {
         console.log('putWizziAction.request.params', request.params, __filename);
         console.log('putWizziAction.request.body', Object.keys(request.body), __filename);
         updateWizziAction(request.params.id, request.body.owner, request.body.kind, request.body.name, request.body.description).then(
-        // loog 'putWizziAction.update.result', result
-        
         /**
             * invalidateCache
                 * request.params.id
@@ -185,8 +181,6 @@ export class ApiV1WizziActionController implements ControllerType {
     
         console.log('deleteWizziAction.request.params', request.params, __filename);
         deleteWizziAction(request.params.id, request.params.owner, request.params.kind, request.params.name).then(
-        // loog 'deleteWizziAction.delete.result', result
-        
         /**
             * invalidateCache
                 * request.params.id

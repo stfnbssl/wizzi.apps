@@ -4,7 +4,7 @@ $group
         var Prod = _.capitalize(prod);
         var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
     const id = request.params.id
-    # loog myname + '.getDelete${Prod}Form.id', id
+    $$ loog myname + '.getDelete${Prod}Form.id', id
     _ get${Prod}${suffix}ObjectById
         @ id
         ._ then

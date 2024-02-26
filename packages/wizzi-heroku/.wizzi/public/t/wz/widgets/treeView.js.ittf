@@ -190,14 +190,14 @@ $group
                     _ this.filesystem.createFolder
                         @ treeNode.item
                         a_cb_throw( newItem
-                            # loog 'createFolder.1', newItem
+                            $$ loog 'createFolder.1', newItem
                             var newNode
                                 _ treeNode.addItem
                                     @ newItem
                             _ treeNode.expand
                             _ newNode.renameStart
             if !treeNode.item.loadedAt
-                # loog 'createFolder.populate'
+                $$ loog 'createFolder.populate'
                 _ this.populate
                     @ treeNode
                     a_cb_throw()
@@ -241,14 +241,14 @@ $group
                         _ this.filesystem.cloneFolder
                             @ treeNode.item
                             a_cb_throw( newItem
-                                # loog 'cloneFolder.1', newItem
+                                $$ loog 'cloneFolder.1', newItem
                                 var newNode
                                     _ treeNode.addItem
                                         @ newItem
                                 _ treeNode.expand
                                 _ newNode.renameStart
             if !treeNode.item.loadedAt
-                # loog 'cloneFolder.populate'
+                $$ loog 'cloneFolder.populate'
                 _ this.populate
                     @ treeNode
                     a_cb_throw()
@@ -267,14 +267,14 @@ $group
                         _ this.filesystem.checkoutFolder
                             @ treeNode.item
                             a_cb_throw( newItem
-                                # loog 'checkoutFolder.1', newItem
+                                $$ loog 'checkoutFolder.1', newItem
                                 var newNode
                                     _ treeNode.addItem
                                         @ newItem
                                 _ treeNode.expand
                                 _ newNode.renameStart
             if !treeNode.item.loadedAt
-                # loog 'checkoutFolder.populate'
+                $$ loog 'checkoutFolder.populate'
                 _ this.populate
                     @ treeNode
                     a_cb_throw()
@@ -320,7 +320,7 @@ $group
             _ this.filesystem.pasteTo
                 @ treeNode.item
                 a_cb_throw( from
-                    # loog 'treeView.pasteTo', 'from', from, 'to', treeNode.item
+                    $$ loog 'treeView.pasteTo', 'from', from, 'to', treeNode.item
                     if from.action === 'copyFile' || from.action === 'copyFolder'
                         var newItem
                             _ itemUtils.cloneItem

@@ -61,7 +61,7 @@ $group
                 :string
             param rootContext
                 :any
-            # loog 'getArtifactGeneration_withPrepare',
+            $$ loog 'getArtifactGeneration_withPrepare',
                 \b 'owner', owner,
                 \b 'productionName', productionName,
                 \b 'queryContext', queryContext,
@@ -81,7 +81,7 @@ $group
                                 => 
                                     param productionObj
                                         :any
-                                    # loog 'getArtifactGeneration_withPrepare.productionObj',
+                                    $$ loog 'getArtifactGeneration_withPrepare.productionObj',
                                         \b 'mainIttf', productionObj.mainIttf,
                                         \b 'packiFiles', Object.keys(productionObj.packiFiles),
                                         \b 'context', Object.keys(productionObj.context),
@@ -93,8 +93,8 @@ $group
                                             => 
                                                 param result
                                                     :any
-                                                # loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.length
-                                                # loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.substring(0, 200) + '...'
+                                                $$ loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.length
+                                                $$ loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.substring(0, 200) + '...'
                                                 const response
                                                     { 
                                                         @ content result.artifactContent

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziTable\controllers\apiv1wizziTable.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -130,8 +130,6 @@ export class ApiV1WizziTableController implements ControllerType {
     private postWizziTable = async (request: Request, response: Response) => 
     
         createWizziTable(request.params.owner, request.params.name, request.body.field1, request.body.field2).then(
-        // loog 'postWizziTable.create.result', result
-        
         /**
             * invalidateCache
                 * request.params.owner
@@ -158,8 +156,6 @@ export class ApiV1WizziTableController implements ControllerType {
         console.log('putWizziTable.request.params', request.params, __filename);
         console.log('putWizziTable.request.body', Object.keys(request.body), __filename);
         updateWizziTable(request.params.id, request.body.owner, request.body.name, request.body.field1, request.body.field2).then(
-        // loog 'putWizziTable.update.result', result
-        
         /**
             * invalidateCache
                 * request.params.id
@@ -184,8 +180,6 @@ export class ApiV1WizziTableController implements ControllerType {
     
         console.log('deleteWizziTable.request.params', request.params, __filename);
         deleteWizziTable(request.params.id, request.params.owner, request.params.name).then(
-        // loog 'deleteWizziTable.delete.result', result
-        
         /**
             * invalidateCache
                 * request.params.id

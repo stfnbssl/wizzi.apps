@@ -40,6 +40,8 @@ module
         @ WizziJobTypesRequest
         @ TransformationOptions
         @ TransformedModel
+        @ ExtraMetaProductionData
+        @ MetaExecuteRequest
         from './types'
     import
         @ JsonFs
@@ -52,7 +54,7 @@ module
     $include productions/generateFolderArtifacts
     $include productions/generateWizziModelTypes
     $include productions/transformModel
-    $include productions/metaExecute
+    $include productions/executeMetaProduction
     $include productions/metaGenerate
     $include productions/executeJob
     $include productions/inferAndLoadContext

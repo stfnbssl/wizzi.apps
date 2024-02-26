@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\tfolder.tsx.ittf
-    utc time: Sat, 17 Feb 2024 04:55:17 GMT
+    utc time: Sun, 25 Feb 2024 13:18:10 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -148,9 +148,7 @@ export class TFolderController implements ControllerType {
     
     ;
     
-    private getUpdateTFolderForm = 
-    // loog myname + '.getUpdateTFolderForm.id', id
-    async (request: Request, response: Response) => {
+    private getUpdateTFolderForm = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         getTFolderObjectById(id).then((result: any) => 
@@ -188,9 +186,7 @@ export class TFolderController implements ControllerType {
     }
     ;
     
-    private getDeleteTFolderForm = 
-    // loog myname + '.getDeleteTFolderForm.id', id
-    async (request: Request, response: Response) => {
+    private getDeleteTFolderForm = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         getTFolderObjectById(id).then((result: any) => 
@@ -209,9 +205,7 @@ export class TFolderController implements ControllerType {
     }
     ;
     
-    private deleteTFolder = 
-    // loog myname + '.deleteTFolder.request.path', request.path
-    async (request: Request, response: Response) => {
+    private deleteTFolder = async (request: Request, response: Response) => {
     
         const obj = request.body;
         deleteTFolder(obj.tf_id, obj.tf_owner, obj.tf_name).then((result: any) => {

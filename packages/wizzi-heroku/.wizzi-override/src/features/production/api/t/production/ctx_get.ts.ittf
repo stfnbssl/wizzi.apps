@@ -23,7 +23,7 @@ $group
                             => 
                                 param resultItemContext
                                     :any
-                                # loog 'getDefaultContext_withCache', 'got context item wzCtx;wzctx', 
+                                $$ loog 'getDefaultContext_withCache', 'got context item wzCtx;wzctx', 
                                     \b 'keys', Object.keys(resultItemContext)
                                 _ resolve
                                     _ Object.assign
@@ -58,7 +58,7 @@ $group
                             iif parts.length > 2
                                 then parts[2]
                                 else null
-                        # loog 'getArtifactContextItem: contextPropertyName', contextPropertyName, 
+                        $$ loog 'getArtifactContextItem: contextPropertyName', contextPropertyName, 
                             \b 'artifactName', artifactName, 
                             \b 'transformationName', transformationName
                         if transformationName
@@ -71,7 +71,7 @@ $group
                                     => 
                                         param result
                                             :any
-                                        # loog 'getArtifactContextItem: typeof result.transformResult', typeof result.transformResult
+                                        $$ loog 'getArtifactContextItem: typeof result.transformResult', typeof result.transformResult
                                         _ resolve
                                             _ Object.assign
                                                 { 
@@ -88,7 +88,7 @@ $group
                                     => 
                                         param result
                                             :any
-                                        # loog 'getArtifactContextItem.getArtifactGeneration.result.content.length', result.content.length
+                                        $$ loog 'getArtifactContextItem.getArtifactGeneration.result.content.length', result.content.length
                                         const contextObject = JSON.parse(result.content)
                                         _ resolve
                                             _ Object.assign

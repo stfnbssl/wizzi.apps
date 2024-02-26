@@ -30,7 +30,7 @@ $group
                     set callback = params
                     set params = null
                 var buildedUrl = wz.fetch.buildUrl(url, params)
-                # loog 'wz.fetch.get.buildedUrl', buildedUrl
+                $$ loog 'wz.fetch.get.buildedUrl', buildedUrl
                 _ fetch
                     @ buildedUrl
                     {
@@ -49,14 +49,14 @@ $group
                     ._ then
                         =>
                             param json
-                            # loog 'fetch.get', url, 'response', json
+                            $$ loog 'fetch.get', url, 'response', json
                             _ callback
                                 @ null
                                 @ json
                     ._ catch
                         =>
                             param err
-                            # loog 'fetch.get', url, 'err', Object.keys(err), err
+                            $$ loog 'fetch.get', url, 'err', Object.keys(err), err
                             _ callback
                                 @ err
         set wz.fetch.post
@@ -69,7 +69,7 @@ $group
                     set callback = params
                     set params = null
                 var buildedUrl = wz.fetch.buildUrl(url, params)
-                # loog 'wz.fetch.post.buildedUrl', buildedUrl
+                $$ loog 'wz.fetch.post.buildedUrl', buildedUrl
                 _ fetch
                     @ buildedUrl
                     {
@@ -91,14 +91,14 @@ $group
                     ._ then
                         =>
                             param json
-                            # loog 'fetch.post', url, 'response', json
+                            $$ loog 'fetch.post', url, 'response', json
                             _ callback
                                 @ null
                                 @ json
                     ._ catch
                         =>
                             param err
-                            # loog 'fetch.post', url, 'err', Object.keys(err), err
+                            $$ loog 'fetch.post', url, 'err', Object.keys(err), err
                             _ callback
                                 @ err
         set wz.fetch.put
@@ -111,9 +111,9 @@ $group
                     set callback = params
                     set params = null
                 var buildedUrl = wz.fetch.buildUrl(url, params)
-                # loog 'wz.fetch.put.url', url
-                # loog 'wz.fetch.put.params', params
-                # loog 'wz.fetch.put.buildedUrl', buildedUrl
+                $$ loog 'wz.fetch.put.url', url
+                $$ loog 'wz.fetch.put.params', params
+                $$ loog 'wz.fetch.put.buildedUrl', buildedUrl
                 _ fetch
                     @ buildedUrl
                     {
@@ -135,13 +135,13 @@ $group
                     ._ then
                         =>
                             param json
-                            # loog 'fetch.post', url, 'response', json
+                            $$ loog 'fetch.post', url, 'response', json
                             _ callback
                                 @ null
                                 @ json
                     ._ catch
                         =>
                             param err
-                            # loog 'fetch.post', url, 'err', Object.keys(err), err
+                            $$ loog 'fetch.post', url, 'err', Object.keys(err), err
                             _ callback
                                 @ err

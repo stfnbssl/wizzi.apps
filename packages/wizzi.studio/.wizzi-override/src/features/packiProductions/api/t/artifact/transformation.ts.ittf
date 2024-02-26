@@ -58,7 +58,7 @@ $group
                 :any
             param transformerName
                 :string
-            # loog 'getArtifactMTree_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext), 'transformerName', transformerName
+            $$ loog 'getArtifactMTree_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext), 'transformerName', transformerName
             return
                 new Promise
                     =>
@@ -74,7 +74,7 @@ $group
                                 =>
                                     param productionObj
                                         :any
-                                    # loog 'getArtifactTransformation_withPrepare.productionObj', 'mainIttf', productionObj.mainIttf, 'packiFiles', Object.keys(productionObj.packiFiles), 'context', Object.keys(productionObj.context),
+                                    $$ loog 'getArtifactTransformation_withPrepare.productionObj', 'mainIttf', productionObj.mainIttf, 'packiFiles', Object.keys(productionObj.packiFiles), 'context', Object.keys(productionObj.context),
                                     _ wizziProds.loadAndTransformModel
                                         @ productionObj.mainIttf
                                         @ productionObj.packiFiles

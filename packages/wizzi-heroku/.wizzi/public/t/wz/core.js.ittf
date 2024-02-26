@@ -145,7 +145,7 @@ $group
                 if typeof element === "string"
                     set element = wz.element(element)
                 if !element
-                    # loog 'element', saveElementForLog
+                    $$ loog 'element', saveElementForLog
                     throw new Error('In wz.replaceChildren the element parameter must be an html element or the id of an html element. Received: ' + saveElementForLog)
                 set element.innerHTML = ''
                 if nodes.length

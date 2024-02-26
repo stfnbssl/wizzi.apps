@@ -1,0 +1,4 @@
+$group
+  
+  const name = "${metaCtx.name}"
+  const kind = "${metaCtx.kind}"

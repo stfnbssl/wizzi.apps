@@ -84,7 +84,7 @@ module
                     {
 
             v08/ts/handler(  postArtifact )
-                # loog myname + '.postNewArtifact.request.body', JSON.stringify(request.body, null, 2)
+                $$ loog myname + '.postNewArtifact.request.body', JSON.stringify(request.body, null, 2)
                 $$ loog myname + '.postNewArtifact.request.session.user', JSON.stringify((request.session as any).user, null, 2)
                 const wizziSchema = request.body.ap_wizzi_schema || 'html'
                 const mainIttf = request.body.ap_main_ittf || 'index.' + wizziSchema + '.ittf'

@@ -9,6 +9,7 @@ $group
             $else
                 :any
         if err
+            $hook onError
             return
                 _ reject
                     @ err

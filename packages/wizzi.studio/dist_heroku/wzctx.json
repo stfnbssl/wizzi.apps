@@ -1,0 +1,374 @@
+{
+    "name": "wizzi.studio",
+    "version": "0.0.1",
+    "description": "Wizzi studio express backend",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "App": {
+        "name": "wizzi.studio",
+        "title": "",
+        "isLocal": true,
+        "isProduction": false,
+        "port": "5100",
+        "useSsl": false,
+        "siteUrl": "http://localhost",
+        "baseUrl": "http://localhost:5100",
+        "siteUrlLocal": "http://localhost",
+        "baseUrlLocal": "http://localhost:5100",
+        "apiVersion": "v1",
+        "constants": {
+            "preview": {
+                "minWidth": 700
+            }
+        },
+        "Components": []
+    },
+    "Styles": {},
+    "Build": {
+        "features": [
+            {
+                "name": "auth",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "account",
+                "hasControllers": true,
+                "useMongoDb": true
+            },
+            {
+                "name": "packi",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "packiStudioFolderEdit",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "packiProductions",
+                "fileName": "packi-productions",
+                "hasControllers": true,
+                "useMongoDb": true
+            },
+            {
+                "name": "docs",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "wizzi",
+                "fileName": "wizzi",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "wizziFs",
+                "fileName": "wizzi-fs",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "wizziGist",
+                "fileName": "wizzi-gist",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "wizziMeta",
+                "fileName": "wizzi-meta",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "wizziCdn",
+                "fileName": "wizzi-cdn",
+                "hasControllers": true,
+                "useMongoDb": true
+            },
+            {
+                "name": "philos",
+                "hasControllers": true
+            },
+            {
+                "name": "geop",
+                "hasControllers": true
+            },
+            {
+                "name": "wizziTable",
+                "hasControllers": true,
+                "useMongoDb": true
+            },
+            {
+                "name": "wizziAction",
+                "hasControllers": true,
+                "useMongoDb": true
+            },
+            {
+                "name": "dev",
+                "hasControllers": true,
+                "useMongoDb": false
+            }
+        ],
+        "examples": [],
+        "useWizziFs": true,
+        "wizziFs": {},
+        "useTypescript": true,
+        "typescript": {
+            "useBabelLoader": true,
+            "useTsxFiles": false
+        },
+        "usePrettier": true,
+        "prettier": {},
+        "usePrismjs": false,
+        "prismjs": {
+            "modes": []
+        },
+        "useLint": true,
+        "lint": {},
+        "useHeroku": true,
+        "heroku": {
+            "webAppName": "wizzi",
+            "nodejsVersion": "16.2.0",
+            "packagePath": "deploy",
+            "webAppPort": 5000,
+            "Procfile": "server.js",
+            "testTitle": "Hello home",
+            "timeoutMinutesShort": 10,
+            "timeoutMinutesMedium": 20,
+            "timeoutMinutesLong": 60
+        },
+        "useExpress": true,
+        "express": {
+            "useSslCert": false,
+            "useErrors": false,
+            "useStaticFiles": true,
+            "staticFiles": {
+                "basePath": "__dirname, '..', '..'"
+            },
+            "useSessionStore": false,
+            "useExpressValidator": true
+        },
+        "useSession": true,
+        "session": {
+            "name": "wizzi.studio",
+            "secret": "axr45hngmuoil9********0ofgt*kjj6767648%$£3f5&/4bnsa-----qq4)$35670qq4q"
+        },
+        "noCache": true,
+        "useSocketIO": false,
+        "socketIO": {},
+        "useCookie": true,
+        "cookie": {},
+        "useLogger": false,
+        "logger": {
+            "useMorgan": false,
+            "morgan": {}
+        },
+        "useCompression": false,
+        "compression": {
+            "level": 6
+        },
+        "useHelmet": false,
+        "helmet": {},
+        "usePromiseMiddleware": true,
+        "promiseMiddleware": {},
+        "useAuthentication": true,
+        "authentication": {
+            "isProduction": false,
+            "isLocal": true,
+            "authRequired": false,
+            "userInfo": false,
+            "useLocal": true,
+            "local": {},
+            "useGithub": true,
+            "github": {
+                "clientIdLocal": "6a42cd4cb7247bb4e823",
+                "clientSecretLocal": "dedced0ac262cae62557e4c3f567a6227b17bfb7",
+                "callbackURLLocal": "http://localhost:5000/api/v1/authenticate/github/callback",
+                "clientId": "156e80732f5eb542f5ab",
+                "clientSecret": "a9fe1dd225b058105e43040204ab08c42a2bc02b",
+                "callbackURL": "http://localhost:5000/api/v1/authenticate/github/callback"
+            },
+            "useGoogle": true,
+            "google": {
+                "clientIdLocal": "676985835415-038phfuujng1oj6bsa7gfle0e6r4ur5g.apps.googleusercontent.com",
+                "clientSecretLocal": "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",
+                "callbackURLLocal": "http://localhost:5000/api/v1/authenticate/google/callback",
+                "clientId": "676985835415-eaoq3avnj3ldi72igo9mflfb1qu2nidv.apps.googleusercontent.com",
+                "clientSecret": "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",
+                "callbackURL": "http://localhost:5000/api/v1/authenticate/google/callback"
+            }
+        },
+        "useConfig": true,
+        "config": {
+            "useEnvalid": true,
+            "envalid": {},
+            "useUserInfo": true,
+            "userInfo": {}
+        },
+        "useWizzi": true,
+        "wizzi": {
+            "isDev": true,
+            "plugins": [
+                "./wizzi.plugin.css/index.js",
+                "./wizzi.plugin.html/index.js",
+                "./wizzi.plugin.ittf/index.js",
+                "./wizzi.plugin.js/index.js",
+                "./wizzi.plugin.json/index.js",
+                "./wizzi.plugin.md/index.js",
+                "./wizzi.plugin.pdf/index.js",
+                "./wizzi.plugin.svg/index.js",
+                "./wizzi.plugin.text/index.js",
+                "./wizzi.plugin.ts/index.js",
+                "./wizzi.plugin.xml/index.js",
+                "./wizzi.plugin.yaml/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
+            "metaPlugins": [
+                "./wizzi.meta.cloud/index",
+                "./wizzi.meta.commons/index",
+                "./wizzi.meta.demo/index",
+                "./wizzi.meta.docs/index",
+                "./wizzi.meta.documents/index",
+                "./wizzi.meta.js/index",
+                "./wizzi.meta.js.db/index",
+                "./wizzi.meta.js.node/index",
+                "./wizzi.meta.js.vanilla/index",
+                "./wizzi.meta.js.react/index",
+                "./wizzi.meta.ts/index",
+                "./wizzi.meta.ts.express/index",
+                "./wizzi.meta.ts.react/index",
+                "./wizzi.meta.ts.db/index",
+                "./wizzi.meta.web/index",
+                "./wizzi.meta.wizzi/index"
+            ],
+            "metaPluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.metas/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true,
+                "wzConfigIsPackageDeploy": false
+            },
+            "useRunner": false
+        },
+        "useWizziCdn": true,
+        "wizziCdn": {},
+        "useIttfStatic": true,
+        "ittfStatic": {},
+        "useWizziViewEngine": true,
+        "wizziViewEngine": {},
+        "useWizziJsonFactory": true,
+        "wizziJsonFactory": {},
+        "usePackiProductions": true,
+        "packiProductions": {
+            "useCachedProductions": false
+        },
+        "utils": {
+            "useAxios": true,
+            "useStringifySafe": true,
+            "useParseUrl": true,
+            "useQueryString": true,
+            "useNanoId": true,
+            "useNodeCache": true,
+            "useDiffMatchPatch": true
+        },
+        "useSite": true,
+        "site": {
+            "useIttfStatic": false,
+            "ittfStatic": {},
+            "useDemoHome": true,
+            "demoHome": {},
+            "useDemoWizzi": true,
+            "demoWizzi": {},
+            "usePackiProductions": true,
+            "packiProductions": {},
+            "useWizziDocs": true,
+            "wizziDocs": {}
+        },
+        "useReact": true,
+        "react": {
+            "usePages": true,
+            "pages": {}
+        },
+        "useMongoDb": true,
+        "mongoDb": {
+            "host": "mongodb+srv",
+            "user": "yanez",
+            "password": "x5csosPN5YAsrl4Z",
+            "dbPath": "@cluster0.idlk7.mongodb.net",
+            "dbName": "wizzi",
+            "options": {
+                "useNewUrlParser": true,
+                "useUnifiedTopology": true
+            },
+            "featureTables": [
+                {
+                    "Name": "WizziAction",
+                    "name": "wizziAction",
+                    "mongoName": "plugin",
+                    "descr": "",
+                    "prefix": "",
+                    "fields": [
+                        {
+                            "name": "owner",
+                            "type": "string",
+                            "isKey": true,
+                            "isListFilter": true
+                        },
+                        {
+                            "name": "kind",
+                            "type": "string",
+                            "isKey": true
+                        },
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "isKey": true
+                        },
+                        {
+                            "name": "description",
+                            "type": "string"
+                        }
+                    ],
+                    "created_at": true,
+                    "updated_at": true,
+                    "update_delete_by_id": true
+                },
+                {
+                    "Name": "WizziTable",
+                    "name": "wizziTable",
+                    "mongoName": "plugin",
+                    "descr": "",
+                    "prefix": "",
+                    "fields": [
+                        {
+                            "name": "owner",
+                            "type": "string",
+                            "isKey": true,
+                            "isListFilter": true
+                        },
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "isKey": true
+                        },
+                        {
+                            "name": "field1",
+                            "type": "string"
+                        },
+                        {
+                            "name": "field2",
+                            "type": "string"
+                        }
+                    ],
+                    "created_at": true,
+                    "updated_at": true,
+                    "update_delete_by_id": true
+                }
+            ]
+        },
+        "usePackiBrowse": true,
+        "packiBrowse": {}
+    }
+}

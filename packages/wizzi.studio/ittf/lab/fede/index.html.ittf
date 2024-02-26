@@ -1,0 +1,9 @@
+html
+    body
+    $if wzCtx.modelloDispositivo == "IOT3060"
+        p WIFI enabled
+    $elif wzCtx.modelloDispositivo == "IOT3070"
+        p WIFI enabled
+        p LTE enabled
+    $else
+        p Invalid modelloDispositivo

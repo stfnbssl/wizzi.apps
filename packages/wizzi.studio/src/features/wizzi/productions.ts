@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\productions.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import path from 'path';
 import fs from 'fs';
@@ -14,7 +14,7 @@ import {packiTypes} from '../packi';
 import {config} from '../config';
 import * as wizziMaps from './maps';
 import {createJsonFsAndFactory, ensurePackiFilePrefix, createFilesystemFactory, createFilesystemFactoryWithParameters} from './factory';
-import {LoadModelOptions, GenerationOptions, GeneratedArtifact, WizziModelTypesRequest, WizziJobTypesRequest, TransformationOptions, TransformedModel} from './types';
+import {LoadModelOptions, GenerationOptions, GeneratedArtifact, WizziModelTypesRequest, WizziJobTypesRequest, TransformationOptions, TransformedModel, ExtraMetaProductionData, MetaExecuteRequest} from './types';
 import {JsonFs} from '@wizzi/repo';
 const myname = 'features/wizzi/productions';
 
@@ -620,34 +620,42 @@ export async function loadAndTransformModelFs(filePath: string, context?: any, o
         );
 }
 
-export async function metaExecute(metaCtx: any, tempFolder?: string, wizziFolder?: string, globalContext?: { 
+export async function executeMetaProduction(metaCtx: any, tempFolder?: string, wizziFolder?: string, globalContext?: { 
     [k: string]: any;
-}, metaProductions?: packiTypes.PackiFiles[]):  Promise<packiTypes.PackiFiles> {
+}, metaPlugins?: any):  Promise<packiTypes.PackiFiles> {
 
     tempFolder = tempFolder || "___template";
     wizziFolder = wizziFolder || ".wizzi";
     globalContext = globalContext || {};
-    metaProductions = metaProductions || [];
+    metaPlugins = metaPlugins || {};
     return new Promise(async (resolve, reject) => {
         
             console.log(myname, 'metaGenerate.metaCtx', Object.keys(metaCtx), __filename);
             let jsonwf: any = {};
             try {
-                jsonwf = await createJsonFsAndFactory({});
+                jsonwf = await createJsonFsAndFactory({}, null, metaPlugins, {});
                 ;
-                jsonwf.wf.metaExecute({
+                metaCtx.__wz_fsc = new wizzi.FactoryServiceContext();
+                jsonwf.wf.executeMetaProduction({
                     metaCtx: metaCtx, 
                     paths: {
                         metaProductionTempFolder: tempFolder, 
                         metaProductionWizziFolder: wizziFolder
                      }, 
-                    globalContext, 
-                    metaProductions
+                    globalContext
                  }, (err: any, wizziPackiFiles: packiTypes.PackiFiles) => {
                 
                     if (err) {
+                        metaCtx.__wz_fsc.dumpDebugObjects({
+                            kind: 'packi', 
+                            destFolder: path.join(__dirname, '..', '..', '..', 'dumps', 'packi')
+                         })
                         return reject(err);
                     }
+                    metaCtx.__wz_fsc.dumpDebugObjects({
+                        kind: 'packi', 
+                        destFolder: path.join(__dirname, '..', '..', '..', 'dumps', 'packi')
+                     })
                     resolve(wizziPackiFiles)
                 }
                 )

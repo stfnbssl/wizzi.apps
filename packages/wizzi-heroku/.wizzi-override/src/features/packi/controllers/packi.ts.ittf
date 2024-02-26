@@ -93,14 +93,14 @@ module
                     _ wizziProds.generateArtifact(entry, files).then
                         =>
                             param generated
-                            # loog 'generateArtifact.result', generated
+                            $$ loog 'generateArtifact.result', generated
                             _ sendHtml
                                 @ response
                                 @ generated.artifactContent
                         ._ catch
                             =>
                                 param err
-                                # loog 'features.packi.controllers.production.generateArtifact.err', err
+                                $$ loog 'features.packi.controllers.production.generateArtifact.err', err
                                 _ sendFailure(response, err, 501)
                 catch err
                     _ sendFailure(response, err, 501)

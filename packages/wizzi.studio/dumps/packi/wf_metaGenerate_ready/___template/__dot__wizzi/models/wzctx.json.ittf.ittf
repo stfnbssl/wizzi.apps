@@ -1,0 +1,25 @@
+{ 
+   ${'$'}include v08/env/vars
+   --- 
+   name ""
+   version ""
+   description ""
+   --- 
+   { App
+       name "DocumentsApp"
+       title "Documents  App"
+   --- 
+   { Styles
+   --- 
+   { Build
+       [ features
+       { package
+           [ scripts
+               { 
+                   name "docx"
+                   value "node ./documents/docx/document.docx.js"
+               { 
+                   name "get:images"
+                   value "node ./src/utils/getJsonImages.js"
+   { Data
+       ${'$'}include docx/document

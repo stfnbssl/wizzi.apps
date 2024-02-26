@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\production.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import {packiTypes} from '../../packi';
 import {wizziProds} from '../../wizzi';
@@ -273,9 +273,7 @@ async function prepareProduction(packiProduction: productionTypes.PackiProductio
                 console.log(myname + 'prepareProduction.getDefaultContext_withCache completed', Object.keys(defaultContext), __filename);
                 getProductionObject(packiProduction, owner, productionName).then((productionObject: any) => {
                 
-                    console.log('prepareProduction.productionObject got', Object.keys(productionObject), __filename);
                     if (productionObject.packiConfig) {
-                        console.log('prepareProduction.productionObject packiConfig', productionObject.packiConfig, __filename);
                         getProductionSetFromProductionObject(owner, productionName, productionObject.packiConfig, productionObject.packiFiles, defaultContext).then((productionSet: any) => {
                         
                             productionObject.packiFiles = productionSet.packiFiles;
@@ -347,9 +345,7 @@ async function getDefaultContext_withCache(owner: string, productionName: string
     progressiveContext = progressiveContext || {};
     return new Promise((resolve, reject) => 
         
-            getArtifactContextItem(owner, 'wzCtx;wzctx', progressiveContext).then(
-            // loog 'getDefaultContext_withCache', 'got context item wzCtx;wzctx', 'keys', Object.keys(resultItemContext)
-            (resultItemContext: any) => 
+            getArtifactContextItem(owner, 'wzCtx;wzctx', progressiveContext).then((resultItemContext: any) => 
             
                 resolve(Object.assign({}, progressiveContext, resultItemContext))
             ).catch((err: any) => {
@@ -374,17 +370,13 @@ async function getArtifactContextItem(owner: string, queryContextString: string,
     progressiveContext = progressiveContext || {};
     return new Promise((resolve, reject) => {
         
-            
-            // loog 'getArtifactContextItem: contextPropertyName', contextPropertyName, 'artifactName', artifactName, 'transformationName', transformationName
             if (queryContextString && queryContextString.length > 0) {
                 const parts = queryContextString.split(';');
                 const contextPropertyName = parts[0];
                 const artifactName = parts[1];
                 const transformationName = parts.length > 2 ? parts[2] : null;
                 if (transformationName) {
-                    getArtifactTransformation(owner, artifactName, progressiveContext, transformationName).then(
-                    // loog 'getArtifactContextItem: typeof result.transformResult', typeof result.transformResult
-                    (result: any) => 
+                    getArtifactTransformation(owner, artifactName, progressiveContext, transformationName).then((result: any) => 
                     
                         resolve(Object.assign({}, progressiveContext, {
                             [contextPropertyName]: result.transformResult
@@ -402,9 +394,7 @@ async function getArtifactContextItem(owner: string, queryContextString: string,
                     console.log('features.packiProductions.production.ctx_get.try.getArtifactGeneration', 'owner', owner, 'artifactName', artifactName, __filename);
                     getArtifactGeneration(owner, artifactName, progressiveContext).then((result: any) => {
                     
-                        console.log('features.packiProductions.production.ctx_get.getArtifactContextItem.getArtifactGeneration.result.content.length', result.content.length, __filename);
                         const contextObject = JSON.parse(result.content);
-                        console.log('features.packiProductions.production.ctx_get.getArtifactContextItem.getArtifactGeneration.contextPropertyName.contextObject', contextPropertyName, contextObject, __filename);
                         resolve(Object.assign({}, progressiveContext, {
                             [contextPropertyName]: contextObject
                          }))
@@ -431,7 +421,6 @@ async function getArtifactContextItem(owner: string, queryContextString: string,
     // Called by production.api.production.prepareProduction
     // increments progressivePackiFiles and progressiveContext
 */
-// loog 'executing getProductionSetFromProductionObject', 'owner', owner, 'productionName', productionName, 'packiConfig', packiConfig, 'progressivePackiFiles', Object.keys(progressivePackiFiles), 'progressiveContext', Object.keys(progressiveContext)
 async function getProductionSetFromProductionObject(owner: string, productionName: string, packiConfig: any, progressivePackiFiles: packiTypes.PackiFiles, progressiveContext: any) {
 
     
@@ -449,20 +438,14 @@ async function getProductionSetFromProductionObject(owner: string, productionNam
                         type: packiConfig.type, 
                         contents: packiConfig.contents
                      }
-                 }, progressiveContext).then(
-                // loog myname, 'getProductionSetFromProductionObject', 'packiConfigObj', JSON.stringify(packiConfigObj)
-                (generationResult: any) => {
+                 }, progressiveContext).then((generationResult: any) => {
                 
                     const packiConfigObj = JSON.parse(generationResult.artifactContent);
-                    getTFoldersPackiFilesFromProductionData(owner, packiConfigObj).then(
-                    // loog myname, 'getProductionSetFromProductionObject', 'tFoldersPackiFiles', Object.keys(tFoldersPackiFiles)
-                    (tFoldersPackiFiles: packiTypes.PackiFiles) => {
+                    getTFoldersPackiFilesFromProductionData(owner, packiConfigObj).then((tFoldersPackiFiles: packiTypes.PackiFiles) => {
                     
                         progressivePackiFiles = mergePackiFiles(progressivePackiFiles, tFoldersPackiFiles)
                         ;
-                        addContextPropertiesFromProductionData(owner, packiConfigObj, progressiveContext).then(
-                        // loog myname, 'getProductionSetFromProductionObject', 'resultProductionContext', Object.keys(resultProductionContext)
-                        (resultProductionContext) => {
+                        addContextPropertiesFromProductionData(owner, packiConfigObj, progressiveContext).then((resultProductionContext) => {
                         
                             return resolve({
                                     packiFiles: progressivePackiFiles, 
@@ -496,7 +479,6 @@ async function getProductionSetFromProductionObject(owner: string, productionNam
                 }
                 )
             }
-            // loog owner, productionName, packiConfig, 'has no production data'
             else {
                 resolve({
                     packiFiles: progressivePackiFiles, 
@@ -510,9 +492,7 @@ async function getProductionSetFromProductionObject(owner: string, productionNam
 export async function getTFoldersPackiFilesFromProductionData(owner: string, packiConfigObj: any):  Promise<packiTypes.PackiFiles> {
 
     
-    return new Promise(
-        // loog myname, 'getTFoldersPackiFilesFromProductionData', 'hastFolders', hasTFolders
-        (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         
             
             var tFoldersPackiFiles: packiTypes.PackiFiles = {};
@@ -522,12 +502,9 @@ export async function getTFoldersPackiFilesFromProductionData(owner: string, pac
             }
             
             var j = 0;
-            // loog myname, 'getTFoldersPackiFilesFromProductionData', 'getting tFolder', tfolder.name
             (function next() {
             
                 var tfolder = packiConfigObj.tfolders[j++];
-                
-                // loog 'getTFoldersPackiFilesFromProductionData.done.keys', Object.keys(tFoldersPackiFiles)
                 if (!tfolder) {
                     return resolve(tFoldersPackiFiles);
                 }
@@ -555,7 +532,6 @@ export async function getTFoldersPackiFilesFromProductionData(owner: string, pac
         );
 }
 
-// loog 'addContextPropertiesFromProductionData', 'owner', owner, 'packiConfigObj', packiConfigObj, 'progressiveContext', Object.keys(progressiveContext)
 async function addContextPropertiesFromProductionData(owner: string, packiConfigObj: any, progressiveContext: any):  Promise<any> {
 
     
@@ -569,8 +545,6 @@ async function addContextPropertiesFromProductionData(owner: string, packiConfig
             (function next() {
             
                 var contextConfig = packiConfigObj.contexts[j++];
-                
-                // loog 'addContextPropertiesFromProductionData.done.keys', Object.keys(progressiveContext)
                 if (!contextConfig) {
                     return resolve(progressiveContext);
                 }
@@ -606,7 +580,6 @@ async function addContextPropertiesFromProductionData(owner: string, packiConfig
     // context property 'db' will contain json document 'item.db.json'
     // fragments from tFolders html, css and js will be added to production packiFiles
 */
-// loog 'executing getProductionSetByQueryContext', 'owner', owner, 'productionName', productionName, 'queryContextString', queryContextString, 'progressivePackiFiles', Object.keys(progressivePackiFiles), 'progressiveContext', Object.keys(progressiveContext)
 async function getProductionSetByQueryContext(owner: string, productionName: string, queryContextString: string, progressivePackiFiles: packiTypes.PackiFiles, progressiveContext: any) {
 
     
@@ -616,16 +589,12 @@ async function getProductionSetByQueryContext(owner: string, productionName: str
     ;
     return new Promise((resolve, reject) => {
         
-            
-            // loog 'getProductionSetByQueryContext', queryContextItems
             if (queryContextString && queryContextString.length > 0) {
                 const queryContextItems = queryContextString.split('|');
                 var j = 0;
                 (function next() {
                 
                     var queryContextItem = queryContextItems[j++];
-                    
-                    // loog 'getProductionSetByQueryContext.done.keys', Object.keys(progressiveContext)
                     if (!queryContextItem) {
                         return resolve({
                                 packiFiles: progressivePackiFiles, 
@@ -648,7 +617,6 @@ async function getProductionSetByQueryContext(owner: string, productionName: str
                     )
                 })();
             }
-            // loog 'getProductionSetByQueryContext', 'no queryContextString'
             else {
                 resolve({
                     packiFiles: progressivePackiFiles, 
@@ -663,22 +631,16 @@ export async function getCliCtxFromPackiConfig(owner: string, packiConfigObj: an
 
     return new Promise((resolve, reject) => {
         
-            
-            // loog 'api.production.getCliCtxFromPackiConfig', 'no metaCtx found'
             if (!packiConfigObj.meta || !packiConfigObj.meta.metaCtx) {
                 return resolve({});
             }
             const kind = packiConfigObj.meta.metaCtx.kind;
             let filePath;
             let artifact;
-            
-            // loog 'api.production.getCliCtxFromPackiConfig', 'getting from filePath', filePath
             if (kind == "file") {
                 filePath = packiConfigObj.meta.metaCtx.filePath;
                 return resolve(getCliCtxFromPackiFile(filePath, packiFiles, progressiveContext));
             }
-            
-            // loog 'api.production.getCliCtxFromPackiConfig', 'getting from artifact', artifact.name
             else if (kind == "artifact") {
                 artifact = packiConfigObj.meta.metaCtx.artifact;
                 artifactApi.getArtifactGeneration_withPrepare(owner, packiConfigObj.meta.metaCtx.artifact.name, null, progressiveContext, "").then((generationResult: any) => 
@@ -693,7 +655,6 @@ export async function getCliCtxFromPackiConfig(owner: string, packiConfigObj: an
                 }
                 )
             }
-            // loog 'api.production.getCliCtxFromPackiConfig', 'no valid metaCtx kind found'
             else {
                 return resolve({});
             }
@@ -705,9 +666,7 @@ export async function getCliCtxFromPackiFile(filePath: string, packiFiles: packi
 
     return new Promise((resolve, reject) => 
         
-            wizziProds.generateArtifact(filePath, packiFiles, progressiveContext).then(
-            // loog 'api.production.getCliCtxFromPackiFile', generationResult.artifactContent
-            (generationResult: any) => 
+            wizziProds.generateArtifact(filePath, packiFiles, progressiveContext).then((generationResult: any) => 
             
                 resolve(JSON.parse(generationResult.artifactContent))
             ).catch((err: any) => {

@@ -2,13 +2,20 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziMeta\types.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import {packiTypes} from '../packi';
+import {wizziTypes} from '../wizzi';
+
 type WizziProductionRef = { 
     kind: string;
     name: string;
     apiURL: string;
+};
+
+type WizziInMemoryMetaRef = { 
+    owner: string;
+    name: string;
 };
 type WizziMetaPersistence = { 
     type?: string;
@@ -20,9 +27,8 @@ export type WizziMetaRequest = {
     description?: string;
     metaPlugins?: string[];
     factoryPlugins?: string[];
-    metaProductions?: { 
-        name: string;
-    }[];
+    metaProductions?: wizziTypes.ExtraMetaProductionData[];
+    inMemoryMetas?: WizziInMemoryMetaRef[];
     metaCtx?: any;
     metaCtxFilepath?: string;
     metaCtxRef?: WizziProductionRef;

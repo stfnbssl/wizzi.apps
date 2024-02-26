@@ -74,8 +74,8 @@ module
                             @ owner (request.session as any).user.username
                     {
             v08/ts/handler( postPackage )
-                # loog myname + '.postNewPackage.request.body', JSON.stringify(request.body, null, 2)
-                # loog myname + '.postNewPackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+                $$ loog myname + '.postNewPackage.request.body', JSON.stringify(request.body, null, 2)
+                $$ loog myname + '.postNewPackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
                 _ getTemplatePackiFiles
                     @ request.body.meta_id
                     @ request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}

@@ -81,7 +81,7 @@ module
                     v08/ts/catch_send_fail( putPackageProduction )
             apiv1_put( &ctrl )
             v08/ts/handler( getWizziMetaFolder  )
-                # loog 'getWizziMetaFolder.request.params', request.params
+                $$ loog 'getWizziMetaFolder.request.params', request.params
                 _ getWizziMetaFolderById
                     @ request.params.id
                     {

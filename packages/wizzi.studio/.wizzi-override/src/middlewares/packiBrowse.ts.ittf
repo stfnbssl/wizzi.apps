@@ -76,7 +76,7 @@ module
                 const parsedUrl = parseUrl(request)
                 if !parsedUrl || !parsedUrl.pathname
                     return next()
-                log myname + '.parsedUrl', parsedUrl
+                $$ loog myname + '.parsedUrl', parsedUrl
                 const pathname = decodeURIComponent(parsedUrl.pathname)
                 const parts = pathname.split('/')
                 let owner, productionName
@@ -86,7 +86,7 @@ module
                 else
                     set owner = parts[1] 
                     set productionName = parts.slice(2).join('/')
-                log myname + '.owner', owner, 'productionName', productionName, 'context', request.query.context
+                $$ loog myname + '.owner', owner, 'productionName', productionName, 'context', request.query.context
                 +
                 _ _executeBrowse
                     @ packiProduction
@@ -191,7 +191,7 @@ module
                     => 
                         param result
                             :any
-                        log myname + 'getArtifactMTree_withPrepare.result.length:', result.length
+                        $$ loog myname + 'getArtifactMTree_withPrepare.result.length:', result.length
                         _ response.status(200)
                         _ response.set('Content-Type', result.contentType)
                         _ response.set('Content-Length', result.contentLength.toString())
@@ -211,7 +211,7 @@ module
                     => 
                         param result
                             :any
-                        log myname + 'getArtifactMTreeBuildupScript_withPrepare.result.length:', result.length
+                        $$ loog myname + 'getArtifactMTreeBuildupScript_withPrepare.result.length:', result.length
                         _ response.status(200)
                         _ response.set('Content-Type', result.contentType)
                         _ response.set('Content-Length', result.contentLength.toString())
@@ -232,7 +232,7 @@ module
                     => 
                         param result
                             :any
-                        log myname + 'getArtifactGeneration_withPrepare.result.length:', result.length
+                        $$ loog myname + 'getArtifactGeneration_withPrepare.result.length:', result.length
                         _ response.status(200)
                         _ response.set('Content-Type', 'text/plain')
                         _ response.set('Content-Length', result.contentLength.toString())
@@ -253,7 +253,7 @@ module
                     => 
                         param result
                             :any
-                        log myname + 'getArtifactGeneration_withPrepare.result.length:', result.length
+                        $$ loog myname + 'getArtifactGeneration_withPrepare.result.length:', result.length
                         _ response.status(200)
                         _ response.set('Content-Type', result.contentType)
                         _ response.set('Content-Length', result.contentLength.toString())

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziFs\api\byHash.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import path from 'path';
 import {verify, fSystem, crypto} from 'wizzi-utils';
@@ -30,9 +30,7 @@ async function getIttfFileContentByHash(hash: string) {
 
 async function putIttfFileContentByHash(hash: string, content: string) {
 
-    return new Promise(
-        // loog 'putIttfFileContentByHash', hash, filePath
-        (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         
             var filePath = crypto.decrypt(hash);
             try {

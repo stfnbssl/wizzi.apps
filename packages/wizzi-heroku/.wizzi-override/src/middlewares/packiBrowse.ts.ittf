@@ -73,7 +73,7 @@ module
                 const parsedUrl = parseUrl(request)
                 if !parsedUrl || !parsedUrl.pathname
                     return next()
-                log myname + '.parsedUrl', parsedUrl
+                # log myname + '.parsedUrl', parsedUrl
                 const pathname = decodeURIComponent(parsedUrl.pathname)
                 const parts = pathname.split('/')
                 let owner, productionName

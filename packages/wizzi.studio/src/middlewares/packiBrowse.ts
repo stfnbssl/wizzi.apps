@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\middlewares\packiBrowse.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -48,7 +48,6 @@ function packiBrowseMiddleware(packiProduction: string, isSiteLevel: boolean):  
             if (!parsedUrl || !parsedUrl.pathname) {
                 return next();
             }
-            console.log(myname + '.parsedUrl', parsedUrl, __filename);
             const pathname = decodeURIComponent(parsedUrl.pathname);
             const parts = pathname.split('/');
             let owner, productionName;
@@ -60,7 +59,6 @@ function packiBrowseMiddleware(packiProduction: string, isSiteLevel: boolean):  
                 owner = parts[1];
                 productionName = parts.slice(2).join('/');
             }
-            console.log(myname + '.owner', owner, 'productionName', productionName, 'context', request.query.context, __filename);
             
             _executeBrowse(packiProduction, owner, productionName, request, response)
         }
@@ -83,7 +81,6 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
     if (request.query.meta && (request.query.meta as string).toLowerCase() == 'mtree') {
         productionApi.getArtifactMTree_withPrepare(owner, productionName, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
         
-            console.log(myname + 'getArtifactMTree_withPrepare.result.length:', result.length, __filename);
             response.status(200);
             response.set('Content-Type', result.contentType);
             response.set('Content-Length', result.contentLength.toString());
@@ -106,7 +103,6 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
     else if (request.query.meta && (request.query.meta as string).toLowerCase() == 'script') {
         productionApi.getArtifactMTreeBuildupScript_withPrepare(owner, productionName, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
         
-            console.log(myname + 'getArtifactMTreeBuildupScript_withPrepare.result.length:', result.length, __filename);
             response.status(200);
             response.set('Content-Type', result.contentType);
             response.set('Content-Length', result.contentLength.toString());
@@ -129,7 +125,6 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
     else if (request.query.meta && (request.query.meta as string).toLowerCase() == 'raw') {
         productionApi.getArtifactGeneration_withPrepare(owner, productionName, request.query.filepath as string, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
         
-            console.log(myname + 'getArtifactGeneration_withPrepare.result.length:', result.length, __filename);
             response.status(200);
             response.set('Content-Type', 'text/plain');
             response.set('Content-Length', result.contentLength.toString());
@@ -152,7 +147,6 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
     else {
         productionApi.getArtifactGeneration_withPrepare(owner, productionName, request.query.filepath as string, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
         
-            console.log(myname + 'getArtifactGeneration_withPrepare.result.length:', result.length, __filename);
             response.status(200);
             response.set('Content-Type', result.contentType);
             response.set('Content-Length', result.contentLength.toString());

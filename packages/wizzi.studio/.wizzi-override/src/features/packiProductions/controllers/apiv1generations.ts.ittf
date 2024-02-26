@@ -45,7 +45,7 @@ module
                 const productionName
                     :string
                     = request.body.productionName
-                # loog myname, 'mTree.id, productionKind,  productionName, files', id, productionKind, productionName, Object.keys(req_files)
+                $$ loog myname, 'mTree.id, productionKind,  productionName, files', id, productionKind, productionName, Object.keys(req_files)
                 _ productionApi.prepareProduction
                     @ productionKind
                     @ owner
@@ -64,7 +64,7 @@ module
                                     =>
                                         param result
                                             :any
-                                        # loog myname, 'mTree.result', result
+                                        $$ loog myname, 'mTree.result', result
                                         _ sendSuccess
                                             @ response
                                             {
@@ -83,7 +83,7 @@ module
                 const productionName
                     :string
                     = request.body.productionName
-                # loog myname, 'mTreeBuildupScript.id, productionKind,  productionName, files', id, productionKind, productionName, Object.keys(req_files)
+                $$ loog myname, 'mTreeBuildupScript.id, productionKind,  productionName, files', id, productionKind, productionName, Object.keys(req_files)
                 _ productionApi.prepareProduction
                     @ productionKind
                     @ owner
@@ -101,7 +101,7 @@ module
                                 ._ then
                                     =>
                                         param result
-                                        # loog myname, 'mTreeBuildupScript.result', result
+                                        $$ loog myname, 'mTreeBuildupScript.result', result
                                         _ sendSuccess
                                             @ response
                                             @ result
@@ -119,7 +119,7 @@ module
                 const productionName
                     :string
                     = request.body.productionName
-                # loog myname, 'generateArtifact.id, productionKind,  productionName, files', id, productionKind, productionName, Object.keys(req_files)
+                $$ loog myname, 'generateArtifact.id, productionKind,  productionName, files', id, productionKind, productionName, Object.keys(req_files)
                 _ productionApi.prepareProduction
                     @ productionKind
                     @ owner
@@ -137,7 +137,7 @@ module
                                 ._ then
                                     =>
                                         param value
-                                        # loog myname, 'generateArtifact.result', value
+                                        $$ loog myname, 'generateArtifact.result', value
                                         _ sendSuccess
                                             @ response
                                             {
@@ -157,7 +157,7 @@ module
                 const productionName
                     :string
                     = request.body.productionName
-                # loog myname, 'mTree.received files', Object.keys(req_files)
+                $$ loog myname, 'mTree.received files', Object.keys(req_files)
                 _ productionApi.prepareProduction
                     @ productionKind
                     @ owner
@@ -177,7 +177,7 @@ module
                                 ._ then
                                     =>
                                         param value
-                                        # loog 'generateArtifact.result', value
+                                        $$ loog 'generateArtifact.result', value
                                         _ sendSuccess
                                             @ response
                                             {
@@ -195,7 +195,7 @@ module
                 const productionName
                     :string
                     = request.body.productionName
-                # loog myname, 'mTree.received files', Object.keys(req_files)
+                $$ loog myname, 'mTree.received files', Object.keys(req_files)
                 _ productionApi.prepareProduction
                     @ productionKind
                     @ owner
@@ -215,7 +215,7 @@ module
                                         const files
                                             await
                                                 _ wizziFactory.extractGeneratedFiles(fsJson)
-                                        # loog 'features.production.controllers.production.executeJob.generatedArtifacts', Object.keys(files)
+                                        $$ loog 'features.production.controllers.production.executeJob.generatedArtifacts', Object.keys(files)
                                         _ sendSuccess
                                             @ response
                                             {
@@ -227,14 +227,14 @@ module
                     :ref PackiFiles
                     = request.body.packiFiles
                 if files
-                    # loog 'features.production.controllers.production.wizzify.received files', Object.keys(files)
+                    $$ loog 'features.production.controllers.production.wizzify.received files', Object.keys(files)
                 _ wizziProds.wizzify
                     @ files
                     ._ then
                         async=>
                             param result
                                 :ref PackiFiles
-                            # loog 'features.production.controllers.production.wizzify.result', result
+                            $$ loog 'features.production.controllers.production.wizzify.result', result
                             _ sendSuccess
                                 @ response
                                 {
@@ -245,14 +245,14 @@ module
                     :ref PackiFiles
                     = request.body.packiFiles
                 if files
-                    # loog 'features.production.controllers.production.codeAST.received files', Object.keys(files)
+                    $$ loog 'features.production.controllers.production.codeAST.received files', Object.keys(files)
                 _ wizziProds.getCodeAST
                     @ files
                     ._ then
                         async=>
                             param result
                                 :ref PackiFiles
-                            # loog 'features.production.controllers.production.codeAST.result', result
+                            $$ loog 'features.production.controllers.production.codeAST.result', result
                             _ sendSuccess
                                 @ response
                                 {

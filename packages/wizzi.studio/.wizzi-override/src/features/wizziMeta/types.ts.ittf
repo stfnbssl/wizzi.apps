@@ -2,6 +2,10 @@ module
     import
         @ packiTypes
         from '../packi'
+    import
+        @ wizziTypes
+        from '../wizzi'
+    +
     :type WizziProductionRef
         :{
             :p kind
@@ -9,6 +13,13 @@ module
             :p name
                 :string
             :p apiURL
+                :string
+    +
+    :type WizziInMemoryMetaRef
+        :{
+            :p owner
+                :string
+            :p name
                 :string
     :type WizziMetaPersistence
         :{
@@ -38,11 +49,14 @@ module
                     :[
                         :string
                     :optional
+                $$ TODO metaProductions VIA replaced by inMemoryMetas
                 :p metaProductions
                     :[
-                        :{
-                            :p name
-                                :string
+                        :ref wizziTypes.ExtraMetaProductionData
+                    :optional
+                :p inMemoryMetas
+                    :[
+                        :ref WizziInMemoryMetaRef
                     :optional
                 :p metaCtx
                     :any
@@ -59,3 +73,5 @@ module
                 :p persist
                     :ref WizziMetaPersistence
                     :optional
+
+

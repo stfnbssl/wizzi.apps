@@ -22,7 +22,7 @@ $group
                             =>
                                 param resultItemContext
                                     :any
-                                # loog 'getDefaultContext_withCache', 'got context item wzCtx;wzctx', 'keys', Object.keys(resultItemContext)
+                                $$ loog 'getDefaultContext_withCache', 'got context item wzCtx;wzctx', 'keys', Object.keys(resultItemContext)
                                 _ resolve
                                     _ Object.assign
                                         {
@@ -56,7 +56,7 @@ $group
                             iif parts.length > 2
                                 then parts[2]
                                 else null
-                        # loog 'getArtifactContextItem: contextPropertyName', contextPropertyName, 'artifactName', artifactName, 'transformationName', transformationName
+                        $$ loog 'getArtifactContextItem: contextPropertyName', contextPropertyName, 'artifactName', artifactName, 'transformationName', transformationName
                         if transformationName
                             _ getArtifactTransformation
                                 @ owner
@@ -67,7 +67,7 @@ $group
                                     =>
                                         param result
                                             :any
-                                        # loog 'getArtifactContextItem: typeof result.transformResult', typeof result.transformResult
+                                        $$ loog 'getArtifactContextItem: typeof result.transformResult', typeof result.transformResult
                                         _ resolve
                                             _ Object.assign
                                                 {
@@ -85,9 +85,9 @@ $group
                                     =>
                                         param result
                                             :any
-                                        log 'features.packiProductions.production.ctx_get.getArtifactContextItem.getArtifactGeneration.result.content.length', result.content.length
+                                        $$ loog 'features.packiProductions.production.ctx_get.getArtifactContextItem.getArtifactGeneration.result.content.length', result.content.length
                                         const contextObject = JSON.parse(result.content)
-                                        log 'features.packiProductions.production.ctx_get.getArtifactContextItem.getArtifactGeneration.contextPropertyName.contextObject', contextPropertyName, contextObject
+                                        $$ loog 'features.packiProductions.production.ctx_get.getArtifactContextItem.getArtifactGeneration.contextPropertyName.contextObject', contextPropertyName, contextObject
                                         _ resolve
                                             _ Object.assign
                                                 {

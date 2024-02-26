@@ -90,7 +90,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog 'postArtifactProduction.create.result', result
+                            $$ loog 'postArtifactProduction.create.result', result
                             _ invalidateCache
                                 @ request.params.owner
                                 @ request.params.name
@@ -121,7 +121,7 @@ module
                             =>
                                 param result
                                     :any
-                                # loog 'putArtifactProduction.update.result', result
+                                $$ loog 'putArtifactProduction.update.result', result
                                 _ invalidateCache
                                     @ request.params.id
                                 _ sendSuccess

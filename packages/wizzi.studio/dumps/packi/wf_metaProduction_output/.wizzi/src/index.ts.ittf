@@ -1,0 +1,4 @@
+module
+    var name = "stefi"
+    const name = "ssss"
+    const kind = ""

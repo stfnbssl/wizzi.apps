@@ -98,7 +98,7 @@ module
                 var files
                     _ file.glob
                         @ glob
-                # loog 'wizzi-studio.apis.gists.getFolderFiles', glob, files
+                $$ loog 'wizzi-studio.apis.gists.getFolderFiles', glob, files
                 var ret = []
                 foreach item in files
                     _ ret.push
@@ -124,7 +124,7 @@ module
                 var files
                     _ file.glob
                         @ glob
-                # loog 'getFolderIttfFiles', glob, schemaName, files
+                $$ loog 'getFolderIttfFiles', glob, schemaName, files
                 var ret = []
                 foreach item in files
                     var dirName = path.dirname(item)

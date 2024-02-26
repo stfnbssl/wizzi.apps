@@ -1,0 +1,3 @@
+module 
+   var name = "stefi"
+   $include labDevHtml/lab-dev/index.ts

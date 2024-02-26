@@ -1,5 +1,11 @@
 {
     $include v08/env/vars
+
+    $
+        var md = {
+            isHeroku: wzConfigIsHeroku,
+            stfnbssl_env: stfnbssl_env
+        }
     
     name "wizzi.studio"
     version "0.0.1"
@@ -29,6 +35,15 @@
     
     { Build
         [ features
+            $if wzConfigIsHeroku
+                {
+                    name "auth"
+                    hasControllers true
+                    useMongoDb false
+                {
+                    name "account"
+                    hasControllers true
+                    useMongoDb true
             {
                 name "packi"
                 hasControllers true
@@ -93,10 +108,13 @@
         useWizziFs true
         { wizziFs
         $include code.json
+
+        $if wzConfigIsHeroku
+            $include heroku.json
         
         $include tsExpress.json
         
-        $include tsExpressFeatureAuth.json
+        tsExpressFeatureAuth( &md )
         
         $include tsExpressFeatureConfig.json
         

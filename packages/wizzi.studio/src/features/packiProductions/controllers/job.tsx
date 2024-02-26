@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\job.tsx.ittf
-    utc time: Sat, 17 Feb 2024 04:55:17 GMT
+    utc time: Sun, 25 Feb 2024 13:18:10 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -241,9 +241,7 @@ export class JobController implements ControllerType {
     
     ;
     
-    private getUpdateJobForm = 
-    // loog myname + '.getUpdateJobForm.id', id
-    async (request: Request, response: Response) => {
+    private getUpdateJobForm = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         getJobObjectById(id).then((result: any) => 
@@ -281,9 +279,7 @@ export class JobController implements ControllerType {
     }
     ;
     
-    private getDeleteJobForm = 
-    // loog myname + '.getDeleteJobForm.id', id
-    async (request: Request, response: Response) => {
+    private getDeleteJobForm = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         getJobObjectById(id).then((result: any) => 
@@ -302,9 +298,7 @@ export class JobController implements ControllerType {
     }
     ;
     
-    private deleteJob = 
-    // loog myname + '.deleteJob.request.path', request.path
-    async (request: Request, response: Response) => {
+    private deleteJob = async (request: Request, response: Response) => {
     
         const obj = request.body;
         deleteJob(obj.job_id, obj.job_owner, obj.job_name).then((result: any) => {

@@ -110,7 +110,8 @@ $group
                         . ${ca_inverse}
                             + Lab
                     $if opt.section != 'Productions'
-                        html/a( Productions, /ittf/site/productions.html.ittf, ${ca}
+                        $$ html/a( Productions, /ittf/site/productions.html.ittf, ${ca}
+                        html/a( Productions, /~/stfnbssl/lab-meta.html?savecount=0&filepath=hubProductions.html.ittf, ${ca}
                     $else
                         . ${ca_inverse}
                             + Productions

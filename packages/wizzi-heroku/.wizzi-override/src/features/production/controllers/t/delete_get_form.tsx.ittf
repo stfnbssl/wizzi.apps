@@ -14,7 +14,7 @@ $group
     const name = parts.slice(3).join('/')
     *$
     const id = request.params.id
-    # loog myname + '.getDelete${Prod}Form.id', id
+    $$ loog myname + '.getDelete${Prod}Form.id', id
     _ get${Prod}${suffix}ObjectById
         $*
         @ owner

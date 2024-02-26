@@ -59,7 +59,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog 'getCheckResourceName.result', result
+                            $$ loog 'getCheckResourceName.result', result
                             _ sendSuccess
                                 @ response
                                 @ result
@@ -92,7 +92,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog 'postCdnResource.create.result', result
+                            $$ loog 'postCdnResource.create.result', result
                             _ invalidateCache
                                 @ request.params.owner
                                 @ request.params.name

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziCdn\controllers\apiv1resource.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -84,9 +84,7 @@ export class ApiV1WizziCdnResourceController implements ControllerType {
     
     private getCheckResourceName = async (request: Request, response: Response) => 
     
-        validateWizziCdnResource(request.params.owner, request.params.name).then(
-        // loog 'getCheckResourceName.result', result
-        (result: any) => 
+        validateWizziCdnResource(request.params.owner, request.params.name).then((result: any) => 
         
             sendSuccess(response, result)
         ).catch((err: any) => {
@@ -121,9 +119,7 @@ export class ApiV1WizziCdnResourceController implements ControllerType {
     
     private postWizziCdnResource = async (request: Request, response: Response) => 
     
-        createWizziCdnResource(request.params.owner, request.params.name, request.body.contents).then(
-        // loog 'postWizziCdnResource.create.result', result
-        (result: any) => {
+        createWizziCdnResource(request.params.owner, request.params.name, request.body.contents).then((result: any) => {
         
             invalidateCache(request.params.owner, request.params.name)
             sendSuccess(response, result)

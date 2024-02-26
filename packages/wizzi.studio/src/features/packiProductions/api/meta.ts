@@ -2,8 +2,10 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\meta.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
+import {packiApi} from '../../packi';
+import {WizziInMemoryMetaRef} from '../types';
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '../../types';
 import {packiTypes} from '../../packi';
@@ -303,9 +305,7 @@ async function createMetaProduction(owner?: string, name?: string, description?:
                 name: name
              };
             
-            MetaProduction.find(query, 
-            // loog myname, 'getMetaProduction', 'MetaProduction.find', 'result', result
-            (err: any, result: any) => {
+            MetaProduction.find(query, (err: any, result: any) => {
             
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getMetaProduction', 'MetaProduction.find', 'error', err);
@@ -502,8 +502,7 @@ export function invalidateCache(owner: string, name?: string) {
     metaProductionCache.del(cacheKey);
 }
 
-export // loog myname, 'getTemplatePackiFiles', 'metaId', metaId, 'metaCtx', Object.keys(metaCtx), 'queryString', queryString, 'rootContext', Object.keys(rootContext), 'options', Object.keys(options)
-async function getTemplatePackiFiles(metaId: string, metaCtx: any, queryString: string, rootContext: any, options: any):  Promise<packiTypes.PackiFiles> {
+export async function getTemplatePackiFiles(metaId: string, metaCtx: any, queryString: string, rootContext: any, options: any):  Promise<packiTypes.PackiFiles> {
 
     function getPackiFiles(wizziSchema: string, mainIttf: string):  packiTypes.PackiFiles {
     
@@ -521,16 +520,12 @@ async function getTemplatePackiFiles(metaId: string, metaCtx: any, queryString: 
             if (!metaId || metaId.length < 1) {
                 return resolve(getPackiFiles(options.wizziSchema, options.mainIttf));
             }
-            productionApi.prepareProductionById('meta', metaId, queryString, rootContext).then(
-            // loog 'getTemplatePackiFiles.metaProductionSet', 'packiFiles', Object.keys(metaProductionSet.packiFiles), 'context', Object.keys(metaProductionSet.context),
-            (metaProductionSet: any) => {
+            productionApi.prepareProductionById('meta', metaId, queryString, rootContext).then((metaProductionSet: any) => {
             
                 const context = Object.assign({}, metaProductionSet.context, {
                     metaCtx: metaCtx
                  });
-                wizziProds.generateFolderArtifacts('template', 'output', metaProductionSet.packiFiles, context).then(
-                // loog 'getTemplatePackiFiles.generatedFolderArtifacts', 'packiFiles', Object.keys(packiFiles),
-                (packiFiles: packiTypes.PackiFiles) => 
+                wizziProds.generateFolderArtifacts('template', 'output', metaProductionSet.packiFiles, context).then((packiFiles: packiTypes.PackiFiles) => 
                 
                     resolve(packiFiles)
                 ).catch((err: any) => {
@@ -554,12 +549,9 @@ async function getTemplatePackiFiles(metaId: string, metaCtx: any, queryString: 
         );
 }
 
-export // loog myname, 'generateMetaProduction', 'owner', owner, 'name', name
-async function generateMetaProduction(owner: string, name: string, metaCtx: any):  Promise<packiTypes.PackiFiles> {
+export async function generateMetaProduction(owner: string, name: string, metaCtx: any):  Promise<packiTypes.PackiFiles> {
 
-    return getMetaProduction(owner, name).then(
-        // loog myname, 'generateMetaProduction.gotMetaProductionItem', 'CRUDResult.item.id,keys', metaProduction.item.id, Object.keys(metaProduction.item)
-        (metaProduction: CRUDResult) => {
+    return getMetaProduction(owner, name).then((metaProduction: CRUDResult) => {
         
             return generateMetaProductionById(metaProduction.item.id, metaCtx);
         }
@@ -567,8 +559,7 @@ async function generateMetaProduction(owner: string, name: string, metaCtx: any)
     ;
 }
 
-export // loog myname, 'generateMetaProductionById', 'metaId', metaId, 'metaCtx', Object.keys(metaCtx)
-async function generateMetaProductionById(metaId: string, metaCtx: any):  Promise<packiTypes.PackiFiles> {
+export async function generateMetaProductionById(metaId: string, metaCtx: any):  Promise<packiTypes.PackiFiles> {
 
     return new Promise((resolve, reject) => 
         
@@ -578,9 +569,7 @@ async function generateMetaProductionById(metaId: string, metaCtx: any):  Promis
                 const metaContext = Object.assign({}, metaProductionSet.context, {
                     metaCtx: metaCtx
                  });
-                wizziProds.metaGenerate(metaProductionSet.packiFiles, metaContext).then(
-                // loog 'generateMetaProductionById.metaGenerate.result', 'packiFiles', Object.keys(packiFiles),
-                (packiFiles: packiTypes.PackiFiles) => 
+                wizziProds.metaGenerate(metaProductionSet.packiFiles, metaContext).then((packiFiles: packiTypes.PackiFiles) => 
                 
                     resolve(packiFiles)
                 ).catch((err: any) => {
@@ -601,5 +590,44 @@ async function generateMetaProductionById(metaId: string, metaCtx: any):  Promis
             }
             )
         
+        );
+}
+
+export async function getInMemoryMetaPlugins(inMemoryMetas: WizziInMemoryMetaRef[]) {
+
+    console.log('getInMemoryMetaPlugins.inMemoryMetas', JSON.stringify(inMemoryMetas), __filename);
+    return new Promise((resolve, reject) => {
+        
+            const result = [];
+            function doBuildInMemoryPlugin(ndx) {
+            
+                const inMemoryRef = inMemoryMetas[ndx];
+                
+                // loog 'getInMemoryMetaPlugins.result', JSON.stringify(result, null, 4)
+                if (!inMemoryRef) {
+                    return resolve(result);
+                }
+                getMetaProduction(inMemoryRef.owner, inMemoryRef.name).then((metaResult: any) => {
+                
+                    let inMemoryPlugin: any = packiApi.extractPackiFileContent(metaResult.item.packiFiles, '.db/meta.provides.json', {
+                        json: true
+                     });
+                    inMemoryPlugin = inMemoryPlugin.json;
+                    inMemoryPlugin.metaPackiFiles = packiApi.packiFilesToObject(metaResult.item.packiFiles)
+                    ;
+                    result.push(inMemoryPlugin)
+                    doBuildInMemoryPlugin(ndx + 1)
+                }
+                ).catch((error: any) => {
+                
+                    if (typeof error === 'object' && error !== null) {
+                    }
+                    console.log("[31m%s[0m", 'wizziMeta.executeMetaProductionWithInMemoryPlugins.getMetaProduction.error', error);
+                    return reject(error);
+                }
+                )
+            }
+            doBuildInMemoryPlugin(0)
+        }
         );
 }

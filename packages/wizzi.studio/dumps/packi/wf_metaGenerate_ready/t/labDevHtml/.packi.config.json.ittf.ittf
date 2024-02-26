@@ -1,0 +1,13 @@
+$group
+    [ tfolders
+        {
+            name "html"
+        $if metaCtx.labDevHtml.packiConfig.useWizziHub
+            {
+                name 'wizzihub-commons'
+            {
+                name "wizzihub/html"
+    [ contexts
+        {
+            $$ propertyName "..name.."
+            $$ artifactName "..name.."

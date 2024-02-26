@@ -60,7 +60,7 @@ $group
                 :any
             param transformerName
                 :string
-            # loog 'getArtifactMTree_withPrepare',
+            $$ loog 'getArtifactMTree_withPrepare',
                 \b 'owner', owner,
                 \b 'productionName', productionName,
                 \b 'queryContext', queryContext,
@@ -81,7 +81,7 @@ $group
                                 => 
                                     param productionObj
                                         :any
-                                    # loog 'getArtifactTransformation_withPrepare.productionObj',
+                                    $$ loog 'getArtifactTransformation_withPrepare.productionObj',
                                         \b 'mainIttf', productionObj.mainIttf,
                                         \b 'packiFiles', Object.keys(productionObj.packiFiles),
                                         \b 'context', Object.keys(productionObj.context),

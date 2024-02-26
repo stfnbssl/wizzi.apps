@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\apiv1generations.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -63,9 +63,7 @@ export class ApiV1GenerationsController implements ControllerType {
         this.router.post("/codeast", makeHandlerAwareOfAsyncErrors(this.codeAST))
     };
     
-    private mTree = 
-    // loog myname, 'mTree.id, productionKind,  productionName, files', id, productionKind, productionName, Object.keys(req_files)
-    async (request: Request, response: Response) => {
+    private mTree = async (request: Request, response: Response) => {
     
         const owner = (request.session as any).user.username;
         const id = request.params.id;
@@ -74,9 +72,7 @@ export class ApiV1GenerationsController implements ControllerType {
         const productionName: string = request.body.productionName;
         productionApi.prepareProduction(productionKind, owner, productionName, '', {}).then((packageProductionSet: any) => 
         
-            wizziProds.mTree(id, packageProductionSet.packiFiles, packageProductionSet.context).then(
-            // loog myname, 'mTree.result', result
-            (result: any) => 
+            wizziProds.mTree(id, packageProductionSet.packiFiles, packageProductionSet.context).then((result: any) => 
             
                 sendSuccess(response, {
                     mTreeIttf: result.mTreeIttf
@@ -105,9 +101,7 @@ export class ApiV1GenerationsController implements ControllerType {
     }
     ;
     
-    private mTreeBuildupScript = 
-    // loog myname, 'mTreeBuildupScript.id, productionKind,  productionName, files', id, productionKind, productionName, Object.keys(req_files)
-    async (request: Request, response: Response) => {
+    private mTreeBuildupScript = async (request: Request, response: Response) => {
     
         const owner = (request.session as any).user.username;
         const id = request.params.id;
@@ -116,9 +110,7 @@ export class ApiV1GenerationsController implements ControllerType {
         const productionName: string = request.body.productionName;
         productionApi.prepareProduction(productionKind, owner, productionName, '', {}).then((packageProductionSet: any) => 
         
-            wizziProds.mTreeBuildupScript(id, packageProductionSet.packiFiles, packageProductionSet.context).then(
-            // loog myname, 'mTreeBuildupScript.result', result
-            result => 
+            wizziProds.mTreeBuildupScript(id, packageProductionSet.packiFiles, packageProductionSet.context).then(result => 
             
                 sendSuccess(response, result)
             ).catch((err: any) => {
@@ -145,9 +137,7 @@ export class ApiV1GenerationsController implements ControllerType {
     }
     ;
     
-    private generateArtifact = 
-    // loog myname, 'generateArtifact.id, productionKind,  productionName, files', id, productionKind, productionName, Object.keys(req_files)
-    async (request: Request, response: Response) => {
+    private generateArtifact = async (request: Request, response: Response) => {
     
         const owner = (request.session as any).user.username;
         const id = request.params.id;
@@ -156,9 +146,7 @@ export class ApiV1GenerationsController implements ControllerType {
         const productionName: string = request.body.productionName;
         productionApi.prepareProduction(productionKind, owner, productionName, '', {}).then((packageProductionSet: any) => 
         
-            wizziProds.generateArtifact(id, packageProductionSet.packiFiles, packageProductionSet.context).then(
-            // loog myname, 'generateArtifact.result', value
-            value => 
+            wizziProds.generateArtifact(id, packageProductionSet.packiFiles, packageProductionSet.context).then(value => 
             
                 sendSuccess(response, {
                     generatedArtifact: value
@@ -187,9 +175,7 @@ export class ApiV1GenerationsController implements ControllerType {
     }
     ;
     
-    private transformModel = 
-    // loog myname, 'mTree.received files', Object.keys(req_files)
-    async (request: Request, response: Response) => {
+    private transformModel = async (request: Request, response: Response) => {
     
         const owner = (request.session as any).user.username;
         const id = request.params.id;
@@ -201,9 +187,7 @@ export class ApiV1GenerationsController implements ControllerType {
         
             wizziProds.loadAndTransformModel(id, packageProductionSet.packiFiles, packageProductionSet.context, {
                 transformer: transformer
-             }).then(
-            // loog 'generateArtifact.result', value
-            value => 
+             }).then(value => 
             
                 sendSuccess(response, {
                     transformedModel: value.transformResult
@@ -232,9 +216,7 @@ export class ApiV1GenerationsController implements ControllerType {
     }
     ;
     
-    private executeJob = 
-    // loog myname, 'mTree.received files', Object.keys(req_files)
-    async (request: Request, response: Response) => {
+    private executeJob = async (request: Request, response: Response) => {
     
         const owner = (request.session as any).user.username;
         const req_files: PackiFiles = request.body.packiFiles;
@@ -242,9 +224,7 @@ export class ApiV1GenerationsController implements ControllerType {
         const productionName: string = request.body.productionName;
         productionApi.prepareProduction(productionKind, owner, productionName, '', {}).then((packageProductionSet: any) => 
         
-            wizziProds.executeJobs(packageProductionSet.packiFiles, packageProductionSet.context).then(
-            // loog 'features.production.controllers.production.executeJob.generatedArtifacts', Object.keys(files)
-            async (fsJson) => {
+            wizziProds.executeJobs(packageProductionSet.packiFiles, packageProductionSet.context).then(async (fsJson) => {
             
                 const files = await wizziFactory.extractGeneratedFiles(fsJson);
                 sendSuccess(response, {
@@ -278,13 +258,9 @@ export class ApiV1GenerationsController implements ControllerType {
     private wizzify = async (request: Request, response: Response) => {
     
         const files: PackiFiles = request.body.packiFiles;
-        
-        // loog 'features.production.controllers.production.wizzify.received files', Object.keys(files)
         if (files) {
         }
-        wizziProds.wizzify(files).then(
-        // loog 'features.production.controllers.production.wizzify.result', result
-        async (result: PackiFiles) => 
+        wizziProds.wizzify(files).then(async (result: PackiFiles) => 
         
             sendSuccess(response, {
                 wizzifiedPackiFiles: result
@@ -306,13 +282,9 @@ export class ApiV1GenerationsController implements ControllerType {
     private codeAST = async (request: Request, response: Response) => {
     
         const files: PackiFiles = request.body.packiFiles;
-        
-        // loog 'features.production.controllers.production.codeAST.received files', Object.keys(files)
         if (files) {
         }
-        wizziProds.getCodeAST(files).then(
-        // loog 'features.production.controllers.production.codeAST.result', result
-        async (result: PackiFiles) => 
+        wizziProds.getCodeAST(files).then(async (result: PackiFiles) => 
         
             sendSuccess(response, {
                 codeASTPackiFiles: result

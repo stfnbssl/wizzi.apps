@@ -55,7 +55,7 @@ $group
                 :string
             param rootContext
                 :any
-            # loog 'getArtifactMTreeBuildupScript_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
+            $$ loog 'getArtifactMTreeBuildupScript_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
             return
                 new Promise
                     =>

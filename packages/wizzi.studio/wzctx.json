@@ -175,6 +175,7 @@
             "metaPlugins": [
                 "./wizzi.meta.cloud/index",
                 "./wizzi.meta.commons/index",
+                "./wizzi.meta.demo/index",
                 "./wizzi.meta.docs/index",
                 "./wizzi.meta.documents/index",
                 "./wizzi.meta.js/index",

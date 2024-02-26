@@ -21,7 +21,7 @@ $group
                 =>
                     param result
                         :any
-                    # loog 'put${ctrl.Production}${ctrl.Production == 'TFolder' ? '' : 'Production'}.update.result', result
+                    $$ loog 'put${ctrl.Production}${ctrl.Production == 'TFolder' ? '' : 'Production'}.update.result', result
                     _ invalidateCache
                         @ request.params.id
                     _ sendSuccess

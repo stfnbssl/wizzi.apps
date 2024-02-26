@@ -5,6 +5,12 @@ module
     import
         @ PackiBuilder
         from './api/PackiBuilder'
+    import
+        @ clonePackiFiles
+        @ extractPackiFileContent
+        @ extractPackiFile
+        @ packiFilesToObject
+        from './api/utils'
     $if wzCtx.Build.useExpress
         import
             @ ControllerType
@@ -27,8 +33,17 @@ module
                     @ new PackiEditingController()
                     @ new PackiGeneratingController()
                     @ new ProductionsController()
+    const packiApi
+        {
+            @ PackiBuilder
+            @ clonePackiFiles
+            @ extractPackiFileContent
+            @ extractPackiFile
+            @ packiFilesToObject
+
     export
         @ packiTypes
         @ PackiBuilder
+        @ packiApi
         $if wzCtx.Build.useExpress
             @ packiControllers

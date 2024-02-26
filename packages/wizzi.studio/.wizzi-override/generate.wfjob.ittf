@@ -7,10 +7,12 @@ wfjob wizzi.studio/job
             ittf_src_t_images: path.join(__dirname, 'src', 't', 'images'),
             ittf_src_t_models: path.join(__dirname, 'src', 't', 'models'),
             ittf_root_folder: path.join(__dirname, 'root'),
+            ittf_root_heroku_folder: path.join(__dirname, 'root_heroku'),
+            ittf_predeploy_folder: path.join(__dirname, 'predeploy'),
             ittf_tests_folder: path.join(__dirname, 'Tests'),
             ittf_public_folder: path.join(__dirname, 'public'),
             ittf_ittf_folder: path.join(__dirname, 'ittf'),
-            dest_folder: path.join(__dirname, '..'),
+            dest_folder: wzConfigIsHeroku ? path.join(__dirname, '..', 'dist_heroku') : path.join(__dirname, '..'),
             job_model: 'wzCtx'
         }
     
@@ -33,6 +35,18 @@ wfjob wizzi.studio/job
         wfjobs(any_md, &jobCtx)
         wfjobs(.env, &jobCtx)
         wfjobs(.gitignore, &jobCtx)
+
+    line ittf-root-heroku
+        cwd-folder ${jobCtx.ittf_root_heroku_folder}
+        dest-folder ${jobCtx.dest_folder}/
+        wfjobs(any_js, &jobCtx)
+        $$ TODO ??? wfjobs(www, &jobCtx)
+        wfjobs(.eslintrc, &jobCtx)
+        wfjobs(.eslintignore, &jobCtx)
+        wfjobs(.prettierrc, &jobCtx)
+        wfjobs(.prettierignore, &jobCtx)
+        wfjobs(Procfile, &jobCtx)
+
     
     line ittf-src
         cwd-folder ${jobCtx.ittf_src_folder}
@@ -94,6 +108,14 @@ wfjob wizzi.studio/job
         dest-folder ${jobCtx.dest_folder}/ittf
         wfjobs(any_plain, &jobCtx, ittf)
         wfjobs(any_plain_image, &jobCtx)
+
+    line ittf-predeploy
+        cwd-folder ${jobCtx.ittf_predeploy_folder}
+        dest-folder ${jobCtx.dest_folder}/predeploy
+        wfjobs(any_json, &jobCtx)
+        wfjobs(any_js, &jobCtx)
+        wfjobs(any_yaml, &jobCtx)
+        wfjobs(.gitignore, &jobCtx)
     
     production
         dest-folder ${jobCtx.dest_folder}
@@ -106,3 +128,6 @@ wfjob wizzi.studio/job
         line-ref ittf-src-models
         line-ref ittf-ittf
         line-ref ittf-tests
+        $if wzConfigIsHeroku
+            line-ref ittf-root-heroku
+            line-ref ittf-predeploy

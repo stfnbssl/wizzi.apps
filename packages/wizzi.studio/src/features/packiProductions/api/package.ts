@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\package.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '../../types';
@@ -304,9 +304,7 @@ async function createPackageProduction(owner?: string, name?: string, descriptio
                 name: name
              };
             
-            PackageProduction.find(query, 
-            // loog myname, 'getPackageProduction', 'PackageProduction.find', 'result', result
-            (err: any, result: any) => {
+            PackageProduction.find(query, (err: any, result: any) => {
             
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getPackageProduction', 'PackageProduction.find', 'error', err);
@@ -503,12 +501,9 @@ export function invalidateCache(owner: string, name?: string) {
     packageProductionCache.del(cacheKey);
 }
 
-export // loog myname, 'getWizziMetaFolder', 'owner', owner, 'name', name, 'progressiveContext', Object.keys(progressiveContext)
-async function getWizziMetaFolder(owner: string, name: string, progressiveContext: any):  Promise<packiTypes.PackiFiles> {
+export async function getWizziMetaFolder(owner: string, name: string, progressiveContext: any):  Promise<packiTypes.PackiFiles> {
 
-    return getPackageProductionObject(owner, name, true).then(
-        // loog myname, 'getWizziMetaFolder.packageProductionObject', Object.keys(packageProductionObject)
-        (packageProductionObject: any) => {
+    return getPackageProductionObject(owner, name, true).then((packageProductionObject: any) => {
         
             return getWizziMetaFolderByPackageProductionObject(packageProductionObject, progressiveContext);
         }
@@ -516,12 +511,9 @@ async function getWizziMetaFolder(owner: string, name: string, progressiveContex
     ;
 }
 
-export // loog myname, 'getWizziMetaFolderById', 'packageId', packageId, 'progressiveContext', Object.keys(progressiveContext)
-async function getWizziMetaFolderById(packageId: string, progressiveContext: any):  Promise<packiTypes.PackiFiles> {
+export async function getWizziMetaFolderById(packageId: string, progressiveContext: any):  Promise<packiTypes.PackiFiles> {
 
-    return getPackageProductionObjectById(packageId, true).then(
-        // loog myname, 'getWizziMetaFolderById.packageProductionObject', Object.keys(packageProductionObject)
-        (packageProductionObject: any) => {
+    return getPackageProductionObjectById(packageId, true).then((packageProductionObject: any) => {
         
             return getWizziMetaFolderByPackageProductionObject(packageProductionObject, progressiveContext);
         }
@@ -534,9 +526,7 @@ async function getWizziMetaFolderByPackageProductionObject(packageProductionObje
         
             productionApi.getCliCtxFromPackiConfig(packageProductionObject.owner, packageProductionObject.packiConfigObj, packageProductionObject.packiFiles, progressiveContext).then((metaCtx: any) => 
             
-                metaApi.generateMetaProduction(packageProductionObject.owner, packageProductionObject.packiConfigObj.meta.name, metaCtx).then(
-                // loog myname, 'getWizziMetaFolderByPackageProductionObject.generateMetaProduction', Object.keys(wizziPackiFiles)
-                (wizziPackiFiles: packiTypes.PackiFiles) => {
+                metaApi.generateMetaProduction(packageProductionObject.owner, packageProductionObject.packiConfigObj.meta.name, metaCtx).then((wizziPackiFiles: packiTypes.PackiFiles) => {
                 
                     return resolve(wizziPackiFiles);
                 }
@@ -554,20 +544,13 @@ async function getWizziMetaFolderByPackageProductionObject(packageProductionObje
         );
 }
 
-export // loog myname, 'getArtifactGeneration_withPrepare', 'owner', owner, 'productionName', productionName, 'filePath', filePath, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
-async function getArtifactGeneration_withPrepare(owner: string, productionName: string, filePath: string, queryContext: string, rootContext: any) {
+export async function getArtifactGeneration_withPrepare(owner: string, productionName: string, filePath: string, queryContext: string, rootContext: any) {
 
     return new Promise((resolve, reject) => 
         
-            productionApi.prepareProduction('package', owner, productionName, queryContext, rootContext).then(
-            // loog myname, 'getArtifactGeneration_withPrepare.productionObj', 'packiFiles', Object.keys(productionObj.packiFiles), 'context', Object.keys(productionObj.context),
-            (productionObj: any) => 
+            productionApi.prepareProduction('package', owner, productionName, queryContext, rootContext).then((productionObj: any) => 
             
-                wizziProds.generateArtifact(filePath, productionObj.packiFiles, productionObj.context).then(
-                // loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.length
-                
-                // loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.substring(0, 120) + '...'
-                (result: any) => {
+                wizziProds.generateArtifact(filePath, productionObj.packiFiles, productionObj.context).then((result: any) => {
                 
                     const response = {
                         content: result.artifactContent, 

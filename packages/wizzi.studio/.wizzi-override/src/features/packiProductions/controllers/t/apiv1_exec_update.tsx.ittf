@@ -22,7 +22,7 @@ $group
                 =>
                     param result
                         :any
-                    # loog 'put${ctrl.Production}${suffix}.update.result', result
+                    $$ loog 'put${ctrl.Production}${suffix}.update.result', result
                     _ invalidateCache
                         @ request.params.id
                     _ sendSuccess

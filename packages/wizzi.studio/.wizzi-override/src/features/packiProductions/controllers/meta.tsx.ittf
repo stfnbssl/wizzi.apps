@@ -115,7 +115,7 @@ module
                         =>
                             param wizziPackiFiles
                                 :ref packiTypes.PackiFiles
-                            # loog myname, 'getWizziMetaFolderByPackageProductionObject.generateMetaProduction', Object.keys(wizziPackiFiles)
+                            $$ loog myname, 'getWizziMetaFolderByPackageProductionObject.generateMetaProduction', Object.keys(wizziPackiFiles)
                             _ sendSuccess
                                 @ response
                                 @ wizziPackiFiles

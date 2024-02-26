@@ -3,7 +3,7 @@ $group
         param kind
             :ref GistKind
         r_promise()
-            # loog 'wizziGist.api.getGistList.kind', kind
+            $$ loog 'wizziGist.api.getGistList.kind', kind
             _ gistFs.getGistFiles
                 @ kind
                 a_then( result )

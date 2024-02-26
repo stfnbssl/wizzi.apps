@@ -19,7 +19,7 @@ $group
             : prod == 'job' ? '/productions/job' 
             : '/productions/artifacts';
 
-    # loog myname + '.delete${Prod}.request.path', request.path
+    $$ loog myname + '.delete${Prod}.request.path', request.path
     $$ loog myname + '.delete${Prod}.request.body', JSON.stringify(request.body, null, 2)
     $$ loog myname + '.delete${Prod}.request.session.user', JSON.stringify((request.session as any).user, null, 2)
     

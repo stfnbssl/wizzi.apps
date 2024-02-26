@@ -125,3 +125,12 @@ module
                 :ref Date
             :p updated_at
                 :ref Date
+
+    export
+        :type WizziInMemoryMetaRef
+            :{
+                :p owner
+                    :string
+                :p name
+                    :string
+

@@ -69,10 +69,10 @@ module
             
             v08/ts/handler( getPackiArtifactProductionByUsername_Name )
                 # TODO
-                # loog myname + '.getPackiArtifactProductionByUsername_Name', request.path 
+                $$ loog myname + '.getPackiArtifactProductionByUsername_Name', request.path 
                 const queryParams = {}
                 const parts = request.path.split('/')
-                # loog myname + '.getPackiArtifactProductionByUsername_Name', parts[1], parts.slice(2).join('/')
+                $$ loog myname + '.getPackiArtifactProductionByUsername_Name', parts[1], parts.slice(2).join('/')
                 _ artifactApi.getArtifactProductionObject
                     @ parts[2]
                     @ parts.slice(3).join('/')
@@ -80,7 +80,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog myname + '.getPackiArtifactProductionByUsername_Name.result', result
+                            $$ loog myname + '.getPackiArtifactProductionByUsername_Name.result', result
                             const user = (request.session as any).user
                             const loggedUser
                                 {
@@ -108,10 +108,10 @@ module
 
             v08/ts/handler( getPackiPackageProductionByUsername_Name )
                 # TODO
-                # loog myname + '.getPackiPackageProductionByUsername_Name', request.path 
+                $$ loog myname + '.getPackiPackageProductionByUsername_Name', request.path 
                 const queryParams = {}
                 const parts = request.path.split('/')
-                # loog myname + '.getPackiPackageProductionByUsername_Name', parts[1], parts.slice(2).join('/')
+                $$ loog myname + '.getPackiPackageProductionByUsername_Name', parts[1], parts.slice(2).join('/')
                 _ packageApi.getPackageProductionObject
                     @ parts[2]
                     @ parts.slice(3).join('/')
@@ -119,7 +119,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog myname + '.getPackiPackageProductionByUsername_Name.result', Object.keys(result)
+                            $$ loog myname + '.getPackiPackageProductionByUsername_Name.result', Object.keys(result)
                             const user = (request.session as any).user
                             const loggedUser
                                 {
@@ -145,10 +145,10 @@ module
 
             v08/ts/handler( getPackiMetaProductionByUsername_Name )
                 # TODO
-                # loog myname + '.getPackiMetaProductionByUsername_Name', request.path 
+                $$ loog myname + '.getPackiMetaProductionByUsername_Name', request.path 
                 const queryParams = {}
                 const parts = request.path.split('/')
-                # loog myname + '.getPackiMetaProductionByUsername_Name', parts[1], parts.slice(2).join('/')
+                $$ loog myname + '.getPackiMetaProductionByUsername_Name', parts[1], parts.slice(2).join('/')
                 _ metaApi.getMetaProductionObject
                     @ parts[2]
                     @ parts.slice(3).join('/')
@@ -156,7 +156,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog myname + '.getPackiMetaProductionByUsername_Name.result', result
+                            $$ loog myname + '.getPackiMetaProductionByUsername_Name.result', result
                             const user = (request.session as any).user
                             const loggedUser
                                 {
@@ -182,10 +182,10 @@ module
 
             v08/ts/handler( getPackiPluginProductionByUsername_Name )
                 # TODO
-                # loog myname + '.getPackiPluginProductionByUsername_Name', request.path 
+                $$ loog myname + '.getPackiPluginProductionByUsername_Name', request.path 
                 const queryParams = {}
                 const parts = request.path.split('/')
-                # loog myname + '.getPackiPluginProductionByUsername_Name', parts[1], parts.slice(2).join('/')
+                $$ loog myname + '.getPackiPluginProductionByUsername_Name', parts[1], parts.slice(2).join('/')
                 _ pluginApi.getPluginProductionObject
                     @ parts[2]
                     @ parts.slice(3).join('/')
@@ -193,7 +193,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog myname + '.getPackiPluginProductionByUsername_Name.result', result
+                            $$ loog myname + '.getPackiPluginProductionByUsername_Name.result', result
                             const user = (request.session as any).user
                             const loggedUser
                                 {
@@ -219,10 +219,10 @@ module
 
             v08/ts/handler( getPackiTFolderByUsername_Name )
                 # TODO
-                # loog myname + '.getPackiTFolderByUsername_Name', request.path 
+                $$ loog myname + '.getPackiTFolderByUsername_Name', request.path 
                 const queryParams = {}
                 const parts = request.path.split('/')
-                # loog myname + '.getPackiTFolderByUsername_Name', parts[1], parts.slice(2).join('/')
+                $$ loog myname + '.getPackiTFolderByUsername_Name', parts[1], parts.slice(2).join('/')
                 _ tFolderApi.getTFolderObject
                     @ parts[2]
                     @ parts.slice(3).join('/')
@@ -230,7 +230,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog myname + '.getPackiTFolderByUsername_Name.result', result
+                            $$ loog myname + '.getPackiTFolderByUsername_Name.result', result
                             const user = (request.session as any).user
                             const loggedUser
                                 {

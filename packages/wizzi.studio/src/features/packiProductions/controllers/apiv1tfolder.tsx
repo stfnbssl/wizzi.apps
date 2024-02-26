@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\apiv1tfolder.tsx.ittf
-    utc time: Sat, 17 Feb 2024 04:55:17 GMT
+    utc time: Sun, 25 Feb 2024 13:18:10 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -84,13 +84,9 @@ export class ApiV1TFolderController implements ControllerType {
     
     ;
     
-    private getCheckTFolderName = 
-    // loog 'getCheckTFolderName.request.params', request.params
-    async (request: Request, response: Response) => 
+    private getCheckTFolderName = async (request: Request, response: Response) => 
     
-        validateTFolder(request.params.owner, request.params.name).then(
-        // loog 'getCheckTFolderName.result', result
-        (result: any) => 
+        validateTFolder(request.params.owner, request.params.name).then((result: any) => 
         
             sendSuccess(response, result)
         ).catch((err: any) => {
@@ -191,9 +187,7 @@ export class ApiV1TFolderController implements ControllerType {
 }
 function exec_updateTFolder(request: any, response: any, packiFiles: any) {
 
-    updateTFolder(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then(
-    // loog 'putTFolder.update.result', result
-    (result: any) => {
+    updateTFolder(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then((result: any) => {
     
         invalidateCache(request.params.id)
         sendSuccess(response, result)

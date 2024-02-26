@@ -310,9 +310,9 @@ module
                                             =>
                                                 param productionObject
                                                     :any
-                                                log 'prepareProduction.productionObject got', Object.keys(productionObject)
+                                                $$ loog 'prepareProduction.productionObject got', Object.keys(productionObject)
                                                 if productionObject.packiConfig
-                                                    log 'prepareProduction.productionObject packiConfig', productionObject.packiConfig
+                                                    $$ loog 'prepareProduction.productionObject packiConfig', productionObject.packiConfig
                                                     _ getProductionSetFromProductionObject
                                                         @ owner
                                                         @ productionName

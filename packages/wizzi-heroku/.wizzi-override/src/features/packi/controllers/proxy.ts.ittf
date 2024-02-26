@@ -26,7 +26,7 @@ module
                         =>
                             param res
                                 :any
-                            # loog myname + '.packiItem res', Object.keys(res), 'res.data', res.data
+                            $$ loog myname + '.packiItem res', Object.keys(res), 'res.data', res.data
                             _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
                             _ response.set('Expires', '-1');
                             _ response.set('Pragma', 'no-cache');
@@ -37,6 +37,6 @@ module
                         =>
                             param err
                                 :any
-                            # loog myname + '.packiItem.err', Object.keys(err)
+                            $$ loog myname + '.packiItem.err', Object.keys(err)
                             _ sendFailure(response, err, 501)
     *$

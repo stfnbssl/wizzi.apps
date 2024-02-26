@@ -1,0 +1,8 @@
+ittf
+    $$ $include ./tfolder
+
+    $if true
+        $file __dot__wizzi/src/index.ts.ittf.ittf
+            module
+                var name = "stefi"
+                $$ ${'$'}include labDevHtml/lab-dev/index.ts

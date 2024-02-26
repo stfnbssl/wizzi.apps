@@ -55,7 +55,7 @@ $group
                 :string
             param rootContext
                 :any
-            # loog 'getArtifactMTree_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
+            $$ loog 'getArtifactMTree_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
             return
                 new Promise
                     =>

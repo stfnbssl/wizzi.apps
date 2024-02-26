@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\utils\wizziFs.ts.ittf
-    utc time: Sat, 17 Feb 2024 04:55:15 GMT
+    utc time: Sun, 25 Feb 2024 13:18:08 GMT
 */
 import path from 'path';
 import {verify, fSystem, crypto} from '@wizzi/utils';
@@ -73,9 +73,7 @@ export const fileInfoByPath = (filePath: string, baseFolder: string, baseUri?: s
 ;
 export async function getFolderFiles(folderPath: string, baseFolderPath: string, baseUri?: string) {
 
-    return new Promise(
-        // loog 'wizzi-studio.apis.gists.getFolderFiles', glob, files
-        (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         
             if (typeof baseUri === 'undefined') {
                 baseUri = '';
@@ -99,9 +97,7 @@ export async function getFolderFiles(folderPath: string, baseFolderPath: string,
 }
 export async function getIttfFilesOfSchema(folderPath: string, schemaName: string) {
 
-    return new Promise(
-        // loog 'getFolderIttfFiles', glob, schemaName, files
-        (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         
             var suffix = '.' + schemaName + '.ittf';
             var glob = normalize(folderPath) + '/*.' + schemaName + '.ittf';

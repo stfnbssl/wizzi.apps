@@ -57,7 +57,7 @@ module
                         =>
                             param result
                                 :any
-                            # loog 'postArtifactProduction.create.result', result
+                            $$ loog 'postArtifactProduction.create.result', result
                             _ invalidateCache
                                 @ request.params.owner
                                 @ request.params.name

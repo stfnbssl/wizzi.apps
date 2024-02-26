@@ -26,7 +26,7 @@ $group
             set success = _.isFunction(success) ? success : function(data) { console.log(data) }
             set failure = _.isFunction(failure) ? failure : function(data) { console.log(data) }
             set errorHandler = _.isFunction(errorHandler) ? errorHandler : function(data) { console.log(data) }
-            # loog 'sending ajax'
+            $$ loog 'sending ajax'
             _ $.ajax
                 {
                     @ url url

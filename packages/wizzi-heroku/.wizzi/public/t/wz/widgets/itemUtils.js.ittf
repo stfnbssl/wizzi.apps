@@ -48,4 +48,4 @@ $group
                 set item.schema = newItem.schema
                 set item.isIttfDocument = newItem.isIttfDocument
                 set item.isFragment = newItem.isFragment
-            # loog 'itemUtils.rename.renamed', item
+            $$ loog 'itemUtils.rename.renamed', item
