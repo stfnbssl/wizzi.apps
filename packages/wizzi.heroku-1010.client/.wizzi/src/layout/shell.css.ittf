@@ -1,0 +1,31 @@
+css
+    $
+        var colors = wzCtx.Styles.shellColors;
+
+    . main-header
+        background-color ${colors.mainHeaderBg}
+        color ${colors.main}
+        height 5vh
+        overflow auto
+        display flex
+        flex-direction row
+        justify-content space-between
+    . main-content
+        display flex
+        flex-direction row
+        height 92vh
+        overflow auto
+        background-color ${colors.mainContentBg}
+        color ${colors.main}
+    . main-content-left-bar
+        height 100%
+        width 3%
+        background-color #1D1D1D
+    . main-content-work-area
+        height 100%
+        width 97%
+    . main-footer
+        background-color ${colors.mainHeaderBg}
+        color ${colors.main}
+        height 3vh
+        overflow auto

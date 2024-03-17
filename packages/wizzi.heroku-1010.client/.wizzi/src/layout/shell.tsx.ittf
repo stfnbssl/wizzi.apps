@@ -1,0 +1,78 @@
+module
+
+    import React from "react"
+    import "./shell.css"
+
+    export
+        function FullPage
+            param params
+                :any
+            return
+                . full-page
+                    {
+                        + params.children
+  
+    export
+        function MainHeader
+            param params
+                :any
+            return
+                . main-header
+                    {
+                        + params.children
+  
+    export
+        function MainContent
+            param params
+                :any
+            return
+                . main-content
+                    {
+                        + params.children
+  
+    export
+        function MainContentLeftBar
+            param params
+                :any
+            return
+                . main-content-left-bar
+                    {
+                        + params.children
+        
+    export
+        function MainContentWorkArea
+            param params
+                :any
+            return
+                . main-content-work-area
+                    {
+                        + params.children
+        
+    export
+        function MainFooter
+            param params
+                :any
+            return
+                . main-footer
+                    {
+                        + params.children
+
+    #
+        # Shell is an example
+        # It goes inside the App component
+    export
+        function Shell
+            param params
+                :any
+            return
+            < FullPage
+                < MainHeader
+                $*
+                < UserNavBar
+                    @ isLoggedIn {${locals.user ? true : false}}
+                *$
+                < MainContent
+                < MainContentLeftBar
+                < MainContentWorkArea
+                < MainFooter
+

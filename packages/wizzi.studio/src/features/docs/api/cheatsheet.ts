@@ -2,11 +2,12 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\docs\api\cheatsheet.ts.ittf
-    utc time: Sun, 25 Feb 2024 13:18:08 GMT
+    utc time: Fri, 08 Mar 2024 06:29:02 GMT
 */
 import path from 'path';
 import {pretty, verify} from 'wizzi-utils';
 import {wizziMaps, wizziProds} from '../../wizzi';
+import stringify from 'json-stringify-safe';
 
 async function getCheatsheet(name: string) {
 
@@ -119,7 +120,7 @@ async function getCheatsheet(name: string) {
                     pretty.prettifyIttfHtmlFromString(item.ittf, (err: any, pretty: any) => {
                     
                         if (err) {
-                            item.ittfPretty = JSON.stringify(err, null, 4);
+                            item.ittfPretty = stringify(err, null, 4);
                         }
                         else {
                             item.ittfPretty = pretty;
@@ -133,12 +134,18 @@ async function getCheatsheet(name: string) {
                              }, {}).then((mTreeBuildupScript: any) => {
                             
                                 if (mTreeBuildupScript.__is_error) {
-                                    item.generated = verify.htmlEscape(JSON.stringify(mTreeBuildupScript, null, 2));
+                                    item.generated = verify.htmlEscape(stringify(mTreeBuildupScript, null, 2));
                                 }
                                 else {
                                     item.generated = verify.htmlEscape(mTreeBuildupScript);
                                 }
                                 item.generated = item.generated ? item.generated.trim() : 'No result. Something went wrong!';
+                                next();
+                            }
+                            ).catch((err: any) => {
+                            
+                                item.generated = stringify(err, null, 2)
+                                ;
                                 next();
                             }
                             )
@@ -163,10 +170,9 @@ async function getCheatsheet(name: string) {
                             }
                             ).catch((err: any) => {
                             
-                                if (typeof err === 'object' && err !== null) {
-                                }
-                                console.log("[31m%s[0m", 'getCheatsheet.generateArtifact.error', err);
-                                return reject(err);
+                                item.generated = stringify(err, null, 2)
+                                ;
+                                next();
                             }
                             )
                         }
@@ -178,7 +184,7 @@ async function getCheatsheet(name: string) {
             
                 if (typeof err === 'object' && err !== null) {
                 }
-                console.log("[31m%s[0m", 'cheatsheetApi.getCheatsheet.error', err);
+                console.log("[31m%s[0m", 'cheatsheetApi.getCheatsheet.wizziProds.mTreeFs.error', err);
                 return reject(err);
             }
             )

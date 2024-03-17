@@ -1,0 +1,14 @@
+module
+    export-default 
+        :interface IRoute
+            :p path
+                :string 
+            :p name
+                :string 
+            :p exact
+                :boolean 
+            :p component
+                :any 
+            :p props
+                :optional 
+                :any 

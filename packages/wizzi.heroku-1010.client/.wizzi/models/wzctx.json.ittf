@@ -1,0 +1,24 @@
+{
+    $$ $include v08/env/vars
+    name "wizzi.heroku-1010.client"
+    npmNme "wizzi.heroku-1010.client"
+    version "0.0.1"
+    description "Main Wizzi hub client"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    
+    { App
+        name "Wizzi hub client"
+        kind "reactClient"
+    
+    { Build
+        [ features
+        useWizziFactory true
+        { wizziFactory
+
+    { Styles
+        { shellColors
+            mainHeaderBg "#0D0D0D"
+            main "#dedede"
+            mainContentBg "#2D2D2D"

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\index.ts.ittf
-    utc time: Sun, 25 Feb 2024 13:18:08 GMT
+    utc time: Fri, 08 Mar 2024 06:29:02 GMT
 */
 import {ApiType, ControllerType, AppInitializerType, MiddlewareType} from './features/app/types';
 import {ModelBuilderType} from './features/app';
@@ -25,6 +25,7 @@ import {wizziActionControllers, wizziActionModelBuilders} from './features/wizzi
 import {devControllers} from './features/dev/index';
 import {appMiddlewaresPre, appMiddlewaresPost} from './middlewares/index';
 import App from './App';
+var i=0;
 var app: any = {
     instance: null
  };

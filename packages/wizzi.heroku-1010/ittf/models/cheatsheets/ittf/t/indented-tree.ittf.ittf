@@ -1,0 +1,83 @@
+$group
+
+	element The indented tree
+		tag
+		ast 
+		category
+
+		item
+			title Ittf nodes
+			render ittf
+			ittf
+				node-name node-value
+					name the value is separated from the name by a space or tab
+					name-is-a-word value is a string until end of line
+					name the value can span many lines
+						${cont} , and continue without separation
+					name ... or continue
+						${'\\b'} with a blank separator
+					name ... or continue
+						${'\\n'} with a line feed separator
+
+		item
+			title Ittf indented tree
+			render ittf
+			ittf
+				root a document must have one and only one root node
+					${'$'}${'$'} the indentation shapes the tree
+					node child 1
+					node child 2
+						node child 2.a
+							node child 2.a.1
+						node child 2.b
+
+		item
+			title Ittf node values
+			render ittf
+			ittf
+				root
+					name ${'   '} values always are trimmed
+					name ${'\\b'}  you must use the blank escape   ${'\\b'}
+					name to insert start or end spaces
+
+		item
+			title Escapes
+			render ittf
+			ittf
+				root
+					name except the blank escape, as first or last character,
+						${'\\b'} the escape char is ignored
+					name \n, \t, \b, and so on, are inserted unescaped in the value string
+					name how do you insert a \b sequence at start or end line?
+					${'$'}asis name \b*|^^ the $asis command at rescue ${'\\b'}
+
+		item
+			title Comments
+			render ittf
+			ittf
+				root
+					${'$'}${'$'} this node is commented out entirely until end of line
+					and ${'$'}${'$'}this part too
+					node value
+					${'$'}*
+					this is a multiline
+					comment
+					*${'$'}
+					node value
+					this too ${'$'}*is
+					a multiline comment
+					*${'$'}
+
+
+		item
+			title Comment tricks
+			render ittf
+			ittf
+				root
+					node how do you insert a "${'$'}${'$'}" or "${'$'}*" in a value?
+					node you must use jsWizzi (see later) variables
+					${'$'}
+						var dd = '$' + '$';
+						var da = '$' + '*';
+						var ad = '*' + '$';
+					node And you can insert ${'$'}{dd} and ${'$'}{da} and ${'$'}{ad}

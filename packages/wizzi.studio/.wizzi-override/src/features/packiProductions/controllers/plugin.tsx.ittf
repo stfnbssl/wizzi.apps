@@ -3,7 +3,7 @@ module
         var ctrl = {
             name: 'PluginProduction',
             path: '/plugin',
-            webSecured: wzCtx.App.isLocal == false,
+            webSecured: wzCtx.Build.useAuthentication,
         }
     v08/ts/controller( &ctrl )
         $append imports

@@ -1,0 +1,11 @@
+module
+
+    export 
+        function getHomeSections
+            r_promise()
+                _ resolve
+                    [
+                        {
+                            @ name "Cheats"
+                            @ path "/cheat"
+    

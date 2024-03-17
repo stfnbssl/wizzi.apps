@@ -38,7 +38,7 @@ $group
                     }
                 ]
             },
-            Docs: {
+            Concepts: {
                 items: [
                     {
                         title: "Overview",

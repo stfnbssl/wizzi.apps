@@ -1,0 +1,16 @@
+html
+    $global
+        var dollar = '$';
+    
+    $
+        var art = {
+            section: 'Howtos',
+            title: 'Get started'
+        };
+
+    _layouts/concepts(&art)
+
+        $include getstarted/overview
+        $include getstarted/background
+        $include getstarted/install
+        $include getstarted/starter

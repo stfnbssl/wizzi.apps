@@ -1,0 +1,71 @@
+module
+    import React
+        @ useEffect
+        from 'react'
+    import 
+        @ createBrowserRouter
+        @ RouterProvider
+        from "react-router-dom"
+    import CheatPage
+        @ CheatsLoader
+        from './pages/cheat'
+    import CheatsheetPage
+        @ CheatsheetLoader
+        from './pages/cheatsheet'
+    import HomePage
+        @ HomeLoader
+        from './pages/home'
+    import HomePage from './pages/home'
+    import ErrorPage from "./pages/error"
+    const router
+        _ createBrowserRouter
+            [
+                { 
+                    @ path "/"
+                    @ element
+                        < HomePage 
+                    @ loader HomeLoader
+                    @ errorElement
+                        < ErrorPage
+                    [ children
+                        { 
+                            @ path "/cheat"
+                            @ element
+                                < CheatPage
+                            @ loader CheatsLoader
+                            @ errorElement
+                                < ErrorPage
+                            [ children
+                                {
+                                    @ path "/cheat/sheet/:schemaName"
+                                    @ element
+                                        < CheatsheetPage
+                                    @ loader CheatsheetLoader
+                                    @ errorElement
+                                        < ErrorPage
+
+
+
+    const AppRouting
+        :ref React.FunctionComponent
+            :param {}
+        => 
+            param props
+            _ useEffect
+                => 
+                    log 'Loading AppRouting.'
+                [ 
+            return 
+                < RouterProvider 
+                    @ router {router}
+                    @ fallbackElement
+                        p 
+                            + Loading...
+    
+    export-default AppRouting
+
+    if import.meta.hot
+        _ import.meta.hot.dispose
+            => 
+                _ router.dispose()
+

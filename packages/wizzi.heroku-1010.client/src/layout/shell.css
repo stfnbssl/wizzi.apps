@@ -1,0 +1,52 @@
+/*
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\lib\artifacts\css\document\gen\main.js
+    package: wizzi-web@
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010.client\.wizzi\src\layout\shell.css.ittf
+    utc time: Sat, 09 Mar 2024 13:13:31 GMT
+*/
+.main-header {
+    background-color: #0D0D0D;
+    color: #dedede;
+    height: 5vh;
+    overflow: auto;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: space-between;
+    -ms-flex-pack: space-between;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+.main-content {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    height: 92vh;
+    overflow: auto;
+    background-color: #2D2D2D;
+    color: #dedede;
+}
+.main-content-left-bar {
+    height: 100%;
+    width: 3%;
+    background-color: #1D1D1D;
+}
+.main-content-work-area {
+    height: 100%;
+    width: 97%;
+}
+.main-footer {
+    background-color: #0D0D0D;
+    color: #dedede;
+    height: 3vh;
+    overflow: auto;
+}
+

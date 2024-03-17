@@ -1,0 +1,54 @@
+module
+    kind react
+    import esbuild from "esbuild"
+    import serve
+        @ error
+        @ log
+        from "create-serve"
+    import { fileURLToPath } from 'url'
+    const __filename = fileURLToPath(import.meta.url);        
+    log 'process.argv', process.argv[2]
+    log 'process.argv.includes("%--dev%")', process.argv.includes("--dev")
+    const isDevServer = process.argv[2] == "%--dev%"
+    _ esbuild.build
+        { 
+            [ entryPoints
+                @ "src/index.tsx"
+            @ bundle true
+            @ outfile "www/dist/bundle.js"
+            @ minify !isDevServer
+            @ sourcemap true
+            @ incremental isDevServer
+            [ target
+                @ "chrome58"
+                @ "firefox57"
+                @ "safari11"
+                @ "edge18"
+            { define
+                @ "process.env.NODE_ENV"
+                    iif isDevServer
+                        then '"development"'
+                        else '"production"'
+                @ __filename '""'
+            @ watch
+                && 
+                    + isDevServer
+                    { 
+                        m onRebuild
+                            param err
+                            _ serve.update()
+                            iif err
+                                then error("❌ Failed")
+                                else log("✅ Updated")
+        ._ catch
+            => 
+                _ process.exit(1)
+    if isDevServer
+      log 'Starting server on port', 5000
+      _ serve.start
+          { 
+              @ port 5000
+              @ root "./www"
+              @ live true
+    else
+      log 'No server'

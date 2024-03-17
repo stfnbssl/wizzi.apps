@@ -3,7 +3,7 @@ module
         var ctrl = {
             name: 'ApiV1WizziCdnResource',
             path: '/api/v1/wizzicdn',
-            apiSecured: wzCtx.App.isLocal == false,
+            apiSecured: wzCtx.Build.useAuthentication,
         }
     v08/ts/controller( &ctrl )
         $append imports

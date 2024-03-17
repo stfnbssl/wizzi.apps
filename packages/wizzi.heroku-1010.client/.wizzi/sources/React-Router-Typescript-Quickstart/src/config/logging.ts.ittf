@@ -1,0 +1,90 @@
+module
+    import config from './config'
+    const DEFAULT_NAMESPACE = config.defaults.namespace
+    const info
+        => 
+            param message
+                :any 
+            param namespace
+                :string 
+                :optional 
+            if typeof message === 'string'
+                _ console.log
+                    `lit 
+                        + [
+                        _ getDate()
+                        + ] [
+                        @ namespace || DEFAULT_NAMESPACE
+                        + ] [INFO]&nbsp;
+                        @ message
+                        + 
+            else
+                _ console.log
+                    `lit 
+                        + [
+                        _ getDate()
+                        + ] [
+                        @ namespace || DEFAULT_NAMESPACE
+                        + ] [INFO]
+                    @ message
+    const warn
+        => 
+            param message
+                :any 
+            param namespace
+                :string 
+                :optional 
+            if typeof message === 'string'
+                _ console.log
+                    `lit 
+                        + [
+                        _ getDate()
+                        + ] [
+                        @ namespace || DEFAULT_NAMESPACE
+                        + ] [WARN]&nbsp;
+                        @ message
+                        + 
+            else
+                _ console.log
+                    `lit 
+                        + [
+                        _ getDate()
+                        + ] [
+                        @ namespace || DEFAULT_NAMESPACE
+                        + ] [WARN]
+                    @ message
+    const error
+        => 
+            param message
+                :any 
+            param namespace
+                :string 
+                :optional 
+            if typeof message === 'string'
+                _ console.log
+                    `lit 
+                        + [
+                        _ getDate()
+                        + ] [
+                        @ namespace || DEFAULT_NAMESPACE
+                        + ] [ERROR]&nbsp;
+                        @ message
+                        + 
+            else
+                _ console.log
+                    `lit 
+                        + [
+                        _ getDate()
+                        + ] [
+                        @ namespace || DEFAULT_NAMESPACE
+                        + ] [ERROR]
+                    @ message
+    const getDate
+        => 
+            return new Date().toISOString()
+    const logging
+        { 
+            @ info
+            @ warn
+            @ error
+    export-default logging

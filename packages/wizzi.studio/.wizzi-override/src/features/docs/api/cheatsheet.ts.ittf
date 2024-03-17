@@ -8,6 +8,7 @@ module
         @ wizziMaps
         @ wizziProds
         from '../../wizzi'
+    import stringify from 'json-stringify-safe'
     +
     async-function getCheatsheet
         param name
@@ -117,7 +118,7 @@ module
                                         @ item.ittf
                                         a_cb_no_throw( pretty )
                                             if err
-                                                set item.ittfPretty = JSON.stringify(err, null, 4)
+                                                set item.ittfPretty = stringify(err, null, 4)
                                             else
                                                 set item.ittfPretty = pretty
                                             if item.render === 'script'
@@ -133,10 +134,20 @@ module
                                                             param mTreeBuildupScript
                                                                 :any
                                                             if mTreeBuildupScript.__is_error
-                                                                set item.generated = verify.htmlEscape(JSON.stringify(mTreeBuildupScript, null, 2))
+                                                                set item.generated = verify.htmlEscape(stringify(mTreeBuildupScript, null, 2))
                                                             else
                                                                 set item.generated = verify.htmlEscape(mTreeBuildupScript)
                                                             set item.generated = item.generated ? item.generated.trim() : 'No result. Something went wrong!'
+                                                            _ next
+                                                    ._ catch
+                                                        =>
+                                                            param err
+                                                                :any
+                                                            set item.generated
+                                                                _ stringify
+                                                                    @ err
+                                                                    @ null
+                                                                    @ 2
                                                             _ next
                                             else
                                                 const mainIttf = 'index.' + item.schema + '.ittf'
@@ -156,8 +167,17 @@ module
                                                             const artifactText = verify.htmlEscape(result.artifactContent)
                                                             set item.generated = artifactText ? artifactText.trim() : 'No result. Something went wrong!'
                                                             _ next
-                                                    v08/ts/catch_reject( getCheatsheet.generateArtifact )
-                        v08/ts/catch_reject( cheatsheetApi.getCheatsheet )
+                                                    ._ catch
+                                                        =>
+                                                            param err
+                                                                :any
+                                                            set item.generated
+                                                                _ stringify
+                                                                    @ err
+                                                                    @ null
+                                                                    @ 2
+                                                            _ next
+                        v08/ts/catch_reject( cheatsheetApi.getCheatsheet.wizziProds.mTreeFs )
     function wrapperForSchema
         param schema
             :string

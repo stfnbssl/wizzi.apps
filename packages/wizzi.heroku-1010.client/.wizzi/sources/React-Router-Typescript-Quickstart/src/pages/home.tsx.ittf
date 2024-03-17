@@ -1,0 +1,26 @@
+module
+    import React
+        @ useEffect
+        from 'react'
+    import IPage from '../interfaces/page'
+    import logging from '../config/logging'
+    const HomePage
+        :ref React.FunctionComponent
+            :param 
+                :ref IPage
+        =
+            => 
+                param props
+                _ useEffect
+                    => 
+                        _ logging.info
+                            `lit 
+                                + Loading&nbsp;
+                                @ props.name
+                                + 
+                    [ 
+                        @ props.name
+                return 
+                    p 
+                        + This is the HOME page!
+    export-default HomePage

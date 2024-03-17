@@ -1,0 +1,46 @@
+module
+    import React
+        @ useEffect
+        from 'react'
+    import 
+        @ BrowserRouter
+        @ Route
+        @ Switch
+        @ RouteComponentProps
+        from 'react-router-dom'
+    import logging from './config/logging'
+    import routes from './config/routes'
+    const Application
+        :ref React.FunctionComponent
+            :param {}
+        =
+            => 
+                param props
+                _ useEffect
+                    => 
+                        _ logging.info('Loading application.')
+                    [ 
+                return 
+                    div 
+                        < BrowserRouter 
+                            < Switch 
+                                { 
+                                    _ routes.map
+                                        => 
+                                            param route
+                                            param index
+                                            return 
+                                                < Route 
+                                                    @ key {index}
+                                                    @ path {route.path}
+                                                    @ exact {route.exact}
+                                                    @ render
+                                                        => 
+                                                            param props
+                                                                :ref RouteComponentProps
+                                                                    :param any
+                                                            < route.component 
+                                                                @ name {route.name}
+                                                                @ {...props}
+                                                                @ {...route.props}
+    export-default Application

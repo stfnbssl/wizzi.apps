@@ -2,13 +2,14 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\middlewares\wizziViewEngine.ts.ittf
-    utc time: Sun, 25 Feb 2024 13:18:08 GMT
+    utc time: Fri, 08 Mar 2024 06:29:02 GMT
 */
 import path from 'path';
 import {Application} from 'express';
 import {MiddlewareType} from '../features/app/types';
 import {config} from '../features/config';
 import {wizziProds} from '../features/wizzi';
+import stringify from 'json-stringify-safe';
 export const WizziViewEngineMiddleware: MiddlewareType = (app: Application) => {
 
     app.engine('ittf', async function(filePath: string, options: any, callback: any) {
@@ -39,7 +40,7 @@ export const WizziViewEngineMiddleware: MiddlewareType = (app: Application) => {
             ).catch((err) => {
             
                 console.log("[31m%s[0m", 'WizziViewEngineMiddleware. wizziProds.generateArtifactFs error', err);
-                return callback(err);
+                return callback(stringify(err, null, 4));
             }
             )
         } 

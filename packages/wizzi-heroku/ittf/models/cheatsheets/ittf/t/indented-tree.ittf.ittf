@@ -14,15 +14,15 @@ $group
 					name the value can span many lines
 						${cont} , and continue without separation
 					name ... or continue
-						${contb} with a blank separator
+						${'\\b'} with a blank separator
 					name ... or continue
-						${contn} with a line feed separator
+						${'\\n'} with a line feed separator
 
 		item
 			title Ittf indented tree
 			ittf
 				root a document must have one and only one root node
-					${d}${d} the indentation shapes the tree
+					${'$'}${'$'} the indentation shapes the tree
 					node child 1
 					node child 2
 						node child 2.a
@@ -34,7 +34,7 @@ $group
 			ittf
 				root
 					name ${'   '} values always are trimmed
-					name ${contb}  you must use the blank escape   ${contb}
+					name ${'\\b'}  you must use the blank escape   ${'\\b'}
 					name to insert start or end spaces
 
 		item
@@ -42,36 +42,36 @@ $group
 			ittf
 				root
 					name except the blank escape, as first or last character,
-						${contb} the escape char is ignored
+						${'\\b'} the escape char is ignored
 					name \n, \t, \b, and so on, are inserted unescaped in the value string
 					name how do you insert a \b sequence at start or end line?
-					${d}asis name \b*|^^ the $asis command at rescue ${contb}
+					${'$'}asis name \b*|^^ the $asis command at rescue ${'\\b'}
 
 		item
 			title Comments
 			ittf
 				root
-					${d}${d} this node is commented out entirely until end of line
-					and ${d}${d}this part too
+					${'$'}${'$'} this node is commented out entirely until end of line
+					and ${'$'}${'$'}this part too
 					node value
-					${d}*
+					${'$'}*
 					this is a multiline
 					comment
-					*${d}
+					*${'$'}
 					node value
-					this too ${d}*is
+					this too ${'$'}*is
 					a multiline comment
-					*${d}
+					*${'$'}
 
 
 		item
 			title Comment tricks
 			ittf
 				root
-					node how do you insert a "${d}${d}" or "${d}*" in a value?
+					node how do you insert a "${'$'}${'$'}" or "${'$'}*" in a value?
 					node you must use jsWizzi (see later) variables
-					${d}
+					${'$'}
 						var dd = '$' + '$';
 						var da = '$' + '*';
 						var ad = '*' + '$';
-					node And you can insert ${d}{dd} and ${d}{da} and ${d}{ad}
+					node And you can insert ${'$'}{dd} and ${'$'}{da} and ${'$'}{ad}

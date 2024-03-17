@@ -1,0 +1,26 @@
+module
+    import IRoute from '../interfaces/route'
+    import AboutPage from '../pages/about'
+    import HomePage from '../pages/home'
+    import HomePage from '../pages/App'
+    const routes
+        :[ 
+            :ref IRoute
+        =
+            [ 
+                { 
+                    @ path '/'
+                    @ name 'Home Page'
+                    @ component App
+                    @ exact true
+                { 
+                    @ path '/about'
+                    @ name 'About Page'
+                    @ component AboutPage
+                    @ exact true
+                { 
+                    @ path '/about/:number'
+                    @ name 'About Page'
+                    @ component AboutPage
+                    @ exact true
+    export-default routes

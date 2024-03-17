@@ -1,0 +1,107 @@
+{
+    $include v08/env/vars
+
+    $
+        var md = {
+            isHeroku: wzConfigIsHeroku,
+            stfnbssl_env: stfnbssl_env,
+            port: 5110
+        }
+    
+    name "wizzi.heroku-1010"
+    version "0.0.1"
+    description "Wizzi hub website"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    
+    { App
+        name "wizzi.heroku-1010"
+        title "Wizzi hub website"
+        $if md.isHeroku
+            isLocal false
+            isProduction false
+            port "${md.port}"
+            useSsl false
+            siteUrl "https://www.wizzihub.com"
+            baseUrl "https://www.wizzihub.com"
+            siteUrlLocal "http://localhost"
+            baseUrlLocal "http://localhost:${md.port}"
+        $else
+            isLocal true
+            isProduction false
+            port "${md.port}"
+            useSsl false
+            siteUrl "http://localhost"
+            baseUrl "http://localhost:${md.port}"
+            siteUrlLocal "http://localhost"
+            baseUrlLocal "http://localhost:${md.port}"
+        apiVersion "v1"
+        { constants
+            { preview
+                minWidth 700
+        [ Components
+    
+    { Styles
+    
+    { Build
+        [ features
+            {
+                name "packi"
+                hasControllers true
+                useMongoDb false
+            {
+                name "packiProductions"
+                fileName "packi-productions"
+                hasControllers true
+                useMongoDb true
+            {
+                name "wizzi"
+                fileName "wizzi"
+                hasControllers true
+                useMongoDb false
+            {
+                name "wizziDocs"
+                hasControllers true
+                useMongoDb false
+            {
+                name "wizziFs"
+                fileName "wizzi-fs"
+                hasControllers true
+                useMongoDb false
+        [ examples
+        useWizziFs true
+        { wizziFs
+        $include code.json
+
+        $if wzConfigIsHeroku
+            $include heroku.json
+        
+        $include tsExpress.json
+        
+        $include tsExpressFeatureAuth.json
+        
+        $include tsExpressFeatureConfig.json
+        
+        $include tsExpressFeatureWizzi.json
+        
+        $include tsExpressFeaturePacki.json
+        
+        $include tsExpressUtils.json
+        
+        $include tsExpressWizziSite.json
+        
+        $include react.json
+        
+        $include tsdbmongodb.json
+        
+        usePackiBrowse true
+        { packiBrowse
+        { utils
+            useAxios true
+            useStringifySafe true
+            useParseUrl true
+            useQueryString true
+            useNanoId true
+            useNodeCache true
+            useDiffMatchPatch true

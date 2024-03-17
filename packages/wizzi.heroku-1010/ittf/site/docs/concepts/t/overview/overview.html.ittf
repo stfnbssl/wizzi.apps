@@ -1,0 +1,25 @@
+﻿$group
+    $
+        var sect = {
+            title: 'Overview'
+        };
+
+    section(&sect)
+
+        p Wizzi is a general purpose, language agnostic platform for setting up
+            \b data driven transformations of text into code, packages, documents, 
+            \b configuration and data files.
+        p With Wizzi you became a meta developer building automata that produce software artifacts.
+        p All productions are managed by plugins.
+        p For Wizzi any software artifact is a data structure that can be generated processing data structures.
+            \b Its inputs are tree data structures (
+            a mTrees
+                href ./mtrees.html
+            + ) in a textual format ( \b
+            a ITTF documents
+                href ./ittfdocuments.html
+            + ).
+ 
+        p Wizzi is a tool for the development environment, with no runtime. 
+            \b Its outputs are textual documents.
+

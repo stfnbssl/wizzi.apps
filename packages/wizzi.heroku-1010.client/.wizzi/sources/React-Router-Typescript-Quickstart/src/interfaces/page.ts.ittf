@@ -1,0 +1,5 @@
+module
+    export-default 
+        :interface IPage
+            :p name
+                :string 

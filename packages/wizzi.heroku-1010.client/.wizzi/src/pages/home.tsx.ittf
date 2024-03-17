@@ -1,0 +1,71 @@
+module
+
+    import React from 'react'
+    import 
+        @ json
+        @ useLoaderData
+        from "react-router-dom"
+    import 
+        @ getHomeSections
+        from "../api/home"
+    import "./home.css"
+    import
+        @ FullPage
+        @ MainHeader
+        @ MainContent
+        @ MainContentLeftBar
+        @ MainContentWorkArea
+        @ MainFooter
+        from '../layout/shell'
+    +
+    export
+        async-function HomeLoader
+            { 
+                @ params
+            const homeSections
+                await 
+                    _ getHomeSections()
+            return 
+                _ json
+                    { 
+                        @ homeSections
+    +
+    const HomePage
+        function
+            const data = useLoaderData()
+            const 
+                { 
+                    @ homeSections
+                = data
+            return 
+                < FullPage
+                    < MainHeader
+                        {
+                            _ homeSections.map
+                                =>
+                                    param section
+                                    param ndx
+                                    return
+                                        a {section.name}
+                                            href {section.path}
+                    < MainContent
+                        < MainContentLeftBar
+                        < MainContentWorkArea
+                            div 
+                                @ className "Root"
+                                header 
+                                    @ className "Root-header"
+                                    p 
+                                        + Edit&nbsp;
+                                        code 
+                                            + &nbsp;src/Root.tsx
+                                        + and save to reload.
+                                    a 
+                                        @ className "Root-link"
+                                        @ href "https://reactjs.org"
+                                        @ target "_blank"
+                                        @ rel "noopener noreferrer"
+                                        + Learn React
+                    < MainFooter
+    +
+    export-default HomePage

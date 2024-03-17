@@ -3,7 +3,7 @@ module
         var ctrl = {
             name: 'ApiV1Job',
             path: '/api/v1/production/job',
-            apiSecured: wzCtx.App.isLocal == false,
+            apiSecured: wzCtx.Build.useAuthentication,
             Production: 'Job',
             production: 'job',
         }

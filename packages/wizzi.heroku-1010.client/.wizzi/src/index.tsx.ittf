@@ -1,0 +1,21 @@
+module
+    import React from "react"
+    import ReactDOM from "react-dom/client"
+    import AppRouting
+        from "./AppRouting"
+    import "./index.css"
+
+    const container
+        _ document.getElementById
+            @ 'root'
+    
+    $if false
+        _ ReactDOM.render
+            < AppRouting
+            @ container
+    $else
+        const root
+            _ ReactDOM.createRoot
+                @ container
+        _ root.render
+            < AppRouting         

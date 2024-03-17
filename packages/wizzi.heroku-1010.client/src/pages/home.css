@@ -1,0 +1,55 @@
+/*
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.css\lib\artifacts\css\document\gen\main.js
+    package: wizzi-web@
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010.client\.wizzi\src\pages\home.css.ittf
+    utc time: Sat, 09 Mar 2024 13:13:31 GMT
+*/
+.Root {
+    text-align: center;
+}
+.Root-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+    .Root-logo {
+        -webkit-animation: Root-logo-spin infinite 20s linear;
+        animation: Root-logo-spin infinite 20s linear;
+    }
+}
+.Root-header {
+    background-color: #282c34;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+.Root-link {
+    color: #61dafb;
+}
+@keyframes Root-logo-spin {
+    from {
+        -webkit-transform: rotate(0deg);
+        -ms-transition: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+        -ms-transition: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+

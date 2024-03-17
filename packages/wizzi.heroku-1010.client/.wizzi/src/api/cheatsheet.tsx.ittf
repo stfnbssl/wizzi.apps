@@ -1,0 +1,23 @@
+module
+
+    export 
+        function getCheats
+            r_promise()
+                _ resolve
+                    [
+                        @ 'JSON'
+                        @ 'YAML'
+    
+    export 
+        function getCheatsheet
+            param schemaName
+            r_promise()
+                if schemaName == "JSON"
+                    _ resolve
+                        {
+                            @ name 'JSON'
+                else
+                    _ resolve
+                        {
+                            @ name 'YAML'
+                

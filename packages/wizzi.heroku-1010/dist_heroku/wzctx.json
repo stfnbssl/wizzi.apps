@@ -1,0 +1,233 @@
+{
+    "name": "wizzi.heroku-1010",
+    "version": "0.0.1",
+    "description": "Wizzi hub website",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "App": {
+        "name": "wizzi.heroku-1010",
+        "title": "Wizzi hub website",
+        "isLocal": false,
+        "isProduction": false,
+        "port": "5110",
+        "useSsl": false,
+        "siteUrl": "https://www.wizzihub.com",
+        "baseUrl": "https://www.wizzihub.com",
+        "siteUrlLocal": "http://localhost",
+        "baseUrlLocal": "http://localhost:5110",
+        "apiVersion": "v1",
+        "constants": {
+            "preview": {
+                "minWidth": 700
+            }
+        },
+        "Components": []
+    },
+    "Styles": {},
+    "Build": {
+        "features": [
+            {
+                "name": "packi",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "packiProductions",
+                "fileName": "packi-productions",
+                "hasControllers": true,
+                "useMongoDb": true
+            },
+            {
+                "name": "wizzi",
+                "fileName": "wizzi",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "wizziDocs",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "wizziFs",
+                "fileName": "wizzi-fs",
+                "hasControllers": true,
+                "useMongoDb": false
+            }
+        ],
+        "examples": [],
+        "useWizziFs": true,
+        "wizziFs": {},
+        "useTypescript": true,
+        "typescript": {
+            "useBabelLoader": true,
+            "useTsxFiles": false
+        },
+        "useHeroku": true,
+        "heroku": {
+            "webAppName": "wizzi",
+            "nodejsVersion": "16.2.0",
+            "packagePath": "deploy",
+            "webAppPort": 5000,
+            "Procfile": "server.js",
+            "testTitle": "Hello home",
+            "timeoutMinutesShort": 10,
+            "timeoutMinutesMedium": 20,
+            "timeoutMinutesLong": 60
+        },
+        "useExpress": true,
+        "express": {
+            "useSslCert": false,
+            "useErrors": false,
+            "useStaticFiles": true,
+            "staticFiles": {
+                "basePath": "__dirname, '..', '..'"
+            },
+            "useSessionStore": false,
+            "useExpressValidator": true
+        },
+        "useSession": true,
+        "session": {
+            "name": "wizzi.heroku-1010",
+            "secret": "axr45hngmuoil9********0ofgt*kjj6767648%$£3f5&/4bnsa-----qq4)$35670qq4q"
+        },
+        "noCache": true,
+        "useSocketIO": false,
+        "socketIO": {},
+        "useCookie": true,
+        "cookie": {},
+        "useLogger": false,
+        "logger": {
+            "useMorgan": false,
+            "morgan": {}
+        },
+        "useCompression": false,
+        "compression": {
+            "level": 6
+        },
+        "useHelmet": false,
+        "helmet": {},
+        "usePromiseMiddleware": true,
+        "promiseMiddleware": {},
+        "useCors": true,
+        "cors": {},
+        "useLocalUserFromConfig": true,
+        "localUserFromConfig": {},
+        "useConfig": true,
+        "config": {
+            "useEnvalid": true,
+            "envalid": {},
+            "useUserInfo": true,
+            "userInfo": {}
+        },
+        "useWizzi": true,
+        "wizzi": {
+            "isDev": true,
+            "plugins": [
+                {
+                    "name": "@wizzi/plugin.css",
+                    "version": "0.8.2"
+                },
+                {
+                    "name": "@wizzi/plugin.html",
+                    "version": "0.8.2"
+                },
+                {
+                    "name": "@wizzi/plugin.ittf",
+                    "version": "0.8.2"
+                },
+                {
+                    "name": "@wizzi/plugin.js",
+                    "version": "0.8.2"
+                },
+                {
+                    "name": "@wizzi/plugin.json",
+                    "version": "0.8.4"
+                },
+                {
+                    "name": "@wizzi/plugin.md",
+                    "version": "0.8.2"
+                },
+                {
+                    "name": "@wizzi/plugin.svg",
+                    "version": "0.8.2"
+                },
+                {
+                    "name": "@wizzi/plugin.text",
+                    "version": "0.8.2"
+                },
+                {
+                    "name": "@wizzi/plugin.ts",
+                    "version": "0.8.3"
+                },
+                {
+                    "name": "@wizzi/plugin.xml",
+                    "version": "0.8.2"
+                },
+                {
+                    "name": "@wizzi/plugin.yaml",
+                    "version": "0.8.10"
+                }
+            ],
+            "pluginsBaseFolder": "",
+            "globalContext": {
+                "wzConfigIsDevelopment": false,
+                "wzConfigIsPackageDeploy": false,
+                "wzConfigIsHeroku": true,
+                "wzConfigPort": "5110"
+            },
+            "useRunner": false
+        },
+        "useWizziDocs": true,
+        "wizziDocs": {},
+        "useIttfStatic": true,
+        "ittfStatic": {},
+        "useWizziViewEngine": true,
+        "wizziViewEngine": {},
+        "useWizziJsonFactory": true,
+        "wizziJsonFactory": {},
+        "usePackiProductions": true,
+        "packiProductions": {
+            "useCachedProductions": false
+        },
+        "utils": {
+            "useAxios": true,
+            "useStringifySafe": true,
+            "useParseUrl": true,
+            "useQueryString": true,
+            "useNanoId": true,
+            "useNodeCache": true,
+            "useDiffMatchPatch": true
+        },
+        "useSite": true,
+        "site": {
+            "useIttfStatic": false,
+            "ittfStatic": {},
+            "useDemoHome": true,
+            "demoHome": {},
+            "useWizziDocs": true,
+            "wizziDocs": {}
+        },
+        "useReact": true,
+        "react": {
+            "usePages": true,
+            "pages": {}
+        },
+        "useMongoDb": true,
+        "mongoDb": {
+            "host": "mongodb+srv",
+            "user": "yanez",
+            "password": "x5csosPN5YAsrl4Z",
+            "dbPath": "@cluster0.idlk7.mongodb.net",
+            "dbName": "wizzi",
+            "options": {
+                "useNewUrlParser": true,
+                "useUnifiedTopology": true
+            }
+        },
+        "usePackiBrowse": true,
+        "packiBrowse": {}
+    }
+}

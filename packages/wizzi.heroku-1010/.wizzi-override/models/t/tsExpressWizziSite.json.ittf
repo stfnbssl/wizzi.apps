@@ -1,0 +1,9 @@
+$group
+    useSite true
+    { site
+        useIttfStatic false
+        { ittfStatic
+        useDemoHome true
+        { demoHome
+        useWizziDocs true
+        { wizziDocs
