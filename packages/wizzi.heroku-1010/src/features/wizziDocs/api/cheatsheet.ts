@@ -2,14 +2,54 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\features\wizziDocs\api\cheatsheet.ts.ittf
-    utc time: Thu, 14 Mar 2024 11:34:02 GMT
+    utc time: Mon, 25 Mar 2024 04:46:06 GMT
 */
 import path from 'path';
 import {pretty, verify} from 'wizzi-utils';
 import {wizziMaps, wizziProds} from '../../wizzi';
 import stringify from 'json-stringify-safe';
 
-async function getCheatsheet(name: string) {
+export async function getCheatsheetList() {
+
+    return new Promise((resolve, reject) => 
+        
+            wizziProds.getCheatsheetList().then((cheatsheets: any) => {
+            
+                return resolve(cheatsheets);
+            }
+            ).catch((err: any) => {
+            
+                if (typeof err === 'object' && err !== null) {
+                }
+                console.log("[31m%s[0m", 'cheatsheetApi.getCheatsheetList.error', err);
+                return reject(err);
+            }
+            )
+        
+        );
+}
+
+export async function getCheatsheet(schemaName) {
+
+    return new Promise((resolve, reject) => 
+        
+            wizziProds.getCheatsheet(schemaName).then((cheatsheet: any) => {
+            
+                return resolve(cheatsheet);
+            }
+            ).catch((err: any) => {
+            
+                if (typeof err === 'object' && err !== null) {
+                }
+                console.log("[31m%s[0m", 'cheatsheetApi.getCheatsheet.error', err);
+                return reject(err);
+            }
+            )
+        
+        );
+}
+
+async function getCheatsheetOld(name: string) {
 
     return new Promise((resolve, reject) => {
         
@@ -215,7 +255,7 @@ async function getCheatsheet(name: string) {
             
                 if (typeof err === 'object' && err !== null) {
                 }
-                console.log("[31m%s[0m", 'cheatsheetApi.getCheatsheet.error', err);
+                console.log("[31m%s[0m", 'cheatsheetApi.getCheatsheetOld.error', err);
                 return reject(err);
             }
             )
@@ -278,4 +318,4 @@ function buildExpected(ittf: any, sb?: any, indent?: number) {
         return '';
     }
 }
-export {getCheatsheet};
+export {getCheatsheetOld};

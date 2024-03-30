@@ -5,7 +5,7 @@ module
             :union 
                 :literal 'generated'
                 :literal 'mTreeIttf'
-                :literal 'mTreeBuildupScript'
+                :literal 'mTreeBuildUpScript'
                 :literal 'browser'
                 :literal 'wizzified'
                 :literal 'codeAST'

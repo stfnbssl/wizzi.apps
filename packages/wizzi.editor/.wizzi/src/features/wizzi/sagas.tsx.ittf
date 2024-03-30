@@ -50,7 +50,7 @@ module
         $$ loog 'sagas.handleGenerateArtifactRequest.res', res
         yield put(wizziActions.generateArtifactSuccess(res))
     #
-    saga_handler( wizzi, mTreeBuildupScriptRequest, generateArtifactError
+    saga_handler( wizzi, mTreeBuildUpScriptRequest, generateArtifactError
         const res
             yield 
                 _ call
@@ -71,8 +71,8 @@ module
                             @ packiFiles action.payload.files
                             @ productionKind action.payload.productionKind
                             @ productionName action.payload.productionName
-        $$ loog 'sagas.handleMTreeBuildupScriptRequest.res', res
-        yield put(wizziActions.mTreeBuildupScriptSuccess(res))
+        $$ loog 'sagas.handleMTreeBuildUpScriptRequest.res', res
+        yield put(wizziActions.mTreeBuildUpScriptSuccess(res))
     #
     saga_handler( wizzi, mTreeRequest, generateArtifactError
         const res
@@ -204,7 +204,7 @@ module
     #
     function* wizziRequest
         yield takeEvery(getType(wizziActions.generateArtifactRequest), handleGenerateArtifactRequest)
-        yield takeEvery(getType(wizziActions.mTreeBuildupScriptRequest), handleMTreeBuildupScriptRequest)
+        yield takeEvery(getType(wizziActions.mTreeBuildUpScriptRequest), handleMTreeBuildUpScriptRequest)
         yield takeEvery(getType(wizziActions.mTreeRequest), handleMTreeRequest)
         yield takeEvery(getType(wizziActions.wizzifyRequest), handleWizzifyRequest)
         yield takeEvery(getType(wizziActions.codeASTRequest), handleCodeASTRequest)

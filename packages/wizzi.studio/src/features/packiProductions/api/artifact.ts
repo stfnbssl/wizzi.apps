@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\artifact.ts.ittf
-    utc time: Fri, 08 Mar 2024 06:29:02 GMT
+    utc time: Sun, 24 Mar 2024 21:38:41 GMT
 */
 import path from 'path';
 import NodeCache from 'node-cache';
@@ -952,17 +952,17 @@ export async function getArtifactMTree_withPrepare(owner: string, productionName
         );
 }
 
-export async function getArtifactMTreeBuildupScript(owner: string, productionName: string, rootContext: any) {
+export async function getArtifactMTreeBuildUpScript(owner: string, productionName: string, rootContext: any) {
 
     return new Promise((resolve, reject) => 
         
             getArtifactProduction_withCache(owner, productionName).then((ap: any) => 
             
-                wizziProds.mTreeBuildupScript(ap.mainIttf, ap.packiFiles, rootContext).then((result: any) => {
+                wizziProds.mTreeBuildUpScript(ap.mainIttf, ap.packiFiles, rootContext).then((result: any) => {
                 
                     const response = {
-                        content: result.mTreeBuildupScript, 
-                        contentLength: result.mTreeBuildupScript.length, 
+                        content: result.mTreeBuildUpScript, 
+                        contentLength: result.mTreeBuildUpScript.length, 
                         contentType: wizziMaps.contentTypeFor('x.ittf.ittf')
                      };
                     return resolve(response);
@@ -975,7 +975,7 @@ export async function getArtifactMTreeBuildupScript(owner: string, productionNam
                             artifactName: productionName
                          };
                     }
-                    console.log("[31m%s[0m", 'getArtifactMTreeBuildupScript.mTree.error', err);
+                    console.log("[31m%s[0m", 'getArtifactMTreeBuildUpScript.mTree.error', err);
                     return reject(err);
                 }
                 )
@@ -988,7 +988,7 @@ export async function getArtifactMTreeBuildupScript(owner: string, productionNam
                         artifactName: productionName
                      };
                 }
-                console.log("[31m%s[0m", 'getArtifactMTreeBuildupScript.getArtifactProduction.error', err);
+                console.log("[31m%s[0m", 'getArtifactMTreeBuildUpScript.getArtifactProduction.error', err);
                 return reject(err);
             }
             )
@@ -996,17 +996,17 @@ export async function getArtifactMTreeBuildupScript(owner: string, productionNam
         );
 }
 
-export async function getArtifactMTreeBuildupScript_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any) {
+export async function getArtifactMTreeBuildUpScript_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any) {
 
     return new Promise((resolve, reject) => 
         
             productionApi.prepareProduction('artifact', owner, productionName, queryContext, rootContext).then((productionObj: any) => 
             
-                wizziProds.mTreeBuildupScript(productionObj.mainIttf, productionObj.packiFiles, productionObj.context).then((result: any) => {
+                wizziProds.mTreeBuildUpScript(productionObj.mainIttf, productionObj.packiFiles, productionObj.context).then((result: any) => {
                 
                     const response = {
-                        content: result.mTreeBuildupScript, 
-                        contentLength: result.mTreeBuildupScript.length, 
+                        content: result.mTreeBuildUpScript, 
+                        contentLength: result.mTreeBuildUpScript.length, 
                         contentType: wizziMaps.contentTypeFor('x.ittf.ittf')
                      };
                     return resolve(response);
@@ -1019,7 +1019,7 @@ export async function getArtifactMTreeBuildupScript_withPrepare(owner: string, p
                             artifactName: productionName
                          };
                     }
-                    console.log("[31m%s[0m", 'getArtifactMTreeBuildupScript.mTree.error', err);
+                    console.log("[31m%s[0m", 'getArtifactMTreeBuildUpScript.mTree.error', err);
                     return reject(err);
                 }
                 )
@@ -1032,7 +1032,7 @@ export async function getArtifactMTreeBuildupScript_withPrepare(owner: string, p
                         artifactName: productionName
                      };
                 }
-                console.log("[31m%s[0m", 'getArtifactMTreeBuildupScript.getArtifactProduction.error', err);
+                console.log("[31m%s[0m", 'getArtifactMTreeBuildUpScript.getArtifactProduction.error', err);
                 return reject(err);
             }
             )

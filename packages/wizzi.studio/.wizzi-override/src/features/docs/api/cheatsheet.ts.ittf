@@ -122,7 +122,7 @@ module
                                             else
                                                 set item.ittfPretty = pretty
                                             if item.render === 'script'
-                                                _ wizziProds.mTreeBuildupScript
+                                                _ wizziProds.mTreeBuildUpScript
                                                     @ 'index.ittf.ittf'
                                                     {
                                                         { ['index.ittf.ittf']
@@ -131,12 +131,12 @@ module
                                                     {
                                                     ._ then
                                                         =>
-                                                            param mTreeBuildupScript
+                                                            param mTreeBuildUpScript
                                                                 :any
-                                                            if mTreeBuildupScript.__is_error
-                                                                set item.generated = verify.htmlEscape(stringify(mTreeBuildupScript, null, 2))
+                                                            if mTreeBuildUpScript.__is_error
+                                                                set item.generated = verify.htmlEscape(stringify(mTreeBuildUpScript, null, 2))
                                                             else
-                                                                set item.generated = verify.htmlEscape(mTreeBuildupScript)
+                                                                set item.generated = verify.htmlEscape(mTreeBuildUpScript)
                                                             set item.generated = item.generated ? item.generated.trim() : 'No result. Something went wrong!'
                                                             _ next
                                                     ._ catch

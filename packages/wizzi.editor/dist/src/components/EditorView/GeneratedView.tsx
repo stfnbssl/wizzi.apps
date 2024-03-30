@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\GeneratedView.tsx.ittf
-    utc time: Thu, 22 Feb 2024 17:41:44 GMT
+    utc time: Mon, 25 Mar 2024 04:27:37 GMT
 */
 import * as React from 'react';
 import {withStyles, createStyles, Theme} from '@material-ui/core/styles';
@@ -25,7 +25,7 @@ type Props = {
     previewKind: PreviewKind;
     generatedContent: string;
     generatedSourcePath?: string;
-    mTreeBuildupScript?: string;
+    mTreeBuildUpScript?: string;
     mTreeIttf?: string;
     wizzifiedIttfContent?: string;
     codeASTContent?: string;
@@ -106,14 +106,14 @@ class GeneratedView extends React.Component<Props> {
                     
                 }
                 {
-                    previewKind === 'mTreeBuildupScript'
+                    previewKind === 'mTreeBuildUpScript'
                      &&  (
                         <div
                          className={classes.editor}>
                             <SyntaxHighlighter 
                                 className={classes.syntaxHigh}
-                                code={this.props.mTreeBuildupScript || ''}
-                                filePath={'mTreeBuildupScript.js'}
+                                code={this.props.mTreeBuildUpScript || ''}
+                                filePath={'mTreeBuildUpScript.js'}
                                 lineNumbers={true}
                              />
                         </div>

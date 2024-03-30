@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\App.tsx.ittf
-    utc time: Thu, 22 Feb 2024 17:41:44 GMT
+    utc time: Mon, 25 Mar 2024 04:27:37 GMT
 */
 import * as React from 'react';
 // Redux
@@ -49,7 +49,7 @@ const myname = "src.components.App";
 
 interface PackiStateProps {
     generatedArtifact?: GeneratedArtifact;
-    mTreeBuildupScript?: string;
+    mTreeBuildUpScript?: string;
     mTreeIttf?: any;
     jobGeneratedArtifacts?: PackiFiles;
     wizziMetaFolderIttfDocuments?: PackiFiles;
@@ -78,7 +78,7 @@ const packiMapStateToProps = (storeState: StoreState):  PackiStateProps => {
 
     return {
             generatedArtifact: storeState.wizzi.generatedArtifact, 
-            mTreeBuildupScript: storeState.wizzi.mTreeBuildupScript, 
+            mTreeBuildUpScript: storeState.wizzi.mTreeBuildUpScript, 
             mTreeIttf: storeState.wizzi.mTreeIttf, 
             wizzifiedIttfContent: storeState.wizzi.wizzifiedIttfContent, 
             codeASTContent: storeState.wizzi.codeASTContent, 
@@ -122,7 +122,7 @@ const packiMapDispatchToProps = (dispatch: Dispatch):  PackiDispatchProps =>
         dispatchMTreeDebugInfo: (filePath: string, files: PackiFiles, productionKind: PackiProduction, productionName: string) => {
         
             if (filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')) {
-                dispatch(wizziActions.mTreeBuildupScriptRequest({
+                dispatch(wizziActions.mTreeBuildUpScriptRequest({
                     filePath, 
                     files, 
                     productionKind, 
@@ -266,7 +266,7 @@ class AppMain extends React.Component<AppProps, State> {
             wizzifiedIttfContent: undefined, 
             codeASTContent: undefined, 
             mTreeIttf: undefined, 
-            mTreeBuildupScript: undefined, 
+            mTreeBuildUpScript: undefined, 
             wizziError: undefined, 
             isWizziJobWaiting: false, 
             previewKind: this._getViewKind(selectedFile)
@@ -292,7 +292,7 @@ class AppMain extends React.Component<AppProps, State> {
                         else if (this.state.previewKind == 'mTreeIttf') {
                             this.props.dispatchMTree(filePath, fileConversions.packiFilterIttf(this.state.session.files), this.state.session.packiProduction, this.state.session.name)
                         }
-                        else if (this.state.previewKind == 'mTreeBuildupScript') {
+                        else if (this.state.previewKind == 'mTreeBuildUpScript') {
                             this.props.dispatchMTreeDebugInfo(filePath, fileConversions.packiFilterIttf(this.state.session.files), this.state.session.packiProduction, this.state.session.name)
                         }
                     }
@@ -576,7 +576,7 @@ class AppMain extends React.Component<AppProps, State> {
         this.setState((state) => {
         
             return {
-                    previewKind: 'mTreeBuildupScript'
+                    previewKind: 'mTreeBuildUpScript'
                  };
         }
         , () => {
@@ -697,7 +697,7 @@ class AppMain extends React.Component<AppProps, State> {
                                     verbose={this.state.verbose}
                                     previewKind={this.state.previewKind}
                                     generatedArtifact={this.props.generatedArtifact}
-                                    mTreeBuildupScript={this.props.mTreeBuildupScript}
+                                    mTreeBuildUpScript={this.props.mTreeBuildUpScript}
                                     mTreeIttf={this.props.mTreeIttf}
                                     isWizziJobWaiting={this.state.isWizziJobWaiting}
                                     wizzifiedIttfContent={this.props.wizzifiedIttfContent}

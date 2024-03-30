@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\Tests\utils\fetchApi.ts.ittf
-    utc time: Thu, 14 Mar 2024 11:34:04 GMT
+    utc time: Mon, 25 Mar 2024 04:46:07 GMT
 */
 export async function postRequest(url: string, data: object):  Promise<Response> {
 

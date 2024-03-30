@@ -213,7 +213,7 @@ module
                                             @ verbose {this.state.verbose}
                                             @ previewKind {this.state.previewKind}
                                             @ generatedArtifact {this.props.generatedArtifact}
-                                            @ mTreeBuildupScript {this.props.mTreeBuildupScript}
+                                            @ mTreeBuildUpScript {this.props.mTreeBuildUpScript}
                                             @ mTreeIttf {this.props.mTreeIttf}
                                             @ isWizziJobWaiting {this.state.isWizziJobWaiting}
                                             @ wizzifiedIttfContent {this.props.wizzifiedIttfContent}

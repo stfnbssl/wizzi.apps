@@ -13,6 +13,10 @@ module
             @ NextFunction
             from 'express'
         import
+            @ sendFailure
+            @ sendHtml
+            from '../utils/sendResponse'
+        import
             @ MiddlewareType
             from '../features/app/types'
         import

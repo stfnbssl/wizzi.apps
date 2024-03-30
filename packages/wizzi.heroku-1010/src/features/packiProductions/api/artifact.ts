@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\features\packiProductions\api\artifact.ts.ittf
-    utc time: Thu, 14 Mar 2024 11:34:02 GMT
+    utc time: Mon, 25 Mar 2024 04:46:06 GMT
 */
 import path from 'path';
 import NodeCache from 'node-cache';
@@ -1012,7 +1012,7 @@ async function getArtifactMTree_withPrepare(owner: string, productionName: strin
         );
 }
 
-export async function getArtifactMTreeBuildupScript(owner: string, productionName: string, rootContext: any) {
+export async function getArtifactMTreeBuildUpScript(owner: string, productionName: string, rootContext: any) {
 
     return new Promise((resolve, reject) => 
         
@@ -1035,7 +1035,7 @@ export async function getArtifactMTreeBuildupScript(owner: string, productionNam
                             artifactName: productionName
                          };
                     }
-                    console.log("[31m%s[0m", 'getArtifactMTreeBuildupScript.mTree.error', err);
+                    console.log("[31m%s[0m", 'getArtifactMTreeBuildUpScript.mTree.error', err);
                     return reject(err);
                 }
                 )
@@ -1048,7 +1048,7 @@ export async function getArtifactMTreeBuildupScript(owner: string, productionNam
                         artifactName: productionName
                      };
                 }
-                console.log("[31m%s[0m", 'getArtifactMTreeBuildupScript.getArtifactProduction.error', err);
+                console.log("[31m%s[0m", 'getArtifactMTreeBuildUpScript.getArtifactProduction.error', err);
                 return reject(err);
             }
             )
@@ -1056,8 +1056,8 @@ export async function getArtifactMTreeBuildupScript(owner: string, productionNam
         );
 }
 
-export // loog 'getArtifactMTreeBuildupScript_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
-async function getArtifactMTreeBuildupScript_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any) {
+export // loog 'getArtifactMTreeBuildUpScript_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
+async function getArtifactMTreeBuildUpScript_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any) {
 
     return new Promise((resolve, reject) => 
         
@@ -1080,7 +1080,7 @@ async function getArtifactMTreeBuildupScript_withPrepare(owner: string, producti
                             artifactName: productionName
                          };
                     }
-                    console.log("[31m%s[0m", 'getArtifactMTreeBuildupScript.mTree.error', err);
+                    console.log("[31m%s[0m", 'getArtifactMTreeBuildUpScript.mTree.error', err);
                     return reject(err);
                 }
                 )
@@ -1093,7 +1093,7 @@ async function getArtifactMTreeBuildupScript_withPrepare(owner: string, producti
                         artifactName: productionName
                      };
                 }
-                console.log("[31m%s[0m", 'getArtifactMTreeBuildupScript.getArtifactProduction.error', err);
+                console.log("[31m%s[0m", 'getArtifactMTreeBuildUpScript.getArtifactProduction.error', err);
                 return reject(err);
             }
             )

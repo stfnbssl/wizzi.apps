@@ -10,7 +10,25 @@ module
         from '../../wizzi'
     import stringify from 'json-stringify-safe'
     +
-    async-function getCheatsheet
+    export
+        async-function getCheatsheetList
+            r_promise()
+                _ wizziProds.getCheatsheetList
+                    a_then( cheatsheets )
+                        r_resolve( cheatsheets )
+                    v08/ts/catch_reject( cheatsheetApi.getCheatsheetList )
+    +
+    export
+        async-function getCheatsheet
+            param schemaName
+            r_promise()
+                _ wizziProds.getCheatsheet
+                    @ schemaName
+                    a_then( cheatsheet )
+                        r_resolve( cheatsheet )
+                    v08/ts/catch_reject( cheatsheetApi.getCheatsheet )
+    +
+    async-function getCheatsheetOld
         param name
             :string
         return
@@ -226,7 +244,7 @@ module
                                                                         @ null
                                                                         @ 2
                                                             _ next
-                        v08/ts/catch_reject( cheatsheetApi.getCheatsheet )
+                        v08/ts/catch_reject( cheatsheetApi.getCheatsheetOld )
     function wrapperForSchema
         param schema
             :string
@@ -281,4 +299,4 @@ module
             # to avoid ts error
             return ''
     export
-        @ getCheatsheet
+        @ getCheatsheetOld

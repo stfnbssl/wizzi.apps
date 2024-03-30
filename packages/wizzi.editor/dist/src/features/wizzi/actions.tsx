@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\wizzi\actions.tsx.ittf
-    utc time: Thu, 22 Feb 2024 17:41:44 GMT
+    utc time: Mon, 25 Mar 2024 04:27:37 GMT
 */
 import {deprecated} from "typesafe-actions";
 const {
@@ -50,7 +50,7 @@ export interface ArtifactResponsePayload extends ResponsePayload {
 }
 
 export interface MTreeDebugInfoResponsePayload extends ResponsePayload {
-    mTreeBuildupScript: string;
+    mTreeBuildUpScript: string;
 }
 
 export interface MTreeResponsePayload extends ResponsePayload {
@@ -108,9 +108,9 @@ export const generateArtifactRequest = createStandardAction(GENERATE_ARTIFACT_RE
 export const generateArtifactSuccess = createStandardAction(GENERATE_ARTIFACT_SUCCESS)<ArtifactResponsePayload>();
 export const generateArtifactError = createStandardAction(GENERATE_ARTIFACT_ERROR)<string>();
 
-export const mTreeBuildupScriptRequest = createStandardAction(MTREE_DEBUG_INFO_REQUEST)<ArtifactRequestPayload>();
-export const mTreeBuildupScriptSuccess = createStandardAction(MTREE_DEBUG_INFO_SUCCESS)<MTreeDebugInfoResponsePayload>();
-export const mTreeBuildupScriptError = createStandardAction(MTREE_DEBUG_INFO_ERROR)<string>();
+export const mTreeBuildUpScriptRequest = createStandardAction(MTREE_DEBUG_INFO_REQUEST)<ArtifactRequestPayload>();
+export const mTreeBuildUpScriptSuccess = createStandardAction(MTREE_DEBUG_INFO_SUCCESS)<MTreeDebugInfoResponsePayload>();
+export const mTreeBuildUpScriptError = createStandardAction(MTREE_DEBUG_INFO_ERROR)<string>();
 
 export const mTreeRequest = createStandardAction(MTREE_REQUEST)<ArtifactRequestPayload>();
 export const mTreeSuccess = createStandardAction(MTREE_SUCCESS)<MTreeResponsePayload>();

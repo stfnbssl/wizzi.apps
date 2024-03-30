@@ -364,7 +364,7 @@ module
                     @ onCloseLocalFolder
                     @ previewKind
                     @ generatedArtifact
-                    @ mTreeBuildupScript
+                    @ mTreeBuildUpScript
                     @ mTreeIttf
                     @ isWizziJobWaiting
                     @ wizzifiedIttfContent

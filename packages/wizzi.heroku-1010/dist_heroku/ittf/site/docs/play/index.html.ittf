@@ -2,9 +2,6 @@ html
 
     $include models/docs/site.wzctx
 
-    $global
-        var g_API_URL = wzConfigIsHeroku ? 'https://wizzihub.com/api/v1' :  'http://localhost:' + wzConfigPort + '/api/v1';
-
 	$
         var opt = {
 		    title: 'Play',

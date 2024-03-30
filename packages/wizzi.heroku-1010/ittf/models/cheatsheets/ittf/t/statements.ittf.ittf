@@ -1,6 +1,6 @@
 $group
 
-	element jsWizzi statements
+	element JsWizzi statements
 		tag
 		ast 
 		category

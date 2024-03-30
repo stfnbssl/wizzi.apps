@@ -1,7 +1,7 @@
 $group
     +
     export
-        async-function getArtifactMTreeBuildupScript
+        async-function getArtifactMTreeBuildUpScript
             param owner
                 :string
             param productionName
@@ -34,19 +34,19 @@ $group
                                                         @ contentLength result.mTreeBuildUpScript.length
                                                         @ contentType wizziMaps.contentTypeFor('x.ittf.ittf')
                                                 return resolve(response)
-                                        v08/ts/catch_reject( getArtifactMTreeBuildupScript.mTree )
+                                        v08/ts/catch_reject( getArtifactMTreeBuildUpScript.mTree )
                                             set err.parameter
                                                 {
                                                     @ artifactOwner owner
                                                     @ artifactName productionName
-                            v08/ts/catch_reject( getArtifactMTreeBuildupScript.getArtifactProduction )
+                            v08/ts/catch_reject( getArtifactMTreeBuildUpScript.getArtifactProduction )
                                 set err.parameter
                                     {
                                         @ artifactOwner owner
                                         @ artifactName productionName
     +
     export
-        async-function getArtifactMTreeBuildupScript_withPrepare
+        async-function getArtifactMTreeBuildUpScript_withPrepare
             param owner
                 :string
             param productionName
@@ -55,7 +55,7 @@ $group
                 :string
             param rootContext
                 :any
-            # loog 'getArtifactMTreeBuildupScript_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
+            # loog 'getArtifactMTreeBuildUpScript_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
             return
                 new Promise
                     =>
@@ -85,12 +85,12 @@ $group
                                                         @ contentLength result.mTreeBuildUpScript.length
                                                         @ contentType wizziMaps.contentTypeFor('x.ittf.ittf')
                                                 return resolve(response)
-                                        v08/ts/catch_reject( getArtifactMTreeBuildupScript.mTree )
+                                        v08/ts/catch_reject( getArtifactMTreeBuildUpScript.mTree )
                                             set err.parameter
                                                 {
                                                     @ artifactOwner owner
                                                     @ artifactName productionName
-                            v08/ts/catch_reject( getArtifactMTreeBuildupScript.getArtifactProduction )
+                            v08/ts/catch_reject( getArtifactMTreeBuildUpScript.getArtifactProduction )
                                 set err.parameter
                                     {
                                         @ artifactOwner owner

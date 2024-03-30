@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\types.ts.ittf
-    utc time: Fri, 08 Mar 2024 06:29:02 GMT
+    utc time: Sun, 24 Mar 2024 21:38:41 GMT
 */
 import * as wizzi from '@wizzi/factory';
 import {JsonFs} from '@wizzi/repo';
@@ -84,7 +84,7 @@ export type WizziModelTypesRequest = {
     wfschemaName: string;
     wfschemaIttfDocumentUri: string;
     wfschemaOutputPackageFolder: string;
-    mTreeBuildupContext?: any;
+    mTreeBuildUpContext?: any;
     globalContext?: any;
     pluginsBaseFolder: string;
     plugins: string[];

@@ -4,7 +4,7 @@ $group
         :p generatedArtifact
             :optional 
             :ref GeneratedArtifact
-        :p mTreeBuildupScript
+        :p mTreeBuildUpScript
             :optional 
             :string
         :p mTreeIttf
@@ -135,7 +135,7 @@ $group
             return
                 { 
                     @ generatedArtifact storeState.wizzi.generatedArtifact
-                    @ mTreeBuildupScript storeState.wizzi.mTreeBuildupScript
+                    @ mTreeBuildUpScript storeState.wizzi.mTreeBuildUpScript
                     @ mTreeIttf storeState.wizzi.mTreeIttf
                     @ wizzifiedIttfContent storeState.wizzi.wizzifiedIttfContent
                     @ codeASTContent storeState.wizzi.codeASTContent
@@ -202,7 +202,7 @@ $group
                                 :string 
                             if filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')
                                 _ dispatch
-                                    _ wizziActions.mTreeBuildupScriptRequest
+                                    _ wizziActions.mTreeBuildUpScriptRequest
                                         { 
                                             @ filePath
                                             @ files

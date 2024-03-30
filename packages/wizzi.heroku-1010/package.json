@@ -14,8 +14,8 @@
     },
     "dependencies": {
         "@babel/preset-env": "^7.22.5",
-        "@wizzi/factory": "^0.8.20",
-        "@wizzi/utils": "^0.8.12",
+        "@wizzi/factory": "^0.8.24",
+        "@wizzi/utils": "^0.8.15",
         "axios": "^0.21.1",
         "body-parser": "^1.18.3",
         "classnames": "^2.2.6",

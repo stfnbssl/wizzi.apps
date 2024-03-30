@@ -13,6 +13,10 @@ module
             @ NextFunction
             from 'express'
         import
+            @ sendFailure
+            @ sendHtml
+            from '../utils/sendResponse'
+        import
             @ MiddlewareType
             from '../features/app/types'
         import
@@ -25,6 +29,8 @@ module
         import
             @ WizziModel
             from '@wizzi/factory'
+        +
+        +
         export
             const IttfStaticMiddleware
                 :ref MiddlewareType
@@ -35,6 +41,7 @@ module
                         info 'IttfStaticMiddleware. Folder served from ', path.resolve(${wzCtx.Build.express.staticFiles.basePath}, 'ittf')
                         _ app.use('/ittf', ittfMiddleware(path.resolve(${wzCtx.Build.express.staticFiles.basePath}, 'ittf'), '/ittf'))
         +
+        +
         function ittfMiddleware
             param basePath
                 :string
@@ -42,6 +49,28 @@ module
                 :string
             :return
                 :ref RequestHandler
+            let store_siteCtx = null
+            +
+            function ittfContext
+                param request
+                    :ref Request
+                param data
+                    :any
+                    :optional
+                const ctx 
+                    _ Object.assign
+                        {
+                        {
+                            @ baseUrl "${wzCtx.App.baseUrl}"
+                            @ request request
+                            { locals
+                                @ user (request as any).session.user
+                            @ siteCtx store_siteCtx
+                            @ isWizziStudio true
+                        @ data || {}
+                set ctx.ittfCtx = ctx
+                return ctx
+            +
             return
                 async=>
                     param request
@@ -73,11 +102,16 @@ module
                     let contentType = wizziMaps.contentTypeFor(filePath)
                     if !contentType
                         return next()
+                    $* TODO
+                    if !store_siteCtx
+                        set store_siteCtx = await wizziProds.loadSiteJsonModel('sitectx.json.ittf')
+                    *$
                     _ wizziProds.loadSiteJsonModel
                         @ 'sitectx.json.ittf'
                         ._ then
                             async=>
                                 param siteCtx
+                                set store_siteCtx = siteCtx
                                 if queryMeta && queryMeta === 'html'
                                     try
                                         const documentState
@@ -87,15 +121,12 @@ module
                                             await
                                                 _ wizziProds.generateArtifactFs
                                                     @ config.metaHtmlIttfPath
-                                                    {
-                                                        @ wizzischema 'html'
-                                                        @ path filePath
-                                                        @ request
-                                                        @ ds documentState
-                                                        { locals
-                                                            @ user (request as any).session.user
-                                                        @ siteCtx
-                                                        @ isWizziStudio true
+                                                    _ ittfContext
+                                                        @ request 
+                                                        {
+                                                            @ wizzischema 'html'
+                                                            @ path filePath
+                                                            @ ds documentState
                                         _ response.writeHead
                                             @ 200
                                             {
@@ -111,11 +142,8 @@ module
                                 elif queryMeta && queryMeta === 'json' && ittfSchema == 'ittf'
                                     _ wizziProds.generateArtifactFs
                                         @ filePath
-                                        {
-                                            { locals
-                                                @ user (request as any).session.user
-                                            @ siteCtx
-                                            @ isWizziStudio true
+                                        _ ittfContext
+                                            @ request 
                                         {
                                             @ generator 'ittf/tojson'
                                         ._ then
@@ -153,33 +181,21 @@ module
                                                             @ err
                                                             {
                                                                 @ format 'json'
-                                                set modelContext
+                                                _ wizziProds.generateArtifactFs
+                                                    @ filePath
                                                     _ Object.assign
                                                         {
                                                         @ modelContext
-                                                        {
-                                                            { locals
-                                                                @ user (request as any).session.user
-                                                            @ siteCtx
-                                                            @ isWizziStudio true
-                                                _ wizziProds.generateArtifactFs(filePath, modelContext).then
-                                                    =>
-                                                        param generated
-                                                        _ response.writeHead
-                                                            @ 200
-                                                            {
-                                                                @ 'Content-Type' contentType
-                                                                @ 'Content-Length' generated.artifactContent.length
-                                                        _ response.end(generated.artifactContent)
-                                                    ._ catch
-                                                        =>
-                                                            param err
-                                                            return
-                                                                _ sendError
-                                                                    @ response
-                                                                    @ err
-                                                                    {
-                                                                        @ format 'json'
+                                                        _ ittfContext
+                                                            @ request 
+                                                    a_then( generated )
+                                                            _ response.writeHead
+                                                                @ 200
+                                                                {
+                                                                    @ 'Content-Type' contentType
+                                                                    @ 'Content-Length' generated.artifactContent.length
+                                                            _ response.end(generated.artifactContent)
+                                                    catch_fail( ittfStatic.wizziProds.generateArtifactFs)
             #
                 #
                 # request.query._context contains a semicolon separated list of context models export names.

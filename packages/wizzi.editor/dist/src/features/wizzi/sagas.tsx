@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\wizzi\sagas.tsx.ittf
-    utc time: Thu, 22 Feb 2024 17:41:44 GMT
+    utc time: Mon, 25 Mar 2024 04:27:37 GMT
 */
 import {all, fork, put, takeEvery, call} from 'redux-saga/effects';
 import {getType} from 'typesafe-actions';
@@ -38,10 +38,10 @@ function* handleGenerateArtifactRequest(action: ReturnType<typeof wizziActions.g
     } 
 }
 //
-function* handleMTreeBuildupScriptRequest(action: ReturnType<typeof wizziActions.mTreeBuildupScriptRequest>):  any {
+function* handleMTreeBuildUpScriptRequest(action: ReturnType<typeof wizziActions.mTreeBuildUpScriptRequest>):  any {
 
     try {
-        console.log('sagas.handleMTreeBuildupScriptRequest.action', action, __filename);
+        console.log('sagas.handleMTreeBuildUpScriptRequest.action', action, __filename);
         const res = yield call(callApi, 'post', config.API_URL, 'wizzi/production/mtreescript', {
                 contextItems: [
                     
@@ -52,7 +52,7 @@ function* handleMTreeBuildupScriptRequest(action: ReturnType<typeof wizziActions
                     packiFiles: action.payload.files
                  }
              });
-        yield put(wizziActions.mTreeBuildupScriptSuccess(res));
+        yield put(wizziActions.mTreeBuildUpScriptSuccess(res));
     } 
     catch (err) {
         if (err instanceof Error) {
@@ -220,7 +220,7 @@ function* handleChangeSelectedFile(action: ReturnType<typeof wizziActions.change
 function* wizziRequest() {
 
     yield takeEvery(getType(wizziActions.generateArtifactRequest), handleGenerateArtifactRequest);
-    yield takeEvery(getType(wizziActions.mTreeBuildupScriptRequest), handleMTreeBuildupScriptRequest);
+    yield takeEvery(getType(wizziActions.mTreeBuildUpScriptRequest), handleMTreeBuildUpScriptRequest);
     yield takeEvery(getType(wizziActions.mTreeRequest), handleMTreeRequest);
     yield takeEvery(getType(wizziActions.wizzifyRequest), handleWizzifyRequest);
     yield takeEvery(getType(wizziActions.codeASTRequest), handleCodeASTRequest);

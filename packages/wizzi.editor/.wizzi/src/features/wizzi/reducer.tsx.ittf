@@ -29,7 +29,7 @@ module
             :p generatedArtifact
                 :optional 
                 :ref GeneratedArtifact
-            :p mTreeBuildupScript
+            :p mTreeBuildUpScript
                 :optional 
                 :string
             :p mTreeIttf
@@ -55,7 +55,7 @@ module
                 @ loading false
                 @ error undefined
                 @ generatedArtifact undefined
-                @ mTreeBuildupScript undefined
+                @ mTreeBuildUpScript undefined
                 @ mTreeIttf undefined
                 @ jobGeneratedArtifacts undefined
                 @ wizziMetaFolderIttfDocuments undefined
@@ -114,16 +114,16 @@ module
                             @ loading false
                             @ error action.payload
                 +
-                case getType(wizziActions.mTreeBuildupScriptRequest)
-                    log "wizziActions.mTreeBuildupScriptRequest"
+                case getType(wizziActions.mTreeBuildUpScriptRequest)
+                    log "wizziActions.mTreeBuildUpScriptRequest"
                     return 
                         { 
                             @ ...state
                             @ loading true
-                            @ mTreeBuildupScript undefined
+                            @ mTreeBuildUpScript undefined
                             @ error undefined
-                case getType(wizziActions.mTreeBuildupScriptSuccess)
-                    info "wizziActions.mTreeBuildupScriptSuccess", Object.keys(action.payload)
+                case getType(wizziActions.mTreeBuildUpScriptSuccess)
+                    info "wizziActions.mTreeBuildUpScriptSuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
                         return 
                             { 
@@ -136,8 +136,8 @@ module
                                 @ ...state
                                 @ loading false
                                 @ ...action.payload
-                case getType(wizziActions.mTreeBuildupScriptError)
-                    error "wizziActions.mTreeBuildupScriptError", action
+                case getType(wizziActions.mTreeBuildUpScriptError)
+                    error "wizziActions.mTreeBuildUpScriptError", action
                     return 
                         { 
                             @ ...state
@@ -306,7 +306,7 @@ module
                             @ loading false
                             @ error undefined
                             @ generatedArtifact undefined
-                            @ mTreeBuildupScript undefined
+                            @ mTreeBuildUpScript undefined
                             @ mTreeIttf undefined
                             @ jobGeneratedArtifacts undefined
                             @ wizziMetaFolderIttfDocuments undefined

@@ -52,7 +52,7 @@ $group
                     param state
                     return 
                         {
-                            @ previewKind 'mTreeBuildupScript'
+                            @ previewKind 'mTreeBuildUpScript'
                 =>
                     const files = this.state.session.files
                     if Object.keys(files).length

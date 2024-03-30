@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\site\controllers\wizziDocs.ts.ittf
-    utc time: Thu, 14 Mar 2024 11:34:02 GMT
+    utc time: Mon, 25 Mar 2024 04:46:06 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -52,23 +52,79 @@ export class DocsController implements ControllerType {
         this.router.get("/cheatsheet/:name", makeHandlerAwareOfAsyncErrors(this.cheatsheet))
     };
     
-    private cheatsheet = async (request: Request, response: Response) => 
+    private cheatsheet = async (request: Request, response: Response) => {
     
-        cheatsheetApi.getCheatsheet(request.params.name).then(result => 
+        console.log('*** calling cheatsheetApi.getCheatsheetList', __filename);
+        cheatsheetApi.getCheatsheetList().then((csList: any) => {
         
-            response.render('wizzi/docs/cheatsheet.html.ittf', {
-                cs: result
-             })
-        ).catch((err: any) => {
-        
-            var content = err;
-            if (typeof err === 'object' && err !== null) {
-                content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
+            console.log('*** csList', csList, __filename);
+            const exists = csList.filter(item => 
+            
+                item.name == request.params.name
+            );
+            console.log('*** exists', exists, __filename);
+            if (exists.length > 0) {
+                console.log('*** calling cheatsheetApi.getCheatsheetList', request.params.name, __filename);
+                cheatsheetApi.getCheatsheet(request.params.name).then((result: any) => {
+                
+                    console.log('*** 0 result', result, __filename);
+                    response.render('wizzi/docs/cheatsheet.html.ittf', {
+                        csList: csList, 
+                        cs: result, 
+                        csStatus: 0
+                     })
+                }
+                ).catch((err: any) => {
+                
+                    var content = err;
+                    if (typeof err === 'object' && err !== null) {
+                        content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
+                    }
+                    console.log("[31m%s[0m", 'docs.cheatsheet.error', err);
+                    sendHtml(response, content)
+                }
+                )
             }
-            console.log("[31m%s[0m", 'docs.cheatsheet.error', err);
-            sendHtml(response, content)
+            else if (csList.length > 0) {
+                console.log('*** calling cheatsheetApi.getCheatsheetList', csList[0].name, __filename);
+                cheatsheetApi.getCheatsheet(csList[0].name).then((result: any) => {
+                
+                    console.log('*** 1 result', result, __filename);
+                    response.render('wizzi/docs/cheatsheet.html.ittf', {
+                        csList: csList, 
+                        cs: result, 
+                        csStatus: 1, 
+                        csMessage: "Cheatsheet for schema " + request.params.name + " unavailable"
+                     })
+                }
+                ).catch((err: any) => {
+                
+                    var content = err;
+                    if (typeof err === 'object' && err !== null) {
+                        content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
+                    }
+                    console.log("[31m%s[0m", 'docs.cheatsheet.error', err);
+                    sendHtml(response, content)
+                }
+                )
+            }
+            else {
+                console.log('*** 3 render', __filename);
+                response.render('wizzi/docs/cheatsheet.html.ittf', {
+                    csList: [
+                        
+                    ], 
+                    cs: {
+                        elements: [
+                            
+                        ]
+                     }, 
+                    csStatus: 2, 
+                    csMessage: "No available cheatsheet"
+                 })
+            }
         }
         )
-    
+    }
     ;
 }

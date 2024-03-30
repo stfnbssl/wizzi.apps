@@ -194,7 +194,7 @@ module
                     :string
                 :p wfschemaOutputPackageFolder
                     :string
-                :p mTreeBuildupContext
+                :p mTreeBuildUpContext
                     :any
                     :optional
                 :p globalContext

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\productions.ts.ittf
-    utc time: Fri, 08 Mar 2024 06:29:02 GMT
+    utc time: Sun, 24 Mar 2024 21:38:41 GMT
 */
 import path from 'path';
 import fs from 'fs';
@@ -37,7 +37,7 @@ export async function loadModel(filePath: string, files: packiTypes.PackiFiles, 
             jsonwf = await createJsonFsAndFactory(files);
             ;
             jsonwf.wf.loadModel(ittfDocumentUri, {
-                mTreeBuildupContext: context
+                mTreeBuildUpContext: context
              }, (err: any, result: any) => {
             
                 if (err) {
@@ -67,7 +67,7 @@ export async function loadModelFs(filePath: string, context: any, options?: Load
                  } : null;
             const wf = await createFilesystemFactory(plugins, null, {});
             wf.loadModel(schemaName, filePath, {
-                mTreeBuildupContext: context
+                mTreeBuildUpContext: context
              }, (err, result) => {
             
                 if (err) {
@@ -89,7 +89,7 @@ async function loadModelInternal(wf: wizzi.WizziFactory, filePath: string, conte
                 return reject('File is not a known ittf document: ' + filePath);
             }
             wf.loadModel(schemaName, filePath, {
-                mTreeBuildupContext: context
+                mTreeBuildUpContext: context
              }, (err, result) => {
             
                 if (err) {
@@ -102,7 +102,7 @@ async function loadModelInternal(wf: wizzi.WizziFactory, filePath: string, conte
         );
 }
 
-export async function mTreeBuildupScript(filePath: string, files: packiTypes.PackiFiles, context: any):  Promise<any> {
+export async function mTreeBuildUpScript(filePath: string, files: packiTypes.PackiFiles, context: any):  Promise<any> {
 
     return new Promise(
         // TODO catch error
@@ -110,7 +110,7 @@ export async function mTreeBuildupScript(filePath: string, files: packiTypes.Pac
         
             if (!verify.isObject(files)) {
                 return reject({
-                        action: 'wizzi.productions.mTreeBuildupScript', 
+                        action: 'wizzi.productions.mTreeBuildUpScript', 
                         message: 'files parameter must be an object of type PackiFiles', 
                         files
                      });
@@ -120,7 +120,7 @@ export async function mTreeBuildupScript(filePath: string, files: packiTypes.Pac
             let jsonwf: any = {};
             jsonwf = await createJsonFsAndFactory(files);
             ;
-            jsonwf.wf.loadMTreeBuildupScript(ittfDocumentUri, context, (err: any, buildUpScript: string) => {
+            jsonwf.wf.loadMTreeBuildUpScript(ittfDocumentUri, context, (err: any, buildUpScript: string) => {
             
                 if (err) {
                     return reject(err);
@@ -132,14 +132,14 @@ export async function mTreeBuildupScript(filePath: string, files: packiTypes.Pac
         );
 }
 
-export async function mTreeBuildupScriptFs(filePath: string, context: any):  Promise<any> {
+export async function mTreeBuildUpScriptFs(filePath: string, context: any):  Promise<any> {
 
-    throw new Error(myname + '.mTreeBuildupScriptFs not yet implemented');
+    throw new Error(myname + '.mTreeBuildUpScriptFs not yet implemented');
 }
 
-export async function mTreeBuildupScriptDb(owner: string, name: string, context?: any):  Promise<GeneratedArtifact> {
+export async function mTreeBuildUpScriptDb(owner: string, name: string, context?: any):  Promise<GeneratedArtifact> {
 
-    throw new Error(myname + '.mTreeBuildupScriptDB not yet implemented');
+    throw new Error(myname + '.mTreeBuildUpScriptDB not yet implemented');
 }
 
 export async function mTree(filePath: string, files: packiTypes.PackiFiles, context: any):  Promise<any> {
@@ -434,7 +434,7 @@ export async function generateWizziModelTypes(request: WizziModelTypesRequest) {
     return new Promise(async (resolve, reject) => {
         
             const storeKind = request.storeKind || 'filesystem';
-            const mTreeBuildupContext = Object.assign({}, request.mTreeBuildupContext);
+            const mTreeBuildUpContext = Object.assign({}, request.mTreeBuildUpContext);
             const globalContext = Object.assign({}, request.globalContext);
             
             var plugins = [];
@@ -451,8 +451,8 @@ export async function generateWizziModelTypes(request: WizziModelTypesRequest) {
                 plugins.push('wizzi-core');
             }
             console.log('wizziProds.generateWizziModelTypes.plugins', plugins);
-            for (var k in mTreeBuildupContext) {
-                console.log('- mTreeBuildupContext property', k, mTreeBuildupContext[k]);
+            for (var k in mTreeBuildUpContext) {
+                console.log('- mTreeBuildUpContext property', k, mTreeBuildUpContext[k]);
             }
             for (var k in globalContext) {
                 console.log('- globalContext property', k, globalContext[k]);
@@ -461,7 +461,7 @@ export async function generateWizziModelTypes(request: WizziModelTypesRequest) {
             try {
                 const wf = await createFilesystemFactoryWithParameters(request.pluginsBaseFolder, plugins, globalContext);
                 console.log('STARTING WIZZI MODEL TYPES GENERATION FOR SCHEMA ' + request.wfschemaName);
-                wf.generateModelDoms(request.wfschemaIttfDocumentUri, request.wfschemaOutputPackageFolder, request.wfschemaName, mTreeBuildupContext, (err: any, result: any) => {
+                wf.generateModelDoms(request.wfschemaIttfDocumentUri, request.wfschemaOutputPackageFolder, request.wfschemaName, mTreeBuildUpContext, (err: any, result: any) => {
                 
                     if (err) {
                         return reject({

@@ -63,7 +63,7 @@ module
     export 
         :interface MTreeDebugInfoResponsePayload
             :extends ResponsePayload
-            :p mTreeBuildupScript
+            :p mTreeBuildUpScript
                 :string
     +
     export 
@@ -156,17 +156,17 @@ module
                 :param string
     +
     export 
-        const mTreeBuildupScriptRequest
+        const mTreeBuildUpScriptRequest
             _ createStandardAction(MTREE_DEBUG_INFO_REQUEST)
                 :param 
                     :ref ArtifactRequestPayload
     export 
-        const mTreeBuildupScriptSuccess
+        const mTreeBuildUpScriptSuccess
             _ createStandardAction(MTREE_DEBUG_INFO_SUCCESS)
                 :param 
                     :ref MTreeDebugInfoResponsePayload
     export 
-        const mTreeBuildupScriptError
+        const mTreeBuildUpScriptError
             _ createStandardAction(MTREE_DEBUG_INFO_ERROR)
                 :param string
     +

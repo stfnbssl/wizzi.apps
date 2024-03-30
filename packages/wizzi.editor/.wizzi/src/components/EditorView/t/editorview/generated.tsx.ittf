@@ -12,7 +12,7 @@
                         @ selectedFile {this.props.selectedFile}
                         @ generatedContent {generatedArtifact ? generatedArtifact.artifactContent : undefined}
                         @ generatedSourcePath {generatedArtifact ? generatedArtifact.sourcePath : undefined}
-                        @ mTreeBuildupScript {mTreeBuildupScript}
+                        @ mTreeBuildUpScript {mTreeBuildUpScript}
                         @ mTreeIttf {mTreeIttf}
                         @ wizzifiedIttfContent {wizzifiedIttfContent}
                         @ codeASTContent {codeASTContent}

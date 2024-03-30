@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorView.tsx.ittf
-    utc time: Thu, 22 Feb 2024 17:41:44 GMT
+    utc time: Mon, 25 Mar 2024 04:27:37 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import './EditorView.css';
@@ -222,7 +222,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
             onCloseLocalFolder, 
             previewKind, 
             generatedArtifact, 
-            mTreeBuildupScript, 
+            mTreeBuildUpScript, 
             mTreeIttf, 
             isWizziJobWaiting, 
             wizzifiedIttfContent, 
@@ -521,7 +521,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                                     selectedFile={this.props.selectedFile}
                                                     generatedContent={generatedArtifact ? generatedArtifact.artifactContent : undefined}
                                                     generatedSourcePath={generatedArtifact ? generatedArtifact.sourcePath : undefined}
-                                                    mTreeBuildupScript={mTreeBuildupScript}
+                                                    mTreeBuildUpScript={mTreeBuildUpScript}
                                                     mTreeIttf={mTreeIttf}
                                                     wizzifiedIttfContent={wizzifiedIttfContent}
                                                     codeASTContent={codeASTContent}

@@ -80,7 +80,7 @@ $group
                 @ wizzifiedIttfContent undefined
                 @ codeASTContent undefined
                 @ mTreeIttf undefined
-                @ mTreeBuildupScript undefined
+                @ mTreeBuildUpScript undefined
                 @ wizziError undefined
                 @ isWizziJobWaiting false
                 @ previewKind this._getViewKind(selectedFile)

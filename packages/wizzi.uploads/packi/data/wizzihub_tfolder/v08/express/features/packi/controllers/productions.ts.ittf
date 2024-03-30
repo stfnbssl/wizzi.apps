@@ -27,8 +27,8 @@ $group
                 from 'wizzi'
         _ this.router.post
             `lit
-                + /MTreeBuildupScript/:id
-            @ this.mTreeBuildupScript
+                + /MTreeBuildUpScript/:id
+            @ this.mTreeBuildUpScript
         _ this.router.post
             `lit
                 + /artifact/:id
@@ -46,22 +46,22 @@ $group
                 + /wizzify
             @ this.wizzify
         $append handlers
-            handler( mTreeBuildupScript )
+            handler( mTreeBuildUpScript )
                 const id = request.params.id
                 const files
                     :ref PackiFiles
                     = request.body
-                _ wizziProds.mTreeBuildupScript(id, files, {}).then
+                _ wizziProds.mTreeBuildUpScript(id, files, {}).then
                     =>
                         param value
                         _ sendSuccess
                             @ response
                             {
-                                @ mTreeBuildupScript value
+                                @ mTreeBuildUpScript value
                     ._ catch
                         =>
                             param err
-                            error 'features.packi.controllers.production.mTreeBuildupScript.err', err
+                            error 'features.packi.controllers.production.mTreeBuildUpScript.err', err
                             _ sendFailure(response, err, 501)
             handler( generateArtifact )
                 const id = request.params.id

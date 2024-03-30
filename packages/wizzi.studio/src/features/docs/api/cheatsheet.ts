@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\docs\api\cheatsheet.ts.ittf
-    utc time: Fri, 08 Mar 2024 06:29:02 GMT
+    utc time: Sun, 24 Mar 2024 21:38:41 GMT
 */
 import path from 'path';
 import {pretty, verify} from 'wizzi-utils';
@@ -126,18 +126,18 @@ async function getCheatsheet(name: string) {
                             item.ittfPretty = pretty;
                         }
                         if (item.render === 'script') {
-                            wizziProds.mTreeBuildupScript('index.ittf.ittf', {
+                            wizziProds.mTreeBuildUpScript('index.ittf.ittf', {
                                 ['index.ittf.ittf']: {
                                     type: 'CODE', 
                                     contents: item.ittfWrapped
                                  }
-                             }, {}).then((mTreeBuildupScript: any) => {
+                             }, {}).then((mTreeBuildUpScript: any) => {
                             
-                                if (mTreeBuildupScript.__is_error) {
-                                    item.generated = verify.htmlEscape(stringify(mTreeBuildupScript, null, 2));
+                                if (mTreeBuildUpScript.__is_error) {
+                                    item.generated = verify.htmlEscape(stringify(mTreeBuildUpScript, null, 2));
                                 }
                                 else {
-                                    item.generated = verify.htmlEscape(mTreeBuildupScript);
+                                    item.generated = verify.htmlEscape(mTreeBuildUpScript);
                                 }
                                 item.generated = item.generated ? item.generated.trim() : 'No result. Something went wrong!';
                                 next();

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\middlewares\packiBrowse.ts.ittf
-    utc time: Fri, 08 Mar 2024 06:29:02 GMT
+    utc time: Sun, 24 Mar 2024 21:38:41 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -101,7 +101,7 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
         )
     }
     else if (request.query.meta && (request.query.meta as string).toLowerCase() == 'script') {
-        productionApi.getArtifactMTreeBuildupScript_withPrepare(owner, productionName, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
+        productionApi.getArtifactMTreeBuildUpScript_withPrepare(owner, productionName, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
         
             response.status(200);
             response.set('Content-Type', result.contentType);

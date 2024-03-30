@@ -30,7 +30,7 @@ $group
                                     @ this.state.session.files
                                 @ this.state.session.packiProduction
                                 @ this.state.session.name
-                        elif this.state.previewKind == 'mTreeBuildupScript'
+                        elif this.state.previewKind == 'mTreeBuildUpScript'
                             _ this.props.dispatchMTreeDebugInfo
                                 @ filePath
                                 _ fileConversions.packiFilterIttf

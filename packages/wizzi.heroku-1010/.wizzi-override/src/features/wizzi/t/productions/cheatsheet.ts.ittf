@@ -1,0 +1,43 @@
+$group
+    export
+        async-function getCheatsheetList
+            :return
+                :ref Promise
+                    :param
+                        :string
+            r_promise_async()
+                var files
+                    :ref packiTypes.PackiFiles
+                    =
+                        {
+                let jsonwf
+                    :any
+                    =
+                        {
+                set jsonwf =
+                    await
+                        _ createJsonFsAndFactory(files)
+                r_resolve( jsonwf.wf.getCheatsheetList() )
+    export
+        async-function getCheatsheet
+            param schemaName
+            :return
+                :ref Promise
+                    :param
+                        :string
+            r_promise_async()
+                var files
+                    :ref packiTypes.PackiFiles
+                    =
+                        {
+                let jsonwf
+                    :any
+                    =
+                        {
+                set jsonwf =
+                    await
+                        _ createJsonFsAndFactory(files)
+                _ jsonwf.wf.getCheatsheet
+                    @ schemaName
+                    a_reject( result )
+                        r_resolve( result )

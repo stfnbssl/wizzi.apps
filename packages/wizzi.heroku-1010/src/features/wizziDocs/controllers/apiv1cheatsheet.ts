@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\features\wizziDocs\controllers\apiv1cheatsheet.ts.ittf
-    utc time: Thu, 14 Mar 2024 11:34:02 GMT
+    utc time: Mon, 25 Mar 2024 04:46:06 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -11,7 +11,7 @@ import {sendHtml, sendSuccess, sendPromiseResult, sendFailure} from '../../../ut
 import {restParamsCheck} from '../../../utils/rest';
 import {FcError, SYSTEM_ERROR} from '../../../utils/error';
 import {statusCode} from '../../../utils';
-import {getCheatsheet} from '../api/cheatsheet';
+import {getCheatsheetList, getCheatsheet} from '../api/cheatsheet';
 
 const myname = 'features/docs/controllers/apiv1cheatsheet';
 
@@ -51,8 +51,28 @@ export class ApiV1CheatsheetController implements ControllerType {
     
     initialize = (app: express.Application, initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ApiV1CheatsheetController.initialize');
+        this.router.get('/', this.getCheatsheetList);
         this.router.get('/:name', this.getCheatsheet);
     };
+    
+    private getCheatsheetList = async (request: Request, response: Response) => 
+    
+        getCheatsheetList().then((result: any) => 
+        
+            sendSuccess(response, result)
+        ).catch((err: any) => {
+        
+            if (typeof err === 'object' && err !== null) {
+            }
+            console.log("[31m%s[0m", 'ApiV1Cheatsheet.getCheatsheetList', err);
+            sendFailure(response, {
+                err: err, 
+                method: 'ApiV1Cheatsheet.getCheatsheetList'
+             }, 501)
+        }
+        )
+    
+    ;
     
     private getCheatsheet = async (request: Request, response: Response) => 
     

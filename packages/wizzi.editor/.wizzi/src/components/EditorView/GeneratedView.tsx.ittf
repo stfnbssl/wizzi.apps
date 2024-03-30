@@ -47,7 +47,7 @@ module
             :p generatedSourcePath
                 :string 
                 :optional
-            :p mTreeBuildupScript
+            :p mTreeBuildUpScript
                 :string 
                 :optional
             :p mTreeIttf
@@ -118,7 +118,7 @@ module
             const isIttf = selectedFile && selectedFile.endsWith('.ittf')
             $$ loog 'GeneratedView.isIttf', isIttf, 'previewKind', previewKind
             $*
-            if isIttf && ['generated', 'mTreeIttf', 'mTreeBuildupScript', 'browser'].indexOf(view) < 0
+            if isIttf && ['generated', 'mTreeIttf', 'mTreeBuildUpScript', 'browser'].indexOf(view) < 0
                 set view = 'generated'
             if !isIttf && ['wizzified', 'codeAST'].indexOf(view) < 0
                 set view = 'codeAST'
@@ -152,13 +152,13 @@ module
                                     @ lineNumbers {true}
                     { 
                         && 
-                            + previewKind === 'mTreeBuildupScript'
+                            + previewKind === 'mTreeBuildUpScript'
                             div 
                                 @ className {classes.editor}
                                 < SyntaxHighlighter 
                                     @ className {classes.syntaxHigh}
-                                    @ code {this.props.mTreeBuildupScript || ''}
-                                    @ filePath {'mTreeBuildupScript.js'}
+                                    @ code {this.props.mTreeBuildUpScript || ''}
+                                    @ filePath {'mTreeBuildUpScript.js'}
                                     @ lineNumbers {true}
                     { 
                         && 

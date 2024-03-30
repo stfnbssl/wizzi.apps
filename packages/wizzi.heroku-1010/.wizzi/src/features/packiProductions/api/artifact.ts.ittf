@@ -41,5 +41,5 @@ module
     $include artifact/transformation
     $include artifact/generation
     $include artifact/mtree
-    $include artifact/mtreeBuildupScript
+    $include artifact/mtreeBuildUpScript
     $include artifact/prepare

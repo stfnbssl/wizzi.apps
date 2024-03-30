@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packi\controllers\productions.ts.ittf
-    utc time: Fri, 08 Mar 2024 06:29:02 GMT
+    utc time: Sun, 24 Mar 2024 21:38:41 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -53,7 +53,7 @@ export class ProductionsController implements ControllerType {
     initialize = (app: express.Application, initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ProductionsController.initialize');
         this.router.post(`/mtree/:id`, this.mTree);
-        this.router.post(`/mtreescript/:id`, this.mTreeBuildupScript);
+        this.router.post(`/mtreescript/:id`, this.mTreeBuildUpScript);
         this.router.post(`/artifact/:id`, this.generateArtifact);
         this.router.post(`/transform/:id/:transformer`, this.transformModel);
         this.router.post(`/job`, this.executeJob);
@@ -85,16 +85,16 @@ export class ProductionsController implements ControllerType {
     }
     ;
     
-    private mTreeBuildupScript = async (request: Request, response: Response) => {
+    private mTreeBuildUpScript = async (request: Request, response: Response) => {
     
         const id = request.params.id;
         const req_files: PackiFiles = request.body;
         artifactApi.prepareGenerationFromWizziJson(req_files).then((result: any) => 
         
-            wizziProds.mTreeBuildupScript(id, result.packiFiles, result.context).then(value => 
+            wizziProds.mTreeBuildUpScript(id, result.packiFiles, result.context).then(value => 
             
                 sendSuccess(response, {
-                    mTreeBuildupScript: value
+                    mTreeBuildUpScript: value
                  })
             ).catch((err: any) => {
             

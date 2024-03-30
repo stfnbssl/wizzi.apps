@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\controllers\production.ts.ittf
-    utc time: Fri, 08 Mar 2024 06:29:02 GMT
+    utc time: Sun, 24 Mar 2024 21:38:41 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -61,7 +61,7 @@ export class ProductionController implements ControllerType {
         this.router.post("/artifact", makeHandlerAwareOfAsyncErrors(this.artifact))
         this.router.post("/folder/artifacts", makeHandlerAwareOfAsyncErrors(this.folderArtifacts))
         this.router.post("/mtree", makeHandlerAwareOfAsyncErrors(this.mTree))
-        this.router.post("/mtreescript", makeHandlerAwareOfAsyncErrors(this.mTreeBuildupScript))
+        this.router.post("/mtreescript", makeHandlerAwareOfAsyncErrors(this.mTreeBuildUpScript))
         this.router.post("/mtreescan", makeHandlerAwareOfAsyncErrors(this.mTreeScan))
         this.router.post("/meta/execute", makeHandlerAwareOfAsyncErrors(this.metaExecute))
         this.router.post("/wrapittf", makeHandlerAwareOfAsyncErrors(this.wrapIttfText))
@@ -228,46 +228,46 @@ export class ProductionController implements ControllerType {
     }
     ;
     
-    private mTreeBuildupScript = async (request: Request, response: Response) => {
+    private mTreeBuildUpScript = async (request: Request, response: Response) => {
     
         const artifactRequest: ArtifactRequest = request.body;
         resolveContexts(artifactRequest.contextItems).then((context: any) => {
         
             if (artifactRequest.ittfDocument.source == 'fs') {
-                wizziProds.mTreeBuildupScriptFs(path.join(config.ittfPath, artifactRequest.ittfDocument.path as string), context).then(mTreeBuildupScript => 
+                wizziProds.mTreeBuildUpScriptFs(path.join(config.ittfPath, artifactRequest.ittfDocument.path as string), context).then(mTreeBuildUpScript => 
                 
-                    sendSuccess(response, mTreeBuildupScript)
+                    sendSuccess(response, mTreeBuildUpScript)
                 ).catch((err: any) => {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeBuildupScript.wizziProds.mTreeBuildupScriptFs.error', err);
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeBuildUpScript.wizziProds.mTreeBuildUpScriptFs.error', err);
                     sendError(response, err)
                 }
                 )
             }
             else if (artifactRequest.ittfDocument.source == 'packi') {
-                wizziProds.mTreeBuildupScript(artifactRequest.ittfDocument.mainIttf as string, artifactRequest.ittfDocument.packiFiles as packiTypes.PackiFiles, context).then((mTreeBuildupScript: any) => 
+                wizziProds.mTreeBuildUpScript(artifactRequest.ittfDocument.mainIttf as string, artifactRequest.ittfDocument.packiFiles as packiTypes.PackiFiles, context).then((mTreeBuildUpScript: any) => 
                 
-                    sendSuccess(response, mTreeBuildupScript)
+                    sendSuccess(response, mTreeBuildUpScript)
                 ).catch((err: any) => {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeBuildupScript.wizziProds.mTreeBuildupScript.error', err);
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeBuildUpScript.wizziProds.mTreeBuildUpScript.error', err);
                     sendError(response, err)
                 }
                 )
             }
             else if (artifactRequest.ittfDocument.source == 'db') {
-                wizziProds.mTreeBuildupScriptDb(artifactRequest.ittfDocument.mainIttf as string, artifactRequest.ittfDocument.path as string, context).then((mTreeBuildupScript: any) => 
+                wizziProds.mTreeBuildUpScriptDb(artifactRequest.ittfDocument.mainIttf as string, artifactRequest.ittfDocument.path as string, context).then((mTreeBuildUpScript: any) => 
                 
-                    sendSuccess(response, mTreeBuildupScript)
+                    sendSuccess(response, mTreeBuildUpScript)
                 ).catch((err: any) => {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeBuildupScript.wizziProds.mTreeBuildupScriptDb.error', err);
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeBuildUpScript.wizziProds.mTreeBuildUpScriptDb.error', err);
                     sendError(response, err)
                 }
                 )
@@ -277,7 +277,7 @@ export class ProductionController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
-            console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeBuildupScript.resolveContexts.error', err);
+            console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.mTreeBuildUpScript.resolveContexts.error', err);
             sendError(response, err)
         }
         )

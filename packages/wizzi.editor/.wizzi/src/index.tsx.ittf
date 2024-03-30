@@ -62,7 +62,7 @@ module
                     @ loading false
                     @ wizziError undefined
                     @ generatedArtifact undefined
-                    @ mTreeBuildupScript undefined
+                    @ mTreeBuildUpScript undefined
                     @ mTreeIttf undefined
                     { jobGeneratedArtifacts 
                     { wizziMetaFolderIttfDocuments

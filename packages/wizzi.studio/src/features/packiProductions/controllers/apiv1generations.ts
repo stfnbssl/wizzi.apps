@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\apiv1generations.ts.ittf
-    utc time: Fri, 08 Mar 2024 06:29:02 GMT
+    utc time: Sun, 24 Mar 2024 21:38:41 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -55,7 +55,7 @@ export class ApiV1GenerationsController implements ControllerType {
     initialize = (app: express.Application, initValues: AppInitializerType) => {
         console.log("[33m%s[0m", 'Entering ApiV1GenerationsController.initialize');
         this.router.post("/mtree/:id", makeHandlerAwareOfAsyncErrors(this.mTree))
-        this.router.post("/mtreescript/:id", makeHandlerAwareOfAsyncErrors(this.mTreeBuildupScript))
+        this.router.post("/mtreescript/:id", makeHandlerAwareOfAsyncErrors(this.mTreeBuildUpScript))
         this.router.post("/artifact/:id", makeHandlerAwareOfAsyncErrors(this.generateArtifact))
         this.router.post("/transform/:id/:transformer", makeHandlerAwareOfAsyncErrors(this.transformModel))
         this.router.post("/job", makeHandlerAwareOfAsyncErrors(this.executeJob))
@@ -101,7 +101,7 @@ export class ApiV1GenerationsController implements ControllerType {
     }
     ;
     
-    private mTreeBuildupScript = async (request: Request, response: Response) => {
+    private mTreeBuildUpScript = async (request: Request, response: Response) => {
     
         const owner = (request.session as any).user.username;
         const id = request.params.id;
@@ -110,14 +110,14 @@ export class ApiV1GenerationsController implements ControllerType {
         const productionName: string = request.body.productionName;
         productionApi.prepareProduction(productionKind, owner, productionName, '', {}).then((packageProductionSet: any) => 
         
-            wizziProds.mTreeBuildupScript(id, packageProductionSet.packiFiles, packageProductionSet.context).then(result => 
+            wizziProds.mTreeBuildUpScript(id, packageProductionSet.packiFiles, packageProductionSet.context).then(result => 
             
                 sendSuccess(response, result)
             ).catch((err: any) => {
             
                 if (typeof err === 'object' && err !== null) {
                 }
-                console.log("[31m%s[0m", 'features.production.controllers.productions.mTreeBuildupScript.execute.error', err);
+                console.log("[31m%s[0m", 'features.production.controllers.productions.mTreeBuildUpScript.execute.error', err);
                 sendFailure(response, {
                     err: err
                  }, 501)
@@ -128,7 +128,7 @@ export class ApiV1GenerationsController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
-            console.log("[31m%s[0m", 'features.production.controllers.productions.mTreeBuildupScript.prepareProduction.error', err);
+            console.log("[31m%s[0m", 'features.production.controllers.productions.mTreeBuildUpScript.prepareProduction.error', err);
             sendFailure(response, {
                 err: err
              }, 501)

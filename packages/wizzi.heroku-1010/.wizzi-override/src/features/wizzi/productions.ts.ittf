@@ -57,6 +57,7 @@ module
     $include productions/inferAndLoadContext
     $include productions/scanIttfDocument
     $include productions/wizzify
+    $include productions/cheatsheet
     $include productions/getCodeAST
     $include productions/loadSiteJsonModel
     $if wzCtx.Build.useWizziJsonFactory

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\wizzi\reducer.tsx.ittf
-    utc time: Thu, 22 Feb 2024 17:41:44 GMT
+    utc time: Mon, 25 Mar 2024 04:27:37 GMT
 */
 import {Reducer} from 'redux';
 import {ActionType, getType} from 'typesafe-actions';
@@ -15,7 +15,7 @@ export interface WizziState {
     loading: boolean;
     error?: any;
     generatedArtifact?: GeneratedArtifact;
-    mTreeBuildupScript?: string;
+    mTreeBuildUpScript?: string;
     mTreeIttf?: any;
     jobGeneratedArtifacts?: PackiFiles;
     wizziMetaFolderIttfDocuments?: PackiFiles;
@@ -27,7 +27,7 @@ const initialState: WizziState = {
     loading: false, 
     error: undefined, 
     generatedArtifact: undefined, 
-    mTreeBuildupScript: undefined, 
+    mTreeBuildUpScript: undefined, 
     mTreeIttf: undefined, 
     jobGeneratedArtifacts: undefined, 
     wizziMetaFolderIttfDocuments: undefined, 
@@ -76,17 +76,17 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                     error: action.payload
                  };
         }
-        case getType(wizziActions.mTreeBuildupScriptRequest): {
-            console.log("wizziActions.mTreeBuildupScriptRequest", __filename);
+        case getType(wizziActions.mTreeBuildUpScriptRequest): {
+            console.log("wizziActions.mTreeBuildUpScriptRequest", __filename);
             return {
                     ...state, 
                     loading: true, 
-                    mTreeBuildupScript: undefined, 
+                    mTreeBuildUpScript: undefined, 
                     error: undefined
                  };
         }
-        case getType(wizziActions.mTreeBuildupScriptSuccess): {
-            console.log("wizziActions.mTreeBuildupScriptSuccess", Object.keys(action.payload));
+        case getType(wizziActions.mTreeBuildUpScriptSuccess): {
+            console.log("wizziActions.mTreeBuildUpScriptSuccess", Object.keys(action.payload));
             if (action.payload.error || action.payload.err) {
                 return {
                         ...state, 
@@ -102,8 +102,8 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                      };
             }
         }
-        case getType(wizziActions.mTreeBuildupScriptError): {
-            console.log("[31m%s[0m", "wizziActions.mTreeBuildupScriptError", action);
+        case getType(wizziActions.mTreeBuildUpScriptError): {
+            console.log("[31m%s[0m", "wizziActions.mTreeBuildUpScriptError", action);
             return {
                     ...state, 
                     loading: false, 
@@ -291,7 +291,7 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                     loading: false, 
                     error: undefined, 
                     generatedArtifact: undefined, 
-                    mTreeBuildupScript: undefined, 
+                    mTreeBuildUpScript: undefined, 
                     mTreeIttf: undefined, 
                     jobGeneratedArtifacts: undefined, 
                     wizziMetaFolderIttfDocuments: undefined, 

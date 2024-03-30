@@ -1,9 +1,6 @@
 module
 	kind es6
 
-    $global
-        var g_API_URL = wzConfigIsHeroku ? 'https://wizzihub.com/api/v1' :  'http://localhost:' + wzConfigPort + '/api/v1';
-
 	$include js/wz/core
 	$include js/wz/node
 	$include js/wz/ace
