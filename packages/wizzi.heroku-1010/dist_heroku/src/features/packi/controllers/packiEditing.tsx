@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\features\packi\controllers\packiEditing.tsx.ittf
-    utc time: Wed, 13 Mar 2024 07:19:42 GMT
+    utc time: Sat, 06 Apr 2024 12:36:50 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -117,8 +117,10 @@ export class PackiEditingController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
+            console.log("[31m%s[0m", 'getPackiArtifactProductionByUsername_Name', err);
             sendFailure(response, {
-                err: err
+                err: err, 
+                method: 'getPackiArtifactProductionByUsername_Name'
              }, 501)
         }
         )
@@ -156,8 +158,10 @@ export class PackiEditingController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
+            console.log("[31m%s[0m", 'getPackiPackageProductionByUsername_Name', err);
             sendFailure(response, {
-                err: err
+                err: err, 
+                method: 'getPackiPackageProductionByUsername_Name'
              }, 501)
         }
         )
@@ -195,8 +199,10 @@ export class PackiEditingController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
+            console.log("[31m%s[0m", 'getPackiMetaProductionByUsername_Name', err);
             sendFailure(response, {
-                err: err
+                err: err, 
+                method: 'getPackiMetaProductionByUsername_Name'
              }, 501)
         }
         )
@@ -234,8 +240,10 @@ export class PackiEditingController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
+            console.log("[31m%s[0m", 'getPackiPluginProductionByUsername_Name', err);
             sendFailure(response, {
-                err: err
+                err: err, 
+                method: 'getPackiPluginProductionByUsername_Name'
              }, 501)
         }
         )
@@ -273,8 +281,10 @@ export class PackiEditingController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
+            console.log("[31m%s[0m", 'getPackiTFolderByUsername_Name', err);
             sendFailure(response, {
-                err: err
+                err: err, 
+                method: 'getPackiTFolderByUsername_Name'
              }, 501)
         }
         )

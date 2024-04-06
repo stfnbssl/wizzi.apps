@@ -2,9 +2,11 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\utils\sendResponse.ts.ittf
-    utc time: Wed, 13 Mar 2024 07:19:41 GMT
+    utc time: Sat, 06 Apr 2024 12:36:47 GMT
 */
 import {Response} from 'express';
+import stringify from 'json-stringify-safe';
+import {verify} from '@wizzi/utils';
 import HttpException from '../httpException';
 function sendContent(res: Response, contentType: string, content: string) {
 
@@ -21,19 +23,19 @@ export const sendHtml = (res: Response, content: string) =>
 export const sendError = (res: Response, error: any) => {
 
     res.status(200);
-    res.type('application/json');
-    res.send({
-        err: error, 
-        message: error && error.message, 
-        stack: error && error.stack
-     })
+    res.type('text');
+    res.send(prettifyError(error))
 }
 ;
-export const sendFailure = (res: Response, error: any, status: number) => {
+export const sendFailure = 
+// _ res.type('application/json')
+
+// _ res.send(error)
+(res: Response, error: any, status: number) => {
 
     res.status(error && error.status ? error.status : status)
-    res.type('application/json');
-    res.send(error);
+    res.type('text');
+    res.send(prettifyError(error))
 }
 ;
 export const sendSuccess = (res: Response, message: any) => {
@@ -62,4 +64,22 @@ export function sendPromiseLikeResult<T>(res: Response, message: PromiseLike<T>)
     
         sendSuccess(res, result)
     )
+}
+
+function prettifyError(error: any) {
+
+    var hint = error.hint;
+    if (!hint && error.data && error.data.inner) {
+        hint = error.data.inner.hint;
+    }
+    if (hint) {
+        return verify.htmlEscape(stringify({
+                errorName: error.errorName, 
+                message: error.message, 
+                hint: hint
+             }, null, 2));
+    }
+    else {
+        return verify.htmlEscape(stringify(error, null, 2));
+    }
 }

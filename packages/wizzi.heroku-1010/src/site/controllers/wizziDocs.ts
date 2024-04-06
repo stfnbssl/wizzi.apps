@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\site\controllers\wizziDocs.ts.ittf
-    utc time: Mon, 25 Mar 2024 04:46:06 GMT
+    utc time: Fri, 05 Apr 2024 18:03:04 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -52,28 +52,32 @@ export class DocsController implements ControllerType {
         this.router.get("/cheatsheet/:name", makeHandlerAwareOfAsyncErrors(this.cheatsheet))
     };
     
-    private cheatsheet = async (request: Request, response: Response) => {
+    private cheatsheet = 
+    // loog '*** calling cheatsheetApi.getCheatsheetList'
+    async (request: Request, response: Response) => 
     
-        console.log('*** calling cheatsheetApi.getCheatsheetList', __filename);
-        cheatsheetApi.getCheatsheetList().then((csList: any) => {
+        cheatsheetApi.getCheatsheetList().then(
+        // loog '*** csList', csList
         
-            console.log('*** csList', csList, __filename);
+        // loog '*** exists', exists
+        (csList: any) => {
+        
             const exists = csList.filter(item => 
             
                 item.name == request.params.name
             );
-            console.log('*** exists', exists, __filename);
+            
+            // loog '*** calling cheatsheetApi.getCheatsheetList', request.params.name
             if (exists.length > 0) {
-                console.log('*** calling cheatsheetApi.getCheatsheetList', request.params.name, __filename);
-                cheatsheetApi.getCheatsheet(request.params.name).then((result: any) => {
+                cheatsheetApi.getCheatsheet(request.params.name).then(
+                // loog '*** 0 result', result
+                (result: any) => 
                 
-                    console.log('*** 0 result', result, __filename);
                     response.render('wizzi/docs/cheatsheet.html.ittf', {
                         csList: csList, 
                         cs: result, 
                         csStatus: 0
                      })
-                }
                 ).catch((err: any) => {
                 
                     var content = err;
@@ -85,18 +89,19 @@ export class DocsController implements ControllerType {
                 }
                 )
             }
+            
+            // loog '*** calling cheatsheetApi.getCheatsheetList', csList[0].name
             else if (csList.length > 0) {
-                console.log('*** calling cheatsheetApi.getCheatsheetList', csList[0].name, __filename);
-                cheatsheetApi.getCheatsheet(csList[0].name).then((result: any) => {
+                cheatsheetApi.getCheatsheet(csList[0].name).then(
+                // loog '*** 1 result', result
+                (result: any) => 
                 
-                    console.log('*** 1 result', result, __filename);
                     response.render('wizzi/docs/cheatsheet.html.ittf', {
                         csList: csList, 
                         cs: result, 
                         csStatus: 1, 
                         csMessage: "Cheatsheet for schema " + request.params.name + " unavailable"
                      })
-                }
                 ).catch((err: any) => {
                 
                     var content = err;
@@ -108,8 +113,8 @@ export class DocsController implements ControllerType {
                 }
                 )
             }
+            // loog '*** 3 render'
             else {
-                console.log('*** 3 render', __filename);
                 response.render('wizzi/docs/cheatsheet.html.ittf', {
                     csList: [
                         
@@ -125,6 +130,6 @@ export class DocsController implements ControllerType {
             }
         }
         )
-    }
+    
     ;
 }

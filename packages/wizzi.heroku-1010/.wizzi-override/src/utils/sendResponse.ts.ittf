@@ -2,6 +2,10 @@ module
     import
         @ Response
         from 'express'
+    import stringify from 'json-stringify-safe'        
+    import
+        @ verify
+        from '@wizzi/utils'
     import HttpException from '../httpException'
     function sendContent
         param res
@@ -35,12 +39,19 @@ module
                 param error
                     :any
                 _ res.status(200)
+                $*
                 _ res.type('application/json')
                 _ res.send
                     {
                         @ err error
                         @ message error && error.message
                         @ stack error && error.stack
+                *$
+                _ res.type('text')
+                _ res.send
+                    _ prettifyError
+                        @ error
+
     export
         const sendFailure
             =>
@@ -54,8 +65,13 @@ module
                     iif error && error.status
                         then error.status
                         else status
-                _ res.type('application/json')
-                _ res.send(error)
+                # _ res.type('application/json')
+                # _ res.send(error)
+                _ res.type('text')
+                _ res.send
+                    _ prettifyError
+                        @ error
+
     export
         const sendSuccess
             =>
@@ -101,3 +117,29 @@ module
                     param result
                         :ref T
                     _ sendSuccess(res, result)
+
+    +
+    function prettifyError
+        param error
+            :any
+        var hint = error.hint
+        if !hint && error.data && error.data.inner
+            set hint = error.data.inner.hint
+        if hint
+            return
+                _ verify.htmlEscape
+                    _ stringify
+                        {
+                            @ errorName error.errorName
+                            @ message error.message
+                            @ hint hint
+                        @ null
+                        @ 2
+        else
+            return
+                _ verify.htmlEscape
+                    _ stringify
+                        @ error
+                        @ null
+                        @ 2
+

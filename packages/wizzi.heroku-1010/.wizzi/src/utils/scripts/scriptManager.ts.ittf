@@ -4,7 +4,7 @@ module
     import
         @ fSystem
         @ verify
-        from 'wizzi-utils'
+        from '@wizzi/utils'
     import * as cp from 'child_process'
     # var npm = require('npm')
     var babelParser = null

@@ -2,10 +2,10 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\features\wizziGist\api\wizziGist.ts.ittf
-    utc time: Mon, 25 Mar 2024 04:46:06 GMT
+    utc time: Fri, 05 Apr 2024 18:03:04 GMT
 */
 import path from 'path';
-import {verify, fSystem, pretty, crypto} from 'wizzi-utils';
+import {verify, fSystem, pretty, crypto} from '@wizzi/utils';
 import * as gistFs from './gistFs';
 import * as wizziFs from '../../../utils/wizziFs';
 import * as scriptManager from '../../../utils/scripts/scriptManager';

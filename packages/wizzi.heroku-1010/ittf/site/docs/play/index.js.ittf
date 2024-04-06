@@ -11,7 +11,7 @@ module
 	$include js/widgets/editorControl
 	$include js/widgets/treeNode
 	$include js/widgets/treeView
-	$include js/widgets/treeFilesystem
+	$include js/widgets/treeFileSystem
 
 	$include js/appManager
 	$include js/dataManager
@@ -36,34 +36,6 @@ module
                     set text.input = 'text'
                 set text.useRejections = true
                 return Swal(text)
-
-	$* not used VIA
-    function initHandlers
-		set currentSchema = store.get('lastSchema')
-		_ wz.value('selectedSchema', currentSchema)
-		set currentEditContent
-			_ store.get
-				@ currentSchema + '_content'
-				@ currentSchema
-				@ true
-		_ editor.value
-			@ currentEditContent
-		_ wizzify
-		_ wz.change
-			@ 'selectedSchema'
-			=>
-				log 'onChangeSchema', event.target.value
-				set currentSchema = event.target.value
-				_ store.set('lastSchema', currentSchema)
-				set currentEditContent
-					_ store.get
-						@ currentSchema + '_content'
-						@ currentSchema
-						@ true
-				_ editor.value
-					@ currentEditContent
-				_ wizzify
-    *$
 
 	var app
 		new AppManager

@@ -5,7 +5,7 @@ module
         @ fSystem
         @ pretty
         @ crypto
-        from 'wizzi-utils'
+        from '@wizzi/utils'
     import * as gistFs from './gistFs'
     import * as wizziFs from '../../../utils/wizziFs'
     import * as scriptManager from '../../../utils/scripts/scriptManager'

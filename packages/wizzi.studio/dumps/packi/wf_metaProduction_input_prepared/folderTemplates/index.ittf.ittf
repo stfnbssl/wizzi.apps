@@ -2,4 +2,4 @@ template root
     $
         var pkgPath = ''
         var metaVer = '0_0_1'
-    $include ./labDevHtml/index
+    $include ./tsExpressApp/index

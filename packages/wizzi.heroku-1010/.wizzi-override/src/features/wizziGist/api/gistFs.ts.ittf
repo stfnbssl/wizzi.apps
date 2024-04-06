@@ -3,7 +3,7 @@ module
     import
         @ verify
         @ fSystem
-        from 'wizzi-utils'
+        from '@wizzi/utils'
     import
         @ config
         from '../../config'

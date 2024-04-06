@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\middlewares\packiBrowse.ts.ittf
-    utc time: Wed, 13 Mar 2024 07:19:41 GMT
+    utc time: Sat, 06 Apr 2024 12:36:47 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -91,17 +91,17 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
         }
         ).catch((err: any) => {
         
-            console.log("[31m%s[0m", '' + myname + '_executeBrowse.artifactApi.getArtifactMTree.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {
                 content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
             }
+            console.log("[31m%s[0m", '' + myname + '_executeBrowse.artifactApi.getArtifactMTree.error', err);
             sendHtml(response, content)
         }
         )
     }
     else if (request.query.meta && (request.query.meta as string).toLowerCase() == 'script') {
-        productionApi.getArtifactMTreeBuildupScript_withPrepare(owner, productionName, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
+        productionApi.getArtifactMTreeBuildUpScript_withPrepare(owner, productionName, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
         
             response.status(200);
             response.set('Content-Type', result.contentType);
@@ -113,11 +113,11 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
         }
         ).catch((err: any) => {
         
-            console.log("[31m%s[0m", '' + myname + '_executeBrowse.artifactApi.getArtifactMTree.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {
                 content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
             }
+            console.log("[31m%s[0m", '' + myname + '_executeBrowse.artifactApi.getArtifactMTree.error', err);
             sendHtml(response, content)
         }
         )
@@ -135,11 +135,11 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
         }
         ).catch((err: any) => {
         
-            console.log("[31m%s[0m", '' + myname + '_executeBrowse.artifactApi.getArtifactGeneration.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {
                 content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
             }
+            console.log("[31m%s[0m", '' + myname + '_executeBrowse.artifactApi.getArtifactGeneration.error', err);
             sendHtml(response, content)
         }
         )
@@ -157,11 +157,11 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
         }
         ).catch((err: any) => {
         
-            console.log("[31m%s[0m", '' + myname + '_executeBrowse.artifactApi.getArtifactGeneration.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {
                 content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
             }
+            console.log("[31m%s[0m", '' + myname + '_executeBrowse.artifactApi.getArtifactGeneration.error', err);
             sendHtml(response, content)
         }
         )

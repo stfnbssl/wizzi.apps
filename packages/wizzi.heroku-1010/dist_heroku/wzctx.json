@@ -68,7 +68,7 @@
         "useHeroku": true,
         "heroku": {
             "webAppName": "wizzi",
-            "nodejsVersion": "16.2.0",
+            "nodejsVersion": "20.10.0",
             "packagePath": "deploy",
             "webAppPort": 5000,
             "Procfile": "server.js",
@@ -128,47 +128,47 @@
             "plugins": [
                 {
                     "name": "@wizzi/plugin.css",
-                    "version": "0.8.2"
+                    "version": "0.8.6"
                 },
                 {
                     "name": "@wizzi/plugin.html",
-                    "version": "0.8.2"
+                    "version": "0.8.9"
                 },
                 {
                     "name": "@wizzi/plugin.ittf",
-                    "version": "0.8.2"
+                    "version": "0.8.11"
                 },
                 {
                     "name": "@wizzi/plugin.js",
-                    "version": "0.8.2"
+                    "version": "0.8.8"
                 },
                 {
                     "name": "@wizzi/plugin.json",
-                    "version": "0.8.4"
+                    "version": "0.8.7"
                 },
                 {
                     "name": "@wizzi/plugin.md",
-                    "version": "0.8.2"
+                    "version": "0.8.6"
                 },
                 {
                     "name": "@wizzi/plugin.svg",
-                    "version": "0.8.2"
+                    "version": "0.8.7"
                 },
                 {
                     "name": "@wizzi/plugin.text",
-                    "version": "0.8.2"
+                    "version": "0.8.5"
                 },
                 {
                     "name": "@wizzi/plugin.ts",
-                    "version": "0.8.3"
+                    "version": "0.8.7"
                 },
                 {
                     "name": "@wizzi/plugin.xml",
-                    "version": "0.8.2"
+                    "version": "0.8.5"
                 },
                 {
                     "name": "@wizzi/plugin.yaml",
-                    "version": "0.8.10"
+                    "version": "0.8.13"
                 }
             ],
             "pluginsBaseFolder": "",
@@ -229,5 +229,24 @@
         },
         "usePackiBrowse": true,
         "packiBrowse": {}
+    },
+    "Factory": {
+        "globalContextVars": [
+            {
+                "name": "wzConfigIsHeroku",
+                "type": "boolean",
+                "value": "true"
+            },
+            {
+                "name": "wzConfigPort",
+                "type": "integer",
+                "value": "5110"
+            },
+            {
+                "name": "wzConfigIsDevelopment",
+                "type": "boolean",
+                "value": "true"
+            }
+        ]
     }
 }

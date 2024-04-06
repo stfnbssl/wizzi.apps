@@ -1,4 +1,5 @@
 $group
+    $include plugins/versions
     useWizzi true
     { wizzi
         isDev true
@@ -6,37 +7,37 @@ $group
             [ plugins
                 {
                     name "@wizzi/plugin.css"
-                    version "0.8.2"
+                    version "${versions['@wizzi/plugin.css']}"
                 {
                     name "@wizzi/plugin.html"
-                    version "0.8.2"
+                    version "${versions['@wizzi/plugin.html']}"
                 {
                     name "@wizzi/plugin.ittf"
-                    version "0.8.2"
+                    version "${versions['@wizzi/plugin.ittf']}"
                 {
                     name "@wizzi/plugin.js"
-                    version "0.8.2"
+                    version "${versions['@wizzi/plugin.js']}"
                 {
                     name "@wizzi/plugin.json"
-                    version "0.8.4"
+                    version "${versions['@wizzi/plugin.json']}"
                 {
                     name "@wizzi/plugin.md"
-                    version "0.8.2"
+                    version "${versions['@wizzi/plugin.md']}"
                 {
                     name "@wizzi/plugin.svg"
-                    version "0.8.2"
+                    version "${versions['@wizzi/plugin.svg']}"
                 {
                     name "@wizzi/plugin.text"
-                    version "0.8.2"
+                    version "${versions['@wizzi/plugin.text']}"
                 {
                     name "@wizzi/plugin.ts"
-                    version "0.8.3"
+                    version "${versions['@wizzi/plugin.ts']}"
                 {
                     name "@wizzi/plugin.xml"
-                    version "0.8.2"
+                    version "${versions['@wizzi/plugin.xml']}"
                 {
                     name "@wizzi/plugin.yaml"
-                    version "0.8.10"
+                    version "${versions['@wizzi/plugin.yaml']}"
             pluginsBaseFolder ""
         $else
             [ plugins

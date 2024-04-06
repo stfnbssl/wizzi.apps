@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\site\controllers\wizziDocs.ts.ittf
-    utc time: Wed, 13 Mar 2024 07:19:41 GMT
+    utc time: Sat, 06 Apr 2024 12:36:47 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -52,21 +52,82 @@ export class DocsController implements ControllerType {
         this.router.get("/cheatsheet/:name", makeHandlerAwareOfAsyncErrors(this.cheatsheet))
     };
     
-    private cheatsheet = async (request: Request, response: Response) => 
+    private cheatsheet = 
+    // loog '*** calling cheatsheetApi.getCheatsheetList'
+    async (request: Request, response: Response) => 
     
-        cheatsheetApi.getCheatsheet(request.params.name).then(result => 
+        cheatsheetApi.getCheatsheetList().then(
+        // loog '*** csList', csList
         
-            response.render('wizzi/docs/cheatsheet.html.ittf', {
-                cs: result
-             })
-        ).catch((err: any) => {
+        // loog '*** exists', exists
+        (csList: any) => {
         
-            console.log("[31m%s[0m", 'docs.cheatsheet.error', err);
-            var content = err;
-            if (typeof err === 'object' && err !== null) {
-                content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
+            const exists = csList.filter(item => 
+            
+                item.name == request.params.name
+            );
+            
+            // loog '*** calling cheatsheetApi.getCheatsheetList', request.params.name
+            if (exists.length > 0) {
+                cheatsheetApi.getCheatsheet(request.params.name).then(
+                // loog '*** 0 result', result
+                (result: any) => 
+                
+                    response.render('wizzi/docs/cheatsheet.html.ittf', {
+                        csList: csList, 
+                        cs: result, 
+                        csStatus: 0
+                     })
+                ).catch((err: any) => {
+                
+                    var content = err;
+                    if (typeof err === 'object' && err !== null) {
+                        content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
+                    }
+                    console.log("[31m%s[0m", 'docs.cheatsheet.error', err);
+                    sendHtml(response, content)
+                }
+                )
             }
-            sendHtml(response, content)
+            
+            // loog '*** calling cheatsheetApi.getCheatsheetList', csList[0].name
+            else if (csList.length > 0) {
+                cheatsheetApi.getCheatsheet(csList[0].name).then(
+                // loog '*** 1 result', result
+                (result: any) => 
+                
+                    response.render('wizzi/docs/cheatsheet.html.ittf', {
+                        csList: csList, 
+                        cs: result, 
+                        csStatus: 1, 
+                        csMessage: "Cheatsheet for schema " + request.params.name + " unavailable"
+                     })
+                ).catch((err: any) => {
+                
+                    var content = err;
+                    if (typeof err === 'object' && err !== null) {
+                        content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>';
+                    }
+                    console.log("[31m%s[0m", 'docs.cheatsheet.error', err);
+                    sendHtml(response, content)
+                }
+                )
+            }
+            // loog '*** 3 render'
+            else {
+                response.render('wizzi/docs/cheatsheet.html.ittf', {
+                    csList: [
+                        
+                    ], 
+                    cs: {
+                        elements: [
+                            
+                        ]
+                     }, 
+                    csStatus: 2, 
+                    csMessage: "No available cheatsheet"
+                 })
+            }
         }
         )
     

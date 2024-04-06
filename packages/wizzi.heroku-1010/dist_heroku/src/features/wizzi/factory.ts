@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\features\wizzi\factory.ts.ittf
-    utc time: Wed, 13 Mar 2024 07:19:41 GMT
+    utc time: Sat, 06 Apr 2024 12:36:47 GMT
 */
 import path from 'path';
 import wizzi from '@wizzi/factory';
@@ -15,6 +15,15 @@ import * as wizziMaps from './maps';
 import {JsonWizziFactory, FilesystemWizziFactory} from './types';
 
 const myname = 'features/wizzi/factory';
+
+function getWzCtxGlobalContext() {
+
+    const retval: any = {};
+    retval.wzConfigIsHeroku = true;
+    retval.wzConfigPort = 5110;
+    retval.wzConfigIsDevelopment = true;
+    return retval;
+}
 
 function getWzCtxFactoryPlugins() {
 
@@ -55,7 +64,7 @@ export async function createFilesystemFactoryWithParameters(pluginsBaseFolder: s
                     items: plugins, 
                     pluginsBaseFolder: pluginsBaseFolder
                  }, 
-                globalContext: globalContext
+                globalContext: Object.assign({}, getWzCtxGlobalContext(), globalContext || {})
              }, function(err: any, wf: wizzi.WizziFactory) {
             
                 if (err) {
@@ -83,7 +92,7 @@ export async function createFilesystemFactory(factoryPlugins?: any, metaPlugins?
                  }, 
                 plugins: factoryPlugins ? factoryPlugins : getWzCtxFactoryPlugins(), 
                 metaPlugins: metaPlugins ? metaPlugins : getWzCtxMetaPlugins(), 
-                globalContext: Object.assign({}, gc, globalContext || {})
+                globalContext: Object.assign({}, getWzCtxGlobalContext(), gc, globalContext || {})
              }, function(err: any, wf: wizzi.WizziFactory) {
             
                 if (err) {
@@ -147,7 +156,7 @@ export async function createJsonFsAndFactory(files: packiTypes.PackiFiles, facto
                     jsonFs, 
                     plugins: factoryPlugins ? factoryPlugins : getWzCtxFactoryPlugins(), 
                     metaPlugins: metaPlugins ? metaPlugins : getWzCtxMetaPlugins(), 
-                    globalContext: Object.assign({}, globalContext || {})
+                    globalContext: Object.assign({}, getWzCtxGlobalContext(), globalContext || {})
                  }, function(err: any, wf: wizzi.WizziFactory) {
                 
                     if (err) {

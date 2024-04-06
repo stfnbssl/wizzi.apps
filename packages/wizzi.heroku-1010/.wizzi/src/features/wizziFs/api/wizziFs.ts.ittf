@@ -4,7 +4,7 @@ module
         @ verify
         @ fSystem
         @ pretty
-        from 'wizzi-utils'
+        from '@wizzi/utils'
     import
         @ getIttfFileContentByHash
         @ putIttfFileContentByHash

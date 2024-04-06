@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\features\packi\controllers\packiGenerating.tsx.ittf
-    utc time: Wed, 13 Mar 2024 07:19:42 GMT
+    utc time: Sat, 06 Apr 2024 12:36:50 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -108,8 +108,10 @@ export class PackiGeneratingController implements ControllerType {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
+                    console.log("[31m%s[0m", 'getPackiPackageGeneration.extractGeneratedFiles', err);
                     sendFailure(response, {
-                        err: err
+                        err: err, 
+                        method: 'getPackiPackageGeneration.extractGeneratedFiles'
                      }, 501)
                 }
                 )
@@ -118,8 +120,10 @@ export class PackiGeneratingController implements ControllerType {
             
                 if (typeof err === 'object' && err !== null) {
                 }
+                console.log("[31m%s[0m", 'getPackiPackageGeneration.executeJobs', err);
                 sendFailure(response, {
-                    err: err
+                    err: err, 
+                    method: 'getPackiPackageGeneration.executeJobs'
                  }, 501)
             }
             )
@@ -128,8 +132,10 @@ export class PackiGeneratingController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
+            console.log("[31m%s[0m", 'getPackiPackageGeneration.prepareProduction', err);
             sendFailure(response, {
-                err: err
+                err: err, 
+                method: 'getPackiPackageGeneration.prepareProduction'
              }, 501)
         }
         )
@@ -179,8 +185,10 @@ export class PackiGeneratingController implements ControllerType {
                 
                     if (typeof err === 'object' && err !== null) {
                     }
+                    console.log("[31m%s[0m", 'getPackiPluginGeneration.extractGeneratedFiles', err);
                     sendFailure(response, {
-                        err: err
+                        err: err, 
+                        method: 'getPackiPluginGeneration.extractGeneratedFiles'
                      }, 501)
                 }
                 )
@@ -189,8 +197,10 @@ export class PackiGeneratingController implements ControllerType {
             
                 if (typeof err === 'object' && err !== null) {
                 }
+                console.log("[31m%s[0m", 'getPackiPluginGeneration.executeJobs', err);
                 sendFailure(response, {
-                    err: err
+                    err: err, 
+                    method: 'getPackiPluginGeneration.executeJobs'
                  }, 501)
             }
             )
@@ -199,8 +209,10 @@ export class PackiGeneratingController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
+            console.log("[31m%s[0m", 'getPackiPluginGeneration.prepareProduction', err);
             sendFailure(response, {
-                err: err
+                err: err, 
+                method: 'getPackiPluginGeneration.prepareProduction'
              }, 501)
         }
         )

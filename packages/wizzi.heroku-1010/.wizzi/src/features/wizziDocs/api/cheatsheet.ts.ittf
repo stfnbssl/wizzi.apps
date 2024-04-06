@@ -3,7 +3,7 @@ module
     import
         @ pretty
         @ verify
-        from 'wizzi-utils'
+        from '@wizzi/utils'
     import
         @ wizziMaps
         @ wizziProds

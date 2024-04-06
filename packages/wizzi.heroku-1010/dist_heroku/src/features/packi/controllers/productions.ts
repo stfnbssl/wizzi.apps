@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\features\packi\controllers\productions.ts.ittf
-    utc time: Wed, 13 Mar 2024 07:19:41 GMT
+    utc time: Sat, 06 Apr 2024 12:36:47 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -66,21 +66,37 @@ export class ProductionsController implements ControllerType {
         const req_files: PackiFiles = request.body;
         artifactApi.prepareGenerationFromWizziJson(req_files).then((result: any) => 
         
-            wizziProds.mTree(id, result.packiFiles, result.context).then((value: any) => 
+            wizziProds.mTree(id, result.packiFiles, result.context).then(
+            // loog 'value.mTreeIttf', value.mTreeIttf
+            (value: any) => {
             
+                console.log('value', value, __filename);
                 sendSuccess(response, {
-                    mTreeIttf: value
+                    mTreeIttf: value.mTreeIttf
                  })
+            }
             ).catch((err: any) => {
             
                 if (typeof err === 'object' && err !== null) {
                 }
+                console.log("[31m%s[0m", 'features.packi.controllers.productions.mTree.wizziProds.mTree', err);
                 sendFailure(response, {
-                    err: err
+                    err: err, 
+                    method: 'features.packi.controllers.productions.mTree.wizziProds.mTree'
                  }, 501)
             }
             )
         
+        ).catch((err: any) => {
+        
+            if (typeof err === 'object' && err !== null) {
+            }
+            console.log("[31m%s[0m", 'features.packi.controllers.productions.mTree.prepareGenerationFromWizziJson', err);
+            sendFailure(response, {
+                err: err, 
+                method: 'features.packi.controllers.productions.mTree.prepareGenerationFromWizziJson'
+             }, 501)
+        }
         )
     }
     ;
@@ -100,8 +116,10 @@ export class ProductionsController implements ControllerType {
             
                 if (typeof err === 'object' && err !== null) {
                 }
+                console.log("[31m%s[0m", 'features.packi.controllers.productions.mTreeBuildUpScript', err);
                 sendFailure(response, {
-                    err: err
+                    err: err, 
+                    method: 'features.packi.controllers.productions.mTreeBuildUpScript'
                  }, 501)
             }
             )
@@ -125,8 +143,10 @@ export class ProductionsController implements ControllerType {
             
                 if (typeof err === 'object' && err !== null) {
                 }
+                console.log("[31m%s[0m", 'features.packi.controllers.production.generateArtifact', err);
                 sendFailure(response, {
-                    err: err
+                    err: err, 
+                    method: 'features.packi.controllers.production.generateArtifact'
                  }, 501)
             }
             )
@@ -135,8 +155,10 @@ export class ProductionsController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
+            console.log("[31m%s[0m", 'features.packi.controllers.production.prepareGenerationPackiFiles', err);
             sendFailure(response, {
-                err: err
+                err: err, 
+                method: 'features.packi.controllers.production.prepareGenerationPackiFiles'
              }, 501)
         }
         )
@@ -161,8 +183,10 @@ export class ProductionsController implements ControllerType {
             
                 if (typeof err === 'object' && err !== null) {
                 }
+                console.log("[31m%s[0m", 'features.packi.controllers.production.transformModel', err);
                 sendFailure(response, {
-                    err: err
+                    err: err, 
+                    method: 'features.packi.controllers.production.transformModel'
                  }, 501)
             }
             )
@@ -187,8 +211,10 @@ export class ProductionsController implements ControllerType {
             
                 if (typeof err === 'object' && err !== null) {
                 }
+                console.log("[31m%s[0m", 'features.packi.controllers.production.executeJob', err);
                 sendFailure(response, {
-                    err: err
+                    err: err, 
+                    method: 'features.packi.controllers.production.executeJob'
                  }, 501)
             }
             )

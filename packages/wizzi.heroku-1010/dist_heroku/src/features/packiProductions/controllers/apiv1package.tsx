@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\features\packiProductions\controllers\apiv1package.tsx.ittf
-    utc time: Wed, 13 Mar 2024 07:19:42 GMT
+    utc time: Sat, 06 Apr 2024 12:36:50 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -99,8 +99,10 @@ export class ApiV1PackageProductionController implements ControllerType {
         
             if (typeof err === 'object' && err !== null) {
             }
+            console.log("[31m%s[0m", 'getCheckPackageName', err);
             sendFailure(response, {
-                err: err
+                err: err, 
+                method: 'getCheckPackageName'
              }, 501)
         }
         )

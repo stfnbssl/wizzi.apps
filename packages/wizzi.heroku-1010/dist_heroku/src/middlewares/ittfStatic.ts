@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.heroku-1010\.wizzi-override\src\middlewares\ittfStatic.ts.ittf
-    utc time: Wed, 13 Mar 2024 07:19:41 GMT
+    utc time: Sat, 06 Apr 2024 12:36:47 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -10,16 +10,20 @@ import fs from 'fs';
 import stringify from 'json-stringify-safe';
 import parseUrl from 'parseurl';
 import {Application, RequestHandler, Request, Response, NextFunction} from 'express';
+import {sendFailure, sendHtml} from '../utils/sendResponse';
 import {MiddlewareType} from '../features/app/types';
 import {config} from '../features/config';
 import {wizziProds, wizziMaps} from '../features/wizzi';
 import {WizziModel} from '@wizzi/factory';
+
+
 export const IttfStaticMiddleware: MiddlewareType = (app: Application) => {
 
     console.log('IttfStaticMiddleware. Folder served from ', path.resolve(__dirname, '..', '..', 'ittf'));
     app.use('/ittf', ittfMiddleware(path.resolve(__dirname, '..', '..', 'ittf'), '/ittf'));
 }
 ;
+
 
 /**
     // 
@@ -41,6 +45,23 @@ export const IttfStaticMiddleware: MiddlewareType = (app: Application) => {
 */
 function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
 
+    let store_siteCtx = null;
+    
+    function ittfContext(request: Request, data?: any) {
+    
+        const ctx = Object.assign({}, {
+            baseUrl: "https://www.wizzihub.com", 
+            request: request, 
+            locals: {
+                user: (request as any).session.user
+             }, 
+            siteCtx: store_siteCtx, 
+            isWizziStudio: true
+         }, data || {});
+        ctx.ittfCtx = ctx;
+        return ctx;
+    }
+    
     return async (request: Request, response: Response, next: NextFunction) => {
         
             if (request.method !== 'GET' && request.method !== 'HEAD') {
@@ -76,20 +97,15 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
             }
             wizziProds.loadSiteJsonModel('sitectx.json.ittf').then(async (siteCtx) => {
             
+                store_siteCtx = siteCtx;
                 if (queryMeta && queryMeta === 'html') {
                     try {
                         const documentState = await wizziProds.scanIttfDocumentFs(filePath, path.dirname(basePath));
-                        const generated = await wizziProds.generateArtifactFs(config.metaHtmlIttfPath, {
+                        const generated = await wizziProds.generateArtifactFs(config.metaHtmlIttfPath, ittfContext(request, {
                                 wizzischema: 'html', 
                                 path: filePath, 
-                                request, 
-                                ds: documentState, 
-                                locals: {
-                                    user: (request as any).session.user
-                                 }, 
-                                siteCtx, 
-                                isWizziStudio: true
-                             });
+                                ds: documentState
+                             }));
                         response.writeHead(200, {
                             'Content-Type': 'text/html', 
                             'Content-Length': generated.artifactContent.length
@@ -103,13 +119,7 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                     } 
                 }
                 else if (queryMeta && queryMeta === 'json' && ittfSchema == 'ittf') {
-                    wizziProds.generateArtifactFs(filePath, {
-                        locals: {
-                            user: (request as any).session.user
-                         }, 
-                        siteCtx, 
-                        isWizziStudio: true
-                     }, {
+                    wizziProds.generateArtifactFs(filePath, ittfContext(request), {
                         generator: 'ittf/tojson'
                      }).then((generated) => {
                     
@@ -135,15 +145,7 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                                         format: 'json'
                                      });
                             }
-                            modelContext = Object.assign({}, modelContext, {
-                                locals: {
-                                    user: (request as any).session.user
-                                 }, 
-                                siteCtx, 
-                                isWizziStudio: true
-                             })
-                            ;
-                            wizziProds.generateArtifactFs(filePath, modelContext).then((generated) => {
+                            wizziProds.generateArtifactFs(filePath, Object.assign({}, modelContext, ittfContext(request))).then((generated: any) => {
                             
                                 response.writeHead(200, {
                                     'Content-Type': contentType, 
@@ -151,11 +153,14 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                                  })
                                 response.end(generated.artifactContent);
                             }
-                            ).catch((err) => {
+                            ).catch((err: any) => {
                             
-                                return sendError(response, err, {
-                                        format: 'json'
-                                     });
+                                if (typeof err === 'object' && err !== null) {
+                                }
+                                console.log("[31m%s[0m", 'ittfStatic.wizziProds.generateArtifactFs.error', err);
+                                sendFailure(response, {
+                                    err: err
+                                 }, 501)
                             }
                             )
                         });

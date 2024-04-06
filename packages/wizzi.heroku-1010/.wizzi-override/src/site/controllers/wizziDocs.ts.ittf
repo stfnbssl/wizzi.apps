@@ -17,22 +17,22 @@ module
             v08/ts/route( get, /cheatsheet/:name, this.cheatsheet)
         $append handlers
             v08/ts/handler( cheatsheet )
-                log '*** calling cheatsheetApi.getCheatsheetList'
+                # loog '*** calling cheatsheetApi.getCheatsheetList'
                 _ cheatsheetApi.getCheatsheetList
                     a_then( csList )
-                        log '*** csList', csList
+                        # loog '*** csList', csList
                         const exists
                             _ csList.filter
                                 =>
                                     param item
                                     set item.name == request.params.name
-                        log '*** exists', exists
+                        # loog '*** exists', exists
                         if exists.length > 0
-                            log '*** calling cheatsheetApi.getCheatsheetList', request.params.name
+                            # loog '*** calling cheatsheetApi.getCheatsheetList', request.params.name
                             _ cheatsheetApi.getCheatsheet
                                 @ request.params.name
                                 a_then( result )
-                                    log '*** 0 result', result
+                                    # loog '*** 0 result', result
                                     _ response.render
                                         @ 'wizzi/docs/cheatsheet.html.ittf'
                                         {
@@ -41,11 +41,11 @@ module
                                             @ csStatus 0
                                 v08/ts/catch_fail_html( docs.cheatsheet )
                         elif csList.length > 0
-                            log '*** calling cheatsheetApi.getCheatsheetList', csList[0].name
+                            # loog '*** calling cheatsheetApi.getCheatsheetList', csList[0].name
                             _ cheatsheetApi.getCheatsheet
                                 @ csList[0].name
                                 a_then( result )
-                                    log '*** 1 result', result
+                                    # loog '*** 1 result', result
                                     _ response.render
                                         @ 'wizzi/docs/cheatsheet.html.ittf'
                                         {
@@ -55,7 +55,7 @@ module
                                             @ csMessage "Cheatsheet for schema " + request.params.name + " unavailable"
                                 v08/ts/catch_fail_html( docs.cheatsheet )
                         else
-                            log '*** 3 render'
+                            # loog '*** 3 render'
                             _ response.render
                                 @ 'wizzi/docs/cheatsheet.html.ittf'
                                 {
