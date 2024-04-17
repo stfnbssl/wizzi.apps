@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\config\env.ts.ittf
-    utc time: Sun, 24 Mar 2024 21:38:41 GMT
+    utc time: Thu, 11 Apr 2024 13:29:18 GMT
 */
 import path from 'path';
 import dotenv from 'dotenv';
@@ -50,7 +50,7 @@ export default function create():  ConfigType {
                 wizziBasePath: checkedEnv.WIZZI_BASE_PATH, 
                 ittfPath: __ittfPath, 
                 dataPath: __dataPath, 
-                metaHtmlIttfPath: path.join(__ittfPath, 'meta', 'html', 'index.html.ittf'), 
+                metaHtmlIttfPath: path.join(__ittfPath, 'meta', 'document', 'index.html.ittf'), 
                 metaFolderIttfPath: path.join(__ittfPath, 'meta', 'folder', 'index.html.ittf'), 
                 metaHtmlTextPath: path.join(__ittfPath, 'meta', 'text', 'index.html.ittf'), 
                 jobsBasePath: path.join(__ittfPath, 'data', 'jobs'), 

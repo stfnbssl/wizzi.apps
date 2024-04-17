@@ -1,0 +1,259 @@
+$group
+
+    $include rule/styled
+
+    react RuleEditor
+    
+        ctor
+            set this.state
+                {
+                    @ ruleId ''
+                    @ pseudoClass ''
+                    @ category 'box'
+                    @ values null
+                    @ styleFilter ''
+                    [ filteredStyles
+                    
+        did-mount
+            _ this.setValues
+            # todo from local storage
+            _ this.updateFilteredStyles
+                @ 'color'
+
+        did-update
+            if this.props.ruleData != prevProps.ruleData
+                _ this.setValues
+        
+        m setValues
+            log 'RuleEditor.setValues.ruleId', this.state.ruleId
+            log 'RuleEditor.setValues.ruleData', this.props.ruleData
+            let selectedRule
+            if this.state.ruleId.length > 0
+                var ruleIdObj = unpackRuleName(this.state.ruleId)
+                set selectedRule
+                    _ this.props.ruleData.find
+                        =>
+                            param r
+                            return r.name == ruleIdObj.name && r.kind == ruleIdObj.kind && r.pseudo == ruleIdObj.pseudo
+                if !selectedRule
+                    set selectedRule = this.props.ruleData[0]
+            else
+                set selectedRule = this.props.ruleData[0]
+            const selectedRuleId = packRuleName(selectedRule.name,selectedRule.kind,selectedRule.pseudo)
+            const values = {}
+            _ this.props.ruleData.map
+                =>
+                    param rule
+                    const ruleId = packRuleName(rule.name,rule.kind,rule.pseudo)
+                    log 'setValues.ruleId', ruleId, rule
+                    set values[ruleId] = {}
+                    _ this.props.cssDefs.categories.map
+                        =>
+                            param cat
+                            _ cat.styles.map
+                                =>
+                                    param style
+                                    if rule.styles[style.name] && rule.styles[style.name].length > 0
+                                        set values[ruleId][style.name] = rule.styles[style.name]
+                                    else
+                                        set values[ruleId][style.name] = ''
+            log 'ctor.values', values
+            _ this.setState
+                {
+                    @ ruleId selectedRuleId
+                    @ pseudoClass selectedRule.pseudo
+                    @ category 'box'
+                    @ values values
+                =>
+                    _ this.props.onChange
+                        @ this.state.values
+        
+        => handleChange
+            param ev
+            log 'ev.target.type', ev.target.type
+            if ev.target.type == 'text' || ev.target.type == 'select-one'
+                _ this.setState
+                    =>
+                        param state
+                        var newState = Object.assign({}, state)
+                        var styleValues = newState.values[state.ruleId]
+                        if !styleValues
+                            # rule (for className) has been added editing htmlData
+                            set styleValues = {}
+                            set newState.values[state.ruleId] = styleValues
+                        set styleValues[ev.target.name] = ev.target.value
+                        _ this.props.onChange
+                            @ newState.values
+                        return newState
+                        
+        => handleChangeRule
+            param ev
+            const ruleId = ev.target.value
+            const ruleIdObj = unpackRuleName(ruleId)
+            _ this.setState
+                =>
+                    param state
+                    return
+                        {
+                            @ ruleId ruleId
+                            @ pseudoClass ruleIdObj.pseudo
+
+        => handleChangeCategory
+            param ev
+            _ this.setState
+                =>
+                    param state
+                    return
+                        {
+                            @ category ev.target.value
+
+        $include rule/methods
+        $include rule/handlers
+
+        render
+            if !this.state.values || !this.state.values[this.state.ruleId]
+                return
+                    h1 
+                        + ...loading...
+            
+            const category
+                _ this.props.cssDefs.categories.find
+                    =>
+                        param cat
+                        return cat.name === this.state.category
+
+            # log 'selected category', category
+            log 'this.state.ruleId', this.state.ruleId
+            log 'this.state.values', this.state.values
+            return
+                < React.Fragment
+                    < RuleEditorRoot
+                        < FlexColumn
+                            < RuleSelector
+                                fieldset
+                                    < SelectorLabel
+                                        @ size 'h2'
+                                        + Rule
+                                    < SelectorSelectValue
+                                        @ onChange {this.handleChangeRule}
+                                        @ value {this.state.ruleId}
+                                        {
+                                            _ this.props.ruleData.map
+                                                =>
+                                                    param rule
+                                                    param ndx 
+                                                    option
+                                                        @ key {ndx}
+                                                        @ value {packRuleName(rule.name,rule.kind,rule.pseudo)}
+                                                        + {displayRuleName(rule.name,rule.kind,rule.pseudo)}
+                                fieldset
+                                    < SelectorLabel
+                                        @ size 'h3'
+                                        + Pseudo class
+                                    < SelectorSelectValue
+                                        @ onChange {this.handleChangePseudoClass}
+                                        @ value {this.state.pseudoClass}
+                                        option
+                                            value ''
+                                            + {''}
+                                        {
+                                            _ __constants.cssDefs.pseudoClasses.map
+                                                =>
+                                                    param pc
+                                                    param ndx
+                                                    if !!pc.isExperimental == false
+                                                        return
+                                                            option
+                                                                @ key {ndx}
+                                                                @ value {pc.name}
+                                                                + :{pc.name}
+                                    {
+                                        &&
+                                            + this.state.pseudoClass && this.state.pseudoClass.length > 0
+                                            < PropertyInfoButton
+                                                @ name {this.state.pseudoClass}
+                                                @ onClick {this.handleHelpPseudoRequest}
+                                                + ?
+
+                        < FlexColumn
+                            < PropertiesSelector
+                                fieldset
+                                    < SelectorLabel
+                                        @ size 'h3'
+                                        + Category
+                                    < SelectorSelectValue
+                                        @ onChange {this.handleChangeCategory}
+                                        @ value {this.state.category}
+                                        option
+                                            value ''
+                                        {
+                                            _ this.props.cssDefs.categories.map
+                                                =>
+                                                    param cat
+                                                    param ndx 
+                                                    option
+                                                        @ key {ndx}
+                                                        @ value {cat.name}
+                                                        + {cat.name}
+                                fieldset
+                                    style {{ marginTop: '5px' }}
+                                    < SelectorLabel
+                                        + Filter
+                                    < SelectorInputValue
+                                        type text
+                                        value { this.state.styleFilter }
+                                        @ onChange { this.handleStyleFilterChange }
+                        < PropertiesEditPanel
+                            {
+                                _ this.state.filteredStyles.map
+                                    =>
+                                        param category
+                                        param ndx 
+                                        return
+                                            div
+                                                @ key {ndx}
+                                                < PropertyCategory
+                                                    + {category.name}
+                                                {
+                                                    _ category.styles.map
+                                                        =>
+                                                            param style
+                                                            param ndx 
+                                                            div
+                                                                @ key {ndx}
+                                                                < PropertyFieldset
+                                                                    < PropertyLabel
+                                                                        + {style.name}
+                                                                    {
+                                                                        &&
+                                                                            + Array.isArray(style.enum)
+                                                                            < PropertySelect
+                                                                                name {style.name}
+                                                                                value {this.state.values[this.state.ruleId][style.name]}
+                                                                                @ onChange {this.handleChange}
+                                                                                {
+                                                                                    _ style.enum.map
+                                                                                        =>
+                                                                                            param val
+                                                                                            param ndx 
+                                                                                            option
+                                                                                                @ key {ndx}
+                                                                                                @ value {val}
+                                                                                                + {val}
+                                                                    {
+                                                                        &&
+                                                                            + Array.isArray(style.enum) == false
+                                                                            < PropertyInput
+                                                                                type 'text'
+                                                                                name {style.name}
+                                                                                value {this.state.values[this.state.ruleId][style.name]}
+                                                                                @ onChange {this.handleChange}
+                                                                    < PropertyInfoButton
+                                                                        @ name {style.name}
+                                                                        @ onClick {this.handleHelpRequest}
+                                                                        + ?
+                    $include rule/modals
+                        
+                
+                        
+

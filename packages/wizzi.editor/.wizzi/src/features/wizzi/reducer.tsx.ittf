@@ -54,6 +54,7 @@ module
             { 
                 @ loading false
                 @ error undefined
+                @ errorFilePath undefined
                 @ generatedArtifact undefined
                 @ mTreeBuildUpScript undefined
                 @ mTreeIttf undefined
@@ -89,6 +90,7 @@ module
                             @ wizzifiedIttfContent undefined
                             @ codeASTContent undefined
                             @ error undefined
+                            @ requestFilePath action.payload.filePath
                 case getType(wizziActions.generateArtifactSuccess)
                     info "wizziActions.generateArtifactSuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
@@ -122,6 +124,7 @@ module
                             @ loading true
                             @ mTreeBuildUpScript undefined
                             @ error undefined
+                            @ requestFilePath action.payload.filePath
                 case getType(wizziActions.mTreeBuildUpScriptSuccess)
                     info "wizziActions.mTreeBuildUpScriptSuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
@@ -152,6 +155,7 @@ module
                             @ loading true
                             @ mTreeIttf undefined
                             @ error undefined
+                            @ requestFilePath action.payload.filePath
                 case getType(wizziActions.mTreeSuccess)
                     info "wizziActions.mTreeSuccess", Object.keys(action.payload)
                     set action.payload.mTreeIttf = action.payload.mTree
@@ -183,6 +187,7 @@ module
                             @ loading true
                             @ jobGeneratedArtifacts undefined
                             @ error undefined
+                            @ requestFilePath '*'
                 case getType(wizziActions.executeJobSuccess)
                     info "wizziActions.executeJobSuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
@@ -213,6 +218,7 @@ module
                             @ loading true
                             @ wizziMetaFolderIttfDocuments undefined
                             @ error undefined
+                            @ requestFilePath '*'
                 case getType(wizziActions.executeWizziMetaFolderSuccess)
                     info "wizziActions.executeWizziMetaFolderSuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
@@ -244,6 +250,7 @@ module
                             @ wizzifiedIttfContent undefined
                             @ generatedArtifact undefined
                             @ error undefined
+                            @ requestFilePath action.payload.filePath
                 case getType(wizziActions.wizzifySuccess)
                     info "wizziActions.wizzifySuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err
@@ -276,6 +283,7 @@ module
                             @ wizzifiedIttfContent undefined
                             @ generatedArtifact undefined
                             @ error undefined
+                            @ requestFilePath action.payload.filePath
                 case getType(wizziActions.codeASTSuccess)
                     info "wizziActions.codeASTSuccess", Object.keys(action.payload)
                     if action.payload.error || action.payload.err

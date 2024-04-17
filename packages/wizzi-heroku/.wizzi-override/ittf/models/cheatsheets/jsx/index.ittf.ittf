@@ -1,4 +1,0 @@
-meta
-	schema js
-	$include basic
-    $include events

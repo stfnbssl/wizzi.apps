@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\wizzi\reducer.tsx.ittf
-    utc time: Mon, 25 Mar 2024 04:27:37 GMT
+    utc time: Thu, 11 Apr 2024 13:23:20 GMT
 */
 import {Reducer} from 'redux';
 import {ActionType, getType} from 'typesafe-actions';
@@ -26,6 +26,7 @@ export interface WizziState {
 const initialState: WizziState = {
     loading: false, 
     error: undefined, 
+    errorFilePath: undefined, 
     generatedArtifact: undefined, 
     mTreeBuildUpScript: undefined, 
     mTreeIttf: undefined, 
@@ -48,7 +49,8 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                     generatedArtifact: undefined, 
                     wizzifiedIttfContent: undefined, 
                     codeASTContent: undefined, 
-                    error: undefined
+                    error: undefined, 
+                    requestFilePath: action.payload.filePath
                  };
         }
         case getType(wizziActions.generateArtifactSuccess): {
@@ -82,7 +84,8 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                     ...state, 
                     loading: true, 
                     mTreeBuildUpScript: undefined, 
-                    error: undefined
+                    error: undefined, 
+                    requestFilePath: action.payload.filePath
                  };
         }
         case getType(wizziActions.mTreeBuildUpScriptSuccess): {
@@ -116,7 +119,8 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                     ...state, 
                     loading: true, 
                     mTreeIttf: undefined, 
-                    error: undefined
+                    error: undefined, 
+                    requestFilePath: action.payload.filePath
                  };
         }
         case getType(wizziActions.mTreeSuccess): {
@@ -151,7 +155,8 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                     ...state, 
                     loading: true, 
                     jobGeneratedArtifacts: undefined, 
-                    error: undefined
+                    error: undefined, 
+                    requestFilePath: '*'
                  };
         }
         case getType(wizziActions.executeJobSuccess): {
@@ -185,7 +190,8 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                     ...state, 
                     loading: true, 
                     wizziMetaFolderIttfDocuments: undefined, 
-                    error: undefined
+                    error: undefined, 
+                    requestFilePath: '*'
                  };
         }
         case getType(wizziActions.executeWizziMetaFolderSuccess): {
@@ -220,7 +226,8 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                     loading: true, 
                     wizzifiedIttfContent: undefined, 
                     generatedArtifact: undefined, 
-                    error: undefined
+                    error: undefined, 
+                    requestFilePath: action.payload.filePath
                  };
         }
         case getType(wizziActions.wizzifySuccess): {
@@ -256,7 +263,8 @@ const reducer: Reducer<WizziState, WizziAction> = (state = initialState, action)
                     codeASTContent: undefined, 
                     wizzifiedIttfContent: undefined, 
                     generatedArtifact: undefined, 
-                    error: undefined
+                    error: undefined, 
+                    requestFilePath: action.payload.filePath
                  };
         }
         case getType(wizziActions.codeASTSuccess): {

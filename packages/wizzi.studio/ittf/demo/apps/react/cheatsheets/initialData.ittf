@@ -1,0 +1,16 @@
+
+$group
+
+    const __initial
+        {
+            { sheetData
+                @ name 'starter'
+                @ schema 'ittf'
+                @ description 'Starter sample of a cheat sheet generation'
+                [ contentLines
+                    @ "meta"
+                    @ "    schema js"
+                    @ "        element array"
+                    @ "            category arrays"
+                    @ "        arra1-1"
+                [ itemList

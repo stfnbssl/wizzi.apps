@@ -32,7 +32,7 @@ html
         link 
             data-name vs/editor/editor.main
             rel stylesheet
-            href /static/lib/monaco-editor/dev/vs/editor/editor.main.css
+            href /public/lib/monaco-editor/dev/vs/editor/editor.main.css
     body 
         class playground-page
         pre 
@@ -115,9 +115,9 @@ html
                 var require
                     { 
                         { paths
-                            @ 'vs' '/static/lib/monaco-editor/dev/vs'
-        js /static/lib/monaco-editor/dev/vs/loader.js
-        js /static/lib/monaco-editor/dev/vs/editor/editor.main.nls.js
-        js /static/lib/monaco-editor/dev/vs/editor/editor.main.js
+                            @ 'vs' '/public/lib/monaco-editor/dev/vs'
+        js /public/lib/monaco-editor/dev/vs/loader.js
+        js /public/lib/monaco-editor/dev/vs/editor/editor.main.nls.js
+        js /public/lib/monaco-editor/dev/vs/editor/editor.main.js
         js ./playground/new-samples/all.js.ittf
         js ./playground/playground.js.ittf

@@ -1,0 +1,25 @@
+html/layouts/empty()
+
+	h1 Json parser test
+	
+	$append body-scripts
+	    js ./main.js.ittf
+	    
+	    script
+	        log md.parse
+			_ parseInternal
+				[
+					@ '{'
+					@ '  "a": 1,'
+					@ '  "b": "b",'
+					@ '  "c": "cc // cc",'
+					@ '  "c": "cc // cc", // hello comment'
+					@ '  "c": "cc // cc", /* hello comment'
+					@ ' multi line */'
+					@ '  "d": "dd /* multi */ dd",'
+					@ '}'
+					._ join('\n')
+				{
+				a_cb_no_throw( result )
+					log 'err', err
+					log 'result', result

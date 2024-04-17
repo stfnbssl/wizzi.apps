@@ -28,6 +28,7 @@ module
                         @ classes
                         @ error
                     = this.props
+                error error
                 var
                     {
                         @ name
@@ -67,7 +68,7 @@ module
                         @ className {classes.container}
                         div 
                             @ className {classes.errorName}
-                            + {name}
+                            + Error {name}
                         { 
                             && 
                                 + method

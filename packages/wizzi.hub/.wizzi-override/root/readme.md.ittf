@@ -1,0 +1,19 @@
+md
+    h1 ${wzCtx.App.name}
+    br
+    p ${wzCtx.App.title}
+    br
+    h3 How to deploy
+    p In VsCode open the folder C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.hub and execute:
+    sh
+        + wz heroku
+    p The dest folder of the production is ../packages/wizzi.hub/dist_herohu, execute
+    sh
+        + cd dist_heroku
+        + npm run build
+        + npm run distfiles
+    p The dest folder of the build is C:/My/wizzi/stfnbssl/wizzi.apps.deploy/packages/wizzi-heroku.
+        \b Open it in VsCode and execute:
+    sh
+        + npm i
+    p Then commit and push C:/My/wizzi/stfnbssl/wizzi.apps.deploy/wizzi-heroku to github.

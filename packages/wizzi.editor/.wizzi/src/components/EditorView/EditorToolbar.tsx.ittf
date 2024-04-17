@@ -168,7 +168,7 @@ module
             const isPublishing = saveStatus === 'publishing'
             const isPublished = saveStatus === 'published'
             const productionLabel = isLocalFolder ? "Filesystem folder" : packiProduction
-            log 'EditorToolbar.props', props, mainIttf, wizziSchema
+            # loog 'EditorToolbar.props', props, mainIttf, wizziSchema
 
             return
                 div 

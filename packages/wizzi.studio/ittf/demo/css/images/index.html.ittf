@@ -1,0 +1,43 @@
+html/layouts/empty()
+
+    - from https://codepen.io/dudleystorey/pen/aOqjYP
+
+    $append head-styles
+        css ./index.css.ittf
+
+    img
+        class background-img
+        src /public/images/gallery/dyno.png
+
+    . wrapper
+        header 
+            class page-header
+        main 
+            class page-main
+            . container
+                . column-1 p-20
+                    h1 Column 1
+                    . column-1a m-t-20 p-10
+                        img
+                            src /public/images/gallery/dyno.png
+                            lorem 300
+                            width 1000px
+                . column-2 p-20
+                    div
+                        lorem 300
+                        lorem 300
+                        lorem 300
+                        lorem 300
+                . column-3 p-20
+                    h1 Column 2
+                    . column-3a m-t-20 p-10
+                        div
+                            lorem 300
+                            lorem 300
+                    . column-3b m-t-20 p-10
+                        lorem 300
+                        lorem 300
+        footer 
+            class page-footer
+
+

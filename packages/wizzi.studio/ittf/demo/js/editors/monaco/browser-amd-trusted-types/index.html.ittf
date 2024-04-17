@@ -1,0 +1,49 @@
+html 
+    head 
+        @title browser-amd-editor
+        meta 
+            http-equiv Content-Type
+            content text/html;charset=utf-8
+        meta 
+            http-equiv Content-Security-Policy
+            content require-trusted-types-for 'script'
+    body 
+        h2 Monaco Editor with Trusted Types Sample
+        div 
+            id container
+            style width: 800px; height: 600px; border: 1px solid grey
+        js /public/lib/monaco-editor/min/vs/loader.js
+        script 
+            module
+                kind react
+                # Allow monaco-editor to load scripts from its own paths only
+                var scriptLoadingPolicy
+                    { 
+                        @ createScriptURL
+                            function allowOnlyMonacoPaths
+                                param url
+                                if url.indexOf('/public/lib/monaco-editor/min/vs/') === 0 && url.lastIndexOf('..') == 0
+                                    return url
+                # If browser supports Trusted Types, use them.
+                if typeof trustedTypes !== 'undefined'
+                    set scriptLoadingPolicy = trustedTypes.createPolicy('monaco-editor', scriptLoadingPolicy)
+                _ require.config
+                    { 
+                        { paths
+                            @ vs '/public/lib/monaco-editor/min/vs'
+                        @ trustedTypesPolicy scriptLoadingPolicy
+                _ require
+                    [ 
+                        @ 'vs/editor/editor.main'
+                    function 
+                        var editor
+                            _ monaco.editor.create
+                                _ document.getElementById('container')
+                                { 
+                                    [ value
+                                        @ 'function x() {'
+                                        @ '\tconsole.log("Hello world!");'
+                                        @ '}'
+                                        ._ join
+                                            @ '\n'
+                                    @ language 'javascript'

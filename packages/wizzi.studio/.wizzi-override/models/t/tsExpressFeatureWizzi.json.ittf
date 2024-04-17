@@ -4,6 +4,7 @@ $group
         isDev true
         [ plugins
             "./wizzi.plugin.css/index.js"
+            "./wizzi.plugin.graphql/index.js"
             "./wizzi.plugin.html/index.js"
             "./wizzi.plugin.ittf/index.js"
             "./wizzi.plugin.js/index.js"

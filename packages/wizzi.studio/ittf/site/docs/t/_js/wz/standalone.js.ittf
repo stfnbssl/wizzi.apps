@@ -45,7 +45,7 @@
 				_ wz.wf.gen
 					@ filePath
 					@ options
-					f_cb( artifactText )
+					a_cb( artifactText )
 						# log 'wz.gen', artifactText
 						r_cb( artifactText )
 							
@@ -62,7 +62,7 @@
 				_ wz.wf.genFromText
 					@ ittfContent
 					@ options
-					f_cb( artifactText )
+					a_cb( artifactText )
 						# log 'wz.gen', artifactText
 						r_cb( artifactText )
 		
@@ -156,7 +156,7 @@
 				_ wz.git.fsGit
 					{
 						@ storeName options.storeName || wz.fs.storeName
-					f_cb( fsGit
+					a_cb( fsGit
 						log 'created fs', fsGit
 						r_cb( fsGit )
 
@@ -212,7 +212,7 @@
 				_ wz.utils.vfile
 					{
 						@ storeName options.storeName || wz.fs.storeName
-					f_cb( fs
+					a_cb( fs
 						# log 'created fs', fs
 						r_cb( fs )
 
@@ -225,7 +225,7 @@
 					set callback = options
 					set options = {}
 				_ wz.fs.getFs
-					f_cb( fs
+					a_cb( fs
 						_ fs.getFolders
 							@ folderPath
 							@ options
@@ -240,7 +240,7 @@
 					set callback = options
 					set options = {}
 				_ wz.fs.getFs
-					f_cb( fs
+					a_cb( fs
 						_ fs.getFiles
 							@ folderPath
 							@ options
@@ -255,7 +255,7 @@
 					@ folderPath
 					{
 						@ deep false
-					f_cb( folders
+					a_cb( folders
 						foreach f in folders
 							_ ret.push
 								_ wz.fs.infoByPath
@@ -266,7 +266,7 @@
 							{
 								@ documentContent true
 								@ deep false
-							f_cb( files
+							a_cb( files
 								foreach f in files
 									var temp
 										_ wz.fs.infoByPath

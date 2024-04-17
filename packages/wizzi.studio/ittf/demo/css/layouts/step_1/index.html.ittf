@@ -1,0 +1,66 @@
+﻿html/layouts/empty()
+
+	$append head-styles
+		$if wzCtx.body.fontFamily === 'roboto'
+			css https://fonts.googleapis.com/css?family=Roboto
+		css ./styles.css.ittf?_context=wzCtx&_wzCtx=json
+
+	$include h/navTop
+	
+	ul
+		class nav-sub-top
+		$foreach item in wzCtx.navSubTop.items
+			li
+				class nav-sub-top-text-1
+				a ${item.label}
+					href ${item.href}
+
+	. nav-left
+		ul
+			$foreach item in wzCtx.navLeft.items
+				li
+					a
+						href 
+						i
+							class nav-left-fa fa-${item.icon} fa-2x
+						span ${item.label}
+							class nav-left-text-1
+
+	. wrap-main
+		. cont-main
+			$if wzCtx.debug.showPalette
+				div
+					style display:flex; flex-wrap: wrap;
+					$foreach c in wzCtx.theme.colors
+						div ${c}
+							style margin: 10px; font-weight: 900;
+							div
+								style height: 50px; width: 50px; background: ${c};
+
+			$if wzCtx.contMain.panels.length > 0
+				
+				$foreach panel in wzCtx.contMain.panels
+					
+					$if panel.kind === 'cards'
+						
+						. card-1-grid
+							$foreach card in panel.cards
+								. card-1 card-1-${card.key}
+									a
+										href ${card.href}
+										. card-1-teaser 
+											+ ${card.teaser}
+										. card-1-title
+											+ ${card.title}
+										. card-1-sub-title
+											+ ${card.subtitle}
+			
+			$else
+				
+				$ var i = 0
+				$while i < 10
+					p
+						lorem 150
+					$ i++
+
+

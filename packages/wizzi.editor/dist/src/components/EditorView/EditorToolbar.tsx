@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorToolbar.tsx.ittf
-    utc time: Mon, 25 Mar 2024 04:27:37 GMT
+    utc time: Thu, 11 Apr 2024 13:23:20 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -50,7 +50,8 @@ export type EditorToolbarProps = {
     onSaveLocalFolder: () => void;
     onCloseLocalFolder: () => void;
 };
-export function EditorToolbar(props: EditorToolbarProps) {
+export // loog 'EditorToolbar.props', props, mainIttf, wizziSchema
+function EditorToolbar(props: EditorToolbarProps) {
 
     const [preferences] = usePreferences();
     const {
@@ -86,7 +87,6 @@ export function EditorToolbar(props: EditorToolbarProps) {
     const isPublishing = saveStatus === 'publishing';
     const isPublished = saveStatus === 'published';
     const productionLabel = isLocalFolder ? "Filesystem folder" : packiProduction;
-    console.log('EditorToolbar.props', props, mainIttf, wizziSchema, __filename);
     return  (
         <div
          className={css(styles.ve_top_bar)}>

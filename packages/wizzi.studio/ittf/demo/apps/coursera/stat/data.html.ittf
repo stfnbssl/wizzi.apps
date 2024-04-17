@@ -1,0 +1,16 @@
+html
+
+	$
+		var opt = {};
+		opt.title = 'Exploring data';
+        opt.useMathJax = true;
+
+    html/layouts/empty_opt(&opt)
+
+        h2 Formulas
+            
+        formulas/data()
+
+        h2 Glossary
+            
+        glossary/data()

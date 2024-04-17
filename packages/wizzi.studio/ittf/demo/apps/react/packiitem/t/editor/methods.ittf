@@ -1,0 +1,39 @@
+$group
+    
+    m generate
+        param value
+        if this.state.productionMode == 'production-mtree'
+            _ wz.mTreeBuildupScript
+                @ this.props.selectedMainIttfContentPath
+                @ this.props.packiFiles
+                =>
+                    param err
+                    param result
+                    if err
+                        _ this.setState
+                            {
+                                @ generationError err
+                                @ generated null
+                    else
+                        _ this.setState
+                            {
+                                @ generated result
+                                @ generationError null        
+        else
+            _ wz.genArtifact
+                @ this.props.selectedMainIttfContentPath
+                @ this.props.packiFiles
+                =>
+                    param err
+                    param result
+                    if err
+                        log 'Editor.generate err', err
+                        _ this.setState
+                            {
+                                @ generationError err
+                                @ generated null
+                    else
+                        _ this.setState
+                            {
+                                @ generated result
+                                @ generationError null

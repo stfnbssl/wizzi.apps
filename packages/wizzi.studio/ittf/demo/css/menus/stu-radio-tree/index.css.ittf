@@ -1,0 +1,198 @@
+css
+    # sn_menu_outer 
+        display flex
+        height calc(100vh - 100px)
+        max-width 300px
+        opacity 1
+        position fixed
+        $$ right -100vw
+        top 100px
+        transition 0.5s 0.75s
+        z-index 100000
+        overflow hidden
+        overflow-y auto
+        -webkit-overflow-scrolling touch
+        background #000e
+        box-shadow -3px 3px 6px #888
+    # sn_menu_outer #sn_menu p
+        position relative
+        padding 0
+        margin 0
+        font 16px/22px arial
+        color #fff
+    # sn_menu_outer #sn_menu p label
+        display block
+        text-transform uppercase
+        margin-left -15px
+        color #fff
+        cursor pointer
+    # sn_menu_outer #sn_menu p label:hover
+        color #fff
+    # sn_menu div p
+        padding 0
+        margin 0
+        height 0
+        overflow hidden
+    # sn_menu_outer #sn_menu p label:last-child
+        display none
+        position absolute
+        left 0
+        top 0
+        width 100%
+        height 100%
+        background #0000
+    # sn_menu_outer #sn_menu p label span
+        display inline-block
+        width 0
+        height 0
+        border 5px solid transparent
+        border-top-color #aaa
+        margin 0 4px 0 0
+    # sn_menu_outer #sn_menu p a
+        color #aaa
+        text-decoration none
+        font 16px/22px arial, sans-serif
+    # sn_menu_outer #sn_menu p a:hover
+        color #fff
+    # sn_menu_outer #sn_menu div p
+        height 20px
+        transition 0.75s
+    < input.open
+        + input.close
+        display none
+    # sn_menu_outer #sn_menu div
+        padding-left 15px
+        background-image linear-gradient(90deg, transparent 5px, #a07f52 5px, 6px, transparent 6px)
+    # sn_menu_outer #sn_menu
+        width 90%
+        max-width 400px
+        margin auto
+        padding 60px 0
+    # sn_menu_outer #sn_menu p
+        text-indent 15px
+    # sn_menu_outer #sn_menu div p
+        height 0
+    # sn_menu_toggle
+        padding 0
+        margin 0
+        position fixed
+        right 40px
+        top 20px
+        height 32px
+        width 36px
+        text-align center
+        z-index 100020
+    # sn_menu_toggle span
+        display block
+        width 100%
+        height 100%
+        box-sizing border-box
+        border 2px solid #000
+        border-width 2px 0 2px 0
+        transition 0.5s 0.5s
+    # sn_menu_toggle span::before
+        display block
+        content ""
+        width 36px
+        height 4px
+        background #000
+        position absolute
+        top 14px
+        left 0
+        z-index 1
+        transition transform 0.5s
+    # sn_menu_toggle span::after
+        display block
+        content ""
+        width 36px
+        height 4px
+        background #000
+        position absolute
+        top 14px
+        left 0
+        z-index 1
+        transition transform 0.5s
+    # sn_menu_toggle label
+        display block
+        width 100%
+        height 100%
+        position absolute
+        left 0
+        top 0
+        cursor pointer
+        z-index 2
+    # sn_menu_toggle label:nth-of-type(2)
+        display none
+    . open:checked ~ #wrapper
+        max-height calc(100vh - 120px)
+        overflow hidden
+    . open:checked ~ #sn_menu_outer
+        right 0
+        opacity 1
+        transition 0.5s 0.5s
+    . open:checked ~ #sn_menu_toggle
+        background transparent
+        transition 0.5s
+    . open:checked ~ #sn_menu_toggle label
+        display none
+    . open:checked ~ #sn_menu_toggle label:last-child
+        display block
+    . open:checked ~ #sn_menu_toggle span
+        border-color transparent
+        transition 0s
+    . open:checked ~ #sn_menu_toggle span::before
+        transform rotate(405deg)
+        transform-origin center center
+    . open:checked ~ #sn_menu_toggle span::after
+        transform rotate(495deg)
+        transform-origin center center
+    . menu1:checked ~ #sn_menu_outer #sn_menu .pmenu1 + div > p
+        + .menu2:checked ~ #sn_menu_outer #sn_menu .pmenu2 + div > p
+        + .menu3:checked ~ #sn_menu_outer #sn_menu .pmenu3 + div > p
+        + .menu4:checked ~ #sn_menu_outer #sn_menu .pmenu4 + div > p
+        + .menu5:checked ~ #sn_menu_outer #sn_menu .pmenu5 + div > p
+        + .menu6:checked ~ #sn_menu_outer #sn_menu .pmenu6 + div > p
+        + .menu7:checked ~ #sn_menu_outer #sn_menu .pmenu7 + div > p
+        + .menu8:checked ~ #sn_menu_outer #sn_menu .pmenu8 + div > p
+        + .menu9:checked ~ #sn_menu_outer #sn_menu .pmenu9 + div > p
+        + .menu10:checked ~ #sn_menu_outer #sn_menu .pmenu10 + div > p
+        + .menu11:checked ~ #sn_menu_outer #sn_menu .pmenu11 + div > p
+        height 22px
+        color #fff
+    . menu1:checked ~ #sn_menu_outer #sn_menu .pmenu1 > label:last-child
+        + .menu2:checked ~ #sn_menu_outer #sn_menu .pmenu2 > label:last-child
+        + .menu3:checked ~ #sn_menu_outer #sn_menu .pmenu3 > label:last-child
+        + .menu4:checked ~ #sn_menu_outer #sn_menu .pmenu4 > label:last-child
+        + .menu5:checked ~ #sn_menu_outer #sn_menu .pmenu5 > label:last-child
+        + .menu6:checked ~ #sn_menu_outer #sn_menu .pmenu6 > label:last-child
+        + .menu7:checked ~ #sn_menu_outer #sn_menu .pmenu7 > label:last-child
+        + .menu8:checked ~ #sn_menu_outer #sn_menu .pmenu8 > label:last-child
+        + .menu9:checked ~ #sn_menu_outer #sn_menu .pmenu9 > label:last-child
+        + .menu10:checked ~ #sn_menu_outer #sn_menu .pmenu10 > label:last-child
+        + .menu11:checked ~ #sn_menu_outer #sn_menu .pmenu11 > label:last-child
+        display block
+    . menu1:checked ~ #sn_menu_outer #sn_menu .pmenu1 > label
+        + .menu2:checked ~ #sn_menu_outer #sn_menu .pmenu2 > label
+        + .menu3:checked ~ #sn_menu_outer #sn_menu .pmenu3 > label
+        + .menu4:checked ~ #sn_menu_outer #sn_menu .pmenu4 > label
+        + .menu5:checked ~ #sn_menu_outer #sn_menu .pmenu5 > label
+        + .menu6:checked ~ #sn_menu_outer #sn_menu .pmenu6 > label
+        + .menu7:checked ~ #sn_menu_outer #sn_menu .pmenu7 > label
+        + .menu8:checked ~ #sn_menu_outer #sn_menu .pmenu8 > label
+        + .menu9:checked ~ #sn_menu_outer #sn_menu .pmenu9 > label
+        + .menu10:checked ~ #sn_menu_outer #sn_menu .pmenu10 > label
+        + .menu11:checked ~ #sn_menu_outer #sn_menu .pmenu11 > label
+        color #fff
+        cursor pointer
+    . menu1:checked ~ #sn_menu_outer #sn_menu .pmenu1 > label span
+        + .menu2:checked ~ #sn_menu_outer #sn_menu .pmenu2 > label span
+        + .menu3:checked ~ #sn_menu_outer #sn_menu .pmenu3 > label span
+        + .menu4:checked ~ #sn_menu_outer #sn_menu .pmenu4 > label span
+        + .menu5:checked ~ #sn_menu_outer #sn_menu .pmenu5 > label span
+        + .menu6:checked ~ #sn_menu_outer #sn_menu .pmenu6 > label span
+        + .menu7:checked ~ #sn_menu_outer #sn_menu .pmenu7 > label span
+        + .menu8:checked ~ #sn_menu_outer #sn_menu .pmenu8 > label span
+        + .menu9:checked ~ #sn_menu_outer #sn_menu .pmenu9 > label span
+        + .menu10:checked ~ #sn_menu_outer #sn_menu .pmenu10 > label span
+        + .menu11:checked ~ #sn_menu_outer #sn_menu .pmenu11 > label span
+        border-top-color #a07f52

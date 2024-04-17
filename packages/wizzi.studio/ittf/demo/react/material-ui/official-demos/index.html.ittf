@@ -1,0 +1,59 @@
+html
+
+    $
+        var opt = {
+            local: false,
+            production: false,
+            title: 'Starter 1',
+            useMaterialUI: true,
+            materialUI: { v4: true},
+        }
+        var isCdn = true;
+
+    html/layouts/react_opt(&opt)
+
+        $append components
+            react MyButton
+                render
+                    return
+                        < div
+                            < Paper
+                                < Button
+                                    + Hello button
+
+        render
+            prop classes
+            return
+                div
+                    < CssBaseline
+                    < AppBar 
+                        @ position "static"
+                        < Toolbar 
+                            < IconButton 
+                                @ className {classes.menuButton}
+                                @ color "inherit"
+                                @ aria-label "Menu"
+                                < Icon
+                                    @ className {classes.icon}
+                                    + menu
+                            < Typography 
+                                @ variant "h6"
+                                @ color "inherit"
+                                @ className {classes.grow}
+                                + Official demos
+                            $include search-render
+                            < Button 
+                                @ color "inherit"
+                                + Login
+                
+        $append styles
+            { root
+                @ flexGrow 1
+            { grow
+                @ flexGrow 1
+            { icon
+                @ marginRight theme.spacing.unit
+            { menuButton
+                @ marginLeft -12
+                @ marginRight 20   
+            $include search-styles

@@ -3,7 +3,7 @@ $group
     $
         var useReact = opt.useReact || opt.useMaterialUI;
         var useBabel = useReact || opt.useBabel;
-    
+
     $if opt.useAce
         $if opt.isWizziStudio
             $if opt.production

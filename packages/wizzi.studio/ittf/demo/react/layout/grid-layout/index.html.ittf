@@ -1,0 +1,11 @@
+﻿html
+
+	$
+		var opt = {};
+		opt.title = "React-grid-layoyut example";
+		opt.useMaterialUI = true;
+        opt.materialUI = { v4: true };
+		opt.mainJs = "js/main.js.ittf";
+		opt.useReactGrid = true;
+
+	html/layouts/react_opt(&opt)

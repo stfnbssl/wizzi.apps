@@ -1,0 +1,201 @@
+$group
+
+    
+    $include main/functions
+    $include main/styled
+    
+    react Main
+
+        ctor
+            set this.store = new LocalStorage('wizziPlay')
+            set this.storeGenSamples = new LocalStorage('wpGenSamples')
+            set this.storeWizSamples = new LocalStorage('wpWizSamples')
+            set this.state
+                {
+                    @ mainView 'view-generator'
+                    @ currentSampleName null
+                    @ currentSampleSchema null
+                    @ currentSampleDescription null
+                    @ genFragmentListEdit null
+                    @ genDependencyListEdit null
+                    @ genContextListEdit null
+                    @ genMainIttfContent null
+                    @ genFragmentList []
+                    @ genDependencyList []
+                    @ genContextList []
+                    @ genPackiFiles null
+                    @ genSelectedEditPath null
+                    @ genSelectedEditPackiPath null
+                    @ wizContent null
+                    @ storedSamplesNames []
+                    @ createNewSampleOpen false
+                    @ newSampleName null
+                    @ newSampleSchema null
+                    @ newSampleContent null
+                    @ newSampleDescription null
+                    @ currentModalEdit ''
+                    
+
+        did-mount
+            let recentView = this.store.get('recentView')
+            let recentSample
+            if !recentView
+                set recentView = 'view-generator'
+                _ this.store.set('recentView', recentView)
+                _ this.setState
+                    {
+                        @ mainView recentView
+                    =>
+                        _ this.createNewGenSample
+            else
+                const recentSample = recentView == 'view-generator' 
+                    \b ? this.store.get('recentGenSample')
+                    \b : this.store.get('recentWizSample')
+                _ this.setState
+                    {
+                        @ mainView recentView
+                        @ sampleName recentSample
+                    =>
+                        log 'did.mount', recentView, recentSample
+                        _ this.setSample
+                            @ recentSample
+
+            set this.executeSaveSampleDebounced
+                _ wz.debounce
+                    =>
+                        _ this.saveSample
+                    @ 1000
+
+        => handleMainViewChange                    
+            param ev
+            log 'handleMainViewChange', ev.target.id
+            _ this.setState
+                {
+                    @ mainView ev.target.id
+
+        => handleValuesChange
+            param values
+            $$ _ this.executeValuesChangeDebounced
+            $$     @ newStateValues.cssRule    
+
+        $include main/methods
+        $include main/handlers
+        
+        render
+
+            if (this.state.genMainIttfContent == null && this.state.wizContent == null)
+                return
+                    h1
+                        + ...loading...
+
+            const curSampleName = this.state.currentSampleName
+            const storedSamplesNames = this.state.storedSamplesNames 
+            const handleChangeSample = this.handleChangeSample
+
+            log 'Main.render.this.state', this.state
+
+            function SampleSelector
+                return
+                    < FlexColumn
+                        @ width '20%'
+                        fieldset
+                            < SelectorLabel
+                                @ size 'h1'
+                                + Sample
+                            < SelectorSelectValue
+                                @ onChange {handleChangeSample}
+                                @ value {curSampleName}
+                                {
+                                    _ storedSamplesNames.map
+                                        =>
+                                            param sampleName
+                                            param ndx 
+                                            option
+                                                @ key {ndx}
+                                                @ value {sampleName}
+                                                + {sampleName}
+
+            return
+                < React.Fragment
+                    < SampleRoot
+                        < SampleTitleBar
+                            {
+                                &&
+                                    + this.state.mainView == 'view-generator'
+                                    < React.Fragment
+                                        < SampleSelector
+                                        < FlexRow
+                                            < FlexColumn
+                                                < Button
+                                                    @ size 'h1'
+                                                    @ onClick {this.handleAddSampleRequest}
+                                                    + Add
+                                            < FlexColumn
+                                                < Button
+                                                    @ size 'h1'
+                                                    @ id 'gen-fragment-list'
+                                                    @ onClick {this.handleEditRequest}
+                                                    + Fragment list
+                                            < FlexColumn
+                                                < Button
+                                                    @ size 'h1'
+                                                    @ id 'gen-dependency-list'
+                                                    @ onClick {this.handleEditRequest}
+                                                    + Dependencies
+                                            < FlexColumn
+                                                < Button
+                                                    @ size 'h1'
+                                                    @ id 'gen-context-list'
+                                                    @ onClick {this.handleEditRequest}
+                                                    + Contexts
+                                        < FlexRow
+                                            < FlexColumn
+                                                < Button
+                                                    @ size 'h1'
+                                                    @ id 'view-wizzifier'
+                                                    @ onClick {this.handleMainViewChange}
+                                                    + Wizzify
+                                            < FlexColumn
+                                                < Button
+                                                    @ size 'h1'
+                                                    @ id 'view-docs'
+                                                    @ onClick {this.handleMainViewChange}
+                                                    + Docs
+                            {
+                                &&
+                                    + this.state.mainView == 'view-wizzifier'
+                                    < FlexRow
+                                        < FlexColumn
+                                            < Button
+                                                @ size 'h1'
+                                                @ id 'view-generator'
+                                                @ onClick {this.handleMainViewChange}
+                                                + Editor
+
+                        < SampleBody
+                            {
+                                &&
+                                    + this.state.mainView == 'view-generator'
+                                    < React.Fragment
+                                        < Generator
+                                            @ schema {this.state.currentSampleSchema}
+                                            @ fragmentList {this.state.genFragmentList}
+                                            @ contextList {this.state.genContextList}
+                                            @ selectedEditPackiPath {this.state.genSelectedEditPackiPath}
+                                            @ selectedMainIttfContentPath {this.getSelectedMainIttfContentPath()}
+                                            @ packiFiles {this.state.genPackiFiles}
+                                            @ onChange {this.handleGenFileContentChange}
+                                            @ onSelectFileItem {this.handleSelectGenFileItem}
+                            {
+                                &&
+                                    + this.state.mainView == 'view-wizzifier'
+                                    < React.Fragment
+                                        < Wizzifier
+                                            @ content {this.state.wizContent}
+                            {
+                                &&
+                                    + this.state.mainView == 'view-docs'
+                                    < React.Fragment
+                                        < Docs
+
+                        $include main/modals  

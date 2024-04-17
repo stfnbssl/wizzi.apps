@@ -1,0 +1,14 @@
+html
+
+	$
+		var opt = {}
+		opt.title = 'Basic react app';
+		opt.useMaterialUI = true;
+        opt.materialUI = {};
+	
+	html/layouts/react_opt(&opt)
+	
+        render
+            return
+                div
+                    h1 Hello simple app	    

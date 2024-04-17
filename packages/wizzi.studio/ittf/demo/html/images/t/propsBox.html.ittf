@@ -1,0 +1,12 @@
+﻿$group
+	
+	section
+		class controls
+		id propsBox
+                   
+		html/control( size )
+			html/input( image-width, small, image-width, 100 )
+			html/input( image-height, small, image-height, 100 )
+		
+		html/control( figure )
+			html/input( figcaption, xl, figcaption, '' )

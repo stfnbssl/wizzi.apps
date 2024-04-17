@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: wizzi.plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\site\index.ts.ittf
-    utc time: Sun, 24 Mar 2024 21:38:41 GMT
+    utc time: Thu, 11 Apr 2024 13:29:18 GMT
 */
 import {ControllerType} from '../features/app';
 import {HomeController} from './controllers/home';

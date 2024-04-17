@@ -36,6 +36,7 @@ module
                     :string
         {
             @ css 'css/document'
+            @ graphql 'graphql/document'
             @ html 'html/document'
             @ ittf 'ittf/tojson'
             @ js 'js/module'
@@ -69,6 +70,7 @@ module
                     :string
         {
             @ css 'css'
+            @ graphql 'graphql'
             @ html 'html'
             @ ittf 'any'
             @ js 'module'

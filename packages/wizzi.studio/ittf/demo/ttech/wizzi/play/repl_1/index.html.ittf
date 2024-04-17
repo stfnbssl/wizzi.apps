@@ -1,0 +1,123 @@
+html
+
+	$
+		var opt = {}
+		opt.title = 'Wizzi repl 1';
+		opt.useWizzi = true;
+		opt.useAce = true;
+		opt.useSweetalert = true;
+		opt.useEventEmitter = true;
+        opt.schemas = [
+            'css',
+            'html',
+            'graphql',
+            'js',
+            'json',
+            'md',
+            'scss',
+            'svg',
+            'ts',
+            'vtt',
+            'vue',
+            'xml'
+        ];
+	
+    html/layouts/empty_opt(&opt)
+
+		$append head-styles
+		    $if isWizziStudio
+			    css ./index.css.ittf
+            $else			
+                css ./index.css
+	
+		$append body-scripts
+		    $if isWizziStudio
+			    js ./index.js.ittf
+            $else			  
+                js ./index.js
+
+		# root
+
+			. sh
+
+				. sh-he
+					. logo
+					    a
+                            $if isWizziStudio
+                                href #
+                            $else
+                                href /
+    						img
+    						    $if isWizziStudio
+    							    src /ittf/images/logo.svg.ittf
+    							$else
+    							    src /images/logo.svg
+    							width 100px
+    							height 40px
+                    . m2
+                        ul
+                            $$ $include h/menu_2
+				
+				. sh-bo
+
+					. sh-bo-lsb
+
+						. control-panel
+							style display: flex; flex-direction: column;
+
+							$* OLD VIA
+                            . control
+								label schema
+								select
+									id selectedSchema
+									style display: none;
+									option css
+									option html
+									option graphql
+									option js
+									option json
+									option md
+									option scss
+									option svg
+									option ts
+									option vtt
+									option vue
+									option xml
+
+							. control
+								# items-tree-view
+
+                            *$
+
+                            $foreach schema in opt.schemas
+                                . sh-bo-lsb-schema-button        
+                                    id id_${schema}
+                                    + ${schema}
+
+					. sh-bo-co
+
+						. sh-bo-co-ge
+						
+							. sh-bo-co-ge-ittf
+                                . sh-bo-co-title
+                                    + Ittf
+								# gen-ittf-editor
+
+							. sh-bo-co-ge-result
+                                . sh-bo-co-title
+                                    + Generated
+								# gen-result-editor
+
+						. sh-bo-co-wi
+
+							. sh-bo-co-wi-snippet
+                                . sh-bo-co-title
+								    + Snippet
+                                # snippet-source-editor
+
+							. sh-bo-co-wi-result
+                                . sh-bo-co-title
+								    + Wizzified
+                                # snippet-result-editor
+						
+				. sh-fo

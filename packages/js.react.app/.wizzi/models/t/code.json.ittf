@@ -1,5 +1,0 @@
-$group
-    useTypescript false
-    { typescript
-        useBabelLoader false
-        useTsxFiles false
