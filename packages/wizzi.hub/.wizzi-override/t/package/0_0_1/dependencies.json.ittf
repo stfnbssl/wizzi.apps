@@ -102,8 +102,8 @@ $group
     $elif wzCtx.Build.isWizziMeta
         @wizzi/plugin.ittf "latest"
     $elif wzCtx.Build.useWizzi
-        @wizzi/factory "^0.8.33"
-        @wizzi/utils "^0.8.19"
+        @wizzi/factory "^0.8.34"
+        @wizzi/utils "^0.8.21"
         $foreach item in wzCtx.Build.wizzi.plugins
             $if _.isNotEmpty(item.name)
                 ${item.name} "${item.version}"
