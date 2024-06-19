@@ -1,5 +1,18 @@
 $group
     +
+    #
+        # param owner
+        # param productionName
+        # param packiConfig
+        # param progressivePackiFiles
+        # param progressiveContext
+        # result
+        #   { packiFiles
+        #     progressive PackiFiles
+        #   { context
+        #     progressive Context
+
+
     async-function getProductionSetFromProductionObject
         param owner
             :string

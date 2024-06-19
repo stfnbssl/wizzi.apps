@@ -1,0 +1,9 @@
+module
+
+    export
+        function MainContentLeftBar
+            param params
+            return
+                . main-content-left-bar
+                    {
+                        + params.children

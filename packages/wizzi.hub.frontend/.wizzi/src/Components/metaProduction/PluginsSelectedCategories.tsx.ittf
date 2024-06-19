@@ -1,0 +1,56 @@
+module
+
+    import React
+        from "react"
+    
+    import
+        @ MetaSelectionState
+        from "@/Data/mvc/MetaProduction/types"
+    
+    :type PluginsSelectedCategoriesProps
+        :{
+            :p metaSelectionState
+                :ref MetaSelectionState
+            :p onUnselect
+                :=>
+                    :void
+                    param production
+                        :string
+
+    +
+    export
+        function PluginsSelectedCategories
+            param params
+                :ref PluginsSelectedCategoriesProps
+            const
+                {
+                    @ metaSelectionState
+                = params
+            const
+                {
+                    @ categoriesSelected
+                = metaSelectionState
+            return
+                . w-area-list w-area-list-cats-prods
+                    . w-area-list-caption
+                        + Selected categories
+                    . w-area-list-inner
+                        ul
+                            {
+                                &&
+                                    + categoriesSelected
+                                    _ categoriesSelected.map
+                                        =>
+                                            param item
+                                            param ndx
+                                            < React.Fragment 
+                                                @ key {ndx}
+                                                li
+                                                    div
+                                                        + {item.name}
+                                                        @ onClick
+                                                            =>
+                                                                _ params.onUnselect
+                                                                    @ item.name
+                                                                return
+                                

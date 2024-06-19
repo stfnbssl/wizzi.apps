@@ -1,0 +1,11 @@
+$group
+    $params message
+    param options
+        :any
+    param callback
+      :any
+    if !callback
+        set callback = options
+        set options = {}
+    if !callback
+        throw new Error('The callback parameter is required. ${message}.')

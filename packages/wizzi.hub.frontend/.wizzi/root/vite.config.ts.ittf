@@ -1,0 +1,48 @@
+module
+    $include set-ctx-functions
+    $
+        setCtxScript ('dev', 'vite');
+        setCtxScript ('build', 'tsc && vite build');
+        setCtxScript ('format', 'prettier .  --write');
+        setCtxScript ('preview', 'vite preview');
+        setCtxScript ('test', 'vitest run');
+        setCtxScript ('test:watch', 'vitest');
+        setCtxDep ('react', '^18.2.0');
+        setCtxDep ('react-dom', '^18.2.0');
+        setCtxDep ('axios', '^1.7.2');
+        setCtxDevDep ('@types/react', '^18.2.37');
+        setCtxDevDep ('@types/react-dom', '^18.2.15');
+        setCtxDevDep ('prettier', '^3.1.0');
+        setCtxDevDep ('vite', '^5.0.0');
+        setCtxDevDep ('vite-plugin-eslint', '^1.8.1');
+        setCtxDevDep ('@vitejs/plugin-react', '^4.2.0');
+    import
+        @ defineConfig
+        from 'vite'
+    import react from '@vitejs/plugin-react'
+    export-default
+        _ defineConfig
+            {
+                [ plugins
+                    @ react()
+                { resolve
+                    [ alias
+                        {
+                            @ find '@/Assets'
+                            @ replacement '/src/Assets'
+                        {
+                            @ find '@/Api'
+                            @ replacement '/src/Api'
+                        {
+                            @ find '@/Components'
+                            @ replacement '/src/Components'
+                        {
+                            @ find '@/Data'
+                            @ replacement '/src/Data'
+                        {
+                            @ find '@/Pages'
+                            @ replacement '/src/Pages'
+                        {
+                            @ find '@/Utils'
+                            @ replacement '/src/Utils'
+        # https://vitejs.dev/config/

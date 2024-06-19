@@ -1,0 +1,190 @@
+module
+
+    import React
+        @ useState
+        from "react"
+
+    import
+        @ JobItem
+        from "@/Data/types"
+    
+    import
+        @ AppState
+        @ MetaSelectionState
+        from "@/Data/mvc/MetaProduction/types"
+
+    import
+        @ getMvc
+        from "@/Data/mvc/MetaProduction"
+
+    import
+        @ Jobs
+        from "@/Components/Jobs"
+
+    import
+        @ SelectableCollection
+        from "@/Data/Components/SelectableCollection"
+
+    import
+        @ GenericSelectionList
+        from "@/Components/metaProduction/GenericSelectionList"
+
+    import
+        @ executeMetaJobFilters        
+        from "./filters"
+
+    :type MetaPluginsSelectionProps
+        :{
+            :p appState
+                :ref AppState
+            :p setAppState
+                :ref React.Dispatch<React.SetStateAction<AppState>>                    
+            :p jobList
+                :[
+                    :ref JobItem
+            :p metaSelectionState
+                :ref MetaSelectionState
+            :p setMetaSelectionState
+                :ref React.Dispatch<React.SetStateAction<MetaSelectionState>>                    
+
+    export
+        function MetaPluginsSelection
+            param params
+                :ref MetaPluginsSelectionProps
+            const
+                {
+                    @ appState
+                    @ setAppState
+                    @ jobList
+                    @ metaSelectionState
+                    @ setMetaSelectionState
+                = params
+            +
+            const [availablePluginsSearchText, setAvailablePluginsSearchText] = useState('')
+            +
+            let
+                {
+                    @ pluginCatSelId
+                    @ pluginSelId
+                    @ catSelId
+                    @ prodSelId
+                    @ selCounter
+                = metaSelectionState
+            +
+            if !pluginCatSelId || !pluginSelId
+                return
+                    . work-area-content-main
+            +
+            const pluginCatSel
+                _ SelectableCollection.get
+                    @ pluginCatSelId
+            const pluginSel
+                _ SelectableCollection.get
+                    @ pluginSelId
+            +
+            function updateFilters
+                _ executeMetaJobFilters
+                    {
+                        @ pluginCatSelId 
+                        @ pluginSelId 
+                        @ catSelId
+                        @ prodSelId
+                # rerender
+                _ setMetaSelectionState
+                    {
+                        @ ...metaSelectionState
+                        @ selCounter selCounter + 1
+            +
+            # error 'MetaPluginsSelection.pluginSel.items', pluginSel.items
+            # error 'MetaPluginsSelection.pluginSel.filterExcludeArray', pluginSel.filterExcludeArray
+            +
+            return 
+                . work-area-content-main
+                    < Jobs
+                        @ reload {true}
+                        @ jobs {jobList}
+                        @ onSelect
+                            =>
+                                param jobItem
+                                _ setAppState
+                                    {
+                                        @ ...appState
+                                        @ currentJob jobItem
+                                        @ currentJobId jobItem.id
+                                _ getMvc().controller.setAppState
+                                    {
+                                        @ currentJobId jobItem.id
+                                        @ activeView appState.activeView
+                                        @ reloadCount appState.reloadCount
+                                    =>
+                    {
+                        &&
+                            + appState.currentJob
+                            < React.Fragment
+                                < GenericSelectionList
+                                  @ selectedableItems {pluginCatSel.getSelected()}
+                                  @ title "Selected plugin categories"
+                                  @ onUnselect
+                                      =>
+                                          param categoryName
+                                          _ pluginCatSel.unSelect(categoryName)
+                                          _ getMvc().controller.selectMetaPluginCategory
+                                              @ appState.currentJob
+                                              @ categoryName
+                                              @ 'unselect'
+                                          _ updateFilters
+                                < GenericSelectionList
+                                    @ selectedableItems {pluginCatSel.getUnselected()}
+                                    @ title "Available plugin categories"
+                                    @ onSelect
+                                        =>
+                                            param categoryName
+                                            _ pluginCatSel.select(categoryName)
+                                            _ getMvc().controller.selectMetaPluginCategory
+                                                @ appState.currentJob
+                                                @ categoryName
+                                                @ 'select'
+                                            _ updateFilters
+                                < GenericSelectionList
+                                    @ selectedableItems {pluginSel.getSelected()}
+                                    @ title "Selected plugins"
+                                    @ onUnselect
+                                        =>
+                                            param metaPluginName
+                                            _ pluginSel.unSelect(metaPluginName)
+                                            _ getMvc().controller.selectMetaPlugin
+                                                @ appState.currentJob
+                                                @ metaPluginName
+                                                @ 'unselect'
+                                            _ updateFilters
+                                            # TODO may be no more necessary
+                                            _ setAppState
+                                                {
+                                                    @ ...appState
+                                                    @ selectedMetaPlugins pluginSel.getSelected()
+                                < GenericSelectionList
+                                    @ selectedableItems {pluginSel.getUnselected()}
+                                    @ title "Available plugins"
+                                    @ searchViewPlaceholder "search plugin ..."
+                                    @ searchText {availablePluginsSearchText}
+                                    @ onSearchTextChanged
+                                        =>
+                                            param value
+                                            _ setAvailablePluginsSearchText
+                                                @ value
+                                            _ pluginSel.setSearchText(value)
+                                            _ updateFilters
+                                    @ onSelect
+                                        =>
+                                            param metaPluginName
+                                            _ pluginSel.select(metaPluginName)
+                                            _ getMvc().controller.selectMetaPlugin
+                                                @ appState.currentJob
+                                                @ metaPluginName
+                                                @ 'select'          
+                                            _ updateFilters
+                                            # TODO may be no more necessary
+                                            _ setAppState
+                                                {
+                                                    @ ...appState
+                                                    @ selectedMetaPlugins pluginSel.getSelected()

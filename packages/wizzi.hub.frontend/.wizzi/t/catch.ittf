@@ -1,0 +1,10 @@
+$group
+    $params method, message|@@null
+    ._ catch
+        =>
+            param error
+                :any
+            $hook
+            $if message
+                error '${method}.error', ${message}
+            error '${method}.error', error

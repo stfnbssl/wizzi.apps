@@ -1,0 +1,181 @@
+module
+    
+    $
+      var myName = 'Model';
+      var stateProps = [
+        { name: "activeView" },
+        { name: "metaId" },
+        { name: "metaName" },
+        { name: "currentJobId" },
+      ];
+
+    import
+        @ JobItem
+        from "@/Data/types"
+
+    import
+        as packiApi
+        from "@/Api/packiApi"
+
+    import
+        @ Constants
+        from "./Constants"
+    
+    import
+        @ Storage
+        from "./Storage"
+
+    import
+        @ AppState
+        from "./types"
+
+    export
+        class ${myName}
+            p constants
+                :typeof Constants
+            p storage
+                :ref InstanceType
+                    :param 
+                        :typeof Storage
+            ctor
+                param storage
+                    :ref InstanceType
+                        :param 
+                            :typeof Storage
+                param constants
+                    :typeof Constants
+                set this.storage = storage
+                set this.constants = constants
+                set this.wzApi = api.Wizzi
+                #
+                    # 
+                    # Creates a new Model instance and hooks up the storage.
+                    # 
+                    # @constructor
+                    # @param {object} storage A reference to the client side storage class
+                    # @param {object} constants A reference to the client side constants class
+                    # @param {object} defaults Default values
+                    # 
+
+            m getAppState
+                param_callback( required, Method: ${myName}.getAppState )
+                    :=> 
+                        :void 
+                        param cb
+                            :ref AppState
+                const retval
+                    :ref AppState
+                    {
+                        $foreach p in stateProps
+                            @ ${p.name}
+                                _ this.storage.getWizziMetaProductionState
+                                    @ '${p.name}'
+                # log '${myName}.prototype.getAppState.retval', retval
+                return
+                    _ callback
+                        @ retval
+            
+            m setAppState
+                param state
+                    :ref AppState
+                param_callback( required, Method: ${myName}.setAppState )
+                    :=> 
+                        :void 
+                # log '${myName}.prototype.setAppState', state
+                $foreach p in stateProps
+                    _ this.storage.setWizziMetaProductionState
+                        @ '${p.name}'
+                        @ state.${p.name}
+                return
+                    _ callback
+
+            m updatePackiFile
+                param productionKind
+                    :string
+                param productionId
+                    :string
+                param filePath
+                    :string
+                param oldContents
+                    :string
+                param newContents
+                    :string
+                param_callback( required, Method: ${myName}.updatePackiFile )
+                    :=> 
+                        :void 
+                        param cb
+                            :any
+                if oldContents.trim() == newContents.trim()
+                    return
+                        _ callback
+                            {
+                                @ message 'Nothing changed'
+                const pm
+                    new this.wzApi.PackiManager
+                _ pm.putCodeFile
+                    @ filePath
+                    @ oldContents
+                $* 17/2/24
+                const fileDiffs
+                  _ pm.getFileDiffs
+                    @ filePath
+                    @ newContents
+                *$
+                const packiDiffs
+                    {
+                        { [filePath]
+                            @ d 0
+                            $* 17/2/24
+                            @ diffs fileDiffs
+                            *$
+                            @ contents newContents
+                _ this.storage.putPackiDiffs
+                    @ productionKind
+                    @ productionId
+                    @ packiDiffs
+                    {
+                    @ callback
+
+            m setupJobProductionItem
+                param jobItem
+                    :ref JobItem
+                :return
+                    :ref JobItem
+                if jobItem.__setup 
+                    return jobItem
+                #
+                # set meta plugins selections object
+                const mpls
+                    _ packiApi.extractPackiFileContent
+                        @ jobItem.packiFiles
+                        @ this.constants.metaPluginSelectionsFilePath
+                        {
+                            @ json true
+                set mpls.json = mpls.json || {}
+                if !mpls.json.metaPluginCategories
+                    set mpls.json.metaPluginCategories = []
+                    set mpls.text = JSON.stringify(mpls.json)
+                if !mpls.json.metaPlugins
+                    set mpls.json.metaPlugins = []
+                    set mpls.text = JSON.stringify(mpls.json)
+                set jobItem.__mpls = mpls
+                #
+                # set meta productions selections object
+                const mps
+                    _ packiApi.extractPackiFileContent
+                        @ jobItem.packiFiles
+                        @ this.constants.metaProductionSelectionsFilePath
+                        {
+                            @ json true
+                set mps.json = mps.json || {}
+                if !mps.json.metaProductionCategories
+                    set mps.json.metaProductionCategories = []
+                    set mps.text = JSON.stringify(mps.json)
+                if !mps.json.metaProductions
+                    set mps.json.metaProductions = []
+                    set mps.text = JSON.stringify(mps.json)
+                set jobItem.__mps = mps
+                #
+                set jobItem.__setup = true
+                log '^^^^^ -----> app.${myName}.prototype.setupJobProductionItem.jobItem', jobItem
+                return jobItem

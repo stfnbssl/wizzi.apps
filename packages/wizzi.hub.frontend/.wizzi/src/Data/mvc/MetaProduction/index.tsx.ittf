@@ -1,0 +1,56 @@
+module
+
+    import
+        @ Constants
+        from "./Constants"
+    import
+        @ Storage
+        from "./Storage"
+    import
+        @ Model
+        from "./Model"
+    import
+        @ Controller
+        from "./Controller"
+
+    let mvcInstance
+        :ref InstanceType
+            :param 
+                :typeof MetaProductionMvc
+
+    class MetaProductionMvc
+        
+        p constants
+            :typeof Constants
+        p storage
+            :ref InstanceType
+                :param 
+                    :typeof Storage
+        p model
+            :ref InstanceType
+                :param 
+                    :typeof Model
+        p controller
+            :ref InstanceType
+                :param 
+                    :typeof Controller
+
+        p user
+            :{
+                :p id
+                    :string
+
+        ctor
+            set this.constants = Constants
+            set this.storage = new Storage()
+            set this.model = new Model(this.storage, this.constants)
+            set this.controller = new Controller(this.model, this.constants)
+            set this.user
+                {
+                    @ id "stfnbssl"
+
+    export
+        function getMvc
+            if !mvcInstance
+                set mvcInstance = new MetaProductionMvc()
+            return mvcInstance

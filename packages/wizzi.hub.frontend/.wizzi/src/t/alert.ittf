@@ -1,0 +1,7 @@
+$group
+    $params value, message|@@null
+    _ alert
+        _ '${message || ''}' + JSON.stringify
+            @ ${value}
+            @ null
+            @ 4

@@ -1,0 +1,158 @@
+{
+  "definitions": [
+    {
+      "type": "string",
+      "name": "name",
+      "defaultValue": "stefano"
+    },
+    {
+      "type": "boolean",
+      "name": "isAstute",
+      "defaultValue": false
+    },
+    {
+      "type": "object",
+      "name": "address",
+      "defaultValue": {},
+      "parameters": [
+        {
+          "type": "string",
+          "name": "street",
+          "defaultValue": "E. Torricelli 17"
+        },
+        {
+          "type": "string",
+          "name": "country",
+          "defaultValue": "Italy"
+        },
+        {
+          "type": "boolean",
+          "name": "male",
+          "value": "",
+          "defaultValue": false
+        }
+      ]
+    },
+    {
+      "type": "use",
+      "name": "react",
+      "value": {},
+      "defaultValue": {},
+      "parameters": [
+        {
+          "type": "boolean",
+          "name": "ui",
+          "value": "",
+          "defaultValue": false
+        },
+        {
+          "type": "boolean",
+          "name": "router",
+          "value": "",
+          "defaultValue": false
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "name": "fields",
+      "value": {},
+      "defaultValue": [
+        {"name": "id", "type": "number", "constraint": {}},
+        {"name": "fieldName", "type": "string", "constraint": {}}
+      ],
+      "parameters": [
+        {
+          "type": "string",
+          "name": "name",
+          "value": "",
+          "defaultValue": ""
+        },
+        {
+          "type": "string",
+          "name": "type",
+          "value": "",
+          "defaultValue": ""
+        }
+      ]
+    }
+  ],
+  "values": {},
+  "old": [
+    {
+      "type": "string",
+      "name": "name",
+      "value": "",
+      "defaultValue": "stefano"
+    },
+    {
+      "type": "boolean",
+      "name": "isAstute",
+      "value": "",
+      "defaultValue": false
+    },
+    {
+      "type": "use",
+      "name": "react",
+      "value": {},
+      "defaultValue": {},
+      "parameters": [
+        {
+          "type": "boolean",
+          "name": "ui",
+          "value": "",
+          "defaultValue": false
+        },
+        {
+          "type": "boolean",
+          "name": "router",
+          "value": "",
+          "defaultValue": false
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "name": "fields",
+      "value": {},
+      "defaultValue": [
+        {"name": "id", "type": "number", "constraint": {}},
+        {"name": "fieldName", "type": "string", "constraint": {}}
+      ],
+      "parameters": [
+        {
+          "type": "string",
+          "name": "name",
+          "value": "",
+          "defaultValue": ""
+        },
+        {
+          "type": "string",
+          "name": "type",
+          "value": "",
+          "defaultValue": ""
+        },
+        {
+          "type": "object",
+          "name": "constraint",
+          "value": "",
+          "defaultValue": {},
+          "parameters": [
+            {
+              "type": "integer",
+              "name": "min",
+              "value": "",
+              "defaultValue": 0
+            },
+            {
+              "type": "integer",
+              "name": "max",
+              "value": "",
+              "defaultValue": 100
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

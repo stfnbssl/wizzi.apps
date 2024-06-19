@@ -1,0 +1,9 @@
+module
+
+    export
+        function MainHeader
+          param params
+          return
+              . main-header
+                  {
+                      + params.children

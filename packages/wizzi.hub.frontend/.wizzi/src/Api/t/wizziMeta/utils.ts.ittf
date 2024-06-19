@@ -1,0 +1,138 @@
+$group
+    $params &md
+
+    export
+        function mergeModuleAndHubProvides
+            param moduleMetaPluginProvides
+                :any
+            param hubMetas
+                :any
+            const metaPluginsObj = {}
+            const metaPluginCategoriesObj = {}
+            const metaProductionsObj = {}
+            const metaProductionCategoriesObj = {}
+            #
+            # node module meta plugins
+            foreach mpl in moduleMetaPluginProvides.nodeModulePlugins
+                if !mpl.categories
+                    _ alert
+                        @ 'Plugin "' + mpl.name + '" missing the "categories" property' 
+                set mpl.pluginCategories = mpl.categories || []
+                set mpl.metaProductionCategories = {}
+                set mpl.metaProductions = {}
+                delete mpl.categories
+                if metaPluginsObj[mpl.name]
+                    _ alert
+                        @ 'Duplicated plugin name. Skipped: ' + mpl.name
+                else
+                    set metaPluginsObj[mpl.name] = mpl
+                foreach c in mpl.pluginCategories
+                    if metaPluginCategoriesObj[c.name]
+                        _ metaPluginCategoriesObj[c.name].plugins.push
+                            {
+                                @ name mpl.name
+                    else
+                        set c.plugins = []
+                        _ c.plugins.push
+                            {
+                                @ name mpl.name
+                        set metaPluginCategoriesObj[c.name] = c
+            #
+            # node module meta productions
+            foreach mpr in moduleMetaPluginProvides.metaProductions
+                set metaProductionsObj[mpr.name] = mpr
+                const mpl = metaPluginsObj[mpr.plugin]
+                if mpl
+                    set mpl.metaProductions[mpr.name]
+                        {
+                            @ name mpr.name
+                            @ categories mpr.categories || []
+                    if !mpr.categories
+                        _ alert
+                            @ 'Meta production "' + mpr.name + '" missing the "categories" property' 
+                    else
+                        foreach c in mpr.categories
+                            set metaProductionCategoriesObj[c.name] = c
+                            set mpl.metaProductionCategories[c.name] = c
+                else
+                    _ alert
+                        @ 'Meta production ' + mpr.name + ' missing plugin property' 
+            #
+            # wizzi hub meta plugins
+            foreach mpl in hubMetas.item
+                const hubMetaProvidesData
+                    _ Packi.extractPackiFileContent
+                        @ mpl.packiFiles
+                        @ '.db/meta.provides.json'
+                        {
+                            @ json true
+                # info '${md.ApiName}.mergeModuleAndHubProvides.hubMetaProvidesData', hubMetaProvidesData
+                const hubMetaProvides = hubMetaProvidesData.json
+                set mpl.metaProductionCategories = {}
+                set mpl.metaProductions = {}
+
+                if hubMetaProvides && hubMetaProvides.pluginMetaProductions && hubMetaProvides.pluginMetaProductions.length > 0
+                    set mpl.pluginCategories = hubMetaProvides.pluginCategories || []
+                 
+                    const name = hubMetaProvides.name || mpl.name
+                    if metaPluginsObj[mpl.name]
+                        _ alert
+                            @ 'Meta plugins in WizziHub cannot have a name already used in jsnode meta plugins. Skipped: ' + mpl.name
+                    else
+                        set metaPluginsObj[mpl.name] = mpl
+                  
+                if hubMetaProvides.pluginCategories && hubMetaProvides.pluginCategories.length > 0
+                    foreach c in hubMetaProvides.pluginCategories
+                      if metaPluginCategoriesObj[c.name]
+                        _ metaPluginCategoriesObj[c.name].plugins.push
+                          {
+                            @ name mpl.name
+                      else
+                        set c.plugins = []
+                        _ c.plugins.push
+                          {
+                            @ name mpl.name
+                        set metaPluginCategoriesObj[c.name] = c
+                else
+                    _ alert
+                      @ 'In hub meta plugin "' + mpl.name + '" missing the "pluginCategories" array. It should be in ".db/meta.provides.json"'
+                
+                if hubMetaProvides.pluginMetaProductions && hubMetaProvides.pluginMetaProductions.length > 0
+                    foreach mpr in hubMetaProvides.pluginMetaProductions
+                        set mpr.plugin = mpl.name
+                        if metaProductionsObj[mpr.name]
+                            _ alert
+                                @ 'Meta productions in WizziHub cannot have a name already used in jsnode meta productions. Skipped: ' + mpr.name
+                        else
+                            set metaProductionsObj[mpr.name] = mpr
+                        set mpl.metaProductions[mpr.name]
+                            {
+                                @ name mpr.name
+                                @ categories mpr.categories || []
+                        if !mpr.categories
+                            _ alert
+                                @ 'In hub meta plugin "' + mpl.name + '"' +
+                                    \b ' the meta production "' + mpr.name + '"' +
+                                    \b ' is missing the "categories" property. It should be in ".db/meta.provides.json"'
+                        else
+                            foreach c in mpr.categories
+                                set metaProductionCategoriesObj[c.name] = c
+                                set mpl.metaProductionCategories[c.name] = c
+                        # ??? set mpl.metaProductionCategories = Object.values(mpl.metaProductionCategories)
+                else
+                    _ alert
+                        @ 'In hub meta plugin "' + mpl.name + '" missing the "pluginMetaProductions" array. It should be in ".db/meta.provides.json"'
+            const allMetaPluginsArray = Object.values(metaPluginsObj)
+            
+            foreach mpl in allMetaPluginsArray
+                set mpl.metaProductionCategories = Object.values(mpl.metaProductionCategories)
+                set mpl.metaProductions = Object.values(mpl.metaProductions)
+            
+            return
+                {
+                    @ metaPlugins allMetaPluginsArray
+                    @ metaPluginCategories Object.values(metaPluginCategoriesObj)
+                    @ metaProductions Object.values(metaProductionsObj)
+                    @ metaProductionCategories Object.values(metaProductionCategoriesObj)
+
+

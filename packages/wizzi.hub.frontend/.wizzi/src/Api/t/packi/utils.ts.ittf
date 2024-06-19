@@ -1,0 +1,100 @@
+$group
+    $params &md
+
+    export
+        function clonePackiFiles
+            param packiFiles
+                :ref PackiFiles
+            param filters
+                :[
+                    :string
+                :optional
+            :return
+                :ref PackiFiles
+            set filters = filters || []
+            function isOk
+                param filename
+                    :string
+                if !filters || filters.length == 0
+                    return true
+                foreach filter in filters
+                    if filename.startsWith(filter)
+                        return true
+                return false
+            const retval 
+                :ref PackiFiles
+                =
+                    {
+
+            for var k in packiFiles
+                if isOk(k)
+                    set retval[k] = packiFiles[k]
+            return retval
+
+    export
+        function extractPackiFileContent
+            param packiFiles
+                :ref PackiFiles
+            param filePath
+                :string
+            param options
+                :{
+                    :p json
+                        :boolean
+            :return
+                :ref PackiFileContent
+            $$ loog "api.${md.ApiName}.extractPackiFileContent.packiFiles 1", packiFiles
+            $$ loog "api.${md.ApiName}.extractPackiFile.filePath", filePath
+            const pf
+                _ extractPackiFile
+                    @ packiFiles
+                    @ filePath
+            $$ loog "api.${md.ApiName}.extractPackiFile.pf", pf
+            const retval
+                :ref PackiFileContent
+                {
+                    @ text (pf && pf.contents) || (options.json ? '{}' : '')
+            if options.json
+                try
+                    set retval.json = pf && JSON.parse(pf.contents) || {}
+                    $$ loog "api.${md.ApiName}.extractPackiFile.pf.contents json", retval.json
+                catch err
+                    info "Error in ${md.ApiName}.extractPackiFileContent parsing packiFile contents", err
+                    # TODO
+                    set retval.json = {}
+            return retval
+
+    export
+        function extractPackiFile
+            param packiFiles
+                :union
+                    :string
+                    :ref PackiFiles
+            :return
+                :ref PackiFile
+            param filePath
+                :string
+            const pfs
+                :ref PackiFiles
+                _ packiFilesToObject
+                    @ packiFiles
+            $$ loog "api.${md.ApiName}.extractPackiFile.packiFiles 1", pfs
+            return pfs[filePath] 
+
+    export
+        function packiFilesToObject
+            param packiFiles
+                :union
+                    :string
+                    :ref PackiFiles
+            :return
+                :ref PackiFiles
+            if typeof packiFiles === "string"
+                try
+                    return JSON.parse(packiFiles)
+                catch err
+                    error "${md.ApiName}.packiFilesToObject", err
+                    # TODO
+                    return {}
+            else
+                return packiFiles

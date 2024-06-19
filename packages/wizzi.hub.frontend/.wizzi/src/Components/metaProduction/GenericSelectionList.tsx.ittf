@@ -1,0 +1,99 @@
+module
+
+    import React
+        from "react"
+
+    import
+        @ StringKeyedObject
+        from "@/Data/types"
+
+    import
+        @ SearchView
+        from "@/Components/utils/SearchView"
+    
+    :type GenericSelectionListProps
+        :{
+            :p title
+                :string
+            :p listClass
+                :string
+                :optional
+            :p selectedableItems
+                :[
+                    :ref StringKeyedObject
+            :p searchViewPlaceholder
+                :string
+                :optional
+            :p searchText
+                :string
+                :optional
+            :p onSelect
+                :=>
+                    :void
+                    param name
+                        :string
+                :optional
+            :p onUnselect
+                :=>
+                    :void
+                    param name
+                        :string
+                :optional
+            :p onSearchTextChanged
+                :=>
+                    :void
+                    param text
+                        :string
+                :optional
+
+    # see api.mvc.SelectableCollection
+    export
+        function GenericSelectionList
+            param params
+                :ref GenericSelectionListProps
+            const
+                {
+                    @ title
+                    @ selectedableItems
+                    @ searchViewPlaceholder
+                    @ searchText
+                    @ onSelect
+                    @ onUnselect
+                    @ onSearchTextChanged
+                = params
+            return
+                . {'w-area-list w-area-list-cats-prods ' + (params.listClass ? params.listClass : '')}        
+                    . w-area-list-caption
+                        + {title}
+                    {
+                        &&
+                            + searchViewPlaceholder && searchViewPlaceholder.length > 0
+                            < SearchView
+                                @ className "w-area-list-search"
+                                @ placeholder {searchViewPlaceholder}
+                                @ value {searchText}
+                                @ onChange
+                                    =>
+                                        param value
+                                            :string
+                                        if onSearchTextChanged
+                                            _ onSearchTextChanged(value)
+                    . w-area-list-inner
+                        ul
+                            _ selectedableItems.map
+                                =>
+                                    param item
+                                    param ndx
+                                    < React.Fragment
+                                        @ key {ndx}
+                                        li
+                                            div
+                                                + {item.name}
+                                                @ onClick
+                                                    =>
+                                                        if onUnselect 
+                                                            _ onUnselect
+                                                                @ item.name
+                                                        if onSelect 
+                                                            _ onSelect
+                                                                @ item.name

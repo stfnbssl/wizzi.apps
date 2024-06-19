@@ -1,0 +1,9 @@
+module
+
+    export
+        function FullPage
+            param params
+            return
+                . full-page
+                    {
+                        + params.children

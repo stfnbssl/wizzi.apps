@@ -1,0 +1,22 @@
+{
+    "name": "ts.react.vite.starter",
+    "npmName": "",
+    "version": "0.0.1",
+    "description": "Typescript react vite starter App",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "license": {
+        "type": "[object Object]",
+        "url": ""
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "Build": {
+        "useXxx": true,
+        "xxx": {},
+        "utils": {}
+    }
+}

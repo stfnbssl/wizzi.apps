@@ -1,0 +1,11 @@
+module
+    
+    $
+        var myName = 'Constants';
+        //
+
+    export
+        const ${myName}
+            {
+                @ metaProductionSelectionsFilePath ".db/metaProductionSelections.json"
+                @ metaPluginSelectionsFilePath ".db/metaPluginSelections.json"

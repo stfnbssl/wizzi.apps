@@ -1,0 +1,275 @@
+module
+
+    import
+        @ useState
+        @ useEffect
+        from "react"
+
+    import
+        @ getMvc
+        from "@/Data/mvc/MetaProduction"
+
+    import
+        @ getJobs
+        @ startCurrentJob
+        from "@/Data/jobs"
+
+    import
+        @ JobItem
+        from "@/Data/types"
+
+    import
+        @ AppState
+        @ MetaSelectionState
+        from "@/Data/mvc/MetaProduction/types"
+
+    import
+        @ MainContent
+        @ MainContentLeftBar
+        @ MainContentWorkArea
+        @ MainFooter
+        @ MainHeader    
+        from "@/Components/shell/index"
+    
+    import
+        @ SpinnerView
+        from "@/Components/utils/SpinnerView"
+
+    import
+        @ MenuItem
+        from "@/Components/nav/MenuItem"
+
+    import
+        @ UserNavBar
+        from "@/Components/nav/UserNavBar"
+
+    import
+        @ LogoTitleNavBar
+        from "@/Components/nav/LogoTitleNavBar"
+
+    import
+        @ WorkAreaToolBar
+        from "./WorkAreaToolBar"
+
+    import
+        @ WorkAreaContent
+        from "./WorkAreaContent"
+
+    import
+        @ MetaErrorView
+        from "./MetaErrorView"
+
+    function startAppState
+        param initialState
+            :ref AppState
+        let [data, setData] = useState<AppState|null>(null)
+        _ useEffect
+            =>
+                async-function doFetch 
+                    _ getMvc().controller.getAppState
+                        =>
+                            param result
+                            $$ info 'startAppState.result.fromController.LocalStorage', result
+                            $$ info 'startAppState.initialState', initialState
+                            const data
+                                _ Object.assign
+                                    {
+                                    @ initialState
+                                    @ result
+                            $$ info 'startAppState.result.after.assigning.initialState', data
+                            _ setData
+                                @ data
+                _ doFetch
+            [
+        return
+            {
+                @ appState data
+                @ setAppState setData
+
+    function loadJobList
+        param reloadCount
+            :number
+        :return
+            :{
+                :p jobList
+                    :ref JobItem[]|null
+                :p jobListError
+                    :any
+                :p setJobList
+                    :ref React.Dispatch<React.SetStateAction<JobItem[] | null>>                    
+                :p setJobListError
+                    :ref React.Dispatch<React.SetStateAction<any | null>>                   
+                :p jobItemReloadCount
+                    :number
+
+        let [data, setData] = useState<JobItem[]|null>(null)
+        let [error, setError] = useState<any|null>(null)
+        let [jobItemReloadCount, setJobItemReloadCount] = useState(0)
+        _ useEffect
+            =>
+                async-function doFetch
+                    _ getJobs
+                        @ getMvc().user.id
+                        @ reloadCount == 0 ? false : true
+                        a_then(result)
+                            $$ info 'loadJobList.result', result
+                            _ setData
+                                @ result.jobs
+                            _ setJobItemReloadCount
+                                @ jobItemReloadCount + 1
+                        catch(loadJobList)
+                            _ setError
+                                @ error
+                _ doFetch
+            [
+                @ reloadCount
+        return
+            {
+                @ jobList data
+                @ jobListError error
+                @ setJobList setData
+                @ setJobListError setError
+                @ jobItemReloadCount jobItemReloadCount
+
+    export
+        function MetaProduction
+            const
+                {
+                    @ appState
+                    @ setAppState
+                =
+                    _ startAppState
+                        { 
+                            @ reloadCount 0
+                            @ activeView 'plugins-selection'
+            info "AppData.appState", appState
+            +
+            const
+                {
+                    @ jobList
+                    @ jobListError
+                    @ jobItemReloadCount
+                =
+                    _ loadJobList
+                        @ appState ? appState.reloadCount : 0
+            if jobListError
+                < MetaErrorView
+                    @ error {jobListError}
+            info "AppData.jobList", jobList
+            +
+            if !appState || jobList == null
+                return
+                    < MainHeader
+                        < SpinnerView
+            return
+                div
+                    < MetaProductionPage
+                        @ appState {appState}
+                        @ setAppState {setAppState}
+                        @ jobList {jobList}
+                        @ jobListError {jobListError}
+                        @ jobItemReloadCount {jobItemReloadCount}
+
+    :type MetaProductionPageProps
+        :{
+            :p appState
+                :ref AppState
+            :p setAppState
+                :any
+            :p jobList
+                :[
+                    :ref JobItem
+            :p jobListError
+                :any
+            :p jobItemReloadCount
+                :number
+
+    function MetaProductionPage
+        param params
+            :ref MetaProductionPageProps
+        +
+        const
+            {
+                @ appState
+                @ setAppState
+                @ jobList
+                @ jobListError
+                @ jobItemReloadCount
+            = params
+        +
+        # Do increment "metaSelectionState.selCounter" to force rerendering
+        const [metaSelectionState, setMetaSelectionState]
+            _ useState<MetaSelectionState>
+                { 
+                    @ selCounter 0 
+        +
+        if !appState.currentJobId
+            return
+                < MainHeader
+                    p Create/select a job
+        const currentJobId = appState.currentJobId
+        const jobItemData
+            _ startCurrentJob
+                @ currentJobId
+                @ jobItemReloadCount
+                {
+                    @ appState
+                    @ setAppState
+                    @ metaSelectionState
+                    @ setMetaSelectionState
+        if !jobItemData
+            return
+                < MainHeader
+                    < SpinnerView
+        info "AppMetaJob.jobItemData", jobItemData
+        info "AppMetaJob.metaSelectionState", metaSelectionState
+        info "AppMetaJob.appState", appState
+        return
+            <
+                < MainHeader
+                    < LogoTitleNavBar
+                        @ title "Meta production jobs"
+                    . flex-row
+                        < MenuItem
+                            @ label "Hub productions"
+                            @ href "/~/stfnbssl/lab-meta.html?savecount=0&filepath=hubProductions.html.ittf"
+                        < MenuItem
+                            @ label "Lab"
+                            @ href "/ittf/site/lab.html.ittf"
+                    < UserNavBar
+                        @ loggedUserId user.id
+                < MainContent
+                    < MainContentLeftBar
+                    < MainContentWorkArea
+                        < WorkAreaToolBar
+                            @ appState {appState}
+                            @ onChangeView
+                                =>
+                                    param value
+                                    $$ info 'onChangeView', value
+                                    _ getMvc().controller.setAppState
+                                        {
+                                            @ activeView value
+                                            @ reloadCount appState.reloadCount
+                                        =>
+                                            $$ info 'setting appState', value
+                                            _ setAppState
+                                                {
+                                                    @ ...appState
+                                                    @ activeView value 
+                            @ onReloadJobList
+                                => 
+                                    $$ info 'App.onReloadJobList.appState', appState
+                                    _ setAppState
+                                        {
+                                            @ ...appState
+                                            @ reloadCount appState.reloadCount + 1
+                        < WorkAreaContent
+                            @ appState {appState}
+                            @ setAppState {setAppState}
+                            @ jobList {jobList}
+                            @ jobListError {jobListError}
+                            @ jobItemReloadCount {jobItemReloadCount}
+                            @ metaSelectionState {metaSelectionState}
+                            @ setMetaSelectionState {setMetaSelectionState}
+                < MainFooter

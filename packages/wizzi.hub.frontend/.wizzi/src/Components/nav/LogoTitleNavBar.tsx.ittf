@@ -1,0 +1,22 @@
+module
+
+    :type LogoTitleNavBarProps
+        :{
+            :p title
+                :string
+
+    export
+        function LogoTitleNavBar
+            param params
+                :ref LogoTitleNavBarProps
+            return
+                . menu-header
+                    a
+                        @ href '/'
+                        . logo-box
+                            $$ TODO images/logo(${colors.main}, ${colors.mainHeaderBg})
+                    . flex-row
+                        . menu-header-title-slash
+                            + &nbsp;/&nbsp;
+                        . menu-header-title
+                            + {params.title}

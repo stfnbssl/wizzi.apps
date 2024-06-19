@@ -1,0 +1,101 @@
+module
+    import axios
+        @ AxiosError
+        @ AxiosResponse
+        from 'axios'
+
+    :interface ProductionItem
+        :p id
+            :string 
+        :p owner
+            :string 
+        :p name
+            :string 
+        :p description
+            :string 
+        :p packiFiles
+            :string 
+    
+    :interface CRUDResult
+        :p oper
+            :string 
+            :optional
+        :p ok
+            :boolean 
+        :p item
+            :any 
+            :optional
+        :p message
+            :string 
+            :optional
+
+    const BASE_URL = 'http://localhost:3003/api/v1/production'
+
+    axios/interceptors(&md)
+    axios/response(&md)
+    axios/request(&md)
+        @ put
+            => 
+                :< T
+                param url
+                    :string 
+                param body
+                    :{ 
+                set axios.defaults.baseURL = BASE_URL
+                return
+                    _ axios.post
+                        :param 
+                            :ref T
+                        @ url
+                        @ body
+                        ._ then
+                            @ responseBody
+        @ delete
+            => 
+                :< T
+                param url
+                    :string 
+                param body
+                    :{ 
+                set axios.defaults.baseURL = BASE_URL
+                return
+                    _ axios.delete
+                        :param 
+                            :ref T
+                        @ url
+                        @ body
+                        ._ then
+                            @ responseBody
+
+    $
+        var mdObj = {
+            items: [
+              { Prod: 'Artifact', prod: 'artifact'},
+              { Prod: 'Package', prod: 'package'},
+              { Prod: 'Plugin', prod: 'plugin'},
+              { Prod: 'Meta', prod: 'meta'},
+              { Prod: 'TFolder', prod: 'tfolder'},
+              { Prod: 'Job', prod: 'job'},
+            ]
+        }
+
+    $*
+    iife_window( api, ${myName}, increment )
+      set ${myName}.cache = new utils.Cache('${myName}')
+    *$
+
+    $foreach md in mdObj.items
+        $
+            md.ApiName = 'WizziHub';
+            md.apiUrl = 'api/v1/production';
+        wizziHub/production( &md )
+
+    $*
+    $ 
+      var md = {
+        ApiName: 'Wizzi',
+        apiUrl: '/api/v1',
+      }
+    wizzi/cdn( &md )
+    wizzi/dev( &md )
+    *$

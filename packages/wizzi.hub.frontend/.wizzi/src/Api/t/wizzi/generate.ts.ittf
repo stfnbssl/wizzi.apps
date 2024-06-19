@@ -1,0 +1,78 @@
+$group
+    $params &md
+
+    export
+        function generateArtifact
+            param mainIttf
+              :string
+            param packiFiles
+              :ref PackiFiles
+            param contextItems
+              :any
+              $*
+                :{
+                    :index
+                        :any
+                        param k
+                            :string
+              *$
+            const url = 'production/artifact'
+            const data
+                {
+                    { ittfDocument
+                        @ source 'packi'
+                        @ mainIttf mainIttf
+                        @ packiFiles packiFiles
+                    @ contextItems contextItems || []
+
+            r_promise()
+                _ request.post
+                    :param 
+                        :ref Result
+                    @ url
+                    @ data            
+                    ._ then
+                          =>
+                              param response
+                              info 'api.${md.ApiName}.generateArtifact.response', response
+                              return 
+                                  _ resolve 
+                                      @ response
+                    catch_reject( api.${md.ApiName}.generateArtifact )
+
+    export
+        function generateFolderArtifacts
+            param sourceFolderUri
+              :string
+            param destFolderUri
+              :string
+            param packiFiles
+              :ref PackiFiles
+            param generateFragments
+              :boolean
+            param contextItems
+              :any
+            const url = 'production/folder/artifacts'
+            const data
+                {
+                    { ittfFolder
+                        @ source 'packi'
+                        @ sourceFolderUri sourceFolderUri
+                        @ destFolderUri destFolderUri
+                        @ generateFragments generateFragments
+                        @ packiFiles packiFiles
+                    @ contextItems contextItems || []
+            r_promise()
+                _ request.post
+                    :param 
+                        :ref Result
+                    @ url
+                    @ data            
+                    ._ then
+                        =>
+                            param response
+                            info 'api.${md.ApiName}.generateFolderArtifacts.response', response
+                            return 
+                                _ resolve 
+                                    @ response
+                    catch_reject( api.${md.ApiName}.generateFolderArtifacts )

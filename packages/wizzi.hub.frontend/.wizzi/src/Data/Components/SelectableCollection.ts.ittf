@@ -1,0 +1,342 @@
+module
+    $
+        var myName = 'SelectableCollection';
+
+    import
+        as _
+        from "@/Utils/underscore2"
+
+    import
+        @ StringKeyedObject
+        @ SelectableItem
+        from "../types"
+
+    #
+    # filtering works filtering out, but you can force filtering in
+    # sort is applyed by default, but you can force stopSort/startSort
+    export
+        class ${myName}
+            p isSortActive
+                :boolean
+            p keyName
+                :string
+            p items
+                :[
+                    :ref SelectableItem
+            p searchText
+                :string
+            p filterExcludeArray
+                :[
+                    :{
+                        :index
+                            :any
+                            param key
+                                :string                    
+            p filterIncludeArray
+                :[
+                    :{
+                        :index
+                            :any
+                            param key
+                                :string                    
+            ctor
+                param items
+                  :[
+                      :ref StringKeyedObject
+                param selectedItems
+                  :[
+                      :ref StringKeyedObject
+                param keyName
+                    :string
+                check_param_array(items, required, selectable items collections)
+                check_param_array(selectedItems, required, selected items collections)
+                set this.items = []
+                set this.keyName = keyName
+                set this.filterExcludeArray = []
+                set this.filterIncludeArray = []
+                set this.isSortActive = true
+                set this.searchText = ''
+                _ items.forEach
+                    =>
+                        param item
+                        const testSelected
+                            _ selectedItems.filter
+                                =>
+                                    param selItem
+                                    if keyName
+                                        return item[keyName] == selItem[keyName]
+                                    else
+                                        return item == selItem
+                        _ this.items.push
+                            {
+                                @ itemValue item
+                                @ selected testSelected.length > 0
+                                @ keyValue !keyName ? item : item[keyName]
+            m select
+                param keyValue
+                    :string
+                _ this.items.forEach
+                    =>
+                        param item
+                        if item.keyValue == keyValue
+                            set item.selected = true
+            m unSelect
+                param keyValue
+                    :string
+                _ this.items.forEach
+                    =>
+                        param item
+                        if item.keyValue == keyValue
+                            set item.selected = false
+            m getItems
+                :return
+                    :[
+                        :ref StringKeyedObject
+                const retval
+                    :[
+                        :ref StringKeyedObject
+                    [
+                _ this.items.forEach
+                    =>
+                        param item
+                        _ retval.push
+                            @ item.itemValue
+                return retval
+            m getSelected
+                :return
+                    :[
+                        :ref StringKeyedObject
+                let retval
+                    :[
+                        :ref StringKeyedObject
+                    [
+                _ this.getFiltered().forEach
+                    =>
+                        param item
+                        if item.selected
+                            _ retval.push
+                                @ item.itemValue
+                set retval
+                    _ _.sortFilter
+                        @ retval
+                        {
+                            { sort
+                                @ ascending true
+                                @ keyName (this.isSortActive ? this.keyName : undefined)
+                            { filter
+                                @ searchText ''
+                                @ keyName this.keyName
+                return retval
+            m getUnselected
+                :return
+                    :[
+                        :ref StringKeyedObject
+                let retval
+                    :[
+                        :ref StringKeyedObject
+                    [
+                _ this.getFiltered().forEach
+                    =>
+                        param item
+                        if !item.selected
+                            _ retval.push
+                                @ item.itemValue
+                set retval
+                    _ _.sortFilter
+                        @ retval
+                        {
+                            { sort
+                                @ ascending true
+                                @ keyName (this.isSortActive ? this.keyName : undefined)
+                            { filter
+                                @ searchText this.searchText || ''
+                                @ keyName this.keyName
+                return retval
+            m setFilter
+                param filterArray
+                  :[
+                      :{
+                          :index
+                              :any
+                              param key
+                                  :string                    
+                # defaults to filter out
+                _ this.setFilterExclude
+                    @ filterArray
+            m setFilterExclude
+                param filterArray
+                  :[
+                      :{
+                          :index
+                              :any
+                              param key
+                                  :string                    
+                set this.filterExcludeArray = filterArray
+            m setFilterInclude
+                param filterArray
+                  :[
+                      :{
+                          :index
+                              :any
+                              param key
+                                  :string                    
+                set this.filterIncludeArray = filterArray
+            m addFilter
+                param filterArray
+                  :[
+                      :{
+                          :index
+                              :any
+                              param key
+                                  :string                    
+                # defaults to filter out
+                _ this.addFilterExclude
+                  @ filterArray
+            m addFilterExclude
+                param filterArray
+                  :[
+                      :{
+                          :index
+                              :any
+                              param key
+                                  :string                    
+                if _.isArray(filterArray)
+                    set this.filterExcludeArray = this.filterExcludeArray.concat(filterArray)
+                else
+                    _ this.filterExcludeArray.push
+                        @ filterArray
+            m addFilterInclude
+                param filterArray
+                  :[
+                      :{
+                          :index
+                              :any
+                              param key
+                                  :string                    
+                if _.isArray(filterArray)
+                    set this.filterIncludeArray = this.filterIncludeArray.concat(filterArray)
+                else
+                    _ this.filterIncludeArray.push
+                        @ filterArray
+            m resetFilter
+                # defaults to filter out
+                _ this.resetFilterExclude
+            m resetFilterExclude
+                set this.filterExcludeArray = []
+            m resetFilterInclude
+                set this.filterIncludeArray = []
+            m isFiltered
+                :return
+                    :boolean
+                param item
+                    :ref SelectableItem
+                let retval = false
+                _ this.filterExcludeArray.forEach
+                    =>
+                        param f
+                        if item.keyValue == f[this.keyName]
+                            set retval = true
+                _ this.filterIncludeArray.forEach
+                    =>
+                        param f
+                        if item.keyValue == f[this.keyName]
+                            set retval = false
+                return retval
+            m getFiltered
+                $if TODO
+                    private
+                :return
+                    :[
+                        :ref SelectableItem
+                $if false
+                    log '[[[    ${myName}.prototype.getFiltered.items', this.items
+                    log '[[[    ${myName}.prototype.getFiltered.filterExcludeArray', this.filterExcludeArray
+                    log '[[[    ${myName}.prototype.getFiltered.filterIncludeArray', this.filterIncludeArray
+                const filtered
+                    :[
+                        :ref SelectableItem
+                    _ this.items.filter
+                        =>
+                            param item
+                            return this.isFiltered(item) == false
+                $if false
+                    # log '[[[    ${myName}.prototype.getFiltered.filtered', filtered
+                return filtered
+            m stopSort
+                set this.isSortActive = false
+            m startSort
+                set this.isSortActive = true
+            m setSearchText
+                param searchText
+                  :string
+                set this.searchText = searchText
+            m setItems
+                param items
+                  :[
+                      :ref StringKeyedObject
+                const selectedItems
+                    :[
+                        :ref StringKeyedObject
+                    _ this.getSelected
+                const keyName = this.keyName
+                const newItems
+                    :[
+                        :ref SelectableItem
+                    [
+                _ items.forEach
+                    =>
+                        param item
+                        const testSelected
+                            _ selectedItems.filter
+                                =>
+                                    param selItem
+                                    if keyName
+                                        return item[keyName] == selItem[keyName]
+                                    else
+                                        return item == selItem
+                        _ newItems.push
+                            {
+                                @ itemValue item
+                                @ selected testSelected.length > 0
+                                @ keyValue !keyName ? item : item[keyName]
+                set this.items = newItems
+
+            p __counter
+                static
+                :number
+                = 0
+            p __db
+                static
+                :{
+                    :index
+                        :ref InstanceType
+                            :param 
+                                :typeof ${myName}                
+                        param key
+                            :string
+                {
+            m create
+                static
+                param items
+                  :[
+                      :ref SelectableItem
+                param selectedItems
+                  :[
+                      :ref SelectableItem
+                param keyName
+                    :string
+                check_param_array(items, required, selectable items collections)
+                check_param_array(selectedItems, required, selected items collections)
+                const selId = 'SelId' + ++${myName}.__counter
+                set ${myName}.__db[selId] = new ${myName}(items, selectedItems, keyName)
+                return selId
+            m get
+                static
+                param selId
+                    :string
+                return ${myName}.__db[selId]
+            m drop
+                static
+                param selId
+                    :string
+                delete ${myName}.__db[selId]

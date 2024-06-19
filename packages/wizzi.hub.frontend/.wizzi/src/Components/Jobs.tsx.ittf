@@ -1,0 +1,80 @@
+module
+
+    import
+        as _
+        from "@/Utils/underscore2"
+
+    import
+        @ SpinnerView
+        @ SearchView
+        from "@/Components/utils/SpinnerView"
+
+    import
+        @ JobItem
+        from "@/Data/types"
+
+    :type JobsProps
+        :{
+            :p reload
+                :boolean
+            :p jobs
+                :[
+                    :ref JobItem
+            :p onSelect
+                :=>
+                    :void
+                    param job
+                        :ref JobItem
+    
+    export
+        function Jobs
+            param params
+                :ref JobsProps
+            const
+                {
+                    @ reload
+                    @ jobs
+                = params
+            const [searchText, setSearchText] = useState('')
+            if !jobs
+                return
+                    < SpinnerView
+            info "Jobs.jobs", jobs
+            const jobsFiltered
+                _ _.sortFilter
+                    @ jobs
+                    {
+                        { sort
+                            @ ascending true
+                            @ keyName 'name'
+                        { filter
+                            @ searchText searchText
+                            @ keyName 'name'
+            $$ info "Jobs.jobsFiltered", jobsFiltered
+            return
+                . w-area-list w-area-list-jobs
+                    . w-area-list-caption
+                        + Jobs
+                    < SearchView
+                        @ className "w-area-list-search"
+                        @ placeholder "search job..."
+                        @ value {searchText}
+                        @ onChange
+                            =>
+                                param value
+                                _ setSearchText(value)
+                    . w-area-list-inner
+                        ul
+                            _ jobsFiltered.map
+                                =>
+                                    param item
+                                    param ndx
+                                    <
+                                        @ key {ndx}
+                                        li
+                                            div
+                                                + {item.name}
+                                                @ onClick
+                                                    =>
+                                                        _ params.onSelect
+                                                            @ item

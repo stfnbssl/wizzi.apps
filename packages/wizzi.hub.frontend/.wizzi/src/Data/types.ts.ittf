@@ -1,0 +1,67 @@
+module
+
+    export
+        :type LocalStorageItem
+            :{
+                :index
+                    :any
+                    param key
+                        :string
+
+    export
+        :type StringKeyedObject
+            :{
+                :index
+                    :any
+                    param key
+                        :string
+
+    export
+        :type SelectableItem
+            :{
+                :p keyValue
+                    :any
+                :p selected
+                    :boolean
+                :p itemValue
+                    :ref StringKeyedObject
+
+    export
+        :type JobItem
+            :{
+                :p id
+                    :string
+                :p __setup
+                    :boolean
+                :p __mpls
+                    :{
+                        :p text
+                            :string
+                        :p json
+                            :{
+                                :p metaPlugins
+                                    :[
+                                        :any
+                                :p metaPluginCategories
+                                    :[
+                                        :any
+                    :optional
+                    # meta plugin selections
+                :p __mps
+                    :{
+                        :p text
+                            :string
+                        :p json
+                            :{
+                                :p metaProductions
+                                    :[
+                                        :any
+                                :p metaProductionCategories
+                                    :[
+                                        :any
+                    :optional
+                    # meta production selections
+
+
+
+

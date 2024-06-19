@@ -1,0 +1,34 @@
+module
+
+    :type SearchViewProps
+        :{
+            :p className
+                :string
+            :p placeholder
+                :string
+            :p value
+                :string
+                :optional
+            :p onChange
+                :=>
+                    :void
+                    param name
+                        :string
+
+    export
+        function SearchView
+            param params
+                :ref SearchViewProps
+            return
+                . {params.className} 
+                    input 
+                        type search
+                        placeholder {params.placeholder}
+                        @ autoComplete off
+                        @ aria-label {params.placeholder}
+                        @ value {params.value || ''}
+                        @ onChange
+                            =>
+                                param ev
+                                _ params.onChange
+                                    @ ev.target.value

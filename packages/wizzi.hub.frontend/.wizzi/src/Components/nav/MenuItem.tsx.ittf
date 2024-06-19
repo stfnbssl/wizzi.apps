@@ -1,0 +1,34 @@
+module
+
+    :type MenuItemProps
+        :{
+            :p label
+                :string
+            :p href
+                :string
+            :p isSelected
+                :boolean
+                :optional
+            :p className
+                :string
+                :optional
+            :p classInverseName
+                :string
+                :optional
+
+    export
+        function MenuItem
+            param params
+                :ref MenuItemProps
+            if params.isSelected
+                return
+                    . menu-item
+                        div
+                            + {params.label}
+                            class {params.classInverseName}
+            else
+                return
+                    . menu-item
+                        a {params.label}
+                            href {params.href}
+                            class {params.className}

@@ -1,0 +1,137 @@
+$group
+    $params &md
+
+    export
+        function getMetaProvides
+            param owner
+                :string
+            const url = 'meta/provides'
+            r_promise()
+                _ request.get
+                    :param 
+                        :ref Result
+                    @ url
+                    a_then_err_reject( responsePlugins, @@null, @@null, api.${md.ApiName}.getMetaProvides.pluginMetas.response
+                        info 'api.${md.ApiName}.getMetaProvides.pluginMetas.response', responsePlugins
+                        _ WizziHub.getMeta
+                            @ owner 
+                            a_then_err_reject( responseHub, @@null, @@null, api.${md.ApiName}.getMetaProvides.hubmetas.response
+                                info 'api.${md.ApiName}.getMetaProvides.hubmetas.response', responseHub
+                                foreach meta in responseHub.item
+                                    set meta.__is_hub_meta_plugin = true
+                                _ getMetaHubProduction
+                                    @ responseHub.item
+                                    a_then( metaHubProductions, @@null, @@null, api.${md.ApiName}.getMetaHubProduction.metaHubProductions.response
+                                        return 
+                                            _ resolve 
+                                                {
+                                                    @ metaPluginProvides responsePlugins
+                                                    @ hubMetas responseHub
+                                                    @ metaHubProductions
+                                                    @ metaPluginProvidesEx
+                                                        _ mergeModuleAndHubProvides
+                                                            @ responsePlugins
+                                                            @ responseHub
+                                    catch_reject( api.${md.ApiName}.getMetaProvides.getMetaHubProduction )
+                            catch_reject( api.${md.ApiName}.getMetaProvides.wizziHub.getMeta )
+                    catch_reject( api.${md.ApiName}.getMetaProvides )
+
+    export
+        function getMetaParameters
+            param metaProductions
+                :any
+            param metaPlugins
+                :any
+            info '### >>> ${md.ApiName}.getMetaParameters.metaPlugins', metaPlugins
+            const url = 'meta/parameters'
+            const inMemoryMetas = []
+            foreach item in metaPlugins
+                if item.__is_hub_meta_plugin
+                    _ inMemoryMetas.push
+                        {
+                            @ owner item.owner
+                            @ name item.name
+            info '### >>> ${md.ApiName}.getMetaParameters.inMemoryMetas', inMemoryMetas
+            const data
+                {
+                    @ metaProductions metaProductions
+                    @ inMemoryMetas inMemoryMetas
+            r_promise()
+                _ request.post
+                    :param 
+                        :ref Result
+                    @ url
+                    @ data            
+                    a_then_err_reject( metaParameters, @@null, @@null, api.${md.ApiName}.getMetaParameters.metaParameters
+                        info '### >>> api.${md.ApiName}.getMetaParameters.metaParameters', metaParameters
+                        return 
+                            _ resolve 
+                                @ metaParameters
+                    catch_reject( api.${md.ApiName}.getMetaParameters )
+
+    export
+        function getMetaHubProduction
+            param metaItems
+                :ref HubProductionItem
+            $$ loog 'getMetaHubProduction.enter', metaItems
+            const retval
+                {
+                    [ provides
+                    [ metaProductions
+                    [ parameters
+                    [ packiFiles
+            r_promise()
+                function doItem
+                    param count
+                    const metaItem = metaItems[count]
+                    if !metaItem
+                        $$ loog 'getMetaHubProduction.retval', retval
+                        return
+                            _ resolve
+                                @ retval
+                    const packiFilesString = metaItem.packiFiles
+                    const packiFilesObj = packiFilesString ? JSON.parse(packiFilesString) : null
+                    const parameters
+                        _ packiApi.clonePackiFiles
+                            @ packiFilesObj
+                            [
+                                @ '.packi/parameters/'
+                    $$ loog 'getMetaHubProduction.parameters', parameters
+                    +
+                    if Object.keys(parameters).length < 1
+                        return
+                            _ doItem
+                                @ count + 1
+                    +
+                    const folderTemplates
+                        _ packiApi.clonePackiFiles
+                            @ packiFilesObj
+                            [
+                                @ 'folderTemplates/'
+                    $$ loog 'getMetaHubProduction.folderTemplates', folderTemplates
+                    +
+                    const ittfDocumentTemplates
+                        _ packiApi.clonePackiFiles
+                            @ packiFilesObj
+                            [
+                                @ 'ittfDocumentTemplates/'
+                    $$ loog 'getMetaHubProduction.ittfDocumentTemplates', ittfDocumentTemplates
+                    +
+                    const plainDocuments
+                        _ packiApi.clonePackiFiles
+                            @ packiFilesObj
+                            [
+                                @ 'plainDocuments/'
+                    $$ loog 'getMetaHubProduction.plainDocuments', plainDocuments
+                    _ retval.metaProductions.push
+                        {
+                            @ name metaItem.name
+                            @ packiFilesObj
+                            @ parameters
+                            @ folderTemplates
+                            @ ittfDocumentTemplates
+                            @ plainDocuments
+                    _ doItem
+                        @ count + 1
+                _ doItem
+                    @ 0

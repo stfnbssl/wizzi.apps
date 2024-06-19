@@ -1,0 +1,56 @@
+module
+    +
+    export
+        :type PackiFile
+            :{
+                :p type
+                    :literal 'CODE'
+                :p contents
+                    :string
+                :p generated
+                    :optional
+                    :boolean
+                :p error
+                    :optional
+                    :ref Error
+        #
+            #
+            # The content of a Packi code file.
+            #
+    +
+    export
+        :type PackiFiles
+            :{
+                :index
+                    :ref PackiFile
+                    param path
+                        :string
+        #
+            #
+            # Dictionary of file-names and their content that make up
+            # the files of the Packi.
+            #
+
+    +
+    export
+        :type PackiFileContent
+            :{
+                :p text
+                    :string
+                :p json
+                    :{
+                    :optional
+
+    +
+    export
+        :interface HubProductionItem
+            :p id
+                :string 
+            :p owner
+                :string 
+            :p name
+                :string 
+            :p description
+                :string 
+            :p packiFiles
+                :string 

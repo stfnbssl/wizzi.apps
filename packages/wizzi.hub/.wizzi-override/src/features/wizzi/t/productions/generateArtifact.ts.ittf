@@ -32,69 +32,67 @@ $group
                                             @ action 'wizzi.productions.generateArtifact'
                                             @ message 'files parameter must be an object of type PackiFiles'
                                             @ files
-                            const generator = _options.generator ? _options.generator : wizziMaps.generatorFor(filePath)
-                            if generator
-                                let jsonwf
-                                    :any
-                                    =
+                            # 7/6/24 changed `artifactName` to `artifactName`
+                            const artifactName = _options.artifactName ? _options.artifactName : null
+                            let jsonwf
+                                :any
+                                =
+                                    {
+                            let generationContext
+                                :any
+                                =
+                                    {
+                            const ittfDocumentUri
+                                _ ensurePackiFilePrefix(filePath)
+                                    :as
+                                        :string
+                            const siteDocumentUri
+                                _ Object.keys(files).find
+                                    =>
+                                        param k
+                                        _ k.endsWith('site.json.ittf')
+                            try
+                                set jsonwf =
+                                    await
+                                        _ createJsonFsAndFactory(files)
+                                set generationContext =
+                                    _ Object.assign
+                                        @ context || {}
                                         {
-                                let generationContext
-                                    :any
-                                    =
-                                        {
-                                const ittfDocumentUri
-                                    _ ensurePackiFilePrefix(filePath)
-                                        :as
+                                            @ site
+                                                iif siteDocumentUri
+                                                    then
+                                                        await
+                                                            _ loadModelInternal
+                                                                @ jsonwf.wf
+                                                                _ ensurePackiFilePrefix(siteDocumentUri)
+                                                                {
+                                                    else null
+                                            ...
+                                                await
+                                                    _ inferAndLoadContextJson(jsonwf.wf, files, ittfDocumentUri, 'twin')
+                                error "da dan", ittfDocumentUri
+                                _ jsonwf.wf.loadModelAndGenerateArtifact
+                                    @ ittfDocumentUri
+                                    {
+                                        @ modelRequestContext generationContext || {}
+                                        @ artifactRequestContext _options.artifactContext || {}
+                                    @ artifactName
+                                    =>
+                                        param err
+                                            :any
+                                        param result
                                             :string
-                                const siteDocumentUri
-                                    _ Object.keys(files).find
-                                        =>
-                                            param k
-                                            _ k.endsWith('site.json.ittf')
-                                try
-                                    set jsonwf =
-                                        await
-                                            _ createJsonFsAndFactory(files)
-                                    set generationContext =
-                                        _ Object.assign
-                                            @ context || {}
+                                        if err
+                                            error err
+                                            return reject(err)
+                                        _ resolve
                                             {
-                                                @ site
-                                                    iif siteDocumentUri
-                                                        then
-                                                            await
-                                                                _ loadModelInternal
-                                                                    @ jsonwf.wf
-                                                                    _ ensurePackiFilePrefix(siteDocumentUri)
-                                                                    {
-                                                        else null
-                                                ...
-                                                    await
-                                                        _ inferAndLoadContextJson(jsonwf.wf, files, ittfDocumentUri, 'twin')
-                                    error "da dan", ittfDocumentUri
-                                    _ jsonwf.wf.loadModelAndGenerateArtifact
-                                        @ ittfDocumentUri
-                                        {
-                                            @ modelRequestContext generationContext || {}
-                                            @ artifactRequestContext _options.artifactContext || {}
-                                        @ generator
-                                        =>
-                                            param err
-                                                :any
-                                            param result
-                                                :string
-                                            if err
-                                                error err
-                                                return reject(err)
-                                            _ resolve
-                                                {
-                                                    @ artifactContent result
-                                                    @ sourcePath filePath
-                                                    @ artifactGenerator generator
-                                catch ex
-                                    return reject(ex)
-                            else
-                                _ reject('No artifact generator available for document ' + filePath)
+                                                @ artifactContent result
+                                                @ sourcePath filePath
+                                                @ artifactGenerator artifactName
+                            catch ex
+                                return reject(ex)
     +
     export
         async-function generateArtifactFs
@@ -118,43 +116,40 @@ $group
                     async=>
                         param resolve
                         param reject
-                        const generator = _options.generator ? _options.generator : wizziMaps.generatorFor(filePath)
-                        if generator
-                            # TODO catch error
-                            const plugins
-                                iif _options.pluginsBaseFolder && _options.plugins
-                                    then
-                                        {
-                                            @ pluginsBaseFolder _options.pluginsBaseFolder
-                                            @ items _options.plugins
-                                    else null
-                            const wf
-                                await
-                                    _ createFilesystemFactory
-                                        @ plugins
-                                        @ null
-                                        {
-                            try
-                                _ wf.loadModelAndGenerateArtifact
-                                    @ filePath
+                        const artifactName = _options.artifactName ? _options.artifactName : null
+                        # TODO catch error
+                        const plugins
+                            iif _options.pluginsBaseFolder && _options.plugins
+                                then
                                     {
-                                        @ modelRequestContext context || {}
-                                        @ artifactRequestContext context || {}
-                                    @ generator
-                                    =>
-                                        param err
-                                        param result
-                                        if err
-                                            return reject(err)
-                                        _ resolve
-                                            {
-                                                @ artifactContent result
-                                                @ sourcePath filePath
-                                                @ artifactGenerator generator
-                            catch ex
-                                return reject(ex)
-                        else
-                            _ reject('No artifact generator available for document ' + filePath)
+                                        @ pluginsBaseFolder _options.pluginsBaseFolder
+                                        @ items _options.plugins
+                                else null
+                        const wf
+                            await
+                                _ createFilesystemFactory
+                                    @ plugins
+                                    @ null
+                                    {
+                        try
+                            _ wf.loadModelAndGenerateArtifact
+                                @ filePath
+                                {
+                                    @ modelRequestContext context || {}
+                                    @ artifactRequestContext context || {}
+                                @ artifactName
+                                =>
+                                    param err
+                                    param result
+                                    if err
+                                        return reject(err)
+                                    _ resolve
+                                        {
+                                            @ artifactContent result
+                                            @ sourcePath filePath
+                                            @ artifactGenerator artifactName
+                        catch ex
+                            return reject(ex)
     +
     export
         async-function generateArtifactDb

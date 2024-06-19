@@ -1,0 +1,6 @@
+$group
+    $params message
+    param options
+      :any
+    if !options
+        throw new Error('The options parameter is required. ${message}.')

@@ -1,0 +1,210 @@
+module
+    $
+        var myName = 'Storage';
+
+    import 
+        as wizziHubApi
+        from "@/Api/wizziHubApi"
+
+    import
+        @ JobItem
+        from "@/Data/types"
+
+    import 
+        @ LocalObjectStore
+        from "@/Data/Components/LocalObjectStore"
+
+    export
+        class ${myName}
+            p wizziMetaProductionState
+                :ref InstanceType
+                    :param 
+                        :typeof LocalObjectStore
+            p lsJob
+                :ref InstanceType
+                    :param 
+                        :typeof LocalObjectStore
+            ctor
+                set this.wizziMetaProductionState = new LocalObjectStore('wzMetaProductionState')
+                set this.lsJob = new LocalObjectStore('wzJobs')
+                $$ info '${myName}.this', this
+
+            m findAllJobs
+                param owner
+                    :string
+                param_options( Method: app.${myName}.findAllJobs )
+                $$ info '${myName}.prototype.findAllJobs.this', this
+                info '${myName}.prototype.findAllJobs.options', options
+                r_promise()
+                    $$ info '${myName}.prototype.findAllJobs.this', this
+                    _ this.lsJob.findAll
+                        =>
+                          param items
+                          if options.reload || (items.length == 0 && owner && owner.length > 0)
+                              var action = wizziHubApi.getJob
+                              assert_not_null( action, Method: app.${myName}.findAllJobs )
+                              _ action
+                                  @ owner
+                                  a_then_catch_reject( result, @@null, @@null, app.${myName}.findAllJobs )
+                                      _ this.lsJob.replace
+                                        @ result.item
+                                        =>
+                                            $$ info "app.${myName}.findAllJobs.after.this.lsJob.replaced"
+                                            _ resolve
+                                                {
+                                                    @ jobs result.item
+                                                    @ source "server data"
+                          else
+                              _ resolve
+                                  {
+                                      @ jobs items
+                                      @ source "local storage"
+
+            m findJob
+                param owner
+                    :string
+                param id
+                    :string
+                param_options( Method: app.${myName}.findJob )
+                r_promise()
+                    _ this.findAllJobs
+                        @ owner
+                        @ options
+                        a_then_catch_reject( result, @@null, @@null, app.${myName}.findJob )
+                            foreach item in result.jobs
+                                if item.id == id
+                                    $$ info "@@@ ${myName}.prototype.findJob.found", id
+                                    return
+                                        _ resolve
+                                          @ item
+                            $$ info "@@@ ${myName}.prototype.findJob.not found", id
+                            _ reject
+                                @ new Error('app.${myName}.findJob.err not found: job/' + owner + '/' + id)
+
+            m replaceJobLocal
+                param newJobItem
+                    :ref JobItem       
+                :return
+                    :ref Promise
+                        :param
+                            :{
+                                :p message
+                                    :string
+                                :p oldJobItem
+                                    :ref JobItem
+                                :p newJobItem
+                                    :ref JobItem
+
+                r_promise()
+                    _ this.findAllJobs
+                        @ null
+                        {
+                            @ reload false
+                        a_then_catch_reject( result, @@null, @@null, app.${myName}.replaceJobLocal )
+                            const newItems = []
+                            _ result.jobs.forEach
+                                =>
+                                    param item
+                                    if item.id == newJobItem.id
+                                        _ newItems.push
+                                            @ newJobItem
+                                    else
+                                        _ newItems.push
+                                            @ item
+                            _ this.lsJob.replace
+                                @ newItems
+                                =>
+                                    $$ info "app.${myName}.replaceJobLocal.after.this.lsJob.replace"
+                                    _ resolve
+                                        {
+                                            @ message 'Job item localy replaced'
+                                            @ oldJobItem item
+                                            @ newJobItem newJobItem
+
+            m putPackiDiffs
+                param productionKind
+                    :string
+                param id
+                    :string
+                param packiDiffs
+                    :any
+                param options
+                    :any
+                param_callback( required, Method: app.${myName}.putPackiDiffs )
+                var action = wizziHubApi['put' + _.capitalize(productionKind) + 'PackiDiffs']
+                assert_not_null( action, Method: app.${myName}.putPackiDiffs, productionKind )
+                _ wizziHubApi.putJobPackiDiffs
+                    @ id
+                    @ packiDiffs
+                    @ options
+                    a_then_catch_throw( result, @@null, @@null, app.${myName}.putPackiDiffs )
+                        $$ info 'app.${myName}.putPackiDiffs.result', result
+                        _ this.putPackiDiffsLocal
+                            @ productionKind
+                            @ id
+                            @ packiDiffs
+                            @ options
+                            @ callback
+
+            m putPackiDiffsLocal
+                param productionKind
+                    :string
+                param id
+                    :string
+                param packiDiffs
+                    :any
+                param options
+                    :any
+                param_callback( required, Method: app.${myName}.putPackiDiffsLocal )
+                var ls = this['ls' + _.capitalize(productionKind)]
+                $$ info "app.${myName}.putPackiDiffsLocal.ls", ls
+                _ this.findJob
+                    @ null
+                    @ id
+                    {
+                        @ reload false
+                    a_then_catch_throw( item, @@null, @@null, app.${myName}.putPackiDiffsLocal )
+                        $$ info "app.${myName}.putPackiDiffsLocal.item", item
+                        const pm
+                            new wizziHubApi.PackiManager
+                                @ JSON.parse(item.packiFiles)
+                        _ pm.applyPatch_ChangesOnly
+                            @ packiDiffs
+                        set item.packiFiles = JSON.stringify(pm.packiFiles)
+                        _ this.replaceJobLocal
+                            @ item
+                            a_then_catch_throw( result, @@null, @@null, app.${myName}.putPackiDiffsLocal )
+                                $$ info "app.${myName}.putPackiDiffsLocal.result", result
+                                _ callback
+                                    @ result
+
+            $*
+            m updateSelectedMetaCategories
+                param jobId
+                    :string
+                param selectableCollection
+                param_options_callback( Method: app.${myName}.updateSelectedMetaCategories )                
+
+            m updateSelectedMetaProductions
+                param jobId
+                    :string
+                param selectableCollection
+                param_options_callback( Method: app.${myName}.updateSelectedMetaProductions )                
+            *$
+
+            m setWizziMetaProductionState
+                param name
+                    :string
+                param value
+                    :any
+                return
+                    _ this.wizziMetaProductionState.setValue
+                        @ name
+                        @ value
+
+            m getWizziMetaProductionState
+                param name
+                    :string
+                return
+                    _ this.wizziMetaProductionState.getValue
+                        @ name

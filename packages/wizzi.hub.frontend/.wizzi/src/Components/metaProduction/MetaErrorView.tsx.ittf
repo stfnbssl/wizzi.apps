@@ -1,0 +1,32 @@
+module
+
+    import
+        @ ErrorView
+        from "@/Components/utils/ErrorView"
+
+    import
+        @ MainContent
+        @ MainContentLeftBar
+        @ MainContentWorkArea
+        @ MainFooter
+        @ MainHeader
+        from "@/Components/shell/index"
+
+    :type MetaErrorViewProps
+        :{
+            :p error
+                :any
+
+    export
+        function MetaErrorView
+            param params
+                :ref MetaErrorViewProps
+            return
+                <
+                    < MainHeader
+                    < MainContent
+                        < MainContentLeftBar
+                        < MainContentWorkArea
+                            < ErrorView
+                              @ error {params.error}
+                    < MainFooter

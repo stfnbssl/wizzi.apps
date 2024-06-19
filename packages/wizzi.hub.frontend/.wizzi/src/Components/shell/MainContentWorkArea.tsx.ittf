@@ -1,0 +1,9 @@
+module
+
+    export
+        function MainContentWorkArea
+            param params
+            return
+                . main-content-work-area
+                    {
+                        + params.children

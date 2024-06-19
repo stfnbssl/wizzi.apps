@@ -1,0 +1,57 @@
+module
+
+    import React
+        from "react"
+    
+    import
+        @ MetaSelectionState
+        from "@/Data/mvc/MetaProduction/types"
+    
+    :type PluginsSelectedProductionsProps
+        :{
+            :p metaSelectionState
+                :ref MetaSelectionState
+            :p onUnselect
+                :=>
+                    :void
+                    param production
+                        :string
+            :p listClass
+                :string
+                :optional
+
+    export
+        function PluginsSelectedProductions
+            param params
+                :ref PluginsSelectedProductionsProps
+            const
+                {
+                    @ metaSelectionState
+                    @ onUnselect
+                = params
+            const
+                {
+                    @ productionsSelected
+                = metaSelectionState
+            return
+                . {'w-area-list w-area-list-cats-prods ' + params.listClass ? params.listClass : ''}
+                    . w-area-list-caption
+                        + Selected productions
+                    . w-area-list-inner
+                        ul
+                            {
+                                &&
+                                    + productionsSelected
+                                    _ productionsSelected.map
+                                        =>
+                                            param item
+                                            param ndx
+                                            < React.Fragment
+                                                @ key {ndx}
+                                                li
+                                                    div
+                                                        + {item.name}
+                                                        @ onClick
+                                                            =>
+                                                                _ onUnselect
+                                                                    @ item.name

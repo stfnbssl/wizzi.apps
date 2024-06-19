@@ -1,0 +1,256 @@
+module
+
+    import React
+        @ useState
+        @ useEffect
+        from "react"
+
+    import 
+        as wizziMetaApi
+        from '@/Api/wizziMetaApi'
+
+    import
+        @ JobItem
+        from "@/Data/types"
+    
+    import
+        @ AppState
+        @ MetaSelectionState
+        from "@/Data/mvc/MetaProduction/types"
+
+    import
+        @ getMvc
+        from "@/Data/mvc/MetaProduction"
+
+    import
+        @ SelectableCollection
+        from "@/Data/Components/SelectableCollection"
+
+    import
+        @ GenericSelectionList
+        from "@/Components/metaProduction/GenericSelectionList"
+
+    :type MetaPluginsExecutionProps
+        :{
+            :p appState
+                :ref AppState
+            :p setAppState
+                :ref React.Dispatch<React.SetStateAction<AppState>>                    
+            :p metaSelectionState
+                :ref MetaSelectionState
+
+    function startMetaPluginsExecution
+        param selectedMetaProductions
+        param selectedMetaPlugins
+        let [data, setData] = useState(null)
+        let [error, setError] = useState(null)
+        const keys = JSON.stringify(selectedMetaProductions)
+        _ useEffect
+            =>
+                async-function doFetch 
+                  _ wizziMetaApi.getMetaParameters
+                      @ selectedMetaProductions
+                      @ selectedMetaPlugins
+                      a_then( result )
+                          $$ info 'api.Packi.getMetaParameters', result
+                          _ setData
+                              @ result
+                      catch( startMetaPluginsExecution.doFetch )
+                          _ setError
+                              @ error
+                _ doFetch
+            [
+                @ keys
+        return
+            {
+                @ metaParameters data
+                @ metaParametersError error
+
+    export
+        function MetaPluginsExecution
+            param props
+                :ref MetaPluginsExecutionProps
+            const
+                {
+                    @ appState
+                    @ setAppState
+                    @ metaSelectionState
+                = props
+            +
+            let
+                {
+                    @ pluginCatSelId
+                    @ pluginSelId
+                    @ catSelId
+                    @ prodSelId
+                    @ selCounter
+                = metaSelectionState
+            const [metaCtx, setMetaCtx] = useState(null)
+            const [mpExecState, setMpExecState]
+                _ useState
+                    {
+                        @ activeMetaProduction null
+            +
+            if !pluginSelId || !prodSelId
+                return
+                    . work-area-content-main
+            +
+            const pluginSel
+                _ SelectableCollection.get
+                    @ pluginSelId
+            const prodSel
+                _ SelectableCollection.get
+                    @ prodSelId
+            +
+            const
+                {
+                    @ metaParameters
+                    @ metaParametersError
+                =
+                    _ startMetaPluginsExecution
+                        @ prodSel.getSelected()
+                        @ pluginSel.getSelected()
+            log 'MetaPluginsExecution.metaParameters', metaParameters, metaParametersError
+            if metaParametersError
+                return
+                    < ErrorView
+                        @ error {metaParametersError}
+            if !metaParameters
+                return
+                    < SpinnerView
+            let activeMetaProductionParameters
+                _ extractParameters
+                    @ metaParameters
+                    @ mpExecState.activeMetaProduction || '__dummy__'
+            log 'activeMetaProductionParameters', activeMetaProductionParameters
+            return 
+                . work-area-content-main
+                    < GenericSelectionList
+                        @ selectedableItems {prodSel.getSelected()}
+                        @ title "Selected productions"
+                        @ listClass {'w-area-list-exec-prods w-area-list-15'}
+                        @ onSelect
+                            =>
+                                param metaProductionName
+                                log 'We need properties of ', metaProductionName
+                                _ setMpExecState
+                                    {
+                                        @ ...mpExecState
+                                        @ activeMetaProduction metaProductionName
+                    < MPExecProductionParameters
+                        @ parameters {activeMetaProductionParameters}
+                        @ onSave
+                            =>
+                                let allProductionParameters
+                                    _ extractParameters
+                                        @ metaParameters
+                                log 'allProductionParameters', allProductionParameters
+                                const ctx
+                                    _ parameterListToObject
+                                        @ allProductionParameters
+                                _ setMetaCtx
+                                    @ ctx
+                                alert( ctx, metaCtx )
+                    < MetaProductionResult
+                        @ metaCtx {metaCtx}
+                        @ appState {appState}
+
+    function MPExecProductionParameters
+        param props
+        log 'props.parameters', props.parameters
+        log 'MPExecProductionParameters.props.parameters', props.parameters
+        const
+            {
+                @ indexParameters
+                @ globalsParameters
+            = props.parameters
+        return 
+            . w-area-list w-area-list-exec-params w-area-list-25
+                . w-area-list-caption
+                    + Parameters
+                . w-area-list-inner
+                    button save
+                        @ onClick
+                            =>
+                              _ props.onSave
+                    { 
+                        &&
+                            + globalsParameters.length > 0
+                            div
+                                h4 global parameters
+                                table
+                                    tbody
+                                        _ globalsParameters.map
+                                            =>
+                                                param item
+                                                param ndx
+                                                < ContextParameter
+                                                    @ key {ndx}
+                                                    @ item {item}
+                    { 
+                        &&
+                          + indexParameters.length > 0
+                          div
+                              h4 production parameters
+                              table
+                                  tbody
+                                      _ indexParameters.map
+                                          =>
+                                              param item
+                                              param ndx
+                                              < ContextParameter
+                                                  @ key {ndx}
+                                                  @ item {item}
+                    div
+                        @ style
+                            { 
+                                @ marginTop '200px'
+                        code
+                            + {JSON.stringify(props.parameters)}
+
+    function extractParameters
+        param metaParameters
+        param activeMetaProduction
+        log 'extractParameters.metaParameters.activeMetaProduction', metaParameters, activeMetaProduction
+        if !metaParameters
+            return { indexParameters:[], globalsParameters:[] }
+        if !metaParameters.metaParametersObj
+            return { indexParameters:[], globalsParameters:[] }
+        if activeMetaProduction
+            const mpParameters = metaParameters.metaParametersObj[activeMetaProduction]
+            if !mpParameters
+                return { indexParameters:[], globalsParameters:[] }
+            return
+                _ extractMpParameters
+                    @ mpParameters
+        else
+            const allParameters
+                [
+            for var k in metaParameters.metaParametersObj
+                const mpParameters = metaParameters.metaParametersObj[k]
+                const
+                    {
+                        @ indexParameters
+                        @ globalsParameters
+                    =
+                        _ extractMpParameters
+                            @ mpParameters
+                foreach item in globalsParameters
+                    _ allParameters.push
+                        @ item
+                _ allParameters.push
+                    {
+                        @ type 'use'
+                        @ name k
+                        @ value true
+                        @ parameters indexParameters
+            return allParameters
+
+    function extractMpParameters
+        param mpParameters
+        const indexParameters = mpParameters.parametersIndexObj ? mpParameters.parametersIndexObj.parameters : []
+        const globalsParameters = mpParameters.parametersGlobalsObj ? mpParameters.parametersGlobalsObj.parameters : []
+        return
+            {
+                @ indexParameters
+                @ globalsParameters

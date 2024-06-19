@@ -1,0 +1,45 @@
+$group
+    $params &md
+
+    function setToken
+        param token
+            :string
+        _ axios.interceptors.request.use
+            => 
+                param config
+                if token
+                    set config.headers.Authorization =
+                        template 
+                            + Bearer&nbsp;
+                            @ token
+                            + 
+                return config
+    
+    _ axios.interceptors.response.use
+        => 
+            param res
+            + res
+        => 
+            param error
+                :ref AxiosError
+            const 
+                { 
+                    @ data
+                    @ status
+                =
+                    :! 
+                        @expr error.response
+            switch status
+                case 400
+                    _ console.error(data)
+                    break 
+                case 401
+                    _ console.error('unauthorised')
+                    break 
+                case 404
+                    _ console.error('/not-found')
+                    break 
+                case 500
+                    _ console.error('/server-error')
+                    break 
+            return Promise.reject(error)

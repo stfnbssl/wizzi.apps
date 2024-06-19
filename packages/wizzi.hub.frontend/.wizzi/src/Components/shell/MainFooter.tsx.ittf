@@ -1,0 +1,10 @@
+module
+
+    export
+        function MainFooter
+            param params
+            return
+                . main-footer
+                    {
+                        + params.children
+

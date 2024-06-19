@@ -1,0 +1,87 @@
+module
+  
+    import
+        @ JobItem
+        from "@/Data/types"
+
+    import
+        @ AppState
+        @ MetaSelectionState
+        from "@/Data/mvc/MetaProduction/types"
+
+    import 
+        @ MetaPluginsSelection
+        from "./MetaPluginsSelection"
+
+    import 
+        @ MetaProductionSelection
+        from "./MetaProductionSelection"
+
+    import 
+        @ MetaPluginsExecution
+        from "./MetaPluginsExecution"
+
+    :type WorkAreaContentProps
+        :{
+            :p appState
+                :ref AppState
+            :p setAppState
+                :ref React.Dispatch<React.SetStateAction<AppState>>                    
+            :p jobList
+                :[
+                    :ref JobItem
+            :p jobListError
+                :any
+            :p jobItemReloadCount
+                :number
+            :p metaSelectionState
+                :ref MetaSelectionState
+            :p setMetaSelectionState
+                :ref React.Dispatch<React.SetStateAction<MetaSelectionState>>                    
+
+    export
+        function WorkAreaContent
+            param params
+                :ref WorkAreaContentProps
+            const
+                {
+                    @ appState
+                    @ setAppState
+                    @ jobList
+                    @ jobListError
+                    @ jobItemReloadCount
+                    @ metaSelectionState
+                    @ setMetaSelectionState
+                = params
+            # log 'WorkAreaContent-appState', appState
+            return
+                . work-area-content
+                    {
+                        &&
+                            + (appState.activeView == 'plugins-selection')
+                            < MetaPluginsSelection
+                                @ appState {appState}
+                                @ setAppState {setAppState}
+                                @ jobList {jobList}
+                                @ jobItemReloadCount {jobItemReloadCount}
+                                @ metaSelectionState {metaSelectionState}
+                                @ setMetaSelectionState {setMetaSelectionState}
+                    {
+                        &&
+                            + (appState.activeView == 'productions-selection')
+                            < MetaProductionSelection
+                                @ appState {appState}
+                                @ setAppState {setAppState}
+                                @ jobList {jobList}
+                                @ jobItemReloadCount {jobItemReloadCount}
+                                @ metaSelectionState {metaSelectionState}
+                                @ setMetaSelectionState {setMetaSelectionState}
+                    {
+                        &&
+                            + appState.activeView == 'generation-execution'
+                            < MetaPluginsExecution 
+                                @ appState {appState}
+                                @ setAppState {setAppState}
+                                @ metaSelectionState {metaSelectionState}
+                                @ setMetaSelectionState {setMetaSelectionState}
+

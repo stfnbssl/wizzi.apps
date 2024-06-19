@@ -1,0 +1,105 @@
+module
+
+    import
+        @ SelectableCollection
+        from "@/Data/Components/SelectableCollection"
+    
+    import
+        @ arrayAddUniqueName
+        @ hasItemInArray
+        @ sortSearchFilter
+        @ sortFilterSelectables
+        from "@/Utils/arrays"
+
+    export
+        function executeMetaJobFilters
+            param metaSelectionState
+
+            const
+                {
+                    @ pluginCatSelId
+                    @ pluginSelId
+                    @ catSelId
+                    @ prodSelId
+                = metaSelectionState
+
+            # pluginCatSel is indipendent from other selections
+            const pluginCatSel
+                _ SelectableCollection.get
+                    @ pluginCatSelId
+            # pluginSel depend on pluginCatSel
+            const pluginSel
+                _ SelectableCollection.get
+                    @ pluginSelId
+            # meta production categories catSel depend on pluginSel + pluginCatSel
+            const catSel
+                _ SelectableCollection.get
+                    @ catSelId
+            # meta productions prodSel depend on catSel + pluginSel + pluginCatSel
+            const prodSel
+                _ SelectableCollection.get
+                    @ prodSelId
+            +
+            _ pluginSel.resetFilter
+            _ catSel.resetFilter
+            _ prodSel.resetFilter
+            +
+            const metaProductionCategoriesOfSelectedPluginsObj = {}
+            _ pluginSel.getSelected().map
+                =>
+                    param item
+                    foreach c in item.pluginCategories
+                        const ok 
+                            _ hasItemInArray
+                                @ pluginCatSel.getSelected()
+                                @ 'name'
+                                @ c.name
+                        if ok
+                          $*
+                          error 'executeMetaJobFilters', item.name, 'has category', c.name, 'in pluginCatSel.getSelected()',
+                            \b 'item.metaProductions', item.metaProductions
+                          *$
+                            foreach mp in item.metaProductions
+                                foreach c in mp.categories
+                                    set metaProductionCategoriesOfSelectedPluginsObj[c.name] = c
+                            return true
+                    # error 'pluginSel.selected.addFilter', item
+                    _ pluginSel.addFilter([item])
+            
+            error 'metaProductionCategoriesOfSelectedPlugins', 
+              \b JSON.stringify(Object.values(metaProductionCategoriesOfSelectedPluginsObj, null, 4))
+            +
+            _ pluginSel.getUnselected().map
+                =>
+                    param item
+                    foreach c in item.pluginCategories
+                        const ok 
+                            _ hasItemInArray
+                                @ pluginCatSel.getSelected()
+                                @ 'name'
+                                @ c.name
+                        if ok
+                          return true
+                    # error 'pluginSel.unselected.addFilter', item
+                    _ pluginSel.addFilter([item])
+            +
+            _ catSel.getItems().map
+                =>
+                    param item
+                    foreach c in Object.values(metaProductionCategoriesOfSelectedPluginsObj)
+                        if c.name == item.name
+                            error 'executeMetaJobFilters', 'category', item.name, 'is in metaProductionCategoriesOfSelectedPluginsObj'
+                            return true
+                    # error 'catSel.addFilter', item
+                    _ catSel.addFilter(item)
+            +
+            _ prodSel.getItems().map
+                =>
+                    param item
+                    foreach c in item.categories
+                        foreach csel in catSel.getSelected()
+                            if c.name == csel.name
+                                error 'executeMetaJobFilters', 'category', c.name, 'in production', item.name, 'is in catSel.getSelected()'
+                                return true
+                    # error 'prodSel.addFilter', item
+                    _ prodSel.addFilter(item)
