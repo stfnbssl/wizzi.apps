@@ -12,7 +12,7 @@ export default function ObjectParameter(props: ObjectParameterProps) {
   const { itemDef, itemParent, onChange } = props;
   const { name, label, parameters: properties} = itemDef;
   // const [editValue, setEditValue] = useState<{[key: string]: any}>(itemParent[itemDef.name]);  
-  console.log("ObjectParameter", props.itemDef, itemParent[itemDef.name]);
+  // console.log("ObjectParameter", props.itemDef, itemParent[itemDef.name]);
   return (
     <div className="flex w-full  py-2 border-b-2 border-gray-200">
         <div className="pl-4">{label || name}</div>

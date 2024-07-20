@@ -1,0 +1,259 @@
+module
+
+    import
+        @ ParameterItem
+        from '@/Components/metaCtxBuilder/types'
+
+    +
+    export 
+        :type PackiFileType
+            :union
+                :literal 'CODE'
+                :literal 'ASSETT'    
+    +
+    export
+        :type PackiFile
+            :{
+                :p type
+                    :ref PackiFileType
+                :p contents
+                    :string
+                :p generated
+                    :optional
+                    :boolean
+                :p error
+                    :optional
+                    :ref Error
+        #
+            #
+            # The content of a Packi code file.
+            #
+    +
+    export
+        :type PackiFiles
+            :{
+                :index
+                    :ref PackiFile
+                    param path
+                        :string
+        #
+            #
+            # Dictionary of file-names and their content that make up
+            # the files of the Packi.
+            #
+
+    +
+    export
+        :type PackiFileContent
+            :{
+                :p text
+                    :string
+                :p json
+                    :{
+                    :optional
+
+    +
+    export
+        :type PackiEntry
+            :{
+                :p type
+                    :union
+                        :literal 'folder'
+                        :literal 'file'
+                :p id
+                    :string
+                    :optional
+                :p name
+                    :string
+                :p uri
+                    :string
+                :p contents
+                    :string
+                    :optional
+                :p children
+                    :[
+                        :string
+                    :optional
+
+        #
+            #
+            # A PackiFile entry for FileExplorer
+            #
+
+    +
+    export
+        :type HubDbMetaProvides
+            :{
+                :p name
+                    :string
+                    :optional
+                :p pluginMetaProductions
+                    :[
+                        :ref MetaProduction
+                :p pluginCategories
+                    :[
+                        :ref MetaPluginCategory
+    
+    +
+    export
+        :type MetaProductionFiles
+            :{
+                :p name
+                    :string
+                :p parameters
+                    :ref PackiFiles
+                :p folderTemplates
+                    :ref PackiFiles
+                :p ittfDocumentTemplates
+                    :ref PackiFiles
+                :p plainDocuments
+                    :ref PackiFiles
+
+    +
+    export
+        :interface HubProductionItem
+            :p id
+                :string 
+            :p owner
+                :string 
+            :p name
+                :string 
+            :p description
+                :string 
+            :p packiFiles
+                :string 
+
+    +
+    export
+        :type MetaProduction
+            :{
+                :p name
+                    :string
+                :p plugin
+                    :string
+                :p categories
+                    :[
+                        :{
+                            :p name
+                                :string
+    +
+    export
+        :type MetaProductionExt
+            :{
+                :p name
+                    :string
+                :p plugin
+                    :string
+                :p categories
+                    :[
+                        :{
+                            :p name
+                                :string
+    +
+    export
+        :type MetaProductionCategory
+            :{
+                :p name
+                    :string
+    
+    +
+    export
+        :type MetaProductionCategoryExt
+            :{
+                :p name
+                    :string
+
+    +
+    export
+        :type MetaPluginCategory
+            :{
+                :p name
+                    :string
+    +
+    export
+        :type MetaPluginCategoryExt
+            :{
+                :p name
+                    :string
+                :p plugins
+                    :[
+                        :{
+                            :p name
+                                :string
+    +
+    export
+        :type MetaPlugin
+            :{
+                :p name
+                    :string
+                :p categories
+                    :[
+                        :{
+                            :p name
+                                :string
+                    :optional
+    +
+    export
+        :type MetaPluginExt
+            :{
+                :p name
+                    :string
+                :p __is_hub_meta_plugin
+                    :boolean
+                :p owner
+                    :string
+                    :optional
+                :p pluginCategories
+                    :[
+                        :ref MetaPluginCategory
+                :p metaProductionCategories
+                    :[
+                        :ref MetaProductionCategory
+                :p metaProductionCategoriesObj
+                    :{
+                        :index
+                            :ref MetaProductionCategory
+                            param name
+                                :string
+                :p metaProductions
+                    :[
+                        :ref MetaProduction
+                :p metaProductionsObj
+                    :{
+                        :index
+                            :ref MetaProduction
+                            param name
+                                :string
+
+    +
+    export
+        :type MetaParameters
+            :{
+                :p packiFiles
+                    :ref PackiFiles
+                :p metaParametersObj
+                    :{
+                        :index
+                            :ref MetaProductionParameters
+                            param productionName
+                                :string
+                :p err
+                    :any
+                    :optional
+                :p error
+                    :any
+                    :optional
+
+    +
+    export
+        :type MetaProductionParameters
+            :{
+                :p metaProductionName
+                    :string
+                :p index
+                    :string
+                :p parametersIndexObj
+                    :{
+                        :p parameters
+                            :[
+                                :ref ParameterItem

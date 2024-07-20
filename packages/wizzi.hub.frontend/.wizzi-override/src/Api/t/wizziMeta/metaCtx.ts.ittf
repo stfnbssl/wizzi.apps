@@ -1,0 +1,101 @@
+$group
+
+    export
+        function getMetaCtxValuesObject
+            param metaProductionParameters
+                :[
+                    :ref ParameterItem
+            :return
+                :{
+                    :index
+                        :any
+                        param key
+                            :string
+            const retval
+                :{
+                    :index
+                        :any
+                        param key
+                            :string
+                = {}
+            _ setMetaCtxObject
+                @ retval
+                @ metaProductionParameters
+            $$ info 'setMetaCtxObject.retval', retval
+            return retval
+
+    function setMetaCtxObject
+        param valueObject
+            :{
+                :index
+                    :any
+                    param key
+                        :string
+        param propertyParameters
+            :[
+                :ref ParameterItem
+        :return
+            :void
+        _ propertyParameters.forEach
+            =>
+                param item
+                $$ info 'setMetaCtxObject', item.type, item.name
+                if item.type == 'use'
+                    const useName = "use" + item.name[0].toUpperCase() + item.name.substring(1)
+                    set valueObject[useName] = item.defaultValue || false
+                    set valueObject[item.name] = {}
+                    _ setMetaCtxObject
+                        @ valueObject[item.name]
+                        @ item.parameters || []
+                elif item.type == 'object'
+                    set valueObject[item.name] = {}
+                    _ setMetaCtxObject
+                        @ valueObject[item.name]
+                        @ item.parameters || []
+                elif item.type == 'array'
+                    set valueObject[item.name] = []
+                    _ setMetaCtxArray
+                        @ valueObject[item.name]
+                        @ item.parameters || []
+                else
+                    set valueObject[item.name] = item.defaultValue
+                $$ info 'setMetaCtxObject.valueObject', valueObject
+
+    function setMetaCtxArray
+        param valueArray
+            :[
+                :ref any
+        param propertyParameters
+            :[
+                :ref ParameterItem
+        :return
+            :void
+        _ propertyParameters.forEach
+            =>
+                param item  
+                if item.type == 'object'
+                    const itemObj
+                        :{
+                            :index
+                                :any
+                                param key
+                                    :string
+                        = {}
+                    _ setMetaCtxObject
+                        @ itemObj
+                        @ item.parameters || []
+                    _ valueArray.push
+                        @ itemObj
+                elif item.type == 'array'
+                    const itemArray
+                        :[
+                            :any
+                        = []
+                    _ setMetaCtxArray
+                        @ itemArray
+                        @ item.parameters || []
+                    _ valueArray.push
+                        @ itemArray
+                else
+                    _ valueArray.push
+                        @ item.defaultValue

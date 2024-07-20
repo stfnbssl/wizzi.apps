@@ -1,0 +1,183 @@
+module
+
+    $
+        var myName = 'executeMetaJobFilters';
+        var myDisplayName = 'Components.metaproduction.' + myName;
+
+    import
+        @ MetaProductionExt
+        @ MetaProductionCategoryExt
+        @ MetaPluginExt
+        from "@/Api/types"
+
+    import
+        @ MetaSelectionState
+        from "@/Data/mvc/MetaProduction/types"
+
+    import
+        @ SelectableCollection
+        from "@/Data/Components/SelectableCollection"
+    
+    import
+        @ hasItemInArray
+        from "@/Utils/arrays"
+
+    export
+        function executeMetaJobFilters
+            param metaSelectionState
+                :ref MetaSelectionState
+            :return
+                :void
+
+            const
+                {
+                    @ pluginCatSelId
+                    @ pluginSelId
+                    @ catSelId
+                    @ prodSelId
+                = metaSelectionState
+
+            if !(pluginCatSelId && pluginSelId && catSelId && prodSelId)
+                return
+
+            info '${myDisplayName}.start'
+
+            const pluginCatSel
+                _ SelectableCollection.get
+                    @ pluginCatSelId
+                # pluginCatSel is indipendent from other selections
+            const pluginSel
+                _ SelectableCollection.get
+                    @ pluginSelId
+                # pluginSel depend on pluginCatSel
+            const prodCatSel
+                _ SelectableCollection.get
+                    @ catSelId
+                # meta production categories prodCatSel depend on pluginSel + pluginCatSel
+            const prodSel
+                _ SelectableCollection.get
+                    @ prodSelId
+                # meta productions prodSel depend on prodCatSel + pluginSel + pluginCatSel
+            +
+            _ pluginSel.resetFilter
+            _ prodCatSel.resetFilter
+            _ prodSel.resetFilter
+            +
+            const metaProductionCategoriesOfSelectedPluginsObj
+                :{
+                    :index
+                        :ref MetaProductionCategoryExt
+                        param name
+                            :string
+                = {}
+            _ pluginSel.getSelected().map
+                =>
+                    param item
+                    const itemExt
+                        :ref MetaPluginExt
+                        = item as MetaPluginExt
+                    let hasPluginCatInPluginCatSel
+                        :boolean
+                        = false 
+                    $$ info '${myDisplayName}.plugin.selected', item
+                    _ itemExt.pluginCategories.forEach
+                        =>
+                            param c
+                            const isInCatSel
+                                _ hasItemInArray
+                                    @ pluginCatSel.getSelected()
+                                    @ 'name'
+                                    @ c.name
+                            if isInCatSel
+                                $*
+                                info '${myDisplayName}.plugin.selected', item.name, 'has category', c.name, 'in pluginCatSel.getSelected()',
+                                    \b 'item.metaProductions', itemExt.metaProductions
+                                *$
+                                set hasPluginCatInPluginCatSel = true
+                    if hasPluginCatInPluginCatSel
+                        _ itemExt.metaProductions.forEach
+                            =>
+                                param mp
+                                _ mp.categories.forEach
+                                    =>
+                                        param c
+                                        set metaProductionCategoriesOfSelectedPluginsObj[c.name] = c
+                    else
+                        _ pluginSel.addFilter([item])
+            
+            $*
+            info '${myDisplayName}.metaProductionCategoriesOfSelectedPlugins', 
+                \b JSON.stringify(Object.values(metaProductionCategoriesOfSelectedPluginsObj), null, 4)
+            *$
+            
+            +
+            
+            _ pluginSel.getUnselected().map
+                =>
+                    param item
+                    const itemExt
+                        :ref MetaPluginExt
+                        = item as MetaPluginExt
+                    let hasSelectedCategory
+                        :boolean
+                        = false 
+                    $$ info '${myDisplayName}.plugin.unselected', item
+                    _ itemExt.pluginCategories.forEach
+                        =>
+                            param c
+                            set hasSelectedCategory 
+                                _ hasItemInArray
+                                    @ pluginCatSel.getSelected()
+                                    @ 'name'
+                                    @ c.name
+                    
+                    if !hasSelectedCategory
+                        $$ info '${myDisplayName}.unselected.addFilter', item
+                        _ pluginSel.addFilter([item])
+            +
+            _ prodCatSel.getItems().map
+                =>
+                    param item
+                    let hasProdCatInProdCatsOfSelectedPlugins
+                        :boolean
+                        = false 
+                    _ Object.values(metaProductionCategoriesOfSelectedPluginsObj).forEach
+                        =>
+                            param c
+                            if c.name == item.name
+                                $$ info '${myDisplayName}', 'production category', item.name, 'is in metaProductionCategoriesOfSelectedPluginsObj'
+                                set hasProdCatInProdCatsOfSelectedPlugins = true
+                    if !hasProdCatInProdCatsOfSelectedPlugins
+                        $$ info '${myDisplayName}.prodCatSel.addFilter', item
+                        _ prodCatSel.addFilter([item])
+            +
+            _ prodSel.getItems().map
+                =>
+                    param item
+                    const itemExt
+                        :ref MetaProductionExt
+                        = item as MetaProductionExt
+                    let prodHasCatInSelectedProdCats
+                        :boolean
+                        = false 
+                    let prodHasPluginInSelectedPlugins
+                        :boolean
+                        = false 
+                    _ itemExt.categories.forEach
+                        =>
+                            param c
+                            _ prodCatSel.getSelected().forEach
+                                =>
+                                    param csel
+                                    if c.name == csel.name
+                                        $$ info '${myDisplayName}', 'category', c.name, 'in production', item.name, 'is in prodCatSel.getSelected()'
+                                        set prodHasCatInSelectedProdCats = true
+                    _ pluginSel.getSelected().forEach
+                        =>
+                            param pl
+                            if pl.name == itemExt.plugin
+                                set prodHasPluginInSelectedPlugins = true
+
+                    if !(prodHasCatInSelectedProdCats && prodHasPluginInSelectedPlugins)
+                        $$ info '${myDisplayName}.prodSel.addFilter', item
+                        _ prodSel.addFilter([item])

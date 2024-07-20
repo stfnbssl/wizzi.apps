@@ -1,38 +1,36 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Data\mvc\MetaProduction\Model.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Data\mvc\MetaProduction\Model.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import {JobItem} from "@/Data/types";
 import * as packiApi from "@/Api/packiApi";
 import {Constants} from "./Constants";
 import {Storage} from "./Storage";
-import {AppState} from "./types";
+import {LocalSaveAppState} from "./types";
 export class Model {
     constructor(storage: InstanceType<typeof Storage>, constants: typeof Constants) {
         this.storage = storage;
         this.constants = constants;
-        this.wzApi = api.Wizzi;
         //
     }
     constants: typeof Constants;
     storage: InstanceType<typeof Storage>;
-    // log 'Model.prototype.getAppState.retval', retval
-    getAppState(callback: (cb: AppState) => void) {
+    getAppState(callback: (cb: LocalSaveAppState) => void) {
         if (!callback) {
             throw new Error('The callback parameter is required. Method: Model.getAppState.');
         }
-        const retval: AppState = {
+        const retval: LocalSaveAppState = {
             activeView: this.storage.getWizziMetaProductionState('activeView'), 
             metaId: this.storage.getWizziMetaProductionState('metaId'), 
             metaName: this.storage.getWizziMetaProductionState('metaName'), 
-            currentJobId: this.storage.getWizziMetaProductionState('currentJobId')
+            currentJobId: this.storage.getWizziMetaProductionState('currentJobId'), 
+            reloadCount: parseInt(this.storage.getWizziMetaProductionState('reloadCount'))
          };
         return callback(retval);
     }
-    // log 'Model.prototype.setAppState', state
-    setAppState(state: AppState, callback: () => void) {
+    setAppState(state: LocalSaveAppState, callback: () => void) {
         if (!callback) {
             throw new Error('The callback parameter is required. Method: Model.setAppState.');
         }
@@ -40,6 +38,7 @@ export class Model {
         this.storage.setWizziMetaProductionState('metaId', state.metaId)
         this.storage.setWizziMetaProductionState('metaName', state.metaName)
         this.storage.setWizziMetaProductionState('currentJobId', state.currentJobId)
+        this.storage.setWizziMetaProductionState('reloadCount', state.reloadCount.toString())
         return callback();
     }
     updatePackiFile(
@@ -52,20 +51,23 @@ export class Model {
         if (!callback) {
             throw new Error('The callback parameter is required. Method: Model.updatePackiFile.');
         }
+        console.log("Data.mvc.Metaproduction.Model.updatePackiFile", productionKind, filePath, newContents);
         if (oldContents.trim() == newContents.trim()) {
             return callback({
                     message: 'Nothing changed'
                  });
         }
-        const pm = new this.wzApi.PackiManager();
+        const pm = new packiApi.PackiManager({});
         pm.putCodeFile(filePath, oldContents)
+        const fileDiffs = pm.getFileDiffs(filePath, newContents);
         const packiDiffs = {
             [filePath]: {
                 d: 0, 
+                diffs: fileDiffs, 
                 contents: newContents
              }
          };
-        this.storage.putPackiDiffs(productionKind, productionId, packiDiffs, {}, callback)
+        this.storage.putPackiDiffs(productionKind, productionId, packiDiffs, callback)
     }
     // 
     // set meta plugins selections object
@@ -88,7 +90,7 @@ export class Model {
             mpls.json.metaPlugins = [];
             mpls.text = JSON.stringify(mpls.json);
         }
-        jobItem.__mpls = mpls;
+        jobItem.__metaPlugins = mpls;
         const mps = packiApi.extractPackiFileContent(jobItem.packiFiles, this.constants.metaProductionSelectionsFilePath, {
             json: true
          });
@@ -101,9 +103,8 @@ export class Model {
             mps.json.metaProductions = [];
             mps.text = JSON.stringify(mps.json);
         }
-        jobItem.__mps = mps;
+        jobItem.__metaProductions = mps;
         jobItem.__setup = true;
-        console.log('^^^^^ -----> app.Model.prototype.setupJobProductionItem.jobItem', jobItem, __filename);
         return jobItem;
     }
 }

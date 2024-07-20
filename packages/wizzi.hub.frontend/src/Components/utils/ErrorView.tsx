@@ -1,15 +1,15 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Components\utils\ErrorView.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\utils\ErrorView.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
-export function ErrorView(params) {
+export function ErrorView(params: any) {
     const {
         error
      } = params;
-    let errorObj = {};
-    let lines = [];
+    let errorObj: any = {};
+    let lines: string[] = [];
     if (error) {
         errorObj.name = error.name;
         errorObj.message = error.message;
@@ -26,7 +26,7 @@ export function ErrorView(params) {
             <h1>
             Error</h1>
             <code>{
-                    error && error.errorLines && error.errorLines.map((line, ndx) => {
+                    error && error.errorLines && error.errorLines.map((line: any, ndx: any) => {
                         return  (
                             <div key={ndx}>
                             . {line}</div>

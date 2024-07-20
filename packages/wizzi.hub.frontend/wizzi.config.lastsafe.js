@@ -2,12 +2,12 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: json:/___template/wizzi.config.lastsafe.js.ittf
-    utc time: Tue, 18 Jun 2024 13:34:08 GMT
+    utc time: Sat, 20 Jul 2024 05:36:54 GMT
 */
 'use strict';
 const path = require('path');
 module.exports = {
-    wfjobName: "ts.react.vite.starter-override/job", 
+    wfjobName: "wizzi.hub.frontend-override/job", 
     wfjobPath: path.join(__dirname, '.wizzi-override', 'generate.wfjob.ittf'), 
     destPath: __dirname, 
     plugins: [

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Components\metaProduction\WorkAreaContent.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\WorkAreaContent.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import {JobItem} from "@/Data/types";
 import {AppState, MetaSelectionState} from "@/Data/mvc/MetaProduction/types";
@@ -11,32 +11,28 @@ import {MetaProductionSelection} from "./MetaProductionSelection";
 import {MetaPluginsExecution} from "./MetaPluginsExecution";
 type WorkAreaContentProps = { 
     appState: AppState;
-    setAppState: React.Dispatch<React.SetStateAction<AppState>>;
+    setAppState: React.Dispatch<React.SetStateAction<AppState|null>>;
     jobList: JobItem[];
     jobListError: any;
     jobItemReloadCount: number;
     metaSelectionState: MetaSelectionState;
     setMetaSelectionState: React.Dispatch<React.SetStateAction<MetaSelectionState>>;
 };
-export // log 'WorkAreaContent-appState', appState
-function WorkAreaContent(params: WorkAreaContentProps) {
+export function WorkAreaContent(params: WorkAreaContentProps) {
     const {
         appState, 
         setAppState, 
         jobList, 
-        jobListError, 
-        jobItemReloadCount, 
         metaSelectionState, 
         setMetaSelectionState
      } = params;
     return  (
-        <div className="work-area-content">
+        <div className="flex-1">
             {
                 (appState.activeView == 'plugins-selection') &&  (
                     <MetaPluginsSelection appState={appState}
                         setAppState={setAppState}
                         jobList={jobList}
-                        jobItemReloadCount={jobItemReloadCount}
                         metaSelectionState={metaSelectionState}
                         setMetaSelectionState={setMetaSelectionState}
                      />
@@ -48,7 +44,6 @@ function WorkAreaContent(params: WorkAreaContentProps) {
                     <MetaProductionSelection appState={appState}
                         setAppState={setAppState}
                         jobList={jobList}
-                        jobItemReloadCount={jobItemReloadCount}
                         metaSelectionState={metaSelectionState}
                         setMetaSelectionState={setMetaSelectionState}
                      />
@@ -57,11 +52,7 @@ function WorkAreaContent(params: WorkAreaContentProps) {
             }
             {
                 appState.activeView == 'generation-execution' &&  (
-                    <MetaPluginsExecution appState={appState}
-                        setAppState={setAppState}
-                        metaSelectionState={metaSelectionState}
-                        setMetaSelectionState={setMetaSelectionState}
-                     />
+                    <MetaPluginsExecution appState={appState} setAppState={setAppState} metaSelectionState={metaSelectionState} />
                     )
                 
             }

@@ -1,0 +1,131 @@
+$group
+    $params &md
+
+    export
+        function MetaExecuteInMemory
+            param metaCtx
+                :{
+                    :index
+                        :any
+                        param k
+                            :string
+            param inMemoryMetas
+                :[
+                    :{
+                        :p owner
+                            :string
+                        :p name
+                            :string
+            param globalContext
+                :{
+                    :index
+                        :any
+                        param k
+                            :string
+            const url = 'meta/executeinmemory'
+            const data
+                {
+                    @ metaCtx
+                    @ inMemoryMetas
+                    @ globalContext
+            r_promise()
+                _ request.post
+                    :param 
+                        :ref Result
+                    @ url
+                    @ data            
+                    a_then( result
+                        if result.err || result.error
+                            error "Error", "api.${md.ApiName}.MetaExecuteInMemory.result", result.err || result.error
+                            return
+                                _ reject
+                                    @ result.err || result.error
+                        info 'api.${md.ApiName}.MetaExecuteInMemory.result', result
+                        return 
+                            _ resolve 
+                                @ result
+                    catch_reject( api.${md.ApiName}.MetaExecuteInMemory )
+
+    export
+        function MetaExecute
+            param metaCtx
+                :{
+                    :index
+                        :any
+                        param k
+                            :string
+            param metaProductions
+                :[
+                    :ref MetaProductionExt
+            param globalContext
+                :{
+                    :index
+                        :any
+                        param k
+                            :string
+            const url = 'meta/execute'
+            const data
+                {
+                    @ metaCtx
+                    @ metaProductions
+                    @ globalContext
+            r_promise()
+                _ request.post
+                    :param 
+                        :ref Result
+                    @ url
+                    @ data            
+                    a_then( result
+                        if result.err || result.error
+                            error "Error", "api.${md.ApiName}.MetaExecute.result", result.err || result.error
+                            return
+                                _ reject
+                                    @ result.err || result.error
+                        info 'api.${md.ApiName}.MetaExecute.result', result
+                        return 
+                            _ resolve 
+                                @ result
+                    catch_reject( api.${md.ApiName}.MetaExecute )
+
+    export
+        function executeWizziProductionMeta
+            param metaCtx
+                :{
+                    :index
+                        :any
+                        param k
+                            :string
+            param metaProductions
+                :any
+            param globalContext
+                :{
+                    :index
+                        :any
+                        param k
+                            :string
+            const url = 'wizzi/production/meta'
+            const data
+                {
+                    @ metaCtx
+                    @ metaFolder "___templates"
+                    @ wizziFolder ".wizzi"
+                    @ metaProductions
+                    @ globalContext
+
+            r_promise()
+                _ request.post
+                    :param 
+                        :ref Result
+                    @ url
+                    @ data            
+                    a_then( result
+                        if result.err || result.error
+                            error "Error", "api.${md.ApiName}.executeWizziProductionMeta.result", result.err || result.error
+                            return
+                                _ reject
+                                    @ result.err || result.error
+                        info 'api.${md.ApiName}.executeWizziProductionMeta.result', result
+                        return 
+                            _ resolve 
+                                @ result
+                    catch_reject( api.${md.ApiName}.executeWizziProductionMeta )

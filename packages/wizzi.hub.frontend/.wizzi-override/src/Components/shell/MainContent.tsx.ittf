@@ -1,0 +1,23 @@
+module
+    import React from 'react'
+    :interface Props
+        :p children
+            :ref React.ReactNode
+    +
+    export
+        const MainContent
+            :ref React.FC
+                :param 
+                    :ref Props
+            => 
+                { 
+                    @ children
+                return
+                    . w-full flex-1 flex bg-yellow-200 gap-1
+                        {
+                            + children
+                    $*
+                    . main-content
+                        {
+                            + children
+                    *$

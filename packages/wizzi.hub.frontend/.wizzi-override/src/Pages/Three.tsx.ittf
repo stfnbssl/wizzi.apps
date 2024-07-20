@@ -1,0 +1,38 @@
+module
+    import React
+        @ useState
+        @ useEffect
+        from 'react'
+    import
+        @ getMeta
+        from '@/Api/wizziHubApi'
+
+    const Three
+        :ref React.FC
+        =
+            =>
+                const [metas, setMetas] = useState([])
+                _ useEffect
+                    =>
+                        async-function fetchData
+                            _ getMeta
+                                @ 'stfnbssl'
+                                ._ then
+                                    =>
+                                        param response
+                                            :any
+                                        _ setMetas(response.item)
+                                ._ catch
+                                    =>
+                                        param err
+                                        error err.message
+                                        error err
+                        _ fetchData
+                    [
+                return
+                    div
+                        h1
+                            + Page Three
+                        p
+                            + {JSON.stringify(metas[0], null, 4)}
+    export-default Three

@@ -1,20 +1,22 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Data\jobs.ts.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Data\jobs.ts.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import React, {useState, useEffect} from 'react';
 import * as wizziMetaApi from "@/Api/wizziMetaApi";
-import {getMvc} from "@/Data/mvc/MetaProduction";
+import {AppState, MetaSelectionState} from "@/Data/mvc/MetaProduction/types";
+import {getMvc, setMetaProvides} from "@/Data/mvc/MetaProduction";
 import {SelectableCollection} from "@/Data/Components/SelectableCollection";
+import {executeMetaJobFilters} from "@/Components/metaProduction/filters";
 export function getJobs(owner: string, reload: boolean) {
     return new Promise((resolve, reject) => 
             // reload parameter disactivated for development. Always reload job list
-            getMvc().storage.findAllJobs(getMvc().user.id, {
+            getMvc().storage.findAllJobs(owner, {
                 reload: true
              }).then((result: any) => {
-                console.log('----> getJobs.reload.result', reload, result);
+                console.log("[31m%s[0m", 'Data.jobs.getJobs.reload.result', reload, result);
                 resolve(result);
             }
             ).catch((err: any) => {
@@ -32,7 +34,7 @@ export function getJobItem(jobId: string) {
             getMvc().storage.findJob(getMvc().user.id, jobId, {
                 reload: false
              }).then((result: any) => {
-                console.log('----> getJobItem', result);
+                console.log("[31m%s[0m", 'Data.jobs.getJobItem', result);
                 resolve(result);
             }
             ).catch((err: any) => {
@@ -45,7 +47,12 @@ export function getJobItem(jobId: string) {
         
         );
 }
-export function startCurrentJob(jobId: string, reloadCount: number, states) {
+export function startCurrentJob(jobId: string, reloadCount: number, states: { 
+    appState: AppState;
+    setAppState: React.Dispatch<React.SetStateAction<AppState|null>>;
+    metaSelectionState: MetaSelectionState;
+    setMetaSelectionState: React.Dispatch<React.SetStateAction<MetaSelectionState>>;
+}) {
     const {
         appState, 
         setAppState, 
@@ -56,10 +63,10 @@ export function startCurrentJob(jobId: string, reloadCount: number, states) {
     let [data, setData] = useState(null);
     useEffect(() => {
         async function doFetch() {
-            console.log('----> startCurrentJob start.doFetch reloadCount', reloadCount);
             const metaPluginProvidesData = await wizziMetaApi.getMetaProvides(getMvc().user.id);
             const metaPluginProvides = metaPluginProvidesData.metaPluginProvidesEx;
-            console.log('----> startCurrentJob metaPluginProvides', metaPluginProvides);
+            console.log('Data.jobs.startCurrentJob metaPluginProvides', metaPluginProvides);
+            setMetaProvides(jobId, metaPluginProvides)
             let {
                 pluginCatSelId, 
                 pluginSelId, 
@@ -69,28 +76,23 @@ export function startCurrentJob(jobId: string, reloadCount: number, states) {
             getJobItem(jobId).then(// in the meta productions SelectableCollection(s) we always load all selectables
             // with the initial selection from the job item
             // they will be filtered by views if their plugins are not selected
-            // error 'jobItem.__mpls.json.metaPlugins', JSON.stringify(jobItem.__mpls.json.metaPlugins, null, 2)
             (jobItem: any) => {
-                console.log('@@@@@ ----> startPluginJobItem.setup.selections.metaPluginProvides', metaPluginProvides);
-                console.log('@@@@@ ----> startPluginJobItem.setup.selections.jobItem', jobItem);
                 getMvc().model.setupJobProductionItem(jobItem)
-                console.log('@@@@@ ----> startPluginJobItem.setup.selections.jobItem.__mpls.json.metaPluginCategories', jobItem.__mpls.json.metaPluginCategories);
-                console.log('@@@@@ ----> startPluginJobItem.setup.selections.jobItem.__mpls.json.metaPlugins', jobItem.__mpls.json.metaPlugins);
-                if (pluginCatSelId) {
+                console.log('Data.jobs.startCurrentJob.jobItem.__metaPlugins.json', jobItem.__metaPlugins.json);
+                console.log('Data.jobs.startCurrentJob.jobItem.__metaProductions.json', jobItem.__metaProductions.json);
+                if (pluginCatSelId && pluginSelId && catSelId && prodSelId) {
                     SelectableCollection.drop(pluginCatSelId)
                     SelectableCollection.drop(pluginSelId)
                     SelectableCollection.drop(catSelId)
                     SelectableCollection.drop(prodSelId)
                 }
-                pluginCatSelId = SelectableCollection.create(metaPluginProvides.metaPluginCategories, jobItem.__mpls.json.metaPluginCategories, "name")
+                pluginCatSelId = SelectableCollection.create(metaPluginProvides.metaPluginCategories, jobItem.__metaPlugins.json.metaPluginCategories, "name")
                 ;
-                console.log("[31m%s[0m", 'metaPluginProvides.metaProductionCategories', JSON.stringify(metaPluginProvides.metaProductionCategories, null, 2));
-                console.log("[31m%s[0m", 'jobItem.__mps.json.metaProductionCategories', JSON.stringify(jobItem.__mps.json.metaProductionCategories, null, 2));
-                pluginSelId = SelectableCollection.create(metaPluginProvides.metaPlugins, jobItem.__mpls.json.metaPlugins, "name")
+                pluginSelId = SelectableCollection.create(metaPluginProvides.metaPlugins, jobItem.__metaPlugins.json.metaPlugins, "name")
                 ;
-                catSelId = SelectableCollection.create(metaPluginProvides.metaProductionCategories, jobItem.__mps.json.metaProductionCategories, "name")
+                catSelId = SelectableCollection.create(metaPluginProvides.metaProductionCategories, jobItem.__metaProductions.json.metaProductionCategories, "name")
                 ;
-                prodSelId = SelectableCollection.create(metaPluginProvides.metaProductions, jobItem.__mps.json.metaProductions, "name")
+                prodSelId = SelectableCollection.create(metaPluginProvides.metaProductions, jobItem.__metaProductions.json.metaProductions, "name")
                 ;
                 const pluginSel = SelectableCollection.get(pluginSelId);
                 setMetaSelectionState({
@@ -106,13 +108,16 @@ export function startCurrentJob(jobId: string, reloadCount: number, states) {
                     selectedMetaPlugins: pluginSel.getSelected()
                  })
                 getMvc().controller.setAppState({
-                    currentJobId: jobItem.id
+                    currentJobId: jobItem.id, 
+                    activeView: appState.activeView, 
+                    reloadCount: 0
                  }, () => 
                     executeMetaJobFilters({
                         pluginCatSelId, 
                         pluginSelId, 
                         catSelId, 
-                        prodSelId
+                        prodSelId, 
+                        selCounter: metaSelectionState.selCounter
                      })
                 )
                 setData(jobItem)

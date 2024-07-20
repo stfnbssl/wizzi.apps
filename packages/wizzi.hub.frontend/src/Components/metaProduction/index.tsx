@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Components\metaProduction\index.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\index.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import {useState, useEffect} from "react";
 import {getMvc} from "@/Data/mvc/MetaProduction";
@@ -11,7 +11,6 @@ import {JobItem} from "@/Data/types";
 import {AppState, MetaSelectionState} from "@/Data/mvc/MetaProduction/types";
 import {MainContent, MainContentLeftBar, MainContentWorkArea, MainFooter, MainHeader} from "@/Components/shell/index";
 import {SpinnerView} from "@/Components/utils/SpinnerView";
-import {MenuItem} from "@/Components/nav/MenuItem";
 import {UserNavBar} from "@/Components/nav/UserNavBar";
 import {LogoTitleNavBar} from "@/Components/nav/LogoTitleNavBar";
 import {WorkAreaToolBar} from "./WorkAreaToolBar";
@@ -29,7 +28,9 @@ function startAppState(initialState: AppState) {
         }
         doFetch();
     }
-    , [])
+    , [
+        "" + initialState.reloadCount
+    ])
     return {
             appState: data, 
             setAppState: setData
@@ -44,7 +45,7 @@ function loadJobList(reloadCount: number):  {
 } {
     let [data, setData] = useState<JobItem[]|null>(null);
     let [error, setError] = useState<any|null>(null);
-    let [jobItemReloadCount, setJobItemReloadCount] = useState(0);
+    let [jobItemReloadCount, setJobItemReloadCount] = useState<number>(0);
     useEffect(() => {
         async function doFetch() {
             getJobs(getMvc().user.id, reloadCount == 0 ? false : true).then((result: any) => {
@@ -60,7 +61,7 @@ function loadJobList(reloadCount: number):  {
         doFetch();
     }
     , [
-        reloadCount
+        "" + reloadCount
     ])
     return {
             jobList: data, 
@@ -78,7 +79,6 @@ export function MetaProduction() {
         reloadCount: 0, 
         activeView: 'plugins-selection'
      });
-    console.log("AppData.appState", appState);
     
     const {
         jobList, 
@@ -90,7 +90,6 @@ export function MetaProduction() {
         <MetaErrorView error={jobListError} />
         )
     }
-    console.log("AppData.jobList", jobList);
     
     if (!appState || jobList == null) {
         return  (
@@ -115,7 +114,7 @@ export function MetaProduction() {
 
 type MetaProductionPageProps = { 
     appState: AppState;
-    setAppState: any;
+    setAppState: React.Dispatch<React.SetStateAction<AppState|null>>;
     jobList: JobItem[];
     jobListError: any;
     jobItemReloadCount: number;
@@ -135,41 +134,30 @@ function MetaProductionPage(params: MetaProductionPageProps) {
         selCounter: 0
      });
     
-    if (!appState.currentJobId) {
-        return  (
-            <MainHeader>
-                <p>
-                Create/select a job</p>
-            </MainHeader>
-            )
-        ;
-    }
     const currentJobId = appState.currentJobId;
-    const jobItemData = startCurrentJob(currentJobId, jobItemReloadCount, {
-        appState, 
-        setAppState, 
-        metaSelectionState, 
-        setMetaSelectionState
-     });
-    if (!jobItemData) {
-        return  (
-            <MainHeader>
-                <SpinnerView />
-            </MainHeader>
-            )
-        ;
+    if (currentJobId) {
+        const jobItemData = startCurrentJob(currentJobId, jobItemReloadCount, {
+            appState, 
+            setAppState, 
+            metaSelectionState, 
+            setMetaSelectionState
+         });
+        if (!jobItemData) {
+            return  (
+                <MainHeader>
+                    <SpinnerView />
+                </MainHeader>
+                )
+            ;
+        }
     }
-    console.log("AppMetaJob.jobItemData", jobItemData);
-    console.log("AppMetaJob.metaSelectionState", metaSelectionState);
-    console.log("AppMetaJob.appState", appState);
+    else {
+        console.log("index.MetaProductionPage.currentJobId: undefined");
+    }
     return  (
-        <>
+        <div className="w-full min-h-screen flex flex-col">
             <MainHeader>
                 <LogoTitleNavBar title="Meta production jobs" />
-                <div className="flex-row">
-                    <MenuItem label="Hub productions" href="/~/stfnbssl/lab-meta.html?savecount=0&filepath=hubProductions.html.ittf" />
-                    <MenuItem label="Lab" href="/ittf/site/lab.html.ittf" />
-                </div>
                 <UserNavBar loggedUserId="user.id" />
             </MainHeader>
             <MainContent>
@@ -185,11 +173,13 @@ function MetaProductionPage(params: MetaProductionPageProps) {
                                     activeView: value
                                  })
                             )
-                    } onReloadJobList={() => 
+                    } onReloadJobList={() => {
+                            console.log('index.MetaProductionPage.onReloadJobList.appState', appState);
                             setAppState({
                                 ...appState, 
                                 reloadCount: appState.reloadCount + 1
                              })
+                        }
                     } />
                     <WorkAreaContent appState={appState}
                         setAppState={setAppState}
@@ -202,7 +192,7 @@ function MetaProductionPage(params: MetaProductionPageProps) {
                 </MainContentWorkArea>
             </MainContent>
             <MainFooter />
-        </>
+        </div>
         )
     ;
 }

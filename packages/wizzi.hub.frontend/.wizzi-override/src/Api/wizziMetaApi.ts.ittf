@@ -1,0 +1,66 @@
+module
+    import axios
+        @ AxiosError
+        @ AxiosResponse
+        from 'axios'
+
+    import 
+        as wizziHubApi
+        from '@/Api/wizziHubApi'
+
+    import 
+        as packiApi
+        from '@/Api/packiApi'
+
+    import
+        @ MetaProvidesData
+        from '@/Data/mvc/MetaProduction/types'
+
+    import
+        @ ParameterItem
+        from '@/Components/metaCtxBuilder/types'
+
+    import
+        $$ @ PackiFiles
+        @ HubProductionItem
+        @ HubDbMetaProvides
+        @ MetaPlugin
+        @ MetaPluginExt
+        $if TODO
+            @ MetaPluginCategory
+        @ MetaPluginCategoryExt
+        @ MetaProduction
+        @ MetaProductionExt
+        $if TODO
+            @ MetaProductionCategory
+        @ MetaProductionCategoryExt
+        @ MetaParameters
+        @ MetaProductionFiles
+        from './types'
+
+    :interface Result
+        :p oper
+            :string 
+            :optional
+        :p ok
+            :boolean 
+        :p message
+            :string 
+            :optional
+
+    const BASE_URL = 'http://localhost:3003/api/v1'
+
+    $ 
+        var md = {
+            ApiName: 'WizziMeta',
+            apiUrl: '/api/v1/',
+        }
+
+    axios/interceptors(&md)
+    axios/response(&md)
+    axios/request(&md)
+    
+    wizziMeta/prepare(&md)
+    wizziMeta/execute(&md)
+    wizziMeta/metaCtx(&md)
+    wizziMeta/utils(&md)

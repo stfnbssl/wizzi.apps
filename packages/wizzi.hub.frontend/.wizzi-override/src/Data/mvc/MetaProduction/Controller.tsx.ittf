@@ -1,0 +1,310 @@
+module
+    $
+        var myName = 'Controller';
+        var myDisplayName = 'Data.mvc.MetaProduction.' + myName;
+
+    import
+        @ JobItem
+        from "@/Data/types"
+
+    import
+        @ Constants
+        from "./Constants"
+    
+    import
+        @ Model
+        from "./Model"
+
+    import
+        @ MetaProvides
+        from "./MetaProvides"
+
+    import
+        @ arrayAddUniqueName
+        from "@/Utils/arrays"
+
+    import
+        @ LocalSaveAppState
+        from "./types"
+
+    export
+        class ${myName}
+            p constants
+                :typeof Constants
+            p model
+                :ref InstanceType
+                    :param 
+                        :typeof Model
+            ctor
+                param model
+                    :ref InstanceType
+                        :param 
+                            :typeof Model
+                param constants
+                    :typeof Constants
+                set this.model = model
+                set this.constants = constants
+
+            m getAppState
+                param_callback( required, Method: ${myDisplayName}.getAppState )
+                    :=> 
+                        :void 
+                        param cb
+                            :ref LocalSaveAppState
+                $$ info '${myDisplayName}.getAppState.called'
+                _ this.model.getAppState
+                    =>
+                        param state
+                        if !state.activeView 
+                            set state.activeView = 'productions-selection'
+                            delete state.currentJobId
+                        set state.activeView = 'productions-selection'
+                        $$ info '${myDisplayName}.getAppState.returning', state
+                        return
+                            _ callback
+                                @ state
+
+            m setAppState
+                param newState
+                    :ref LocalSaveAppState
+                param_callback( required, Method: ${myDisplayName}.getAppState )
+                    :=> 
+                        :void 
+                _ this.model.getAppState
+                    =>
+                        param oldState
+                        _ this.model.setAppState
+                            _ Object.assign
+                                {
+                                @ oldState
+                                @ newState
+                            @ callback           
+            
+            m selectMetaPluginCategory
+                param currentJob
+                    :ref JobItem
+                param category
+                    :string
+                param oper
+                    :string
+                info '${myDisplayName}.selectMetaPluginCategory.oper, category', oper, category
+                if !currentJob.__metaPlugins
+                    throw new Error("Property `currentJob.__metaPlugins` not set")
+                const 
+                    {
+                        @ text mplsTextContent
+                        @ json mplsJsonContent
+                    = currentJob.__metaPlugins
+                if oper == 'select'
+                    _ arrayAddUniqueName
+                        @ mplsJsonContent.metaPluginCategories
+                        {
+                            @ name category
+                else
+                    set mplsJsonContent.metaPluginCategories
+                        _ mplsJsonContent.metaPluginCategories.filter
+                             =>
+                                param item
+                                return item.name != category
+                    set mplsJsonContent.metaPlugins
+                        _ mplsJsonContent.metaPlugins.filter
+                             =>
+                                param item
+                                return
+                                    _  MetaProvides.getInstance().filterPluginCategories
+                                        @ currentJob.id
+                                        @ item.name
+                                        @ mplsJsonContent.metaPluginCategories
+                                        . length > 0
+
+                info '${myDisplayName}.selectMetaPluginCategory.mplsJsonContent', mplsJsonContent
+                _ this.model.updatePackiFile
+                    @ 'job'
+                    @ currentJob.id
+                    @ this.constants.metaPluginSelectionsFilePath
+                    @ mplsTextContent
+                    @ JSON.stringify(mplsJsonContent, null, 2)
+                    =>
+                        param result
+                        if currentJob.__metaPlugins
+                            set currentJob.__metaPlugins.text = JSON.stringify(mplsJsonContent, null, 2)
+                            info '${myDisplayName}.selectMetaPluginCategory.result', result, currentJob.__metaPlugins
+                        if oper == 'unselect'
+                            _ this.filterProductionCategoriesByPlugins
+                                @ currentJob
+
+            m selectMetaPlugin
+                param currentJob
+                    :ref JobItem
+                param metaPlugin
+                    :string
+                param oper
+                    :string
+                if !currentJob.__metaPlugins
+                    throw new Error("Property `currentJob.__metaPlugins` not set")
+                info '${myDisplayName}.selectMetaPlugin.oper, metaPlugin', oper, metaPlugin
+                const 
+                    {
+                        @ text mplsTextContent
+                        @ json mplsJsonContent
+                    = currentJob.__metaPlugins
+                if oper == 'select'
+                    _ arrayAddUniqueName
+                        @ mplsJsonContent.metaPlugins
+                        {
+                            @ name metaPlugin
+                else
+                    set mplsJsonContent.metaPlugins
+                    _ mplsJsonContent.metaPlugins.filter
+                        =>
+                            param item
+                            return item.name != metaPlugin
+                info '${myDisplayName}.selectMetaPlugin.mplsJsonContent', mplsJsonContent
+                _ this.model.updatePackiFile
+                    @ 'job'
+                    @ currentJob.id
+                    @ this.constants.metaPluginSelectionsFilePath
+                    @ mplsTextContent
+                    @ JSON.stringify(mplsJsonContent, null, 2)
+                    =>
+                        param result
+                        if currentJob.__metaPlugins
+                            set currentJob.__metaPlugins.text = JSON.stringify(mplsJsonContent, null, 2)
+                            info '${myDisplayName}.selectMetaPlugin.result', result, currentJob.__metaPlugins
+                        if oper == 'unselect'
+                            _ this.filterProductionCategoriesByPlugins
+                                @ currentJob
+
+            m filterProductionCategoriesByPlugins
+                param currentJob
+                    :ref JobItem
+                if !currentJob.__metaPlugins
+                    throw new Error("Property `currentJob.__metaPlugins` not set")
+                const 
+                    {
+                        @ json mplsJsonContent
+                    = currentJob.__metaPlugins
+                if !currentJob.__metaProductions
+                    throw new Error("Property `currentJob.__metaProductions` not set")
+                const 
+                    {
+                        @ text mpsTextContent
+                        @ json mpsJsonContent
+                    = currentJob.__metaProductions
+                set mpsJsonContent.metaProductionCategories
+                    _ mpsJsonContent.metaProductionCategories.filter
+                        =>
+                            param item
+                            return
+                                _  MetaProvides.getInstance().pluginsHaveProductionCategory
+                                    @ currentJob.id
+                                    @ mplsJsonContent.metaPlugins
+                                    @ item
+                set mpsJsonContent.metaProductions
+                    _ MetaProvides.getInstance().filterMetaProductionsByPluginsAndProductionCategories                                    
+                        @ currentJob.id
+                        @ mplsJsonContent.metaPlugins
+                        @ mpsJsonContent.metaProductionCategories
+                        @ mpsJsonContent.metaProductions
+                
+                _ this.model.updatePackiFile
+                    @ 'job'
+                    @ currentJob.id
+                    @ this.constants.metaProductionSelectionsFilePath
+                    @ mpsTextContent
+                    @ JSON.stringify(mpsJsonContent, null, 2)
+                    =>
+                        param result
+                        if currentJob.__metaProductions
+                            set currentJob.__metaProductions.text = JSON.stringify(mpsJsonContent, null, 2)
+                            info '${myDisplayName}.filterProductionCategoriesByPlugins.result', result, currentJob.__metaProductions
+
+            m selectMetaProductionCategory
+                param currentJob
+                    :ref JobItem
+                param category
+                    :string
+                param oper
+                    :string
+                if !currentJob.__metaPlugins
+                    throw new Error("Property `currentJob.__metaPlugins` not set")
+                const 
+                    {
+                        @ json mplsJsonContent
+                    = currentJob.__metaPlugins
+                if !currentJob.__metaProductions
+                    throw new Error("Property `currentJob.__metaProductions` not set")
+                info '${myDisplayName}.selectMetaProductionCategory.oper, category', oper, category
+                const 
+                    {
+                        @ text mpsTextContent
+                        @ json mpsJsonContent
+                    = currentJob.__metaProductions
+                if oper == 'select'
+                    _ arrayAddUniqueName
+                        @ mpsJsonContent.metaProductionCategories
+                        {
+                            @ name category
+                else
+                    set mpsJsonContent.metaProductionCategories
+                        _ mpsJsonContent.metaProductionCategories.filter
+                            =>
+                                param item
+                                return item.name != category
+                    set mpsJsonContent.metaProductions
+                        _ MetaProvides.getInstance().filterMetaProductionsByPluginsAndProductionCategories                                    
+                            @ currentJob.id
+                            @ mplsJsonContent.metaPlugins
+                            @ mpsJsonContent.metaProductionCategories
+                            @ mpsJsonContent.metaProductions
+
+                _ this.model.updatePackiFile
+                    @ 'job'
+                    @ currentJob.id
+                    @ this.constants.metaProductionSelectionsFilePath
+                    @ mpsTextContent
+                    @ JSON.stringify(mpsJsonContent, null, 2)
+                    =>
+                        param result
+                        if currentJob.__metaProductions
+                            set currentJob.__metaProductions.text = JSON.stringify(mpsJsonContent, null, 2)
+                            info '${myDisplayName}.selectMetaProductionCategory.result', result, currentJob.__metaProductions
+
+            m selectMetaProduction
+                param currentJob
+                    :ref JobItem
+                param metaProduction
+                    :string
+                param oper
+                    :string
+                info '${myDisplayName}.selectMetaProduction.oper, metaProduction', oper, metaProduction
+                if !currentJob.__metaProductions
+                    throw new Error("Property `currentJob.__metaProductions` not set")
+                const 
+                    {
+                        @ text mpsTextContent
+                        @ json mpsJsonContent
+                    = currentJob.__metaProductions
+                if oper == 'select'
+                    _ arrayAddUniqueName
+                        @ mpsJsonContent.metaProductions
+                        {
+                            @ name metaProduction
+                else
+                    set mpsJsonContent.metaProductions
+                        _ mpsJsonContent.metaProductions.filter
+                            =>
+                                param item
+                                return item.name != metaProduction
+                info '${myDisplayName}.selectMetaProduction.mpsJsonContent', mpsJsonContent
+                _ this.model.updatePackiFile
+                    @ 'job'
+                    @ currentJob.id
+                    @ this.constants.metaProductionSelectionsFilePath
+                    @ mpsTextContent
+                    @ JSON.stringify(mpsJsonContent, null, 2)
+                    =>
+                        param result
+                        if currentJob.__metaProductions
+                            set currentJob.__metaProductions.text = JSON.stringify(mpsJsonContent, null, 2)
+                            info '${myDisplayName}.selectMetaProduction.result', result, currentJob.__metaProductions

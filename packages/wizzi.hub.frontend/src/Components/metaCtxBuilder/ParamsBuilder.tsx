@@ -1,44 +1,33 @@
-import { useEffect, useState } from "react";
-import "../../tailwind.output.css";
-import localData from "./data.json";
+// import "../../tailwind.output.css";
+// import localData from "./data.json";
 import { ParameterItem } from "./types";
 import { ContextParameter } from "./ContextParameter";
 
-const ParamsBuilderApp = () => {
-    const [dataDefs, setDataDefs] = useState<ParameterItem[]>([]);
-    const [values, setValues] = useState<string>("{}");
-    useEffect(() => {
-        setDataDefs(localData.definitions);
-        const localStorageValues = localStorage.getItem("values");
-        if (typeof(localStorageValues) == "string") {
-            console.log('localStorageValues', localStorageValues);
-            setValues(JSON.stringify(toObject(localData.definitions, JSON.parse(localStorageValues))));
-        } else {
-            setValues(JSON.stringify(toObject(localData.definitions, localData.values || {})));
-        }
-    }, [dataDefs]);
-    useEffect(() => {
-      if (values.length > 2) {
-        localStorage.setItem("values", values);
-        console.log('localStorageValues.setItem', values);
-      }
-    }, [values]);
-    const valuesObject = JSON.parse(values);
-    console.log('ParamsBuilderApp.render.values', valuesObject);
+type ParamsBuilderAppProps = {
+    indexParameters: ParameterItem[];
+    indexInitialValues: {[key: string] : any};
+    onSave: (ctx : {[key: string] : any}) => void;
+}
+
+const ParamsBuilderApp = (props: ParamsBuilderAppProps) => {
+    // console.log('metaCtxBuilder.ParamsBuilderApp.indexInitialValues', props.indexInitialValues);
+    // console.log('metaCtxBuilder.ParamsBuilderApp.props.indexParameters', props.indexParameters);
+    const valuesObject = props.indexInitialValues;
+    // console.log('ParamsBuilderApp.render.valuesObject', valuesObject);
     return (
             <div className="w-area-list w-area-list-exec-params w-area-list-25">
                 <div className="w-area-list-inner">
                 {
-                    dataDefs && dataDefs.length > 0 &&
+                    props.indexParameters.length > 0 &&
                     (
                         <div>
                             <h2 className="text-xl font-semibold pb-4">Parameters</h2>
                             <div>
                                 {
-                                dataDefs.map((itemDef, ndx) =>  (
-                                    <ContextParameter key={ndx} itemDef={itemDef} itemParent={valuesObject} onChange={()=>{
-                                        // console.log("ParamsBuilderApp.onChange", valuesObject);
-                                        setValues(JSON.stringify(valuesObject));
+                                props.indexParameters.map((itemDef, ndx) =>  (
+                                    <ContextParameter key={ndx + itemDef.name} itemDef={itemDef} itemParent={valuesObject} onChange={()=>{
+                                        console.log("ParamsBuilderApp.onChange", valuesObject);
+                                        props.onSave(valuesObject)
                                     }}></ContextParameter>
                                 )
                                 )}
@@ -50,7 +39,7 @@ const ParamsBuilderApp = () => {
                         marginTop: '200px'
                      }}>
                         <code>
-                            {values}
+                            {JSON.stringify(valuesObject, null, 4)}
                         </code>
                     </div>
                 </div>
@@ -84,7 +73,7 @@ export function toObject(parameters: ParameterItem[], parentValue: any): {[key: 
                     retval[p.name] = {}
                 }
             } else if (p.type == 'object') {
-                console.log("toObject", p.type, p.name, parentValue)
+                // console.log("toObject", p.type, p.name, parentValue)
                 retval[p.name] = toObject(p.parameters || [], parentValue[p.name]);
             } else if (p.type == 'array') {
                 retval[p.name] = toArray(p, parentValue);

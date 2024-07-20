@@ -1,0 +1,18 @@
+module
+    import React from 'react'
+    :interface Props
+        :p children
+            :ref React.ReactNode
+    +
+    export
+        const FullPage
+            :ref React.FC
+                :param 
+                    :ref Props
+            => 
+                { 
+                    @ children
+                return 
+                    . full-page
+                        {
+                            + children

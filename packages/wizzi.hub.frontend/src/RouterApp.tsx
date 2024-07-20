@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\RouterApp.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\RouterApp.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import React from 'react';
 import {Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
@@ -10,12 +10,9 @@ import Home from '@/Pages/Home';
 import PageOne from '@/Pages/One';
 import PageTwo from '@/Pages/Two';
 import PageThree from '@/Pages/Three';
-import Header from '@/Components/nav/Header';
+import PageFour from '@/Pages/Four';
 const router = createBrowserRouter(createRoutesFromElements(
-<Route path="/" element={ (
-    <Header />
-    )
-}>
+<Route path="/">
     <Route index element={ (
         <Home />
         )
@@ -32,13 +29,15 @@ const router = createBrowserRouter(createRoutesFromElements(
         <PageThree />
         )
     } />
+    <Route path="four" element={ (
+        <PageFour />
+        )
+    } />
 </Route>
 ));
 const App: React.FC = () => {
     return  (
-        <>
-            <RouterProvider router={router} />
-        </>
+        <RouterProvider router={router} />
         )
     ;
 }

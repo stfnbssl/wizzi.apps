@@ -1,15 +1,4 @@
-export interface FileOrFolder {
-    id: string;
-    type: string;
-    name: string;
-    children?: string[];
-}
+import { PackiEntry } from "@/Api/types";
 
-export type ExplorerData = FileOrFolder[];
-
-export type AddFileOrFolder = {
-    id?: string;
-    type?: "file" | "folder";
-    root?: boolean;
-}
+export type ExplorerData = PackiEntry[];
 

@@ -1,0 +1,9 @@
+$group
+    $params result|@@null, message|@@null
+    ._ then
+        =>
+            $if result != null
+                param ${result}
+                    :any
+            $hook
+    catch_throw( ${message} )

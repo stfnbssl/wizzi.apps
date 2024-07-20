@@ -1,9 +1,13 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Api\types.ts.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Api\types.ts.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
+import {ParameterItem} from '@/Components/metaCtxBuilder/types';
+
+export type PackiFileType = 'CODE' | 'ASSETT';
+;
 
 /**
     * 
@@ -11,7 +15,7 @@
     * 
 */
 export type PackiFile = { 
-    type: 'CODE';
+    type: PackiFileType;
     contents: string;
     generated?: boolean;
     error?: Error;
@@ -36,6 +40,37 @@ export type PackiFileContent = {
 };
 ;
 
+/**
+    * 
+    * A PackiFile entry for FileExplorer
+    * 
+*/
+export type PackiEntry = { 
+    type: 'folder' | 'file';
+    id?: string;
+    name: string;
+    uri: string;
+    contents?: string;
+    children?: string[];
+};
+;
+
+export type HubDbMetaProvides = { 
+    name?: string;
+    pluginMetaProductions: MetaProduction[];
+    pluginCategories: MetaPluginCategory[];
+};
+;
+
+export type MetaProductionFiles = { 
+    name: string;
+    parameters: PackiFiles;
+    folderTemplates: PackiFiles;
+    ittfDocumentTemplates: PackiFiles;
+    plainDocuments: PackiFiles;
+};
+;
+
 export interface HubProductionItem {
     id: string;
     owner: string;
@@ -43,3 +78,88 @@ export interface HubProductionItem {
     description: string;
     packiFiles: string;
 }
+
+
+export type MetaProduction = { 
+    name: string;
+    plugin: string;
+    categories: { 
+        name: string;
+    }[];
+};
+;
+
+export type MetaProductionExt = { 
+    name: string;
+    plugin: string;
+    categories: { 
+        name: string;
+    }[];
+};
+;
+
+export type MetaProductionCategory = { 
+    name: string;
+};
+;
+
+export type MetaProductionCategoryExt = { 
+    name: string;
+};
+;
+
+export type MetaPluginCategory = { 
+    name: string;
+};
+;
+
+export type MetaPluginCategoryExt = { 
+    name: string;
+    plugins: { 
+        name: string;
+    }[];
+};
+;
+
+export type MetaPlugin = { 
+    name: string;
+    categories?: { 
+        name: string;
+    }[];
+};
+;
+
+export type MetaPluginExt = { 
+    name: string;
+    __is_hub_meta_plugin: boolean;
+    owner?: string;
+    pluginCategories: MetaPluginCategory[];
+    metaProductionCategories: MetaProductionCategory[];
+    metaProductionCategoriesObj: { 
+        [name: string]: MetaProductionCategory;
+    };
+    metaProductions: MetaProduction[];
+    metaProductionsObj: { 
+        [name: string]: MetaProduction;
+    };
+};
+;
+
+export type MetaParameters = { 
+    packiFiles: PackiFiles;
+    metaParametersObj: { 
+        [productionName: string]: MetaProductionParameters;
+    };
+    err?: any;
+    error?: any;
+};
+;
+
+export type MetaProductionParameters = { 
+    metaProductionName: string;
+    index: string;
+    parametersIndexObj: { 
+        parameters: ParameterItem[];
+    };
+};
+;

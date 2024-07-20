@@ -1,9 +1,0 @@
-module
-
-    export
-        function MainContent
-            param params
-            return
-                . main-content
-                    {
-                        + params.children

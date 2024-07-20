@@ -1,0 +1,80 @@
+module
+
+    import
+        @ MetaPluginCategory
+        @ MetaPlugin
+        @ MetaProductionCategory
+        @ MetaProduction
+        from "@/Api/types"
+    
+    export
+        :type LocalStorageItem
+            :{
+                :index
+                    :any
+                    param key
+                        :string
+
+    export
+        :type StringKeyedObject
+            :{
+                :index
+                    :any
+                    param key
+                        :string
+
+    export
+        :type SelectableItem
+            :{
+                :p keyValue
+                    :any
+                :p selected
+                    :boolean
+                :p itemValue
+                    :ref StringKeyedObject
+
+    export
+        :type JobItem
+            :{
+                :p id
+                    :string
+                :p name
+                    :string
+                :p description
+                    :string
+                :p packiFiles
+                    :string
+                :p __setup
+                    :boolean
+                :p __metaPlugins
+                    :{
+                        :p text
+                            :string
+                        :p json
+                            :{
+                                :p metaPlugins
+                                    :[
+                                        :ref MetaPlugin
+                                :p metaPluginCategories
+                                    :[
+                                        :ref MetaPluginCategory
+                    :optional
+                    # meta plugin selections
+                :p __metaProductions
+                    :{
+                        :p text
+                            :string
+                        :p json
+                            :{
+                                :p metaProductions
+                                    :[
+                                        :ref MetaProduction
+                                :p metaProductionCategories
+                                    :[
+                                        :ref MetaProductionCategory
+                    :optional
+                    # meta production selections
+
+
+
+

@@ -1,0 +1,105 @@
+module
+
+    import React
+        @ useState
+        from "react"
+
+    import
+        @ SearchView
+        from "@/Components/utils/SearchView"
+
+    import
+        @ MetaProductionExt
+        from "@/Api/types"
+
+    import
+        as _
+        from "@/Utils/underscore2"
+    
+    import
+        @ MetaSelectionState
+        from "@/Data/mvc/MetaProduction/types"
+    
+    :type PluginsAvailableProductionsProps
+        :{
+            :p metaSelectionState
+                :ref MetaSelectionState
+            :p onSelect
+                :=>
+                    :void
+                    param production
+                        :string
+
+    export
+        function PluginsAvailableProductions
+            param params
+                :ref PluginsAvailableProductionsProps
+            const
+                {
+                    @ metaSelectionState
+                    @ onSelect
+                = params
+            const
+                {
+                    @ productionsUnselected
+                    @ categoriesSelected
+                = metaSelectionState
+            if !(productionsUnselected && categoriesSelected)
+                return
+                    . w-area-list w-area-list-cats-prods
+            const [searchText, setSearchText] = useState('')          
+            var availables
+                _ productionsUnselected.filter
+                    =>
+                        param p
+                        _ (p as MetaProductionExt).categories.forEach
+                            =>
+                                param c
+                                var matches
+                                    _ categoriesSelected.filter
+                                        =>
+                                            param csel
+                                            return csel.name == c.name
+                                if matches.length > 0
+                                    return true
+                                return false
+            const availablesFiltered
+                _ _.sortFilter
+                    @ availables
+                    {
+                        { sort
+                            @ ascending true
+                            @ keyName 'name'
+                        { filter
+                            @ searchText searchText
+                            @ keyName 'name'
+            return
+                . w-area-list w-area-list-cats-prods
+                    . w-area-list-caption
+                        + Available productions
+                    < SearchView
+                        @ className "w-area-list-search"
+                        @ placeholder "search production..."
+                        @ value {searchText}
+                        @ onChange
+                            =>
+                                param value
+                                _ setSearchText(value)
+                    . w-area-list-inner
+                        ul
+                            {
+                                &&
+                                    + availablesFiltered
+                                    _ availablesFiltered.map
+                                        =>
+                                            param item
+                                            param ndx
+                                            < React.Fragment 
+                                                @ key {ndx}
+                                                li
+                                                    div
+                                                        + {item.name}
+                                                        @ onClick
+                                                            =>
+                                                                _ onSelect
+                                                                    @ item.name

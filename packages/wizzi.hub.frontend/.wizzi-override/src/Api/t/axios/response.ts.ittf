@@ -1,0 +1,12 @@
+$group
+    $params &md
+
+    const responseBody
+        => 
+            :< T
+            param response
+                :ref AxiosResponse
+                    :param 
+                        :ref T
+            +
+                @expr response.data

@@ -1,0 +1,6 @@
+$group
+    return
+        new Promise
+            =>
+                param resolve
+                $hook

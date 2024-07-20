@@ -1,7 +1,13 @@
 {
-    name "ts-react-vite-app-starter"
-    description "Starter project for typescript react vite app"
-    private true
+    name "wizzi.hub.frontend"
+    description "Wizzi hub frontend"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    license "MIT"
+    { github
+        userid "stfnbssl"
+    private false
     sideEffects false
     { imports
         #* "./*"

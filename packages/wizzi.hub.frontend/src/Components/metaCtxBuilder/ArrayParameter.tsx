@@ -3,7 +3,7 @@ import { ParameterItem } from "./types";
 import { ContextParameter } from "./ContextParameter";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross1Icon, Pencil1Icon, PlusIcon } from "@radix-ui/react-icons";
-import { Spinner } from "../ui/Spinner";
+import { Spinner } from "@/Components/ui/Spinner";
 
 interface ArrayParameterProps {
   itemDef: ParameterItem;
@@ -34,7 +34,7 @@ export default function ArrayParameter(props: ArrayParameterProps) {
   const { name, label, parameters } = itemDef;
   const [editItems, setEditItems] = useState<string>(JSON.stringify(itemParent[itemDef.name]));
   const editItemsArray = JSON.parse(editItems);
-  console.log("ArrayParameter", "editItems", editItemsArray);
+  // console.log("ArrayParameter", "editItems", editItemsArray);
   return (
     <div className="flex w-full py-2 border-b-2 border-gray-200">
         <div className="pl-4">{label || name}</div>
@@ -49,7 +49,7 @@ export default function ArrayParameter(props: ArrayParameterProps) {
           <div className="mt-2 space-x-6 text-right">
             {
               parameters && <ItemValueAdd itemDefParameters={parameters} itemValue={getNewItemValue(parameters)} onAdd={(item: any) => {
-                console.log("ArrayParameter.onAdd", item);
+                // console.log("ArrayParameter.onAdd", item);
                 editItemsArray.push(item);
                 setEditItems(JSON.stringify(editItemsArray));
                 itemParent[itemDef.name] = editItemsArray;
@@ -64,7 +64,7 @@ export default function ArrayParameter(props: ArrayParameterProps) {
 
 function ItemValueCard( props: ItemValueCardProps ) {
   let [open, setOpen] = useState(false);
-  console.log("ItemValueCard", "itemValue", props.itemValue);
+  // console.log("ItemValueCard", "itemValue", props.itemValue);
   return (
     <div className="flex justify-between bg-white px-4 text-gray-900 shadow">
       <div>
@@ -144,7 +144,7 @@ function ItemValueForm(props: ItemValueFormProps) {
   let sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
   // let { updateContact } = useContacts();
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    console.log("ItemValueForm.handleSubmit", event.target);
+    // console.log("ItemValueForm.handleSubmit", event.target);
     event.preventDefault();
     setSaving(true);
     // let data = Object.fromEntries(new FormData(event.currentTarget));

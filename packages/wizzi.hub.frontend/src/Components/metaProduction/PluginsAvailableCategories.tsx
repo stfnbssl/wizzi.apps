@@ -1,18 +1,18 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Components\metaProduction\PluginsAvailableCategories.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\PluginsAvailableCategories.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
-import React from "react";
+import React, {useState} from "react";
+import {SearchView} from "@/Components/utils/SearchView";
 import * as _ from "@/Utils/underscore2";
 import {MetaSelectionState} from "@/Data/mvc/MetaProduction/types";
 type PluginsAvailableCategoriesProps = { 
     metaSelectionState: MetaSelectionState;
     onSelect: (category: string) => void;
 };
-export // log "PluginsAvailableCategories.catsFiltered", catsFiltered
-function PluginsAvailableCategories(params: PluginsAvailableCategoriesProps) {
+export function PluginsAvailableCategories(params: PluginsAvailableCategoriesProps) {
     const {
         metaSelectionState, 
         onSelect
@@ -20,6 +20,12 @@ function PluginsAvailableCategories(params: PluginsAvailableCategoriesProps) {
     const {
         categoriesUnselected
      } = metaSelectionState;
+    if (!categoriesUnselected) {
+        return  (
+            <div className="w-area-list w-area-list-cats-prods" />
+            )
+        ;
+    }
     const [searchText, setSearchText] = useState('');
     const catsFiltered = _.sortFilter(categoriesUnselected, {
         sort: {

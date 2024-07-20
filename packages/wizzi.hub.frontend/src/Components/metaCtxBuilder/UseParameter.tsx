@@ -14,7 +14,7 @@ export default function UseParameter(props: UseParameterProps) {
   const useName = "use" + name[0].toUpperCase() + name.substring(1);
   let useOk = itemParent[useName];
   const [editValue, setEditValue] = useState<boolean>(useOk);  
-  console.log("UseParameter", name, itemParent[name])
+  // console.log("UseParameter", name, itemParent[name])
   return (
     <div className="w-full py-2 border-b-2 border-gray-200">
       <div className="flex w-full max-w-xs">

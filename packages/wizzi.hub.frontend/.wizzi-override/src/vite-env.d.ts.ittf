@@ -1,0 +1,2 @@
+module
+    ### <reference types="vite/client" />

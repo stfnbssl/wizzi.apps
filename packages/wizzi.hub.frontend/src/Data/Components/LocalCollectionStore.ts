@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Data\Components\LocalCollectionStore.ts.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Data\Components\LocalCollectionStore.ts.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import {LocalStorageItem} from "../types";
 /**
@@ -92,12 +92,10 @@ export class LocalCollectionStore {
         callback = callback || function() {
         };
         var items: LocalStorageItem[] = JSON.parse(localStorage.getItem(this.dbName) || '[]');
-        // log 'api.LocalCollectionStore.prototype.save', id
         // If an ID was actually given, find the item and update each property
         if (id) {
             var matched = false;
             for (var i = 0; i < items.length; i++) {
-                // log 'api.LocalCollectionStore.prototype.save', 'matched', id
                 if (items[i].id === id) {
                     matched = true;
                     for (var key in updateData) {

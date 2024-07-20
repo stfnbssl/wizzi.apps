@@ -1,10 +1,12 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Components\metaProduction\PluginsAvailableProductions.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\PluginsAvailableProductions.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
-import React from "react";
+import React, {useState} from "react";
+import {SearchView} from "@/Components/utils/SearchView";
+import {MetaProductionExt} from "@/Api/types";
 import * as _ from "@/Utils/underscore2";
 import {MetaSelectionState} from "@/Data/mvc/MetaProduction/types";
 type PluginsAvailableProductionsProps = { 
@@ -20,20 +22,26 @@ export function PluginsAvailableProductions(params: PluginsAvailableProductionsP
         productionsUnselected, 
         categoriesSelected
      } = metaSelectionState;
+    if (!(productionsUnselected && categoriesSelected)) {
+        return  (
+            <div className="w-area-list w-area-list-cats-prods" />
+            )
+        ;
+    }
     const [searchText, setSearchText] = useState('');
-    var availables = productionsUnselected.filter(function(p) {
-        var i, i_items=p.categories, i_len=p.categories.length, c;
-        for (i=0; i<i_len; i++) {
-            c = p.categories[i];
-            var matches = categoriesSelected.filter(function(csel) {
+    var availables = productionsUnselected.filter(p => 
+        (p as MetaProductionExt).categories.forEach((c) => {
+            var matches = categoriesSelected.filter((csel) => {
                 return csel.name == c.name;
-            });
+            }
+            );
             if (matches.length > 0) {
                 return true;
             }
+            return false;
         }
-        return false;
-    });
+        )
+    );
     const availablesFiltered = _.sortFilter(availables, {
         sort: {
             ascending: true, 

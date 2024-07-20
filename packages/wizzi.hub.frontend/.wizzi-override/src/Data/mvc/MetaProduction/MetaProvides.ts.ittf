@@ -1,0 +1,199 @@
+module
+    $
+        var myName = 'MetaProvides';
+        var myDisplayName = 'Data.mvc.Metaproduction.' + myName;
+
+    import
+        @ MetaPluginCategory
+        @ MetaPlugin
+        @ MetaPluginExt
+        @ MetaProductionCategory
+        @ MetaProduction
+        @ MetaProductionExt
+        from "@/Api/types"
+    
+    import
+        @ MetaProvidesData
+        from "./types"
+
+    export
+        class ${myName}
+            p data
+                :{
+                    :index
+                        :ref MetaProvidesData
+                        param jobId
+                            :string
+            ctor
+                set this.data = {}
+
+            m getPlugin
+                param jobId
+                    :string
+                param pluginName
+                    :string
+                :return
+                    :union
+                        :undefined
+                        :ref MetaPluginExt
+                const metaProvides = this.data[jobId]
+                return 
+                    _ metaProvides.metaPlugins.find
+                        =>
+                            param item
+                            return item.name == pluginName
+
+            m getMetaProduction
+                param jobId
+                    :string
+                param productionName
+                    :string
+                :return
+                    :union
+                        :undefined
+                        :ref MetaProductionExt
+                const metaProvides = this.data[jobId]
+                return 
+                    _ metaProvides.metaProductions.find
+                        =>
+                            param item
+                            return item.name == productionName
+
+            m setData
+                param jobId
+                    :string
+                param metaProvides
+                    :ref MetaProvidesData
+                set this.data[jobId] = metaProvides
+
+            m filterPluginCategories
+                param jobId
+                    :string
+                param pluginName
+                    :string
+                param selectedCategories
+                    :[
+                        :ref MetaPluginCategory
+                :return
+                    :[
+                        :ref MetaPluginCategory
+                const retval
+                    :[
+                        :ref MetaPluginCategory
+                    = []
+                const metaPlugin
+                    _ this.getPlugin
+                        @ jobId
+                        @ pluginName
+                if metaPlugin
+                    _ selectedCategories.forEach
+                        =>
+                            param selectedItem
+                            const found
+                                _ metaPlugin.pluginCategories.find
+                                    =>
+                                        param item
+                                        return item.name == selectedItem.name
+                            if found
+                                _ retval.push
+                                    @ selectedItem
+                return retval
+
+            m pluginsHaveProductionCategory
+                param jobId
+                    :string
+                param selectedPlugins
+                    :[
+                        :ref MetaPlugin
+                param productionCategory
+                    :ref MetaProductionCategory
+                :return
+                    :boolean
+                const retval
+                    :[
+                        :ref MetaProductionCategory
+                    = []
+                _ selectedPlugins.forEach
+                    =>
+                        param selectedPluginItem
+                        const metaPlugin
+                            _ this.getPlugin
+                                @ jobId
+                                @ selectedPluginItem.name
+                        if metaPlugin
+                            const found
+                                _ metaPlugin.metaProductionCategories.find
+                                    =>
+                                        param item
+                                        return item.name == productionCategory.name
+                            if found
+                                _ retval.push
+                                    @ productionCategory
+                return retval.length > 0
+
+            m filterMetaProductionsByPluginsAndProductionCategories
+                param jobId
+                    :string
+                param selectedPlugins
+                    :[
+                        :ref MetaPlugin
+                param selectedProductionCategories
+                    :[
+                        :ref MetaProductionCategory
+                param productions
+                    :[
+                        :ref MetaProduction
+                :return
+                    :[
+                        :ref MetaProduction
+                const retval
+                    :[
+                        :ref MetaProduction
+                    = []
+                info '${myDisplayName}.filterMetaProductionsByPluginsAndProductionCategories.selectedPlugins,selectedProductionCategories', selectedPlugins, selectedProductionCategories
+                _ productions.forEach
+                    =>
+                        param productionItem
+                        const metaProduction
+                            _ this.getMetaProduction
+                                @ jobId
+                                @ productionItem.name
+                        if metaProduction
+                            const foundPlugin
+                                _ selectedPlugins.find
+                                    =>
+                                        param item
+                                        return item.name == metaProduction.plugin
+                            const foundCategory
+                                _ metaProduction.categories.find
+                                    =>
+                                        param requestedCategory
+                                        const found
+                                            _ selectedProductionCategories.find
+                                                =>
+                                                    param selectedCategory
+                                                    return requestedCategory.name == selectedCategory.name
+                                        return found
+                            if foundPlugin && foundCategory
+                                _ retval.push
+                                    @ productionItem
+                return retval
+
+            m getInstance
+                static
+                :return
+                    :ref InstanceType
+                        :param 
+                            :typeof ${myName}                
+                if !${myName}.__instance
+                    set ${myName}.__instance = new ${myName}()
+                return ${myName}.__instance
+            
+            p __instance
+                static
+                :union
+                    :null
+                    :ref InstanceType
+                        :param 
+                            :typeof ${myName}
+                = null

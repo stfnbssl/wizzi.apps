@@ -1,8 +1,0 @@
-$group
-    $params result|notUsed, message|@@null
-    ._ then
-        =>
-            param ${result}
-                :any
-            $hook
-    catch_throw( ${message} )

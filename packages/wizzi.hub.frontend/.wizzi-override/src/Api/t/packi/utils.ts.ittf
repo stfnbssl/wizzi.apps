@@ -1,0 +1,228 @@
+$group
+    $params &md
+
+    export
+        function clonePackiFiles
+            param packiFiles
+                :union
+                    :string
+                    :ref PackiFiles
+            param filters
+                :[
+                    :string
+                :optional
+            :return
+                $if TODO
+                    :ref PackiFiles
+                :any
+            +
+            const testPackiFilesObj
+                _ packiFilesToObject
+                    @ packiFiles
+            if testPackiFilesObj.__is_error
+                return testPackiFilesObj
+            +
+            const packiFilesObj
+                :ref PackiFiles
+                = testPackiFilesObj as PackiFiles
+            set filters = filters || []
+            function isOk
+                param filename
+                    :string
+                if !filters || filters.length == 0
+                    return true
+                _ filters.forEach
+                    =>
+                        param filter
+                        if filename.startsWith(filter)
+                            return true
+                return false
+            const retval 
+                :ref PackiFiles
+                =
+                    {
+            for const k in packiFilesObj
+                if isOk(k)
+                    set retval[k] = packiFilesObj[k]
+            return retval
+
+    export
+        function extractPackiFileContent
+            param packiFiles
+                :union
+                    :string
+                    :ref PackiFiles
+            param filePath
+                :string
+            param options
+                :{
+                    :p json
+                        :boolean
+            :return
+                $if TODO
+                    :ref PackiFileContent
+                :any
+            $$ info "api.${md.ApiName}.extractPackiFileContent.packiFiles,filePath", packiFiles, filePath
+            +
+            const testPackiFileObj
+                _ extractPackiFile
+                    @ packiFiles
+                    @ filePath
+            $$ info "api.${md.ApiName}.extractPackiFile.testPackiFileObj", testPackiFileObj
+            if testPackiFileObj && testPackiFileObj.__is_error
+                return testPackiFileObj
+            +
+            let retval
+                $if TODO
+                    :ref PackiFileContent
+                :any
+                {
+                    @ text (testPackiFileObj && testPackiFileObj.contents) || (options.json ? '{}' : '')
+            if options.json
+                try
+                    set retval.json = testPackiFileObj && JSON.parse(testPackiFileObj.contents) || {}
+                    $$ info "api.${md.ApiName}.extractPackiFile.testPackiFileObj.contents.json", retval.json
+                catch err
+                    info "Error in ${md.ApiName}.extractPackiFileContent parsing packiFile contents", err, testPackiFileObj.contents
+                    set retval
+                        {
+                            @ __is_error true
+                            @ message "Error parsing packiFile contents"
+                            @ contents testPackiFileObj.contents
+            return retval
+
+    export
+        function extractPackiFile
+            param packiFiles
+                :union
+                    :string
+                    :ref PackiFiles
+            param filePath
+                :string
+            :return
+                $if TODO
+                    :ref PackiFile
+                :any
+            +
+            const testPackiFilesObj
+                _ packiFilesToObject
+                    @ packiFiles
+            if testPackiFilesObj.__is_error
+                return testPackiFilesObj
+            +
+            $$ info "api.${md.ApiName}.extractPackiFile", testPackiFilesObj
+            return testPackiFilesObj[filePath] 
+
+    export
+        function packiFilesToObject
+            param packiFiles
+                :union
+                    :string
+                    :ref PackiFiles
+            :return
+                $if TODO
+                    :ref PackiFiles
+                :any
+            if typeof packiFiles === "string"
+                try
+                    return JSON.parse(packiFiles)
+                catch err
+                    error "${md.ApiName}.packiFilesToObject. Error parsing packiFiles", err, packiFiles
+                    return
+                        {
+                            @ __is_error true
+                            @ message "Error parsing packiFiles string"
+                            @ packiFiles
+            else
+                return packiFiles
+
+    export
+        function packiToEntryArray
+            param files
+                :ref PackiFiles
+            :return
+                :[
+                    :ref PackiEntry
+            const fileSystem
+                :[
+                    :ref PackiEntry
+                = []
+            const fs
+                :{
+                    :index
+                        :ref PackiEntry
+                        param uri
+                            :string
+                = {}
+            const state
+                :{
+                    :p count
+                        :number
+                { 
+                    @ count 0
+            for const filename of Object.keys(files).sort()
+                _ setFileEntry
+                    @ filename
+                    @ files[filename].contents
+                    @ fs
+                    @ state
+            for const uri in fs
+                _ fileSystem.push
+                    @ fs[uri]
+            return fileSystem
+
+    function setFileEntry
+        param filename
+            :string
+        param contents
+            :string
+        param fs
+            :{
+                :index
+                    :ref PackiEntry
+                    param uri
+                        :string
+        param state
+            :{
+                :p count
+                    :number
+        const parts = filename.split('/')
+        let uri = ''
+        let parentUri = ''
+        let folderObj
+            :union
+                :ref PackiEntry
+                :null
+            = null
+        for var i=0; i<parts.length-1; i++
+            let part = parts[i]
+            set parentUri = uri
+            set uri += (uri.length > 0 ? '/' : '') + part
+            set folderObj = fs[uri]
+            if !folderObj
+                set folderObj
+                    {
+                        @ id ++state.count + ''
+                        @ type 'folder'
+                        @ uri uri
+                        @ name part
+                        [ children
+                set fs[uri] = folderObj
+            if parentUri.length > 0
+                let parentFolderObj = fs[parentUri]
+                if parentFolderObj && parentFolderObj.children
+                    _ parentFolderObj.children.push
+                        @ folderObj.uri
+        let fileObj
+            :ref PackiEntry
+            {
+                @ id ++state.count + ''
+                @ type 'file'
+                @ uri filename
+                @ name parts[parts.length-1]
+                @ contents contents
+        set fs[filename] = fileObj
+        if folderObj && folderObj.children
+            _ folderObj.children.push
+                @ fileObj.uri
+        info 'setFileEntry.fs', fs

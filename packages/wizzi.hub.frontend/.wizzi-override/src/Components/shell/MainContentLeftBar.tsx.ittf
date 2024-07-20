@@ -1,0 +1,27 @@
+module
+    import React from 'react'
+    :interface Props
+        :p children
+            :ref React.ReactNode
+            :optional
+    +
+    export
+        const MainContentLeftBar
+            :ref React.FC
+                :param 
+                    :ref Props
+            => 
+                { 
+                    @ children
+                return
+                    . h-full w-5 flex flex-col bg-gray-200
+                        {
+                            + children
+                    $*
+                    . main-content-left-bar
+                        height 100%
+                        width 3%
+                        background-color #1D1D1D
+                        {
+                            + children
+                    *$

@@ -1,0 +1,88 @@
+$group
+    +
+    export
+        async-function getArtifactProduction_withCache
+            param owner
+                :string
+            param name
+                :string
+            var cacheKey = owner + '|' + name
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        $if wzCtx.Build.wizziDevHubProductions.useCachedProductions
+                            let apValue = artifactProductionCache.get(cacheKey)
+                            if apValue
+                                return resolve(apValue)
+                        $else
+                            let apValue
+                                {
+                                    @ mainIttf ""
+                                    { packiFiles
+                        _ getArtifactProduction
+                            @ owner
+                            @ name
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const ap
+                                        :ref IArtifactProductionModel
+                                        = result.item
+                                    const ap_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(ap.packiFiles)
+                                    if ap.wizziSchema && ap.wizziSchema.length > 0
+                                        _ tFolderApi.getTFolderProduction
+                                            @ owner
+                                            @ ap.wizziSchema
+                                            ._ then
+                                                =>
+                                                    param result
+                                                    if !result.ok
+                                                        set apValue =
+                                                            {
+                                                                @ mainIttf ap.mainIttf
+                                                                @ packiFiles ap_packiFiles_object
+                                                        $if wzCtx.Build.wizziDevHubProductions.useCachedProductions
+                                                            _ artifactProductionCache.set(cacheKey, apValue)
+                                                        return resolve(apValue)
+                                                    const tf
+                                                        :ref ITFolderProductionModel
+                                                        = result.item
+                                                    const tf_packiFiles_object
+                                                        :ref packiTypes.PackiFiles
+                                                        _ JSON.parse(tf.packiFiles)
+                                                    set apValue =
+                                                        {
+                                                            @ mainIttf ap.mainIttf
+                                                            @ packiFiles
+                                                                _ mergePackiFiles
+                                                                    @ ap_packiFiles_object
+                                                                    @ tf_packiFiles_object
+                                                    $if wzCtx.Build.wizziDevHubProductions.useCachedProductions
+                                                        _ artifactProductionCache.set(cacheKey, apValue)
+                                                    return resolve(apValue)
+                                            v08/ts/catch_reject( getArtifactProduction_withCache.getTFolderProduction )
+                                    else
+                                        set apValue
+                                            {
+                                                @ mainIttf ap.mainIttf
+                                                @ packiFiles ap_packiFiles_object
+                                        $if wzCtx.Build.wizziDevHubProductions.useCachedProductions
+                                            _ artifactProductionCache.set(cacheKey, apValue)
+                                        return resolve(apValue)
+                            v08/ts/catch_reject( getArtifactProduction_withCache.getArtifactProduction )
+    +
+    export
+        function invalidateCache
+            param owner
+                :string
+            param name
+                :string
+                :optional
+            var cacheKey = owner + '|' + name
+            _ artifactProductionCache.del(cacheKey)

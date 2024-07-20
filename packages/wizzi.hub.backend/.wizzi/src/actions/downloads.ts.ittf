@@ -1,0 +1,467 @@
+module
+    import path from 'path'
+    import
+        @ fSystem
+        @ verify
+        from '@wizzi/utils'
+    import
+        @ PackiFiles
+        from '#/src/features/packi/types'
+    import
+        @ artifactApi
+        @ packageApi
+        @ pluginApi
+        @ metaApi
+        @ jobApi
+        @ tFolderApi
+        from '#/src/features/wizziHubProductions'
+    :import-type
+        @ DownloadOptions
+        from './types'
+    export
+        function downloadArtifactList
+            param owner
+                :string
+            param options
+                :ref DownloadOptions
+            :return
+                :ref Promise
+                    :param any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ artifactApi.getArtifactProductionList
+                            {
+                                @ owner
+                            ._ then
+                                =>
+                                    param result
+                                        :any
+                                    if options.destFolder
+                                        _ writeJSONToDest
+                                            _ path.join
+                                                @ options.destFolder
+                                                @ '..'
+                                                @ '.packi'
+                                                @ 'ArtifactList.json'
+                                            @ result
+                                        foreach item in result.item
+                                            const packiFiles
+                                                :ref PackiFiles
+                                                = JSON.parse(item.packiFiles)
+                                            _ writePackiToDest
+                                                @ packiFiles
+                                                _ path.join
+                                                    @ options.destFolder
+                                                    _ verify.replaceAll(item.name, '/', '_')
+                                    return resolve(result.item)
+                            ._ catch
+                                =>
+                                    param err
+                                        :any
+                                    if typeof err === 'object' && err !== null
+                                    _ console.log("[31m%s[0m", 'download.downloadArtifact.getArtifactProductionList.error', err)
+                                    return reject(err)
+    export
+        function downloadArtifact
+            param owner
+                :string
+            param name
+                :string
+            param options
+                :ref DownloadOptions
+            :return
+                :ref Promise
+                    :param any
+            r_promise()
+                _ artifactApi.getArtifactProductionObject
+                    @ owner
+                    @ name
+                    a_then_catch_reject( result, :any, , download.downloadArtifact.getArtifactProductionObject )
+                        # info 'artifactApi.getArtifactProductionObject.result', Object.keys(result)
+                        if options.destFolder
+                            _ writePackiToDest
+                                @ result.packiFiles
+                                @ options.destFolder
+                        return
+                            _ resolve
+                                @ result.item
+    +
+    export
+        function downloadPackageList
+            param owner
+                :string
+            param options
+                :ref DownloadOptions
+            :return
+                :ref Promise
+                    :param any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ packageApi.getPackageProductionList
+                            {
+                                @ owner
+                            ._ then
+                                =>
+                                    param result
+                                        :any
+                                    if options.destFolder
+                                        _ writeJSONToDest
+                                            _ path.join
+                                                @ options.destFolder
+                                                @ '..'
+                                                @ '.packi'
+                                                @ 'PackageList.json'
+                                            @ result
+                                        foreach item in result.item
+                                            const packiFiles
+                                                :ref PackiFiles
+                                                = JSON.parse(item.packiFiles)
+                                            _ writePackiToDest
+                                                @ packiFiles
+                                                _ path.join
+                                                    @ options.destFolder
+                                                    _ verify.replaceAll(item.name, '/', '_')
+                                    return resolve(result.item)
+                            ._ catch
+                                =>
+                                    param err
+                                        :any
+                                    if typeof err === 'object' && err !== null
+                                    _ console.log("[31m%s[0m", 'download.downloadPackage.getPackageProductionList.error', err)
+                                    return reject(err)
+    export
+        function downloadPackage
+            param owner
+                :string
+            param name
+                :string
+            param options
+                :ref DownloadOptions
+            :return
+                :ref Promise
+                    :param any
+            r_promise()
+                _ packageApi.getPackageProductionObject
+                    @ owner
+                    @ name
+                    a_then_catch_reject( result, :any, , download.downloadPackage.getPackageProductionObject )
+                        # info 'packageApi.getPackageProductionObject.result', Object.keys(result)
+                        if options.destFolder
+                            _ writePackiToDest
+                                @ result.packiFiles
+                                @ options.destFolder
+                        return
+                            _ resolve
+                                @ result.item
+    +
+    export
+        function downloadPluginList
+            param owner
+                :string
+            param options
+                :ref DownloadOptions
+            :return
+                :ref Promise
+                    :param any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ pluginApi.getPluginProductionList
+                            {
+                                @ owner
+                            ._ then
+                                =>
+                                    param result
+                                        :any
+                                    if options.destFolder
+                                        _ writeJSONToDest
+                                            _ path.join
+                                                @ options.destFolder
+                                                @ '..'
+                                                @ '.packi'
+                                                @ 'PluginList.json'
+                                            @ result
+                                        foreach item in result.item
+                                            const packiFiles
+                                                :ref PackiFiles
+                                                = JSON.parse(item.packiFiles)
+                                            _ writePackiToDest
+                                                @ packiFiles
+                                                _ path.join
+                                                    @ options.destFolder
+                                                    _ verify.replaceAll(item.name, '/', '_')
+                                    return resolve(result.item)
+                            ._ catch
+                                =>
+                                    param err
+                                        :any
+                                    if typeof err === 'object' && err !== null
+                                    _ console.log("[31m%s[0m", 'download.downloadPlugin.getPluginProductionList.error', err)
+                                    return reject(err)
+    export
+        function downloadPlugin
+            param owner
+                :string
+            param name
+                :string
+            param options
+                :ref DownloadOptions
+            :return
+                :ref Promise
+                    :param any
+            r_promise()
+                _ pluginApi.getPluginProductionObject
+                    @ owner
+                    @ name
+                    a_then_catch_reject( result, :any, , download.downloadPlugin.getPluginProductionObject )
+                        # info 'pluginApi.getPluginProductionObject.result', Object.keys(result)
+                        if options.destFolder
+                            _ writePackiToDest
+                                @ result.packiFiles
+                                @ options.destFolder
+                        return
+                            _ resolve
+                                @ result.item
+    +
+    export
+        function downloadMetaList
+            param owner
+                :string
+            param options
+                :ref DownloadOptions
+            :return
+                :ref Promise
+                    :param any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ metaApi.getMetaProductionList
+                            {
+                                @ owner
+                            ._ then
+                                =>
+                                    param result
+                                        :any
+                                    if options.destFolder
+                                        _ writeJSONToDest
+                                            _ path.join
+                                                @ options.destFolder
+                                                @ '..'
+                                                @ '.packi'
+                                                @ 'MetaList.json'
+                                            @ result
+                                        foreach item in result.item
+                                            const packiFiles
+                                                :ref PackiFiles
+                                                = JSON.parse(item.packiFiles)
+                                            _ writePackiToDest
+                                                @ packiFiles
+                                                _ path.join
+                                                    @ options.destFolder
+                                                    _ verify.replaceAll(item.name, '/', '_')
+                                    return resolve(result.item)
+                            ._ catch
+                                =>
+                                    param err
+                                        :any
+                                    if typeof err === 'object' && err !== null
+                                    _ console.log("[31m%s[0m", 'download.downloadMeta.getMetaProductionList.error', err)
+                                    return reject(err)
+    export
+        function downloadMeta
+            param owner
+                :string
+            param name
+                :string
+            param options
+                :ref DownloadOptions
+            :return
+                :ref Promise
+                    :param any
+            r_promise()
+                _ metaApi.getMetaProductionObject
+                    @ owner
+                    @ name
+                    a_then_catch_reject( result, :any, , download.downloadMeta.getMetaProductionObject )
+                        # info 'metaApi.getMetaProductionObject.result', Object.keys(result)
+                        if options.destFolder
+                            _ writePackiToDest
+                                @ result.packiFiles
+                                @ options.destFolder
+                        return
+                            _ resolve
+                                @ result.item
+    +
+    export
+        function downloadJobList
+            param owner
+                :string
+            param options
+                :ref DownloadOptions
+            :return
+                :ref Promise
+                    :param any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ jobApi.getJobProductionList
+                            {
+                                @ owner
+                            ._ then
+                                =>
+                                    param result
+                                        :any
+                                    if options.destFolder
+                                        _ writeJSONToDest
+                                            _ path.join
+                                                @ options.destFolder
+                                                @ '..'
+                                                @ '.packi'
+                                                @ 'JobList.json'
+                                            @ result
+                                        foreach item in result.item
+                                            const packiFiles
+                                                :ref PackiFiles
+                                                = JSON.parse(item.packiFiles)
+                                            _ writePackiToDest
+                                                @ packiFiles
+                                                _ path.join
+                                                    @ options.destFolder
+                                                    _ verify.replaceAll(item.name, '/', '_')
+                                    return resolve(result.item)
+                            ._ catch
+                                =>
+                                    param err
+                                        :any
+                                    if typeof err === 'object' && err !== null
+                                    _ console.log("[31m%s[0m", 'download.downloadJob.getJobProductionList.error', err)
+                                    return reject(err)
+    export
+        function downloadJob
+            param owner
+                :string
+            param name
+                :string
+            param options
+                :ref DownloadOptions
+            :return
+                :ref Promise
+                    :param any
+            r_promise()
+                _ jobApi.getJobProductionObject
+                    @ owner
+                    @ name
+                    a_then_catch_reject( result, :any, , download.downloadJob.getJobProductionObject )
+                        # info 'jobApi.getJobProductionObject.result', Object.keys(result)
+                        if options.destFolder
+                            _ writePackiToDest
+                                @ result.packiFiles
+                                @ options.destFolder
+                        return
+                            _ resolve
+                                @ result.item
+    +
+    export
+        function downloadTFolderList
+            param owner
+                :string
+            param options
+                :ref DownloadOptions
+            :return
+                :ref Promise
+                    :param any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ tFolderApi.getTFolderProductionList
+                            {
+                                @ owner
+                            ._ then
+                                =>
+                                    param result
+                                        :any
+                                    if options.destFolder
+                                        _ writeJSONToDest
+                                            _ path.join
+                                                @ options.destFolder
+                                                @ '..'
+                                                @ '.packi'
+                                                @ 'TFolderList.json'
+                                            @ result
+                                        foreach item in result.item
+                                            const packiFiles
+                                                :ref PackiFiles
+                                                = JSON.parse(item.packiFiles)
+                                            _ writePackiToDest
+                                                @ packiFiles
+                                                _ path.join
+                                                    @ options.destFolder
+                                                    _ verify.replaceAll(item.name, '/', '_')
+                                    return resolve(result.item)
+                            ._ catch
+                                =>
+                                    param err
+                                        :any
+                                    if typeof err === 'object' && err !== null
+                                    _ console.log("[31m%s[0m", 'download.downloadTFolder.getTFolderProductionList.error', err)
+                                    return reject(err)
+    export
+        function downloadTFolder
+            param owner
+                :string
+            param name
+                :string
+            param options
+                :ref DownloadOptions
+            :return
+                :ref Promise
+                    :param any
+            r_promise()
+                _ tFolderApi.getTFolderProductionObject
+                    @ owner
+                    @ name
+                    a_then_catch_reject( result, :any, , download.downloadTFolder.getTFolderProductionObject )
+                        # info 'tFolderApi.getTFolderProductionObject.result', Object.keys(result)
+                        if options.destFolder
+                            _ writePackiToDest
+                                @ result.packiFiles
+                                @ options.destFolder
+                        return
+                            _ resolve
+                                @ result.item
+    +
+    function writeJSONToDest
+        param destPath
+            :string
+        param json
+            :any
+        _ fSystem.vfile().write(destPath, JSON.stringify(json, null, 2))
+    +
+    function writePackiToDest
+        param packiFiles
+            :ref PackiFiles
+        param destFolder
+            :string
+        for var k in packiFiles
+            const pf = packiFiles[k]
+            if pf
+                _ fSystem.vfile().write
+                    _ path.join
+                        @ destFolder
+                        @ k
+                    @ pf.contents
+    +

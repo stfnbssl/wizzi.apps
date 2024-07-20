@@ -1,0 +1,48 @@
+$group
+    $
+        var  w_area_list = 'h-full bg-gray-800 text-zinc-200 border-r border-gray-100';
+        var  w_area_list_inner = 'm-1 p-2 overflow-auto';
+        var  w_area_list_caption = 'pt-0.5 bg-gray-900 text-xs text-center';
+        var  w_area_list_jobs = '';
+
+
+    $*
+    background-color #2D2D2D
+    color ${colors.main}
+    height 100%
+    width calc(100% - 2px)
+    @ scrollbar-color #6D6D6D #4D4D4D
+    @ scrollbar-width thin          
+    border-left 1px solid gray
+    border-right 1px solid gray
+  . w-area-list-inner
+    height calc(92% - 30px)
+    margin 5px
+    padding 10px
+    overflow auto
+    < ul
+        padding 0
+        margin 0
+        list-style none
+      < li
+        margin 0.25rem 0
+  . w-area-list-caption
+    height calc(3% - 3px)
+    text-align center
+    font-size 0.8rem
+    padding-top 3px
+    background-color #1D1D1D
+  . w-area-list-search
+    height calc(5% - 20px)
+    text-align center
+    padding 10px
+  . w-area-list-search-input
+    border-width 1px
+    border-style inset
+    border-color none
+  . w-area-list-inner-no-search
+    height calc(97% - 30px)
+    margin 5px
+    padding 10px
+    overflow auto
+  *$

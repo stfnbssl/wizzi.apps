@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Components\shell\index.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\shell\index.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import {UserNavBar} from '@/Components/nav/UserNavBar';
 import {FullPage} from './FullPage';
@@ -11,11 +11,11 @@ import {MainContentLeftBar} from './MainContentLeftBar';
 import {MainContentWorkArea} from './MainContentWorkArea';
 import {MainFooter} from './MainFooter';
 import {MainHeader} from './MainHeader';
-/**
+export /**
     // Shell is an example
     // It goes inside the App component
 */
-function Shell(params) {
+function Shell() {
     return  (
         <FullPage>
             <MainHeader>
@@ -23,7 +23,7 @@ function Shell(params) {
             </MainHeader>
             <MainContent>
                 <MainContentLeftBar />
-                <MainContentWorkarea />
+                <MainContentWorkArea />
             </MainContent>
             <MainFooter />
         </FullPage>

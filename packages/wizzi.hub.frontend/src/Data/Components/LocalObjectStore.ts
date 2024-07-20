@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Data\Components\LocalObjectStore.ts.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Data\Components\LocalObjectStore.ts.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import {LocalStorageItem} from "../types";
 import {LocalCollectionStore} from "./LocalCollectionStore";
@@ -41,7 +41,6 @@ export class LocalObjectStore {
         localStorage.setItem(this.dbName, JSON.stringify(itemObj));
         return itemObj;
     }
-    // log 'api.LocalObjectStore.getValue', name, defaultValue, name in itemObj, itemObj
     /**
         * 
         * Get an object property value
@@ -54,15 +53,12 @@ export class LocalObjectStore {
     */
     getValue(name: string, defaultValue?: any):  any {
         var itemObj: LocalStorageItem = JSON.parse(localStorage.getItem(this.dbName) || '{}');
-        // log 'api.LocalObjectStore.getValue.return', itemObj[name]
         if (name in itemObj) {
             return itemObj[name];
         }
-        // log 'api.LocalObjectStore.getValue.return', defaultValue
         else if (typeof(defaultValue) != 'undefined') {
             return defaultValue;
         }
-        // log 'api.LocalObjectStore.getValue.return', null
         else {
             return null;
         }
@@ -103,7 +99,6 @@ export class LocalObjectStore {
         }
         this.itemColl.findAll(callback)
     }
-    // log 'api.LocalObjectStore.prototype.save', id, updateData
     /**
         * 
         * Will save the given data to the object items. If no item exists it will create a new

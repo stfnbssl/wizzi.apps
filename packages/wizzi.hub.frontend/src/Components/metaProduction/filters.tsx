@@ -1,99 +1,111 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Components\metaProduction\filters.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\filters.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
+import {MetaProductionExt, MetaProductionCategoryExt, MetaPluginExt} from "@/Api/types";
+import {MetaSelectionState} from "@/Data/mvc/MetaProduction/types";
 import {SelectableCollection} from "@/Data/Components/SelectableCollection";
-import {arrayAddUniqueName, hasItemInArray, sortSearchFilter, sortFilterSelectables} from "@/Utils/arrays";
-export // pluginCatSel is indipendent from other selections
-// pluginSel depend on pluginCatSel
-// meta production categories catSel depend on pluginSel + pluginCatSel
-// meta productions prodSel depend on catSel + pluginSel + pluginCatSel
-function executeMetaJobFilters(metaSelectionState) {
+import {hasItemInArray} from "@/Utils/arrays";
+export function executeMetaJobFilters(metaSelectionState: MetaSelectionState):  void {
     const {
         pluginCatSelId, 
         pluginSelId, 
         catSelId, 
         prodSelId
      } = metaSelectionState;
+    if (!(pluginCatSelId && pluginSelId && catSelId && prodSelId)) {
+        return ;
+    }
+    console.log('Components.metaproduction.executeMetaJobFilters.start');
+    // pluginCatSel is indipendent from other selections
     const pluginCatSel = SelectableCollection.get(pluginCatSelId);
+    // pluginSel depend on pluginCatSel
     const pluginSel = SelectableCollection.get(pluginSelId);
-    const catSel = SelectableCollection.get(catSelId);
+    // meta production categories prodCatSel depend on pluginSel + pluginCatSel
+    const prodCatSel = SelectableCollection.get(catSelId);
+    // meta productions prodSel depend on prodCatSel + pluginSel + pluginCatSel
     const prodSel = SelectableCollection.get(prodSelId);
     
     pluginSel.resetFilter();
-    catSel.resetFilter();
+    prodCatSel.resetFilter();
     prodSel.resetFilter();
     
-    const metaProductionCategoriesOfSelectedPluginsObj = {};
-    pluginSel.getSelected().map(// error 'pluginSel.selected.addFilter', item
-    (item) => {
-        var i, i_items=item.pluginCategories, i_len=item.pluginCategories.length, c;
-        for (i=0; i<i_len; i++) {
-            c = item.pluginCategories[i];
-            const ok = hasItemInArray(pluginCatSel.getSelected(), 'name', c.name);
-            if (ok) {
-                var j, j_items=item.metaProductions, j_len=item.metaProductions.length, mp;
-                for (j=0; j<j_len; j++) {
-                    mp = item.metaProductions[j];
-                    var k, k_items=mp.categories, k_len=mp.categories.length, c;
-                    for (k=0; k<k_len; k++) {
-                        c = mp.categories[k];
-                        metaProductionCategoriesOfSelectedPluginsObj[c.name] = c;
-                    }
-                }
-                return true;
+    const metaProductionCategoriesOfSelectedPluginsObj: { 
+        [name: string]: MetaProductionCategoryExt;
+    } = {};
+    pluginSel.getSelected().map((item) => {
+        const itemExt: MetaPluginExt = item as MetaPluginExt;
+        let hasPluginCatInPluginCatSel: boolean = false;
+        itemExt.pluginCategories.forEach((c) => {
+            const isInCatSel = hasItemInArray(pluginCatSel.getSelected(), 'name', c.name);
+            if (isInCatSel) {
+                hasPluginCatInPluginCatSel = true;
             }
         }
-        pluginSel.addFilter([item]);
-    }
-    )
-    console.log("[31m%s[0m", 'metaProductionCategoriesOfSelectedPlugins', JSON.stringify(Object.values(metaProductionCategoriesOfSelectedPluginsObj, null, 4)));
-    
-    pluginSel.getUnselected().map(// error 'pluginSel.unselected.addFilter', item
-    (item) => {
-        var i, i_items=item.pluginCategories, i_len=item.pluginCategories.length, c;
-        for (i=0; i<i_len; i++) {
-            c = item.pluginCategories[i];
-            const ok = hasItemInArray(pluginCatSel.getSelected(), 'name', c.name);
-            if (ok) {
-                return true;
-            }
+        )
+        if (hasPluginCatInPluginCatSel) {
+            itemExt.metaProductions.forEach(mp => 
+                mp.categories.forEach(c => 
+                    metaProductionCategoriesOfSelectedPluginsObj[c.name] = c
+                )
+            )
         }
-        pluginSel.addFilter([item]);
+        else {
+            pluginSel.addFilter([item]);
+        }
     }
     )
     
-    catSel.getItems().map(// error 'catSel.addFilter', item
-    (item) => {
-        var i, i_items=Object.values(metaProductionCategoriesOfSelectedPluginsObj), i_len=Object.values(metaProductionCategoriesOfSelectedPluginsObj).length, c;
-        for (i=0; i<i_len; i++) {
-            c = Object.values(metaProductionCategoriesOfSelectedPluginsObj)[i];
+    pluginSel.getUnselected().map((item) => {
+        const itemExt: MetaPluginExt = item as MetaPluginExt;
+        let hasSelectedCategory: boolean = false;
+        itemExt.pluginCategories.forEach(c => 
+            hasSelectedCategory = hasItemInArray(pluginCatSel.getSelected(), 'name', c.name)
+        
+        )
+        if (!hasSelectedCategory) {
+            pluginSel.addFilter([item]);
+        }
+    }
+    )
+    
+    prodCatSel.getItems().map((item) => {
+        let hasProdCatInProdCatsOfSelectedPlugins: boolean = false;
+        Object.values(metaProductionCategoriesOfSelectedPluginsObj).forEach((c) => {
             if (c.name == item.name) {
-                console.log("[31m%s[0m", 'executeMetaJobFilters', 'category', item.name, 'is in metaProductionCategoriesOfSelectedPluginsObj');
-                return true;
+                hasProdCatInProdCatsOfSelectedPlugins = true;
             }
         }
-        catSel.addFilter(item);
+        )
+        if (!hasProdCatInProdCatsOfSelectedPlugins) {
+            prodCatSel.addFilter([item]);
+        }
     }
     )
     
-    prodSel.getItems().map(// error 'prodSel.addFilter', item
-    (item) => {
-        var i, i_items=item.categories, i_len=item.categories.length, c;
-        for (i=0; i<i_len; i++) {
-            c = item.categories[i];
-            var j, j_items=catSel.getSelected(), j_len=catSel.getSelected().length, csel;
-            for (j=0; j<j_len; j++) {
-                csel = catSel.getSelected()[j];
+    prodSel.getItems().map((item) => {
+        const itemExt: MetaProductionExt = item as MetaProductionExt;
+        let prodHasCatInSelectedProdCats: boolean = false;
+        let prodHasPluginInSelectedPlugins: boolean = false;
+        itemExt.categories.forEach(c => 
+            prodCatSel.getSelected().forEach((csel) => {
                 if (c.name == csel.name) {
-                    console.log("[31m%s[0m", 'executeMetaJobFilters', 'category', c.name, 'in production', item.name, 'is in catSel.getSelected()');
-                    return true;
+                    prodHasCatInSelectedProdCats = true;
                 }
             }
+            )
+        )
+        pluginSel.getSelected().forEach((pl) => {
+            if (pl.name == itemExt.plugin) {
+                prodHasPluginInSelectedPlugins = true;
+            }
         }
-        prodSel.addFilter(item);
+        )
+        if (!(prodHasCatInSelectedProdCats && prodHasPluginInSelectedPlugins)) {
+            prodSel.addFilter([item]);
+        }
     }
     )
 }

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Data\Components\SelectableCollection.ts.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Data\Components\SelectableCollection.ts.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import * as _ from "@/Utils/underscore2";
 import {StringKeyedObject, SelectableItem} from "../types";
@@ -51,7 +51,7 @@ export class SelectableCollection {
     filterIncludeArray: { 
         [key: string]: any;
     }[];
-    select(keyValue: string) {
+    select(keyValue: string):  void {
         this.items.forEach((item) => {
             if (item.keyValue == keyValue) {
                 item.selected = true;
@@ -59,7 +59,7 @@ export class SelectableCollection {
         }
         )
     }
-    unSelect(keyValue: string) {
+    unSelect(keyValue: string):  void {
         this.items.forEach((item) => {
             if (item.keyValue == keyValue) {
                 item.selected = false;
@@ -117,30 +117,20 @@ export class SelectableCollection {
         return retval;
     }
     // defaults to filter out
-    setFilter(filterArray: { 
-        [key: string]: any;
-    }[]) {
+    setFilter(filterArray: StringKeyedObject[]):  void {
         this.setFilterExclude(filterArray)
     }
-    setFilterExclude(filterArray: { 
-        [key: string]: any;
-    }[]) {
+    setFilterExclude(filterArray: StringKeyedObject[]):  void {
         this.filterExcludeArray = filterArray;
     }
-    setFilterInclude(filterArray: { 
-        [key: string]: any;
-    }[]) {
+    setFilterInclude(filterArray: StringKeyedObject[]):  void {
         this.filterIncludeArray = filterArray;
     }
     // defaults to filter out
-    addFilter(filterArray: { 
-        [key: string]: any;
-    }[]) {
+    addFilter(filterArray: StringKeyedObject[]):  void {
         this.addFilterExclude(filterArray)
     }
-    addFilterExclude(filterArray: { 
-        [key: string]: any;
-    }[]) {
+    addFilterExclude(filterArray: StringKeyedObject[] | StringKeyedObject):  void {
         if (_.isArray(filterArray)) {
             this.filterExcludeArray = this.filterExcludeArray.concat(filterArray);
         }
@@ -148,9 +138,7 @@ export class SelectableCollection {
             this.filterExcludeArray.push(filterArray)
         }
     }
-    addFilterInclude(filterArray: { 
-        [key: string]: any;
-    }[]) {
+    addFilterInclude(filterArray: StringKeyedObject[] | StringKeyedObject):  void {
         if (_.isArray(filterArray)) {
             this.filterIncludeArray = this.filterIncludeArray.concat(filterArray);
         }
@@ -159,13 +147,13 @@ export class SelectableCollection {
         }
     }
     // defaults to filter out
-    resetFilter() {
+    resetFilter():  void {
         this.resetFilterExclude();
     }
-    resetFilterExclude() {
+    resetFilterExclude():  void {
         this.filterExcludeArray = [];
     }
-    resetFilterInclude() {
+    resetFilterInclude():  void {
         this.filterIncludeArray = [];
     }
     isFiltered(item: SelectableItem):  boolean {
@@ -191,16 +179,16 @@ export class SelectableCollection {
         );
         return filtered;
     }
-    stopSort() {
+    stopSort():  void {
         this.isSortActive = false;
     }
-    startSort() {
+    startSort():  void {
         this.isSortActive = true;
     }
-    setSearchText(searchText: string) {
+    setSearchText(searchText: string):  void {
         this.searchText = searchText;
     }
-    setItems(items: StringKeyedObject[]) {
+    setItems(items: StringKeyedObject[]):  void {
         const selectedItems: StringKeyedObject[] = this.getSelected();
         const keyName = this.keyName;
         const newItems: SelectableItem[] = [];
@@ -227,7 +215,7 @@ export class SelectableCollection {
     static __db: { 
         [key: string]: InstanceType<typeof SelectableCollection>;
     } = {};
-    static create(items: SelectableItem[], selectedItems: SelectableItem[], keyName: string) {
+    static create(items: StringKeyedObject[], selectedItems: StringKeyedObject[], keyName: string):  string {
         if (!items || !_.isArray(items)) {
             throw new Error('The "items" parameter is required and must be an array. selectable items collections.');
         }
@@ -238,10 +226,17 @@ export class SelectableCollection {
         SelectableCollection.__db[selId] = new SelectableCollection(items, selectedItems, keyName);
         return selId;
     }
-    static get(selId: string) {
+    static get(selId: string):  InstanceType<typeof SelectableCollection> {
         return SelectableCollection.__db[selId];
     }
-    static drop(selId: string) {
+    static getEmpty():  InstanceType<typeof SelectableCollection> {
+        let retval: InstanceType<typeof SelectableCollection> = SelectableCollection.__db['__empty__'];
+        if (!retval) {
+            retval = SelectableCollection.__db['__empty__'] = new SelectableCollection([], [], 'dummy');
+        }
+        return retval;
+    }
+    static drop(selId: string):  void {
         delete SelectableCollection.__db[selId]
     }
 }

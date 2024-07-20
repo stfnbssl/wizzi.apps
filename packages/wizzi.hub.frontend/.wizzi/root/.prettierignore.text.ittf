@@ -1,0 +1,5 @@
+text
+    .cache
+    public
+    node_modules/
+    dist/

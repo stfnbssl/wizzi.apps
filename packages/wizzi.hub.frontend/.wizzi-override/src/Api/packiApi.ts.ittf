@@ -1,0 +1,41 @@
+module
+
+    $if TODO
+        import path
+            from "path-browserify"
+    
+    $if TODO
+        import axios
+            @ AxiosError
+            @ AxiosResponse
+            from 'axios'
+    
+    import
+        @ PackiFileType
+        $$ @ PackiFile
+        @ PackiFiles
+        $$ @ PackiFileContent
+        @ PackiEntry
+        from './types'
+
+    import DiffMatchPatch 
+        from "diff-match-patch"
+    
+    $if TODO
+        :interface Result
+        const BASE_URL = 'http://localhost:3003/api/v1'
+    
+    $ 
+        var md = {
+            ApiName: 'Packi',
+            apiUrl: '/api/v1/',
+        }
+
+    $if TODO
+        axios/interceptors(&md)
+        axios/response(&md)
+        axios/request(&md)
+
+    packi/utils(&md)
+    packi/packiManager(&md)
+

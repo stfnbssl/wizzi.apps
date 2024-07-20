@@ -1,0 +1,24 @@
+module
+    import React from 'react'
+    :interface Props
+        :p children
+            :ref React.ReactNode
+            :optional
+    +
+    export
+        const MainContentWorkArea
+            :ref React.FC
+                :param 
+                    :ref Props
+            => 
+                { 
+                    @ children
+                return
+                    . h-full flex-1 flex flex-col bg-red-300
+                        {
+                            + children
+                    $*
+                        . main-content-work-area
+                            height 100%
+                            width 97%
+                    *$

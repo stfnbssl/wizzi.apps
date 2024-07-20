@@ -1,0 +1,199 @@
+module
+
+    $
+        var myName = 'jobs';
+        var myDisplayName = 'Data.' + myName;
+
+    import React
+        @ useState
+        @ useEffect
+        from 'react'
+
+    import 
+        as wizziMetaApi
+        from "@/Api/wizziMetaApi"
+
+    import
+        @ AppState
+        @ MetaSelectionState
+        from "@/Data/mvc/MetaProduction/types"
+
+    import
+        @ getMvc
+        @ setMetaProvides
+        from "@/Data/mvc/MetaProduction"
+
+    import
+        @ SelectableCollection
+        from "@/Data/Components/SelectableCollection"
+
+    import
+        @ executeMetaJobFilters        
+        from "@/Components/metaProduction/filters"
+
+    export
+        function getJobs
+            param owner
+                :string
+            param reload
+                :boolean
+            r_promise()
+                _ getMvc().storage.findAllJobs
+                    @ owner
+                    {
+                        $if TODO
+                            reload reload
+                        @ reload true
+                    a_then_catch_reject(result, @@null, @@null, getJobs)
+                        error '${myDisplayName}.getJobs.reload.result', reload, result
+                        _ resolve(result)
+                    # reload parameter disactivated for development. Always reload job list 
+
+    export
+        function getJobItem
+            param jobId
+                :string
+            r_promise()
+                $$ info '${myDisplayName}.getJobItem start', jobId
+                _ getMvc().storage.findJob
+                    @ getMvc().user.id
+                    @ jobId
+                    {
+                        @ reload false
+                    a_then_catch_reject(result, @@null, @@null, getJobItem)
+                        error '${myDisplayName}.getJobItem', result
+                        _ resolve(result)
+    
+    export
+        function startCurrentJob
+            param jobId
+                :string
+            param reloadCount
+                :number
+            param states
+                :{
+                    :p appState
+                        :ref AppState
+                    :p setAppState
+                        :ref React.Dispatch<React.SetStateAction<AppState|null>>                    
+                    :p metaSelectionState
+                        :ref MetaSelectionState
+                    :p setMetaSelectionState
+                        :ref React.Dispatch<React.SetStateAction<MetaSelectionState>>                    
+            const
+                {
+                    @ appState
+                    @ setAppState
+                    @ metaSelectionState
+                    @ setMetaSelectionState
+                = states
+            let [error, setError] = useState(null)
+            let [data, setData] = useState(null)
+            _ useEffect
+                =>
+                    async-function doFetch 
+                        $$ info '${myDisplayName}.startCurrentJob start.doFetch reloadCount', reloadCount
+                        const metaPluginProvidesData
+                            await
+                                _ wizziMetaApi.getMetaProvides
+                                    @ getMvc().user.id
+                        const metaPluginProvides = metaPluginProvidesData.metaPluginProvidesEx
+                        info '${myDisplayName}.startCurrentJob metaPluginProvides', metaPluginProvides
+                        $if TODO
+                            # metaPluginProvides should simply be a global object to retrieve once?
+                        _ setMetaProvides
+                            @ jobId
+                            @ metaPluginProvides
+                        let
+                            {
+                                @ pluginCatSelId
+                                @ pluginSelId
+                                @ catSelId
+                                @ prodSelId
+                            = metaSelectionState
+                        _ getJobItem
+                            @ jobId
+                            a_then(jobItem)
+                                $$ info '${myDisplayName}.startCurrentJob.jobItem', jobItem
+                                _ getMvc().model.setupJobProductionItem
+                                    @ jobItem
+                                info '${myDisplayName}.startCurrentJob.jobItem.__metaPlugins.json', jobItem.__metaPlugins.json
+                                info '${myDisplayName}.startCurrentJob.jobItem.__metaProductions.json', jobItem.__metaProductions.json
+                                if pluginCatSelId && pluginSelId && catSelId && prodSelId
+                                    _ SelectableCollection.drop
+                                        @ pluginCatSelId
+                                    _ SelectableCollection.drop
+                                        @ pluginSelId
+                                    _ SelectableCollection.drop
+                                        @ catSelId
+                                    _ SelectableCollection.drop
+                                        @ prodSelId
+                                # in the meta productions SelectableCollection(s) we always load all selectables
+                                # with the initial selection from the job item
+                                # they will be filtered by views if their plugins are not selected
+                                set pluginCatSelId
+                                    _ SelectableCollection.create
+                                        @ metaPluginProvides.metaPluginCategories
+                                        @ jobItem.__metaPlugins.json.metaPluginCategories
+                                        @ "name"
+                                set pluginSelId 
+                                    _ SelectableCollection.create
+                                        @ metaPluginProvides.metaPlugins
+                                        @ jobItem.__metaPlugins.json.metaPlugins
+                                        @ "name"
+                                set catSelId
+                                    _ SelectableCollection.create
+                                        @ metaPluginProvides.metaProductionCategories
+                                        @ jobItem.__metaProductions.json.metaProductionCategories
+                                        @ "name"
+                                set prodSelId 
+                                    _ SelectableCollection.create
+                                        @ metaPluginProvides.metaProductions
+                                        @ jobItem.__metaProductions.json.metaProductions
+                                        @ "name"
+                                $* 
+                                info '${myDisplayName}.pluginCatSelId', pluginCatSelId, 
+                                    \b 'pluginSelId', pluginSelId,
+                                    \b 'catSelId', catSelId,
+                                    \b 'prodSelId', prodSelId
+                                *$
+                                const pluginSel = SelectableCollection.get(pluginSelId)
+                                _ setMetaSelectionState
+                                    {
+                                        @ ...metaSelectionState
+                                        @ pluginCatSelId 
+                                        @ pluginSelId 
+                                        @ catSelId
+                                        @ prodSelId
+                                _ setAppState
+                                    {
+                                        @ ...appState
+                                        @ currentJob jobItem
+                                        @ selectedMetaPlugins pluginSel.getSelected()
+                                _ getMvc().controller.setAppState
+                                    {
+                                        @ currentJobId jobItem.id
+                                        @ activeView appState.activeView
+                                        @ reloadCount 0
+                                    =>
+                                        _ executeMetaJobFilters
+                                            {
+                                                @ pluginCatSelId 
+                                                @ pluginSelId 
+                                                @ catSelId
+                                                @ prodSelId
+                                                @ selCounter metaSelectionState.selCounter
+                                _ setData
+                                    @ jobItem
+                                $$ info '${myDisplayName}.startCurrentJob.DONE !!!!!!!!!!'
+                            catch(getJobItem)
+                                _ setError
+                                    @ error
+                    _ doFetch
+                [
+                    @ jobId
+                    @ reloadCount
+            return
+                {
+                    @ jobItemError error
+                    @ jobItem data

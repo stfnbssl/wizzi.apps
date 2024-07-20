@@ -1,31 +1,25 @@
 import { FcFolder, FcOpenedFolder } from "react-icons/fc";
-// import New from "./New";
 import File from "./File";
-import Input from "./Input";
-import {FileOrFolder, AddFileOrFolder, ExplorerData} from "./types";
+import {PackiEntry} from "@/Api/types";
 
 interface FolderProps {
-  data: FileOrFolder;
-  getChild: (cd: string) => FileOrFolder | undefined;
+  entry: PackiEntry;
+  getChild: (cd: string) => PackiEntry | undefined;
   open: string[];
-  toggleFolderState: (id: string) => void;
-  addNew: AddFileOrFolder;
-  setData: React.Dispatch<React.SetStateAction<ExplorerData>>;
-  setAddNew: React.Dispatch<React.SetStateAction<AddFileOrFolder>>;
+  toggleFolderState: (uri: string) => void;
+  onFileSelect: (entry: PackiEntry) => void;
 }
 
 export default function Folder(props: FolderProps) {
   const {
-    data,
+    entry,
     getChild,
     open,
     toggleFolderState,
-    addNew,
-    setAddNew,
-    setData
+    onFileSelect,
   } = props;
-  const { id, name } = data;
-  const children = data.children || [];
+  const { uri, name } = entry;
+  const children = entry.children || [];
 
   const renderChildren = () => {
     return (
@@ -35,20 +29,18 @@ export default function Folder(props: FolderProps) {
           if (d?.type === "folder")
             return (
               <Folder
-                key={d.id}
+                key={d.uri}
                 {...{
-                  data: d,
+                  entry: d,
                   getChild,
                   open,
                   toggleFolderState,
-                  addNew,
-                  setAddNew,
-                  setData,
-                  id: d.id
+                  onFileSelect,
+                  uri: d.uri
                 }}
               />
             );
-          if (d?.type === "file") return <File key={d.id} {...{ data: d }} />;
+          if (d?.type === "file") return <File key={d.uri} onSelect={onFileSelect} {...{ entry: d }} />;
           return null;
         })}
       </div>
@@ -60,26 +52,20 @@ export default function Folder(props: FolderProps) {
       {/* folder info */}
       <div className="flex items-center justify-between">
         <div
-          onClick={() => toggleFolderState(id)}
+          onClick={() => toggleFolderState(uri)}
           className="flex flex-1 items-center space-x-2 cursor-pointer"
         >
-          {open?.includes(id) ? (
+          {open?.includes(uri) ? (
             <FcOpenedFolder fontSize={22} />
           ) : (
             <FcFolder fontSize={22} />
           )}
-          <p className="text-gray-400 hover:text-gray-200 flex-1">{name} !</p>
+          <p className="text-gray-400 hover:text-gray-200 flex-1">{name}</p>
         </div>
-        { /* <New {...{ addNew, setAddNew, root: false, id }} /> */}
       </div>
       {/* folder contents */}
-      {addNew && addNew.id === id && (
-        <div className="ml-4">
-          <Input {...{ addNew, setAddNew, setData, id }} />
-        </div>
-      )}
       {children.length > 0 &&
-        (open?.includes(id) || (addNew && addNew.id === id)) &&
+        (open?.includes(uri)) &&
         renderChildren()}
     </div>
   );

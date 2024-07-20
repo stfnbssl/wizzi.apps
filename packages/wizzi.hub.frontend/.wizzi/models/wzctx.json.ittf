@@ -1,8 +1,8 @@
 {
-    name "ts.react.vite.starter"
+    name "wizzi.hub.frontend"
     npmName ""
     version "0.0.1"
-    description "Typescript react vite starter App"
+    description "Wizzi hub frontend"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"

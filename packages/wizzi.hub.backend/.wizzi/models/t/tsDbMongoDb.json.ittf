@@ -1,0 +1,10 @@
+$group
+    useMongoDb true
+    { mongoDb
+        host "mongodb+srv"
+        user "yanez"
+        dbPath "@cluster0.idlk7.mongodb.net"
+        dbName "wizzi"
+        { options
+            useNewUrlParser true
+            useUnifiedTopology true

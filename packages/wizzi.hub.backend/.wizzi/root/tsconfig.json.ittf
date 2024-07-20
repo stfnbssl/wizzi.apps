@@ -1,0 +1,30 @@
+{
+    $include set-ctx-functions
+    $
+        setCtxScript ('typecheck','tsc');
+        setCtxDevDep ('tsx', '^4.8.2');
+        setCtxDevDep ('typescript', '^5.1.6');
+    { compilerOptions
+        target "es2022"
+        [ lib
+            "es2023"
+        jsx "react"
+        module "node16"
+        moduleResolution "node16"
+        { paths
+            [ #*
+                "./*"
+        sourceMap true
+        outDir "./dist"
+        sourceRoot "src"
+        esModuleInterop true
+        forceConsistentCasingInFileNames true
+        strict true
+        noUncheckedIndexedAccess true
+        skipLibCheck true
+    [ include
+        "src"
+    [ exclude
+        "node_modules"
+        "dist"
+        "**/*.test.ts"

@@ -1,0 +1,9 @@
+$group
+
+  $
+    var colors = {
+      main: '#dedede',
+      mainHeaderBg: '#0D0D0D',
+      mainContentBg: '#2D2D2D',
+    }
+    //

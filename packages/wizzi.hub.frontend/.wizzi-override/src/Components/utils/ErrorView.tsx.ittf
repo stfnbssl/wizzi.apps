@@ -1,0 +1,53 @@
+module
+
+    export
+        function ErrorView
+            param params
+                :any
+            const
+                {
+                    @ error
+                = params
+            let errorObj
+                :any
+                = {}
+            let lines
+                :[
+                    :string
+                 = []
+            if error
+                set errorObj.name = error.name
+                set errorObj.message = error.message
+                set errorObj.fileName = error.fileName
+                set errorObj.lineNumber = error.lineNumber
+                set errorObj.cause = error.cause
+                set errorObj.stack = error.stack
+                set errorObj.data = error.data
+                set errorObj.info = error.info
+                set lines = JSON.stringify(errorObj, null, 4).split('\n')
+            return
+                . error
+                    h1 Error
+                    code
+                        {
+                            &&
+                                + error && error.errorLines 
+                                _ error.errorLines.map
+                                    =>
+                                        param line
+                                            :any
+                                        param ndx
+                                            :any
+                                        return
+                                            div . {line}
+                                                @ key {ndx}
+                        {
+                            &&
+                                + lines
+                                _ lines.map
+                                    =>
+                                        param line
+                                        param ndx
+                                        return
+                                            div . {line}
+                                                @ key {ndx}

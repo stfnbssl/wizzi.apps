@@ -1,0 +1,25 @@
+module
+    import React from 'react'
+    :interface Props
+        :p children
+            :ref React.ReactNode
+            :optional
+    +
+    export
+        const MainFooter
+            :ref React.FC
+                :param 
+                    :ref Props
+            => 
+                { 
+                    @ children
+                return
+                    footer
+                        class w-full h-10 text-center bg-gray-200 py-4
+                        {
+                            + children
+                    $*
+                    . main-footer
+                        {
+                            + children
+                    *$                

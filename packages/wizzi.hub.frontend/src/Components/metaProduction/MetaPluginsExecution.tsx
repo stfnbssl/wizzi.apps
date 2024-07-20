@@ -1,29 +1,50 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Components\metaProduction\MetaPluginsExecution.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\MetaPluginsExecution.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import React, {useState, useEffect} from "react";
 import * as wizziMetaApi from '@/Api/wizziMetaApi';
-import {JobItem} from "@/Data/types";
+import {MetaProductionExt, HubProductionItem, MetaParameters} from '@/Api/types';
 import {AppState, MetaSelectionState} from "@/Data/mvc/MetaProduction/types";
-import {getMvc} from "@/Data/mvc/MetaProduction";
+import {StringKeyedObject} from "@/Data/types";
+import {ParameterItem} from "@/Components/metaCtxBuilder/types";
 import {SelectableCollection} from "@/Data/Components/SelectableCollection";
+import {ErrorView} from "@/Components/utils/ErrorView";
+import {SpinnerView} from "@/Components/utils/SpinnerView";
 import {GenericSelectionList} from "@/Components/metaProduction/GenericSelectionList";
+import ParamsBuilder from "@/Components/metaCtxBuilder/ParamsBuilder";
+import {MetaProductionResult} from "@/Components/metaProduction/MetaProductionResult";
+type MetaProductionExecState = { 
+    activeMetaProduction?: string;
+};
 type MetaPluginsExecutionProps = { 
     appState: AppState;
-    setAppState: React.Dispatch<React.SetStateAction<AppState>>;
+    setAppState: React.Dispatch<React.SetStateAction<AppState|null>>;
     metaSelectionState: MetaSelectionState;
 };
-function startMetaPluginsExecution(selectedMetaProductions, selectedMetaPlugins) {
-    let [data, setData] = useState(null);
+function startMetaPluginsExecution(selectedMetaProductions: StringKeyedObject[], selectedMetaPlugins: StringKeyedObject[]) {
+    let [allIndexParameters, setAllIndexParameters] = useState<{[productionName: string]: ParameterItem[];}|null>(null);
+    let [metaCtx, setMetaCtx] = useState<StringKeyedObject>({});
     let [error, setError] = useState(null);
     const keys = JSON.stringify(selectedMetaProductions);
     useEffect(() => {
         async function doFetch() {
-            wizziMetaApi.getMetaParameters(selectedMetaProductions, selectedMetaPlugins).then((result: any) => 
-                setData(result)
+            const metaProductions: MetaProductionExt[] = [];
+            selectedMetaProductions.forEach(item => 
+                metaProductions.push(item as MetaProductionExt)
+            )
+            const metaPlugins: HubProductionItem[] = [];
+            selectedMetaPlugins.forEach(item => 
+                metaPlugins.push(item as HubProductionItem)
+            )
+            wizziMetaApi.getMetaParameters(metaProductions, metaPlugins).then((metaParameters: MetaParameters) => {
+                console.log('Components.metaproduction.MetaPluginsExecution.startMetaPluginsExecution.getMetaParameters.metaParameters', metaParameters);
+                const allParameters = extractAllParameters(metaParameters);
+                setAllIndexParameters(allParameters.indexParameters)
+                setMetaCtx(allParameters.indexInitialValues)
+            }
             ).catch((error: any) => {
                 setError(error)
                 console.log("[31m%s[0m", 'startMetaPluginsExecution.doFetch.error', error);
@@ -36,28 +57,50 @@ function startMetaPluginsExecution(selectedMetaProductions, selectedMetaPlugins)
         keys
     ])
     return {
-            metaParameters: data, 
+            allIndexParameters, 
+            metaCtx, 
+            setMetaCtx, 
             metaParametersError: error
          };
+}
+function extractAllParameters(metaParameters: MetaParameters) {
+    const allParameters: { 
+        indexParameters: { 
+            [productionName: string]: ParameterItem[];
+        };
+        indexInitialValues: { 
+            [productionName: string]: StringKeyedObject;
+        };
+    } = {
+        indexParameters: {
+            
+         }, 
+        indexInitialValues: {
+            
+         }
+     };
+    for (var productionName in metaParameters.metaParametersObj) {
+        const mpParametersObj = metaParameters.metaParametersObj[productionName];
+        const indexParameters = mpParametersObj.parametersIndexObj.parameters;
+        const indexInitialValuesObject = wizziMetaApi.getMetaCtxValuesObject(indexParameters);
+        allParameters.indexParameters[productionName] = Object.values(indexParameters);
+        allParameters.indexInitialValues[productionName] = indexInitialValuesObject;
+        const useName = "use" + productionName[0].toUpperCase() + productionName.substring(1);
+        (allParameters.indexInitialValues[useName] as any) = true;
+    }
+    return allParameters;
 }
 export function MetaPluginsExecution(props: MetaPluginsExecutionProps) {
     const {
         appState, 
-        setAppState, 
         metaSelectionState
      } = props;
     
     let {
-        pluginCatSelId, 
         pluginSelId, 
-        catSelId, 
-        prodSelId, 
-        selCounter
+        prodSelId
      } = metaSelectionState;
-    const [metaCtx, setMetaCtx] = useState(null);
-    const [mpExecState, setMpExecState] = useState({
-        activeMetaProduction: null
-     });
+    const [mpExecState, setMpExecState] = useState<MetaProductionExecState>({});
     
     if (!pluginSelId || !prodSelId) {
         return  (
@@ -70,31 +113,36 @@ export function MetaPluginsExecution(props: MetaPluginsExecutionProps) {
     const prodSel = SelectableCollection.get(prodSelId);
     
     const {
-        metaParameters, 
+        allIndexParameters, 
+        metaCtx, 
+        setMetaCtx, 
         metaParametersError
      } = startMetaPluginsExecution(prodSel.getSelected(), pluginSel.getSelected());
-    console.log('MetaPluginsExecution.metaParameters', metaParameters, metaParametersError, __filename);
     if (metaParametersError) {
         return  (
             <ErrorView error={metaParametersError} />
             )
         ;
     }
-    if (!metaParameters) {
+    if (!allIndexParameters) {
         return  (
             <SpinnerView />
             )
         ;
     }
-    let activeMetaProductionParameters = extractParameters(metaParameters, mpExecState.activeMetaProduction || '__dummy__');
-    console.log('activeMetaProductionParameters', activeMetaProductionParameters, __filename);
+    let indexParameters: ParameterItem[] = [];
+    let indexValuesObject: StringKeyedObject = {};
+    if (mpExecState.activeMetaProduction) {
+        indexParameters = allIndexParameters[mpExecState.activeMetaProduction];
+        indexValuesObject = metaCtx[mpExecState.activeMetaProduction];
+    }
     return  (
-        <div className="work-area-content-main">
-            <GenericSelectionList selectedableItems={prodSel.getSelected()}
+        <div className="h-full w-full flex-1 flex">
+            <GenericSelectionList selectableItems={prodSel.getSelected()}
                 title="Selected productions"
                 listClass={'w-area-list-exec-prods w-area-list-15'}
                 onSelect={(metaProductionName) => {
-                        console.log('We need properties of ', metaProductionName, __filename);
+                        console.log('Components.metaproduction.MetaPluginsExecution.onSelect.We need properties of ', metaProductionName);
                         setMpExecState({
                             ...mpExecState, 
                             activeMetaProduction: metaProductionName
@@ -102,124 +150,17 @@ export function MetaPluginsExecution(props: MetaPluginsExecutionProps) {
                     }
                 }
              />
-            <MPExecProductionParameters parameters={activeMetaProductionParameters} onSave={() => {
-                    let allProductionParameters = extractParameters(metaParameters);
-                    console.log('allProductionParameters', allProductionParameters, __filename);
-                    const ctx = parameterListToObject(allProductionParameters);
-                    setMetaCtx(ctx)
-                    alert('true' + JSON.stringify(ctx, null, 4))
+            <ParamsBuilder indexParameters={indexParameters} indexInitialValues={indexValuesObject} onSave={(ctx: StringKeyedObject) => {
+                    if (mpExecState.activeMetaProduction) {
+                        setMetaCtx({
+                            ...metaCtx, 
+                            [mpExecState.activeMetaProduction]: ctx
+                         })
+                    }
                 }
             } />
             <MetaProductionResult metaCtx={metaCtx} appState={appState} />
         </div>
         )
     ;
-}
-
-function MPExecProductionParameters(props) {
-    console.log('props.parameters', props.parameters, __filename);
-    console.log('MPExecProductionParameters.props.parameters', props.parameters, __filename);
-    const {
-        indexParameters, 
-        globalsParameters
-     } = props.parameters;
-    return  (
-        <div className="w-area-list w-area-list-exec-params w-area-list-25">
-            <div className="w-area-list-caption">
-                Parameters</div>
-            <div className="w-area-list-inner">
-                <button onClick={() => 
-                        props.onSave()
-                }>save</button>{
-                    globalsParameters.length > 0 &&  (
-                        <div>
-                            <h4>
-                            global parameters</h4>
-                            <table>
-                                <tbody>
-                                    {
-                                    globalsParameters.map((item, ndx) => 
-                                         (
-                                        <ContextParameter key={ndx} item={item} />
-                                        )
-                                    
-                                    )}</tbody>
-                            </table>
-                        </div>
-                        )
-                    
-                }
-                {
-                    indexParameters.length > 0 &&  (
-                        <div>
-                            <h4>
-                            production parameters</h4>
-                            <table>
-                                <tbody>
-                                    {
-                                    indexParameters.map((item, ndx) => 
-                                         (
-                                        <ContextParameter key={ndx} item={item} />
-                                        )
-                                    
-                                    )}</tbody>
-                            </table>
-                        </div>
-                        )
-                    
-                }
-                <div style={{
-                        marginTop: '200px'
-                     }}>
-                    <code>{JSON.stringify(props.parameters)}</code></div>
-            </div>
-        </div>
-        )
-    ;
-}
-function extractParameters(metaParameters, activeMetaProduction) {
-    console.log('extractParameters.metaParameters.activeMetaProduction', metaParameters, activeMetaProduction, __filename);
-    if (!metaParameters) {
-        return { indexParameters:[], globalsParameters:[] };
-    }
-    if (!metaParameters.metaParametersObj) {
-        return { indexParameters:[], globalsParameters:[] };
-    }
-    if (activeMetaProduction) {
-        const mpParameters = metaParameters.metaParametersObj[activeMetaProduction];
-        if (!mpParameters) {
-            return { indexParameters:[], globalsParameters:[] };
-        }
-        return extractMpParameters(mpParameters);
-    }
-    else {
-        const allParameters = [];
-        for (var k in metaParameters.metaParametersObj) {
-            const mpParameters = metaParameters.metaParametersObj[k];
-            const {
-                indexParameters, 
-                globalsParameters
-             } = extractMpParameters(mpParameters);
-            var i, i_items=globalsParameters, i_len=globalsParameters.length, item;
-            for (i=0; i<i_len; i++) {
-                item = globalsParameters[i];
-                allParameters.push(item)
-            }
-            allParameters.push({
-                type: 'use', 
-                name: k, 
-                value: true, 
-                parameters: indexParameters
-             })
-        }
-        return allParameters;
-    }
-}
-function extractMpParameters(mpParameters) {
-    const indexParameters = mpParameters.parametersIndexObj ? mpParameters.parametersIndexObj.parameters : [];
-    const globalsParameters = mpParameters.parametersGlobalsObj ? mpParameters.parametersGlobalsObj.parameters : [];
-    return {
-            indexParameters, 
-            globalsParameters
-         };
 }

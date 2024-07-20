@@ -1,0 +1,115 @@
+module
+
+    import
+        @ JobItem
+        @ StringKeyedObject
+        from "@/Data/types"
+
+    import
+        @ MetaPluginCategoryExt
+        @ MetaPluginExt
+        @ MetaProductionCategoryExt
+        @ MetaProductionExt
+        from "@/Api/types"
+    
+    export
+        :type ActiveViewKind
+            :union 
+                :literal 'plugins-selection' 
+                :literal 'productions-selection' 
+                :literal 'generation-execution'
+
+    export
+        :type AppState
+            :{
+                :p activeView
+                    :ref ActiveViewKind
+                :p metaId
+                    :string
+                    :optional
+                :p metaName
+                    :string
+                    :optional
+                :p currentJobId
+                    :string
+                    :optional
+                :p currentJob
+                    :ref JobItem
+                    :optional
+                :p reloadCount                    
+                    :number
+                :p selectedMetaProductions
+                    :[
+                        :ref StringKeyedObject
+                    :optional
+                :p selectedMetaPlugins
+                    :[
+                        :ref StringKeyedObject
+                    :optional
+
+    export
+        :type LocalSaveAppState
+            :{
+                :p activeView
+                    :ref ActiveViewKind
+                :p currentJobId
+                    :string
+                    :optional
+                :p metaId
+                    :string
+                    :optional
+                :p metaName
+                    :string
+                    :optional
+                :p reloadCount                    
+                    :number
+
+    export
+        :type MetaSelectionState
+            :{
+                :p pluginCatSelId
+                    :string
+                    :optional
+                :p pluginSelId
+                    :string
+                    :optional
+                :p catSelId
+                    :string
+                    :optional
+                :p prodSelId
+                    :string
+                    :optional
+                :p selCounter
+                    :number
+                :p productionsSelected
+                    :[
+                        :ref StringKeyedObject
+                    :optional
+                :p productionsUnselected
+                    :[
+                        :ref StringKeyedObject
+                    :optional
+                :p categoriesSelected
+                    :[
+                        :ref StringKeyedObject
+                    :optional
+                :p categoriesUnselected
+                    :[
+                        :ref StringKeyedObject
+                    :optional
+
+    export
+        :type MetaProvidesData
+            :{
+                :p metaPluginCategories
+                    :[
+                        :ref MetaPluginCategoryExt
+                :p metaPlugins
+                    :[
+                        :ref MetaPluginExt
+                :p metaProductionCategories
+                    :[
+                        :ref MetaProductionCategoryExt
+                :p metaProductions
+                    :[
+                        :ref MetaProductionExt

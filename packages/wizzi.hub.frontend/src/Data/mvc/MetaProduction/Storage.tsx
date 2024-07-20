@@ -1,12 +1,14 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Data\mvc\MetaProduction\Storage.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Data\mvc\MetaProduction\Storage.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import * as wizziHubApi from "@/Api/wizziHubApi";
+import * as packiApi from "@/Api/packiApi";
 import {JobItem} from "@/Data/types";
 import {LocalObjectStore} from "@/Data/Components/LocalObjectStore";
+import * as _ from "@/Utils/underscore2";
 export class Storage {
     constructor() {
         this.wizziMetaProductionState = new LocalObjectStore('wzMetaProductionState');
@@ -14,17 +16,17 @@ export class Storage {
     }
     wizziMetaProductionState: InstanceType<typeof LocalObjectStore>;
     lsJob: InstanceType<typeof LocalObjectStore>;
-    findAllJobs(owner: string, options: any) {
+    findAllJobs(owner: string | null, options: any) {
         if (!options) {
-            throw new Error('The options parameter is required. Method: app.Storage.findAllJobs.');
+            throw new Error('The options parameter is required. Method: Storage.findAllJobs.');
         }
-        console.log('Storage.prototype.findAllJobs.options', options);
+        console.log('Data.mvc.Metaproduction.Storage.findAllJobs.options', options);
         return new Promise((resolve, reject) => 
-                this.lsJob.findAll((items) => {
-                    if (options.reload || (items.length == 0 && owner && owner.length > 0)) {
+                this.lsJob.findAll((items: any) => {
+                    if ((owner && owner.length > 0) && (options.reload || items.length == 0)) {
                         var action = wizziHubApi.getJob;
                         if (!action) {
-                            throw new Error('The value of "action" cannot be null.  Method: app.Storage.findAllJobs.');
+                            throw new Error('The value of "action" cannot be null.  Method: Storage.findAllJobs.');
                         }
                         action(owner).then((result: any) => 
                             this.lsJob.replace(result.item, () => 
@@ -36,7 +38,7 @@ export class Storage {
                         ).catch((err: any) => {
                             if (typeof err === 'object' && err !== null) {
                             }
-                            console.log("[31m%s[0m", 'app.Storage.findAllJobs.error', err);
+                            console.log("[31m%s[0m", 'Storage.findAllJobs.error', err);
                             return reject(err);
                         }
                         )
@@ -51,25 +53,27 @@ export class Storage {
                 )
             );
     }
-    findJob(owner: string, id: string, options: any) {
+    findJob(owner: string | null, id: string, options: any) {
         if (!options) {
-            throw new Error('The options parameter is required. Method: app.Storage.findJob.');
+            throw new Error('The options parameter is required. Method: Storage.findJob.');
         }
         return new Promise((resolve, reject) => 
                 this.findAllJobs(owner, options).then((result: any) => {
-                    var i, i_items=result.jobs, i_len=result.jobs.length, item;
-                    for (i=0; i<i_len; i++) {
-                        item = result.jobs[i];
-                        if (item.id == id) {
-                            return resolve(item);
-                        }
+                    const found = result.jobs.find((item: any) => {
+                        return item.id == id;
                     }
-                    reject(new Error('app.Storage.findJob.err not found: job/' + owner + '/' + id))
+                    );
+                    if (found) {
+                        return resolve(found);
+                    }
+                    else {
+                        reject(new Error('Storage.findJob.err not found: job/' + owner + '/' + id))
+                    }
                 }
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'app.Storage.findJob.error', err);
+                    console.log("[31m%s[0m", 'Storage.findJob.error', err);
                     return reject(err);
                 }
                 )
@@ -78,17 +82,19 @@ export class Storage {
     }
     replaceJobLocal(newJobItem: JobItem):  Promise<{ 
         message: string;
-        oldJobItem: JobItem;
+        oldJobItem: JobItem | null;
         newJobItem: JobItem;
     }> {
         return new Promise((resolve, reject) => 
                 this.findAllJobs(null, {
                     reload: false
                  }).then((result: any) => {
-                    const newItems = [];
-                    result.jobs.forEach((item) => {
+                    const newItems: JobItem[] = [];
+                    let oldJobItem: JobItem | null = null;
+                    result.jobs.forEach((item: any) => {
                         if (item.id == newJobItem.id) {
                             newItems.push(newJobItem)
+                            oldJobItem = item;
                         }
                         else {
                             newItems.push(item)
@@ -98,7 +104,7 @@ export class Storage {
                     this.lsJob.replace(newItems, () => 
                         resolve({
                             message: 'Job item localy replaced', 
-                            oldJobItem: item, 
+                            oldJobItem: oldJobItem, 
                             newJobItem: newJobItem
                          })
                     )
@@ -106,7 +112,7 @@ export class Storage {
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'app.Storage.replaceJobLocal.error', err);
+                    console.log("[31m%s[0m", 'Storage.replaceJobLocal.error', err);
                     return reject(err);
                 }
                 )
@@ -117,17 +123,17 @@ export class Storage {
         productionKind: string, 
         id: string, 
         packiDiffs: any, 
-        options: any, 
-        callback) {
+        callback: any) {
         if (!callback) {
-            throw new Error('The callback parameter is required. Method: app.Storage.putPackiDiffs.');
+            throw new Error('The callback parameter is required. Method: Storage.putPackiDiffs.');
         }
-        var action = wizziHubApi['put' + _.capitalize(productionKind) + 'PackiDiffs'];
+        var action = (wizziHubApi as any)['put' + _.capitalize(productionKind) + 'PackiDiffs'];
         if (!action) {
-            throw new Error('The value of "action" cannot be null. Check parameter "productionKind": ' + productionKind + '. Method: app.Storage.putPackiDiffs.');
+            throw new Error('The value of "action" cannot be null. Check parameter "productionKind": ' + productionKind + '. Method: Storage.putPackiDiffs.');
         }
-        wizziHubApi.putJobPackiDiffs(id, packiDiffs, options).then((result: any) => 
-            this.putPackiDiffsLocal(productionKind, id, packiDiffs, options, callback)
+        console.log('Data.mvc.Metaproduction.Storage.putPackiDiffs', productionKind, id, packiDiffs);
+        wizziHubApi.putJobPackiDiffs(id, packiDiffs, {}).then(() => 
+            this.putPackiDiffsLocal(productionKind, id, packiDiffs, callback)
         ).catch((err: any) => {
             alert('.error\n' + err);
             throw new Error(err);
@@ -138,31 +144,31 @@ export class Storage {
         productionKind: string, 
         id: string, 
         packiDiffs: any, 
-        options: any, 
-        callback) {
+        callback: any) {
         if (!callback) {
-            throw new Error('The callback parameter is required. Method: app.Storage.putPackiDiffsLocal.');
+            throw new Error('The callback parameter is required. Method: Storage.putPackiDiffsLocal.');
         }
-        var ls = this['ls' + _.capitalize(productionKind)];
-        this.findJob(null, id, {
-            reload: false
-         }).then((item: any) => {
-            const pm = new wizziHubApi.PackiManager(JSON.parse(item.packiFiles));
-            pm.applyPatch_ChangesOnly(packiDiffs)
-            item.packiFiles = JSON.stringify(pm.packiFiles);
-            this.replaceJobLocal(item).then((result: any) => 
-                callback(result)
+        if (productionKind == 'job') {
+            this.findJob(null, id, {
+                reload: false
+             }).then((item: any) => {
+                const pm = new packiApi.PackiManager(JSON.parse(item.packiFiles));
+                pm.applyPatch_ChangesOnly(packiDiffs)
+                item.packiFiles = JSON.stringify(pm.packiFiles);
+                this.replaceJobLocal(item).then((result: any) => 
+                    callback(result)
+                ).catch((err: any) => {
+                    alert('.error\n' + err);
+                    throw new Error(err);
+                }
+                )
+            }
             ).catch((err: any) => {
                 alert('.error\n' + err);
                 throw new Error(err);
             }
             )
         }
-        ).catch((err: any) => {
-            alert('.error\n' + err);
-            throw new Error(err);
-        }
-        )
     }
     setWizziMetaProductionState(name: string, value: any) {
         return this.wizziMetaProductionState.setValue(name, value);

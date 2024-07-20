@@ -1,0 +1,52 @@
+module
+
+    import
+        @ UserNavBar
+        from '@/Components/nav/UserNavBar'
+
+    import
+        @ FullPage
+        from './FullPage'
+
+    import
+        @ MainContent
+        from './MainContent'
+
+    import
+        @ MainContentLeftBar
+        from './MainContentLeftBar'
+
+    import
+        @ MainContentWorkArea
+        from './MainContentWorkArea'
+
+    import
+        @ MainFooter
+        from './MainFooter'
+
+    import
+        @ MainHeader
+        from './MainHeader'
+
+    export
+        function Shell
+            return
+                < FullPage
+                    < MainHeader
+                        < UserNavBar
+                            @ loggedUserId {undefined}
+                    < MainContent
+                        < MainContentLeftBar
+                        < MainContentWorkArea
+                    < MainFooter
+            #
+                # Shell is an example
+                # It goes inside the App component
+
+    export
+        @ FullPage
+        @ MainContent
+        @ MainContentLeftBar
+        @ MainContentWorkArea
+        @ MainFooter
+        @ MainHeader

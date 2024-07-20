@@ -1,0 +1,188 @@
+$group
+    $params &md
+
+    export
+        function getMetaProvides
+            param owner
+                :string
+            :return 
+                :ref Promise
+                    :param
+                        :{
+                            :p metaPluginProvides
+                                :any
+                            :p hubMetas
+                                :any
+                            :p hubMetaProductionFiles
+                                :any
+                            :p metaPluginProvidesEx
+                                :ref MetaProvidesData
+            const url = 'meta/provides'
+            r_promise()
+                _ request.get
+                    :param 
+                        :ref Result
+                    @ url
+                    a_then_err_reject( responsePlugins, @@null, @@null, api.${md.ApiName}.getMetaProvides.pluginMetas.response
+                        info 'api.${md.ApiName}.getMetaProvides.pluginMetas.response', responsePlugins
+                        _ wizziHubApi.getMeta
+                            @ owner 
+                            a_then_err_reject( responseHub, @@null, @@null, api.${md.ApiName}.getMetaProvides.hubmetas.response
+                                info 'api.${md.ApiName}.getMetaProvides.hubmetas.response', responseHub
+                                _ getHubMetaProductionFiles
+                                    @ responseHub.item
+                                    a_then( hubMetaProductionFiles, :ref, {metaProductions: MetaProductionFiles[]}, api.${md.ApiName}.getHubMetaProductionFiles.hubMetaProductionFiles.response
+                                        _ mergeModuleAndHubProvides
+                                            @ responsePlugins
+                                            @ responseHub
+                                            a_then_err_reject( moduleAndHubProvides, @@null, @@null, api.${md.ApiName}.getMetaProvides.mergeModuleAndHubProvides.response
+                                                return 
+                                                    _ resolve 
+                                                        {
+                                                            @ metaPluginProvides responsePlugins
+                                                            @ hubMetas responseHub
+                                                            @ hubMetaProductionFiles
+                                                            @ metaPluginProvidesEx moduleAndHubProvides
+                                    catch_reject( api.${md.ApiName}.getMetaProvides.getHubMetaProductionFiles )
+                            catch_reject( api.${md.ApiName}.getMetaProvides.wizziHub.getMeta )
+                    catch_reject( api.${md.ApiName}.getMetaProvides )
+
+    export
+        function getMetaParameters
+            param metaProductions
+                :[
+                    :ref MetaProductionExt
+            param metaPlugins
+                :[
+                    :ref HubProductionItem
+            :return
+                :ref Promise
+                    :param
+                        :ref MetaParameters
+            info 'api.${md.ApiName}.getMetaParameters.metaProductions', metaProductions
+            info 'api.${md.ApiName}.getMetaParameters.metaPlugins', metaPlugins
+            const url = 'meta/parameters'
+            const inMemoryMetas
+                :[
+                    :{
+                        :p name
+                            :string
+                        :p owner
+                            :string
+                = []
+            _ metaPlugins.forEach
+                =>
+                    param item
+                    if (item as any).__is_hub_meta_plugin
+                        _ inMemoryMetas.push
+                            {
+                                @ owner item.owner
+                                @ name item.name
+            info 'api.${md.ApiName}.getMetaParameters.inMemoryMetas', inMemoryMetas
+            const data
+                {
+                    @ metaProductions metaProductions
+                    @ inMemoryMetas inMemoryMetas
+            r_promise()
+                _ request.post
+                    :param 
+                        :ref MetaParameters
+                    @ url
+                    @ data            
+                    a_then_err_reject( metaParameters, @@null, @@null, api.${md.ApiName}.getMetaParameters.metaParameters
+                        info 'api.${md.ApiName}.getMetaParameters.metaParameters', metaParameters
+                        return 
+                            _ resolve 
+                                @ metaParameters
+                    catch_reject( api.${md.ApiName}.getMetaParameters )
+
+    export
+        function getHubMetaProductionFiles
+            param metaItems
+                :[
+                    :ref HubProductionItem
+            :return 
+                :ref Promise
+                    :param
+                        :{
+                            :p metaProductions
+                                :[
+                                    :ref MetaProductionFiles
+            info 'api.${md.ApiName}.getHubMetaProductionFiles.metaItems', metaItems
+            const retval
+                :{
+                    :p metaProductions
+                        :[
+                            :ref MetaProductionFiles
+                            $*
+                            :{
+                                :p name
+                                    :string
+                                :p parameters
+                                    :ref PackiFiles
+                                :p folderTemplates
+                                    :ref PackiFiles
+                                :p ittfDocumentTemplates
+                                    :ref PackiFiles
+                                :p plainDocuments
+                                    :ref PackiFiles
+                            *$
+                {
+                    [ metaProductions
+                    $if TODO
+                        [ provides
+                        [ parameters
+                        [ packiFiles
+            r_promise_resolve()
+                function doItem
+                    param count
+                        :number
+                    const metaItem = metaItems[count]
+                    if !metaItem
+                        info 'api.${md.ApiName}.getHubMetaProductionFiles.retval', retval
+                        return
+                            _ resolve
+                                @ retval
+                    const parameters
+                        _ packiApi.clonePackiFiles
+                            @ metaItem.packiFiles
+                            [
+                                @ '.packi/parameters/'
+                    +
+                    if Object.keys(parameters).length < 1
+                        return
+                            _ doItem
+                                @ count + 1
+                    info 'api.${md.ApiName}.getHubMetaProductionFiles.parameters', metaItem.name, parameters
+                    +
+                    const folderTemplates
+                        _ packiApi.clonePackiFiles
+                            @ metaItem.packiFiles
+                            [
+                                @ 'folderTemplates/'
+                    info 'api.${md.ApiName}.getHubMetaProductionFiles.folderTemplates', metaItem.name, folderTemplates
+                    +
+                    const ittfDocumentTemplates
+                        _ packiApi.clonePackiFiles
+                            @ metaItem.packiFiles
+                            [
+                                @ 'ittfDocumentTemplates/'
+                    info 'api.${md.ApiName}.getHubMetaProductionFiles.ittfDocumentTemplates', metaItem.name, ittfDocumentTemplates
+                    +
+                    const plainDocuments
+                        _ packiApi.clonePackiFiles
+                            @ metaItem.packiFiles
+                            [
+                                @ 'plainDocuments/'
+                    info 'api.${md.ApiName}.getHubMetaProductionFiles.plainDocuments', metaItem.name, plainDocuments
+                    _ retval.metaProductions.push
+                        {
+                            @ name metaItem.name
+                            @ parameters
+                            @ folderTemplates
+                            @ ittfDocumentTemplates
+                            @ plainDocuments
+                    _ doItem
+                        @ count + 1
+                _ doItem
+                    @ 0

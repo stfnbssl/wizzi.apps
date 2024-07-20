@@ -1,0 +1,87 @@
+$group
+  . work-area-toolbar
+    height 5%
+    background-color #4D4D4D
+  . work-area-toolbar-inner
+    height calc(100% - 20px)
+    padding 5px
+    display flex
+    flex-direction row
+    color ${colors.main}
+  $* ???
+  . work-area-caption-bar
+    display flex
+    flex-direction row
+    height calc(3% - 3px)          
+    padding-top 3px
+  . work-area-caption
+    height 100%
+    width 25%
+    color ${colors.main}
+    text-align center
+    border-left 1px solid gray
+    border-right 1px solid gray
+  *$
+  . tlb-item-box
+  . tlb-item-box-m-left
+    margin-left 50px
+  . tlb-item-caption
+    font-size 0.8rem
+    font-weight 700
+  . tlb-item-name
+    padding-left 20px
+    padding-top 10px
+    font-size 0.9rem
+  . tlb-item-button
+    padding 5px 10px 5px 10px
+    margin-top 5px
+    margin-left 10px
+    font-size 0.9rem
+    border-radius 4px
+    background-color ${colors.mainHeaderBg}
+    cursor pointer
+  . tlb-item-button:hover
+    background-color #2D2D2D
+    color #dfdfdf
+  . work-area-content
+    height 95%
+  . w-area-list
+    background-color #2D2D2D
+    color ${colors.main}
+    height 100%
+    width calc(100% - 2px)
+    @ scrollbar-color #6D6D6D #4D4D4D
+    @ scrollbar-width thin          
+    border-left 1px solid gray
+    border-right 1px solid gray
+  . w-area-list-inner
+    height calc(92% - 30px)
+    margin 5px
+    padding 10px
+    overflow auto
+    < ul
+        padding 0
+        margin 0
+        list-style none
+      < li
+        margin 0.25rem 0
+  . w-area-list-caption
+    height calc(3% - 3px)
+    text-align center
+    font-size 0.8rem
+    padding-top 3px
+    background-color #1D1D1D
+  . w-area-list-search
+    height calc(5% - 20px)
+    text-align center
+    padding 10px
+  . w-area-list-search-input
+    border-width 1px
+    border-style inset
+    border-color none
+  . w-area-list-inner-no-search
+    height calc(97% - 30px)
+    margin 5px
+    padding 10px
+    overflow auto
+

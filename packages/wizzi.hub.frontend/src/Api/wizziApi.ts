@@ -1,14 +1,15 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Api\wizziApi.ts.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Api\wizziApi.ts.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import axios, {AxiosError, AxiosResponse} from 'axios';
+import {PackiFiles} from '@/Api/types';
 interface Result {
 }
 const BASE_URL = 'http://localhost:3003/api/v1/wizzi';
-function setToken(token: string) {
+export function setToken(token: string) {
     axios.interceptors.request.use((config) => {
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
@@ -45,17 +46,17 @@ axios.interceptors.response.use(res =>
     return Promise.reject(error);
 }
 )
-const responseBody = (response: AxiosResponse<T>) => 
+const responseBody = <T>(response: AxiosResponse<T>) => 
     response.data
 ;
 const request = {
-    get: <T>(url: string) => {
+    get: async <T>(url: string) => {
         axios.defaults.baseURL = BASE_URL;
         return axios.get<T>(url).then(responseBody)
         ;
     }
     , 
-    post: <T>(url: string, body: { 
+    post: async <T>(url: string, body: { 
     }) => {
         axios.defaults.baseURL = BASE_URL;
         return axios.post<T>(url, body).then(responseBody)

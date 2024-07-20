@@ -1,0 +1,203 @@
+module
+
+    $
+        var myName = 'MetaProductionResult';
+        var myDisplayName = 'Components.metaproduction.' + myName;
+
+    import
+        @ useState
+        @ useEffect
+        from "react"
+
+    import 
+        as packiApi
+        from '@/Api/packiApi'
+    
+    $if TODO
+        import 
+            as wizziHubApi
+            from '@/Api/wizziHubApi'
+
+    import 
+        as wizziMetaApi
+        from '@/Api/wizziMetaApi'
+
+    import
+        @ PackiEntry
+        @ MetaPluginExt
+        from "@/Api/types"
+
+    import
+        @ AppState
+        from "@/Data/mvc/MetaProduction/types"
+
+    $if TODO
+        import
+            @ getMvc
+            from "@/Data/mvc/MetaProduction"
+
+    import
+        @ ErrorView
+        from "@/Components/utils/ErrorView"
+
+    import FileExplorer
+        from "@/Components/fileExplorer/FileExplorer"
+
+    import FileBrowser
+        from "@/Components/fileExplorer/FileBrowser"
+
+    function executeResultMetaProduction
+        param metaCtx
+            :{
+        param hubMetaProductions
+            :[
+                :any
+        let [error, setError] = useState(null)
+        let [data, setData] = useState(null)
+        info '${myDisplayName}.executeResultMetaProduction.hubMetaProductions', hubMetaProductions
+        _ useEffect
+            =>
+                async-function doFetch 
+                    const inMemoryMetas
+                        :[
+                            :{
+                                :p owner
+                                    :string
+                                :p name
+                                    :string
+                        = []
+                    _ hubMetaProductions.forEach
+                        =>
+                            param item
+                            if item.__is_hub_meta_plugin
+                                _ inMemoryMetas.push
+                                    {
+                                        @ owner item.owner
+                                        @ name item.name
+                    info '${myDisplayName}.executeResultMetaProduction.inMemoryMetas', inMemoryMetas
+                    _ wizziMetaApi.MetaExecuteInMemory
+                        @ metaCtx
+                        @ inMemoryMetas
+                        { $$ TODO globalContext
+                        a_then(result)
+                            info '${myDisplayName}.executeMetaProduction.result', result
+                            if result.err
+                                _ setError
+                                    @ result.err
+                            else
+                                _ setData
+                                    @ result
+                        catch(executeResultMetaProduction.MetaExecuteInMemory)
+                            error '----> Error: MetaExecuteInMemory', error
+                            _ setError
+                                @ error
+                _ doFetch
+            [
+                _ JSON.stringify(metaCtx)
+        
+        return
+            {
+                @ executionError error
+                @ executionResult data
+            
+    :type MetaProductionResultProps
+        :{
+            :p metaCtx
+                :{
+            :p appState
+                :ref AppState
+
+    export
+        function MetaProductionResult
+            param props
+                :ref MetaProductionResultProps
+            const
+                {
+                    @ metaCtx
+                    @ appState
+                = props
+            const
+                {
+                    @ selectedMetaPlugins
+                = appState
+            const metaPlugins
+                :[
+                    :ref MetaPluginExt
+                = selectedMetaPlugins as MetaPluginExt[]
+            const [selectedEntry, setSelectedEntry]  = useState<PackiEntry|null>(null)
+            $$ info '${myDisplayName}.appState', appState
+            $$ info '${myDisplayName}.metaCtx', metaCtx
+            $$ info '${myDisplayName}.selectedMetaPlugins', selectedMetaPlugins
+            const 
+                { 
+                    @ executionResult
+                    @ executionError
+                =
+                    _ executeResultMetaProduction
+                        @ metaCtx
+                        @ metaPlugins
+            if executionError
+                return
+                    < ErrorView
+                        @ error {executionError}
+            if !executionResult
+                return
+                    . w-area-list w-area-list-15 w-area-list-15
+            $$ info '${myDisplayName}.executeResultMetaProduction.result', executionResult
+            return
+                <
+                    . w-area-list w-area-list-15 w-area-list-15
+                        . w-area-list-caption
+                            + Production result
+                        . w-area-list-inner
+                            $if TODO
+                                div
+                                    button edit artifact
+                                        @ onClick
+                                            =>
+                                                _ wizziHubApi.createOrUpdateArtifact
+                                                    @ getMvc().user.id
+                                                    @ appState.currentJob.name.toLowerCase() + '.job.result'
+                                                    @ executionResult
+                                                    {
+                                                        @ description 'Artifact generated by WizziHub meta production for job ' + appState.currentJob.name
+                                                        @ wizziSchema 'html'
+                                                        @ mainIttf 'index.html.ittf'
+                                    span &nbsp;&nbsp;
+                                    button edit package
+                                        @ onClick
+                                            =>
+                                                _ wizziHubApi.createOrUpdatePackage
+                                                    @ getMvc().user.id
+                                                    @ appState.currentJob.name.toLowerCase() + '.job.result'
+                                                    @ executionResult
+                                                    {
+                                                        @ description 'Package generated by WizziHub meta production for job ' + appState.currentJob.name
+                                    span &nbsp;&nbsp;
+                                    button edit meta
+                                        @ onClick
+                                            =>
+                                                _ wizziHubApi.createOrUpdateMeta
+                                                    @ getMvc().user.id
+                                                    @ appState.currentJob.name.toLowerCase() + '.job.result'
+                                                    @ executionResult
+                                                    {
+                                                        @ description 'Meta generated by WizziHub meta production for job ' + appState.currentJob.name
+                            < FileExplorer
+                                @ entries
+                                    _ packiApi.packiToEntryArray
+                                        @ executionResult
+                                @ onFileSelect
+                                    =>
+                                        param entry
+                                        $$ info '${myDisplayName}FileExplorer.onFileSelect', entry
+                                        _ setSelectedEntry(entry)
+                    {
+                        &&
+                            + selectedEntry && selectedEntry.uri
+                            . w-area-list w-area-list-35
+                                . w-area-list-caption
+                                    + {selectedEntry.uri}
+                                . w-area-list-inner
+                                    < FileBrowser
+                                        @ entry {selectedEntry}

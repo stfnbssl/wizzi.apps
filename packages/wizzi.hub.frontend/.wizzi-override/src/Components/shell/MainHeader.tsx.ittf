@@ -1,0 +1,24 @@
+module
+    import React from 'react'
+    :interface Props
+        :p children
+            :ref React.ReactNode
+            :optional
+    +
+    export
+        const MainHeader
+            :ref React.FC
+                :param 
+                    :ref Props
+            => 
+                { 
+                    @ children
+                return
+                    . w-full flex bg-gray-800 text-zinc-200
+                        {
+                            + children
+                    $*
+                    . main-header
+                        {
+                            + children
+                    *$                

@@ -1,0 +1,177 @@
+{
+    "name": "ts.express.lab",
+    "version": "0.0.1",
+    "description": "Typescript express lab",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "license": {
+        "type": "[object Object]",
+        "url": ""
+    },
+    "App": {
+        "name": "ts.express.lab",
+        "title": "",
+        "isLocal": true,
+        "isProduction": false,
+        "port": "5100",
+        "useSsl": false,
+        "siteUrl": "http://localhost",
+        "baseUrl": "http://localhost:5100",
+        "siteUrlLocal": "http://localhost",
+        "baseUrlLocal": "http://localhost:5100",
+        "apiVersion": "v1"
+    },
+    "Build": {
+        "features": [
+            {
+                "name": "wizziProductions",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "wizziMeta",
+                "hasControllers": true,
+                "useMongoDb": false
+            },
+            {
+                "name": "wizziHubProductions",
+                "hasControllers": true,
+                "useMongoDb": true
+            }
+        ],
+        "examples": [],
+        "useTypescript": true,
+        "typescript": {
+            "useBabelLoader": true,
+            "useTsxFiles": false
+        },
+        "useExpress": true,
+        "express": {
+            "useSslCert": false,
+            "useErrors": false,
+            "useStaticFiles": true,
+            "staticFiles": {
+                "basePath": "__dirname, '..', '..'"
+            },
+            "useSessionStore": false,
+            "useExpressValidator": true,
+            "useSession": true,
+            "session": {
+                "name": "ts.express.lab"
+            },
+            "noCache": true,
+            "useSocketIO": false,
+            "socketIO": {},
+            "useCookie": true,
+            "cookie": {},
+            "useLogger": false,
+            "logger": {
+                "useMorgan": false,
+                "morgan": {}
+            },
+            "useCompression": false,
+            "compression": {
+                "level": 6
+            },
+            "useHelmet": false,
+            "helmet": {},
+            "usePromiseMiddleware": true,
+            "promiseMiddleware": {},
+            "useCors": true,
+            "cors": {}
+        },
+        "utils": {
+            "useAxios": true,
+            "useEscapeRegexp": false,
+            "useEscapeHtml": false,
+            "useNullThrows": false,
+            "useLodash": false,
+            "useStringifySafe": true,
+            "useParseUrl": true,
+            "useEs6Error": false,
+            "useJsCookie": false,
+            "useQueryString": true,
+            "useSanitizeHtml": false,
+            "useDateFns": false,
+            "useFetchPonyfill": false,
+            "useNanoId": true,
+            "useNodeCache": true,
+            "useGitUrlParse": false,
+            "useJsonToAst": false,
+            "useRimRaf": false
+        },
+        "useReact": true,
+        "react": {
+            "usePages": true,
+            "pages": {}
+        },
+        "useMongoDb": true,
+        "mongoDb": {
+            "host": "mongodb+srv",
+            "user": "yanez",
+            "dbPath": "@cluster0.idlk7.mongodb.net",
+            "dbName": "wizzi",
+            "options": {
+                "useNewUrlParser": true,
+                "useUnifiedTopology": true
+            }
+        },
+        "useWizzi": true,
+        "wizzi": {
+            "isDev": true,
+            "plugins": [
+                "./wizzi.plugin.css/index.js",
+                "./wizzi.plugin.html/index.js",
+                "./wizzi.plugin.ittf/index.js",
+                "./wizzi.plugin.js/index.js",
+                "./wizzi.plugin.json/index.js",
+                "./wizzi.plugin.md/index.js",
+                "./wizzi.plugin.svg/index.js",
+                "./wizzi.plugin.text/index.js",
+                "./wizzi.plugin.ts/index.js",
+                "./wizzi.plugin.xml/index.js",
+                "./wizzi.plugin.yaml/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
+            "metaPlugins": [
+                "./wizzi.meta.cloud/index",
+                "./wizzi.meta.commons/index",
+                "./wizzi.meta.demo/index",
+                "./wizzi.meta.docs/index",
+                "./wizzi.meta.documents/index",
+                "./wizzi.meta.js/index",
+                "./wizzi.meta.js.db/index",
+                "./wizzi.meta.js.node/index",
+                "./wizzi.meta.js.vanilla/index",
+                "./wizzi.meta.js.react/index",
+                "./wizzi.meta.starter/index",
+                "./wizzi.meta.ts/index",
+                "./wizzi.meta.ts.express/index",
+                "./wizzi.meta.ts.react/index",
+                "./wizzi.meta.ts.db/index",
+                "./wizzi.meta.web/index",
+                "./wizzi.meta.wizzi/index",
+                "./wizzi.meta.wizzi.dev/index"
+            ],
+            "metaPluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.metas/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true,
+                "wzConfigIsPackageDeploy": false
+            },
+            "useRunner": false
+        },
+        "useWizziMeta": true,
+        "wizziMeta": {},
+        "usePacki": true,
+        "packi": {
+            "useAdmin": false
+        },
+        "useXxx": true,
+        "xxx": {},
+        "wizziDevHubProductions": {
+            "useCachedProductions": false
+        }
+    }
+}

@@ -1,0 +1,289 @@
+module
+
+    $
+        var myName = 'MetaPluginsExecution';
+        var myDisplayName = 'Components.metaproduction.' + myName;
+
+    import React
+        @ useState
+        @ useEffect
+        from "react"
+
+    import 
+        as wizziMetaApi
+        from '@/Api/wizziMetaApi'
+
+    import 
+        @ MetaProductionExt      
+        @ HubProductionItem
+        @ MetaParameters
+        $$ @ MetaProductionParameters
+        from '@/Api/types'  
+
+    import
+        @ AppState
+        @ MetaSelectionState
+        from "@/Data/mvc/MetaProduction/types"
+
+    import
+        @ StringKeyedObject
+        from "@/Data/types"
+
+    import 
+        @ ParameterItem
+        from "@/Components/metaCtxBuilder/types"
+    
+    import
+        @ SelectableCollection
+        from "@/Data/Components/SelectableCollection"
+
+    import
+        @ ErrorView
+        from "@/Components/utils/ErrorView"
+
+    import
+        @ SpinnerView
+        from "@/Components/utils/SpinnerView"
+
+    import
+        @ GenericSelectionList
+        from "@/Components/metaProduction/GenericSelectionList"
+
+    import ParamsBuilder
+        from "@/Components/metaCtxBuilder/ParamsBuilder"
+
+    import
+        @ MetaProductionResult
+        from "@/Components/metaProduction/MetaProductionResult"
+
+    :type MetaProductionExecState
+        :{
+            :p activeMetaProduction
+                :string
+                :optional
+    
+    :type MetaPluginsExecutionProps
+        :{
+            :p appState
+                :ref AppState
+            :p setAppState
+                :ref React.Dispatch<React.SetStateAction<AppState|null>>                    
+            :p metaSelectionState
+                :ref MetaSelectionState
+
+    function startMetaPluginsExecution
+        param selectedMetaProductions
+            :[
+                :ref StringKeyedObject
+        param selectedMetaPlugins
+            :[
+                :ref StringKeyedObject
+        let [allIndexParameters, setAllIndexParameters] = useState<{[productionName: string]: ParameterItem[];}|null>(null)
+        let [metaCtx, setMetaCtx] = useState<StringKeyedObject>({})
+        let [error, setError] = useState(null)
+        const keys = JSON.stringify(selectedMetaProductions)
+        _ useEffect
+            =>
+                async-function doFetch 
+                    const metaProductions
+                        :[
+                            :ref MetaProductionExt
+                        = []
+                    _ selectedMetaProductions.forEach
+                        =>
+                            param item
+                            _ metaProductions.push
+                                @ item as MetaProductionExt
+                    const metaPlugins
+                        :[
+                            :ref HubProductionItem
+                        = []
+                    _ selectedMetaPlugins.forEach
+                        =>
+                            param item
+                            _ metaPlugins.push
+                                @ item as HubProductionItem
+                    _ wizziMetaApi.getMetaParameters
+                        @ metaProductions
+                        @ metaPlugins
+                        a_then( metaParameters, :ref, MetaParameters )
+                            info '${myDisplayName}.startMetaPluginsExecution.getMetaParameters.metaParameters', metaParameters
+                            const allParameters
+                                _ extractAllParameters
+                                    @ metaParameters
+                            _ setAllIndexParameters
+                                @ allParameters.indexParameters
+                            _ setMetaCtx
+                                @ allParameters.indexInitialValues
+                        catch( startMetaPluginsExecution.doFetch )
+                            _ setError
+                                @ error
+                _ doFetch
+            [
+                @ keys
+        return
+            {
+                @ allIndexParameters
+                @ metaCtx
+                @ setMetaCtx
+                @ metaParametersError error
+
+    $if TODO
+        function extractParameters
+            param metaParameters
+                :ref MetaParameters
+            param activeMetaProduction
+                :string
+            :return
+                :{
+                    :p indexParameters
+                        :[
+                            :ref ParameterItem
+                    :p indexValuesObject
+                        :ref StringKeyedObject
+            $$ info '${myDisplayName}.extractParameters.metaParameters,activeMetaProduction', metaParameters, activeMetaProduction
+            const mpParametersObj = metaParameters.metaParametersObj[activeMetaProduction]
+            if !mpParametersObj
+                return
+                    {
+                        [ indexParameters
+                        { indexValuesObject
+            const indexParameters = mpParametersObj.parametersIndexObj.parameters
+            $$ info '${myDisplayName}.extractParameters.indexParameters', indexParameters
+            const indexValuesObject
+                _ wizziMetaApi.getMetaCtxValuesObject
+                    @ indexParameters
+            $$ info '${myDisplayName}.extractParameters.indexValuesObject', indexValuesObject
+            return
+                {
+                    @ indexParameters
+                    @ indexValuesObject
+
+    function extractAllParameters
+        param metaParameters
+            :ref MetaParameters
+        const allParameters
+            :{
+                :p indexParameters
+                    :{
+                        :index
+                            :[
+                                :ref ParameterItem
+                            param productionName
+                                :string
+                :p indexInitialValues
+                    :{
+                        :index
+                            :ref StringKeyedObject
+                            param productionName
+                                :string
+            {
+                { indexParameters
+                { indexInitialValues
+        for var productionName in metaParameters.metaParametersObj
+            const mpParametersObj = metaParameters.metaParametersObj[productionName]
+            const indexParameters = mpParametersObj.parametersIndexObj.parameters
+            const indexInitialValuesObject
+                _ wizziMetaApi.getMetaCtxValuesObject
+                    @ indexParameters
+            set allParameters.indexParameters[productionName] = Object.values(indexParameters)
+            set allParameters.indexInitialValues[productionName] = indexInitialValuesObject
+            const useName = "use" + productionName[0].toUpperCase() + productionName.substring(1)
+            set (allParameters.indexInitialValues[useName] as any) = true
+        $$ info "${myDisplayName}.extractAllParameters.allParameters", allParameters
+        return allParameters
+
+    export
+        function MetaPluginsExecution
+            param props
+                :ref MetaPluginsExecutionProps
+            const
+                {
+                    @ appState
+                    @ metaSelectionState
+                = props
+            +
+            let
+                {
+                    @ pluginSelId
+                    @ prodSelId
+                = metaSelectionState
+            const [mpExecState, setMpExecState]
+                _ useState<MetaProductionExecState>
+                    {
+            +
+            if !pluginSelId || !prodSelId
+                return
+                    . work-area-content-main
+            +
+            const pluginSel
+                _ SelectableCollection.get
+                    @ pluginSelId
+            const prodSel
+                _ SelectableCollection.get
+                    @ prodSelId
+            +
+            const
+                {
+                    @ allIndexParameters
+                    @ metaCtx
+                    @ setMetaCtx
+                    @ metaParametersError
+                =
+                    _ startMetaPluginsExecution
+                        @ prodSel.getSelected()
+                        @ pluginSel.getSelected()
+            if metaParametersError
+                return
+                    < ErrorView
+                        @ error {metaParametersError}
+            if !allIndexParameters
+                return
+                    < SpinnerView
+            let indexParameters
+                :[
+                    :ref ParameterItem
+                = []
+            let indexValuesObject
+                :ref StringKeyedObject
+                = {}
+            if mpExecState.activeMetaProduction
+                set indexParameters = allIndexParameters[mpExecState.activeMetaProduction]
+                set indexValuesObject = metaCtx[mpExecState.activeMetaProduction]
+
+            return 
+                $*
+                . work-area-content-main
+                    width 100%
+                    height 100%
+                    display flex
+                    flex-direction row
+                *$
+                . h-full w-full flex-1 flex
+                    < GenericSelectionList
+                        @ selectableItems {prodSel.getSelected()}
+                        @ title "Selected productions"
+                        @ listClass {'w-area-list-exec-prods w-area-list-15'}
+                        @ onSelect
+                            =>
+                                param metaProductionName
+                                info '${myDisplayName}.onSelect.We need properties of ', metaProductionName
+                                _ setMpExecState
+                                    {
+                                        @ ...mpExecState
+                                        @ activeMetaProduction metaProductionName
+                    < ParamsBuilder
+                        @ indexParameters {indexParameters}
+                        @ indexInitialValues {indexValuesObject}
+                        @ onSave
+                            =>
+                                param ctx
+                                    :ref StringKeyedObject
+                                if mpExecState.activeMetaProduction
+                                    _ setMetaCtx
+                                        {
+                                            @ ...metaCtx
+                                            @ [mpExecState.activeMetaProduction] ctx
+                    < MetaProductionResult
+                        @ metaCtx {metaCtx}
+                        @ appState {appState}

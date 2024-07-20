@@ -1,0 +1,56 @@
+{
+    name "ts.express.lab"
+    version "0.0.1"
+    description "Typescript express lab"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    { license
+        type "[object Object]"
+        url ""
+    
+    { App
+        name "ts.express.lab"
+        title ""
+        isLocal true
+        isProduction false
+        port "5100"
+        useSsl false
+        siteUrl "http://localhost"
+        baseUrl "http://localhost:5100"
+        siteUrlLocal "http://localhost"
+        baseUrlLocal "http://localhost:5100"
+        apiVersion "v1"
+    { Build
+        [ features
+            {
+                name "wizziProductions"
+                hasControllers true
+                useMongoDb false
+            {
+                name "wizziMeta"
+                hasControllers true
+                useMongoDb false
+            {
+                name "wizziHubProductions"
+                hasControllers true
+                useMongoDb true
+        [ examples
+        $include code.json
+        
+        $include tsExpress.json
+        
+        $include tsExpressUtils.json
+        
+        $include react.json
+        
+        $include tsdbmongodb.json
+        
+        $include wizziDev.json
+        
+        $include wizziDevProductions.json
+        
+        $include wizziDevMeta.json
+        
+        $include wizziDevHubProductions.json
+        

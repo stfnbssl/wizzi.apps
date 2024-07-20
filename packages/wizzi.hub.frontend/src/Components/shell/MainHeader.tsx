@@ -1,16 +1,24 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Components\shell\MainHeader.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\shell\MainHeader.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
-export function MainHeader(params) {
+import React from 'react';
+interface Props {
+    children?: React.ReactNode;
+}
+
+export const MainHeader: React.FC<Props> = ({
+    children
+ }) => {
     return  (
-        <div className="main-header">
+        <div className="w-full flex bg-gray-800 text-zinc-200">
             {
-                params.children
+                children
             }
         </div>
         )
     ;
 }
+;

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Components\metaProduction\GenericSelectionList.tsx.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\GenericSelectionList.tsx.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import React from "react";
 import {StringKeyedObject} from "@/Data/types";
@@ -10,7 +10,7 @@ import {SearchView} from "@/Components/utils/SearchView";
 type GenericSelectionListProps = { 
     title: string;
     listClass?: string;
-    selectedableItems: StringKeyedObject[];
+    selectableItems: StringKeyedObject[];
     searchViewPlaceholder?: string;
     searchText?: string;
     onSelect?: (name: string) => void;
@@ -21,7 +21,7 @@ type GenericSelectionListProps = {
 export function GenericSelectionList(params: GenericSelectionListProps) {
     const {
         title, 
-        selectedableItems, 
+        selectableItems, 
         searchViewPlaceholder, 
         searchText, 
         onSelect, 
@@ -29,8 +29,8 @@ export function GenericSelectionList(params: GenericSelectionListProps) {
         onSearchTextChanged
      } = params;
     return  (
-        <div className={'w-area-list w-area-list-cats-prods ' + (params.listClass ? params.listClass : '')}>
-            <div className="w-area-list-caption">
+        <div className={'h-full bg-gray-800 text-zinc-200 border-r border-gray-100 ' + (params.listClass ? params.listClass : '')}>
+            <div className="pt-0.5 bg-gray-900 text-xs text-center">
                 {title}</div>
             {
                 searchViewPlaceholder && searchViewPlaceholder.length > 0 &&  (
@@ -47,10 +47,10 @@ export function GenericSelectionList(params: GenericSelectionListProps) {
                     )
                 
             }
-            <div className="w-area-list-inner">
+            <div className="m-1 p-2 overflow-auto">
                 <ul>
                     {
-                    selectedableItems.map((item, ndx) => 
+                    selectableItems.map((item, ndx) => 
                          (
                         <React.Fragment key={ndx}>
                             <li>

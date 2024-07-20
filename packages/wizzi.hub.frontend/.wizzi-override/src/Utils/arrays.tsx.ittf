@@ -1,0 +1,143 @@
+module
+
+    $
+        var myName = 'arrays';
+        var myDisplayName = 'Utils.' + myName;
+
+    import
+        as _
+        from "@/Utils/underscore2"
+
+    export
+        function arrayAddUniqueName
+            param myArray
+                :[
+                    :{
+                        :p name
+                            :string
+            param newItem
+                :{
+                    :p name
+                        :string
+            const found
+                _ myArray.filter
+                    =>
+                        param item
+                        return item.name == newItem.name
+            if found.length == 0
+                _ myArray.push
+                    @ newItem
+
+    export
+        function hasItemInArray
+            param myArray
+                :[
+                    :{
+                        :index
+                            :any
+                            param k
+                                :string
+            param keyName
+                :string
+            param value
+                :any
+            :return
+                :boolean
+            const found
+                _ myArray.filter
+                    =>
+                        param item
+                        return item[keyName] == value
+            return found.length > 0 
+
+    export
+        function sortSearchFilter
+            param selectables
+                :[
+                    :{
+                        :index
+                            :[
+                                :{
+                                    :index
+                                        :any
+                                        param k
+                                            :string
+                            param k
+                                :string
+            param searchText
+                :string
+            const sortSearchFiltered
+                _ _.sortFilter
+                    @ selectables
+                    {
+                        { sort
+                            @ ascending true
+                            @ keyName 'name'
+                        { filter
+                            @ searchText searchText
+                            @ keyName 'name'
+            return sortSearchFiltered
+
+    export
+        function sortFilterSelectables
+            param selectables
+                :[
+                    :{
+                        :index
+                            :[
+                                :{
+                                    :index
+                                        :any
+                                        param k
+                                            :string
+                            param k
+                                :string
+            param filterablePropName
+                :string
+            param filterSelected
+                :[
+                    :{
+                        :index
+                            :any
+                            param k
+                                :string
+            param searchText
+                :string
+
+            info '${myDisplayName}.sortFilterSelectables.selectables', selectables
+            info '${myDisplayName}.sortFilterSelectables.filterablePropName', filterablePropName
+            info '${myDisplayName}.sortFilterSelectables.filterSelected', filterSelected
+
+            var availables
+                _ selectables.filter
+                    function
+                        param selectable
+                        let found = false
+                        if filterablePropName && filterablePropName.length > 0
+                            const filterable = selectable[filterablePropName]
+                            if filterable
+                                _ filterable.forEach
+                                    =>
+                                        param sel
+                                        var matches
+                                            _ filterSelected.filter
+                                                function
+                                                    param fsel
+                                                    return fsel.name == sel.name
+                                        if matches.length > 0
+                                            set found = true
+                        return found
+            
+            info '${myDisplayName}.sortFilterSelectables.availables', availables
+
+            const availablesFiltered
+                _ _.sortFilter
+                    @ availables
+                    {
+                        { sort
+                            @ ascending true
+                            @ keyName 'name'
+                        { filter
+                            @ searchText searchText
+                            @ keyName 'name'
+            return availablesFiltered

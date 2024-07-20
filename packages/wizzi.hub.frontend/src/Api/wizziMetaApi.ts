@@ -1,20 +1,22 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.react.vite.starter\.wizzi\src\Api\wizziMetaApi.ts.ittf
-    utc time: Wed, 19 Jun 2024 15:06:16 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Api\wizziMetaApi.ts.ittf
+    utc time: Sat, 20 Jul 2024 16:18:34 GMT
 */
 import axios, {AxiosError, AxiosResponse} from 'axios';
-import * as WizziHub from '@/Api/wizziHubApi';
+import * as wizziHubApi from '@/Api/wizziHubApi';
 import * as packiApi from '@/Api/packiApi';
-import {PackiFile, PackiFiles, HubProductionItem} from './types';
+import {MetaProvidesData} from '@/Data/mvc/MetaProduction/types';
+import {ParameterItem} from '@/Components/metaCtxBuilder/types';
+import {HubProductionItem, HubDbMetaProvides, MetaPlugin, MetaPluginExt, MetaPluginCategoryExt, MetaProduction, MetaProductionExt, MetaProductionCategoryExt, MetaParameters, MetaProductionFiles} from './types';
 interface Result {
     oper?: string;
     ok: boolean;
     message?: string;
 }
 const BASE_URL = 'http://localhost:3003/api/v1';
-function setToken(token: string) {
+export function setToken(token: string) {
     axios.interceptors.request.use((config) => {
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
@@ -51,17 +53,17 @@ axios.interceptors.response.use(res =>
     return Promise.reject(error);
 }
 )
-const responseBody = (response: AxiosResponse<T>) => 
+const responseBody = <T>(response: AxiosResponse<T>) => 
     response.data
 ;
 const request = {
-    get: <T>(url: string) => {
+    get: async <T>(url: string) => {
         axios.defaults.baseURL = BASE_URL;
         return axios.get<T>(url).then(responseBody)
         ;
     }
     , 
-    post: <T>(url: string, body: { 
+    post: async <T>(url: string, body: { 
     }) => {
         axios.defaults.baseURL = BASE_URL;
         return axios.post<T>(url, body).then(responseBody)
@@ -69,7 +71,12 @@ const request = {
     }
     
  };
-export function getMetaProvides(owner: string) {
+export function getMetaProvides(owner: string):  Promise<{ 
+    metaPluginProvides: any;
+    hubMetas: any;
+    hubMetaProductionFiles: any;
+    metaPluginProvidesEx: MetaProvidesData;
+}> {
     const url = 'meta/provides';
     return new Promise((resolve, reject) => 
             request.get<Result>(url).then((responsePlugins: any) => {
@@ -78,29 +85,31 @@ export function getMetaProvides(owner: string) {
                     return reject(responsePlugins.err || responsePlugins.error);
                 }
                 console.log('api.WizziMeta.getMetaProvides.pluginMetas.response', responsePlugins);
-                WizziHub.getMeta(owner).then((responseHub: any) => {
+                wizziHubApi.getMeta(owner).then((responseHub: any) => {
                     if (responseHub.err || responseHub.error) {
                         console.log("[31m%s[0m", "Error", "api.WizziMeta.getMetaProvides.hubmetas.response", responseHub.err || responseHub.error);
                         return reject(responseHub.err || responseHub.error);
                     }
                     console.log('api.WizziMeta.getMetaProvides.hubmetas.response', responseHub);
-                    var i, i_items=responseHub.item, i_len=responseHub.item.length, meta;
-                    for (i=0; i<i_len; i++) {
-                        meta = responseHub.item[i];
-                        meta.__is_hub_meta_plugin = true;
-                    }
-                    getMetaHubProduction(responseHub.item).then((metaHubProductions: any) => {
-                        return resolve({
-                                metaPluginProvides: responsePlugins, 
-                                hubMetas: responseHub, 
-                                metaHubProductions, 
-                                metaPluginProvidesEx: mergeModuleAndHubProvides(responsePlugins, responseHub)
-                             });
-                    }
+                    getHubMetaProductionFiles(responseHub.item).then((hubMetaProductionFiles: {metaProductions: MetaProductionFiles[]}) => 
+                        mergeModuleAndHubProvides(responsePlugins, responseHub).then((moduleAndHubProvides: any) => {
+                            if (moduleAndHubProvides.err || moduleAndHubProvides.error) {
+                                console.log("[31m%s[0m", "Error", "api.WizziMeta.getMetaProvides.mergeModuleAndHubProvides.response", moduleAndHubProvides.err || moduleAndHubProvides.error);
+                                return reject(moduleAndHubProvides.err || moduleAndHubProvides.error);
+                            }
+                            return resolve({
+                                    metaPluginProvides: responsePlugins, 
+                                    hubMetas: responseHub, 
+                                    hubMetaProductionFiles, 
+                                    metaPluginProvidesEx: moduleAndHubProvides
+                                 });
+                        }
+                        )
+                    
                     ).catch((err: any) => {
                         if (typeof err === 'object' && err !== null) {
                         }
-                        console.log("[31m%s[0m", 'api.WizziMeta.getMetaProvides.getMetaHubProduction.error', err);
+                        console.log("[31m%s[0m", 'api.WizziMeta.getMetaProvides.getHubMetaProductionFiles.error', err);
                         return reject(err);
                     }
                     )
@@ -124,32 +133,35 @@ export function getMetaProvides(owner: string) {
         );
 }
 
-export function getMetaParameters(metaProductions: any, metaPlugins: any) {
-    console.log('### >>> WizziMeta.getMetaParameters.metaPlugins', metaPlugins);
+export function getMetaParameters(metaProductions: MetaProductionExt[], metaPlugins: HubProductionItem[]):  Promise<MetaParameters> {
+    console.log('api.WizziMeta.getMetaParameters.metaProductions', metaProductions);
+    console.log('api.WizziMeta.getMetaParameters.metaPlugins', metaPlugins);
     const url = 'meta/parameters';
-    const inMemoryMetas = [];
-    var i, i_items=metaPlugins, i_len=metaPlugins.length, item;
-    for (i=0; i<i_len; i++) {
-        item = metaPlugins[i];
-        if (item.__is_hub_meta_plugin) {
+    const inMemoryMetas: { 
+        name: string;
+        owner: string;
+    }[] = [];
+    metaPlugins.forEach((item) => {
+        if ((item as any).__is_hub_meta_plugin) {
             inMemoryMetas.push({
                 owner: item.owner, 
                 name: item.name
              })
         }
     }
-    console.log('### >>> WizziMeta.getMetaParameters.inMemoryMetas', inMemoryMetas);
+    )
+    console.log('api.WizziMeta.getMetaParameters.inMemoryMetas', inMemoryMetas);
     const data = {
         metaProductions: metaProductions, 
         inMemoryMetas: inMemoryMetas
      };
     return new Promise((resolve, reject) => 
-            request.post<Result>(url, data).then((metaParameters: any) => {
+            request.post<MetaParameters>(url, data).then((metaParameters: any) => {
                 if (metaParameters.err || metaParameters.error) {
                     console.log("[31m%s[0m", "Error", "api.WizziMeta.getMetaParameters.metaParameters", metaParameters.err || metaParameters.error);
                     return reject(metaParameters.err || metaParameters.error);
                 }
-                console.log('### >>> api.WizziMeta.getMetaParameters.metaParameters', metaParameters);
+                console.log('api.WizziMeta.getMetaParameters.metaParameters', metaParameters);
                 return resolve(metaParameters);
             }
             ).catch((err: any) => {
@@ -162,51 +174,50 @@ export function getMetaParameters(metaProductions: any, metaPlugins: any) {
         
         );
 }
-export function getMetaHubProduction(metaItems: HubProductionItem) {
-    const retval = {
-        provides: [
-            
-        ], 
+
+export function getHubMetaProductionFiles(metaItems: HubProductionItem[]):  Promise<{ 
+    metaProductions: MetaProductionFiles[];
+}> {
+    console.log('api.WizziMeta.getHubMetaProductionFiles.metaItems', metaItems);
+    const retval: { 
+        metaProductions: MetaProductionFiles[];
+    } = {
         metaProductions: [
-            
-        ], 
-        parameters: [
-            
-        ], 
-        packiFiles: [
             
         ]
      };
-    return new Promise((resolve, reject) => {
-            function doItem(count) {
+    return new Promise((resolve) => {
+            function doItem(count: number) {
                 const metaItem = metaItems[count];
                 if (!metaItem) {
+                    console.log('api.WizziMeta.getHubMetaProductionFiles.retval', retval);
                     return resolve(retval);
                 }
-                const packiFilesString = metaItem.packiFiles;
-                const packiFilesObj = packiFilesString ? JSON.parse(packiFilesString) : null;
-                const parameters = packiApi.clonePackiFiles(packiFilesObj, [
+                const parameters = packiApi.clonePackiFiles(metaItem.packiFiles, [
                     '.packi/parameters/'
                 ]);
                 
                 if (Object.keys(parameters).length < 1) {
                     return doItem(count + 1);
                 }
+                console.log('api.WizziMeta.getHubMetaProductionFiles.parameters', metaItem.name, parameters);
                 
-                const folderTemplates = packiApi.clonePackiFiles(packiFilesObj, [
+                const folderTemplates = packiApi.clonePackiFiles(metaItem.packiFiles, [
                     'folderTemplates/'
                 ]);
+                console.log('api.WizziMeta.getHubMetaProductionFiles.folderTemplates', metaItem.name, folderTemplates);
                 
-                const ittfDocumentTemplates = packiApi.clonePackiFiles(packiFilesObj, [
+                const ittfDocumentTemplates = packiApi.clonePackiFiles(metaItem.packiFiles, [
                     'ittfDocumentTemplates/'
                 ]);
+                console.log('api.WizziMeta.getHubMetaProductionFiles.ittfDocumentTemplates', metaItem.name, ittfDocumentTemplates);
                 
-                const plainDocuments = packiApi.clonePackiFiles(packiFilesObj, [
+                const plainDocuments = packiApi.clonePackiFiles(metaItem.packiFiles, [
                     'plainDocuments/'
                 ]);
+                console.log('api.WizziMeta.getHubMetaProductionFiles.plainDocuments', metaItem.name, plainDocuments);
                 retval.metaProductions.push({
                     name: metaItem.name, 
-                    packiFilesObj, 
                     parameters, 
                     folderTemplates, 
                     ittfDocumentTemplates, 
@@ -218,6 +229,7 @@ export function getMetaHubProduction(metaItems: HubProductionItem) {
         }
         );
 }
+
 export function MetaExecuteInMemory(metaCtx: { 
     [k: string]: any;
 }, inMemoryMetas: { 
@@ -254,13 +266,13 @@ export function MetaExecuteInMemory(metaCtx: {
 
 export function MetaExecute(metaCtx: { 
     [k: string]: any;
-}, metaProductions, globalContext: { 
+}, metaProductions: MetaProductionExt[], globalContext: { 
     [k: string]: any;
 }) {
     const url = 'meta/execute';
     const data = {
         metaCtx, 
-        metaProductions: metaProductions, 
+        metaProductions, 
         globalContext
      };
     return new Promise((resolve, reject) => 
@@ -316,161 +328,261 @@ export function executeWizziProductionMeta(metaCtx: {
         );
 }
 
-export // 
-// node module meta plugins
-// 
-// node module meta productions
-// 
-// wizzi hub meta plugins
-function mergeModuleAndHubProvides(moduleMetaPluginProvides: any, hubMetas: any) {
-    const metaPluginsObj = {};
-    const metaPluginCategoriesObj = {};
-    const metaProductionsObj = {};
-    const metaProductionCategoriesObj = {};
-    var i, i_items=moduleMetaPluginProvides.nodeModulePlugins, i_len=moduleMetaPluginProvides.nodeModulePlugins.length, mpl;
-    for (i=0; i<i_len; i++) {
-        mpl = moduleMetaPluginProvides.nodeModulePlugins[i];
-        if (!mpl.categories) {
-            alert('Plugin "' + mpl.name + '" missing the "categories" property')
+export function getMetaCtxValuesObject(metaProductionParameters: ParameterItem[]):  { 
+    [key: string]: any;
+} {
+    const retval: { 
+        [key: string]: any;
+    } = {};
+    setMetaCtxObject(retval, metaProductionParameters)
+    return retval;
+}
+
+function setMetaCtxObject(valueObject: { 
+    [key: string]: any;
+}, propertyParameters: ParameterItem[]):  void {
+    propertyParameters.forEach((item) => {
+        if (item.type == 'use') {
+            const useName = "use" + item.name[0].toUpperCase() + item.name.substring(1);
+            valueObject[useName] = item.defaultValue || false;
+            valueObject[item.name] = {};
+            setMetaCtxObject(valueObject[item.name], item.parameters || [])
         }
-        mpl.pluginCategories = mpl.categories || [];
-        mpl.metaProductionCategories = {};
-        mpl.metaProductions = {};
-        delete mpl.categories
-        if (metaPluginsObj[mpl.name]) {
-            alert('Duplicated plugin name. Skipped: ' + mpl.name)
+        else if (item.type == 'object') {
+            valueObject[item.name] = {};
+            setMetaCtxObject(valueObject[item.name], item.parameters || [])
+        }
+        else if (item.type == 'array') {
+            valueObject[item.name] = [];
+            setMetaCtxArray(valueObject[item.name], item.parameters || [])
         }
         else {
-            metaPluginsObj[mpl.name] = mpl;
-        }
-        var j, j_items=mpl.pluginCategories, j_len=mpl.pluginCategories.length, c;
-        for (j=0; j<j_len; j++) {
-            c = mpl.pluginCategories[j];
-            if (metaPluginCategoriesObj[c.name]) {
-                metaPluginCategoriesObj[c.name].plugins.push({
-                    name: mpl.name
-                 })
-            }
-            else {
-                c.plugins = [];
-                c.plugins.push({
-                    name: mpl.name
-                 })
-                metaPluginCategoriesObj[c.name] = c;
-            }
+            valueObject[item.name] = item.defaultValue;
         }
     }
-    var i, i_items=moduleMetaPluginProvides.metaProductions, i_len=moduleMetaPluginProvides.metaProductions.length, mpr;
-    for (i=0; i<i_len; i++) {
-        mpr = moduleMetaPluginProvides.metaProductions[i];
-        metaProductionsObj[mpr.name] = mpr;
-        const mpl = metaPluginsObj[mpr.plugin];
-        if (mpl) {
-            mpl.metaProductions[mpr.name] = {
-                name: mpr.name, 
-                categories: mpr.categories || []
-             };
-            if (!mpr.categories) {
-                alert('Meta production "' + mpr.name + '" missing the "categories" property')
-            }
-            else {
-                var j, j_items=mpr.categories, j_len=mpr.categories.length, c;
-                for (j=0; j<j_len; j++) {
-                    c = mpr.categories[j];
-                    metaProductionCategoriesObj[c.name] = c;
-                    mpl.metaProductionCategories[c.name] = c;
-                }
-            }
+    )
+}
+function setMetaCtxArray(valueArray: any[], propertyParameters: ParameterItem[]):  void {
+    propertyParameters.forEach((item) => {
+        if (item.type == 'object') {
+            const itemObj: { 
+                [key: string]: any;
+            } = {};
+            setMetaCtxObject(itemObj, item.parameters || [])
+            valueArray.push(itemObj)
+        }
+        else if (item.type == 'array') {
+            const itemArray: any[] = [];
+            setMetaCtxArray(itemArray, item.parameters || [])
+            valueArray.push(itemArray)
         }
         else {
-            alert('Meta production ' + mpr.name + ' missing plugin property')
+            valueArray.push(item.defaultValue)
         }
     }
-    var i, i_items=hubMetas.item, i_len=hubMetas.item.length, mpl;
-    for (i=0; i<i_len; i++) {
-        mpl = hubMetas.item[i];
-        const hubMetaProvidesData = Packi.extractPackiFileContent(mpl.packiFiles, '.db/meta.provides.json', {
-            json: true
-         });
-        // info 'WizziMeta.mergeModuleAndHubProvides.hubMetaProvidesData', hubMetaProvidesData
-        const hubMetaProvides = hubMetaProvidesData.json;
-        mpl.metaProductionCategories = {};
-        mpl.metaProductions = {};
-        if (hubMetaProvides && hubMetaProvides.pluginMetaProductions && hubMetaProvides.pluginMetaProductions.length > 0) {
-            mpl.pluginCategories = hubMetaProvides.pluginCategories || [];
-            const name = hubMetaProvides.name || mpl.name;
-            if (metaPluginsObj[mpl.name]) {
-                alert('Meta plugins in WizziHub cannot have a name already used in jsnode meta plugins. Skipped: ' + mpl.name)
-            }
-            else {
-                metaPluginsObj[mpl.name] = mpl;
-            }
-        }
-        if (hubMetaProvides.pluginCategories && hubMetaProvides.pluginCategories.length > 0) {
-            var j, j_items=hubMetaProvides.pluginCategories, j_len=hubMetaProvides.pluginCategories.length, c;
-            for (j=0; j<j_len; j++) {
-                c = hubMetaProvides.pluginCategories[j];
-                if (metaPluginCategoriesObj[c.name]) {
-                    metaPluginCategoriesObj[c.name].plugins.push({
-                        name: mpl.name
-                     })
+    )
+}
+export function mergeModuleAndHubProvides(moduleMetaPluginProvides: { 
+    nodeModulePlugins: MetaPlugin[];
+    metaProductions: MetaProduction[];
+}, hubMetas: { 
+    item: { 
+        name: string;
+        owner: string;
+        packiFiles: string;
+        metaProductionCategoriesObj: { 
+            [name: string]: { 
+            };
+        };
+        metaProductionsObj: { 
+            [name: string]: { 
+            };
+        };
+    }[];
+}) {
+    return new Promise((resolve, reject) => {
+            const metaPluginsObj: { 
+                [name: string]: MetaPluginExt;
+            } = {};
+            const metaPluginCategoriesObj: { 
+                [name: string]: MetaPluginCategoryExt;
+            } = {};
+            const metaProductionsObj: { 
+                [name: string]: MetaProductionExt;
+            } = {};
+            const metaProductionCategoriesObj: { 
+                [name: string]: MetaProductionCategoryExt;
+            } = {};
+            moduleMetaPluginProvides.nodeModulePlugins.forEach(// 
+            // node module meta plugins
+            (item) => {
+                if (!item.categories) {
+                    console.log("[31m%s[0m", 'Plugin "' + item.name + '" missing the "categories" property');
                 }
-                else {
-                    c.plugins = [];
-                    c.plugins.push({
-                        name: mpl.name
-                     })
-                    metaPluginCategoriesObj[c.name] = c;
-                }
-            }
-        }
-        else {
-            alert('In hub meta plugin "' + mpl.name + '" missing the "pluginCategories" array. It should be in ".db/meta.provides.json"')
-        }
-        if (hubMetaProvides.pluginMetaProductions && hubMetaProvides.pluginMetaProductions.length > 0) {
-            var j, j_items=hubMetaProvides.pluginMetaProductions, j_len=hubMetaProvides.pluginMetaProductions.length, mpr;
-            for (j=0; j<j_len; j++) {
-                mpr = hubMetaProvides.pluginMetaProductions[j];
-                mpr.plugin = mpl.name;
-                if (metaProductionsObj[mpr.name]) {
-                    alert('Meta productions in WizziHub cannot have a name already used in jsnode meta productions. Skipped: ' + mpr.name)
-                }
-                else {
-                    metaProductionsObj[mpr.name] = mpr;
-                }
-                mpl.metaProductions[mpr.name] = {
-                    name: mpr.name, 
-                    categories: mpr.categories || []
+                const mplExt: MetaPluginExt = {
+                    name: item.name, 
+                    __is_hub_meta_plugin: false, 
+                    pluginCategories: item.categories || [], 
+                    metaProductionCategories: [], 
+                    metaProductionCategoriesObj: {}, 
+                    metaProductions: [], 
+                    metaProductionsObj: {}
                  };
-                if (!mpr.categories) {
-                    alert('In hub meta plugin "' + mpl.name + '"' + ' the meta production "' + mpr.name + '"' + ' is missing the "categories" property. It should be in ".db/meta.provides.json"')
+                if (metaPluginsObj[item.name]) {
+                    console.log("[31m%s[0m", 'Duplicated plugin name. Skipped: ' + item.name);
+                    return ;
                 }
                 else {
-                    var k, k_items=mpr.categories, k_len=mpr.categories.length, c;
-                    for (k=0; k<k_len; k++) {
-                        c = mpr.categories[k];
-                        metaProductionCategoriesObj[c.name] = c;
-                        mpl.metaProductionCategories[c.name] = c;
+                    metaPluginsObj[item.name] = mplExt;
+                }
+                mplExt.pluginCategories.forEach((c) => {
+                    if (metaPluginCategoriesObj[c.name]) {
+                        metaPluginCategoriesObj[c.name].plugins.push({
+                            name: mplExt.name
+                         })
+                    }
+                    else {
+                        const cExt: MetaPluginCategoryExt = {
+                            name: c.name, 
+                            plugins: [
+                                
+                            ]
+                         };
+                        cExt.plugins.push({
+                            name: mplExt.name
+                         })
+                        metaPluginCategoriesObj[c.name] = cExt;
                     }
                 }
-                // ??? set mpl.metaProductionCategories = Object.values(mpl.metaProductionCategories)
+                )
             }
+            )
+            moduleMetaPluginProvides.metaProductions.forEach(// 
+            // node module meta productions
+            (mpr) => {
+                const mpl = metaPluginsObj[mpr.plugin];
+                if (mpl) {
+                    const mprExt: MetaProductionExt = {
+                        name: mpr.name, 
+                        plugin: mpl.name, 
+                        categories: mpr.categories || []
+                     };
+                    metaProductionsObj[mpr.name] = mprExt;
+                    if (!mpr.categories) {
+                        console.log("[31m%s[0m", 'Meta production "' + mpr.name + '" missing the "categories" property');
+                    }
+                    else {
+                        mpr.categories.forEach((c) => {
+                            metaProductionCategoriesObj[c.name] = c;
+                            mpl.metaProductionCategoriesObj[c.name] = c;
+                        }
+                        )
+                    }
+                    mpl.metaProductionsObj[mpr.name] = mprExt;
+                }
+                else {
+                    console.log("[31m%s[0m", 'Meta production ' + mpr.name + ' missing plugin property');
+                }
+            }
+            )
+            hubMetas.item.forEach(// 
+            // wizzi hub meta plugins
+            (mpl) => {
+                const hubDbMetaProvidesData = packiApi.extractPackiFileContent(mpl.packiFiles, '.db/meta.provides.json', {
+                    json: true
+                 });
+                if (hubDbMetaProvidesData.__is_error) {
+                    return reject({
+                            message: "Error extracting metaProvides data from hub meta plugin: " + mpl.owner + ' / ' + mpl.name, 
+                            data: hubDbMetaProvidesData
+                         });
+                }
+                const hubMetaProvides: HubDbMetaProvides = hubDbMetaProvidesData.json as HubDbMetaProvides;
+                const mplExt: MetaPluginExt = {
+                    name: hubMetaProvides.name || mpl.name, 
+                    owner: mpl.owner, 
+                    __is_hub_meta_plugin: true, 
+                    pluginCategories: hubMetaProvides.pluginCategories || [], 
+                    metaProductionCategories: [], 
+                    metaProductionCategoriesObj: {}, 
+                    metaProductions: [], 
+                    metaProductionsObj: {}
+                 };
+                if (metaPluginsObj[mplExt.name]) {
+                    console.log("[31m%s[0m", 'Meta plugins in WizziHub cannot have a name already used. Skipped: ' + mplExt.name);
+                    return ;
+                }
+                else {
+                    metaPluginsObj[mplExt.name] = mplExt;
+                }
+                if (hubMetaProvides.pluginCategories && hubMetaProvides.pluginCategories.length > 0) {
+                    hubMetaProvides.pluginCategories.forEach((c) => {
+                        if (metaPluginCategoriesObj[c.name]) {
+                            metaPluginCategoriesObj[c.name].plugins.push({
+                                name: mpl.name
+                             })
+                        }
+                        else {
+                            const cExt: MetaPluginCategoryExt = {
+                                name: c.name, 
+                                plugins: [
+                                    
+                                ]
+                             };
+                            cExt.plugins.push({
+                                name: mpl.name
+                             })
+                            metaPluginCategoriesObj[c.name] = cExt;
+                        }
+                    }
+                    )
+                }
+                else {
+                    console.log("[31m%s[0m", 'In hub meta plugin "' + mpl.name + '" missing the "pluginCategories" array. It should be in ".db/meta.provides.json"');
+                }
+                if (hubMetaProvides.pluginMetaProductions && hubMetaProvides.pluginMetaProductions.length > 0) {
+                    hubMetaProvides.pluginMetaProductions.forEach((mpr) => {
+                        if (metaProductionsObj[mpr.name]) {
+                            console.log("[31m%s[0m", 'In hub meta plugin "' + mplExt.name + '"' + ' the meta productions cannot have a name already used. Skipped: ' + mpr.name);
+                            return ;
+                        }
+                        const mprExt: MetaProductionExt = {
+                            name: mpr.name, 
+                            plugin: mplExt.name, 
+                            categories: mpr.categories || []
+                         };
+                        metaProductionsObj[mpr.name] = mprExt;
+                        mplExt.metaProductionsObj[mpr.name] = mprExt;
+                        if (!mpr.categories) {
+                            console.log("[31m%s[0m", 'In hub meta plugin "' + mplExt.name + '"' + ' the meta production "' + mpr.name + '"' + ' is missing the "categories" property. It should be in ".db/meta.provides.json"');
+                        }
+                        else {
+                            mpr.categories.forEach((c) => {
+                                metaProductionCategoriesObj[c.name] = c;
+                                mplExt.metaProductionCategoriesObj[c.name] = c;
+                            }
+                            )
+                        }
+                    }
+                    )
+                }
+                else {
+                    console.log("[31m%s[0m", 'In hub meta plugin "' + mpl.name + '" missing the "pluginMetaProductions" array. It should be in ".db/meta.provides.json"');
+                }
+            }
+            )
+            const allMetaPluginsArray = Object.values(metaPluginsObj);
+            allMetaPluginsArray.forEach((mpl) => {
+                mpl.metaProductionCategories = Object.values(mpl.metaProductionCategoriesObj);
+                mpl.metaProductions = Object.values(mpl.metaProductionsObj);
+            }
+            )
+            resolve({
+                metaPlugins: allMetaPluginsArray, 
+                metaPluginCategories: Object.values(metaPluginCategoriesObj), 
+                metaProductions: Object.values(metaProductionsObj), 
+                metaProductionCategories: Object.values(metaProductionCategoriesObj)
+             })
         }
-        else {
-            alert('In hub meta plugin "' + mpl.name + '" missing the "pluginMetaProductions" array. It should be in ".db/meta.provides.json"')
-        }
-    }
-    const allMetaPluginsArray = Object.values(metaPluginsObj);
-    var i, i_items=allMetaPluginsArray, i_len=allMetaPluginsArray.length, mpl;
-    for (i=0; i<i_len; i++) {
-        mpl = allMetaPluginsArray[i];
-        mpl.metaProductionCategories = Object.values(mpl.metaProductionCategories);
-        mpl.metaProductions = Object.values(mpl.metaProductions);
-    }
-    return {
-            metaPlugins: allMetaPluginsArray, 
-            metaPluginCategories: Object.values(metaPluginCategoriesObj), 
-            metaProductions: Object.values(metaProductionsObj), 
-            metaProductionCategories: Object.values(metaProductionCategoriesObj)
-         };
+        );
 }

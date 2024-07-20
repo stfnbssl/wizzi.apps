@@ -1,4 +1,4 @@
-wfjob ts.react.vite.starter/job
+wfjob wizzi.hub.frontend/job
     
     $
         var jobCtx = {
@@ -30,8 +30,6 @@ wfjob ts.react.vite.starter/job
         wfjobs(any_md, &jobCtx)
         wfjobs(any_text_no_extension, &jobCtx)
         wfjobs(.gitignore, &jobCtx)
-        wfjobs(.eslintrc.cjs, &jobCtx)
-        wfjobs(.eslintignore.cjs, &jobCtx)
     
     line ittf-src
         cwd-folder ${jobCtx.ittf_src_folder}

@@ -37,6 +37,7 @@ const parameterMap: {[key: string]: JSXElementConstructor<{itemDef: ParameterIte
 
 export function ContextParameter(props: ContextParameterProps) {
     const { itemDef, itemParent } = props;
+    // console.log("metaCtxBuilder.ContextParameter", itemDef);
     const Comp = parameterMap[itemDef.type] || DummyContextParameter;
     return  (
         <Comp itemDef={itemDef} itemParent={itemParent}  onChange={props.onChange}></Comp>
