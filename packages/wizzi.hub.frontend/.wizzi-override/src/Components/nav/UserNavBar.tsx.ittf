@@ -16,7 +16,7 @@ module
                 :ref UserNavBarProps
             return
                 < 
-                    . flex
+                    . flex items-center justify-between
                         < MenuItem
                             @ label "Docs"
                             @ href "/ittf/site/docs/concepts/overview.html.ittf"

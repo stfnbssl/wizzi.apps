@@ -4,6 +4,8 @@ module
         var myName = 'MetaProductionResult';
         var myDisplayName = 'Components.metaproduction.' + myName;
 
+    $include index.css
+
     import
         @ useState
         @ useEffect
@@ -44,7 +46,7 @@ module
         from "@/Components/fileExplorer/FileExplorer"
 
     import FileBrowser
-        from "@/Components/fileExplorer/FileBrowser"
+        from "@/Components/fileExplorer2/FileBrowser"
 
     function executeResultMetaProduction
         param metaCtx
@@ -52,8 +54,13 @@ module
         param hubMetaProductions
             :[
                 :any
-        let [error, setError] = useState(null)
-        let [data, setData] = useState(null)
+        const [error, setError] = useState(null)
+        const [data, setData] = useState(null)
+        const [prettifiedError, setPrettifiedError] = useState(null)
+        const [prettified, setPrettified] = useState<{[key: string]: any}>({})
+        $if true || TODO
+            const [generatedError, setGeneratedError] = useState(null)
+            const [generated, setGenerated] = useState<{[key: string]: any}>({})
         info '${myDisplayName}.executeResultMetaProduction.hubMetaProductions', hubMetaProductions
         _ useEffect
             =>
@@ -87,6 +94,38 @@ module
                             else
                                 _ setData
                                     @ result
+                                _ packiApi.prettify
+                                    @ result
+                                    ._ then
+                                        =>
+                                            param response
+                                                :any
+                                            _ setPrettified(response)
+                                            info 'prettify.response', response
+                                    ._ catch
+                                        =>
+                                            param err
+                                            error err.message
+                                            error err
+                                            _ setPrettifiedError
+                                                @ err
+                                $if true || TODO
+                                    _ packiApi.generate
+                                        @ result
+                                        {
+                                        ._ then
+                                            =>
+                                                param response
+                                                    :any
+                                                _ setGenerated(response)
+                                                info 'generate.response', response
+                                        ._ catch
+                                            =>
+                                                param err
+                                                error err.message
+                                                error err
+                                                _ setGeneratedError
+                                                    @ err
                         catch(executeResultMetaProduction.MetaExecuteInMemory)
                             error '----> Error: MetaExecuteInMemory', error
                             _ setError
@@ -94,11 +133,26 @@ module
                 _ doFetch
             [
                 _ JSON.stringify(metaCtx)
-        
         return
             {
                 @ executionError error
                 @ executionResult data
+                @ executionPrettifiedResult prettified
+                @ executionPrettifiedError prettifiedError
+                @ executionGeneratedResult generated
+                @ executionGeneratedError generatedError
+
+    function detectWfjob
+        param packiFiles
+            :ref PackiFiles
+        :return
+            :string
+        var items = Object.keys(packiFiles)
+        foreach item in items
+            info 'detectWfjob', item, item.endsWith('.wfjob.ittf')
+            if item.endsWith('.wfjob.ittf')
+                return item
+        return null                
             
     :type MetaProductionResultProps
         :{
@@ -124,14 +178,18 @@ module
                 :[
                     :ref MetaPluginExt
                 = selectedMetaPlugins as MetaPluginExt[]
-            const [selectedEntry, setSelectedEntry]  = useState<PackiEntry|null>(null)
-            $$ info '${myDisplayName}.appState', appState
-            $$ info '${myDisplayName}.metaCtx', metaCtx
-            $$ info '${myDisplayName}.selectedMetaPlugins', selectedMetaPlugins
+            const [selectedEntry, setSelectedEntry] = useState<PackiEntry|null>(null)
+            $if TODO
+                const [installed, setInstalled] = useState(null)
+                const [installedError, setInstalledError] = useState(null)
             const 
                 { 
                     @ executionResult
                     @ executionError
+                    @ executionPrettifiedResult
+                    @ executionPrettifiedError
+                    @ executionGeneratedResult
+                    @ executionGeneratedError
                 =
                     _ executeResultMetaProduction
                         @ metaCtx
@@ -140,16 +198,95 @@ module
                 return
                     < ErrorView
                         @ error {executionError}
+            if executionPrettifiedError
+                return
+                    < ErrorView
+                        @ error {executionPrettifiedError}
+            if executionGeneratedError
+                return
+                    < ErrorView
+                        @ error {executionGeneratedError}
             if !executionResult
                 return
                     . w-area-list w-area-list-15 w-area-list-15
             $$ info '${myDisplayName}.executeResultMetaProduction.result', executionResult
+            let explorerEntries
+                :ref PackiFiles
+                = {}
+            let installEntries
+                :ref PackiFiles
+                = {}
+            const wzjobUri
+                _ detectWfjob
+                    @ executionResult
+            if wzjobUri && wzjobUri.length > 0
+                set explorerEntries
+                    _ packiApi.packiToEntryArray
+                        _ packiApi.mergePackiFiles
+                            @ executionPrettifiedResult
+                            @ executionGeneratedResult
+                set installEntries
+                    _ packiApi.mergePackiFiles
+                        @ executionResult
+                        @ executionGeneratedResult
+            else
+                set explorerEntries
+                    _ packiApi.packiToEntryArray
+                        _ packiApi.mergePackiFiles
+                            @ executionPrettifiedResult
+                            _ packiApi.unmountPackiFolder
+                                @ executionGeneratedResult
+                                @ '.wizzi'
+                set installEntries
+                    _ packiApi.mergePackiFiles
+                        @ executionResult
+                        _ packiApi.unmountPackiFolder
+                            @ executionGeneratedResult
+                            @ '.wizzi'
             return
                 <
-                    . w-area-list w-area-list-15 w-area-list-15
-                        . w-area-list-caption
-                            + Production result
-                        . w-area-list-inner
+                    $$ . w-area-list w-area-list-15
+                    . ${w_area_list} ${w_area_list_result}
+                        . ${w_area_list_caption}
+                            + Result
+                        . ${w_area_list_inner}
+                            . p-2 bg-gray-600 text-zinc-100
+                                . flex $$ pad-5
+                                    . ${tlb_item_button_small} $$ ml-4 px-2
+                                        + Install
+                                        @ title {'Install the generated package'}
+                                        @ onClick
+                                            =>
+                                                info '${myDisplayName}.Install.onClick'
+                                                _ alert
+                                                    _ JSON.stringify
+                                                        @ appState.currentJob?.__metaDemoPackage.json
+                                                        @ null
+                                                        @ 4
+                                                _ packiApi.install
+                                                    @ installEntries
+                                                    @ appState.currentJob?.__metaDemoPackage.json
+                                                    ._ then
+                                                        =>
+                                                            param response
+                                                                :any
+                                                            $if TODO
+                                                                _ setInstalled(response)
+                                                            info 'install.response', response
+                                                            _ alert
+                                                                _ JSON.stringify
+                                                                    @ response
+                                                                    @ null
+                                                                    @ 4
+                                                    ._ catch
+                                                        =>
+                                                            param err
+                                                            error err.message
+                                                            error err
+                                                            $if TODO
+                                                                _ setInstalledError
+                                                                    @ err
+
                             $if TODO
                                 div
                                     button edit artifact
@@ -184,9 +321,7 @@ module
                                                     {
                                                         @ description 'Meta generated by WizziHub meta production for job ' + appState.currentJob.name
                             < FileExplorer
-                                @ entries
-                                    _ packiApi.packiToEntryArray
-                                        @ executionResult
+                                @ entries {explorerEntries}
                                 @ onFileSelect
                                     =>
                                         param entry
@@ -195,9 +330,9 @@ module
                     {
                         &&
                             + selectedEntry && selectedEntry.uri
-                            . w-area-list w-area-list-35
-                                . w-area-list-caption
+                            . ${w_area_list} ${w_area_list_file_browser}
+                                . ${w_area_list_caption}
                                     + {selectedEntry.uri}
-                                . w-area-list-inner
+                                . ${w_area_list_inner}
                                     < FileBrowser
                                         @ entry {selectedEntry}

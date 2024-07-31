@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\PluginsSelectedProductions.tsx.ittf
-    utc time: Sat, 20 Jul 2024 16:18:34 GMT
+    utc time: Wed, 24 Jul 2024 06:44:55 GMT
 */
 import React from "react";
 import {MetaSelectionState} from "@/Data/mvc/MetaProduction/types";

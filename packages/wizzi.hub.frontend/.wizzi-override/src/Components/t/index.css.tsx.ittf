@@ -1,10 +1,16 @@
 $group
     $
-        var  w_area_list = 'h-full bg-gray-800 text-zinc-200 border-r border-gray-100';
-        var  w_area_list_inner = 'm-1 p-2 overflow-auto';
-        var  w_area_list_caption = 'pt-0.5 bg-gray-900 text-xs text-center';
-        var  w_area_list_jobs = '';
-
+        var w_area_list = 'h-full flex-1 flex flex-col bg-gray-700 text-zinc-200 rounded-lg shadow-md border-r border-gray-100';
+        var w_area_list_inner = 'm-1 p-2 flex-grow overflow-auto scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-100';
+        var w_area_list_inner_selected = 'text-gray-700 bg-zinc-200'
+        var w_area_list_caption = 'p-1 bg-gray-800 text-xs text-center';
+        var w_area_list_jobs = '';
+        var w_area_list_result = '';
+        var w_area_list_file_browser = '';
+        var tlb_item_caption = 'text-sm';
+        var tlb_item_button = 'px-0.5 py-1 mt-0.5 ml-1 text-sm rounded bg-gray-700 hover:bg-zinc-200 hover:text-gray-700 cursor-pointer';
+        var tlb_item_button_small = 'py-0.5 mt-0.5 ml-0.5 text-xs rounded bg-gray-700 hover:bg-zinc-200 hover:text-gray-700 cursor-pointer';
+        var tlb_item_button_selected = 'px-0.5 py-1 mt-0.5 ml-1 text-sm font-bold';
 
     $*
     background-color #2D2D2D

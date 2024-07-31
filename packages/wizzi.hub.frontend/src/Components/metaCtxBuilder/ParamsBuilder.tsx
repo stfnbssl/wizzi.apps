@@ -14,30 +14,36 @@ const ParamsBuilderApp = (props: ParamsBuilderAppProps) => {
     // console.log('metaCtxBuilder.ParamsBuilderApp.props.indexParameters', props.indexParameters);
     const valuesObject = props.indexInitialValues;
     // console.log('ParamsBuilderApp.render.valuesObject', valuesObject);
+    // <div className="w-area-list-exec-params w-area-list-25"></div>
     return (
-            <div className="w-area-list w-area-list-exec-params w-area-list-25">
+            <div className='h-full flex-1 flex flex-col bg-gray-700 text-zinc-200 rounded-lg shadow-md border-r border-gray-100'>
+                <div className="p-1 bg-gray-800 text-xs text-center">
+                    Parameters</div>
                 <div className="w-area-list-inner">
-                {
-                    props.indexParameters.length > 0 &&
-                    (
-                        <div>
-                            <h2 className="text-xl font-semibold pb-4">Parameters</h2>
+                    {
+                        !props.indexParameters || props.indexParameters.length == 0 &&
+                        (
+                            <div className="">None</div>
+                        )
+                    }
+                    {
+                        props.indexParameters && props.indexParameters.length > 0 && 
+                        (
                             <div>
-                                {
-                                props.indexParameters.map((itemDef, ndx) =>  (
-                                    <ContextParameter key={ndx + itemDef.name} itemDef={itemDef} itemParent={valuesObject} onChange={()=>{
-                                        console.log("ParamsBuilderApp.onChange", valuesObject);
-                                        props.onSave(valuesObject)
-                                    }}></ContextParameter>
-                                )
-                                )}
+                                <div>
+                                    {
+                                    props.indexParameters.map((itemDef, ndx) =>  (
+                                        <ContextParameter key={ndx + itemDef.name} itemDef={itemDef} itemParent={valuesObject} onChange={()=>{
+                                            console.log("ParamsBuilderApp.onChange", valuesObject);
+                                            props.onSave(valuesObject)
+                                        }}></ContextParameter>
+                                    )
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    )
-                }
-                    <div style={{
-                        marginTop: '200px'
-                     }}>
+                        )
+                    }
+                    <div className='mt-10'>
                         <code>
                             {JSON.stringify(valuesObject, null, 4)}
                         </code>

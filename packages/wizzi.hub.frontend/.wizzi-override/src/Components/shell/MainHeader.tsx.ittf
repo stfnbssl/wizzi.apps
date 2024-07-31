@@ -14,11 +14,6 @@ module
                 { 
                     @ children
                 return
-                    . w-full flex bg-gray-800 text-zinc-200
+                    . w-full p-2 flex justify-between bg-gray-900 text-zinc-200
                         {
                             + children
-                    $*
-                    . main-header
-                        {
-                            + children
-                    *$                

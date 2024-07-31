@@ -19,3 +19,39 @@ $group
                             ._ join
                                 @ '\n'
                 $include parameters
+                { ['.db/meta_provides.json']
+                    @ type 'CODE'
+                    @ contents
+                        [
+                            @ '{'
+                            @ '    "name" : "...",'
+                            @ '    "version" : "0.0.1",'
+                            @ '    "pluginCategories": ['
+                            @ '        {'
+                            @ '            "name": "..."'
+                            @ '        },'
+                            @ '        {'
+                            @ '            "name": "..."'
+                            @ '        }'
+                            @ '    ],'
+                            @ '    "pluginMetaProductions": ['
+                            @ '        {'
+                            @ '            "name": "...",'
+                            @ '            "title": "...",'
+                            @ '            "categories": ['
+                            @ '                {'
+                            @ '                    "name": "..."'
+                            @ '                },'
+                            @ '                {'
+                            @ '                    "name": "..."'
+                            @ '                },'
+                            @ '                {'
+                            @ '                    "name": "..."'
+                            @ '                }'
+                            @ '            ]'
+                            @ '        }'
+                            @ '    ]'
+                            @ '}'                            
+                            ._ join
+                                @ '\n'
+                $include metactx_params

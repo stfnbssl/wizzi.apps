@@ -39,6 +39,11 @@
                 "name": "wizziHubProductions",
                 "hasControllers": true,
                 "useMongoDb": true
+            },
+            {
+                "name": "packi",
+                "hasControllers": true,
+                "useMongoDb": false
             }
         ],
         "examples": [],
@@ -131,6 +136,8 @@
                 "./wizzi.plugin.svg/index.js",
                 "./wizzi.plugin.text/index.js",
                 "./wizzi.plugin.ts/index.js",
+                "./wizzi.plugin.wzjob/index.js",
+                "./wizzi.plugin.wzschema/index.js",
                 "./wizzi.plugin.xml/index.js",
                 "./wizzi.plugin.yaml/index.js"
             ],

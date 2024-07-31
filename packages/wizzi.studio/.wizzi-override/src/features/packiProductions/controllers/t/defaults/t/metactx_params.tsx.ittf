@@ -1,0 +1,82 @@
+$group
+    { ['t/params/index.json.ittf']
+        @ type 'CODE'
+        @ contents
+            [
+                @ '{'
+                @ '    [ parameters'
+                @ '        {'
+                @ '            name "name"'
+                @ '            type "string"'
+                @ '        string$( kind )'
+                ._ join
+                    @ '\n'
+    { ['t/params/string.json.ittf']
+        @ type 'CODE'
+        @ contents
+            [
+                @ '{'
+                @ '    $params name'
+                @ '    name "${'$'}{name}"'
+                @ '    type "string"'
+                @ '    $hook'
+                ._ join
+                    @ '\n'
+    { ['t/params/boolean.json.ittf']
+        @ type 'CODE'
+        @ contents
+            [
+                @ '{'
+                @ '    $params name'
+                @ '    name "${'$'}{name}"'
+                @ '    type "boolean"'
+                @ '    $hook'
+                ._ join
+                    @ '\n'
+    { ['t/params/integer.json.ittf']
+        @ type 'CODE'
+        @ contents
+            [
+                @ '{'
+                @ '    $params name'
+                @ '    name "${'$'}{name}"'
+                @ '    type "integer"'
+                @ '    $hook'
+                ._ join
+                    @ '\n'
+    { ['t/params/use.json.ittf']
+        @ type 'CODE'
+        @ contents
+            [
+                @ '{'
+                @ '    $params name'
+                @ '    name "${'$'}{name}"'
+                @ '    type "integer"'
+                @ '    $hook'
+                ._ join
+                    @ '\n'
+    { ['t/params/object.json.ittf']
+        @ type 'CODE'
+        @ contents
+            [
+                @ '{'
+                @ '    $params name'
+                @ '    name "${'$'}{name}"'
+                @ '    type "object"'
+                @ '    [ parameters'
+                @ '        $hook'
+                ._ join
+                    @ '\n'
+    { ['t/params/array.json.ittf']
+        @ type 'CODE'
+        @ contents
+            [
+                @ '{'
+                @ '    $params name'
+                @ '    name "${'$'}{name}"'
+                @ '    type "array"'
+                @ '    { item'
+                @ '        [ parameters'
+                @ '            $hook'
+                ._ join
+                    @ '\n'

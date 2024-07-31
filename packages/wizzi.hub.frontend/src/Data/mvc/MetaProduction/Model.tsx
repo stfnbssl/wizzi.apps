@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Data\mvc\MetaProduction\Model.tsx.ittf
-    utc time: Sat, 20 Jul 2024 16:18:34 GMT
+    utc time: Wed, 31 Jul 2024 14:56:16 GMT
 */
 import {JobItem} from "@/Data/types";
 import * as packiApi from "@/Api/packiApi";
@@ -57,9 +57,9 @@ export class Model {
                     message: 'Nothing changed'
                  });
         }
-        const pm = new packiApi.PackiManager({});
-        pm.putCodeFile(filePath, oldContents)
-        const fileDiffs = pm.getFileDiffs(filePath, newContents);
+        const pbuilder = new packiApi.PackiBuilder({});
+        pbuilder.putCodeFile(filePath, oldContents)
+        const fileDiffs = pbuilder.getFileDiffs(filePath, newContents);
         const packiDiffs = {
             [filePath]: {
                 d: 0, 
@@ -73,6 +73,8 @@ export class Model {
     // set meta plugins selections object
     // 
     // set meta productions selections object
+    // 
+    // set meta demo package object
     // 
     setupJobProductionItem(jobItem: JobItem):  JobItem {
         if (jobItem.__setup) {
@@ -104,6 +106,17 @@ export class Model {
             mps.text = JSON.stringify(mps.json);
         }
         jobItem.__metaProductions = mps;
+        const mdp = packiApi.extractPackiFileContent(jobItem.packiFiles, this.constants.metaDemoPackageFilePath, {
+            json: true
+         });
+        mdp.json = mdp.json || {};
+        if (!mdp.json.name) {
+            mdp.json.name = '__name_missing__';
+            mdp.json.useNpm = false;
+            mdp.json.npm = {};
+            mdp.text = JSON.stringify(mdp.json);
+        }
+        jobItem.__metaDemoPackage = mdp;
         jobItem.__setup = true;
         return jobItem;
     }

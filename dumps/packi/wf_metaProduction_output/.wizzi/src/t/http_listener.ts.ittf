@@ -1,0 +1,73 @@
+$group
+    const mimeTypes
+        :ref Record
+            :param string
+            :param string
+        =
+            {
+                @ ico 'image/x-icon'
+                @ js 'text/javascript'
+                @ css 'text/css'
+                @ svg 'image/svg+xml'
+        # Map of file extensions to mime types
+    +
+    async-function listener
+        param request
+            :ref http.IncomingMessage
+        param response
+            :ref http.ServerResponse
+        const
+            {
+                @ pathname
+            =
+                _ url.parse
+                    @ request.url as string
+        if pathname === '/'
+            await
+                _ main(request, response)
+        elif pathname === '/shutdown'
+            await
+                _ shutdown(request, response)
+        else
+            if
+                test
+                    &&
+                        + pathname
+                        _ fs.existsSync
+                            template
+                                + public
+                                @ pathname
+                                +
+                try
+                    const contents
+                        _ fs.readFileSync
+                            template
+                                + public
+                                @ pathname
+                                +
+                            @ 'utf-8'
+                    const mimeType
+                        ||
+                            @expr mimeTypes
+                                .[
+                                    _ pathname.split('.').pop()
+                                        :as
+                                            :string
+                            + 'application/octet-stream'
+                    _ response.writeHead
+                        @ 200
+                        {
+                            @ 'Content-Type' mimeType
+                    _ response.write(contents, 'utf-8')
+                catch error
+                    _ response.writeHead
+                        @ 500
+                        {
+                            @ 'Content-Type' 'text/plain'
+                    _ response.write(error + '\n')
+                _ response.end()
+            else
+                _ response.writeHead(404)
+                _ response.end('Not found.')
+        # Process requests based on pathname
+    +

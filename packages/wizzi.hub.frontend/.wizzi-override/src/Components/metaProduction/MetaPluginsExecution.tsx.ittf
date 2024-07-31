@@ -111,6 +111,7 @@ module
                             const allParameters
                                 _ extractAllParameters
                                     @ metaParameters
+                            info '${myDisplayName}.startMetaPluginsExecution.allParameters', allParameters
                             _ setAllIndexParameters
                                 @ allParameters.indexParameters
                             _ setMetaCtx
@@ -250,6 +251,12 @@ module
             if mpExecState.activeMetaProduction
                 set indexParameters = allIndexParameters[mpExecState.activeMetaProduction]
                 set indexValuesObject = metaCtx[mpExecState.activeMetaProduction]
+                info '${myDisplayName}.render.mpExecState.activeMetaProduction',  mpExecState.activeMetaProduction
+                info '${myDisplayName}.render.allIndexParameters', allIndexParameters
+                info '${myDisplayName}.render.indexParameters', indexParameters
+                info '${myDisplayName}.render.indexValuesObject', indexValuesObject
+            else
+                info '${myDisplayName}.render No activeMetaProduction'
 
             return 
                 $*

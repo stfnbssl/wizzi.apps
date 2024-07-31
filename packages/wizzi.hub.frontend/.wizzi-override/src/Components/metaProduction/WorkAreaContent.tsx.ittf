@@ -60,7 +60,7 @@ module
                 . work-area-content
                     height 95%
                 *$
-                . flex-1
+                . flex-1 flex
                     {
                         &&
                             + (appState.activeView == 'plugins-selection')

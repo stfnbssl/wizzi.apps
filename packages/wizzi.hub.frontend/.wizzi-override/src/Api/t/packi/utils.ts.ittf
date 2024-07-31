@@ -143,6 +143,9 @@ $group
             :return
                 :[
                     :ref PackiEntry
+            $$ info '=========='
+            $$ info 'Begin packiToEntryArray'
+            $$ info '=========='
             const fileSystem
                 :[
                     :ref PackiEntry
@@ -169,6 +172,9 @@ $group
             for const uri in fs
                 _ fileSystem.push
                     @ fs[uri]
+            $$ info '=========='
+            $$ info 'End packiToEntryArray'
+            $$ info '=========='
             return fileSystem
 
     function setFileEntry
@@ -199,6 +205,7 @@ $group
             set parentUri = uri
             set uri += (uri.length > 0 ? '/' : '') + part
             set folderObj = fs[uri]
+            $$ info 'setFileEntry.part', filename, part, 'parentUri', parentUri, 'uri', uri, 'folderObj', folderObj
             if !folderObj
                 set folderObj
                     {
@@ -211,8 +218,23 @@ $group
             if parentUri.length > 0
                 let parentFolderObj = fs[parentUri]
                 if parentFolderObj && parentFolderObj.children
-                    _ parentFolderObj.children.push
-                        @ folderObj.uri
+                    $$ info 'has parentFolderObj', parentFolderObj
+                    const found
+                        _ parentFolderObj.children.filter
+                            =>
+                                param item
+                                return item == folderObj?.uri
+                    $$ info 'found', found
+                    if found.length == 0
+                        $$ info 'add to parentFolderObj.children', folderObj.uri
+                        _ parentFolderObj.children.push
+                            @ folderObj.uri
+                    else
+                        $$ info 'already in parentFolderObj.children', folderObj.uri
+                else
+                    $$ info 'no parentFolderObj'
+            else
+                $$ info 'no parentUri'
         let fileObj
             :ref PackiEntry
             {
@@ -225,4 +247,61 @@ $group
         if folderObj && folderObj.children
             _ folderObj.children.push
                 @ fileObj.uri
-        info 'setFileEntry.fs', fs
+        $$ info 'setFileEntry.fs', fs
+
+    export 
+        function mountToPackiFolder
+            param packiFiles
+                :ref PackiFiles
+            param packiFilesTobeMounted
+                :ref PackiFiles
+            param folderName
+                :string
+            :return
+                :ref PackiFiles
+            for var k in packiFilesTobeMounted
+                let basename = k
+                let prefix = ''
+                if k.startsWith(packiFilePrefix)
+                    set basename = k.substring(packiFilePrefix.length)
+                    set prefix = packiFilePrefix
+                set packiFiles[prefix + folderName + '/' + basename] = packiFilesTobeMounted[k]
+            return packiFiles
+
+    export 
+        function unmountPackiFolder
+            param packiFiles
+                :ref PackiFiles
+            param folderName
+                :string
+            :return
+                :ref PackiFiles
+            const result
+                :ref PackiFiles
+                = {}
+            for var k in packiFiles
+                let basename = k
+                let prefix = ''
+                if k.startsWith(packiFilePrefix)
+                    set basename = k.substring(packiFilePrefix.length)
+                    set prefix = packiFilePrefix
+                if basename.startsWith(folderName)
+                    set result[prefix + basename.substring(folderName.length+1)] = packiFiles[k]
+            return result
+
+    export 
+        function mergePackiFiles
+            param packiFilesA
+                :ref PackiFiles
+            param packiFilesB
+                :ref PackiFiles
+            :return
+                :ref PackiFiles
+            const retval
+                :ref PackiFiles
+                = {}
+            for var k in packiFilesA
+                set retval[k] = packiFilesA[k]
+            for var k in packiFilesB
+                set retval[k] = packiFilesB[k]
+            return retval

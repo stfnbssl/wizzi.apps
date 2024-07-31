@@ -103,6 +103,8 @@ function getWzCtxFactoryPlugins() {
       "./wizzi.plugin.svg/index.js",
       "./wizzi.plugin.text/index.js",
       "./wizzi.plugin.ts/index.js",
+      "./wizzi.plugin.wzjob/index.js",
+      "./wizzi.plugin.wzschema/index.js",
       "./wizzi.plugin.xml/index.js",
       "./wizzi.plugin.yaml/index.js"
     ],
@@ -1391,11 +1393,12 @@ async function loadSiteJsonModel(relPath, context) {
 import { Router } from "express";
 
 // src/utils/sendResponse.ts
+import stringify2 from "json-stringify-safe";
 var sendError = (res, error) => {
   res.status(200);
   res.type("application/json");
   res.send({
-    err: error,
+    err: JSON.parse(stringify2(error)),
     message: error && error.message,
     stack: error && error.stack
   });
@@ -1403,7 +1406,7 @@ var sendError = (res, error) => {
 var sendFailure = (res, error, status) => {
   res.status(error && error.status ? error.status : status);
   res.type("application/json");
-  res.send(error);
+  res.send(JSON.parse(stringify2(error)));
 };
 var sendSuccess = (res, message) => {
   res.status(200);
@@ -1958,7 +1961,7 @@ var wizziProductionsControllers = [
 ];
 
 // src/features/wizziMeta/api/wizziMeta.ts
-import { verify as verify3, fSystem as fSystem2 } from "@wizzi/utils";
+import { verify as verify3, fSystem as fSystem3 } from "@wizzi/utils";
 
 // src/features/wizziHubProductions/mongo/artifact.ts
 import { Schema, model } from "mongoose";
@@ -2137,7 +2140,7 @@ var JobProductionModelBuilder = {
 };
 
 // src/features/wizziHubProductions/controllers/artifact.tsx
-import { Router as Router4 } from "express";
+import { Router as Router5 } from "express";
 
 // src/utils/rest.ts
 import { verify as verify2 } from "@wizzi/utils";
@@ -2482,7 +2485,13 @@ var PackiBuilder = class {
   }
 };
 
+// src/features/packi/api/fs-extra.ts
+import { default as default2 } from "fs-extra";
+
 // src/features/packi/api/utils.ts
+import path4 from "node:path";
+import { fSystem as fSystem2 } from "@wizzi/utils";
+var PACKI_META_DEMO_FOLDER = "C:/My/wizzi/stfnbssl/packi-meta-demo";
 function clonePackiFiles(packiFiles, filters) {
   filters = filters || [];
   function isOk(filename) {
@@ -2538,6 +2547,138 @@ function packiFilesToObject(packiFiles) {
   } else {
     return packiFiles;
   }
+}
+async function removeFolder(folderPath) {
+  return new Promise(
+    async (resolve2, reject) => {
+      try {
+        const fullPath = path4.resolve(folderPath);
+        const exists = await default2.pathExists(fullPath);
+        if (!exists) {
+          console.log(`features.packi.utils.removeFolder-> Folder does not exist: ${fullPath}`);
+          return resolve2();
+        }
+        await default2.remove(fullPath);
+        console.log(`features.packi.utils.removeFolder-> Successfully removed folder: ${fullPath}`);
+        return resolve2();
+      } catch (error) {
+        console.error(`features.packi.utils.removeFolder-> Error removing folder: ${error.message}`);
+        return reject(error);
+      }
+    }
+  );
+}
+function writePackiFilesToFolder(packiFiles, folderPath) {
+  return new Promise(
+    async (resolve2, reject) => {
+      for (const [filePath, fileData] of Object.entries(packiFiles)) {
+        if (typeof fileData !== "object" || !fileData.hasOwnProperty("contents")) {
+          console.warn(`features.packi.utils.writePackiFilesToFolder-> Skipping invalid entry for path: ${filePath}`);
+          continue;
+        }
+        const fullPath = path4.resolve(folderPath, filePath);
+        const directory = path4.dirname(fullPath);
+        try {
+          fSystem2.file.write(fullPath, fileData.contents);
+          console.log(`features.packi.utils.writePackiFilesToFolder-> Successfully wrote file: ${fullPath}`);
+        } catch (error) {
+          console.error(`features.packi.utils.writePackiFilesToFolder-> Error writing file ${fullPath}: ${error.message}`);
+          return reject(error);
+        }
+      }
+      return resolve2();
+    }
+  );
+}
+async function installPackiMetaDemo(packageName, packiFiles) {
+  return new Promise(
+    async (resolve2, reject) => {
+      const folderPath = path4.resolve(PACKI_META_DEMO_FOLDER, "packages", packageName);
+      await removeFolder(folderPath);
+      await writePackiFilesToFolder(packiFiles, folderPath);
+      return resolve2();
+    }
+  );
+}
+
+// src/features/packi/api/packiManager.ts
+import wizzi3 from "@wizzi/factory";
+function prettify(packiFiles) {
+  return new Promise(
+    (resolve2, reject) => wizzi3.packiManager(
+      {},
+      (err, packiManager) => {
+        if (err) {
+          console.log("\x1B[31m%s\x1B[0m", err);
+          return reject(err);
+        }
+        packiManager.prettify(
+          packiFiles,
+          (err2, result) => {
+            if (err2) {
+              console.log("\x1B[31m%s\x1B[0m", err2);
+              return reject(err2);
+            }
+            console.log("api.PackiManager.prettify.result", result);
+            resolve2(result);
+          }
+        );
+      }
+    )
+  );
+}
+function generate(packiFiles, plugins, options) {
+  return new Promise(
+    (resolve2, reject) => wizzi3.packiManager(
+      {},
+      (err, packiManager) => {
+        if (err) {
+          console.log("\x1B[31m%s\x1B[0m", err);
+          return reject(err);
+        }
+        packiManager.generate(
+          packiFiles,
+          plugins ? plugins : getWzCtxFactoryPlugins2(),
+          {
+            modelRequestContext: options.modelRequestContext || {},
+            artifactRequestContext: options.artifactRequestContext || {},
+            globalContext: options.globalContext || {}
+          },
+          (err2, result) => {
+            if (err2) {
+              console.log("\x1B[31m%s\x1B[0m", err2);
+              return reject(err2);
+            }
+            console.log("api.PackiManager.Generate.result", result);
+            resolve2(result);
+          }
+        );
+      }
+    )
+  );
+}
+function installDemoPackage(packiFiles, context) {
+  return installPackiMetaDemo(context.name, packiFiles);
+}
+function getWzCtxFactoryPlugins2() {
+  return {
+    items: [
+      "./wizzi.plugin.css/index.js",
+      "./wizzi.plugin.html/index.js",
+      "./wizzi.plugin.ittf/index.js",
+      "./wizzi.plugin.js/index.js",
+      "./wizzi.plugin.json/index.js",
+      "./wizzi.plugin.md/index.js",
+      "./wizzi.plugin.svg/index.js",
+      "./wizzi.plugin.text/index.js",
+      "./wizzi.plugin.ts/index.js",
+      "./wizzi.plugin.wzjob/index.js",
+      "./wizzi.plugin.wzschema/index.js",
+      "./wizzi.plugin.xml/index.js",
+      "./wizzi.plugin.yaml/index.js"
+    ],
+    pluginsBaseFolder: "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+  };
 }
 
 // src/features/packi/controllers/packiEditing.tsx
@@ -3057,17 +3198,75 @@ var PackiGeneratingController = class {
   };
 };
 
+// src/features/packi/controllers/apiv1packiManager.ts
+import { Router as Router4 } from "express";
+var ApiV1PackiManagerController = class {
+  path = "/api/v1/packimanager";
+  router = Router4();
+  initialize = (app2, initValues) => {
+    console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1PackiManagerController.initialize");
+    this.router.post("/prettify", this.executePrettify);
+    this.router.post("/generate", this.executeGenerate);
+    this.router.post("/install", this.executeInstall);
+  };
+  executePrettify = async (request, response) => {
+    const requestData = request.body;
+    prettify(requestData.packiFiles).then(
+      (result) => sendSuccess(response, result)
+    ).catch(
+      (err) => {
+        if (typeof err === "object" && err !== null) {
+        }
+        sendFailure(response, {
+          err
+        }, 501);
+      }
+    );
+  };
+  executeGenerate = async (request, response) => {
+    const requestData = request.body;
+    generate(requestData.packiFiles, null, requestData.context).then(
+      (result) => sendSuccess(response, result)
+    ).catch(
+      (err) => {
+        if (typeof err === "object" && err !== null) {
+        }
+        sendFailure(response, {
+          err
+        }, 501);
+      }
+    );
+  };
+  executeInstall = async (request, response) => {
+    const requestData = request.body;
+    installDemoPackage(requestData.packiFiles, requestData.context).then(
+      (result) => sendSuccess(response, result)
+    ).catch(
+      (err) => {
+        if (typeof err === "object" && err !== null) {
+        }
+        sendFailure(response, {
+          err
+        }, 501);
+      }
+    );
+  };
+};
+
 // src/features/packi/index.ts
 var packiControllers = [
   new PackiEditingController(),
-  new PackiGeneratingController()
+  new PackiGeneratingController(),
+  new ApiV1PackiManagerController()
 ];
 var packiApi = {
   PackiBuilder,
   clonePackiFiles,
   extractPackiFileContent,
   extractPackiFile,
-  packiFilesToObject
+  packiFilesToObject,
+  prettify,
+  generate
 };
 
 // src/features/wizziHubProductions/api/meta.ts
@@ -3092,11 +3291,11 @@ function mergePackiFiles(current, toadd, options) {
   }
   return ret;
 }
-function stripEndSlash(path5) {
-  return path5.endsWith("/") ? path5.substring(0, path5.length - 1) : path5;
+function stripEndSlash(path6) {
+  return path6.endsWith("/") ? path6.substring(0, path6.length - 1) : path6;
 }
-function stripStartSlash(path5) {
-  return path5.startsWith("/") ? path5.substring(1) : path5;
+function stripStartSlash(path6) {
+  return path6.startsWith("/") ? path6.substring(1) : path6;
 }
 
 // src/features/wizziHubProductions/api/meta.ts
@@ -4703,7 +4902,7 @@ function makeHandlerAwareOfAsyncErrors4(handler) {
 }
 var ArtifactProductionController = class {
   path = "/artifact";
-  router = Router4();
+  router = Router5();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ArtifactProductionController.initialize");
     this.router.get("/new", makeHandlerAwareOfAsyncErrors4(this.getNewArtifactForm));
@@ -4826,7 +5025,7 @@ var ArtifactProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1artifact.tsx
-import { Router as Router5 } from "express";
+import { Router as Router6 } from "express";
 function makeHandlerAwareOfAsyncErrors5(handler) {
   return async function(request, response, next) {
     try {
@@ -4851,7 +5050,7 @@ function makeHandlerAwareOfAsyncErrors5(handler) {
 }
 var ApiV1ArtifactProductionController = class {
   path = "/api/v1/production/artifact";
-  router = Router5();
+  router = Router6();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1ArtifactProductionController.initialize");
     this.router.get("/:owner", makeHandlerAwareOfAsyncErrors5(this.getArtifacts));
@@ -5058,7 +5257,7 @@ function exec_updateArtifactProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/package.tsx
-import { Router as Router6 } from "express";
+import { Router as Router7 } from "express";
 import React6 from "react";
 import ReactDOMServer4 from "react-dom/server";
 
@@ -5683,7 +5882,7 @@ function makeHandlerAwareOfAsyncErrors6(handler) {
 }
 var PackageProductionController = class {
   path = "/package";
-  router = Router6();
+  router = Router7();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering PackageProductionController.initialize");
     this.router.get("/new", makeHandlerAwareOfAsyncErrors6(this.getNewPackageForm));
@@ -5896,7 +6095,7 @@ var PackageProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1package.tsx
-import { Router as Router7 } from "express";
+import { Router as Router8 } from "express";
 function makeHandlerAwareOfAsyncErrors7(handler) {
   return async function(request, response, next) {
     try {
@@ -5921,7 +6120,7 @@ function makeHandlerAwareOfAsyncErrors7(handler) {
 }
 var ApiV1PackageProductionController = class {
   path = "/api/v1/production/package";
-  router = Router7();
+  router = Router8();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1PackageProductionController.initialize");
     this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors7(this.getCheckPackageName));
@@ -6112,7 +6311,7 @@ function exec_updatePackageProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/plugin.tsx
-import { Router as Router8 } from "express";
+import { Router as Router9 } from "express";
 import React7 from "react";
 import ReactDOMServer5 from "react-dom/server";
 
@@ -6672,7 +6871,7 @@ function makeHandlerAwareOfAsyncErrors8(handler) {
 }
 var PluginProductionController = class {
   path = "/plugin";
-  router = Router8();
+  router = Router9();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering PluginProductionController.initialize");
     this.router.get("/new", makeHandlerAwareOfAsyncErrors8(this.getNewPluginForm));
@@ -6849,7 +7048,7 @@ var PluginProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1plugin.tsx
-import { Router as Router9 } from "express";
+import { Router as Router10 } from "express";
 function makeHandlerAwareOfAsyncErrors9(handler) {
   return async function(request, response, next) {
     try {
@@ -6874,7 +7073,7 @@ function makeHandlerAwareOfAsyncErrors9(handler) {
 }
 var ApiV1PluginProductionController = class {
   path = "/api/v1/production/plugin";
-  router = Router9();
+  router = Router10();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1PluginProductionController.initialize");
     this.router.get("/:owner", makeHandlerAwareOfAsyncErrors9(this.getPlugins));
@@ -7045,7 +7244,7 @@ function exec_updatePluginProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/meta.tsx
-import { Router as Router10 } from "express";
+import { Router as Router11 } from "express";
 import React8 from "react";
 import ReactDOMServer6 from "react-dom/server";
 function renderPageForm4(req, res, data, queryParams) {
@@ -7161,7 +7360,7 @@ function makeHandlerAwareOfAsyncErrors10(handler) {
 }
 var MetaProductionController = class {
   path = "/meta";
-  router = Router10();
+  router = Router11();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering MetaProductionController.initialize");
     this.router.get("/new", makeHandlerAwareOfAsyncErrors10(this.getNewMetaForm));
@@ -7281,7 +7480,7 @@ var MetaProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1meta.tsx
-import { Router as Router11 } from "express";
+import { Router as Router12 } from "express";
 function makeHandlerAwareOfAsyncErrors11(handler) {
   return async function(request, response, next) {
     try {
@@ -7306,7 +7505,7 @@ function makeHandlerAwareOfAsyncErrors11(handler) {
 }
 var ApiV1MetaProductionController = class {
   path = "/api/v1/production/meta";
-  router = Router11();
+  router = Router12();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1MetaProductionController.initialize");
     this.router.get("/:owner", makeHandlerAwareOfAsyncErrors11(this.getMetas));
@@ -7539,7 +7738,7 @@ function exec_updateMetaProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/tfolder.tsx
-import { Router as Router12 } from "express";
+import { Router as Router13 } from "express";
 import React9 from "react";
 import ReactDOMServer7 from "react-dom/server";
 
@@ -8035,7 +8234,7 @@ function makeHandlerAwareOfAsyncErrors12(handler) {
 }
 var TFolderProductionController = class {
   path = "/tfolder";
-  router = Router12();
+  router = Router13();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering TFolderProductionController.initialize");
     this.router.get("/new", makeHandlerAwareOfAsyncErrors12(this.getNewTFolderForm));
@@ -8145,7 +8344,7 @@ var TFolderProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1tfolder.tsx
-import { Router as Router13 } from "express";
+import { Router as Router14 } from "express";
 function makeHandlerAwareOfAsyncErrors13(handler) {
   return async function(request, response, next) {
     try {
@@ -8170,7 +8369,7 @@ function makeHandlerAwareOfAsyncErrors13(handler) {
 }
 var ApiV1TFolderProductionController = class {
   path = "/api/v1/production/tfolder";
-  router = Router13();
+  router = Router14();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1TFolderProductionController.initialize");
     this.router.get("/:owner", makeHandlerAwareOfAsyncErrors13(this.getTFolders));
@@ -8347,7 +8546,7 @@ function exec_updateTFolderProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/job.tsx
-import { Router as Router14 } from "express";
+import { Router as Router15 } from "express";
 import React10 from "react";
 import ReactDOMServer8 from "react-dom/server";
 
@@ -8833,7 +9032,7 @@ function makeHandlerAwareOfAsyncErrors14(handler) {
 }
 var JobProductionController = class {
   path = "/job";
-  router = Router14();
+  router = Router15();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering JobProductionController.initialize");
     this.router.get("/new", makeHandlerAwareOfAsyncErrors14(this.getNewJobForm));
@@ -8956,7 +9155,7 @@ var JobProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1job.tsx
-import { Router as Router15 } from "express";
+import { Router as Router16 } from "express";
 function makeHandlerAwareOfAsyncErrors15(handler) {
   return async function(request, response, next) {
     try {
@@ -8981,7 +9180,7 @@ function makeHandlerAwareOfAsyncErrors15(handler) {
 }
 var ApiV1JobProductionController = class {
   path = "/api/v1/production/job";
-  router = Router15();
+  router = Router16();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1JobProductionController.initialize");
     this.router.get("/:owner", makeHandlerAwareOfAsyncErrors15(this.getJobs));
@@ -9152,7 +9351,7 @@ function exec_updateJobProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/apiv1generations.ts
-import { Router as Router16 } from "express";
+import { Router as Router17 } from "express";
 function makeHandlerAwareOfAsyncErrors16(handler) {
   return async function(request, response, next) {
     try {
@@ -9177,7 +9376,7 @@ function makeHandlerAwareOfAsyncErrors16(handler) {
 }
 var ApiV1GenerationsController = class {
   path = "/api/v1/production/generations";
-  router = Router16();
+  router = Router17();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1GenerationsController.initialize");
     this.router.post("/mtree/:id", makeHandlerAwareOfAsyncErrors16(this.mTree));
@@ -9918,7 +10117,7 @@ var wizziHubProductionsControllers = [
 ];
 
 // src/features/wizziMeta/api/wizziMeta.ts
-var file2 = fSystem2.vfile();
+var file2 = fSystem3.vfile();
 async function getMetaParameters(options) {
   return new Promise(
     (resolve2, reject) => {
@@ -9983,7 +10182,6 @@ async function getMetaParameters(options) {
                     metaParametersObj,
                     packiFiles: metaParameters
                   };
-                  console.log("getMetaParameters", result);
                   return resolve2(result);
                 }
                 if (mpObj.index) {
@@ -10215,10 +10413,10 @@ async function persistPackageFiles(packiFiles, options) {
 }
 
 // src/features/wizziMeta/controllers/apiv1wizzimeta.ts
-import { Router as Router17 } from "express";
+import { Router as Router18 } from "express";
 var ApiV1WizziMetaController = class {
   path = "/api/v1/meta";
-  router = Router17();
+  router = Router18();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1WizziMetaController.initialize");
     this.router.get("/provides", this.provides);
@@ -10346,11 +10544,11 @@ var CacheControlMiddleware = (app2) => {
 };
 
 // src/middlewares/static.ts
-import * as path4 from "path";
+import * as path5 from "path";
 import { static as expressStatic } from "express";
 var StaticFilesMiddleware = (app2) => {
-  console.log("\x1B[32m%s\x1B[0m", "StaticFilesMiddleware. Folder served from ", path4.resolve(__dirname, "..", "..", "public"));
-  app2.use("/public", expressStatic(path4.resolve(__dirname, "..", "..", "public")));
+  console.log("\x1B[32m%s\x1B[0m", "StaticFilesMiddleware. Folder served from ", path5.resolve(__dirname, "..", "..", "public"));
+  app2.use("/public", expressStatic(path5.resolve(__dirname, "..", "..", "public")));
 };
 
 // src/middlewares/promise.ts
@@ -10482,7 +10680,8 @@ async function start() {
   let controllers = [
     ...wizziProductionsControllers,
     ...wizziMetaControllers,
-    ...wizziHubProductionsControllers
+    ...wizziHubProductionsControllers,
+    ...packiControllers
   ];
   console.log("\x1B[33m%s\x1B[0m", "Starting app. Config:", config2);
   const appInitializer = {

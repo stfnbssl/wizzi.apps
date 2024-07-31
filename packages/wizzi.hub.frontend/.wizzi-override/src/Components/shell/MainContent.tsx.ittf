@@ -13,11 +13,6 @@ module
                 { 
                     @ children
                 return
-                    . w-full flex-1 flex bg-yellow-200 gap-1
+                    . w-full flex-1 flex bg-gray-200 gap-2
                         {
                             + children
-                    $*
-                    . main-content
-                        {
-                            + children
-                    *$

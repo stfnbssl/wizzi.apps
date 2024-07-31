@@ -1,5 +1,7 @@
 module
 
+    $include index.css
+
     import React
         from "react"
 
@@ -31,64 +33,23 @@ module
                 = params
             $$ info '=====> WorkAreaToolBar.appState', appState
             return
-                $*
-                . work-area-toolbar
-                    height 5%
-                    background-color #4D4D4D
-                *$
-                . bg-gray-700 text-zinc-100
-                    $*
-                        . work-area-toolbar-inner
-                            height calc(100% - 20px)
-                            padding 5px
-                            display flex
-                            flex-direction row
-                            color ${colors.main}
-                    *$
-                    $
-                        var tlb_item_caption = 'text-sm font-bold';
-                        var tlb_item_button = 'px-0.5 py-1 mt-0.5 ml-1 text-sm font-bold cursor-pointer hover:bg-zinc-200 hover:text-gray-700';
-                        var tlb_item_button_selected = 'px-0.5 py-1 mt-0.5 ml-1 text-sm font-bold';
-
+                . p-2 bg-gray-600 text-zinc-100
                     . flex pad-5
-                        $*
-                            . tlb-item-box-m-left
-                                margin-left 50px
-                            . tlb-item-caption
-                                font-size 0.8rem
-                                font-weight 700
-                            . tlb-item-name
-                                padding-left 20px
-                                padding-top 10px
-                                font-size 0.9rem
-                            . tlb-item-button
-                                padding 5px 10px 5px 10px
-                                margin-top 5px
-                                margin-left 10px
-                                font-size 0.9rem
-                                border-radius 4px
-                                background-color ${colors.mainHeaderBg}
-                                cursor pointer
-                            . tlb-item-button:hover
-                                background-color #2D2D2D
-                                color #dfdfdf
-                        *$
-                        $$ . tlb-item-caption
                         . ml-1
                             . ${tlb_item_caption}
                                 + Job
-                        $$ . tlb-item-box
-                        . pl-2 pt-1
-                            $$ . tlb-item-name
-                            + {appState.currentJob ? appState.currentJob.name + 
-                                \b ' / ' + appState.currentJob.description : ''}
+                        {
+                            && 
+                                + appState.currentJob
+                                a
+                                    className ml-4 mr-10  pt-1
+                                    + {appState.currentJob.name}
+                                    href #
+                                    title {appState.currentJob.description}
                         . ml-2
-                            $$ . tlb-item-caption
                             . ${tlb_item_caption}
                                 + &nbsp;
-                        $$ . tlb-item-box
-                            $$ . tlb-item-button
-                        . ${tlb_item_button}
+                        . ${tlb_item_button} ml-4 px-2
                             + Reload
                             @ title {'Reload the job list from server'}
                             @ onClick
@@ -96,21 +57,19 @@ module
                                     info 'WorkAreaToolBar.reload.onClick', params.onReloadJobList
                                     _ params.onReloadJobList
                         . tlb-item-box
-                            . ${tlb_item_button}
+                            . ${tlb_item_button} ml-4 px-2
                                 a Add
                                     href {'/job/new'}
                                     target _blank
                                     title {'Create a new job'}
-                        $$ . tlb-item-box-m-left
                         . ml-2
-                            $$ . tlb-item-caption
-                            . ${tlb_item_caption}
-                                + Select
+                            . ${tlb_item_caption} pl-10
+                                + View
                         {
                             &&
                                 + ['productions-selection','generation-execution'].indexOf(appState.activeView) > -1 
                                 < React.Fragment
-                                    . ${tlb_item_button}
+                                    . ${tlb_item_button} ml-4 px-2
                                         + Meta plugins
                                         @ title {'Open the meta plugins selection view'}
                                         @ onClick
@@ -120,12 +79,12 @@ module
                         {
                             &&
                                 + appState.activeView == 'plugins-selection'
-                                . ${tlb_item_button_selected}
+                                . ${tlb_item_button_selected} ml-4 px-2
                                     + Meta plugins
                         {
                             &&
                                 + ['plugins-selection','generation-execution'].indexOf(appState.activeView) > -1 
-                                . ${tlb_item_button}
+                                . ${tlb_item_button} ml-4 px-2
                                     + Meta productions
                                     @ title {'Open the meta productions selection view'}
                                     @ onClick
@@ -135,12 +94,12 @@ module
                         {
                             &&
                                 + appState.activeView == 'productions-selection'
-                                . ${tlb_item_button_selected}
+                                . ${tlb_item_button_selected} ml-4 px-2
                                     + Meta productions
                         {
                             &&
                                 + ['plugins-selection','productions-selection'].indexOf(appState.activeView) > -1 
-                                . ${tlb_item_button}
+                                . ${tlb_item_button} ml-4 px-2
                                     + Execution
                                     @ title {'Open the meta productions execution view'}
                                     @ onClick
@@ -150,6 +109,6 @@ module
                         {
                             &&
                                 + appState.activeView == 'generation-execution'
-                                . ${tlb_item_button_selected}
+                                . ${tlb_item_button_selected} ml-4 px-2
                                     + Execution
 

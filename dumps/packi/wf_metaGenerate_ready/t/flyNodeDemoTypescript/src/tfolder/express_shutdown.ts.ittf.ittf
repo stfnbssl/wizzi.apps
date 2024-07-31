@@ -1,0 +1,20 @@
+$group
+
+    _ app.post
+        @ '/shutdown'
+        => 
+            param req
+            param res
+            $if TODO
+                const 
+                    { 
+                        @ secret
+                    = req.query
+                if secret !== SHUTDOWN_SECRET
+                    return res.status(403).send('Unauthorized')
+            _ res.send('Shutting down...')
+            _ server.close
+                => 
+                    info 'Server closed. Process will exit now.'
+                    _ process.exit(0)
+                # Perform graceful shutdown

@@ -1,0 +1,44 @@
+$group
+
+    async-function main
+        param _request
+            :ref http.IncomingMessage
+        param response
+            :ref http.ServerResponse
+        const oldCount = count
+        # increment counter in counter.txt file
+        try 
+            set count = parseInt(fs.readFileSync('counter.txt', 'utf-8')) + 1
+        catch 
+            set count = 1
+        _ fs.writeFileSync('counter.txt', count.toString())
+        if oldCount !== count
+            for 
+                left
+                    const client
+                of wss.clients
+                try 
+                    _ client.send(count.toString())
+                catch 
+                # publish new count to all websocket clients
+        # render HTML response
+        try 
+            let contents = fs.readFileSync('views/index.ejs', 'utf-8')
+            set contents =
+                _ ejs.render
+                    @ contents
+                    { 
+                        @ count
+            _ response.writeHead
+                @ 200
+                { 
+                    @ 'Content-Type' 'text/html'
+            _ response.write(contents, 'utf-8')
+        catch error
+            _ response.writeHead
+                @ 500
+                { 
+                    @ 'Content-Type' 'text/plain'
+            _ response.write(error + '\n')
+        _ response.end()
+        # Main page

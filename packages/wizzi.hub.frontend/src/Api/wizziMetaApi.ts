@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Api\wizziMetaApi.ts.ittf
-    utc time: Sat, 20 Jul 2024 16:18:34 GMT
+    utc time: Wed, 31 Jul 2024 14:56:15 GMT
 */
 import axios, {AxiosError, AxiosResponse} from 'axios';
 import * as wizziHubApi from '@/Api/wizziHubApi';

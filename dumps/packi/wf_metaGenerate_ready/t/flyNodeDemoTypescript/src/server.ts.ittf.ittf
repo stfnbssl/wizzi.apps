@@ -1,0 +1,123 @@
+$group
+    $
+        var options = {
+          express: metaCtx.flyNodeDemoTypescript.useExpress,
+          ws: metaCtx.flyNodeDemoTypescript.useWs,
+          ejs: metaCtx.flyNodeDemoTypescript.useEjs,
+          mustache: metaCtx.flyNodeDemoTypescript.useMustache,
+        }
+        //
+
+    import http from 'node:http'
+    $if options.express
+        import express from 'express'
+        $if options.ws
+            import expressWs from 'express-ws'
+    $else
+        import url from 'node:url'
+        $if options.ws
+            import 
+                @ WebSocketServer
+                from 'ws'
+        $if options.mustache
+        $elif options.ejs
+            import ejs from 'ejs'
+    import fs from 'node:fs'
+    +
+    $if options.express
+        $if options.ws
+            const { app, getWss } = expressWs(express())
+                # set up express and web socket
+            const wss = getWss()
+        $else
+            const app = express()
+                # set up express web server
+        const server = http.createServer(app)
+        _ app.use(express.static('public'))
+            # set up static content${ options.mustache ? ' and mustache views' : options.ejs ? ' and ejs views' : '' }
+        $if options.mustache
+            _ app.engine('mustache', mustacheExpress())
+            _ app.set('view engine', 'mustache')
+        $elif options.ejs
+            _ app.set('view engine', 'ejs')
+    $else
+        const server = http.createServer(listener)
+            # set up web server
+        $if options.ws
+            const wss
+                new WebSocketServer
+                    { 
+                        @ noServer true
+    +
+    let count = 0
+        # last known count
+    +
+    $if options.express
+        _ app.get
+            @ '/'
+            async=> 
+                param _request
+                param response
+                $if options.ws
+                    const oldCount = count
+                # increment counter in counter.txt file
+                try 
+                    set count = parseInt(fs.readFileSync('counter.txt', 'utf-8')) + 1
+                catch 
+                    set count = 1
+                _ fs.writeFileSync('counter.txt', count.toString())
+                $if options.ws
+                    if oldCount !== count
+                        # publish new count to all websocket clients
+                        for const client of wss.clients
+                            try 
+                                _ client.send
+                                    _ count.toString
+                            catch
+                _ response.render
+                    @ 'index'
+                    { 
+                        @ count
+                    # render HTML response
+            # Main page
+        ${'$'}include express_shutdown
+        ${'$'}include express_npm
+    $else
+        ${'$'}include http_listener
+        ${'$'}include http_main
+        ${'$'}include http_websocket
+
+    $if options.ws
+        $if options.express
+            _ app.ws
+                @ '/websocket'
+                => 
+                    param ws
+                    # update client on a best effort basis
+                    if count
+                        try 
+                            _ ws.send
+                                _ count.toString
+                        catch
+                    _ ws.on('message', console.log)
+                        # We don’t expect any messages on websocket, but log any ones we do get.
+                # Define web socket route
+        $else
+            _ wss.on
+                @ 'connection'
+                => 
+                    param ws
+                    # update client on a best effort basis
+                    if count
+                        try 
+                            _ ws.send(count.toString())
+                        catch 
+                    _ ws.on('message', console.log)
+                        # We don’t expect any messages on websocket, but log any ones we do get.
+
+      
+    _ server.listen
+        @ 3000
+        => 
+            _ console.log('Server is listening on port 3000')
+        # Start web server on port 3000

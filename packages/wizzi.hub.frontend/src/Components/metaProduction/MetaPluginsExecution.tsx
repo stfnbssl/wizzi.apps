@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\MetaPluginsExecution.tsx.ittf
-    utc time: Sat, 20 Jul 2024 16:18:34 GMT
+    utc time: Wed, 31 Jul 2024 14:56:16 GMT
 */
 import React, {useState, useEffect} from "react";
 import * as wizziMetaApi from '@/Api/wizziMetaApi';
@@ -42,6 +42,7 @@ function startMetaPluginsExecution(selectedMetaProductions: StringKeyedObject[],
             wizziMetaApi.getMetaParameters(metaProductions, metaPlugins).then((metaParameters: MetaParameters) => {
                 console.log('Components.metaproduction.MetaPluginsExecution.startMetaPluginsExecution.getMetaParameters.metaParameters', metaParameters);
                 const allParameters = extractAllParameters(metaParameters);
+                console.log('Components.metaproduction.MetaPluginsExecution.startMetaPluginsExecution.allParameters', allParameters);
                 setAllIndexParameters(allParameters.indexParameters)
                 setMetaCtx(allParameters.indexInitialValues)
             }
@@ -135,6 +136,13 @@ export function MetaPluginsExecution(props: MetaPluginsExecutionProps) {
     if (mpExecState.activeMetaProduction) {
         indexParameters = allIndexParameters[mpExecState.activeMetaProduction];
         indexValuesObject = metaCtx[mpExecState.activeMetaProduction];
+        console.log('Components.metaproduction.MetaPluginsExecution.render.mpExecState.activeMetaProduction',  mpExecState.activeMetaProduction);
+        console.log('Components.metaproduction.MetaPluginsExecution.render.allIndexParameters', allIndexParameters);
+        console.log('Components.metaproduction.MetaPluginsExecution.render.indexParameters', indexParameters);
+        console.log('Components.metaproduction.MetaPluginsExecution.render.indexValuesObject', indexValuesObject);
+    }
+    else {
+        console.log('Components.metaproduction.MetaPluginsExecution.render No activeMetaProduction');
     }
     return  (
         <div className="h-full w-full flex-1 flex">

@@ -1,0 +1,2 @@
+wfjob ${metaCtx.name}/job
+   $include flyNodeDemoTypescript/generate.wfjob

@@ -1,0 +1,58 @@
+module
+    import 
+        @ PackiEntry
+        from "@/Api/types"
+    import CodeDisplayPanel
+        from '@/Components/ui/CodeDisplayPanel'
+    import "./wizzi-prettyprint.css"
+    +
+    :interface FileBrowserProps
+        :p entry
+            :ref PackiEntry
+    +
+    const FileBrowser
+        :ref React.FC
+            :param 
+                :ref FileBrowserProps     
+        =
+            =>
+                { 
+                    @ entry
+                const 
+                    { 
+                        @ uri
+                        @ contents
+                    = entry
+                if contents && contents.length > 0
+                    if uri.endsWith('.ittf')
+                        return 
+                            . flex-1 flex py-1 items-center justify-between
+                                $$ . flex-1 bg-gray-50 border border-gray-200 rounded $$ max-h-96
+                                pre
+                                    class flex-1 code-prettyprint prettyprint source overflow-auto scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-100
+                                    @ dangerouslySetInnerHTML
+                                        { 
+                                            @ __html contents
+                    else
+                        return
+                            < CodeDisplayPanel
+                                @ code { contents }
+                                @ filePath { uri }
+                else
+                    return 
+                        . flex-1 flex py-1 items-center justify-between
+    +
+    export-default FileBrowser                                                                                        
+
+                        $*
+
+                        div 
+                            @ className "flex flex-1 items-center space-x-2 cursor-pointer"
+                            { 
+                            { 
+                                && 
+                                    + contents
+                                    < HTMLPanel 
+                                        @ htmlContent {contents}
+                                        @ className "flex-1"
+                        *$

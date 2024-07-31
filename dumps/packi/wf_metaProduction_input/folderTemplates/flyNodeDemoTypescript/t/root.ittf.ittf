@@ -1,0 +1,12 @@
+$group
+
+    $
+        var items = [
+            'tsconfig.json',
+            ];
+        //
+
+    $foreach item in items
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            {
+                ${'$'}include flyNodeDemoTypescript/root/${item}

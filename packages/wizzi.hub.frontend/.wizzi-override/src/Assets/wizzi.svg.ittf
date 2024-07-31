@@ -1,5 +1,5 @@
 svg
-    $params color|#000, bgcolor|#fff, viewBox|0 0 660 280
+    $params color|#fff, bgcolor|#000, viewBox|0 0 660 280
     $
         var opt = {};
         opt.y0 = 10;

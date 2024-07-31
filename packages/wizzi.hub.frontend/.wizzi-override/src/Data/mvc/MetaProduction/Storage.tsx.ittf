@@ -192,12 +192,12 @@ module
                             @ reload false
                         a_then_catch_throw( item, @@null, @@null, ${myName}.putPackiDiffsLocal )
                             $$ info "${myDisplayName}.putPackiDiffsLocal.item", item
-                            const pm
-                                new packiApi.PackiManager
+                            const pbuilder
+                                new packiApi.PackiBuilder
                                     @ JSON.parse(item.packiFiles)
-                            _ pm.applyPatch_ChangesOnly
+                            _ pbuilder.applyPatch_ChangesOnly
                                 @ packiDiffs
-                            set item.packiFiles = JSON.stringify(pm.packiFiles)
+                            set item.packiFiles = JSON.stringify(pbuilder.packiFiles)
                             _ this.replaceJobLocal
                                 @ item
                                 a_then_catch_throw( result, @@null, @@null, ${myName}.putPackiDiffsLocal )

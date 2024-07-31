@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\nav\UserNavBar.tsx.ittf
-    utc time: Sat, 20 Jul 2024 16:18:34 GMT
+    utc time: Wed, 31 Jul 2024 14:56:16 GMT
 */
 import {MenuItem} from "./MenuItem";
 type UserNavBarProps = { 
@@ -11,7 +11,7 @@ type UserNavBarProps = {
 export function UserNavBar(params: UserNavBarProps) {
     return  (
         <>
-            <div className="flex">
+            <div className="flex items-center justify-between">
                 <MenuItem label="Docs" href="/ittf/site/docs/concepts/overview.html.ittf" />
                 <MenuItem label="Github" href="https://github.com/stfnbssl/wizzi" />
             </div>

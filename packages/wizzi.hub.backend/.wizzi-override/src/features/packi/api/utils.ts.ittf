@@ -1,0 +1,109 @@
+module
+    $include set-ctx-functions
+    $
+        setCtxDep ('diff-match-patch', '^1.0.5');
+        setCtxDep ('fs-extra', '^11.2.0');
+        setCtxDevDep ('@types/diff-match-patch', '^1.0.36');
+        setCtxDevDep ('@types/fs-extra', '^11.0.4');
+
+    import DiffMatchPatch from 'diff-match-patch'
+    import fs from './fs-extra'
+    import 
+        @ spawn
+        @ ChildProcess
+        from 'child_process'
+    import path from 'node:path'
+    import
+        @ fSystem
+        from '@wizzi/utils'
+    import
+        @ PackiFiles
+        from '../types'
+    +
+    const PACKI_META_DEMO_FOLDER = 'C:/My/wizzi/stfnbssl/packi-meta-demo'
+    +
+    export
+        function clonePackiFiles
+            param packiFiles
+                :ref PackiFiles
+            param filters
+                :[
+                    :string
+            set filters = filters || []
+            +
+            function isOk
+                param filename
+                    :string
+                if filters.length == 0
+                    return true
+                foreach filter in filters
+                    if filter && filename.startsWith(filter)
+                        return true
+                return false
+            +
+            const retval: PackiFiles = {}
+            for var k in packiFiles
+                const pf = packiFiles[k]
+                if pf && isOk(k)
+                    set retval[k] = pf
+            return retval
+    export
+        function extractPackiFileContent
+            param packiFiles
+                :ref PackiFiles
+            param filePath
+                :string
+            param options
+                :any
+            # log "extractPackiFileContent.packiFiles 1", packiFiles
+            # log "extractPackiFile.filePath", filePath
+            const pf
+                _ extractPackiFile
+                    @ packiFiles
+                    @ filePath
+            # 'extractPackiFile.pf", pf
+            const retval
+                :{
+                    :index
+                        :any
+                        param key
+                            :string
+                =
+                    {
+                        @ text (pf && pf.contents) || (options.json ? '{}' : '')
+                        @ json null
+            if options.json
+                try
+                    set retval.json = pf && JSON.parse(pf.contents) || {}
+                    # log "extractPackiFile.pf.contents json", retval.json
+                catch err
+                    error "Error in extractPackiFileContent parsing packiFile contents", err
+                    # TODO
+                    set retval.json = {}
+            return retval
+    export
+        function extractPackiFile
+            param packiFiles
+                :ref PackiFiles
+            param filePath
+                :string
+            const pfs
+                _ packiFilesToObject
+                    @ packiFiles
+            return pfs[filePath]
+    export
+        function packiFilesToObject
+            param packiFiles
+                :any
+            if typeof packiFiles === "string"
+                try
+                    return JSON.parse(packiFiles)
+                catch err
+                    error "packiFilesToObject", err
+                    # TODO
+                    return {}
+            else
+                return packiFiles
+
+    $include utils/fs
+    $include utils/npm

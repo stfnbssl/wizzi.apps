@@ -1,0 +1,22 @@
+$group
+    
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            $if TODO
+                name "${metaCtx.name}"
+                npmName "${metaCtx.npmName}"
+                version "${metaCtx.version}"
+                description "${metaCtx.description}"
+                $if metaCtx.author
+                    { author
+                        name "${metaCtx.author.name}"
+                        email "${metaCtx.author.email}"
+                $if metaCtx.license
+                    { license
+                        type "${metaCtx.license}"
+                        url "${metaCtx.license_url}"            
+                $if metaCtx.github
+                    { github
+                        userid "${metaCtx.github.userid}"
+            { Build
+                { utils

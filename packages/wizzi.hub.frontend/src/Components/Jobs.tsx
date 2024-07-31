@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\Jobs.tsx.ittf
-    utc time: Sat, 20 Jul 2024 16:18:34 GMT
+    utc time: Wed, 31 Jul 2024 14:56:16 GMT
 */
 import React, {useState} from "react";
 import * as _ from "@/Utils/underscore2";
@@ -12,11 +12,13 @@ import {JobItem} from "@/Data/types";
 type JobsProps = { 
     reload: boolean;
     jobs: JobItem[];
+    currentJob?: JobItem;
     onSelect: (job: JobItem) => void;
 };
 export function Jobs(params: JobsProps) {
     const {
-        jobs
+        jobs, 
+        currentJob
      } = params;
     const [searchText, setSearchText] = useState<string>('');
     if (!jobs) {
@@ -36,8 +38,8 @@ export function Jobs(params: JobsProps) {
          }
      });
     return  (
-        <div className="h-full bg-gray-800 text-zinc-200 border-r border-gray-100">
-            <div className="w-area-list-caption">
+        <div className="h-full flex-1 flex flex-col bg-gray-700 text-zinc-200 rounded-lg shadow-md border-r border-gray-100">
+            <div className="p-1 bg-gray-800 text-xs text-center">
                 Jobs</div>
             <SearchView className="w-area-list-search"
                 placeholder="search job..."
@@ -46,24 +48,36 @@ export function Jobs(params: JobsProps) {
                         setSearchText(value)
                 }
              />
-            <div className="m-1 p-2 overflow-auto">
+            <div className="m-1 p-2 flex-grow overflow-auto scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-100">
                 <ul>
                     {
                     jobsFiltered.map((item, ndx) => 
                          (
                         <React.Fragment key={ndx}>
                             <li>
-                                <div onClick={() => 
+                                {
+                                    currentJob && currentJob.name == item.name &&  (
+                                    <div className="text-gray-700 bg-zinc-200">
+                                        {item.name}</div>
+                                    )
+                                
+                            }
+                            {
+                                !currentJob || currentJob.name != item.name &&  (
+                                <div className="cursor-pointer" onClick={() => 
                                         params.onSelect(item as JobItem)
                                 }>
                                     {item.name}</div>
-                            </li>
-                        </React.Fragment>
-                        )
-                    
-                    )}</ul>
-            </div>
-        </div>
-        )
-    ;
+                                )
+                            
+                        }
+                    </li>
+                </React.Fragment>
+                )
+            
+            )}</ul>
+    </div>
+</div>
+)
+;
 }

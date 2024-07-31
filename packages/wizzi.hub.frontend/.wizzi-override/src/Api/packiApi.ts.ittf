@@ -4,11 +4,10 @@ module
         import path
             from "path-browserify"
     
-    $if TODO
-        import axios
-            @ AxiosError
-            @ AxiosResponse
-            from 'axios'
+    import axios
+        @ AxiosError
+        @ AxiosResponse
+        from 'axios'
     
     import
         @ PackiFileType
@@ -16,14 +15,17 @@ module
         @ PackiFiles
         $$ @ PackiFileContent
         @ PackiEntry
+        @ PackiGenerationContext
+        @ PackiInstallContext
         from './types'
 
     import DiffMatchPatch 
         from "diff-match-patch"
     
-    $if TODO
-        :interface Result
-        const BASE_URL = 'http://localhost:3003/api/v1'
+    :interface Result
+    const BASE_URL = 'http://localhost:3003/api/v1'
+
+    const packiFilePrefix = 'json:/'
     
     $ 
         var md = {
@@ -31,11 +33,11 @@ module
             apiUrl: '/api/v1/',
         }
 
-    $if TODO
-        axios/interceptors(&md)
-        axios/response(&md)
-        axios/request(&md)
+    axios/interceptors(&md)
+    axios/response(&md)
+    axios/request(&md)
 
     packi/utils(&md)
+    packi/packiBuilder(&md)
     packi/packiManager(&md)
 

@@ -89,7 +89,7 @@ module
                                     < React.Fragment
                                         @ key {ndx}
                                         li
-                                            div
+                                            . cursor-pointer
                                                 + {item.name}
                                                 @ onClick
                                                     =>

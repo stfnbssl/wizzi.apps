@@ -1,0 +1,40 @@
+module
+    import React
+        from 'react'
+    +
+    :type HTMLPanelProps
+        :{
+            :p htmlContent
+                :string
+            :p className
+                :string
+                :optional
+    +
+    const HTMLPanel
+        :ref React.FC
+            :param 
+                :ref HTMLPanelProps        
+        =
+            =>
+                { 
+                    @ htmlContent
+                return 
+                    div 
+                        @ className "max-w-2xl mx-auto my-8"
+                        div 
+                            @ className "bg-white shadow-md rounded-lg overflow-hidden"
+                            div 
+                                @ className "bg-gray-100 px-4 py-2 border-b"
+                                h2 
+                                    @ className "text-lg font-semibold text-gray-700"
+                                    + Contenuto HTML
+                            div 
+                                @ className "p-4"
+                                div 
+                                    @ className "bg-gray-50 border border-gray-200 rounded p-4 overflow-auto max-h-96"
+                                    pre
+                                        class code-prettyprint prettyprint source
+                                        @ dangerouslySetInnerHTML
+                                            { 
+                                                @ __html htmlContent
+    export-default HTMLPanel                                                

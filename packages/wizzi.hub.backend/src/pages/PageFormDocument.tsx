@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.express.lab\.wizzi\src\pages\PageFormDocument.tsx.ittf
-    utc time: Wed, 03 Jul 2024 08:24:53 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\pages\PageFormDocument.tsx.ittf
+    utc time: Wed, 31 Jul 2024 13:44:17 GMT
 */
 import jsesc from 'jsesc';
 import React from 'react';

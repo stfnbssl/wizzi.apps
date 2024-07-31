@@ -1,0 +1,108 @@
+$group
+
+    export
+        async-function removeFolder
+            param folderPath
+                :string
+            :return
+                :ref Promise
+                    :param void
+            r_promise_async()
+                try 
+                    const fullPath = path.resolve(folderPath)
+                        # Resolve the full path
+                    const exists
+                        await 
+                            _ fs.pathExists(fullPath)
+                        # Check if the folder exists
+                    if !exists
+                        $if true || TODO
+                            _ console.log
+                                template 
+                                    + features.packi.utils.removeFolder-> Folder does not exist:&nbsp;
+                                    @ fullPath
+                        return 
+                            _ resolve
+                    await 
+                        _ fs.remove(fullPath)
+                        # Remove the folder and its contents
+                    _ console.log
+                        template 
+                            + features.packi.utils.removeFolder-> Successfully removed folder:&nbsp;
+                            @ fullPath
+                    return 
+                        _ resolve
+                catch error
+                    _ console.error
+                        template 
+                            + features.packi.utils.removeFolder-> Error removing folder:&nbsp;
+                            @ error.message                
+                    return 
+                        _ reject
+                            @ error
+
+    export
+        function writePackiFilesToFolder
+            param packiFiles
+                :ref PackiFiles
+            param folderPath
+                :string
+            :return
+                :ref Promise
+                    :param void
+            r_promise_async()
+                for const [filePath, fileData] of Object.entries(packiFiles)
+                    if typeof fileData !== 'object' || !fileData.hasOwnProperty('contents')
+                        _ console.warn
+                            template 
+                                + features.packi.utils.writePackiFilesToFolder-> Skipping invalid entry for path:&nbsp;
+                                @ filePath
+                                + 
+                        continue 
+                    const fullPath = path.resolve(folderPath, filePath)
+                    const directory = path.dirname(fullPath)
+                    try 
+                        _ fSystem.file.write
+                            @ fullPath
+                            @ fileData.contents
+                        _ console.log
+                            template 
+                                + features.packi.utils.writePackiFilesToFolder-> Successfully wrote file:&nbsp;
+                                @ fullPath
+                    catch error
+                        _ console.error
+                            template 
+                                + features.packi.utils.writePackiFilesToFolder-> Error writing file&nbsp;
+                                @ fullPath
+                                + :&nbsp;
+                                @ error.message
+                        return
+                            _ reject
+                                @ error
+                return
+                    _ resolve
+
+    export
+        async-function installPackiMetaDemo
+            param packageName
+                :string
+            param packiFiles
+                :ref PackiFiles
+            :return
+                :ref Promise
+                    :param void
+            r_promise_async()
+                const folderPath
+                    _ path.resolve
+                        @ PACKI_META_DEMO_FOLDER
+                        @ 'packages'
+                        @ packageName
+                await 
+                    _ removeFolder
+                        @ folderPath
+                await 
+                    _ writePackiFilesToFolder
+                        @ packiFiles
+                        @ folderPath
+                return
+                    _ resolve

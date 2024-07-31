@@ -1,244 +1,86 @@
 $group
     $params &md
 
-    $
-        var myName = 'PackiManager';
-        var myDisplayName = 'Api.packi.' + myName;
+    export
+        function prettify
+            param packiFiles
+              :ref PackiFiles
+            const url = 'packimanager/prettify'
+            const data
+                {
+                    @ packiFiles
+            r_promise()
+                _ request.post
+                    :param 
+                        :ref Result
+                    @ url
+                    @ data            
+                    a_then( result
+                        if result.err || result.error
+                            error "Error", "api.${md.ApiName}.prettify.result", result.err || result.error
+                            return
+                                _ reject
+                                    @ result.err || result.error
+                        info 'api.${md.ApiName}.prettify.result', result
+                        return 
+                            _ resolve 
+                                @ result
+                    catch_reject( api.${md.ApiName}.prettify )
 
     export
-        class PackiManager
-            p packiFiles
-                :ref PackiFiles
-            p dmp 
-                :ref InstanceType
+        function generate
+            param packiFiles
+              :ref PackiFiles
+            param context
+              :ref PackiGenerationContext
+            const url = 'packimanager/generate'
+            const data
+                {
+                    @ packiFiles
+                    @ context
+            r_promise()
+                _ request.post
                     :param 
-                        :typeof DiffMatchPatch
-            ctor
-                param packiFiles
-                    :ref PackiFiles
-                set this.packiFiles = packiFiles || {}
-                set this.dmp = new DiffMatchPatch()
-            
-            m getFileContent
-                param filePath
-                    :string
-                const file = this.packiFiles[filePath] 
-                return file ? file.contents : null
+                        :ref Result
+                    @ url
+                    @ data            
+                    a_then( result
+                        if result.err || result.error
+                            error "Error", "api.${md.ApiName}.generate.result", result.err || result.error
+                            return
+                                _ reject
+                                    @ result.err || result.error
+                        info 'api.${md.ApiName}.generate.result', result
+                        return 
+                            _ resolve 
+                                @ result
+                    catch_reject( api.${md.ApiName}.generate )
 
-            m putFile
-                param filePath
-                    :string
-                param type
-                    :ref PackiFileType
-                param contents
-                    :string
-                set this.packiFiles[filePath] 
-                    {
-                        @ type type
-                        @ contents contents
-
-            m putCodeFile
-                param filePath
-                    :string
-                param contents
-                    :string
-                _ this.putFile
-                    @ filePath
-                    @ 'CODE'
-                    @ contents
-            
-            m deleteFile
-                param filePath
-                    :string
-                delete this.packiFiles[filePath]
-
-            m getFileDiffs
-                param filePath
-                    :string
-                param newContent
-                    :string
-                :return
-                    :[
-                        :ref DiffMatchPatch.Diff
-                const diffs
-                    :[
-                        :ref DiffMatchPatch.Diff
-                    _ this._diffLineMode
-                        @ this.packiFiles[filePath].contents
-                        @ newContent
-                return diffs
-
-            m applyFileDiffs
-                param filePath
-                    :string
-                param diffs
-                    :string
-                const textToPatch = this.packiFiles[filePath].contents
-                const patches
-                    _ this.dmp.patch_make
-                        @ textToPatch
-                        @ diffs
-                const [patchedText]
-                    _ this.dmp.patch_apply(patches, textToPatch)
-                set this.packiFiles[filePath].contents = patchedText
-
-            m getPackiFilesDiffs
-                param packiFiles
-                    :ref PackiFiles
-                :return
-                    :{
-                        :index
-                            :{
-                                :p d
-                                    :number
-                                :p type
-                                    :string
-                                    :optional
-                                :p diffs
-                                    :[
-                                        :ref DiffMatchPatch.Diff
-                                    :optional
-                                :p contents
-                                    :string
-                                    :optional
-                            param key
-                                :string
-                const matches
-                    :{
-                        :index
-                            :{
-                                :p d
-                                    :number
-                                :p type
-                                    :string
-                                    :optional
-                                :p diffs
-                                    :[
-                                        :ref DiffMatchPatch.Diff
-                                    :optional
-                                :p contents
-                                    :string
-                                    :optional
-                            param key
-                                :string
-                    = {}
-                for const key in packiFiles
-                    if this.packiFiles[key]
-                        # 17/2/24 added contents property for new content
-                        #         simpler and not too costly
-                        #         TODO eliminate diffs property ???
-                        set matches[key]
-                            {
-                                @ d 0
-                                @ diffs
-                                    _ this._diffLineMode
-                                        @ this.packiFiles[key].contents
-                                        @ packiFiles[key].contents
-                                @ contents packiFiles[key].contents
-                    else
-                        set matches[key]
-                            {
-                                @ d 1
-                                @ type packiFiles[key].type
-                                @ contents packiFiles[key].contents
-                for const key in packiFiles
-                    if !packiFiles[key]
-                        set matches[key]
-                            {
-                                @ d -1
-                return matches
-
-            m applyPatch
-                param packiDiffs
-                    :{
-                        :index
-                            :any
-                            param key
-                                :string
-                const patchedFiles
-                    :ref PackiFiles
-                    = {}
-                for const key in packiDiffs
-                    if packiDiffs[key].d == 1
-                        set patchedFiles[key]
-                            {
-                                @ type packiDiffs[key].type
-                                @ contents packiDiffs[key].contents
-                    elif packiDiffs[key].d == 0
-                        const textToPatch = this.packiFiles[key].contents
-                        const patches 
-                            _ this.dmp.patch_make
-                                @ textToPatch
-                                @ packiDiffs[key].diffs
-                        info '${myDisplayName}.applyPatch.key.patches', key, patches
-                        const [patchedText]
-                            _ this.dmp.patch_apply(patches, textToPatch)
-                        set patchedFiles[key]
-                            {
-                                @ type this.packiFiles[key].type
-                                @ contents patchedText
-                set this.packiFiles = patchedFiles
-
-            m applyPatch_ChangesOnly
-                param packiChanges
-                    :{
-                        :index
-                            :any
-                            param key
-                                :string
-                for const key in packiChanges
-                    if packiChanges[key].d == 1
-                        _ this.putCodeFile
-                            @ key
-                            @ packiChanges[key].contents
-                    elif packiChanges[key].d == 0
-                        if packiChanges[key].contents && packiChanges[key].contents.length > 0
-                            _ this.putCodeFile
-                                @ key
-                                @ packiChanges[key].contents
-                        else
-                            const textToPatch = this.packiFiles[key].contents
-                            const patches
-                                _ this.dmp.patch_make
-                                    @ textToPatch
-                                    @ packiChanges[key].diffs
-                            const [patchedText]
-                                _ this.dmp.patch_apply(patches, textToPatch)
-                            _ this.putCodeFile
-                                @ key
-                                @ patchedText
-                    elif packiChanges[key].d == -1
-                        _ this.deleteFile
-                            @ key
-
-            m equals
-                param packiFiles
-                    :ref PackiFiles
-                for const key in packiFiles
-                    if this.packiFiles[key]
-                        if this.packiFiles[key].type != packiFiles[key].type
-                            return false
-                        if this.packiFiles[key].contents != packiFiles[key].contents
-                            return false
-                    else
-                        return false
-                for const key in this.packiFiles
-                    if !packiFiles[key]
-                        return false
-                return true
-
-            m _diffLineMode
-                param text1
-                    :string
-                param text2
-                    :string
-                :return
-                    :[
-                        :ref DiffMatchPatch.Diff
-                var a = this.dmp.diff_linesToChars_(text1, text2)
-                var lineText1 = a.chars1
-                var lineText2 = a.chars2
-                var lineArray = a.lineArray
-                var diffs = this.dmp.diff_main(lineText1, lineText2, false)
-                _ this.dmp.diff_charsToLines_(diffs, lineArray)
-                return diffs
+    export
+        function install
+            param packiFiles
+                :ref PackiFiles
+            param context
+                :ref PackiInstallContext
+            const url = 'packimanager/install'
+            const data
+                {
+                    @ packiFiles
+                    @ context
+            r_promise()
+                _ request.post
+                    :param 
+                        :ref Result
+                    @ url
+                    @ data            
+                    a_then( result
+                        if result.err || result.error
+                            error "Error", "api.${md.ApiName}.install.result", result.err || result.error
+                            return
+                                _ reject
+                                    @ result.err || result.error
+                        info 'api.${md.ApiName}.install.result', result
+                        return 
+                            _ resolve 
+                                @ result
+                    catch_reject( api.${md.ApiName}.install )

@@ -1,0 +1,2 @@
+{ 
+   $include commonsPackage/root/package.json

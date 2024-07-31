@@ -9,3 +9,4 @@ module
             {
                 @ metaProductionSelectionsFilePath ".db/metaProductionSelections.json"
                 @ metaPluginSelectionsFilePath ".db/metaPluginSelections.json"
+                @ metaDemoPackageFilePath ".db/metaDemoPackage.json"

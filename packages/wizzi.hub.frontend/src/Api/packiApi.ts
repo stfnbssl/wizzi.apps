@@ -2,10 +2,70 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Api\packiApi.ts.ittf
-    utc time: Sat, 20 Jul 2024 16:18:34 GMT
+    utc time: Wed, 31 Jul 2024 14:56:15 GMT
 */
-import {PackiFileType, PackiFiles, PackiEntry} from './types';
+import axios, {AxiosError, AxiosResponse} from 'axios';
+import {PackiFileType, PackiFiles, PackiEntry, PackiGenerationContext, PackiInstallContext} from './types';
 import DiffMatchPatch from "diff-match-patch";
+interface Result {
+}
+const BASE_URL = 'http://localhost:3003/api/v1';
+const packiFilePrefix = 'json:/';
+export function setToken(token: string) {
+    axios.interceptors.request.use((config) => {
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    }
+    )
+}
+axios.interceptors.response.use(res => 
+    res
+, (error: AxiosError) => {
+    const {
+        data, 
+        status
+     } = error.response!;
+    switch (status) {
+        case 400: {
+            console.error(data);
+            break;
+        }
+        case 401: {
+            console.error('unauthorised');
+            break;
+        }
+        case 404: {
+            console.error('/not-found');
+            break;
+        }
+        case 500: {
+            console.error('/server-error');
+            break;
+        }
+    }
+    return Promise.reject(error);
+}
+)
+const responseBody = <T>(response: AxiosResponse<T>) => 
+    response.data
+;
+const request = {
+    get: async <T>(url: string) => {
+        axios.defaults.baseURL = BASE_URL;
+        return axios.get<T>(url).then(responseBody)
+        ;
+    }
+    , 
+    post: async <T>(url: string, body: { 
+    }) => {
+        axios.defaults.baseURL = BASE_URL;
+        return axios.post<T>(url, body).then(responseBody)
+        ;
+    }
+    
+ };
 export function clonePackiFiles(packiFiles: string | PackiFiles, filters?: string[]):  any {
     
     const testPackiFilesObj = packiFilesToObject(packiFiles);
@@ -35,6 +95,7 @@ export function clonePackiFiles(packiFiles: string | PackiFiles, filters?: strin
     }
     return retval;
 }
+
 export function extractPackiFileContent(packiFiles: string | PackiFiles, filePath: string, options: { 
     json: boolean;
 }):  any {
@@ -142,8 +203,20 @@ function setFileEntry(
         if (parentUri.length > 0) {
             let parentFolderObj = fs[parentUri];
             if (parentFolderObj && parentFolderObj.children) {
-                parentFolderObj.children.push(folderObj.uri)
+                const found = parentFolderObj.children.filter((item) => {
+                    return item == folderObj?.uri;
+                }
+                );
+                if (found.length == 0) {
+                    parentFolderObj.children.push(folderObj.uri)
+                }
+                else {
+                }
             }
+            else {
+            }
+        }
+        else {
         }
     }
     let fileObj: PackiEntry = {
@@ -157,9 +230,46 @@ function setFileEntry(
     if (folderObj && folderObj.children) {
         folderObj.children.push(fileObj.uri)
     }
-    console.log('setFileEntry.fs', fs);
 }
-export class PackiManager {
+export function mountToPackiFolder(packiFiles: PackiFiles, packiFilesTobeMounted: PackiFiles, folderName: string):  PackiFiles {
+    for (var k in packiFilesTobeMounted) {
+        let basename = k;
+        let prefix = '';
+        if (k.startsWith(packiFilePrefix)) {
+            basename = k.substring(packiFilePrefix.length);
+            prefix = packiFilePrefix;
+        }
+        packiFiles[prefix + folderName + '/' + basename] = packiFilesTobeMounted[k];
+    }
+    return packiFiles;
+}
+
+export function unmountPackiFolder(packiFiles: PackiFiles, folderName: string):  PackiFiles {
+    const result: PackiFiles = {};
+    for (var k in packiFiles) {
+        let basename = k;
+        let prefix = '';
+        if (k.startsWith(packiFilePrefix)) {
+            basename = k.substring(packiFilePrefix.length);
+            prefix = packiFilePrefix;
+        }
+        if (basename.startsWith(folderName)) {
+            result[prefix + basename.substring(folderName.length+1)] = packiFiles[k];
+        }
+    }
+    return result;
+}
+export function mergePackiFiles(packiFilesA: PackiFiles, packiFilesB: PackiFiles):  PackiFiles {
+    const retval: PackiFiles = {};
+    for (var k in packiFilesA) {
+        retval[k] = packiFilesA[k];
+    }
+    for (var k in packiFilesB) {
+        retval[k] = packiFilesB[k];
+    }
+    return retval;
+}
+export class PackiBuilder {
     constructor(packiFiles: PackiFiles) {
         this.packiFiles = packiFiles || {};
         this.dmp = new DiffMatchPatch();
@@ -250,7 +360,7 @@ export class PackiManager {
             else if (packiDiffs[key].d == 0) {
                 const textToPatch = this.packiFiles[key].contents;
                 const patches = this.dmp.patch_make(textToPatch, packiDiffs[key].diffs);
-                console.log('Api.packi.PackiManager.applyPatch.key.patches', key, patches);
+                console.log('Api.packi.PackiBuilder.applyPatch.key.patches', key, patches);
                 const [patchedText] = this.dmp.patch_apply(patches, textToPatch);
                 patchedFiles[key] = {
                     type: this.packiFiles[key].type, 
@@ -313,4 +423,79 @@ export class PackiManager {
         this.dmp.diff_charsToLines_(diffs, lineArray);
         return diffs;
     }
+}
+
+export function prettify(packiFiles: PackiFiles) {
+    const url = 'packimanager/prettify';
+    const data = {
+        packiFiles
+     };
+    return new Promise((resolve, reject) => 
+            request.post<Result>(url, data).then((result: any) => {
+                if (result.err || result.error) {
+                    console.log("[31m%s[0m", "Error", "api.Packi.prettify.result", result.err || result.error);
+                    return reject(result.err || result.error);
+                }
+                console.log('api.Packi.prettify.result', result);
+                return resolve(result);
+            }
+            ).catch((err: any) => {
+                if (typeof err === 'object' && err !== null) {
+                }
+                console.log("[31m%s[0m", 'api.Packi.prettify.error', err);
+                return reject(err);
+            }
+            )
+        
+        );
+}
+export function generate(packiFiles: PackiFiles, context: PackiGenerationContext) {
+    const url = 'packimanager/generate';
+    const data = {
+        packiFiles, 
+        context
+     };
+    return new Promise((resolve, reject) => 
+            request.post<Result>(url, data).then((result: any) => {
+                if (result.err || result.error) {
+                    console.log("[31m%s[0m", "Error", "api.Packi.generate.result", result.err || result.error);
+                    return reject(result.err || result.error);
+                }
+                console.log('api.Packi.generate.result', result);
+                return resolve(result);
+            }
+            ).catch((err: any) => {
+                if (typeof err === 'object' && err !== null) {
+                }
+                console.log("[31m%s[0m", 'api.Packi.generate.error', err);
+                return reject(err);
+            }
+            )
+        
+        );
+}
+export function install(packiFiles: PackiFiles, context: PackiInstallContext) {
+    const url = 'packimanager/install';
+    const data = {
+        packiFiles, 
+        context
+     };
+    return new Promise((resolve, reject) => 
+            request.post<Result>(url, data).then((result: any) => {
+                if (result.err || result.error) {
+                    console.log("[31m%s[0m", "Error", "api.Packi.install.result", result.err || result.error);
+                    return reject(result.err || result.error);
+                }
+                console.log('api.Packi.install.result', result);
+                return resolve(result);
+            }
+            ).catch((err: any) => {
+                if (typeof err === 'object' && err !== null) {
+                }
+                console.log("[31m%s[0m", 'api.Packi.install.error', err);
+                return reject(err);
+            }
+            )
+        
+        );
 }

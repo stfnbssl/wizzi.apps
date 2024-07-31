@@ -2,9 +2,9 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Data\types.ts.ittf
-    utc time: Sat, 20 Jul 2024 16:18:34 GMT
+    utc time: Wed, 31 Jul 2024 14:56:15 GMT
 */
-import {MetaPluginCategory, MetaPlugin, MetaProductionCategory, MetaProduction} from "@/Api/types";
+import {MetaPluginCategory, MetaPlugin, MetaProductionCategory, MetaProduction, MetaDemoPackage} from "@/Api/types";
 export type LocalStorageItem = { 
     [key: string]: any;
 };
@@ -40,6 +40,11 @@ export type JobItem = {
             metaProductions: MetaProduction[];
             metaProductionCategories: MetaProductionCategory[];
         };
+    };
+    // meta demo package properties
+    __metaDemoPackage?: { 
+        text: string;
+        json: MetaDemoPackage;
     };
 };
 ;

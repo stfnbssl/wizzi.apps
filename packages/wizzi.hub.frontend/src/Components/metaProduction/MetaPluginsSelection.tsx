@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\MetaPluginsSelection.tsx.ittf
-    utc time: Sat, 20 Jul 2024 16:18:34 GMT
+    utc time: Wed, 31 Jul 2024 14:56:16 GMT
 */
 import React, {useState} from "react";
 import {JobItem} from "@/Data/types";
@@ -65,21 +65,25 @@ export function MetaPluginsSelection(params: MetaPluginsSelectionProps) {
     }
     return  (
         <div className="h-full w-full flex-1 flex">
-            <Jobs reload={true} jobs={jobList} onSelect={(jobItem) => {
-                    setAppState({
-                        ...appState, 
-                        currentJob: jobItem, 
-                        currentJobId: jobItem.id
-                     })
-                    getMvc().controller.setAppState({
-                        currentJobId: jobItem.id, 
-                        activeView: appState.activeView, 
-                        reloadCount: appState.reloadCount
-                     }, () => {
+            <Jobs reload={true}
+                jobs={jobList}
+                currentJob={ appState.currentJob }
+                onSelect={(jobItem) => {
+                        setAppState({
+                            ...appState, 
+                            currentJob: jobItem, 
+                            currentJobId: jobItem.id
+                         })
+                        getMvc().controller.setAppState({
+                            currentJobId: jobItem.id, 
+                            activeView: appState.activeView, 
+                            reloadCount: appState.reloadCount
+                         }, () => {
+                        }
+                        )
                     }
-                    )
                 }
-            } />
+             />
             {
                 appState.currentJob && pluginCatSelId && pluginSelId &&  (
                     <React.Fragment>

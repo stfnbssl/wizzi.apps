@@ -1,0 +1,53 @@
+$group
+    +
+    export
+        async-function getJobProduction_withCache
+            param owner
+                :string
+            param name
+                :string
+            var cacheKey = owner + '|' + name
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        $if wzCtx.Build.wizziDevHubProductions.useCachedProductions
+                            let jpValue = jobProductionCache.get(cacheKey)
+                            if jpValue
+                                return resolve(jpValue)
+                        $else
+                            let jpValue
+                                {
+                                    { packiFiles
+                        _ getJobProduction
+                            @ owner
+                            @ name
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const jp
+                                        :ref IJobProductionModel
+                                        = result.item
+                                    const jp_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(jp.packiFiles)
+                                    set jpValue
+                                        {
+                                            @ packiFiles jp_packiFiles_object
+                                    $if wzCtx.Build.wizziDevHubProductions.useCachedProductions
+                                        _ jobProductionCache.set(cacheKey, jpValue)
+                                    return resolve(jpValue)
+                            v08/ts/catch_reject( getJobProduction_withCache.getJobProduction )
+    +
+    export
+        function invalidateCache
+            param owner
+                :string
+            param name
+                :string
+                :optional
+            var cacheKey = owner + '|' + name
+            _ jobProductionCache.del(cacheKey)

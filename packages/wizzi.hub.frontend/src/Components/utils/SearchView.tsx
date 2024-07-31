@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\utils\SearchView.tsx.ittf
-    utc time: Sat, 20 Jul 2024 16:18:34 GMT
+    utc time: Wed, 31 Jul 2024 14:56:16 GMT
 */
 type SearchViewProps = { 
     className: string;
@@ -12,16 +12,15 @@ type SearchViewProps = {
 };
 export function SearchView(params: SearchViewProps) {
     return  (
-        <div className={params.className}>
-            <input type="search"
-                placeholder={params.placeholder}
-                autoComplete="off"
-                aria-label={params.placeholder}
-                value={params.value || ''}
-                onChange={ev => 
-                        params.onChange(ev.target.value)
-                }
-             /></div>
-        )
+        <input type="search"
+            placeholder={params.placeholder}
+            className={params.className + " w-full p-2 mb-2 bg-transparent border-b border-gray-200 focus:outline-none focus:border-blue-500"}
+            autoComplete="off"
+            aria-label={params.placeholder}
+            value={params.value || ''}
+            onChange={ev => 
+                    params.onChange(ev.target.value)
+            }
+         />)
     ;
 }

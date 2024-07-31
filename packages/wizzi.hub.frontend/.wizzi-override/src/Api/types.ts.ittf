@@ -82,6 +82,38 @@ module
 
     +
     export
+        :type PackiGenerationContext
+            :{
+                :p modelRequestContext
+                    :{
+                    :optional
+                :p artifactRequestContext
+                    :{
+                    :optional
+                :p globalContext
+                    :{
+                    :optional
+        #
+            #
+            # Context data for wizzi generations from packifiles
+            #
+    +
+    :export-type PackiInstallContext
+        :{
+            :p name
+                :string
+            :p buildCommand
+                :string
+                :optional
+            :p runDevCommand
+                :string
+                :optional
+        #
+            #
+            # Context data for meta demo installations of packifiles
+            #            
+    +
+    export
         :type HubDbMetaProvides
             :{
                 :p name
@@ -257,3 +289,18 @@ module
                         :p parameters
                             :[
                                 :ref ParameterItem
+    
+    +
+    export
+        :type MetaDemoPackage
+            :{
+                :p name
+                    :string
+                :p useNpm
+                    :boolean
+                :p npm
+                    :{
+                        :index
+                            :string
+                            param key
+                                :string

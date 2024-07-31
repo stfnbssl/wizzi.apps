@@ -121,14 +121,14 @@ module
                         _ callback
                             {
                                 @ message 'Nothing changed'
-                const pm
-                    new packiApi.PackiManager
+                const pbuilder
+                    new packiApi.PackiBuilder
                         {
-                _ pm.putCodeFile
+                _ pbuilder.putCodeFile
                     @ filePath
                     @ oldContents
                 const fileDiffs
-                  _ pm.getFileDiffs
+                  _ pbuilder.getFileDiffs
                     @ filePath
                     @ newContents
                 const packiDiffs
@@ -182,6 +182,21 @@ module
                     set mps.json.metaProductions = []
                     set mps.text = JSON.stringify(mps.json)
                 set jobItem.__metaProductions = mps
+                #
+                # set meta demo package object
+                const mdp
+                    _ packiApi.extractPackiFileContent
+                        @ jobItem.packiFiles
+                        @ this.constants.metaDemoPackageFilePath
+                        {
+                            @ json true
+                set mdp.json = mdp.json || {}
+                if !mdp.json.name
+                    set mdp.json.name = '__name_missing__'
+                    set mdp.json.useNpm = false
+                    set mdp.json.npm = {}
+                    set mdp.text = JSON.stringify(mdp.json)
+                set jobItem.__metaDemoPackage = mdp
                 #
                 set jobItem.__setup = true
                 $$ info '${myDisplayName}.setupJobProductionItem.jobItem.__metaProductions', jobItem.__metaProductions

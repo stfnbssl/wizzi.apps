@@ -1,0 +1,14 @@
+$group
+
+    $include src_tfolder
+    
+    $
+        var items = [
+            'server.ts',
+            ];
+        //
+
+    $foreach item in items
+        $file __dot__wizzi/src/${item}.ittf.ittf
+            module
+                ${'$'}include flyNodeDemoTypescript/src/${item}

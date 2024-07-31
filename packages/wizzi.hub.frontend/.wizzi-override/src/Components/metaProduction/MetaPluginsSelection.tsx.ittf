@@ -118,6 +118,7 @@ module
                     < Jobs
                         @ reload {true}
                         @ jobs {jobList}
+                        @ currentJob { appState.currentJob }
                         @ onSelect
                             =>
                                 param jobItem

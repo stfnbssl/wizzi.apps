@@ -1,0 +1,39 @@
+$group
+    $params &ctrl
+    $
+        var suffix = 'Production';
+    function exec_update${ctrl.Production}${suffix}
+        param request
+            :any
+        param response
+            :any
+        param packiFiles
+            :any
+        rest/check-params( )
+            rest/optional( params , id )
+            rest/optional( body , owner )
+            rest/optional( body , name )
+            rest/optional( body , description )
+            $if ctrl.Production == 'Artifact'
+                rest/optional( body , mainIttf )
+                rest/optional( body , wizziSchema )
+        _ update${ctrl.Production}${suffix}
+            @ id
+            @ owner
+            @ name
+            @ description
+            $if ctrl.Production == 'Artifact'
+                @ mainIttf
+                @ wizziSchema
+            @ JSON.stringify(packiFiles)
+            ._ then
+                =>
+                    param result
+                        :any
+                    $$ loog 'put${ctrl.Production}${suffix}.update.result', result
+                    _ invalidateCache
+                        @ id
+                    _ sendSuccess
+                        @ response
+                        @ result
+            v08/ts/catch_send_fail( exec_update${ctrl.Production}${suffix}.update${ctrl.Production}${suffix} )

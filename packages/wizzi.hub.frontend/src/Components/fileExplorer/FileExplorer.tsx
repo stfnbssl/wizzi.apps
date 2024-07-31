@@ -56,6 +56,7 @@ export default function FileExplorer(props: FileExplorerProps) {
         }
       });
     }
+    console.log("FileExplorer.getRootEntries.rootFolders", rootFolders)
     return rootFolders;
   };
 

@@ -1,0 +1,93 @@
+module
+
+    $include set-ctx-functions
+    $
+        setCtxDep ('prismjs', '^1.29.0');
+        setCtxDevDep ('@types/prismjs', '^1.26.4');
+
+    import React
+        @ useEffect
+        from 'react'
+    import Prism from 'prismjs'
+    import 'prismjs/themes/prism-tomorrow.css'
+    import 'prismjs/components/prism-javascript'
+    import 'prismjs/components/prism-typescript'
+    import 'prismjs/components/prism-css'
+    import 'prismjs/components/prism-markup'
+    import 'prismjs/components/prism-json'
+    import 'prismjs/components/prism-yaml'
+    
+    +
+    :type CodeDisplayPanelProps
+        :{
+            :p code
+                :string
+            :p filePath
+                :string
+            $if TODO
+                :p language
+                    :union 
+                        :literal 'css'
+                        :literal 'javascript'
+                        :literal 'json'
+                        :literal 'markup'
+                        :literal 'yaml'
+                        :string
+    +
+    const CodeDisplayPanel
+        :ref React.FC
+            :param 
+                :ref CodeDisplayPanelProps        
+        =
+            =>
+                { 
+                    @ code
+                    @ filePath
+                    $if TODO
+                        @ language
+                _ useEffect
+                    => 
+                        _ Prism.highlightAll()
+                    [ 
+                        @ code
+                        @ filePath
+                        $if TODO
+                            @ language
+                let language = 'markup'
+                if filePath.endsWith('.js')
+                    set language = 'javascript'
+                elif filePath.endsWith('.ts')
+                    set language = 'typescript'
+                elif filePath.endsWith('.css')
+                    set language = 'css'
+                elif filePath.endsWith('.json')
+                    set language = 'JSON'
+                elif filePath.endsWith('.yaml')
+                    set language = 'YAML'
+                return 
+                    div 
+                        @ className "max-w-2xl mx-auto my-8"
+                        div 
+                            @ className "bg-gray-800 shadow-lg rounded-lg overflow-hidden"
+                            $*
+                            div 
+                                @ className "bg-gray-700 px-4 py-2 border-b border-gray-600"
+                                h2 
+                                    @ className "text-lg font-semibold text-gray-200"
+                                    $if TODO
+                                        + {language.toUpperCase()}
+                                        + Code
+                                    + {filePath} - \b 
+                                    + {language.toUpperCase()}
+                            *$
+                            div 
+                                @ className "p-4"
+                                pre 
+                                    @ className "rounded bg-gray-900 p-4 overflow-auto scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-100" 
+                                    code 
+                                        @ className
+                                            template 
+                                                + language-
+                                                @ language
+                                        + {code}
+    export-default CodeDisplayPanel

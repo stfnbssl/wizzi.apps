@@ -1,0 +1,27 @@
+$group
+
+    _ server.on
+        @ 'upgrade'
+        => 
+            param request
+            param socket
+            param head
+            const 
+                { 
+                    @ pathname
+                =
+                    _ url.parse
+                        @expr request.url
+                            :as 
+                                :string 
+            if pathname === '/websocket'
+                _ wss.handleUpgrade
+                    @ request
+                    @ socket
+                    @ head
+                    => 
+                        param ws
+                        _ wss.emit('connection', ws, request)
+            else
+                _ socket.destroy()
+        # Define web socket

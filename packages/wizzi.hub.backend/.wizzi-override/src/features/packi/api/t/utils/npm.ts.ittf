@@ -1,0 +1,108 @@
+$group
+
+    export
+        function npmInstall
+            param folderPath
+                :string
+
+    export
+        function npmBuild
+            param folderPath
+                :string
+
+    export
+        function npmStart
+            param folderPath
+                :string
+
+    function runNpmCommand
+        param command
+            :string 
+        param cwd
+            :string 
+        :return
+            :ref Promise
+                :param void
+        return 
+            new Promise
+                => 
+                    param resolve
+                    param reject
+                    _ console.log
+                        template 
+                            + Running 'npm&nbsp;
+                            @ command
+                            + ' in&nbsp;
+                            @ cwd
+                    const npmCmd
+                        :string 
+                        =
+                            iif process.platform === 'win32'
+                                then 'npm.cmd'
+                                else 'npm'
+                    const childProcess
+                        :ref ChildProcess
+                        =
+                            _ spawn
+                                @ npmCmd
+                                [ 
+                                    @id command
+                                { 
+                                    @ cwd
+                                    @ stdio 'inherit'
+                    _ childProcess.on
+                        @ 'close'
+                        => 
+                            param code
+                                :union 
+                                    :number 
+                                    :null 
+                            if code !== 0
+                                _ reject
+                                    new Error
+                                        template 
+                                            + npm&nbsp;
+                                            @ command
+                                            + &nbsp;exited with code&nbsp;
+                                            @ code
+                                            + 
+                            else
+                                _ resolve()
+                    _ childProcess.on
+                        @ 'error'
+                        => 
+                            param error
+                                :ref Error
+                            _ reject
+                                new Error
+                                    template 
+                                        + Failed to start npm&nbsp;
+                                        @ command
+                                        + :&nbsp;
+                                        @ error.message
+                                        + 
+    
+    export
+        async-function installAndBuild
+            param projectPath
+                :string 
+            :return
+                :ref Promise
+                    :param void
+            const absolutePath
+                :string 
+                = path.resolve(projectPath)
+            try 
+                await 
+                    _ runNpmCommand('install', absolutePath)
+                    # Run npm install
+                _ console.log('npm install completed successfully')
+                await 
+                    _ runNpmCommand('run build', absolutePath)
+                    # Run npm run build
+                _ console.log('npm run build completed successfully')
+                _ console.log('All commands executed successfully')
+            catch error
+                _ console.error
+                    @ 'Error:'
+                    @ (error as Error).message

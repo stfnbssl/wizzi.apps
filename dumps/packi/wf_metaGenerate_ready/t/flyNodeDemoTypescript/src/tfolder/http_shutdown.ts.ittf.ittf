@@ -1,0 +1,26 @@
+$group
+
+    async-function shutdown
+        param _request
+            :ref http.IncomingMessage
+        param response
+            :ref http.ServerResponse
+
+        $if TODO
+            const 
+                { 
+                    @ secret
+                = req.query
+            if secret !== SHUTDOWN_SECRET
+                return res.status(403).send('Unauthorized')
+        _ res.send('Shutting down...')
+        _ response.writeHead
+            @ 200
+            { 
+                @ 'Content-Type' 'text/plain'
+        _ response.write('Shutting down...\n')
+        _ server.close
+            => 
+                info 'Server closed. Process will exit now.'
+                _ process.exit(0)
+            # Perform graceful shutdown

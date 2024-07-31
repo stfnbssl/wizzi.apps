@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\GenericSelectionList.tsx.ittf
-    utc time: Sat, 20 Jul 2024 16:18:34 GMT
+    utc time: Wed, 31 Jul 2024 14:56:16 GMT
 */
 import React from "react";
 import {StringKeyedObject} from "@/Data/types";
@@ -29,8 +29,8 @@ export function GenericSelectionList(params: GenericSelectionListProps) {
         onSearchTextChanged
      } = params;
     return  (
-        <div className={'h-full bg-gray-800 text-zinc-200 border-r border-gray-100 ' + (params.listClass ? params.listClass : '')}>
-            <div className="pt-0.5 bg-gray-900 text-xs text-center">
+        <div className={'h-full flex-1 flex flex-col bg-gray-700 text-zinc-200 rounded-lg shadow-md border-r border-gray-100 ' + (params.listClass ? params.listClass : '')}>
+            <div className="p-1 bg-gray-800 text-xs text-center">
                 {title}</div>
             {
                 searchViewPlaceholder && searchViewPlaceholder.length > 0 &&  (
@@ -47,14 +47,14 @@ export function GenericSelectionList(params: GenericSelectionListProps) {
                     )
                 
             }
-            <div className="m-1 p-2 overflow-auto">
+            <div className="m-1 p-2 flex-grow overflow-auto scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-100">
                 <ul>
                     {
                     selectableItems.map((item, ndx) => 
                          (
                         <React.Fragment key={ndx}>
                             <li>
-                                <div onClick={() => {
+                                <div className="cursor-pointer" onClick={() => {
                                         if (onUnselect) {
                                             onUnselect(item.name)
                                         }

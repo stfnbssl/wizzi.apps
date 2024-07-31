@@ -128,10 +128,11 @@ module
                     display flex
                     flex-direction row
                 *$
-                . h-full w-full flex-1 flex
+                . w-full flex-1 flex
                     < Jobs
                         @ reload {true}
                         @ jobs {jobList}
+                        @ currentJob { appState.currentJob }
                         @ onSelect
                             =>
                                 param jobItem

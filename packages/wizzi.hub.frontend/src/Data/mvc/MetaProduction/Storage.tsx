@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Data\mvc\MetaProduction\Storage.tsx.ittf
-    utc time: Sat, 20 Jul 2024 16:18:34 GMT
+    utc time: Wed, 31 Jul 2024 14:56:16 GMT
 */
 import * as wizziHubApi from "@/Api/wizziHubApi";
 import * as packiApi from "@/Api/packiApi";
@@ -152,9 +152,9 @@ export class Storage {
             this.findJob(null, id, {
                 reload: false
              }).then((item: any) => {
-                const pm = new packiApi.PackiManager(JSON.parse(item.packiFiles));
-                pm.applyPatch_ChangesOnly(packiDiffs)
-                item.packiFiles = JSON.stringify(pm.packiFiles);
+                const pbuilder = new packiApi.PackiBuilder(JSON.parse(item.packiFiles));
+                pbuilder.applyPatch_ChangesOnly(packiDiffs)
+                item.packiFiles = JSON.stringify(pbuilder.packiFiles);
                 this.replaceJobLocal(item).then((result: any) => 
                     callback(result)
                 ).catch((err: any) => {

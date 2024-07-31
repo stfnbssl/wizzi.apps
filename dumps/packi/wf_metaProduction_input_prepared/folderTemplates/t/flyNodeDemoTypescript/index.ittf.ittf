@@ -1,0 +1,13 @@
+$group
+    
+    $if metaCtx.useFlyNodeDemoTypescript
+        
+        $include ./models
+        $include ./root
+        $include ./src
+
+        $file __dot__wizzi/generate.wfjob.ittf.ittf
+            wfjob ${'$'}{metaCtx.name}/job
+                ${'$'}include flyNodeDemoTypescript/generate.wfjob
+
+

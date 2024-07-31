@@ -22,13 +22,13 @@ module
                 :ref MenuItemProps
             if params.isSelected
                 return
-                    . menu-item
+                    . flex m-2 p-2
                         div
                             + {params.label}
                             class {params.classInverseName}
             else
                 return
-                    . menu-item
+                    . flex m-2 p-2
                         a {params.label}
                             href {params.href}
                             class {params.className}

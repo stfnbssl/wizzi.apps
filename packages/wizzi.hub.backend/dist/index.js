@@ -133,6 +133,8 @@ function getWzCtxFactoryPlugins() {
       "./wizzi.plugin.svg/index.js",
       "./wizzi.plugin.text/index.js",
       "./wizzi.plugin.ts/index.js",
+      "./wizzi.plugin.wzjob/index.js",
+      "./wizzi.plugin.wzschema/index.js",
       "./wizzi.plugin.xml/index.js",
       "./wizzi.plugin.yaml/index.js"
     ],
@@ -1421,11 +1423,12 @@ async function loadSiteJsonModel(relPath, context) {
 var import_express = require("express");
 
 // src/utils/sendResponse.ts
+var import_json_stringify_safe2 = __toESM(require("json-stringify-safe"));
 var sendError = (res, error) => {
   res.status(200);
   res.type("application/json");
   res.send({
-    err: error,
+    err: JSON.parse((0, import_json_stringify_safe2.default)(error)),
     message: error && error.message,
     stack: error && error.stack
   });
@@ -1433,7 +1436,7 @@ var sendError = (res, error) => {
 var sendFailure = (res, error, status) => {
   res.status(error && error.status ? error.status : status);
   res.type("application/json");
-  res.send(error);
+  res.send(JSON.parse((0, import_json_stringify_safe2.default)(error)));
 };
 var sendSuccess = (res, message) => {
   res.status(200);
@@ -1988,7 +1991,7 @@ var wizziProductionsControllers = [
 ];
 
 // src/features/wizziMeta/api/wizziMeta.ts
-var import_utils32 = require("@wizzi/utils");
+var import_utils34 = require("@wizzi/utils");
 
 // src/features/wizziHubProductions/mongo/artifact.ts
 var import_mongoose2 = require("mongoose");
@@ -2167,7 +2170,7 @@ var JobProductionModelBuilder = {
 };
 
 // src/features/wizziHubProductions/controllers/artifact.tsx
-var import_express4 = require("express");
+var import_express5 = require("express");
 
 // src/utils/rest.ts
 var import_utils3 = require("@wizzi/utils");
@@ -2512,7 +2515,13 @@ var PackiBuilder = class {
   }
 };
 
+// src/features/packi/api/fs-extra.ts
+var import_fs_extra = __toESM(require("fs-extra"));
+
 // src/features/packi/api/utils.ts
+var import_node_path = __toESM(require("node:path"));
+var import_utils4 = require("@wizzi/utils");
+var PACKI_META_DEMO_FOLDER = "C:/My/wizzi/stfnbssl/packi-meta-demo";
 function clonePackiFiles(packiFiles, filters) {
   filters = filters || [];
   function isOk(filename) {
@@ -2568,6 +2577,138 @@ function packiFilesToObject(packiFiles) {
   } else {
     return packiFiles;
   }
+}
+async function removeFolder(folderPath) {
+  return new Promise(
+    async (resolve2, reject) => {
+      try {
+        const fullPath = import_node_path.default.resolve(folderPath);
+        const exists = await import_fs_extra.default.pathExists(fullPath);
+        if (!exists) {
+          console.log(`features.packi.utils.removeFolder-> Folder does not exist: ${fullPath}`);
+          return resolve2();
+        }
+        await import_fs_extra.default.remove(fullPath);
+        console.log(`features.packi.utils.removeFolder-> Successfully removed folder: ${fullPath}`);
+        return resolve2();
+      } catch (error) {
+        console.error(`features.packi.utils.removeFolder-> Error removing folder: ${error.message}`);
+        return reject(error);
+      }
+    }
+  );
+}
+function writePackiFilesToFolder(packiFiles, folderPath) {
+  return new Promise(
+    async (resolve2, reject) => {
+      for (const [filePath, fileData] of Object.entries(packiFiles)) {
+        if (typeof fileData !== "object" || !fileData.hasOwnProperty("contents")) {
+          console.warn(`features.packi.utils.writePackiFilesToFolder-> Skipping invalid entry for path: ${filePath}`);
+          continue;
+        }
+        const fullPath = import_node_path.default.resolve(folderPath, filePath);
+        const directory = import_node_path.default.dirname(fullPath);
+        try {
+          import_utils4.fSystem.file.write(fullPath, fileData.contents);
+          console.log(`features.packi.utils.writePackiFilesToFolder-> Successfully wrote file: ${fullPath}`);
+        } catch (error) {
+          console.error(`features.packi.utils.writePackiFilesToFolder-> Error writing file ${fullPath}: ${error.message}`);
+          return reject(error);
+        }
+      }
+      return resolve2();
+    }
+  );
+}
+async function installPackiMetaDemo(packageName, packiFiles) {
+  return new Promise(
+    async (resolve2, reject) => {
+      const folderPath = import_node_path.default.resolve(PACKI_META_DEMO_FOLDER, "packages", packageName);
+      await removeFolder(folderPath);
+      await writePackiFilesToFolder(packiFiles, folderPath);
+      return resolve2();
+    }
+  );
+}
+
+// src/features/packi/api/packiManager.ts
+var import_factory5 = __toESM(require("@wizzi/factory"));
+function prettify(packiFiles) {
+  return new Promise(
+    (resolve2, reject) => import_factory5.default.packiManager(
+      {},
+      (err, packiManager) => {
+        if (err) {
+          console.log("\x1B[31m%s\x1B[0m", err);
+          return reject(err);
+        }
+        packiManager.prettify(
+          packiFiles,
+          (err2, result) => {
+            if (err2) {
+              console.log("\x1B[31m%s\x1B[0m", err2);
+              return reject(err2);
+            }
+            console.log("api.PackiManager.prettify.result", result);
+            resolve2(result);
+          }
+        );
+      }
+    )
+  );
+}
+function generate(packiFiles, plugins, options) {
+  return new Promise(
+    (resolve2, reject) => import_factory5.default.packiManager(
+      {},
+      (err, packiManager) => {
+        if (err) {
+          console.log("\x1B[31m%s\x1B[0m", err);
+          return reject(err);
+        }
+        packiManager.generate(
+          packiFiles,
+          plugins ? plugins : getWzCtxFactoryPlugins2(),
+          {
+            modelRequestContext: options.modelRequestContext || {},
+            artifactRequestContext: options.artifactRequestContext || {},
+            globalContext: options.globalContext || {}
+          },
+          (err2, result) => {
+            if (err2) {
+              console.log("\x1B[31m%s\x1B[0m", err2);
+              return reject(err2);
+            }
+            console.log("api.PackiManager.Generate.result", result);
+            resolve2(result);
+          }
+        );
+      }
+    )
+  );
+}
+function installDemoPackage(packiFiles, context) {
+  return installPackiMetaDemo(context.name, packiFiles);
+}
+function getWzCtxFactoryPlugins2() {
+  return {
+    items: [
+      "./wizzi.plugin.css/index.js",
+      "./wizzi.plugin.html/index.js",
+      "./wizzi.plugin.ittf/index.js",
+      "./wizzi.plugin.js/index.js",
+      "./wizzi.plugin.json/index.js",
+      "./wizzi.plugin.md/index.js",
+      "./wizzi.plugin.svg/index.js",
+      "./wizzi.plugin.text/index.js",
+      "./wizzi.plugin.ts/index.js",
+      "./wizzi.plugin.wzjob/index.js",
+      "./wizzi.plugin.wzschema/index.js",
+      "./wizzi.plugin.xml/index.js",
+      "./wizzi.plugin.yaml/index.js"
+    ],
+    pluginsBaseFolder: "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+  };
 }
 
 // src/features/packi/controllers/packiEditing.tsx
@@ -3087,17 +3228,75 @@ var PackiGeneratingController = class {
   };
 };
 
+// src/features/packi/controllers/apiv1packiManager.ts
+var import_express4 = require("express");
+var ApiV1PackiManagerController = class {
+  path = "/api/v1/packimanager";
+  router = (0, import_express4.Router)();
+  initialize = (app2, initValues) => {
+    console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1PackiManagerController.initialize");
+    this.router.post("/prettify", this.executePrettify);
+    this.router.post("/generate", this.executeGenerate);
+    this.router.post("/install", this.executeInstall);
+  };
+  executePrettify = async (request, response) => {
+    const requestData = request.body;
+    prettify(requestData.packiFiles).then(
+      (result) => sendSuccess(response, result)
+    ).catch(
+      (err) => {
+        if (typeof err === "object" && err !== null) {
+        }
+        sendFailure(response, {
+          err
+        }, 501);
+      }
+    );
+  };
+  executeGenerate = async (request, response) => {
+    const requestData = request.body;
+    generate(requestData.packiFiles, null, requestData.context).then(
+      (result) => sendSuccess(response, result)
+    ).catch(
+      (err) => {
+        if (typeof err === "object" && err !== null) {
+        }
+        sendFailure(response, {
+          err
+        }, 501);
+      }
+    );
+  };
+  executeInstall = async (request, response) => {
+    const requestData = request.body;
+    installDemoPackage(requestData.packiFiles, requestData.context).then(
+      (result) => sendSuccess(response, result)
+    ).catch(
+      (err) => {
+        if (typeof err === "object" && err !== null) {
+        }
+        sendFailure(response, {
+          err
+        }, 501);
+      }
+    );
+  };
+};
+
 // src/features/packi/index.ts
 var packiControllers = [
   new PackiEditingController(),
-  new PackiGeneratingController()
+  new PackiGeneratingController(),
+  new ApiV1PackiManagerController()
 ];
 var packiApi = {
   PackiBuilder,
   clonePackiFiles,
   extractPackiFileContent,
   extractPackiFile,
-  packiFilesToObject
+  packiFilesToObject,
+  prettify,
+  generate
 };
 
 // src/features/wizziHubProductions/api/meta.ts
@@ -3122,11 +3321,11 @@ function mergePackiFiles(current, toadd, options) {
   }
   return ret;
 }
-function stripEndSlash(path5) {
-  return path5.endsWith("/") ? path5.substring(0, path5.length - 1) : path5;
+function stripEndSlash(path6) {
+  return path6.endsWith("/") ? path6.substring(0, path6.length - 1) : path6;
 }
-function stripStartSlash(path5) {
-  return path5.startsWith("/") ? path5.substring(1) : path5;
+function stripStartSlash(path6) {
+  return path6.startsWith("/") ? path6.substring(1) : path6;
 }
 
 // src/features/wizziHubProductions/api/meta.ts
@@ -4733,7 +4932,7 @@ function makeHandlerAwareOfAsyncErrors4(handler) {
 }
 var ArtifactProductionController = class {
   path = "/artifact";
-  router = (0, import_express4.Router)();
+  router = (0, import_express5.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ArtifactProductionController.initialize");
     this.router.get("/new", makeHandlerAwareOfAsyncErrors4(this.getNewArtifactForm));
@@ -4856,7 +5055,7 @@ var ArtifactProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1artifact.tsx
-var import_express5 = require("express");
+var import_express6 = require("express");
 function makeHandlerAwareOfAsyncErrors5(handler) {
   return async function(request, response, next) {
     try {
@@ -4881,7 +5080,7 @@ function makeHandlerAwareOfAsyncErrors5(handler) {
 }
 var ApiV1ArtifactProductionController = class {
   path = "/api/v1/production/artifact";
-  router = (0, import_express5.Router)();
+  router = (0, import_express6.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1ArtifactProductionController.initialize");
     this.router.get("/:owner", makeHandlerAwareOfAsyncErrors5(this.getArtifacts));
@@ -5088,7 +5287,7 @@ function exec_updateArtifactProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/package.tsx
-var import_express6 = require("express");
+var import_express7 = require("express");
 var import_react6 = __toESM(require("react"));
 var import_server4 = __toESM(require("react-dom/server"));
 
@@ -5713,7 +5912,7 @@ function makeHandlerAwareOfAsyncErrors6(handler) {
 }
 var PackageProductionController = class {
   path = "/package";
-  router = (0, import_express6.Router)();
+  router = (0, import_express7.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering PackageProductionController.initialize");
     this.router.get("/new", makeHandlerAwareOfAsyncErrors6(this.getNewPackageForm));
@@ -5926,7 +6125,7 @@ var PackageProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1package.tsx
-var import_express7 = require("express");
+var import_express8 = require("express");
 function makeHandlerAwareOfAsyncErrors7(handler) {
   return async function(request, response, next) {
     try {
@@ -5951,7 +6150,7 @@ function makeHandlerAwareOfAsyncErrors7(handler) {
 }
 var ApiV1PackageProductionController = class {
   path = "/api/v1/production/package";
-  router = (0, import_express7.Router)();
+  router = (0, import_express8.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1PackageProductionController.initialize");
     this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors7(this.getCheckPackageName));
@@ -6142,7 +6341,7 @@ function exec_updatePackageProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/plugin.tsx
-var import_express8 = require("express");
+var import_express9 = require("express");
 var import_react7 = __toESM(require("react"));
 var import_server5 = __toESM(require("react-dom/server"));
 
@@ -6702,7 +6901,7 @@ function makeHandlerAwareOfAsyncErrors8(handler) {
 }
 var PluginProductionController = class {
   path = "/plugin";
-  router = (0, import_express8.Router)();
+  router = (0, import_express9.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering PluginProductionController.initialize");
     this.router.get("/new", makeHandlerAwareOfAsyncErrors8(this.getNewPluginForm));
@@ -6879,7 +7078,7 @@ var PluginProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1plugin.tsx
-var import_express9 = require("express");
+var import_express10 = require("express");
 function makeHandlerAwareOfAsyncErrors9(handler) {
   return async function(request, response, next) {
     try {
@@ -6904,7 +7103,7 @@ function makeHandlerAwareOfAsyncErrors9(handler) {
 }
 var ApiV1PluginProductionController = class {
   path = "/api/v1/production/plugin";
-  router = (0, import_express9.Router)();
+  router = (0, import_express10.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1PluginProductionController.initialize");
     this.router.get("/:owner", makeHandlerAwareOfAsyncErrors9(this.getPlugins));
@@ -7075,7 +7274,7 @@ function exec_updatePluginProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/meta.tsx
-var import_express10 = require("express");
+var import_express11 = require("express");
 var import_react8 = __toESM(require("react"));
 var import_server6 = __toESM(require("react-dom/server"));
 function renderPageForm4(req, res, data, queryParams) {
@@ -7191,7 +7390,7 @@ function makeHandlerAwareOfAsyncErrors10(handler) {
 }
 var MetaProductionController = class {
   path = "/meta";
-  router = (0, import_express10.Router)();
+  router = (0, import_express11.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering MetaProductionController.initialize");
     this.router.get("/new", makeHandlerAwareOfAsyncErrors10(this.getNewMetaForm));
@@ -7311,7 +7510,7 @@ var MetaProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1meta.tsx
-var import_express11 = require("express");
+var import_express12 = require("express");
 function makeHandlerAwareOfAsyncErrors11(handler) {
   return async function(request, response, next) {
     try {
@@ -7336,7 +7535,7 @@ function makeHandlerAwareOfAsyncErrors11(handler) {
 }
 var ApiV1MetaProductionController = class {
   path = "/api/v1/production/meta";
-  router = (0, import_express11.Router)();
+  router = (0, import_express12.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1MetaProductionController.initialize");
     this.router.get("/:owner", makeHandlerAwareOfAsyncErrors11(this.getMetas));
@@ -7569,7 +7768,7 @@ function exec_updateMetaProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/tfolder.tsx
-var import_express12 = require("express");
+var import_express13 = require("express");
 var import_react9 = __toESM(require("react"));
 var import_server7 = __toESM(require("react-dom/server"));
 
@@ -8065,7 +8264,7 @@ function makeHandlerAwareOfAsyncErrors12(handler) {
 }
 var TFolderProductionController = class {
   path = "/tfolder";
-  router = (0, import_express12.Router)();
+  router = (0, import_express13.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering TFolderProductionController.initialize");
     this.router.get("/new", makeHandlerAwareOfAsyncErrors12(this.getNewTFolderForm));
@@ -8175,7 +8374,7 @@ var TFolderProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1tfolder.tsx
-var import_express13 = require("express");
+var import_express14 = require("express");
 function makeHandlerAwareOfAsyncErrors13(handler) {
   return async function(request, response, next) {
     try {
@@ -8200,7 +8399,7 @@ function makeHandlerAwareOfAsyncErrors13(handler) {
 }
 var ApiV1TFolderProductionController = class {
   path = "/api/v1/production/tfolder";
-  router = (0, import_express13.Router)();
+  router = (0, import_express14.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1TFolderProductionController.initialize");
     this.router.get("/:owner", makeHandlerAwareOfAsyncErrors13(this.getTFolders));
@@ -8377,7 +8576,7 @@ function exec_updateTFolderProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/job.tsx
-var import_express14 = require("express");
+var import_express15 = require("express");
 var import_react10 = __toESM(require("react"));
 var import_server8 = __toESM(require("react-dom/server"));
 
@@ -8863,7 +9062,7 @@ function makeHandlerAwareOfAsyncErrors14(handler) {
 }
 var JobProductionController = class {
   path = "/job";
-  router = (0, import_express14.Router)();
+  router = (0, import_express15.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering JobProductionController.initialize");
     this.router.get("/new", makeHandlerAwareOfAsyncErrors14(this.getNewJobForm));
@@ -8986,7 +9185,7 @@ var JobProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1job.tsx
-var import_express15 = require("express");
+var import_express16 = require("express");
 function makeHandlerAwareOfAsyncErrors15(handler) {
   return async function(request, response, next) {
     try {
@@ -9011,7 +9210,7 @@ function makeHandlerAwareOfAsyncErrors15(handler) {
 }
 var ApiV1JobProductionController = class {
   path = "/api/v1/production/job";
-  router = (0, import_express15.Router)();
+  router = (0, import_express16.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1JobProductionController.initialize");
     this.router.get("/:owner", makeHandlerAwareOfAsyncErrors15(this.getJobs));
@@ -9182,7 +9381,7 @@ function exec_updateJobProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/apiv1generations.ts
-var import_express16 = require("express");
+var import_express17 = require("express");
 function makeHandlerAwareOfAsyncErrors16(handler) {
   return async function(request, response, next) {
     try {
@@ -9207,7 +9406,7 @@ function makeHandlerAwareOfAsyncErrors16(handler) {
 }
 var ApiV1GenerationsController = class {
   path = "/api/v1/production/generations";
-  router = (0, import_express16.Router)();
+  router = (0, import_express17.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1GenerationsController.initialize");
     this.router.post("/mtree/:id", makeHandlerAwareOfAsyncErrors16(this.mTree));
@@ -9948,7 +10147,7 @@ var wizziHubProductionsControllers = [
 ];
 
 // src/features/wizziMeta/api/wizziMeta.ts
-var file2 = import_utils32.fSystem.vfile();
+var file2 = import_utils34.fSystem.vfile();
 async function getMetaParameters(options) {
   return new Promise(
     (resolve2, reject) => {
@@ -10013,7 +10212,6 @@ async function getMetaParameters(options) {
                     metaParametersObj,
                     packiFiles: metaParameters
                   };
-                  console.log("getMetaParameters", result);
                   return resolve2(result);
                 }
                 if (mpObj.index) {
@@ -10205,7 +10403,7 @@ async function createMetaCtx(options) {
       if (options.metaCtx) {
         return resolve2(options.metaCtx);
       }
-      if (import_utils32.verify.isEmpty(options.metaCtxFilepath)) {
+      if (import_utils34.verify.isEmpty(options.metaCtxFilepath)) {
         return reject("wizziMeta.createMetaCtx. Missing both metaCtx and metaCtxFilepath: " + options.metaCtxFilepath);
       }
       productions_exports.loadModelFs(options.metaCtxFilepath, {
@@ -10245,10 +10443,10 @@ async function persistPackageFiles(packiFiles, options) {
 }
 
 // src/features/wizziMeta/controllers/apiv1wizzimeta.ts
-var import_express17 = require("express");
+var import_express18 = require("express");
 var ApiV1WizziMetaController = class {
   path = "/api/v1/meta";
-  router = (0, import_express17.Router)();
+  router = (0, import_express18.Router)();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1WizziMetaController.initialize");
     this.router.get("/provides", this.provides);
@@ -10376,11 +10574,11 @@ var CacheControlMiddleware = (app2) => {
 };
 
 // src/middlewares/static.ts
-var path4 = __toESM(require("path"));
-var import_express18 = require("express");
+var path5 = __toESM(require("path"));
+var import_express19 = require("express");
 var StaticFilesMiddleware = (app2) => {
-  console.log("\x1B[32m%s\x1B[0m", "StaticFilesMiddleware. Folder served from ", path4.resolve(__dirname, "..", "..", "public"));
-  app2.use("/public", (0, import_express18.static)(path4.resolve(__dirname, "..", "..", "public")));
+  console.log("\x1B[32m%s\x1B[0m", "StaticFilesMiddleware. Folder served from ", path5.resolve(__dirname, "..", "..", "public"));
+  app2.use("/public", (0, import_express19.static)(path5.resolve(__dirname, "..", "..", "public")));
 };
 
 // src/middlewares/promise.ts
@@ -10429,7 +10627,7 @@ var appMiddlewaresPre = [
 var appMiddlewaresPost = [];
 
 // src/App.ts
-var import_express19 = __toESM(require("express"));
+var import_express20 = __toESM(require("express"));
 function normalizePort(val) {
   var port2 = parseInt(val, 10);
   if (isNaN(port2)) {
@@ -10466,7 +10664,7 @@ var App = class {
   constructor(initValues) {
     this.config = initValues.config;
     this.port = normalizePort(process.env.PORT || this.config.port) || "3000";
-    this.app = (0, import_express19.default)();
+    this.app = (0, import_express20.default)();
     ;
     this.app.set("port", this.port);
     initializeApp(this.app, initValues);
@@ -10512,7 +10710,8 @@ async function start() {
   let controllers = [
     ...wizziProductionsControllers,
     ...wizziMetaControllers,
-    ...wizziHubProductionsControllers
+    ...wizziHubProductionsControllers,
+    ...packiControllers
   ];
   console.log("\x1B[33m%s\x1B[0m", "Starting app. Config:", config2);
   const appInitializer = {

@@ -1,8 +1,23 @@
 module
-    import React from 'react'
+    import React
+        @ useState
+        @ useEffect
+        from 'react'
     import
         @ useParams
         from 'react-router-dom'
+    import
+        @ getArtifact
+        from '@/Api/wizziHubApi'
+    import
+        @ prettify
+        @ generate
+        from '@/Api/packiApi'
+    import HTMLPanel
+        from '@/Components/ui/HTMLPanel'
+    import CodeDisplayPanel
+        from '@/Components/ui/CodeDisplayPanel'
+    import "./wizzi-prettyprint.css"
     :type Params
         :{
             :p id
@@ -18,6 +33,68 @@ module
                         _ useParams
                             :param
                                 :ref Params
+                const [artifacts, setArtifacts] = useState([])
+                const [prettified, setPrettified] = useState<{[key: string]: any}>({})
+                const [generated, setGenerated] = useState<{[key: string]: any}>({})
+                _ useEffect
+                    =>
+                        async-function fetchData
+                            _ getArtifact
+                                @ 'stfnbssl'
+                                ._ then
+                                    =>
+                                        param response
+                                            :any
+                                        _ setArtifacts(response.item)
+                                        info 'getArtifact.response', response
+                                ._ catch
+                                    =>
+                                        param err
+                                        error err.message
+                                        error err
+                        _ fetchData
+                    [
+                const artifact
+                    :any
+                    _ artifacts.find
+                        =>
+                            param item
+                                :any
+                            return item.name == id
+                _ useEffect
+                    =>
+                        async-function fetchData
+                            if artifact
+                                _ prettify
+                                    @ JSON.parse(artifact.packiFiles)
+                                    ._ then
+                                        =>
+                                            param response
+                                                :any
+                                            _ setPrettified(response)
+                                            info 'prettify.response', response
+                                    ._ catch
+                                        =>
+                                            param err
+                                            error err.message
+                                            error err
+                                _ generate
+                                    @ JSON.parse(artifact.packiFiles)
+                                    {
+                                    ._ then
+                                        =>
+                                            param response
+                                                :any
+                                            _ setGenerated(response)
+                                            info 'generate.response', response
+                                    ._ catch
+                                        =>
+                                            param err
+                                            error err.message
+                                            error err
+                        _ fetchData
+                    [
+                        @ artifact ? artifact.name : 'NONE'
                 return
                     div
                         h1
@@ -25,4 +102,29 @@ module
                         p
                             + ID: \b
                             + {id}
+                        p   + Artifacts
+                            + { JSON.stringify( artifacts.map(({ name }) => name), null, 4) }
+                        {
+                            _ Object.keys(prettified).map
+                                =>
+                                    param item
+                                        :any
+                                    param ndx
+                                        :number
+                                    return
+                                        < HTMLPanel
+                                            @ key {ndx}
+                                            @ htmlContent { prettified[item].contents }
+                        {
+                            _ Object.keys(generated).map
+                                =>
+                                    param filePath
+                                        :any
+                                    param ndx
+                                        :number
+                                    return
+                                        < CodeDisplayPanel
+                                            @ key {ndx}
+                                            @ code { generated[filePath].contents }
+                                            @ filePath { filePath }
     export-default One

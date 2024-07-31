@@ -1,10 +1,11 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.demo\packages\ts.express.lab\.wizzi\src\utils\sendResponse.ts.ittf
-    utc time: Wed, 03 Jul 2024 08:24:51 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\utils\sendResponse.ts.ittf
+    utc time: Wed, 31 Jul 2024 13:44:15 GMT
 */
 import {Response} from 'express';
+import stringify from 'json-stringify-safe';
 import HttpException from '../httpException';
 function sendContent(res: Response, contentType: string, content: string) {
     res.writeHead(200, {
@@ -20,7 +21,7 @@ export const sendError = (res: Response, error: any) => {
     res.status(200);
     res.type('application/json');
     res.send({
-        err: error, 
+        err: JSON.parse(stringify(error)), 
         message: error && error.message, 
         stack: error && error.stack
      })
@@ -29,7 +30,7 @@ export const sendError = (res: Response, error: any) => {
 export const sendFailure = (res: Response, error: any, status: number) => {
     res.status(error && error.status ? error.status : status)
     res.type('application/json');
-    res.send(error);
+    res.send(JSON.parse(stringify(error)))
 }
 ;
 export const sendSuccess = (res: Response, message: any) => {

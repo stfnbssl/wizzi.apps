@@ -1,0 +1,2 @@
+module 
+   $include flyNodeDemoTypescript/src/server.ts

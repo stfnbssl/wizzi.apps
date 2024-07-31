@@ -1,0 +1,17 @@
+$group
+
+    $
+        var items = [
+            'express_npm.ts',
+            'express_shutdown.ts',
+            'http_listener.ts',
+            'http_main.ts',
+            'http_websocket.ts',
+            'http_shutdown.ts',
+        ];
+        //
+
+    $foreach item in items
+        $file __dot__wizzi/src/t/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include flyNodeDemoTypescript/src/tfolder/${item}
