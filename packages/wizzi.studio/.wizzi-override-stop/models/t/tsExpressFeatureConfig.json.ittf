@@ -1,0 +1,7 @@
+$group
+    useConfig true
+    { config
+        useEnvalid true
+        { envalid
+        useUserInfo true
+        { userInfo

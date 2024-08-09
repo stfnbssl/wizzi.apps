@@ -1,16 +1,17 @@
 module
     import http from 'node:http'
-    import express from 'express'
-    import expressWs from 'express-ws'
+    import express
+        @ Request
+        @ Response
+        @ NextFunction
+        from 'express'
     import fs from 'node:fs'
     +
-    const { app, getWss } = expressWs(express())
-        # set up express and web socket
-    const wss = getWss()
+    const app = express()
+        # set up express web server
     const server = http.createServer(app)
     _ app.use(express.static('public'))
-        # set up static content and ejs views
-    _ app.set('view engine', 'ejs')
+        # set up static content
     +
     let count = 0
         # last known count
@@ -18,22 +19,16 @@ module
     _ app.get
         @ '/'
         async=>
-            param _request
+            param request
+                :ref Request
             param response
-            const oldCount = count
+                :ref Response
             # increment counter in counter.txt file
             try
                 set count = parseInt(fs.readFileSync('counter.txt', 'utf-8')) + 1
-            catch
+            catch ex:any
                 set count = 1
             _ fs.writeFileSync('counter.txt', count.toString())
-            if oldCount !== count
-                # publish new count to all websocket clients
-                for const client of wss.clients
-                    try
-                        _ client.send
-                            _ count.toString
-                    catch
             _ response.render
                 @ 'index'
                 {
@@ -42,19 +37,6 @@ module
         # Main page
     $include express_shutdown
     $include express_npm
-    _ app.ws
-        @ '/websocket'
-        =>
-            param ws
-            # update client on a best effort basis
-            if count
-                try
-                    _ ws.send
-                        _ count.toString
-                catch
-            _ ws.on('message', console.log)
-                # We don’t expect any messages on websocket, but log any ones we do get.
-        # Define web socket route
     _ server.listen
         @ 3000
         =>

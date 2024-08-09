@@ -1,0 +1,131 @@
+{
+    $include v08/env/vars
+
+    name "wizzi.studio"
+    version "0.0.1"
+    description "Wizzi studio express backend"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+   
+    { App
+        name "wizzi.studio"
+        title "Wizzi studio"
+        isLocal true
+        isProduction false
+        port "5100"
+        useSsl false
+        siteUrl "http://localhost"
+        baseUrl "http://localhost:5100"
+        siteUrlLocal "http://localhost"
+        baseUrlLocal "http://localhost:5100"
+        apiVersion "v1"
+        { constants
+            { preview
+                minWidth 700
+        [ Components
+
+    { Styles
+    
+    { Build
+        [ features
+            {
+                name "packi"
+                hasControllers true
+                useMongoDb false
+            {
+                name "packiStudioFolderEdit"
+                hasControllers true
+                useMongoDb false
+            {
+                name "packiProductions"
+                fileName "packi-productions"
+                hasControllers true
+                useMongoDb true
+            {
+                name "docs"
+                hasControllers true
+                useMongoDb false
+            {
+                name "wizzi"
+                fileName "wizzi"
+                hasControllers true
+                useMongoDb false
+            {
+                name "wizziFs"
+                fileName "wizzi-fs"
+                hasControllers true
+                useMongoDb false
+            {
+                name "wizziGist"
+                fileName "wizzi-gist"
+                hasControllers true
+                useMongoDb false
+            {
+                name "wizziMeta"
+                fileName "wizzi-meta"
+                hasControllers true
+                useMongoDb false
+            {
+                name "wizziCdn"
+                fileName "wizzi-cdn"
+                hasControllers true
+                useMongoDb true
+            {
+                name "philos"
+                hasControllers true
+            {
+                name "geop"
+                hasControllers true
+            {
+                name "wizziTable"
+                hasControllers true
+                useMongoDb true
+            {
+                name "wizziAction"
+                hasControllers true
+                useMongoDb true
+            {
+                name "dev"
+                hasControllers true
+                useMongoDb false
+           
+        [ examples
+        useWizziFs true
+        { wizziFs
+
+        $include code.json
+        
+        $include tsExpress.json
+
+        $include tsExpressFeatureAuth.json
+        
+        $include tsExpressFeatureConfig.json
+        
+        $include tsExpressFeatureWizzi.json
+        
+        $include tsExpressFeaturePacki.json
+        
+        $include tsExpressUtils.json
+        
+        $include tsExpressWizziSite.json
+        
+        $include react.json
+        
+        $include tsdbmongodb.json
+        
+        usePackiBrowse true
+        { packiBrowse
+        useWizziCdn true
+        { wizziCdn
+
+        { utils
+            useAxios true
+            useStringifySafe true
+            useParseUrl true
+            useQueryString true
+            useNanoId true
+            useNodeCache true
+            useDiffMatchPatch true
+        
+        [ scripts

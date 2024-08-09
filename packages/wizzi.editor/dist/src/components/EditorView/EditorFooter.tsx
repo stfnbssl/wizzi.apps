@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorFooter.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -33,8 +33,8 @@ export type EditorFooterProps = PreferencesContextType & {
     autoGenSingleDoc: boolean;
     autoExecJob: boolean;
 };
+;
 function EditorFooterComp(props: EditorFooterProps) {
-
     const {
         annotations, 
         loggedUser, 
@@ -51,28 +51,23 @@ function EditorFooterComp(props: EditorFooterProps) {
         autoExecJob
      } = props;
     const _toggleAutoGenSingleDoc = () => 
-    
         props.setPreferences({
             autoGenSingleDoc: !props.preferences.autoGenSingleDoc
          })
     ;
     const _toggleAutoExecJob = () => 
-    
         props.setPreferences({
             autoExecJob: !props.preferences.autoExecJob
          })
     ;
     const loadingItems = annotations.filter(a => 
-    
         a.severity < 0
     );
     const isLoading = loadingItems.length >= 1;
     const isErrorFatal = !isLoading && annotations.some(a => 
-    
         a.severity > 3
     );
     const warningCount = annotations.filter(a => 
-    
         a.severity === 2
     ).length
     ;
@@ -86,7 +81,6 @@ function EditorFooterComp(props: EditorFooterProps) {
     }
     else {
         const errors = annotations.filter(a => 
-        
             a.severity >= 3
         );
         if (errors.length) {
@@ -97,52 +91,32 @@ function EditorFooterComp(props: EditorFooterProps) {
              } = errors[0];
             const prefix = location ? `${location.fileName} (${location.startLineNumber}:${location.startColumn}) ` : '';
             const suffix = action ?  (
-                <span
-                 className={css(styles.action)} onClick={(event) => {
-                    
+                <span className={css(styles.action)} onClick={(event) => {
                         event.stopPropagation();
                         action.run();
                     }
-                }>
-                    {action.title}
-                </span>
-                )
+                }>{action.title}</span>)
              : errors.length > 1 ? `(+${errors.length - 1} more)` : '';
             text =  (
-            <span
-            >
-                {prefix}
-                {message.split('\n')[0] + ' '}
-                {suffix}
-            </span>
-            )
+            <span>{prefix}{message.split('\n')[0] + ' '}{suffix}</span>)
             ;
         }
     }
     return  (
-        <FooterShell
-         type={isLoading ? 'loading' : isErrorFatal ? 'error' : null}>
-            <div
-             className={css(styles.left)}>
+        <FooterShell type={isLoading ? 'loading' : isErrorFatal ? 'error' : null}>
+            <div className={css(styles.left)}>
                 {
                     isLoading ?  (
-                        <LoadingText
-                         className={css(styles.loadingText)} onClick={() => 
-                            
+                        <LoadingText className={css(styles.loadingText)} onClick={() => 
                                 onTogglePanels('errors')
                         }>
-                            {text}
-                        </LoadingText>
+                            {text}</LoadingText>
                         )
                      :  (
-                        <button
-                         onClick={() => 
-                            
+                        <button onClick={() => 
                                 onTogglePanels(text ? 'errors' : undefined)
-                        } className={css(styles.statusText, text ? (isErrorFatal ? styles.errorTextFatal : styles.errorText) : styles.successText)}>
-                            {
-                                text
-                                 ?? (`No errors${
+                        } className={css(styles.statusText, text ? (isErrorFatal ? styles.errorTextFatal : styles.errorText) : styles.successText)}>{
+                                text ?? (`No errors${
                                 warningCount
                                  ? `, ${warningCount} warning${
                                     warningCount > 1
@@ -152,56 +126,33 @@ function EditorFooterComp(props: EditorFooterProps) {
                                  : ''}
                                 `)
                             }
-                        </button>
-                        )
+                        </button>)
                     
                 }
             </div>
-            <MenuButton
-             icon={require('../../assets/settings-icon.png')} label={ (
-                <span
-                 className={css(styles.buttonLabel)}>
-                    Wizzi
-                </span>
-                )
+            <MenuButton icon={require('../../assets/settings-icon.png')} label={ (
+                <span className={css(styles.buttonLabel)}>Wizzi</span>)
             } content={ (
-                <React.Fragment
-                >
-                    <ToggleSwitch
-                     checked={autoGenSingleDoc} onChange={_toggleAutoGenSingleDoc} label="Auto gen single doc" />
-                    <ToggleSwitch
-                     checked={autoExecJob} onChange={_toggleAutoExecJob} label="Auto exec job" />
+                <React.Fragment>
+                    <ToggleSwitch checked={autoGenSingleDoc} onChange={_toggleAutoGenSingleDoc} label="Auto gen single doc" />
+                    <ToggleSwitch checked={autoExecJob} onChange={_toggleAutoExecJob} label="Auto exec job" />
                 </React.Fragment>
                 )
             } />
-            <MenuButton
-             icon={require('../../assets/settings-icon.png')} label={ (
-                <span
-                 className={css(styles.buttonLabel)}>
-                    Editor
-                </span>
-                )
+            <MenuButton icon={require('../../assets/settings-icon.png')} label={ (
+                <span className={css(styles.buttonLabel)}>Editor</span>)
             } content={ (
-                <React.Fragment
-                >
-                    <div
-                     className={css(styles.buttonItem, styles.buttonItemEditorPane)} onClick={onShowShortcuts}>
-                        <IconButton
-                         small title="Show keyboard shortcuts" label="Shortcuts" />
-                        <ShortcutLabel
-                         combo={Shortcuts.shortcuts.combo} className={css(styles.buttonItemShortcut)} />
+                <React.Fragment>
+                    <div className={css(styles.buttonItem, styles.buttonItemEditorPane)} onClick={onShowShortcuts}>
+                        <IconButton small title="Show keyboard shortcuts" label="Shortcuts" />
+                        <ShortcutLabel combo={Shortcuts.shortcuts.combo} className={css(styles.buttonItemShortcut)} />
                     </div>
-                    <div
-                     className={css(styles.menuSeparator)} />
-                    <ToggleSwitch
-                     checked={fileTreeShown} onChange={onToggleFileTree} label="Files" />
-                    <ToggleSwitch
-                     checked={panelsShown} onChange={() => 
-                        
+                    <div className={css(styles.menuSeparator)} />
+                    <ToggleSwitch checked={fileTreeShown} onChange={onToggleFileTree} label="Files" />
+                    <ToggleSwitch checked={panelsShown} onChange={() => 
                             onTogglePanels()
                     } label="Panel" />
-                    <ToggleSwitch
-                     checked={theme !== 'light'} onChange={onToggleTheme} label="Dark theme" />
+                    <ToggleSwitch checked={theme !== 'light'} onChange={onToggleTheme} label="Dark theme" />
                 </React.Fragment>
                 )
             } />
@@ -211,6 +162,7 @@ function EditorFooterComp(props: EditorFooterProps) {
 }
 
 export const EditorFooter = withPreferences(EditorFooterComp);
+
 export default EditorFooter;
 
 const styles = StyleSheet.create({

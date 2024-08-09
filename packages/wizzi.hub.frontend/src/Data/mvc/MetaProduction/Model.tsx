@@ -2,8 +2,9 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Data\mvc\MetaProduction\Model.tsx.ittf
-    utc time: Wed, 31 Jul 2024 14:56:16 GMT
+    utc time: Wed, 07 Aug 2024 13:02:16 GMT
 */
+import DiffMatchPatch from "diff-match-patch";
 import {JobItem} from "@/Data/types";
 import * as packiApi from "@/Api/packiApi";
 import {Constants} from "./Constants";
@@ -45,28 +46,43 @@ export class Model {
         productionKind: string, 
         productionId: string, 
         filePath: string, 
-        oldContents: string, 
+        oldContents: string | null, 
         newContents: string, 
         callback: (cb: any) => void) {
         if (!callback) {
             throw new Error('The callback parameter is required. Method: Model.updatePackiFile.');
         }
-        console.log("Data.mvc.Metaproduction.Model.updatePackiFile", productionKind, filePath, newContents);
-        if (oldContents.trim() == newContents.trim()) {
+        console.log("Data.mvc.Metaproduction.Model.updatePackiFile", productionKind, filePath, oldContents, newContents);
+        if (oldContents && oldContents.trim() == newContents.trim()) {
             return callback({
                     message: 'Nothing changed'
                  });
         }
-        const pbuilder = new packiApi.PackiBuilder({});
-        pbuilder.putCodeFile(filePath, oldContents)
-        const fileDiffs = pbuilder.getFileDiffs(filePath, newContents);
-        const packiDiffs = {
+        let packiDiffs: { 
+            [x: string]: { 
+                d: number;
+                contents: string;
+                diffs?: DiffMatchPatch.Diff[];
+            };
+        } = {
             [filePath]: {
-                d: 0, 
-                diffs: fileDiffs, 
-                contents: newContents
+                d: 1, 
+                contents: newContents, 
+                diffs: []
              }
          };
+        if (oldContents != null) {
+            const pbuilder = new packiApi.PackiBuilder({});
+            pbuilder.putCodeFile(filePath, oldContents)
+            const fileDiffs = pbuilder.getFileDiffs(filePath, newContents);
+            packiDiffs = {
+                [filePath]: {
+                    d: 0, 
+                    diffs: fileDiffs, 
+                    contents: newContents
+                 }
+             };
+        }
         this.storage.putPackiDiffs(productionKind, productionId, packiDiffs, callback)
     }
     // 
@@ -75,6 +91,8 @@ export class Model {
     // set meta productions selections object
     // 
     // set meta demo package object
+    // 
+    // set saved meta context (metaCtx) object
     // 
     setupJobProductionItem(jobItem: JobItem):  JobItem {
         if (jobItem.__setup) {
@@ -117,6 +135,11 @@ export class Model {
             mdp.text = JSON.stringify(mdp.json);
         }
         jobItem.__metaDemoPackage = mdp;
+        const metaCtx = packiApi.extractPackiFileContent(jobItem.packiFiles, this.constants.metaCtxFilePath, {
+            json: true
+         });
+        metaCtx.json = metaCtx.json || {};
+        jobItem.__metaCtx = metaCtx;
         jobItem.__setup = true;
         return jobItem;
     }

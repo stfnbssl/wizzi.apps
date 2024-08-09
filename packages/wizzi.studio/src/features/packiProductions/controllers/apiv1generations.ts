@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\apiv1generations.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -19,9 +19,7 @@ import {productionApi} from '../../packiProductions';
 const myname = 'features/production/controllers/apiv1generations';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -64,21 +62,17 @@ export class ApiV1GenerationsController implements ControllerType {
     };
     
     private mTree = async (request: Request, response: Response) => {
-    
         const owner = (request.session as any).user.username;
         const id = request.params.id;
         const req_files: PackiFiles = request.body.packiFiles;
         const productionKind: PackiProduction = request.body.productionKind;
         const productionName: string = request.body.productionName;
         productionApi.prepareProduction(productionKind, owner, productionName, '', {}).then((packageProductionSet: any) => 
-        
             wizziProds.mTree(id, packageProductionSet.packiFiles, packageProductionSet.context).then((result: any) => 
-            
                 sendSuccess(response, {
                     mTreeIttf: result.mTreeIttf
                  })
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.controllers.productions.mTree.execute.error', err);
@@ -89,7 +83,6 @@ export class ApiV1GenerationsController implements ControllerType {
             )
         
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'features.production.controllers.productions.mTree.prepareProduction.error', err);
@@ -102,19 +95,15 @@ export class ApiV1GenerationsController implements ControllerType {
     ;
     
     private mTreeBuildUpScript = async (request: Request, response: Response) => {
-    
         const owner = (request.session as any).user.username;
         const id = request.params.id;
         const req_files: PackiFiles = request.body.packiFiles;
         const productionKind: PackiProduction = request.body.productionKind;
         const productionName: string = request.body.productionName;
         productionApi.prepareProduction(productionKind, owner, productionName, '', {}).then((packageProductionSet: any) => 
-        
             wizziProds.mTreeBuildUpScript(id, packageProductionSet.packiFiles, packageProductionSet.context).then(result => 
-            
                 sendSuccess(response, result)
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.controllers.productions.mTreeBuildUpScript.execute.error', err);
@@ -125,7 +114,6 @@ export class ApiV1GenerationsController implements ControllerType {
             )
         
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'features.production.controllers.productions.mTreeBuildUpScript.prepareProduction.error', err);
@@ -138,21 +126,17 @@ export class ApiV1GenerationsController implements ControllerType {
     ;
     
     private generateArtifact = async (request: Request, response: Response) => {
-    
         const owner = (request.session as any).user.username;
         const id = request.params.id;
         const req_files: PackiFiles = request.body.packiFiles;
         const productionKind: PackiProduction = request.body.productionKind;
         const productionName: string = request.body.productionName;
         productionApi.prepareProduction(productionKind, owner, productionName, '', {}).then((packageProductionSet: any) => 
-        
             wizziProds.generateArtifact(id, packageProductionSet.packiFiles, packageProductionSet.context).then(value => 
-            
                 sendSuccess(response, {
                     generatedArtifact: value
                  })
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.controllers.production.generateArtifact.execute.error', err);
@@ -163,7 +147,6 @@ export class ApiV1GenerationsController implements ControllerType {
             )
         
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'features.production.controllers.production.generateArtifact.prepareProduction.error', err);
@@ -176,7 +159,6 @@ export class ApiV1GenerationsController implements ControllerType {
     ;
     
     private transformModel = async (request: Request, response: Response) => {
-    
         const owner = (request.session as any).user.username;
         const id = request.params.id;
         const transformer = request.params.transformer;
@@ -184,16 +166,13 @@ export class ApiV1GenerationsController implements ControllerType {
         const productionKind: PackiProduction = request.body.productionKind;
         const productionName: string = request.body.productionName;
         productionApi.prepareProduction(productionKind, owner, productionName, '', {}).then((packageProductionSet: any) => 
-        
             wizziProds.loadAndTransformModel(id, packageProductionSet.packiFiles, packageProductionSet.context, {
                 transformer: transformer
              }).then(value => 
-            
                 sendSuccess(response, {
                     transformedModel: value.transformResult
                  })
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.controllers.production.transformModel.execute.error', err);
@@ -204,7 +183,6 @@ export class ApiV1GenerationsController implements ControllerType {
             )
         
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'features.production.controllers.production.transformModel.prepareProduction.error', err);
@@ -217,22 +195,18 @@ export class ApiV1GenerationsController implements ControllerType {
     ;
     
     private executeJob = async (request: Request, response: Response) => {
-    
         const owner = (request.session as any).user.username;
         const req_files: PackiFiles = request.body.packiFiles;
         const productionKind: PackiProduction = request.body.productionKind;
         const productionName: string = request.body.productionName;
         productionApi.prepareProduction(productionKind, owner, productionName, '', {}).then((packageProductionSet: any) => 
-        
             wizziProds.executeJobs(packageProductionSet.packiFiles, packageProductionSet.context).then(async (fsJson) => {
-            
                 const files = await wizziFactory.extractGeneratedFiles(fsJson);
                 sendSuccess(response, {
                     generatedArtifacts: files
                  })
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.controllers.production.executeJob.execute.error', err);
@@ -243,7 +217,6 @@ export class ApiV1GenerationsController implements ControllerType {
             )
         
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'features.production.controllers.production.executeJob.prepareProduction.error', err);
@@ -256,18 +229,15 @@ export class ApiV1GenerationsController implements ControllerType {
     ;
     
     private wizzify = async (request: Request, response: Response) => {
-    
         const files: PackiFiles = request.body.packiFiles;
         if (files) {
         }
         wizziProds.wizzify(files).then(async (result: PackiFiles) => 
-        
             sendSuccess(response, {
                 wizzifiedPackiFiles: result
              })
         
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'features.production.controllers.production.wizzify.execute.error', err);
@@ -280,18 +250,15 @@ export class ApiV1GenerationsController implements ControllerType {
     ;
     
     private codeAST = async (request: Request, response: Response) => {
-    
         const files: PackiFiles = request.body.packiFiles;
         if (files) {
         }
         wizziProds.getCodeAST(files).then(async (result: PackiFiles) => 
-        
             sendSuccess(response, {
                 codeASTPackiFiles: result
              })
         
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'features.production.controllers.production.codeAST.execute.error', err);

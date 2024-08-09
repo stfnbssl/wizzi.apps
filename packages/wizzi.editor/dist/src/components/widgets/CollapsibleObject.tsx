@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\CollapsibleObject.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -11,6 +11,7 @@ export type CollapsibleObjectProps = {
     object: any;
     label?: string;
 };
+;
 
 type State = { 
     isExpanded: boolean;
@@ -23,122 +24,73 @@ export class CollapsibleObject extends React.Component<CollapsibleObjectProps, S
     ;
     _handleClick = () => 
         this.setState((state) => 
-        
             ({
                 isExpanded: !state.isExpanded
              })
         );
     _renderValue = (value: any) => 
          (
-        <span
-         className={css(typeof value === 'object' && value !== null ? null : typeof value === 'string' ? styles.string : styles.value)}>
-            {
+        <span className={css(typeof value === 'object' && value !== null ? null : typeof value === 'string' ? styles.string : styles.value)}>{
                 typeof value === 'object' && value !== null ? Array.isArray(value) ? value.length ? '[…]' : '[]' : Object.keys(value).length ? '{…}' : '{}' : typeof value === 'string' ? `"${value}"` : String(value)
             }
-        </span>
-        )
+        </span>)
     ;
     render() {
         const keys = Object.keys(this.props.object);
         return  (
-            <div
-             className={css(styles.container)}>
-                <div
-                 onClick={this._handleClick}>
-                    <span
-                     className={css(styles.triangle)}>
-                        {
+            <div className={css(styles.container)}>
+                <div onClick={this._handleClick}>
+                    <span className={css(styles.triangle)}>{
                             this.state.isExpanded ? '▼' : '►'
                         }
-                    </span>
-                    {
+                    </span>{
                         this.props.label ?  (
-                            <span
-                             className={css(styles.label)}>
-                                {this.props.label}
-                                :
-                            </span>
-                            )
+                            <span className={css(styles.label)}>{this.props.label}:</span>)
                          : null
                     }
                     {
                         Array.isArray(this.props.object) ?  (
-                            <span
-                             className={css(styles.preview)}>
-                                [
-                                {
+                            <span className={css(styles.preview)}>[{
                                     this.props.object.map((value, i, self) => 
-                                    
                                          (
-                                        <span
-                                         key={i} className={css(styles.pair)}>
-                                            {this._renderValue(value)}
-                                            {
+                                        <span key={i} className={css(styles.pair)}>{this._renderValue(value)}{
                                                 i !== self.length - 1 ? ',' : null
                                             }
-                                        </span>
-                                        )
+                                        </span>)
                                     
                                     )
                                 }
-                                ]
-                            </span>
-                            )
+                                ]</span>)
                          :  (
-                            <span
-                             className={css(styles.preview)}>
-                                {'{'}
-                                {
+                            <span className={css(styles.preview)}>{'{'}{
                                     keys.map((key, i) => {
-                                    
                                         const value = this.props.object[key];
                                         return  (
-                                            <span
-                                             key={key} className={css(styles.pair)}>
-                                                <span
-                                                 className={css(styles.key)}>
-                                                    {key}
-                                                    :
-                                                </span>
-                                                {this._renderValue(value)}
-                                                {
+                                            <span key={key} className={css(styles.pair)}><span className={css(styles.key)}>{key}:</span>{this._renderValue(value)}{
                                                     i !== keys.length - 1 ? ',' : null
                                                 }
-                                            </span>
-                                            )
+                                            </span>)
                                         ;
                                     }
                                     )
                                 }
-                                {'}'}
-                            </span>
-                            )
+                                {'}'}</span>)
                         
                     }
                 </div>
-                <div
-                 className={css(styles.expanded)}>
+                <div className={css(styles.expanded)}>
                     {
                         this.state.isExpanded ? (Array.isArray(this.props.object) ? [
                                     ...keys, 
                                     'length'
                                 ] : keys).map((key) => {
-                            
                                 const item = this.props.object[key];
                                 return typeof item === 'object' && item !== null && Object.keys(item).length ?  (
-                                        <CollapsibleObject
-                                         key={key} label={key} object={item} />
+                                        <CollapsibleObject key={key} label={key} object={item} />
                                         )
                                      :  (
-                                        <div
-                                         key={key} className={css(styles.item)}>
-                                            <span
-                                             className={css(styles.label, styles.key)}>
-                                                {key}
-                                                :
-                                            </span>
-                                            {this._renderValue(item)}
-                                        </div>
+                                        <div key={key} className={css(styles.item)}>
+                                            <span className={css(styles.label, styles.key)}>{key}:</span>{this._renderValue(item)}</div>
                                         )
                                 ;
                             }
@@ -151,6 +103,7 @@ export class CollapsibleObject extends React.Component<CollapsibleObjectProps, S
         ;
     }
 }
+
 
 export default CollapsibleObject;
 

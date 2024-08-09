@@ -5,6 +5,7 @@ var __export = (target, all) => {
 };
 
 // src/features/config/env.ts
+import path from "path";
 import dotenv from "dotenv";
 import { cleanEnv, str, bool, port } from "envalid";
 function validateEnv() {
@@ -18,8 +19,7 @@ function validateEnv() {
     MONGO_PATH: str(),
     IS_WIZZI_DEV: bool(),
     PACKI_CONFIG_PATH: str(),
-    PORT: port(),
-    ITTF_PATH: str()
+    PORT: port()
   });
   return checkedEnv;
 }
@@ -27,6 +27,9 @@ var config;
 function create() {
   if (config == null) {
     const checkedEnv = validateEnv();
+    const __rootPath = path.join(__dirname, "..");
+    const __ittfPath = path.join(__rootPath, "ittf");
+    const __dataPath = path.join(__rootPath, "data");
     config = {
       noCache: checkedEnv.NOCACHE,
       sessionSecret: checkedEnv.SESSION_SECRET,
@@ -37,11 +40,18 @@ function create() {
       isWizziDev: checkedEnv.IS_WIZZI_DEV,
       packiConfigPath: checkedEnv.PACKI_CONFIG_PATH,
       port: checkedEnv.PORT,
-      ittfPath: checkedEnv.ITTF_PATH
+      userUserName: "stfnbssl",
+      userDisplayName: "Stefano Bassoli",
+      userAvatarUrl: "https://avatars.githubusercontent.com/u/728956?v=4",
+      ittfPath: __ittfPath,
+      dataPath: __dataPath,
+      metaHtmlIttfPath: path.join(__ittfPath, "meta", "document", "index.html.ittf"),
+      metaFolderIttfPath: path.join(__ittfPath, "meta", "folder", "index.html.ittf"),
+      metaHtmlTextPath: path.join(__ittfPath, "meta", "text", "index.html.ittf")
     };
     Object.keys(config).forEach(
       (element) => {
-        if (element.indexOf("Pass") < 0 && element.indexOf("Secr") < 0) {
+        if (element.toLowerCase().indexOf("pass") < 0 && element.indexOf("secr") < 0) {
           console.log("Created config", element, config[element]);
         }
       }
@@ -77,6 +87,156 @@ function mongodbStart(config3, modelBuilders) {
   );
 }
 
+// src/site/controllers/home.ts
+import { Router } from "express";
+
+// src/utils/error.ts
+var MISSING_REQUIRED_FIELDS = 1e3;
+var MISSING_EMAIL = 1002;
+var MISSING_FULLNAME = 1003;
+var MISSING_USER_ID = 1004;
+var USER_NOT_FOUND = 2001;
+var LOGIN_REQUIRED = 3001;
+var USERNAME_EXISTS = 3002;
+var EMAIL_EXISTS = 3003;
+var EMAIL_USERNAME_PASSWORD_INVALID = 3006;
+var LOGOUT_REQUIRED = 3007;
+var OTP_INVALID = 3008;
+var OTP_EXPIRED = 3009;
+var CONTEST_NOT_FOUND = 3103;
+var NOT_REGISTERED_YET = 3201;
+var SYSTEM_ERROR = 4002;
+var SEND_EMAIL_ERROR = 4003;
+var errorMap = {};
+errorMap[MISSING_REQUIRED_FIELDS] = "Missing required field(s)";
+errorMap[MISSING_EMAIL] = "Missing email";
+errorMap[MISSING_FULLNAME] = "Missing fullname";
+errorMap[MISSING_USER_ID] = "Missing user ID";
+errorMap[USERNAME_EXISTS] = "Username already exists";
+errorMap[EMAIL_EXISTS] = "Email already exists";
+errorMap[USER_NOT_FOUND] = "User not found";
+errorMap[EMAIL_USERNAME_PASSWORD_INVALID] = "Email/Username or password is invalid";
+errorMap[LOGOUT_REQUIRED] = "Logout required";
+errorMap[SYSTEM_ERROR] = "System Error";
+errorMap[LOGIN_REQUIRED] = "Login required";
+errorMap[OTP_INVALID] = "OTP is invalid";
+errorMap[OTP_EXPIRED] = "OTP is expired";
+errorMap[SEND_EMAIL_ERROR] = "Send email Error";
+errorMap[CONTEST_NOT_FOUND] = "Contest not found";
+errorMap[NOT_REGISTERED_YET] = "Not registered yet";
+var FcError = class extends Error {
+  constructor(errCode, data = null) {
+    super(errorMap[errCode]);
+    this.code = errCode;
+    this.message = errorMap[errCode];
+    this.data = data;
+  }
+  code;
+  message;
+  data;
+};
+
+// src/utils/index.ts
+var statusCode = {
+  SUCCESS: 200,
+  BAD_REQUEST: 400,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404
+};
+
+// src/site/controllers/home.ts
+function makeHandlerAwareOfAsyncErrors(handler) {
+  return async function(request, response, next) {
+    try {
+      await handler(request, response, next);
+    } catch (error) {
+      if (error instanceof FcError) {
+        response.status(statusCode.BAD_REQUEST).send({
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
+        });
+      } else {
+        const fcError = new FcError(SYSTEM_ERROR);
+        response.status(statusCode.BAD_REQUEST).send({
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
+        });
+      }
+    }
+  };
+}
+var HomeController = class {
+  path = "";
+  router = Router();
+  initialize = (app2, initValues) => {
+    console.log("\x1B[33m%s\x1B[0m", "Entering HomeController.initialize");
+    this.router.get("/", makeHandlerAwareOfAsyncErrors(this.home));
+  };
+  home = async (request, response) => response.render("home/index.html.ittf", {
+    title: "wizzi.hub.backend"
+  });
+};
+
+// src/site/controllers/demoHome.ts
+import { Router as Router2 } from "express";
+var DemoHomeController = class {
+  path = "/demo/home";
+  router = Router2();
+  initialize = (app2, initValues) => {
+    console.log("\x1B[33m%s\x1B[0m", "Entering DemoHomeController.initialize");
+    this.router.get(`/`, this.home);
+  };
+  home = async (request, response) => response.render("demoHome/index.html.ittf", {
+    title: "Hello demo home"
+  });
+};
+
+// src/site/controllers/wizziDocs.ts
+import { Router as Router5 } from "express";
+
+// src/utils/sendResponse.ts
+import stringify from "json-stringify-safe";
+function sendContent(res, contentType, content) {
+  res.writeHead(200, {
+    "Content-Type": contentType,
+    "Content-Length": content ? content.length : 0
+  });
+  res.end(content);
+}
+var sendHtml = (res, content) => sendContent(res, "text/html", content);
+var sendError = (res, error) => {
+  res.status(200);
+  res.type("application/json");
+  res.send({
+    err: JSON.parse(stringify(error)),
+    message: error && error.message,
+    stack: error && error.stack
+  });
+};
+var sendFailure = (res, error, status) => {
+  res.status(error && error.status ? error.status : status);
+  res.type("application/json");
+  res.send(JSON.parse(stringify(error)));
+};
+var sendSuccess = (res, message) => {
+  res.status(200);
+  res.type("application/json");
+  res.send(message);
+};
+
+// src/features/wizziDocs/api/cheatsheet.ts
+var cheatsheet_exports = {};
+__export(cheatsheet_exports, {
+  getCheatsheet: () => getCheatsheet2,
+  getCheatsheetList: () => getCheatsheetList2
+});
+
 // src/features/wizziProductions/factory.ts
 var factory_exports = {};
 __export(factory_exports, {
@@ -99,6 +259,7 @@ function getWzCtxFactoryPlugins() {
       "./wizzi.plugin.ittf/index.js",
       "./wizzi.plugin.js/index.js",
       "./wizzi.plugin.json/index.js",
+      "./wizzi.plugin.logbot/index.js",
       "./wizzi.plugin.md/index.js",
       "./wizzi.plugin.svg/index.js",
       "./wizzi.plugin.text/index.js",
@@ -314,6 +475,8 @@ __export(productions_exports, {
   generateFolderArtifacts: () => generateFolderArtifacts,
   generateFolderArtifactsFs: () => generateFolderArtifactsFs,
   generateWizziModelTypes: () => generateWizziModelTypes,
+  getCheatsheet: () => getCheatsheet,
+  getCheatsheetList: () => getCheatsheetList,
   getCodeAST: () => getCodeAST,
   getCodeASTFs: () => getCodeASTFs,
   inferAndLoadContextFs: () => inferAndLoadContextFs,
@@ -340,12 +503,42 @@ __export(productions_exports, {
   wizzifyFs: () => wizzifyFs,
   wrapIttfText: () => wrapIttfText
 });
-import path from "path";
+import path2 from "path";
 import fs from "fs";
-import stringify from "json-stringify-safe";
+import stringify2 from "json-stringify-safe";
 import wizzi2, { constants as constants2 } from "@wizzi/factory";
 import { fSystem, ittfScanner, verify } from "@wizzi/utils";
 var myname2 = "features/wizzi/productions";
+async function getCheatsheetList() {
+  return new Promise(
+    async (resolve2, reject) => {
+      var files = {};
+      let jsonwf = {};
+      jsonwf = await createJsonFsAndFactory(files);
+      ;
+      return resolve2(jsonwf.wf.getCheatsheetList());
+    }
+  );
+}
+async function getCheatsheet(schemaName) {
+  return new Promise(
+    async (resolve2, reject) => {
+      var files = {};
+      let jsonwf = {};
+      jsonwf = await createJsonFsAndFactory(files);
+      ;
+      jsonwf.wf.getCheatsheet(
+        schemaName,
+        (err, result) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve2(result);
+        }
+      );
+    }
+  );
+}
 async function loadModel(filePath, files, context) {
   return new Promise(
     // TODO catch error
@@ -549,7 +742,7 @@ async function generateArtifact(filePath, files, context, options) {
           files
         });
       }
-      const generator = _options.generator ? _options.generator : null;
+      let artifactName = _options.generator ? _options.generator : null;
       let jsonwf = {};
       let generationContext = {};
       const ittfDocumentUri = ensurePackiFilePrefix(filePath);
@@ -563,13 +756,18 @@ async function generateArtifact(filePath, files, context, options) {
           site: siteDocumentUri ? await loadModelInternal(jsonwf.wf, ensurePackiFilePrefix(siteDocumentUri), {}) : null,
           ...await inferAndLoadContextJson(jsonwf.wf, files, ittfDocumentUri, "twin")
         });
+        const ittfSchema = jsonwf.wf.mapIttfDocumentPathToSchema(filePath);
+        if (!artifactName) {
+          artifactName = jsonwf.wf.mapSchemaToDefaultArtifact(ittfSchema);
+        }
+        const contentType = jsonwf.wf.mapArtifactToContentType(artifactName);
         jsonwf.wf.loadModelAndGenerateArtifact(
           ittfDocumentUri,
           {
             modelRequestContext: generationContext || {},
             artifactRequestContext: _options.artifactContext || {}
           },
-          generator,
+          artifactName,
           (err, result) => {
             if (err) {
               return reject(err);
@@ -577,7 +775,8 @@ async function generateArtifact(filePath, files, context, options) {
             resolve2({
               artifactContent: result,
               sourcePath: filePath,
-              artifactGenerator: generator
+              artifactGenerator: artifactName,
+              contentType
             });
           }
         );
@@ -592,20 +791,25 @@ async function generateArtifactFs(filePath, context, options) {
   return new Promise(
     // TODO catch error
     async (resolve2, reject) => {
-      const generator = _options.generator ? _options.generator : null;
+      let artifactName = _options.generator ? _options.generator : null;
       const plugins = _options.pluginsBaseFolder && _options.plugins ? {
         pluginsBaseFolder: _options.pluginsBaseFolder,
         items: _options.plugins
       } : null;
       const wf = await createFilesystemFactory(plugins, null, {});
       try {
+        const ittfSchema = wf.mapIttfDocumentPathToSchema(filePath);
+        if (!artifactName) {
+          artifactName = wf.mapSchemaToDefaultArtifact(ittfSchema);
+        }
+        const contentType = wf.mapArtifactToContentType(artifactName);
         wf.loadModelAndGenerateArtifact(
           filePath,
           {
             modelRequestContext: context || {},
             artifactRequestContext: context || {}
           },
-          generator,
+          artifactName,
           (err, result) => {
             if (err) {
               return reject(err);
@@ -613,7 +817,8 @@ async function generateArtifactFs(filePath, context, options) {
             resolve2({
               artifactContent: result,
               sourcePath: filePath,
-              artifactGenerator: generator
+              artifactGenerator: artifactName,
+              contentType
             });
           }
         );
@@ -918,13 +1123,13 @@ async function executeMetaProduction(metaCtx, tempFolder, wizziFolder, globalCon
             if (err) {
               metaCtx.__wz_fsc.dumpDebugObjects({
                 kind: "packi",
-                destFolder: path.join(__dirname, "..", "..", "..", "dumps", "packi")
+                destFolder: path2.join(__dirname, "..", "..", "..", "dumps", "packi")
               });
               return reject(err);
             }
             metaCtx.__wz_fsc.dumpDebugObjects({
               kind: "packi",
-              destFolder: path.join(__dirname, "..", "..", "..", "dumps", "packi")
+              destFolder: path2.join(__dirname, "..", "..", "..", "dumps", "packi")
             });
             resolve2(wizziPackiFiles);
           }
@@ -1047,7 +1252,7 @@ async function executeJobFs(request) {
         console.log("STARTING WIZZI JOB", request.wfjobIttfDocumentUri);
         wf.executeJob(
           {
-            name: request.wfjobName || path.basename(request.wfjobIttfDocumentUri),
+            name: request.wfjobName || path2.basename(request.wfjobIttfDocumentUri),
             path: request.wfjobIttfDocumentUri,
             productionOptions: {},
             globalContext
@@ -1111,7 +1316,7 @@ async function inferAndLoadContextFs(filePath, exportName) {
     (resolve2, reject) => {
       const pf = fSystem.fileInfoByPath(filePath);
       if (pf.isIttfDocument && pf.schema !== "json") {
-        var twinJsonPath = path.join(path.dirname(filePath), pf.seedName + ".json.ittf");
+        var twinJsonPath = path2.join(path2.dirname(filePath), pf.seedName + ".json.ittf");
         if (fs.existsSync(twinJsonPath)) {
           loadModelFs(twinJsonPath, {}).then(
             (model7) => resolve2({
@@ -1242,7 +1447,7 @@ async function packiFilesToFolderFs(folderPath, files) {
               const file3 = files[k];
               if (file3) {
                 var contents = file3.contents;
-                fsfile.write(path.join(folderPath, k), contents);
+                fsfile.write(path2.join(folderPath, k), contents);
               }
             }
             return resolve2({
@@ -1263,7 +1468,7 @@ async function packiFilesToFolderFs(folderPath, files) {
 async function wizzifyFs(filePath) {
   return new Promise(
     async (resolve2, reject) => {
-      var extension = path.extname(filePath);
+      var extension = path2.extname(filePath);
       const wf = await createFilesystemFactory();
       wf.getWizziIttf(
         filePath,
@@ -1286,7 +1491,7 @@ async function wizzify(files) {
       for (const k in files) {
         const file3 = files[k];
         if (file3) {
-          var extension = path.extname(k);
+          var extension = path2.extname(k);
           try {
             const ittfResult = await handleWizzify(jsonwf.wf, extension, file3.contents);
             result[k + ".ittf"] = {
@@ -1296,7 +1501,7 @@ async function wizzify(files) {
           } catch (ex) {
             result[k + ".ittf"] = {
               type: "CODE",
-              contents: stringify(ex, null, 2)
+              contents: stringify2(ex, null, 2)
             };
           }
         }
@@ -1322,7 +1527,7 @@ function handleWizzify(wf, schemaOrExtension, codeSnippet) {
 async function getCodeASTFs(filePath) {
   return new Promise(
     async (resolve2, reject) => {
-      var extension = path.extname(filePath);
+      var extension = path2.extname(filePath);
       const wf = await createFilesystemFactory();
       wf.getCodeAST(
         filePath,
@@ -1347,17 +1552,17 @@ async function getCodeAST(files) {
       for (const k in files) {
         const file3 = files[k];
         if (file3) {
-          var extension = path.extname(k);
+          var extension = path2.extname(k);
           try {
             const astResult = await handleGetCodeAST(jsonwf.wf, extension, file3.contents);
             result[k + ".ast"] = {
               type: "CODE",
-              contents: stringify(astResult, null, 2)
+              contents: stringify2(astResult, null, 2)
             };
           } catch (ex) {
             result[k + ".ast"] = {
               type: "CODE",
-              contents: stringify(ex, null, 2)
+              contents: stringify2(ex, null, 2)
             };
           }
         }
@@ -1381,7 +1586,7 @@ async function loadSiteJsonModel(relPath, context) {
     isWizziStudio: true
   }, context || {});
   return new Promise(
-    (resolve2, reject) => loadModelFs(path.join(config2.ittfPath, "models", relPath), context).then(
+    (resolve2, reject) => loadModelFs(path2.join(config2.ittfPath, "models", relPath), context).then(
       (model7) => resolve2(model7)
     ).catch(
       (err) => reject(err)
@@ -1390,139 +1595,66 @@ async function loadSiteJsonModel(relPath, context) {
 }
 
 // src/features/wizziProductions/controllers/production.ts
-import { Router } from "express";
-
-// src/utils/sendResponse.ts
-import stringify2 from "json-stringify-safe";
-var sendError = (res, error) => {
-  res.status(200);
-  res.type("application/json");
-  res.send({
-    err: JSON.parse(stringify2(error)),
-    message: error && error.message,
-    stack: error && error.stack
-  });
-};
-var sendFailure = (res, error, status) => {
-  res.status(error && error.status ? error.status : status);
-  res.type("application/json");
-  res.send(JSON.parse(stringify2(error)));
-};
-var sendSuccess = (res, message) => {
-  res.status(200);
-  res.type("application/json");
-  res.send(message);
-};
-
-// src/utils/error.ts
-var MISSING_REQUIRED_FIELDS = 1e3;
-var MISSING_EMAIL = 1002;
-var MISSING_FULLNAME = 1003;
-var MISSING_USER_ID = 1004;
-var USER_NOT_FOUND = 2001;
-var LOGIN_REQUIRED = 3001;
-var USERNAME_EXISTS = 3002;
-var EMAIL_EXISTS = 3003;
-var EMAIL_USERNAME_PASSWORD_INVALID = 3006;
-var LOGOUT_REQUIRED = 3007;
-var OTP_INVALID = 3008;
-var OTP_EXPIRED = 3009;
-var CONTEST_NOT_FOUND = 3103;
-var NOT_REGISTERED_YET = 3201;
-var SYSTEM_ERROR = 4002;
-var SEND_EMAIL_ERROR = 4003;
-var errorMap = {};
-errorMap[MISSING_REQUIRED_FIELDS] = "Missing required field(s)";
-errorMap[MISSING_EMAIL] = "Missing email";
-errorMap[MISSING_FULLNAME] = "Missing fullname";
-errorMap[MISSING_USER_ID] = "Missing user ID";
-errorMap[USERNAME_EXISTS] = "Username already exists";
-errorMap[EMAIL_EXISTS] = "Email already exists";
-errorMap[USER_NOT_FOUND] = "User not found";
-errorMap[EMAIL_USERNAME_PASSWORD_INVALID] = "Email/Username or password is invalid";
-errorMap[LOGOUT_REQUIRED] = "Logout required";
-errorMap[SYSTEM_ERROR] = "System Error";
-errorMap[LOGIN_REQUIRED] = "Login required";
-errorMap[OTP_INVALID] = "OTP is invalid";
-errorMap[OTP_EXPIRED] = "OTP is expired";
-errorMap[SEND_EMAIL_ERROR] = "Send email Error";
-errorMap[CONTEST_NOT_FOUND] = "Contest not found";
-errorMap[NOT_REGISTERED_YET] = "Not registered yet";
-var FcError = class extends Error {
-  constructor(errCode, data = null) {
-    super(errorMap[errCode]);
-    this.code = errCode;
-    this.message = errorMap[errCode];
-    this.data = data;
-  }
-  code;
-  message;
-  data;
-};
-
-// src/utils/index.ts
-var statusCode = {
-  SUCCESS: 200,
-  BAD_REQUEST: 400,
-  FORBIDDEN: 403,
-  NOT_FOUND: 404
-};
-
-// src/features/wizziProductions/controllers/production.ts
-import path3 from "path";
+import { Router as Router3 } from "express";
+import path4 from "path";
 
 // src/features/wizziProductions/api/context.ts
-import path2 from "path";
+import path3 from "path";
 import { file } from "@wizzi/factory";
 async function resolveContexts(contextItems) {
-  const promises = [];
-  contextItems.map(
-    (contextItem) => promises.push(new Promise(
-      (resolve2, reject) => resolveContext(contextItem).then(
-        (context) => resolve2({
-          name: contextItem.name,
-          value: context
-        })
+  return new Promise(
+    (resolve2, reject) => {
+      if (contextItems.length == 0) {
+        return resolve2({});
+      }
+      const promises = [];
+      contextItems.map(
+        (contextItem) => promises.push(new Promise(
+          (resolve3, reject2) => resolveContext(contextItem).then(
+            (context) => resolve3({
+              name: contextItem.name,
+              value: context
+            })
+          ).catch(
+            (err) => {
+              if (typeof err === "object" && err !== null) {
+              }
+              console.log("\x1B[31m%s\x1B[0m", "features.wizzi.api.context.resolveContexts.resolveContext.error", err);
+              return reject2(err);
+            }
+          )
+        ))
+      );
+      Promise.all(promises).then(
+        (items) => {
+          var context = {};
+          items.map(
+            (value) => {
+              if (value.name && value.name.length > 0) {
+                context[value.name] = value.value;
+              } else {
+                context = Object.assign({}, context, value.value);
+              }
+            }
+          );
+          resolve2(context);
+        }
       ).catch(
         (err) => {
           if (typeof err === "object" && err !== null) {
           }
-          console.log("\x1B[31m%s\x1B[0m", "features.wizzi.api.context.resolveContexts.resolveContext.error", err);
+          console.log("\x1B[31m%s\x1B[0m", "features.wizzi.api.context.resolveContexts.Promise.all.error", err);
           return reject(err);
         }
-      )
-    ))
-  );
-  return new Promise(
-    (resolve2, reject) => Promise.all(promises).then(
-      (items) => {
-        var context = {};
-        items.map(
-          (value) => {
-            if (value.name && value.name.length > 0) {
-              context[value.name] = value.value;
-            } else {
-              context = Object.assign({}, context, value.value);
-            }
-          }
-        );
-        resolve2(context);
-      }
-    ).catch(
-      (err) => {
-        if (typeof err === "object" && err !== null) {
-        }
-        console.log("\x1B[31m%s\x1B[0m", "features.wizzi.api.context.resolveContexts.Promise.all.error", err);
-        return reject(err);
-      }
-    )
+      );
+    }
   );
 }
 function resolveContext(contextItem) {
   if (contextItem.source == "json-fsIttf") {
     return new Promise(
       // TODO check contextItem.path.endsWith('.json.ittf')
-      (resolve2, reject) => generateArtifactFs(path2.join(config2.ittfPath, contextItem.path)).then(
+      (resolve2, reject) => generateArtifactFs(path3.join(config2.ittfPath, contextItem.path)).then(
         (value) => resolve2(value)
       ).catch(
         (err) => {
@@ -1561,7 +1693,7 @@ function resolveContext(contextItem) {
     );
   } else if (contextItem.source == "model-fsIttf") {
     return new Promise(
-      (resolve2, reject) => loadModelFs(path2.join(config2.ittfPath, contextItem.path), {}).then(
+      (resolve2, reject) => loadModelFs(path3.join(config2.ittfPath, contextItem.path), {}).then(
         (value) => resolve2(value)
       ).catch(
         (err) => {
@@ -1593,23 +1725,27 @@ function resolveContext(contextItem) {
 }
 
 // src/features/wizziProductions/controllers/production.ts
-function makeHandlerAwareOfAsyncErrors(handler) {
+function makeHandlerAwareOfAsyncErrors2(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -1617,24 +1753,25 @@ function makeHandlerAwareOfAsyncErrors(handler) {
 }
 var ProductionController = class {
   path = "/api/v1/wizzi/production";
-  router = Router();
+  router = Router3();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ProductionController.initialize");
-    this.router.post("/artifact", makeHandlerAwareOfAsyncErrors(this.artifact));
-    this.router.post("/folder/artifacts", makeHandlerAwareOfAsyncErrors(this.folderArtifacts));
-    this.router.post("/mtree", makeHandlerAwareOfAsyncErrors(this.mTree));
-    this.router.post("/mtreescript", makeHandlerAwareOfAsyncErrors(this.mTreeBuildUpScript));
-    this.router.post("/mtreescan", makeHandlerAwareOfAsyncErrors(this.mTreeScan));
-    this.router.post("/meta/execute", makeHandlerAwareOfAsyncErrors(this.metaExecute));
-    this.router.post("/wrapittf", makeHandlerAwareOfAsyncErrors(this.wrapIttfText));
+    this.router.post("/artifact", makeHandlerAwareOfAsyncErrors2(this.artifact));
+    this.router.post("/folder/artifacts", makeHandlerAwareOfAsyncErrors2(this.folderArtifacts));
+    this.router.post("/mtree", makeHandlerAwareOfAsyncErrors2(this.mTree));
+    this.router.post("/mtreescript", makeHandlerAwareOfAsyncErrors2(this.mTreeBuildUpScript));
+    this.router.post("/wizzify", makeHandlerAwareOfAsyncErrors2(this.wizzify));
+    this.router.post("/mtreescan", makeHandlerAwareOfAsyncErrors2(this.mTreeScan));
+    this.router.post("/meta/execute", makeHandlerAwareOfAsyncErrors2(this.metaExecute));
+    this.router.post("/wrapittf", makeHandlerAwareOfAsyncErrors2(this.wrapIttfText));
   };
   artifact = async (request, response) => {
     const artifactRequest = request.body;
-    resolveContexts(artifactRequest.contextItems).then(
+    resolveContexts(artifactRequest.contextItems || []).then(
       (context) => {
         if (artifactRequest.ittfDocument) {
           if (artifactRequest.ittfDocument.source == "fs") {
-            generateArtifactFs(path3.join(config2.ittfPath, artifactRequest.ittfDocument.path), context).then(
+            generateArtifactFs(path4.join(config2.ittfPath, artifactRequest.ittfDocument.path), context).then(
               (generatedArtifact) => sendSuccess(response, generatedArtifact)
             ).catch(
               (err) => {
@@ -1692,7 +1829,7 @@ var ProductionController = class {
   };
   folderArtifacts = async (request, response) => {
     const artifactRequest = request.body;
-    resolveContexts(artifactRequest.contextItems).then(
+    resolveContexts(artifactRequest.contextItems || []).then(
       (context) => {
         if (artifactRequest.ittfFolder) {
           const sourceError = {
@@ -1750,11 +1887,11 @@ var ProductionController = class {
   };
   mTree = async (request, response) => {
     const artifactRequest = request.body;
-    resolveContexts(artifactRequest.contextItems).then(
+    resolveContexts(artifactRequest.contextItems || []).then(
       (context) => {
         if (artifactRequest.ittfDocument) {
           if (artifactRequest.ittfDocument.source == "fs") {
-            mTreeFs(path3.join(config2.ittfPath, artifactRequest.ittfDocument.path), context).then(
+            mTreeFs(path4.join(config2.ittfPath, artifactRequest.ittfDocument.path), context).then(
               (mTree2) => sendSuccess(response, {
                 mTree: mTree2.mTreeIttf
               })
@@ -1818,11 +1955,11 @@ var ProductionController = class {
   };
   mTreeBuildUpScript = async (request, response) => {
     const artifactRequest = request.body;
-    resolveContexts(artifactRequest.contextItems).then(
+    resolveContexts(artifactRequest.contextItems || []).then(
       (context) => {
         if (artifactRequest.ittfDocument) {
           if (artifactRequest.ittfDocument.source == "fs") {
-            mTreeBuildUpScriptFs(path3.join(config2.ittfPath, artifactRequest.ittfDocument.path), context).then(
+            mTreeBuildUpScriptFs(path4.join(config2.ittfPath, artifactRequest.ittfDocument.path), context).then(
               (mTreeBuildUpScript2) => sendSuccess(response, mTreeBuildUpScript2)
             ).catch(
               (err) => {
@@ -1878,12 +2015,56 @@ var ProductionController = class {
       }
     );
   };
+  wizzify = async (request, response) => {
+    const artifactRequest = request.body;
+    if (artifactRequest.wizzifiable) {
+      if (artifactRequest.wizzifiable.source == "fs") {
+        wizzifyFs(artifactRequest.wizzifiable.filePath).then(
+          (wizzifiedContents) => sendSuccess(response, {
+            wizzified: wizzifiedContents
+          })
+        ).catch(
+          (err) => {
+            if (typeof err === "object" && err !== null) {
+            }
+            console.log("\x1B[31m%s\x1B[0m", "features/wizzi/controller/productions.handler.wizzify.wizziProds.wizzifyFs.error", err);
+            sendError(response, err);
+          }
+        );
+      } else if (artifactRequest.wizzifiable.source == "packi") {
+        wizzify(artifactRequest.wizzifiable.packiFiles).then(
+          (wizzifiedPackiFiles) => sendSuccess(response, {
+            wizzifiedPackiFiles
+          })
+        ).catch(
+          (err) => {
+            if (typeof err === "object" && err !== null) {
+            }
+            console.log("\x1B[31m%s\x1B[0m", "features/wizzi/controller/productions.handler.wizzify.wizziProds.wizzify.error", err);
+            sendError(response, err);
+          }
+        );
+      } else {
+        sendError(response, {
+          err: {
+            message: "Invalid artifactRequest.wizzifiable.source: " + artifactRequest.wizzifiable.source
+          }
+        });
+      }
+    } else {
+      sendError(response, {
+        err: {
+          message: "Invalid artifactRequest. Missing `wizzifiable` parameter"
+        }
+      });
+    }
+  };
   mTreeScan = async (request, response) => {
     const artifactRequest = request.body;
     if (artifactRequest.ittfDocument) {
       var rootFolder = artifactRequest.ittfDocument.rootFolder || "";
       if (artifactRequest.ittfDocument.source == "fs") {
-        scanIttfDocumentFs(path3.join(config2.ittfPath, artifactRequest.ittfDocument.path), rootFolder).then(
+        scanIttfDocumentFs(path4.join(config2.ittfPath, artifactRequest.ittfDocument.path), rootFolder).then(
           (mTreeScan) => sendSuccess(response, {
             mTreeScan
           })
@@ -1933,7 +2114,7 @@ var ProductionController = class {
     } else {
       sendError(response, {
         err: {
-          message: "Invalid artifactRequest"
+          message: "Invalid artifactRequest. Missing `ittfDocument` parameter"
         }
       });
     }
@@ -1958,6 +2139,181 @@ var ProductionController = class {
 // src/features/wizziProductions/index.ts
 var wizziProductionsControllers = [
   new ProductionController()
+];
+
+// src/features/wizziDocs/api/cheatsheet.ts
+async function getCheatsheetList2() {
+  return new Promise(
+    (resolve2, reject) => productions_exports.getCheatsheetList().then(
+      (cheatsheets) => {
+        return resolve2(cheatsheets);
+      }
+    ).catch(
+      (err) => {
+        if (typeof err === "object" && err !== null) {
+        }
+        console.log("\x1B[31m%s\x1B[0m", "cheatsheetApi.getCheatsheetList.error", err);
+        return reject(err);
+      }
+    )
+  );
+}
+async function getCheatsheet2(schemaName) {
+  return new Promise(
+    (resolve2, reject) => productions_exports.getCheatsheet(schemaName).then(
+      (cheatsheet) => {
+        return resolve2(cheatsheet);
+      }
+    ).catch(
+      (err) => {
+        if (typeof err === "object" && err !== null) {
+        }
+        console.log("\x1B[31m%s\x1B[0m", "cheatsheetApi.getCheatsheet.error", err);
+        return reject(err);
+      }
+    )
+  );
+}
+
+// src/features/wizziDocs/controllers/apiv1cheatsheet.ts
+import { Router as Router4 } from "express";
+var ApiV1CheatsheetController = class {
+  path = "/api/v1/docs/cheatsheet";
+  router = Router4();
+  initialize = (app2, initValues) => {
+    console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1CheatsheetController.initialize");
+    this.router.get("/", this.getCheatsheetList);
+    this.router.get("/:name", this.getCheatsheet);
+  };
+  getCheatsheetList = async (request, response) => getCheatsheetList2().then(
+    (result) => sendSuccess(response, result)
+  ).catch(
+    (err) => {
+      if (typeof err === "object" && err !== null) {
+      }
+      sendFailure(response, {
+        err
+      }, 501);
+    }
+  );
+  getCheatsheet = async (request, response) => getCheatsheet2(request.params.name).then(
+    (result) => sendSuccess(response, result)
+  ).catch(
+    (err) => {
+      if (typeof err === "object" && err !== null) {
+      }
+      sendFailure(response, {
+        err
+      }, 501);
+    }
+  );
+};
+
+// src/features/wizziDocs/index.ts
+var wizziDocsControllers = [
+  new ApiV1CheatsheetController()
+];
+
+// src/site/controllers/wizziDocs.ts
+function makeHandlerAwareOfAsyncErrors3(handler) {
+  return async function(request, response, next) {
+    try {
+      await handler(request, response, next);
+    } catch (error) {
+      if (error instanceof FcError) {
+        response.status(statusCode.BAD_REQUEST).send({
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
+        });
+      } else {
+        const fcError = new FcError(SYSTEM_ERROR);
+        response.status(statusCode.BAD_REQUEST).send({
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
+        });
+      }
+    }
+  };
+}
+var DocsController = class {
+  path = "/wizzi/docs";
+  router = Router5();
+  initialize = (app2, initValues) => {
+    console.log("\x1B[33m%s\x1B[0m", "Entering DocsController.initialize");
+    this.router.get("/cheatsheet/:name", makeHandlerAwareOfAsyncErrors3(this.cheatsheet));
+  };
+  cheatsheet = (
+    // loog '*** calling cheatsheetApi.getCheatsheetList'
+    async (request, response) => cheatsheet_exports.getCheatsheetList().then(
+      // loog '*** csList', csList
+      // loog '*** exists', exists
+      (csList) => {
+        const exists = csList.filter(
+          (item) => item.name == request.params.name
+        );
+        if (exists.length > 0) {
+          cheatsheet_exports.getCheatsheet(request.params.name).then(
+            // loog '*** 0 result', result
+            (result) => response.render("wizzi/docs/cheatsheet.html.ittf", {
+              csList,
+              cs: result,
+              csStatus: 0
+            })
+          ).catch(
+            (err) => {
+              console.log("\x1B[31m%s\x1B[0m", "docs.cheatsheet.error", err);
+              var content = err;
+              if (typeof err === "object" && err !== null) {
+                content = "<html><body><pre><code>" + JSON.stringify(err, null, 4) + "</code></pre></body></html>";
+              }
+              sendHtml(response, content);
+            }
+          );
+        } else if (csList.length > 0) {
+          cheatsheet_exports.getCheatsheet(csList[0].name).then(
+            // loog '*** 1 result', result
+            (result) => response.render("wizzi/docs/cheatsheet.html.ittf", {
+              csList,
+              cs: result,
+              csStatus: 1,
+              csMessage: "Cheatsheet for schema " + request.params.name + " unavailable"
+            })
+          ).catch(
+            (err) => {
+              console.log("\x1B[31m%s\x1B[0m", "docs.cheatsheet.error", err);
+              var content = err;
+              if (typeof err === "object" && err !== null) {
+                content = "<html><body><pre><code>" + JSON.stringify(err, null, 4) + "</code></pre></body></html>";
+              }
+              sendHtml(response, content);
+            }
+          );
+        } else {
+          response.render("wizzi/docs/cheatsheet.html.ittf", {
+            csList: [],
+            cs: {
+              elements: []
+            },
+            csStatus: 2,
+            csMessage: "No available cheatsheet"
+          });
+        }
+      }
+    )
+  );
+};
+
+// src/site/index.ts
+var siteControllers = [
+  new HomeController(),
+  new DemoHomeController(),
+  new DocsController()
 ];
 
 // src/features/wizziMeta/api/wizziMeta.ts
@@ -2140,7 +2496,7 @@ var JobProductionModelBuilder = {
 };
 
 // src/features/wizziHubProductions/controllers/artifact.tsx
-import { Router as Router5 } from "express";
+import { Router as Router9 } from "express";
 
 // src/utils/rest.ts
 import { verify as verify2 } from "@wizzi/utils";
@@ -2489,7 +2845,7 @@ var PackiBuilder = class {
 import { default as default2 } from "fs-extra";
 
 // src/features/packi/api/utils.ts
-import path4 from "node:path";
+import path5 from "node:path";
 import { fSystem as fSystem2 } from "@wizzi/utils";
 var PACKI_META_DEMO_FOLDER = "C:/My/wizzi/stfnbssl/packi-meta-demo";
 function clonePackiFiles(packiFiles, filters) {
@@ -2552,7 +2908,7 @@ async function removeFolder(folderPath) {
   return new Promise(
     async (resolve2, reject) => {
       try {
-        const fullPath = path4.resolve(folderPath);
+        const fullPath = path5.resolve(folderPath);
         const exists = await default2.pathExists(fullPath);
         if (!exists) {
           console.log(`features.packi.utils.removeFolder-> Folder does not exist: ${fullPath}`);
@@ -2576,8 +2932,8 @@ function writePackiFilesToFolder(packiFiles, folderPath) {
           console.warn(`features.packi.utils.writePackiFilesToFolder-> Skipping invalid entry for path: ${filePath}`);
           continue;
         }
-        const fullPath = path4.resolve(folderPath, filePath);
-        const directory = path4.dirname(fullPath);
+        const fullPath = path5.resolve(folderPath, filePath);
+        const directory = path5.dirname(fullPath);
         try {
           fSystem2.file.write(fullPath, fileData.contents);
           console.log(`features.packi.utils.writePackiFilesToFolder-> Successfully wrote file: ${fullPath}`);
@@ -2593,7 +2949,7 @@ function writePackiFilesToFolder(packiFiles, folderPath) {
 async function installPackiMetaDemo(packageName, packiFiles) {
   return new Promise(
     async (resolve2, reject) => {
-      const folderPath = path4.resolve(PACKI_META_DEMO_FOLDER, "packages", packageName);
+      const folderPath = path5.resolve(PACKI_META_DEMO_FOLDER, "packages", packageName);
       await removeFolder(folderPath);
       await writePackiFilesToFolder(packiFiles, folderPath);
       return resolve2();
@@ -2668,6 +3024,7 @@ function getWzCtxFactoryPlugins2() {
       "./wizzi.plugin.ittf/index.js",
       "./wizzi.plugin.js/index.js",
       "./wizzi.plugin.json/index.js",
+      "./wizzi.plugin.logbot/index.js",
       "./wizzi.plugin.md/index.js",
       "./wizzi.plugin.svg/index.js",
       "./wizzi.plugin.text/index.js",
@@ -2682,7 +3039,7 @@ function getWzCtxFactoryPlugins2() {
 }
 
 // src/features/packi/controllers/packiEditing.tsx
-import { Router as Router2 } from "express";
+import { Router as Router6 } from "express";
 import React3 from "react";
 import ReactDOMServer from "react-dom/server";
 
@@ -2804,23 +3161,27 @@ function renderPackiEditor(req, res, packiItemObject, loggedUser, queryParams) {
   res.set("Content-Length", index.length.toString());
   res.send(index);
 }
-function makeHandlerAwareOfAsyncErrors2(handler) {
+function makeHandlerAwareOfAsyncErrors4(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -2828,20 +3189,20 @@ function makeHandlerAwareOfAsyncErrors2(handler) {
 }
 var PackiEditingController = class {
   path = "/~~";
-  router = Router2();
+  router = Router6();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering PackiEditingController.initialize");
-    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors2(this.getPackiItemList));
-    this.router.get("/a/:owner/:name", makeHandlerAwareOfAsyncErrors2(this.getPackiArtifactProductionByUsername_Name));
-    this.router.get("/a/:owner/:name/*", makeHandlerAwareOfAsyncErrors2(this.getPackiArtifactProductionByUsername_Name));
-    this.router.get("/p/:owner/:name", makeHandlerAwareOfAsyncErrors2(this.getPackiPackageProductionByUsername_Name));
-    this.router.get("/p/:owner/:name/*", makeHandlerAwareOfAsyncErrors2(this.getPackiPackageProductionByUsername_Name));
-    this.router.get("/m/:owner/:name", makeHandlerAwareOfAsyncErrors2(this.getPackiMetaProductionByUsername_Name));
-    this.router.get("/m/:owner/:name/*", makeHandlerAwareOfAsyncErrors2(this.getPackiMetaProductionByUsername_Name));
-    this.router.get("/l/:owner/:name", makeHandlerAwareOfAsyncErrors2(this.getPackiPluginProductionByUsername_Name));
-    this.router.get("/l/:owner/:name/*", makeHandlerAwareOfAsyncErrors2(this.getPackiPluginProductionByUsername_Name));
-    this.router.get("/t/:owner/:name", makeHandlerAwareOfAsyncErrors2(this.getPackiTFolderByUsername_Name));
-    this.router.get("/t/:owner/:name/*", makeHandlerAwareOfAsyncErrors2(this.getPackiTFolderByUsername_Name));
+    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors4(this.getPackiItemList));
+    this.router.get("/a/:owner/:name", makeHandlerAwareOfAsyncErrors4(this.getPackiArtifactProductionByUsername_Name));
+    this.router.get("/a/:owner/:name/*", makeHandlerAwareOfAsyncErrors4(this.getPackiArtifactProductionByUsername_Name));
+    this.router.get("/p/:owner/:name", makeHandlerAwareOfAsyncErrors4(this.getPackiPackageProductionByUsername_Name));
+    this.router.get("/p/:owner/:name/*", makeHandlerAwareOfAsyncErrors4(this.getPackiPackageProductionByUsername_Name));
+    this.router.get("/m/:owner/:name", makeHandlerAwareOfAsyncErrors4(this.getPackiMetaProductionByUsername_Name));
+    this.router.get("/m/:owner/:name/*", makeHandlerAwareOfAsyncErrors4(this.getPackiMetaProductionByUsername_Name));
+    this.router.get("/l/:owner/:name", makeHandlerAwareOfAsyncErrors4(this.getPackiPluginProductionByUsername_Name));
+    this.router.get("/l/:owner/:name/*", makeHandlerAwareOfAsyncErrors4(this.getPackiPluginProductionByUsername_Name));
+    this.router.get("/t/:owner/:name", makeHandlerAwareOfAsyncErrors4(this.getPackiTFolderByUsername_Name));
+    this.router.get("/t/:owner/:name/*", makeHandlerAwareOfAsyncErrors4(this.getPackiTFolderByUsername_Name));
   };
   getPackiItemList = async (request, response) => {
     return response.redirect("/packi/productions/artifacts");
@@ -3031,7 +3392,7 @@ var PackiEditingController = class {
 };
 
 // src/features/packi/controllers/packiGenerating.tsx
-import { Router as Router3 } from "express";
+import { Router as Router7 } from "express";
 import React4 from "react";
 import ReactDOMServer2 from "react-dom/server";
 function renderPackiEditor2(req, res, packiItemObject, loggedUser, queryParams) {
@@ -3042,23 +3403,27 @@ function renderPackiEditor2(req, res, packiItemObject, loggedUser, queryParams) 
   res.set("Content-Length", index.length.toString());
   res.send(index);
 }
-function makeHandlerAwareOfAsyncErrors3(handler) {
+function makeHandlerAwareOfAsyncErrors5(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -3066,15 +3431,15 @@ function makeHandlerAwareOfAsyncErrors3(handler) {
 }
 var PackiGeneratingController = class {
   path = "/~=";
-  router = Router3();
+  router = Router7();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering PackiGeneratingController.initialize");
-    this.router.get("/p/:owner/:name", makeHandlerAwareOfAsyncErrors3(this.getPackiPackageGeneration));
-    this.router.get("/p/:owner/:name/*", makeHandlerAwareOfAsyncErrors3(this.getPackiPackageGeneration));
-    this.router.get("/m/:owner/:name", makeHandlerAwareOfAsyncErrors3(this.getPackiMetaGeneration));
-    this.router.get("/m/:owner/:name/*", makeHandlerAwareOfAsyncErrors3(this.getPackiMetaGeneration));
-    this.router.get("/l/:owner/:name", makeHandlerAwareOfAsyncErrors3(this.getPackiPluginGeneration));
-    this.router.get("/l/:owner/:name/*", makeHandlerAwareOfAsyncErrors3(this.getPackiPluginGeneration));
+    this.router.get("/p/:owner/:name", makeHandlerAwareOfAsyncErrors5(this.getPackiPackageGeneration));
+    this.router.get("/p/:owner/:name/*", makeHandlerAwareOfAsyncErrors5(this.getPackiPackageGeneration));
+    this.router.get("/m/:owner/:name", makeHandlerAwareOfAsyncErrors5(this.getPackiMetaGeneration));
+    this.router.get("/m/:owner/:name/*", makeHandlerAwareOfAsyncErrors5(this.getPackiMetaGeneration));
+    this.router.get("/l/:owner/:name", makeHandlerAwareOfAsyncErrors5(this.getPackiPluginGeneration));
+    this.router.get("/l/:owner/:name/*", makeHandlerAwareOfAsyncErrors5(this.getPackiPluginGeneration));
   };
   getPackiPackageGeneration = async (request, response) => {
     const queryParams = {};
@@ -3199,10 +3564,10 @@ var PackiGeneratingController = class {
 };
 
 // src/features/packi/controllers/apiv1packiManager.ts
-import { Router as Router4 } from "express";
+import { Router as Router8 } from "express";
 var ApiV1PackiManagerController = class {
   path = "/api/v1/packimanager";
-  router = Router4();
+  router = Router8();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1PackiManagerController.initialize");
     this.router.post("/prettify", this.executePrettify);
@@ -3291,11 +3656,11 @@ function mergePackiFiles(current, toadd, options) {
   }
   return ret;
 }
-function stripEndSlash(path6) {
-  return path6.endsWith("/") ? path6.substring(0, path6.length - 1) : path6;
+function stripEndSlash(path9) {
+  return path9.endsWith("/") ? path9.substring(0, path9.length - 1) : path9;
 }
-function stripStartSlash(path6) {
-  return path6.startsWith("/") ? path6.substring(1) : path6;
+function stripStartSlash(path9) {
+  return path9.startsWith("/") ? path9.substring(1) : path9;
 }
 
 // src/features/wizziHubProductions/api/meta.ts
@@ -4878,23 +5243,27 @@ function getPackiConfigFile() {
     }
   };
 }
-function makeHandlerAwareOfAsyncErrors4(handler) {
+function makeHandlerAwareOfAsyncErrors6(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -4902,15 +5271,15 @@ function makeHandlerAwareOfAsyncErrors4(handler) {
 }
 var ArtifactProductionController = class {
   path = "/artifact";
-  router = Router5();
+  router = Router9();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ArtifactProductionController.initialize");
-    this.router.get("/new", makeHandlerAwareOfAsyncErrors4(this.getNewArtifactForm));
-    this.router.post("/new", makeHandlerAwareOfAsyncErrors4(this.postArtifact));
-    this.router.get("/update/:id", makeHandlerAwareOfAsyncErrors4(this.getUpdateArtifactForm));
-    this.router.post("/update", makeHandlerAwareOfAsyncErrors4(this.putArtifact));
-    this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors4(this.getDeleteArtifactForm));
-    this.router.post("/delete", makeHandlerAwareOfAsyncErrors4(this.deleteArtifact));
+    this.router.get("/new", makeHandlerAwareOfAsyncErrors6(this.getNewArtifactForm));
+    this.router.post("/new", makeHandlerAwareOfAsyncErrors6(this.postArtifact));
+    this.router.get("/update/:id", makeHandlerAwareOfAsyncErrors6(this.getUpdateArtifactForm));
+    this.router.post("/update", makeHandlerAwareOfAsyncErrors6(this.putArtifact));
+    this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors6(this.getDeleteArtifactForm));
+    this.router.post("/delete", makeHandlerAwareOfAsyncErrors6(this.deleteArtifact));
   };
   getNewArtifactForm = async (request, response) => renderPageForm(request, response, {
     type: "success",
@@ -5025,24 +5394,28 @@ var ArtifactProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1artifact.tsx
-import { Router as Router6 } from "express";
-function makeHandlerAwareOfAsyncErrors5(handler) {
+import { Router as Router10 } from "express";
+function makeHandlerAwareOfAsyncErrors7(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -5050,15 +5423,15 @@ function makeHandlerAwareOfAsyncErrors5(handler) {
 }
 var ApiV1ArtifactProductionController = class {
   path = "/api/v1/production/artifact";
-  router = Router6();
+  router = Router10();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1ArtifactProductionController.initialize");
-    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors5(this.getArtifacts));
-    this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors5(this.getCheckArtifactName));
-    this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors5(this.getArtifact));
-    this.router.put("/:id", makeHandlerAwareOfAsyncErrors5(this.putArtifact));
-    this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors5(this.putArtifactPackiDiffs));
-    this.router.post("/:owner/:name", makeHandlerAwareOfAsyncErrors5(this.postArtifact));
+    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors7(this.getArtifacts));
+    this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors7(this.getCheckArtifactName));
+    this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors7(this.getArtifact));
+    this.router.put("/:id", makeHandlerAwareOfAsyncErrors7(this.putArtifact));
+    this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors7(this.putArtifactPackiDiffs));
+    this.router.post("/:owner/:name", makeHandlerAwareOfAsyncErrors7(this.postArtifact));
   };
   getArtifacts = async (request, response) => {
     var __check = restParamsCheck(request);
@@ -5154,12 +5527,12 @@ var ApiV1ArtifactProductionController = class {
     console.log("putArtifact.request.body", Object.keys(request.body), __filename);
     var __check = restParamsCheck(request);
     var packiFiles = __check.notUndefined("body", "packiFiles");
-    var options = __check.notUndefined("body", "options");
+    var options = __check.optional("body", "options");
     if (__check.hasErrors()) {
       return __check.sendErrors(response);
     }
     console.log("putArtifact.request.body.packiFiles", Object.keys(packiFiles), __filename);
-    if (options.wizzify) {
+    if (options && options.wizzify) {
       productions_exports.wizzify(packiFiles).then(
         (resultPackiFiles) => {
           console.log("putArtifact.wizzify.resultPackiFiles", Object.keys(resultPackiFiles), __filename);
@@ -5175,7 +5548,7 @@ var ApiV1ArtifactProductionController = class {
           }, 501);
         }
       );
-    } else if (options.merge) {
+    } else if (options && options.merge) {
       var __check = restParamsCheck(request);
       var id = __check.notUndefined("params", "id");
       if (__check.hasErrors()) {
@@ -5257,7 +5630,7 @@ function exec_updateArtifactProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/package.tsx
-import { Router as Router7 } from "express";
+import { Router as Router11 } from "express";
 import React6 from "react";
 import ReactDOMServer4 from "react-dom/server";
 
@@ -5858,23 +6231,27 @@ function getPackiConfigFile2() {
     }
   };
 }
-function makeHandlerAwareOfAsyncErrors6(handler) {
+function makeHandlerAwareOfAsyncErrors8(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -5882,17 +6259,17 @@ function makeHandlerAwareOfAsyncErrors6(handler) {
 }
 var PackageProductionController = class {
   path = "/package";
-  router = Router7();
+  router = Router11();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering PackageProductionController.initialize");
-    this.router.get("/new", makeHandlerAwareOfAsyncErrors6(this.getNewPackageForm));
-    this.router.post("/new", makeHandlerAwareOfAsyncErrors6(this.postPackage));
-    this.router.get("/update/:id", makeHandlerAwareOfAsyncErrors6(this.getUpdatePackageForm));
-    this.router.post("/update", makeHandlerAwareOfAsyncErrors6(this.putPackage));
-    this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors6(this.getDeletePackageForm));
-    this.router.post("/delete", makeHandlerAwareOfAsyncErrors6(this.deletePackage));
-    this.router.get("/props/:owner/:name", makeHandlerAwareOfAsyncErrors6(this.getPackageProperties));
-    this.router.get("/meta/:owner/:name", makeHandlerAwareOfAsyncErrors6(this.getWizziMetaFolderByName));
+    this.router.get("/new", makeHandlerAwareOfAsyncErrors8(this.getNewPackageForm));
+    this.router.post("/new", makeHandlerAwareOfAsyncErrors8(this.postPackage));
+    this.router.get("/update/:id", makeHandlerAwareOfAsyncErrors8(this.getUpdatePackageForm));
+    this.router.post("/update", makeHandlerAwareOfAsyncErrors8(this.putPackage));
+    this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors8(this.getDeletePackageForm));
+    this.router.post("/delete", makeHandlerAwareOfAsyncErrors8(this.deletePackage));
+    this.router.get("/props/:owner/:name", makeHandlerAwareOfAsyncErrors8(this.getPackageProperties));
+    this.router.get("/meta/:owner/:name", makeHandlerAwareOfAsyncErrors8(this.getWizziMetaFolderByName));
   };
   getNewPackageForm = async (request, response) => renderPageForm2(request, response, {
     type: "success",
@@ -6095,24 +6472,28 @@ var PackageProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1package.tsx
-import { Router as Router8 } from "express";
-function makeHandlerAwareOfAsyncErrors7(handler) {
+import { Router as Router12 } from "express";
+function makeHandlerAwareOfAsyncErrors9(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -6120,16 +6501,16 @@ function makeHandlerAwareOfAsyncErrors7(handler) {
 }
 var ApiV1PackageProductionController = class {
   path = "/api/v1/production/package";
-  router = Router8();
+  router = Router12();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1PackageProductionController.initialize");
-    this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors7(this.getCheckPackageName));
-    this.router.get("/meta/:id", makeHandlerAwareOfAsyncErrors7(this.getWizziMetaFolder));
-    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors7(this.getPackages));
-    this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors7(this.getPackage));
-    this.router.put("/:id", makeHandlerAwareOfAsyncErrors7(this.putPackage));
-    this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors7(this.putPackagePackiDiffs));
-    this.router.post("/:owner/:name", makeHandlerAwareOfAsyncErrors7(this.postPackage));
+    this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors9(this.getCheckPackageName));
+    this.router.get("/meta/:id", makeHandlerAwareOfAsyncErrors9(this.getWizziMetaFolder));
+    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors9(this.getPackages));
+    this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors9(this.getPackage));
+    this.router.put("/:id", makeHandlerAwareOfAsyncErrors9(this.putPackage));
+    this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors9(this.putPackagePackiDiffs));
+    this.router.post("/:owner/:name", makeHandlerAwareOfAsyncErrors9(this.postPackage));
   };
   getPackages = async (request, response) => {
     var __check = restParamsCheck(request);
@@ -6311,7 +6692,7 @@ function exec_updatePackageProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/plugin.tsx
-import { Router as Router9 } from "express";
+import { Router as Router13 } from "express";
 import React7 from "react";
 import ReactDOMServer5 from "react-dom/server";
 
@@ -6847,23 +7228,27 @@ function getPackiConfigFile3() {
     }
   };
 }
-function makeHandlerAwareOfAsyncErrors8(handler) {
+function makeHandlerAwareOfAsyncErrors10(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -6871,16 +7256,16 @@ function makeHandlerAwareOfAsyncErrors8(handler) {
 }
 var PluginProductionController = class {
   path = "/plugin";
-  router = Router9();
+  router = Router13();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering PluginProductionController.initialize");
-    this.router.get("/new", makeHandlerAwareOfAsyncErrors8(this.getNewPluginForm));
-    this.router.post("/new", makeHandlerAwareOfAsyncErrors8(this.postPlugin));
-    this.router.get("/update/:id", makeHandlerAwareOfAsyncErrors8(this.getUpdatePluginForm));
-    this.router.post("/update", makeHandlerAwareOfAsyncErrors8(this.putPlugin));
-    this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors8(this.getDeletePluginForm));
-    this.router.post("/delete", makeHandlerAwareOfAsyncErrors8(this.deletePlugin));
-    this.router.get("/props", makeHandlerAwareOfAsyncErrors8(this.getPluginProperties));
+    this.router.get("/new", makeHandlerAwareOfAsyncErrors10(this.getNewPluginForm));
+    this.router.post("/new", makeHandlerAwareOfAsyncErrors10(this.postPlugin));
+    this.router.get("/update/:id", makeHandlerAwareOfAsyncErrors10(this.getUpdatePluginForm));
+    this.router.post("/update", makeHandlerAwareOfAsyncErrors10(this.putPlugin));
+    this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors10(this.getDeletePluginForm));
+    this.router.post("/delete", makeHandlerAwareOfAsyncErrors10(this.deletePlugin));
+    this.router.get("/props", makeHandlerAwareOfAsyncErrors10(this.getPluginProperties));
   };
   getNewPluginForm = async (request, response) => renderPageForm3(request, response, {
     type: "success",
@@ -7048,24 +7433,28 @@ var PluginProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1plugin.tsx
-import { Router as Router10 } from "express";
-function makeHandlerAwareOfAsyncErrors9(handler) {
+import { Router as Router14 } from "express";
+function makeHandlerAwareOfAsyncErrors11(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -7073,15 +7462,15 @@ function makeHandlerAwareOfAsyncErrors9(handler) {
 }
 var ApiV1PluginProductionController = class {
   path = "/api/v1/production/plugin";
-  router = Router10();
+  router = Router14();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1PluginProductionController.initialize");
-    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors9(this.getPlugins));
-    this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors9(this.getCheckPluginName));
-    this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors9(this.getPlugin));
-    this.router.put("/:id", makeHandlerAwareOfAsyncErrors9(this.putPlugin));
-    this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors9(this.putPluginPackiDiffs));
-    this.router.post("/:post", makeHandlerAwareOfAsyncErrors9(this.postPlugin));
+    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors11(this.getPlugins));
+    this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors11(this.getCheckPluginName));
+    this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors11(this.getPlugin));
+    this.router.put("/:id", makeHandlerAwareOfAsyncErrors11(this.putPlugin));
+    this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors11(this.putPluginPackiDiffs));
+    this.router.post("/:post", makeHandlerAwareOfAsyncErrors11(this.postPlugin));
   };
   getPlugins = async (request, response) => {
     var __check = restParamsCheck(request);
@@ -7244,7 +7633,7 @@ function exec_updatePluginProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/meta.tsx
-import { Router as Router11 } from "express";
+import { Router as Router15 } from "express";
 import React8 from "react";
 import ReactDOMServer6 from "react-dom/server";
 function renderPageForm4(req, res, data, queryParams) {
@@ -7336,23 +7725,27 @@ function getPackiConfigFile4() {
     }
   };
 }
-function makeHandlerAwareOfAsyncErrors10(handler) {
+function makeHandlerAwareOfAsyncErrors12(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -7360,16 +7753,16 @@ function makeHandlerAwareOfAsyncErrors10(handler) {
 }
 var MetaProductionController = class {
   path = "/meta";
-  router = Router11();
+  router = Router15();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering MetaProductionController.initialize");
-    this.router.get("/new", makeHandlerAwareOfAsyncErrors10(this.getNewMetaForm));
-    this.router.post("/new", makeHandlerAwareOfAsyncErrors10(this.postMeta));
-    this.router.get("/update/:id", makeHandlerAwareOfAsyncErrors10(this.getUpdateMetaForm));
-    this.router.post("/update", makeHandlerAwareOfAsyncErrors10(this.putMeta));
-    this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors10(this.getDeleteMetaForm));
-    this.router.post("/delete", makeHandlerAwareOfAsyncErrors10(this.deleteMeta));
-    this.router.post("/generate", makeHandlerAwareOfAsyncErrors10(this.generateMeta));
+    this.router.get("/new", makeHandlerAwareOfAsyncErrors12(this.getNewMetaForm));
+    this.router.post("/new", makeHandlerAwareOfAsyncErrors12(this.postMeta));
+    this.router.get("/update/:id", makeHandlerAwareOfAsyncErrors12(this.getUpdateMetaForm));
+    this.router.post("/update", makeHandlerAwareOfAsyncErrors12(this.putMeta));
+    this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors12(this.getDeleteMetaForm));
+    this.router.post("/delete", makeHandlerAwareOfAsyncErrors12(this.deleteMeta));
+    this.router.post("/generate", makeHandlerAwareOfAsyncErrors12(this.generateMeta));
   };
   getNewMetaForm = async (request, response) => renderPageForm4(request, response, {
     type: "success",
@@ -7480,24 +7873,28 @@ var MetaProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1meta.tsx
-import { Router as Router12 } from "express";
-function makeHandlerAwareOfAsyncErrors11(handler) {
+import { Router as Router16 } from "express";
+function makeHandlerAwareOfAsyncErrors13(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -7505,17 +7902,17 @@ function makeHandlerAwareOfAsyncErrors11(handler) {
 }
 var ApiV1MetaProductionController = class {
   path = "/api/v1/production/meta";
-  router = Router12();
+  router = Router16();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1MetaProductionController.initialize");
-    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors11(this.getMetas));
-    this.router.get("/props/:id", makeHandlerAwareOfAsyncErrors11(this.getMetaProperties));
-    this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors11(this.getCheckMetaName));
-    this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors11(this.getMeta));
-    this.router.put("/:id", makeHandlerAwareOfAsyncErrors11(this.putMeta));
-    this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors11(this.putMetaPackiDiffs));
-    this.router.post("'/:owner/:name", makeHandlerAwareOfAsyncErrors11(this.postMeta));
-    this.router.post("'/generate/:owner/:name", makeHandlerAwareOfAsyncErrors11(this.generateMetaByName));
+    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors13(this.getMetas));
+    this.router.get("/props/:id", makeHandlerAwareOfAsyncErrors13(this.getMetaProperties));
+    this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors13(this.getCheckMetaName));
+    this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors13(this.getMeta));
+    this.router.put("/:id", makeHandlerAwareOfAsyncErrors13(this.putMeta));
+    this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors13(this.putMetaPackiDiffs));
+    this.router.post("'/:owner/:name", makeHandlerAwareOfAsyncErrors13(this.postMeta));
+    this.router.post("'/generate/:owner/:name", makeHandlerAwareOfAsyncErrors13(this.generateMetaByName));
   };
   getMetas = async (request, response) => {
     var __check = restParamsCheck(request);
@@ -7738,7 +8135,7 @@ function exec_updateMetaProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/tfolder.tsx
-import { Router as Router13 } from "express";
+import { Router as Router17 } from "express";
 import React9 from "react";
 import ReactDOMServer7 from "react-dom/server";
 
@@ -8210,23 +8607,27 @@ function getPackiConfigFile5() {
     }
   };
 }
-function makeHandlerAwareOfAsyncErrors12(handler) {
+function makeHandlerAwareOfAsyncErrors14(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -8234,15 +8635,15 @@ function makeHandlerAwareOfAsyncErrors12(handler) {
 }
 var TFolderProductionController = class {
   path = "/tfolder";
-  router = Router13();
+  router = Router17();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering TFolderProductionController.initialize");
-    this.router.get("/new", makeHandlerAwareOfAsyncErrors12(this.getNewTFolderForm));
-    this.router.post("/new", makeHandlerAwareOfAsyncErrors12(this.postTFolder));
-    this.router.get("/update/:id", makeHandlerAwareOfAsyncErrors12(this.getUpdateTFolderForm));
-    this.router.post("/update", makeHandlerAwareOfAsyncErrors12(this.putTFolder));
-    this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors12(this.getDeleteTFolderForm));
-    this.router.post("/delete", makeHandlerAwareOfAsyncErrors12(this.deleteTFolder));
+    this.router.get("/new", makeHandlerAwareOfAsyncErrors14(this.getNewTFolderForm));
+    this.router.post("/new", makeHandlerAwareOfAsyncErrors14(this.postTFolder));
+    this.router.get("/update/:id", makeHandlerAwareOfAsyncErrors14(this.getUpdateTFolderForm));
+    this.router.post("/update", makeHandlerAwareOfAsyncErrors14(this.putTFolder));
+    this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors14(this.getDeleteTFolderForm));
+    this.router.post("/delete", makeHandlerAwareOfAsyncErrors14(this.deleteTFolder));
   };
   getNewTFolderForm = async (request, response) => renderPageForm5(request, response, {
     type: "success",
@@ -8344,24 +8745,28 @@ var TFolderProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1tfolder.tsx
-import { Router as Router14 } from "express";
-function makeHandlerAwareOfAsyncErrors13(handler) {
+import { Router as Router18 } from "express";
+function makeHandlerAwareOfAsyncErrors15(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -8369,15 +8774,15 @@ function makeHandlerAwareOfAsyncErrors13(handler) {
 }
 var ApiV1TFolderProductionController = class {
   path = "/api/v1/production/tfolder";
-  router = Router14();
+  router = Router18();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1TFolderProductionController.initialize");
-    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors13(this.getTFolders));
-    this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors13(this.getCheckTFolderName));
-    this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors13(this.getTFolder));
-    this.router.put("/:id", makeHandlerAwareOfAsyncErrors13(this.putTFolder));
-    this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors13(this.putTFolderPackiDiffs));
-    this.router.post("/:owner/:name", makeHandlerAwareOfAsyncErrors13(this.postTFolder));
+    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors15(this.getTFolders));
+    this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors15(this.getCheckTFolderName));
+    this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors15(this.getTFolder));
+    this.router.put("/:id", makeHandlerAwareOfAsyncErrors15(this.putTFolder));
+    this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors15(this.putTFolderPackiDiffs));
+    this.router.post("/:owner/:name", makeHandlerAwareOfAsyncErrors15(this.postTFolder));
   };
   getTFolders = async (request, response) => {
     var __check = restParamsCheck(request);
@@ -8546,7 +8951,7 @@ function exec_updateTFolderProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/job.tsx
-import { Router as Router15 } from "express";
+import { Router as Router19 } from "express";
 import React10 from "react";
 import ReactDOMServer8 from "react-dom/server";
 
@@ -9008,23 +9413,27 @@ function getPackiConfigFile6() {
     }
   };
 }
-function makeHandlerAwareOfAsyncErrors14(handler) {
+function makeHandlerAwareOfAsyncErrors16(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -9032,15 +9441,15 @@ function makeHandlerAwareOfAsyncErrors14(handler) {
 }
 var JobProductionController = class {
   path = "/job";
-  router = Router15();
+  router = Router19();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering JobProductionController.initialize");
-    this.router.get("/new", makeHandlerAwareOfAsyncErrors14(this.getNewJobForm));
-    this.router.post("/new", makeHandlerAwareOfAsyncErrors14(this.postJob));
-    this.router.get("/update/:id", makeHandlerAwareOfAsyncErrors14(this.getUpdateJobForm));
-    this.router.post("/update", makeHandlerAwareOfAsyncErrors14(this.putJob));
-    this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors14(this.getDeleteJobForm));
-    this.router.post("/delete", makeHandlerAwareOfAsyncErrors14(this.deleteJob));
+    this.router.get("/new", makeHandlerAwareOfAsyncErrors16(this.getNewJobForm));
+    this.router.post("/new", makeHandlerAwareOfAsyncErrors16(this.postJob));
+    this.router.get("/update/:id", makeHandlerAwareOfAsyncErrors16(this.getUpdateJobForm));
+    this.router.post("/update", makeHandlerAwareOfAsyncErrors16(this.putJob));
+    this.router.get("/delete/:id", makeHandlerAwareOfAsyncErrors16(this.getDeleteJobForm));
+    this.router.post("/delete", makeHandlerAwareOfAsyncErrors16(this.deleteJob));
   };
   getNewJobForm = async (request, response) => renderPageForm6(request, response, {
     type: "success",
@@ -9155,24 +9564,28 @@ var JobProductionController = class {
 };
 
 // src/features/wizziHubProductions/controllers/apiv1job.tsx
-import { Router as Router16 } from "express";
-function makeHandlerAwareOfAsyncErrors15(handler) {
+import { Router as Router20 } from "express";
+function makeHandlerAwareOfAsyncErrors17(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -9180,15 +9593,15 @@ function makeHandlerAwareOfAsyncErrors15(handler) {
 }
 var ApiV1JobProductionController = class {
   path = "/api/v1/production/job";
-  router = Router16();
+  router = Router20();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1JobProductionController.initialize");
-    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors15(this.getJobs));
-    this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors15(this.getCheckJobName));
-    this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors15(this.getJob));
-    this.router.put("/:id", makeHandlerAwareOfAsyncErrors15(this.putJob));
-    this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors15(this.putJobPackiDiffs));
-    this.router.post("/:post", makeHandlerAwareOfAsyncErrors15(this.postJob));
+    this.router.get("/:owner", makeHandlerAwareOfAsyncErrors17(this.getJobs));
+    this.router.get("/checkname/:owner/:name", makeHandlerAwareOfAsyncErrors17(this.getCheckJobName));
+    this.router.get("/:owner/:name", makeHandlerAwareOfAsyncErrors17(this.getJob));
+    this.router.put("/:id", makeHandlerAwareOfAsyncErrors17(this.putJob));
+    this.router.put("/packidiffs/:id", makeHandlerAwareOfAsyncErrors17(this.putJobPackiDiffs));
+    this.router.post("/:post", makeHandlerAwareOfAsyncErrors17(this.postJob));
   };
   getJobs = async (request, response) => {
     var __check = restParamsCheck(request);
@@ -9351,24 +9764,28 @@ function exec_updateJobProduction(request, response, packiFiles) {
 }
 
 // src/features/wizziHubProductions/controllers/apiv1generations.ts
-import { Router as Router17 } from "express";
-function makeHandlerAwareOfAsyncErrors16(handler) {
+import { Router as Router21 } from "express";
+function makeHandlerAwareOfAsyncErrors18(handler) {
   return async function(request, response, next) {
     try {
       await handler(request, response, next);
     } catch (error) {
       if (error instanceof FcError) {
         response.status(statusCode.BAD_REQUEST).send({
-          code: error.code,
-          message: error.message,
-          data: error.data || {}
+          error: {
+            code: error.code,
+            message: error.message,
+            data: error.data || {}
+          }
         });
       } else {
         const fcError = new FcError(SYSTEM_ERROR);
         response.status(statusCode.BAD_REQUEST).send({
-          code: fcError.code,
-          message: error.message,
-          data: fcError.data || {}
+          error: {
+            code: fcError.code,
+            message: error.message,
+            data: fcError.data || {}
+          }
         });
       }
     }
@@ -9376,16 +9793,16 @@ function makeHandlerAwareOfAsyncErrors16(handler) {
 }
 var ApiV1GenerationsController = class {
   path = "/api/v1/production/generations";
-  router = Router17();
+  router = Router21();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1GenerationsController.initialize");
-    this.router.post("/mtree/:id", makeHandlerAwareOfAsyncErrors16(this.mTree));
-    this.router.post("/mtreescript/:id", makeHandlerAwareOfAsyncErrors16(this.mTreeBuildUpScript));
-    this.router.post("/artifact/:id", makeHandlerAwareOfAsyncErrors16(this.generateArtifact));
-    this.router.post("/transform/:id/:transformer", makeHandlerAwareOfAsyncErrors16(this.transformModel));
-    this.router.post("/job", makeHandlerAwareOfAsyncErrors16(this.executeJob));
-    this.router.post("/wizzify", makeHandlerAwareOfAsyncErrors16(this.wizzify));
-    this.router.post("/codeast", makeHandlerAwareOfAsyncErrors16(this.codeAST));
+    this.router.post("/mtree/:id", makeHandlerAwareOfAsyncErrors18(this.mTree));
+    this.router.post("/mtreescript/:id", makeHandlerAwareOfAsyncErrors18(this.mTreeBuildUpScript));
+    this.router.post("/artifact/:id", makeHandlerAwareOfAsyncErrors18(this.generateArtifact));
+    this.router.post("/transform/:id/:transformer", makeHandlerAwareOfAsyncErrors18(this.transformModel));
+    this.router.post("/job", makeHandlerAwareOfAsyncErrors18(this.executeJob));
+    this.router.post("/wizzify", makeHandlerAwareOfAsyncErrors18(this.wizzify));
+    this.router.post("/codeast", makeHandlerAwareOfAsyncErrors18(this.codeAST));
   };
   mTree = async (request, response) => {
     const owner = request.session.user.username;
@@ -10413,10 +10830,10 @@ async function persistPackageFiles(packiFiles, options) {
 }
 
 // src/features/wizziMeta/controllers/apiv1wizzimeta.ts
-import { Router as Router18 } from "express";
+import { Router as Router22 } from "express";
 var ApiV1WizziMetaController = class {
   path = "/api/v1/meta";
-  router = Router18();
+  router = Router22();
   initialize = (app2, initValues) => {
     console.log("\x1B[33m%s\x1B[0m", "Entering ApiV1WizziMetaController.initialize");
     this.router.get("/provides", this.provides);
@@ -10505,7 +10922,7 @@ var SessionMiddleware = (app2) => {
     maxAge: 14 * 24 * 60 * 60 * 1e3
   };
   const sessionOptions = {
-    name: "ts.express.lab.sid",
+    name: "wizzi.hub.backend.sid",
     secret: config2.sessionSecret,
     resave: false,
     saveUninitialized: false
@@ -10516,6 +10933,436 @@ var SessionMiddleware = (app2) => {
   app2.use(session(sessionOptions));
   console.log("SessionMiddleware installed");
 };
+
+// src/middlewares/ittfStatic.ts
+import util from "util";
+import path6 from "path";
+import fs2 from "fs";
+import stringify3 from "json-stringify-safe";
+import parseUrl from "parseurl";
+var IttfStaticMiddleware = (app2) => {
+  console.log("IttfStaticMiddleware. Folder served from ", path6.resolve(__dirname, "..", "ittf"));
+  app2.use("/ittf", ittfMiddleware(path6.resolve(__dirname, "..", "ittf"), "/ittf"));
+};
+function ittfMiddleware(basePath, routePath) {
+  let store_siteCtx = null;
+  function ittfContext(request, data) {
+    const ctx = Object.assign({}, {
+      baseUrl: "http://localhost:3003",
+      request,
+      locals: {
+        user: request.session.user
+      },
+      siteCtx: store_siteCtx,
+      isWizziStudio: true
+    }, data || {});
+    ctx.ittfCtx = ctx;
+    return ctx;
+  }
+  return async (request, response, next) => {
+    if (request.method !== "GET" && request.method !== "HEAD") {
+      return next();
+    }
+    const parsedUrl = parseUrl(request);
+    if (!parsedUrl || !parsedUrl.pathname) {
+      return next();
+    }
+    const urlPathName = decodeURIComponent(parsedUrl.pathname);
+    const pathname = urlPathName;
+    const filePath = path6.join(basePath, pathname);
+    const extname = path6.extname(filePath);
+    var queryMeta = request.query.meta;
+    var queryTransform = request.query.transform;
+    if (fs2.existsSync(filePath) === false) {
+      return next();
+    }
+    if (fs2.statSync(filePath).isDirectory()) {
+      return sendFolderScan(filePath, basePath, queryMeta, request, response);
+    }
+    if (queryTransform && queryTransform.indexOf("/") > 0) {
+      return sendTransform(filePath, queryTransform, response);
+    }
+    productions_exports.loadSiteJsonModel("sitectx.json.ittf").then(
+      async (siteCtx) => {
+        store_siteCtx = siteCtx;
+        if (queryMeta && queryMeta === "html") {
+          try {
+            const documentState = await productions_exports.scanIttfDocumentFs(filePath, path6.dirname(basePath));
+            const generated = await productions_exports.generateArtifactFs(config2.metaHtmlIttfPath, ittfContext(request, {
+              wizzischema: "html",
+              path: filePath,
+              ds: documentState
+            }));
+            response.writeHead(200, {
+              "Content-Type": "text/html",
+              "Content-Length": generated.artifactContent.length
+            });
+            response.end(generated.artifactContent);
+          } catch (ex) {
+            sendError17(response, ex, {
+              format: "json"
+            });
+          }
+        } else {
+          return contextLoader(filePath, request, function(err, modelContext) {
+            if (err) {
+              return sendError17(response, err, {
+                format: "json"
+              });
+            }
+            productions_exports.generateArtifactFs(filePath, Object.assign({}, modelContext, ittfContext(request))).then(
+              (generated) => {
+                response.writeHead(200, {
+                  "Content-Type": generated.contentType,
+                  "Content-Length": generated.artifactContent.length
+                });
+                response.end(generated.artifactContent);
+              }
+            ).catch(
+              (err2) => {
+                if (typeof err2 === "object" && err2 !== null) {
+                }
+                console.log("\x1B[31m%s\x1B[0m", "ittfStatic.wizziProds.generateArtifactFs.error", err2);
+                sendFailure(response, {
+                  err: err2
+                }, 501);
+              }
+            );
+          });
+        }
+      }
+    );
+  };
+}
+async function contextLoader(resourceFilePath, request, callback) {
+  const contextRequest = request.query._context;
+  if (contextRequest && contextRequest.length > 0) {
+    const ss = contextRequest.split(";");
+    const ctxRequests = [];
+    ss.forEach(
+      (element) => {
+        const ctxRequest = {
+          exportName: element,
+          fullPath: void 0,
+          relPath: void 0
+        };
+        const type_path = request.query["_" + element];
+        if (!type_path) {
+          return callback({
+            requestedResource: resourceFilePath,
+            message: "Missing query param for requested context model: " + element
+          });
+        }
+        const tp = type_path.split(";");
+        ctxRequest.type = tp[0];
+        if (tp.length < 2) {
+          ctxRequest.relPath = "./index." + tp[0] + ".ittf";
+        } else {
+          ctxRequest.relPath = tp[1];
+        }
+        if (ctxRequest.type === "cheatsheet") {
+          ctxRequest.name = ctxRequest.relPath;
+          ctxRequests.push(ctxRequest);
+        } else {
+          ctxRequest.fullPath = path6.join(path6.dirname(resourceFilePath), ctxRequest.relPath);
+          ctxRequests.push(ctxRequest);
+        }
+      }
+    );
+    const resultContext = {};
+    const repeatCount = ctxRequests.length;
+    const repeat = (index) => {
+      if (index == repeatCount) {
+        return callback(null, resultContext);
+      }
+      const ctxRequest = ctxRequests[index];
+      if (ctxRequest.type === "cheatsheet") {
+        return callback("Context loader for cheatsheet type not implemented.");
+      } else {
+        productions_exports.loadModelFs(ctxRequest.fullPath, {
+          isWizziStudio: true
+        }).then(
+          (model7) => {
+            resultContext[ctxRequest.exportName] = model7;
+            repeat(index + 1);
+          }
+        ).catch(
+          (err) => callback(err)
+        );
+      }
+    };
+    repeat(0);
+  } else {
+    try {
+      const twinJsonContext = await productions_exports.inferAndLoadContextFs(resourceFilePath, "wzCtx");
+      return callback(null, twinJsonContext);
+    } catch (ex) {
+      return callback(ex);
+    }
+  }
+}
+async function sendFolderScan(folderPath, root, meta, request, response) {
+  try {
+    const folderState = await productions_exports.scanIttfFolder(folderPath, path6.dirname(root));
+    const siteCtx = await productions_exports.loadSiteJsonModel("sitectx.json.ittf");
+    if (meta === "json") {
+      return sendJSONStringified(response, folderState);
+    } else {
+      const generated = await productions_exports.generateArtifactFs(config2.metaFolderIttfPath, {
+        wizzischema: "html",
+        path: folderPath,
+        fs: folderState,
+        locals: {
+          user: request.session.user
+        },
+        siteCtx,
+        isWizziStudio: true
+      });
+      response.writeHead(200, {
+        "Content-Type": "text/html",
+        "Content-Length": generated.artifactContent.length
+      });
+      response.end(generated.artifactContent);
+    }
+  } catch (ex) {
+    console.log("\x1B[31m%s\x1B[0m", "sendFolderScan.exception", ex);
+    sendError17(response, ex, {
+      format: "json"
+    });
+  }
+}
+function sendTransform(filePath, transformer, response) {
+  productions_exports.loadAndTransformModelFs(filePath, {
+    isWizziStudio: true
+  }, {
+    transformer
+  }).then(
+    (model7) => response.send(stringify3(model7, null, 2))
+  ).catch(
+    (err) => sendError17(response, err, {
+      format: "json"
+    })
+  );
+}
+function sendJSONStringified(response, wizziModelInstance) {
+  response.send("<pre>" + stringify3(cleanCircular(wizziModelInstance, []), null, 2) + "</pre>");
+}
+function cleanCircular(obj, stock) {
+  if (!obj) {
+    return;
+  }
+  if (stock.indexOf(obj) >= 0) {
+    return;
+  } else {
+    stock.push(obj);
+  }
+  if (typeof obj === "object") {
+    if (obj.length) {
+      obj.forEach(
+        (element) => cleanCircular(element, stock)
+      );
+      return;
+    }
+    if (obj.parent) {
+      delete obj.parent;
+    }
+    if (obj.wzParent) {
+      delete obj.wzParent;
+    }
+    if (obj.nodes) {
+      delete obj.nodes;
+    }
+    if (obj.evalContext) {
+      delete obj.evalContext;
+    }
+    if (obj.loadContext && obj.sourceKey) {
+      delete obj.loadContext;
+    }
+    for (var k in obj) {
+      var item = obj[k];
+      if (!item) {
+        delete obj[k];
+      } else {
+        if (typeof item === "object" && item.length && item.length == 0) {
+          delete obj[k];
+        } else {
+          cleanCircular(item, stock);
+        }
+      }
+    }
+  }
+  return obj;
+}
+function sendError17(response, err, options) {
+  options = options || {};
+  const code = options.code || 999;
+  let errEmit = err;
+  delete errEmit.__is_error;
+  if (options.format === "string") {
+    if (typeof err !== "string") {
+      err = util.inspect(err, {
+        depth: null
+      });
+    }
+    errEmit = err.replace(RegExp("\n", "g"), "<br>");
+  } else {
+    if (err.stack && err.stack.split) {
+      const stackArray = [];
+      err.stack.split("\n").forEach(
+        (element) => stackArray.push("    " + element)
+      );
+      errEmit.stack = stackArray;
+    }
+  }
+  response.setHeader("Content-Type", "application/json");
+  response.send(stringify3({
+    code,
+    error: errEmit
+  }, null, 4));
+}
+
+// src/middlewares/packiBrowse.ts
+import parseUrl2 from "parseurl";
+var myname10 = "express.middleware.packiBrowse";
+var packiSiteBrowsePackageItemPath = "/~p";
+var packiSiteBrowsePluginItemPath = "/~l";
+var packiSiteBrowsePath = "/~-";
+var packiUserBrowsePath = "/~";
+var PackiBrowseMiddleware = (app2) => {
+  app2.use(packiSiteBrowsePackageItemPath, packiBrowseMiddleware("package", false));
+  app2.use(packiSiteBrowsePluginItemPath, packiBrowseMiddleware("plugin", false));
+  app2.use(packiSiteBrowsePath, packiBrowseMiddleware("artifact", true));
+  app2.use(packiUserBrowsePath, packiBrowseMiddleware("artifact", false));
+  console.log("PackiBrowseMiddleware. Browse package", packiSiteBrowsePackageItemPath);
+  console.log("PackiBrowseMiddleware. Browse plugin", packiSiteBrowsePluginItemPath);
+  console.log("PackiBrowseMiddleware. Browse artifact site Level", packiSiteBrowsePath);
+  console.log("PackiBrowseMiddleware. Browse artifact", packiUserBrowsePath);
+};
+function getPackiBrowseContext(request) {
+  return Object.assign({}, request.query, {
+    isWizziStudio: true,
+    locals: {
+      user: request.session.user
+    }
+  });
+}
+function packiBrowseMiddleware(packiProduction, isSiteLevel) {
+  return async (request, response, next) => {
+    if (request.method !== "GET" && request.method !== "HEAD") {
+      return next();
+    }
+    const parsedUrl = parseUrl2(request);
+    if (!parsedUrl || !parsedUrl.pathname) {
+      return next();
+    }
+    const pathname = decodeURIComponent(parsedUrl.pathname);
+    const parts = pathname.split("/");
+    let owner, productionName;
+    if (isSiteLevel) {
+      owner = "stfnbssl";
+      productionName = parts.slice(1).join("/");
+    } else {
+      owner = parts[1];
+      productionName = parts.slice(2).join("/");
+    }
+    _executeBrowse(packiProduction, owner, productionName, request, response);
+  };
+}
+function _executeBrowse(packiProduction, owner, productionName, request, response) {
+  let productionApi;
+  if (packiProduction == "package") {
+    productionApi = package_exports;
+  } else if (packiProduction == "plugin") {
+    productionApi = plugin_exports;
+  } else {
+    productionApi = artifact_exports;
+  }
+  if (request.query.meta && request.query.meta.toLowerCase() == "mtree") {
+    productionApi.getArtifactMTree_withPrepare(owner, productionName, request.query.context, getPackiBrowseContext(request)).then(
+      (result) => {
+        response.status(200);
+        response.set("Content-Type", result.contentType);
+        response.set("Content-Length", result.contentLength.toString());
+        response.set("Cache-Control", "private, no-cache, no-store, must-revalidate");
+        response.set("Expires", "-1");
+        response.set("Pragma", "no-cache");
+        response.send(result.content);
+      }
+    ).catch(
+      (err) => {
+        console.log("\x1B[31m%s\x1B[0m", "" + myname10 + "_executeBrowse.artifactApi.getArtifactMTree.error", err);
+        var content = err;
+        if (typeof err === "object" && err !== null) {
+          content = "<html><body><pre><code>" + JSON.stringify(err, null, 4) + "</code></pre></body></html>";
+        }
+        sendHtml(response, content);
+      }
+    );
+  } else if (request.query.meta && request.query.meta.toLowerCase() == "script") {
+    productionApi.getArtifactMTreeBuildUpScript_withPrepare(owner, productionName, request.query.context, getPackiBrowseContext(request)).then(
+      (result) => {
+        response.status(200);
+        response.set("Content-Type", result.contentType);
+        response.set("Content-Length", result.contentLength.toString());
+        response.set("Cache-Control", "private, no-cache, no-store, must-revalidate");
+        response.set("Expires", "-1");
+        response.set("Pragma", "no-cache");
+        response.send(result.content);
+      }
+    ).catch(
+      (err) => {
+        console.log("\x1B[31m%s\x1B[0m", "" + myname10 + "_executeBrowse.artifactApi.getArtifactMTree.error", err);
+        var content = err;
+        if (typeof err === "object" && err !== null) {
+          content = "<html><body><pre><code>" + JSON.stringify(err, null, 4) + "</code></pre></body></html>";
+        }
+        sendHtml(response, content);
+      }
+    );
+  } else if (request.query.meta && request.query.meta.toLowerCase() == "raw") {
+    productionApi.getArtifactGeneration_withPrepare(owner, productionName, request.query.filepath, request.query.context, getPackiBrowseContext(request)).then(
+      (result) => {
+        response.status(200);
+        response.set("Content-Type", "text/plain");
+        response.set("Content-Length", result.contentLength.toString());
+        response.set("Cache-Control", "private, no-cache, no-store, must-revalidate");
+        response.set("Expires", "-1");
+        response.set("Pragma", "no-cache");
+        response.send(result.content);
+      }
+    ).catch(
+      (err) => {
+        console.log("\x1B[31m%s\x1B[0m", "" + myname10 + "_executeBrowse.artifactApi.getArtifactGeneration.error", err);
+        var content = err;
+        if (typeof err === "object" && err !== null) {
+          content = "<html><body><pre><code>" + JSON.stringify(err, null, 4) + "</code></pre></body></html>";
+        }
+        sendHtml(response, content);
+      }
+    );
+  } else {
+    productionApi.getArtifactGeneration_withPrepare(owner, productionName, request.query.filepath, request.query.context, getPackiBrowseContext(request)).then(
+      (result) => {
+        response.status(200);
+        response.set("Content-Type", result.contentType);
+        response.set("Content-Length", result.contentLength.toString());
+        response.set("Cache-Control", "private, no-cache, no-store, must-revalidate");
+        response.set("Expires", "-1");
+        response.set("Pragma", "no-cache");
+        response.send(result.content);
+      }
+    ).catch(
+      (err) => {
+        console.log("\x1B[31m%s\x1B[0m", "" + myname10 + "_executeBrowse.artifactApi.getArtifactGeneration.error", err);
+        var content = err;
+        if (typeof err === "object" && err !== null) {
+          content = "<html><body><pre><code>" + JSON.stringify(err, null, 4) + "</code></pre></body></html>";
+        }
+        sendHtml(response, content);
+      }
+    );
+  }
+}
 
 // src/middlewares/bodyParser.ts
 import * as bodyParser from "body-parser";
@@ -10543,12 +11390,71 @@ var CacheControlMiddleware = (app2) => {
   }
 };
 
+// src/middlewares/userInViews.ts
+var UserInViewMiddleware = (app2) => app2.use(
+  (request, response, next) => {
+    request.session.user = {
+      id: "local_" + config2.userUserName,
+      username: config2.userUserName,
+      displayName: config2.userDisplayName,
+      picture: config2.userAvatarUrl
+    };
+    response.locals.user = request.session.user;
+    next();
+  }
+);
+
 // src/middlewares/static.ts
-import * as path5 from "path";
+import * as path7 from "path";
 import { static as expressStatic } from "express";
 var StaticFilesMiddleware = (app2) => {
-  console.log("\x1B[32m%s\x1B[0m", "StaticFilesMiddleware. Folder served from ", path5.resolve(__dirname, "..", "..", "public"));
-  app2.use("/public", expressStatic(path5.resolve(__dirname, "..", "..", "public")));
+  console.log("\x1B[32m%s\x1B[0m", "StaticFilesMiddleware. Folder served from ", path7.resolve(__dirname, "..", "public"));
+  app2.use("/public", expressStatic(path7.resolve(__dirname, "..", "public")));
+};
+
+// src/middlewares/wizziViewEngine.ts
+import path8 from "path";
+import stringify4 from "json-stringify-safe";
+var WizziViewEngineMiddleware = (app2) => {
+  app2.engine("ittf", async function(filePath, options, callback) {
+    try {
+      const twinJsonContext = await productions_exports.inferAndLoadContextFs(filePath, "wzCtx");
+      var optionsLocals = Object.assign({}, options._locals, {
+        user: {
+          avatar_url: config2.userAvatarUrl,
+          name: config2.userDisplayName,
+          username: config2.userUserName
+        }
+      });
+      const context = {
+        ...options,
+        locals: optionsLocals,
+        ...twinJsonContext,
+        isWizziStudio: true
+      };
+      const siteCtx = await productions_exports.loadSiteJsonModel("sitectx.json.ittf", context);
+      context.siteCtx = siteCtx;
+      console.log("WizziViewEngineMiddleware.filePath", filePath);
+      console.log("WizziViewEngineMiddleware.options", Object.keys(options));
+      productions_exports.generateArtifactFs(filePath, context).then(
+        (generated) => {
+          return callback(null, generated.artifactContent);
+        }
+      ).catch(
+        (err) => {
+          console.log("\x1B[31m%s\x1B[0m", "WizziViewEngineMiddleware. wizziProds.generateArtifactFs error", err);
+          return callback(stringify4(err, null, 4));
+        }
+      );
+    } catch (ex) {
+      console.log("\x1B[31m%s\x1B[0m", "WizziViewEngineMiddleware. Exception", ex);
+      callback(ex);
+    }
+  });
+  const viewsFolder = path8.resolve(__dirname, "..", "src", "site", "views");
+  app2.set("views", viewsFolder);
+  app2.set("view engine", "ittf");
+  console.log("WizziViewEngineMiddleware installed, on folder", viewsFolder);
 };
 
 // src/middlewares/promise.ts
@@ -10589,9 +11495,13 @@ function promiseMiddleware() {
 var appMiddlewaresPre = [
   CorsMiddleware,
   SessionMiddleware,
+  IttfStaticMiddleware,
+  PackiBrowseMiddleware,
   BodyParserMiddleware,
   CacheControlMiddleware,
+  UserInViewMiddleware,
   StaticFilesMiddleware,
+  WizziViewEngineMiddleware,
   PromiseMiddleware
 ];
 var appMiddlewaresPost = [];
@@ -10678,9 +11588,11 @@ async function start() {
   ];
   let apis = [];
   let controllers = [
+    ...siteControllers,
     ...wizziProductionsControllers,
     ...wizziMetaControllers,
     ...wizziHubProductionsControllers,
+    ...wizziDocsControllers,
     ...packiControllers
   ];
   console.log("\x1B[33m%s\x1B[0m", "Starting app. Config:", config2);

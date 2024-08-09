@@ -1,26 +1,22 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\actions\openEntry.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {FileSystemEntry} from '../../../features/file';
 import updateEntry from './updateEntry';
 export default function openEntry(entries: FileSystemEntry[], path: string, focus: boolean = false):  FileSystemEntry[] {
-    
         const entry = entries.find(e => 
-        
             e.item.path === path
         );
         const isFolder = entry ? entry.item.type === 'folder' : false;
         return entries.map((e) => {
-            
                 if (e.item.path === path) {
                     if (e.item.type === 'file') {
                         if (e.state.isSelected && e.state.isFocused && e.state.isOpen) {
                             return e;
                         }
-                        
                         // Select, open and focus the file
                         return updateEntry(e, {
                                 state: {
@@ -31,7 +27,6 @@ export default function openEntry(entries: FileSystemEntry[], path: string, focu
                              });
                     }
                     else {
-                        
                         // Select and toggle the expand for the directory
                         return updateEntry(e, {
                                 state: {
@@ -43,7 +38,6 @@ export default function openEntry(entries: FileSystemEntry[], path: string, focu
                 }
                 if (e.item.type === 'file') {
                     if (e.state.isSelected || e.state.isFocused) {
-                        
                         // Unselect and unfocus the file
                         return updateEntry(e, {
                                 state: {
@@ -55,7 +49,6 @@ export default function openEntry(entries: FileSystemEntry[], path: string, focu
                 }
                 else {
                     if (e.state.isSelected) {
-                        
                         // Unselect the folder
                         return updateEntry(e, {
                                 state: {

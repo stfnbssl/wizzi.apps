@@ -190,7 +190,7 @@ module
                     param model
                     === 
                         + model.uri.path
-                        `lit 
+                        template 
                             + /
                             @ path
                             + 
@@ -481,7 +481,7 @@ module
                                 _ classnames
                                     _ css(styles.editor)
                                     @ 'packi-monaco-editor'
-                                    `lit 
+                                    template 
                                         + theme-
                                         @ this.props.theme
     +

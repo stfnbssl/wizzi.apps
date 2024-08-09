@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Editor\SimpleEditor.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import React, {FunctionComponent} from 'react';
 // see https://mxstbr.blog/2016/11/styled-components-magic-explained/
@@ -20,11 +20,9 @@ export const SimpleEditor: FunctionComponent<SimpleEditorProps> = ({
     content, 
     language
  }) => {
-
     
     const [contentValue, setContentValue] = useState(content);
     const handleKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
-    
         let value = contentValue,
             selStartPos = evt.currentTarget.selectionStart;
         // handle 4-space indent on
@@ -39,34 +37,26 @@ export const SimpleEditor: FunctionComponent<SimpleEditorProps> = ({
     }
     ;
     useEffect(() => 
-    
         Prism.highlightAll()
     , [
         language, 
         contentValue
     ])
     return  (
-        <div
-         className="code-edit-container">
-            <textarea 
-                className="code-input"
+        <div className="code-edit-container">
+            <textarea className="code-input"
                 value={contentValue}
                 onChange={(evt: React.ChangeEvent<HTMLInputElement>) => 
-                    
                         setContentValue(evt.target.value)
                 }
                 onKeyDown={handleKeyDown}
              />
-            <pre
-             className="code-output">
-                <code
-                 className={`language-${language}`}>
-                    {contentValue}
-                </code>
-            </pre>
+            <pre className="code-output">
+                <code className={`language-${language}`}>{contentValue}</code></pre>
         </div>
         )
     ;
 }
 ;
+
 export default SimpleEditor;

@@ -4,7 +4,7 @@ module
         { 
             @ id "foldLanguage"
     var value
-        `lit 
+        template 
             + 1. Hit F1 to bring up the Command Palette&lf;
             + 2. Type 'fold'&lf;
             + 3. Choose 'Fold All Block Comments' or 'Fold All Regions'&lf;

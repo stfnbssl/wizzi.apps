@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorTitleName.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -27,7 +27,6 @@ type State = {
 const RETURN_KEYCODE = 13;
 const ESCAPE_KEYCODE = 27;
 function validateName(name: string) {
-
     return name ? /^[a-z_\-\d\s]+$/i.test(name) ? null : new Error('Name can only contain letters, numbers, space, hyphen (-) and underscore (_).') : new Error('Name cannot be empty.');
 }
 class EditorTitleName extends React.Component<Props, State> {
@@ -55,7 +54,6 @@ class EditorTitleName extends React.Component<Props, State> {
          })
     };
     _handleBlur = async () => {
-    
         if (!validateName(this.state.name)) {
             await this.props.onSubmitMetadata({
                     name: this.state.name, 
@@ -83,56 +81,35 @@ class EditorTitleName extends React.Component<Props, State> {
          } = this.props;
         const error = validateName(name);
         return  (
-            <div
-             className={css(styles.container)}>
-                <div
-                 className={css(styles.titleContainer)}>
-                    <h1
-                     className={css(styles.title)}>
-                        <div
-                         className={css(styles.content)}>
-                            <div
-                             className={css(styles.field, styles.phantom)}>
-                                {name.replace(/\n/g, '')}
-                            </div>
-                            <input 
-                                onFocus={this._handleFocus}
+            <div className={css(styles.container)}>
+                <div className={css(styles.titleContainer)}>
+                    <h1 className={css(styles.title)}>
+                        <div className={css(styles.content)}>
+                            <div className={css(styles.field, styles.phantom)}>
+                                {name.replace(/\n/g, '')}</div>
+                            <input onFocus={this._handleFocus}
                                 onBlur={this._handleBlur}
                                 onKeyDown={this._handleKeyDown}
                                 value={name}
                                 onChange={this._handleChangeText}
                                 className={css(styles.field, styles.editable)}
-                             />
-                        </div>
+                             /></div>
                     </h1>
-                    <Popover
-                     content={ (
-                        <React.Fragment
-                        >
-                            <p
-                             className={css(styles.description)}>
-                                {description}
-                            </p>
-                            <button
-                             onClick={onShowEditModal} className={css(styles.editButton)}>
-                                Edit details
-                            </button>
-                        </React.Fragment>
+                    <Popover content={ (
+                        <React.Fragment>
+                            <p className={css(styles.description)}>
+                                {description}</p>
+                            <button onClick={onShowEditModal} className={css(styles.editButton)}>Edit details</button></React.Fragment>
                         )
                     }>
-                        <button
-                         className={css(styles.icon)}>
-                            <PopoverIcon
-                             theme={theme} />
-                        </button>
-                    </Popover>
+                        <button className={css(styles.icon)}>
+                            <PopoverIcon theme={theme} />
+                        </button></Popover>
                 </div>
                 {
                     this.state.focused && error ?  (
-                        <div
-                         className={css(styles.validation)}>
-                            {error.message}
-                        </div>
+                        <div className={css(styles.validation)}>
+                            {error.message}</div>
                         )
                      : null
                 }

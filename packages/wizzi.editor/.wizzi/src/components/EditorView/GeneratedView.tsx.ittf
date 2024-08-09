@@ -166,7 +166,9 @@ module
                             div 
                                 @ className {classes.browserOuter}
                                 { 
-                                    iif (this.props.generatedSourcePath.endsWith('.html.ittf') || this.props.generatedSourcePath.endsWith('.svg.ittf'))
+                                    iif (this.props.generatedSourcePath.endsWith('.html.ittf') 
+                                        \b || this.props.generatedSourcePath.endsWith('.logbot.ittf')
+                                        \b || this.props.generatedSourcePath.endsWith('.svg.ittf'))
                                         then
                                             < WebFrame 
                                                 @ previewURL {this.props.generatedPreviewURL}

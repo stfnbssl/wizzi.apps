@@ -2,18 +2,20 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\MetaProductionResult.tsx.ittf
-    utc time: Wed, 31 Jul 2024 14:56:16 GMT
+    utc time: Wed, 07 Aug 2024 13:02:16 GMT
 */
 import {useState, useEffect} from "react";
 import * as packiApi from '@/Api/packiApi';
 import * as wizziMetaApi from '@/Api/wizziMetaApi';
-import {PackiEntry, MetaPluginExt} from "@/Api/types";
+import {PackiFiles, PackiEntry, MetaPluginExt} from "@/Api/types";
+import {JobItem} from "@/Data/types";
 import {AppState} from "@/Data/mvc/MetaProduction/types";
+import {getMvc} from "@/Data/mvc/MetaProduction";
 import {ErrorView} from "@/Components/utils/ErrorView";
 import FileExplorer from "@/Components/fileExplorer/FileExplorer";
 import FileBrowser from "@/Components/fileExplorer2/FileBrowser";
 function executeResultMetaProduction(metaCtx: { 
-}, hubMetaProductions: any[]) {
+}, hubMetaProductions: any[], currentJob?: JobItem) {
     const [error, setError] = useState(null);
     const [data, setData] = useState(null);
     const [prettifiedError, setPrettifiedError] = useState(null);
@@ -64,6 +66,9 @@ function executeResultMetaProduction(metaCtx: {
                         setGeneratedError(err)
                     }
                     )
+                    if (currentJob) {
+                        getMvc().controller.saveMetaCtx(currentJob, metaCtx)
+                    }
                 }
             }
             ).catch((error: any) => {
@@ -87,12 +92,8 @@ function executeResultMetaProduction(metaCtx: {
             executionGeneratedError: generatedError
          };
 }
-function detectWfjob(packiFiles: PackiFiles):  string {
-    var items = Object.keys(packiFiles);
-    var i, i_items=items, i_len=items.length, item;
-    for (i=0; i<i_len; i++) {
-        item = items[i];
-        console.log('detectWfjob', item, item.endsWith('.wfjob.ittf'));
+function detectWfjob(packiFiles: PackiFiles):  string | null {
+    for (var item in packiFiles) {
         if (item.endsWith('.wfjob.ittf')) {
             return item;
         }
@@ -110,7 +111,8 @@ export function MetaProductionResult(props: MetaProductionResultProps) {
         appState
      } = props;
     const {
-        selectedMetaPlugins
+        selectedMetaPlugins, 
+        currentJob
      } = appState;
     const metaPlugins: MetaPluginExt[] = selectedMetaPlugins as MetaPluginExt[];
     const [selectedEntry, setSelectedEntry] = useState<PackiEntry|null>(null);
@@ -121,7 +123,7 @@ export function MetaProductionResult(props: MetaProductionResultProps) {
         executionPrettifiedError, 
         executionGeneratedResult, 
         executionGeneratedError
-     } = executeResultMetaProduction(metaCtx, metaPlugins);
+     } = executeResultMetaProduction(metaCtx, metaPlugins, currentJob);
     if (executionError) {
         return  (
             <ErrorView error={executionError} />
@@ -146,7 +148,7 @@ export function MetaProductionResult(props: MetaProductionResultProps) {
             )
         ;
     }
-    let explorerEntries: PackiFiles = {};
+    let explorerEntries: PackiEntry[] = [];
     let installEntries: PackiFiles = {};
     const wzjobUri = detectWfjob(executionResult);
     if (wzjobUri && wzjobUri.length > 0) {
@@ -171,16 +173,23 @@ export function MetaProductionResult(props: MetaProductionResultProps) {
                         <div className="flex">
                             <div className="py-0.5 mt-0.5 ml-0.5 text-xs rounded bg-gray-700 hover:bg-zinc-200 hover:text-gray-700 cursor-pointer" title={'Install the generated package'} onClick={() => {
                                     console.log('Components.metaproduction.MetaProductionResult.Install.onClick');
-                                    alert(JSON.stringify(appState.currentJob?.__metaDemoPackage.json, null, 4))
-                                    packiApi.install(installEntries, appState.currentJob?.__metaDemoPackage.json).then((response: any) => {
-                                        console.log('install.response', response);
-                                        alert(JSON.stringify(response, null, 4))
+                                    if (appState.currentJob?.__metaDemoPackage) {
+                                        alert(JSON.stringify(appState.currentJob?.__metaDemoPackage.json, null, 4))
+                                        packiApi.install(installEntries, appState.currentJob?.__metaDemoPackage.json).then((response: any) => {
+                                            console.log('install.response', response);
+                                            alert(JSON.stringify(response, null, 4))
+                                        }
+                                        ).catch((err) => {
+                                            console.log("[31m%s[0m", err.message);
+                                            console.log("[31m%s[0m", err);
+                                        }
+                                        )
                                     }
-                                    ).catch((err) => {
-                                        console.log("[31m%s[0m", err.message);
-                                        console.log("[31m%s[0m", err);
+                                    else {
+                                        if (appState.currentJob) {
+                                            alert("The job production " + appState.currentJob.name + " is missing the file 'metaDemoPackage.json' that is requested for installing the generated package")
+                                        }
                                     }
-                                    )
                                 }
                             }>
                                 Install</div>

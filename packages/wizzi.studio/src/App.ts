@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\App.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import express from 'express';
 import {AppInitializerType} from './features/app';
@@ -14,7 +14,6 @@ import {ConfigType} from './features/config';
     // 
 */
 function normalizePort(val: any) {
-
     var port = parseInt(val, 10);
     if (isNaN(port)) {
         return val;
@@ -27,15 +26,12 @@ function normalizePort(val: any) {
 
 
 function initializeApp(app: express.Application, initValues: AppInitializerType) {
-
     
     initValues.middlewaresPre.forEach(middleware => 
-    
         middleware(app)
     )
     
     initValues.apis.forEach((api) => {
-    
         console.log("[33m%s[0m", 'installing api: ', api.name);
         api.initialize(app, initValues)
         initValues.globalApi[api.name] = api;
@@ -43,7 +39,6 @@ function initializeApp(app: express.Application, initValues: AppInitializerType)
     )
     
     initValues.controllers.forEach((controller) => {
-    
         console.log("[33m%s[0m", 'installing router on path: ', controller.path);
         controller.initialize(app, initValues)
         app.use(controller.path, controller.router);
@@ -51,7 +46,6 @@ function initializeApp(app: express.Application, initValues: AppInitializerType)
     )
     
     initValues.middlewaresPost.forEach(middleware => 
-    
         middleware(app)
     )
 }
@@ -75,7 +69,6 @@ class App {
     public server: any;
     public listen(port?: number) {
         this.server = this.app.listen(this.port, () => 
-        
             console.log(`App listening at http://localhost:${this.port}`)
         )
         ;
@@ -83,7 +76,6 @@ class App {
     public close(done) {
         console.log(`Server closing. App listening at http://localhost:${this.port}`)
         this.server.close(() => {
-        
             console.log(`Server stopped. App was listening at http://localhost:${this.port}`)
             done();
         }

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\KeybindingsManager.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import * as React from 'react';
 
@@ -14,6 +14,7 @@ export type KeybindingsManagerProps<T extends {
     };
     onTrigger: (type: string, binding: T) => void;
 };
+;
 
 const isMac = 'navigator' in global && /Mac/i.test(navigator.platform);
 
@@ -37,10 +38,9 @@ export const KeyMap = {
     Meta: isMac ? 91 : 17
  };
 
-export const isKeyCombo = (e: KeyboardEvent, combo: number[]) => 
 
+export const isKeyCombo = (e: KeyboardEvent, combo: number[]) => 
     combo.every((code) => {
-    
         switch (code) {
             case KeyMap.Ctrl: {
                 return e.ctrlKey;
@@ -88,4 +88,5 @@ export class KeybindingsManager<T extends {
         return null;
     }
 }
+
 export default KeybindingsManager;

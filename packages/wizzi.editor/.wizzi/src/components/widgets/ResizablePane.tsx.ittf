@@ -116,7 +116,7 @@ module
                     if direction === 'horizontal'
                         const delta = e.pageX - initialPosition.pageX
                         set style =
-                            `lit
+                            template
                                 + width:&nbsp;
                                 op+
                                     + initialWidth
@@ -128,7 +128,7 @@ module
                     else
                         const delta = initialPosition.pageY - e.pageY
                         set style =
-                            `lit
+                            template
                                 + height:&nbsp;
                                 op+
                                     + initialHeight
@@ -154,7 +154,7 @@ module
                     div
                         @ ref {this._pane}
                         @ className
-                            `lit
+                            template
                                 _ css(styles.container)
                                 + &nbsp;
                                 @ className ?? ''

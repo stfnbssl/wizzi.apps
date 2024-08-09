@@ -21,15 +21,15 @@ $group
                 from '../types'
         +
         _ this.router.post
-            `lit
+            template
                 + /save/:id
             @ this.savePacki
         _ this.router.get
-            `lit
+            template
                 + /:id
             @ this.getPacki
         _ this.router.get
-            `lit
+            template
                 + /render/:id/:entry
             @ this.renderPacki
         $append handlers

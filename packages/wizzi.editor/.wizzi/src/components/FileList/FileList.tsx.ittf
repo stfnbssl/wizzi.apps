@@ -288,7 +288,7 @@ module
                                 param renamedFile
                                 _ this.props.onRenameFile
                                     @expr renamedFile.item.path
-                                    `lit 
+                                    template 
                                         + 
                                         @ newPath
                                         + 
@@ -485,7 +485,7 @@ module
                                                     => 
                                                         param name
                                                         _ key.startsWith
-                                                            `lit 
+                                                            template 
                                                                 + 
                                                                 @ name
                                                                 + /
@@ -742,7 +742,7 @@ module
                                         < Toast 
                                             @ key {group.id}
                                             @ label
-                                                `lit 
+                                                template 
                                                     + Deleted&nbsp;
                                                     _ group.path.split('/').pop()
                                                     + 

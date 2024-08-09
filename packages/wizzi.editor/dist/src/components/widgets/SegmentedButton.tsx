@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\SegmentedButton.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -20,36 +20,26 @@ export type SegmentedButtonProps<T> = {
     segments: Segment<T>[];
     className?: string;
 };
+;
 
 export function SegmentedButton<T extends string>({
     selectedId, 
     onSelect, 
     segments
  }: SegmentedButtonProps<T>) {
-
     return  (
-        <div
-         className={css(styles.container)}>
+        <div className={css(styles.container)}>
             {
                 segments.map(({
                     id, 
                     text
                  }) => 
-                
                      (
-                    <button
-                     onClick={(e) => {
-                        
+                    <button onClick={(e) => {
                             e.preventDefault();
                             onSelect(id);
                         }
-                    } className={css(styles.button, selectedId === id ? styles.selected : null)} key={id}>
-                        <span
-                        >
-                            {text}
-                        </span>
-                    </button>
-                    )
+                    } className={css(styles.button, selectedId === id ? styles.selected : null)} key={id}><span>{text}</span></button>)
                 
                 )
             }
@@ -57,6 +47,7 @@ export function SegmentedButton<T extends string>({
         )
     ;
 }
+
 
 export default SegmentedButton;
 

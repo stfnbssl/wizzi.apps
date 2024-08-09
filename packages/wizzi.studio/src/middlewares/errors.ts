@@ -1,27 +1,26 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\middlewares\errors.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import {Application, Request, Response} from 'express';
 import {MiddlewareType} from '../features/app/types';
 import HttpException from '../httpException';
 export const ErrorsMiddleware: MiddlewareType = (app: Application) => {
-
     app.use(// catch 404 and forward to error handler
     function(request: Request, res: Response, next: Function) {
-    
         var err = new HttpException(404, 'Not Found');
         next(err);
     })
-    
     // development error handler
-    
     // will print stacktrace
     if (app.get('env') === 'development') {
-        app.use(function(err: HttpException, request: Request, res: Response, next: Function) {
-        
+        app.use(function(
+            err: HttpException, 
+            request: Request, 
+            res: Response, 
+            next: Function) {
             res.status(err.status || 500);
             res.render('error.html.ittf', {
                 message: err.message, 
@@ -32,8 +31,11 @@ export const ErrorsMiddleware: MiddlewareType = (app: Application) => {
     // production error handler
     // no stacktraces leaked to user
     else {
-        app.use(function(err: HttpException, request: Request, res: Response, next: Function) {
-        
+        app.use(function(
+            err: HttpException, 
+            request: Request, 
+            res: Response, 
+            next: Function) {
             res.status(err.status || 500);
             res.render('error.html.ittf', {
                 message: err.message, 

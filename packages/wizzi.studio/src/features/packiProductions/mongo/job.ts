@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\mongo\job.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import {Schema, Model, model} from "mongoose";
 import {ModelBuilderType} from "../../app/types";
@@ -24,16 +24,15 @@ JobSchema.index({
     unique: true
  })
 
+// mongoose models creation is centralized
+// the mongodb service calls buildModel() when starting, after connection has been established
+// controllers call GetJobModel() when initialized, after buildModel() has benn called
 export type JobModelType = Model<IJobModel>;
-    // mongoose models creation is centralized
-    // the mongodb service calls buildModel() when starting, after connection has been established
-    // controllers call GetJobModel() when initialized, after buildModel() has benn called
-    
+;
 
 let JobModel: JobModelType;
 
 export function GetJobModel():  JobModelType {
-
     if (!JobModel) {
         JobModel = model<IJobModel>("Job")
         ;
@@ -43,12 +42,10 @@ export function GetJobModel():  JobModelType {
 
 export const JobModelBuilder: ModelBuilderType = {
     buildModel: (options?: any) => 
-    
         JobModel = model<IJobModel>("Job", JobSchema)
     
     , 
     applyExtraSetup: (options?: any) => {
-    
     }
     
  };

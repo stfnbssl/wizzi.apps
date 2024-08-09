@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\artifact.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -21,18 +21,19 @@ import {packiTypes} from '../../packi';
 
 const myname = 'features/production/controllers/artifact';
 
-function renderPageForm(req: Request, res: Response, data: object, queryParams: object) {
-
+function renderPageForm(
+    req: Request, 
+    res: Response, 
+    data: object, 
+    queryParams: object) {
     const index = '<!DOCTYPE html>' + (ReactDOMServer.renderToStaticMarkup(
-    <PageFormDocument
-     data={data} queryParams={queryParams} />
+    <PageFormDocument data={data} queryParams={queryParams} />
     ));
     res.set('Content-Type', 'text/html');
     res.set('Content-Length', index.length.toString());
     res.send(index);
 }
 function getPackiConfigFile():  packiTypes.PackiFiles {
-
     return {
             ['.packi/config.json.ittf']: {
                 type: 'CODE', 
@@ -62,9 +63,7 @@ function getPackiConfigFile():  packiTypes.PackiFiles {
 }
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -106,7 +105,6 @@ export class ArtifactProductionController implements ControllerType {
     };
     
     private getNewArtifactForm = async (request: Request, response: Response) => 
-    
         renderPageForm(request, response, {
             type: 'success', 
             formName: 'CreateArtifactProduction', 
@@ -121,7 +119,6 @@ export class ArtifactProductionController implements ControllerType {
     ;
     
     private postArtifact = async (request: Request, response: Response) => {
-    
         const wizziSchema = request.body.ap_wizzi_schema || 'html';
         const mainIttf = request.body.ap_main_ittf || 'index.' + wizziSchema + '.ittf';
         const contexts = request.body.ap_contexts || '[]';
@@ -130,10 +127,7 @@ export class ArtifactProductionController implements ControllerType {
             wizziSchema: wizziSchema, 
             mainIttf: mainIttf
          }).then((packiFiles: packiTypes.PackiFiles) => 
-        
             createArtifactProduction((request.session as any).user.username, request.body.ap_name, request.body.ap_description, mainIttf, wizziSchema, JSON.stringify(mergePackiFiles(packiFiles, getPackiConfigFile()))).then((result: CRUDResult) => {
-            
-                
                 // _ response.redirect('/packi/productions/artifacts')
                 if (result.ok) {
                     response.redirect('/~~/a/' + (request.session as any).user.username + '/' + request.body.ap_name)
@@ -146,7 +140,6 @@ export class ArtifactProductionController implements ControllerType {
                 }
             }
             ).catch((err: any) => 
-            
                 response.render('error.html.ittf', {
                     message: 'creating a new artifact production', 
                     error: err
@@ -158,10 +151,8 @@ export class ArtifactProductionController implements ControllerType {
     ;
     
     private getUpdateArtifactForm = async (request: Request, response: Response) => {
-    
         const id = request.params.id;
         getArtifactProductionObjectById(id).then((result: any) => 
-        
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'UpdateArtifactProduction', 
@@ -179,10 +170,8 @@ export class ArtifactProductionController implements ControllerType {
     ;
     
     private putArtifact = async (request: Request, response: Response) => {
-    
         const obj = request.body;
         updateArtifactProduction(obj.ap_id, obj.ap_owner, obj.ap_name, obj.ap_description, obj.ap_mainIttf, obj.ap_wizziSchema).then((result: any) => {
-        
             if (result.ok) {
                 response.redirect('/packi/productions/artifacts');
             }
@@ -198,10 +187,8 @@ export class ArtifactProductionController implements ControllerType {
     ;
     
     private getDeleteArtifactForm = async (request: Request, response: Response) => {
-    
         const id = request.params.id;
         getArtifactProductionObjectById(id).then((result: any) => 
-        
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'DeleteArtifactProduction', 
@@ -219,10 +206,8 @@ export class ArtifactProductionController implements ControllerType {
     ;
     
     private deleteArtifact = async (request: Request, response: Response) => {
-    
         const obj = request.body;
         deleteArtifactProduction(obj.ap_id, obj.ap_owner, obj.ap_name).then((result: any) => {
-        
             if (result.ok) {
                 response.redirect('/packi/productions/artifacts');
             }

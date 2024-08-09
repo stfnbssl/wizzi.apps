@@ -140,13 +140,13 @@ module
                     @ backgroundPosition 'center'
                 { close
                     @ backgroundImage
-                        `lit 
+                        template 
                             + url(
                             _ require('../../assets/cross.png')
                             + )
                 { clear
                     @ backgroundImage
-                        `lit 
+                        template 
                             + url(
                             _ require('../../assets/clear.png')
                             + )

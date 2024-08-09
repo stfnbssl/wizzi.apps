@@ -8,7 +8,7 @@ $group
                 let colors
                     _ color.match
                         new RegExp
-                            `lit 
+                            template 
                                 + .{1,
                                 @ color.length / 3
                                 + }
@@ -26,7 +26,7 @@ $group
                             ._ join
                                 @ ', '
                     return
-                        `lit 
+                        template 
                             + rgb(
                             @ rgb
                             + )

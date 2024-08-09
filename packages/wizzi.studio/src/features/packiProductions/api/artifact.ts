@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\artifact.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 import NodeCache from 'node-cache';
@@ -21,13 +21,10 @@ const artifactProductionCache = new NodeCache({
     checkperiod: 60
  });
 export async function validateArtifactProduction(owner: string, name: string):  Promise<ValidateResult> {
-
     const ArtifactProduction = GetArtifactProductionModel();
     return new Promise((resolve, reject) => {
-        
             let query = { owner: owner, name: name };
             ArtifactProduction.find(query, (err, result) => {
-            
                 if (err) {
                     return reject(err);
                 }
@@ -56,14 +53,12 @@ export /**
         // options
 */
 async function getArtifactProductionList(options?: any):  Promise<CRUDResult> {
-
     options = options || {};
     
     
     const ArtifactProduction = GetArtifactProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             const query = ArtifactProduction.find(options.query);
             if (options.limit) {
@@ -73,7 +68,6 @@ async function getArtifactProductionList(options?: any):  Promise<CRUDResult> {
                 query.sort(options.sort);
             }
             query.find((err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getArtifactProductionList', 'ArtifactProduction.find', 'error', err);
                     return reject(err);
@@ -113,13 +107,11 @@ export /**
         // name
 */
 async function getArtifactProduction(owner: string, name: string):  Promise<CRUDResult> {
-
     
     
     const ArtifactProduction = GetArtifactProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -127,7 +119,6 @@ async function getArtifactProduction(owner: string, name: string):  Promise<CRUD
              };
             
             ArtifactProduction.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getArtifactProduction', 'ArtifactProduction.find', 'error', err);
                     return reject(err);
@@ -157,18 +148,15 @@ export /**
         // id
 */
 async function getArtifactProductionById(id: string):  Promise<CRUDResult> {
-
     
     
     const ArtifactProduction = GetArtifactProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             ArtifactProduction.find({
                 _id: id
              }, (err: any, result: IArtifactProductionModel[]) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getArtifactProduction', 'ArtifactProduction.find', 'error', err);
                     return reject(err);
@@ -192,11 +180,8 @@ async function getArtifactProductionById(id: string):  Promise<CRUDResult> {
 }
 
 export async function getArtifactProductionObject(owner: string, name: string, loadPackiConfig?: boolean) {
-
     return new Promise((resolve, reject) => 
-        
             getArtifactProduction(owner, name).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -204,7 +189,6 @@ export async function getArtifactProductionObject(owner: string, name: string, l
                 return resolve(_createArtifactProductionObject(ap, loadPackiConfig));
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.api.artifactProduction.getArtifactProductionObject.getArtifactProduction.error', err);
@@ -216,11 +200,8 @@ export async function getArtifactProductionObject(owner: string, name: string, l
 }
 
 export async function getArtifactProductionObjectById(id: string, loadPackiConfig?: boolean) {
-
     return new Promise((resolve, reject) => 
-        
             getArtifactProductionById(id).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -228,7 +209,6 @@ export async function getArtifactProductionObjectById(id: string, loadPackiConfi
                 return resolve(_createArtifactProductionObject(ap, loadPackiConfig));
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.api.artifactProduction.getArtifactProductionObjectById.getArtifactProductionById.error', err);
@@ -239,10 +219,8 @@ export async function getArtifactProductionObjectById(id: string, loadPackiConfi
         );
 }
 async function _createArtifactProductionObject(ap: IArtifactProductionModel, loadPackiConfig?: boolean) {
-
     
     return new Promise((resolve, reject) => {
-        
             const ap_packiFiles_object: packiTypes.PackiFiles = JSON.parse(ap.packiFiles);
             const obj = {
                 ...ap._doc, 
@@ -265,12 +243,10 @@ async function _createArtifactProductionObject(ap: IArtifactProductionModel, loa
                         contents: obj.packiConfig.contents
                      }
                  }, {}).then((generationResult: any) => {
-                
                     obj.packiConfigObj = JSON.parse(generationResult.artifactContent);
                     return resolve(obj);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.production.api.artifactProduction.getArtifactProductionObject._createArtifactProductionObject.error', err);
@@ -296,14 +272,18 @@ export /**
         // wizziSchema
         // packiFiles
 */
-async function createArtifactProduction(owner?: string, name?: string, description?: string, mainIttf?: string, wizziSchema?: string, packiFiles?: string):  Promise<CRUDResult> {
-
+async function createArtifactProduction(
+    owner?: string, 
+    name?: string, 
+    description?: string, 
+    mainIttf?: string, 
+    wizziSchema?: string, 
+    packiFiles?: string):  Promise<CRUDResult> {
     
     
     const ArtifactProduction = GetArtifactProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -311,7 +291,6 @@ async function createArtifactProduction(owner?: string, name?: string, descripti
              };
             
             ArtifactProduction.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getArtifactProduction', 'ArtifactProduction.find', 'error', err);
                     return reject(err);
@@ -334,7 +313,6 @@ async function createArtifactProduction(owner?: string, name?: string, descripti
                     updated_at: new Date()
                  });
                 newArtifactProduction.save(function(err: any, doc: any) {
-                
                     if (err) {
                         console.log("[31m%s[0m", myname, 'createArtifactProduction', 'newArtifactProduction.save', 'error', err);
                         return reject(err);
@@ -363,14 +341,19 @@ export /**
         // wizziSchema
         // packiFiles
 */
-async function updateArtifactProduction(id?: string, owner?: string, name?: string, description?: string, mainIttf?: string, wizziSchema?: string, packiFiles?: string):  Promise<CRUDResult> {
-
+async function updateArtifactProduction(
+    id?: string, 
+    owner?: string, 
+    name?: string, 
+    description?: string, 
+    mainIttf?: string, 
+    wizziSchema?: string, 
+    packiFiles?: string):  Promise<CRUDResult> {
     
     
     const ArtifactProduction = GetArtifactProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -406,7 +389,6 @@ async function updateArtifactProduction(id?: string, owner?: string, name?: stri
             update['updated_at'] = new Date();
             
             ArtifactProduction.findOneAndUpdate(query, update, {}, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'updateArtifactProduction', 'ArtifactProduction.findOneAndUpdate', 'error', err);
                     return reject(err);
@@ -439,13 +421,11 @@ export /**
         // name
 */
 async function deleteArtifactProduction(id?: string, owner?: string, name?: string):  Promise<CRUDResult> {
-
     
     
     const ArtifactProduction = GetArtifactProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -461,7 +441,6 @@ async function deleteArtifactProduction(id?: string, owner?: string, name?: stri
             }
             
             ArtifactProduction.deleteOne(query, (err: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'deleteArtifactProduction', 'ArtifactProduction.deleteOne', 'error', err);
                     return reject(err);
@@ -477,7 +456,6 @@ async function deleteArtifactProduction(id?: string, owner?: string, name?: stri
         );
 }
 function mergePackiFiles(a: any, b: any) {
-
     var ret: any = {};
     for (var k in a) {
         ret[k] = a[k];
@@ -489,10 +467,8 @@ function mergePackiFiles(a: any, b: any) {
 }
 
 export async function getArtifactProduction_withCache(owner: string, name: string) {
-
     var cacheKey = owner + '|' + name;
     return new Promise((resolve, reject) => {
-        
             let apValue = {
                 mainIttf: "", 
                 packiFiles: {
@@ -500,7 +476,6 @@ export async function getArtifactProduction_withCache(owner: string, name: strin
                  }
              };
             getArtifactProduction(owner, name).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -508,7 +483,6 @@ export async function getArtifactProduction_withCache(owner: string, name: strin
                 const ap_packiFiles_object: packiTypes.PackiFiles = JSON.parse(ap.packiFiles);
                 if (ap.wizziSchema && ap.wizziSchema.length > 0) {
                     tFolderApi.getTFolder(owner, ap.wizziSchema).then((result) => {
-                    
                         if (!result.ok) {
                             apValue = {
                                 mainIttf: ap.mainIttf, 
@@ -525,7 +499,6 @@ export async function getArtifactProduction_withCache(owner: string, name: strin
                         return resolve(apValue);
                     }
                     ).catch((err: any) => {
-                    
                         if (typeof err === 'object' && err !== null) {
                         }
                         console.log("[31m%s[0m", 'getArtifactProduction_withCache.getTFolder.error', err);
@@ -542,7 +515,6 @@ export async function getArtifactProduction_withCache(owner: string, name: strin
                 }
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'getArtifactProduction_withCache.getArtifactProduction.error', err);
@@ -554,23 +526,18 @@ export async function getArtifactProduction_withCache(owner: string, name: strin
 }
 
 export function invalidateCache(owner: string, name?: string) {
-
     var cacheKey = owner + '|' + name;
     artifactProductionCache.del(cacheKey);
 }
 
 export async function getDefaultContext_withCache(owner: string, sysContext?: any) {
-
     sysContext = sysContext || {};
     return new Promise((resolve, reject) => 
-        
             getArtifactContextItem(owner, 'wzCtx;wzctx', {}).then((resultItemContext: any) => {
-            
                 const defaultContext = Object.assign({}, sysContext, resultItemContext);
                 resolve(defaultContext);
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'getDefaultContext_withCache.getArtifactContextItem.error', err);
@@ -587,28 +554,23 @@ export /**
     // context property 'db' from json document 'item.db.json'
 */
 async function getArtifactContext(owner: string, queryContextString: string, sysContext?: any) {
-
     sysContext = sysContext || {};
     return new Promise((resolve, reject) => {
-        
             if (queryContextString && queryContextString.length > 0) {
                 const contextItems = queryContextString.split('|');
                 var j = 0;
                 let resultContext = sysContext;
                 (function next() {
-                
                     var contextItem = contextItems[j++];
                     if (!contextItem) {
                         return resolve(resultContext);
                     }
                     getArtifactContextItem(owner, contextItem, sysContext).then((resultItemContext: any) => {
-                    
                         resultContext = Object.assign({}, resultContext, resultItemContext)
                         ;
                         next();
                     }
                     ).catch((err: any) => {
-                    
                         if (typeof err === 'object' && err !== null) {
                         }
                         console.log("[31m%s[0m", 'getArtifactContext.getArtifactContextItem.error', err);
@@ -625,15 +587,12 @@ async function getArtifactContext(owner: string, queryContextString: string, sys
 }
 
 export async function getArtifactContextItem(owner: string, queryContextString: string, sysContext?: any) {
-
     sysContext = sysContext || {};
-    
     /**
         * sample queryContextString: "wzCtx;wzctx.json"
         * context property 'wzCtx' from json document 'wzctx.json'
     */
     return new Promise((resolve, reject) => {
-        
             if (queryContextString && queryContextString.length > 0) {
                 const parts = queryContextString.split(';');
                 const contextName = parts[0];
@@ -641,12 +600,10 @@ export async function getArtifactContextItem(owner: string, queryContextString: 
                 const contextTransformation = parts.length > 2 ? parts[2] : null;
                 if (contextTransformation) {
                     getArtifactTransformation(owner, contextArtifactName, sysContext, contextTransformation).then((result: any) => 
-                    
                         resolve(Object.assign({}, sysContext, {
                             [contextName]: result.transformResult
                          }))
                     ).catch((err: any) => {
-                    
                         if (typeof err === 'object' && err !== null) {
                         }
                         console.log("[31m%s[0m", 'getArtifactContextItem.getArtifactTransformation.error', err);
@@ -656,14 +613,12 @@ export async function getArtifactContextItem(owner: string, queryContextString: 
                 }
                 else {
                     getArtifactGeneration(owner, contextArtifactName, sysContext).then((result: any) => {
-                    
                         const contextObject = JSON.parse(result.content);
                         resolve(Object.assign({}, sysContext, {
                             [contextName]: contextObject
                          }))
                     }
                     ).catch((err: any) => {
-                    
                         if (typeof err === 'object' && err !== null) {
                         }
                         console.log("[31m%s[0m", 'getArtifactContextItem.getArtifactGeneration.error', err);
@@ -679,20 +634,19 @@ export async function getArtifactContextItem(owner: string, queryContextString: 
         );
 }
 
-export async function getArtifactTransformation(owner: string, name: string, context: any, transformerName: string) {
-
+export async function getArtifactTransformation(
+    owner: string, 
+    name: string, 
+    context: any, 
+    transformerName: string) {
     return new Promise((resolve, reject) => 
-        
             getArtifactProduction(owner, name).then((ap: any) => 
-            
                 wizziProds.loadAndTransformModel(ap.mainIttf, ap.packiFiles, context, {
                     transformer: transformerName
                  }).then((result: any) => {
-                
                     return resolve(result);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                         err.parameter = {
                             artifactOwner: owner, 
@@ -707,7 +661,6 @@ export async function getArtifactTransformation(owner: string, name: string, con
                 )
             
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                     err.parameter = {
                         artifactOwner: owner, 
@@ -722,20 +675,20 @@ export async function getArtifactTransformation(owner: string, name: string, con
         );
 }
 
-export async function getArtifactTransformation_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any, transformerName: string) {
-
+export async function getArtifactTransformation_withPrepare(
+    owner: string, 
+    productionName: string, 
+    queryContext: string, 
+    rootContext: any, 
+    transformerName: string) {
     return new Promise((resolve, reject) => 
-        
             productionApi.prepareProduction('artifact', owner, productionName, queryContext, rootContext).then((productionObj: any) => 
-            
                 wizziProds.loadAndTransformModel(productionObj.mainIttf, productionObj.packiFiles, productionObj.context, {
                     transformer: transformerName
                  }).then((result: any) => {
-                
                     return resolve(result);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                         err.parameter = {
                             artifactOwner: owner, 
@@ -750,7 +703,6 @@ export async function getArtifactTransformation_withPrepare(owner: string, produ
                 )
             
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                     err.parameter = {
                         artifactOwner: owner, 
@@ -766,9 +718,7 @@ export async function getArtifactTransformation_withPrepare(owner: string, produ
 }
 
 export async function getArtifactGeneration(owner: string, name: string, context: any) {
-
     return new Promise((resolve, reject) => {
-        
             var artifactName = name;
             var filePathTobeGenerated = null;
             const ss = name.split('!');
@@ -777,9 +727,7 @@ export async function getArtifactGeneration(owner: string, name: string, context
                 filePathTobeGenerated = ss[1];
             }
             getArtifactProduction_withCache(owner, artifactName).then((ap: any) => 
-            
                 wizziProds.generateArtifact(filePathTobeGenerated || ap.mainIttf, ap.packiFiles, context).then((result: any) => {
-                
                     const response = {
                         content: result.artifactContent, 
                         contentLength: result.artifactContent.length, 
@@ -788,7 +736,6 @@ export async function getArtifactGeneration(owner: string, name: string, context
                     return resolve(response);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                         err.parameter = {
                             artifactOwner: owner, 
@@ -803,7 +750,6 @@ export async function getArtifactGeneration(owner: string, name: string, context
                 )
             
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                     err.parameter = {
                         artifactOwner: owner, 
@@ -819,14 +765,15 @@ export async function getArtifactGeneration(owner: string, name: string, context
         );
 }
 
-export async function getArtifactGeneration_withPrepare(owner: string, productionName: string, filePath: string, queryContext: string, rootContext: any) {
-
+export async function getArtifactGeneration_withPrepare(
+    owner: string, 
+    productionName: string, 
+    filePath: string, 
+    queryContext: string, 
+    rootContext: any) {
     return new Promise((resolve, reject) => 
-        
             productionApi.prepareProduction('artifact', owner, productionName, queryContext, rootContext).then((productionObj: any) => 
-            
                 wizziProds.generateArtifact(filePath || productionObj.mainIttf, productionObj.packiFiles, productionObj.context).then((result: any) => {
-                
                     const response = {
                         content: result.artifactContent, 
                         contentLength: result.artifactContent.length, 
@@ -835,7 +782,6 @@ export async function getArtifactGeneration_withPrepare(owner: string, productio
                     return resolve(response);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                         err.parameter = {
                             artifactOwner: owner, 
@@ -849,7 +795,6 @@ export async function getArtifactGeneration_withPrepare(owner: string, productio
                 )
             
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                     err.parameter = {
                         artifactOwner: owner, 
@@ -865,13 +810,9 @@ export async function getArtifactGeneration_withPrepare(owner: string, productio
 }
 
 export async function getArtifactMTree(owner: string, productionName: string, rootContext: any) {
-
     return new Promise((resolve, reject) => 
-        
             getArtifactProduction_withCache(owner, productionName).then((ap: any) => 
-            
                 wizziProds.mTree(ap.mainIttf, ap.packiFiles, rootContext).then((result: any) => {
-                
                     const response = {
                         content: result.mTreeIttf, 
                         contentLength: result.mTreeIttf.length, 
@@ -880,7 +821,6 @@ export async function getArtifactMTree(owner: string, productionName: string, ro
                     return resolve(response);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                         err.parameter = {
                             artifactOwner: owner, 
@@ -893,7 +833,6 @@ export async function getArtifactMTree(owner: string, productionName: string, ro
                 )
             
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                     err.parameter = {
                         artifactOwner: owner, 
@@ -908,14 +847,14 @@ export async function getArtifactMTree(owner: string, productionName: string, ro
         );
 }
 
-export async function getArtifactMTree_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any) {
-
+export async function getArtifactMTree_withPrepare(
+    owner: string, 
+    productionName: string, 
+    queryContext: string, 
+    rootContext: any) {
     return new Promise((resolve, reject) => 
-        
             productionApi.prepareProduction('artifact', owner, productionName, queryContext, rootContext).then((productionObj: any) => 
-            
                 wizziProds.mTree(productionObj.mainIttf, productionObj.packiFiles, productionObj.context).then((result: any) => {
-                
                     const response = {
                         content: result.mTreeIttf, 
                         contentLength: result.mTreeIttf.length, 
@@ -924,7 +863,6 @@ export async function getArtifactMTree_withPrepare(owner: string, productionName
                     return resolve(response);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                         err.parameter = {
                             artifactOwner: owner, 
@@ -937,7 +875,6 @@ export async function getArtifactMTree_withPrepare(owner: string, productionName
                 )
             
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                     err.parameter = {
                         artifactOwner: owner, 
@@ -953,13 +890,9 @@ export async function getArtifactMTree_withPrepare(owner: string, productionName
 }
 
 export async function getArtifactMTreeBuildUpScript(owner: string, productionName: string, rootContext: any) {
-
     return new Promise((resolve, reject) => 
-        
             getArtifactProduction_withCache(owner, productionName).then((ap: any) => 
-            
                 wizziProds.mTreeBuildUpScript(ap.mainIttf, ap.packiFiles, rootContext).then((result: any) => {
-                
                     const response = {
                         content: result.mTreeBuildUpScript, 
                         contentLength: result.mTreeBuildUpScript.length, 
@@ -968,7 +901,6 @@ export async function getArtifactMTreeBuildUpScript(owner: string, productionNam
                     return resolve(response);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                         err.parameter = {
                             artifactOwner: owner, 
@@ -981,7 +913,6 @@ export async function getArtifactMTreeBuildUpScript(owner: string, productionNam
                 )
             
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                     err.parameter = {
                         artifactOwner: owner, 
@@ -996,14 +927,14 @@ export async function getArtifactMTreeBuildUpScript(owner: string, productionNam
         );
 }
 
-export async function getArtifactMTreeBuildUpScript_withPrepare(owner: string, productionName: string, queryContext: string, rootContext: any) {
-
+export async function getArtifactMTreeBuildUpScript_withPrepare(
+    owner: string, 
+    productionName: string, 
+    queryContext: string, 
+    rootContext: any) {
     return new Promise((resolve, reject) => 
-        
             productionApi.prepareProduction('artifact', owner, productionName, queryContext, rootContext).then((productionObj: any) => 
-            
                 wizziProds.mTreeBuildUpScript(productionObj.mainIttf, productionObj.packiFiles, productionObj.context).then((result: any) => {
-                
                     const response = {
                         content: result.mTreeBuildUpScript, 
                         contentLength: result.mTreeBuildUpScript.length, 
@@ -1012,7 +943,6 @@ export async function getArtifactMTreeBuildUpScript_withPrepare(owner: string, p
                     return resolve(response);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                         err.parameter = {
                             artifactOwner: owner, 
@@ -1025,7 +955,6 @@ export async function getArtifactMTreeBuildUpScript_withPrepare(owner: string, p
                 )
             
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                     err.parameter = {
                         artifactOwner: owner, 
@@ -1041,10 +970,8 @@ export async function getArtifactMTreeBuildUpScript_withPrepare(owner: string, p
 }
 
 export async function prepareGenerationFromWizziJson(req_files: packiTypes.PackiFiles):  Promise<any> {
-
     
     return new Promise((resolve, reject) => {
-        
             
             let retPackiFiles: packiTypes.PackiFiles = req_files;
             
@@ -1056,14 +983,11 @@ export async function prepareGenerationFromWizziJson(req_files: packiTypes.Packi
                         contents: wizziJson.contents
                      }
                  }, {}).then((result: any) => {
-                
                     const wizziJsonObj = JSON.parse(result.artifactContent);
                     getFragmentsFromWizziJson(wizziJsonObj).then((resultPackiFiles: packiTypes.PackiFiles) => {
-                    
                         retPackiFiles = mergePackiFiles(retPackiFiles, resultPackiFiles)
                         ;
                         getContextFromWizziJson(wizziJsonObj).then((resultContext) => {
-                        
                             return resolve({
                                     packiFiles: retPackiFiles, 
                                     context: resultContext
@@ -1072,7 +996,6 @@ export async function prepareGenerationFromWizziJson(req_files: packiTypes.Packi
                         )
                     }
                     ).catch((err: any) => {
-                    
                         if (typeof err === 'object' && err !== null) {
                         }
                         console.log("[31m%s[0m", 'getArtifactGeneration.getFragmentsFromWizziJson.error', err);
@@ -1081,7 +1004,6 @@ export async function prepareGenerationFromWizziJson(req_files: packiTypes.Packi
                     )
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'getArtifactGeneration.generateArtifact.error', err);
@@ -1102,10 +1024,8 @@ export async function prepareGenerationFromWizziJson(req_files: packiTypes.Packi
 }
 
 export async function getFragmentsFromWizziJson(wizziJsonObj: any):  Promise<packiTypes.PackiFiles> {
-
     
     return new Promise((resolve, reject) => {
-        
             
             let retPackiFiles: packiTypes.PackiFiles = {};
             if (!!(wizziJsonObj && wizziJsonObj.fragments && wizziJsonObj.fragments.length > 0) == false) {
@@ -1113,14 +1033,12 @@ export async function getFragmentsFromWizziJson(wizziJsonObj: any):  Promise<pac
             }
             var j = 0;
             (function next() {
-            
                 var tfolder = wizziJsonObj.fragments[j++];
                 if (!tfolder) {
                     return resolve(retPackiFiles);
                 }
                 const parts = tfolder.path.split('/');
                 tFolderApi.getTFolder(parts[0], parts.slice(1).join('/')).then((result: CRUDResult) => {
-                
                     const tf: ITFolderModel = result.item;
                     const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
                     retPackiFiles = mergePackiFiles(retPackiFiles, tf_packiFiles_object)
@@ -1128,7 +1046,6 @@ export async function getFragmentsFromWizziJson(wizziJsonObj: any):  Promise<pac
                     next();
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'getFragmentsFromWizziJson.getTFolder.error', err);
@@ -1141,10 +1058,8 @@ export async function getFragmentsFromWizziJson(wizziJsonObj: any):  Promise<pac
 }
 
 export async function getContextFromWizziJson(wizziJsonObj: any):  Promise<any> {
-
     
     return new Promise((resolve, reject) => {
-        
             
             let retContext: any = {};
             if (!!(wizziJsonObj && wizziJsonObj.fragments && wizziJsonObj.fragments.length > 0) == false) {
@@ -1152,20 +1067,17 @@ export async function getContextFromWizziJson(wizziJsonObj: any):  Promise<any> 
             }
             var j = 0;
             (function next() {
-            
                 var contextDef = wizziJsonObj.contexts[j++];
                 if (!contextDef) {
                     return resolve(retContext);
                 }
                 const parts = contextDef.path.split('/');
                 getArtifactContextItem(parts[0], contextDef.name + ';' + parts.slice(1).join('/')).then((contextObject: any) => {
-                
                     retContext = Object.assign({}, retContext, contextObject)
                     ;
                     next();
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'getContextFromWizziJson.getArtifactContextItem.error', err);

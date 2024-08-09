@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListPaneButton.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -18,22 +18,16 @@ class FileListPaneButton extends React.PureComponent<Props> {
             ...rest
          } = this.props;
         return  (
-            <button
-             {...rest} className={css(styles.button)} ref={innerRef}>
-                <svg
-                 className={css(styles.icon)} viewBox="0 0 16 16">
-                    {this.props.children}
-                </svg>
-            </button>
-            )
+            <button {...rest} className={css(styles.button)} ref={innerRef}>
+                <svg className={css(styles.icon)} viewBox="0 0 16 16">
+                    {this.props.children}</svg>
+            </button>)
         ;
     }
 }
 export default React.forwardRef((props: Props, ref: React.Ref<HTMLButtonElement>) => 
-    
          (
-        <FileListPaneButton
-         {...props} innerRef={ref} />
+        <FileListPaneButton {...props} innerRef={ref} />
         )
     
     )

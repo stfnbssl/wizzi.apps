@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\features\wizziProductions\types.ts.ittf
-    utc time: Wed, 31 Jul 2024 13:44:15 GMT
+    utc time: Fri, 09 Aug 2024 16:10:15 GMT
 */
 import * as wizzi from '@wizzi/factory';
 import {JsonFs} from '@wizzi/repo';
@@ -65,6 +65,14 @@ export type MetaIttfDocument = {
 };
 ;
 
+export type MetaWizzifiable = { 
+    source: IttfDocumentSource;
+    filePath?: string;
+    packiFiles?: packiTypes.PackiFiles;
+    text?: string;
+};
+;
+
 export type MetaIttfFolder = { 
     source: IttfDocumentSource;
     path?: string;
@@ -88,7 +96,8 @@ export type MetaContext = {
 export type ArtifactRequest = { 
     ittfDocument?: MetaIttfDocument;
     ittfFolder?: MetaIttfFolder;
-    contextItems: MetaContext[];
+    wizzifiable?: MetaIttfDocument;
+    contextItems?: MetaContext[];
 };
 ;
 

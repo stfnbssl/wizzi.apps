@@ -43,7 +43,7 @@ module
                                     @ title 'Artifact productions · Wizzi'
                                     @ artifacts result.item
                                     @ __INITIAL_DATA__
-                                        `lit
+                                        template
                                             + &nbsp; window.__INITIAL_DATA__ =&nbsp;
                                             _ jsesc
                                                 {
@@ -68,7 +68,7 @@ module
                                     @ title 'Package productions · Wizzi'
                                     @ packages result.item
                                     @ __INITIAL_DATA__
-                                        `lit
+                                        template
                                             + &nbsp; window.__INITIAL_DATA__ =&nbsp;
                                             _ jsesc
                                                 {
@@ -93,7 +93,7 @@ module
                                     @ title 'Plugin productions · Wizzi'
                                     @ plugins result.item
                                     @ __INITIAL_DATA__
-                                        `lit
+                                        template
                                             + &nbsp; window.__INITIAL_DATA__ =&nbsp;
                                             _ jsesc
                                                 {
@@ -118,7 +118,7 @@ module
                                     @ title 'Meta productions · Wizzi'
                                     @ metas result.item
                                     @ __INITIAL_DATA__
-                                        `lit
+                                        template
                                             + &nbsp; window.__INITIAL_DATA__ =&nbsp;
                                             _ jsesc
                                                 {
@@ -143,7 +143,7 @@ module
                                     @ title 'tFolder · Wizzi'
                                     @ tfolders result.item
                                     @ __INITIAL_DATA__
-                                        `lit
+                                        template
                                             + &nbsp; window.__INITIAL_DATA__ =&nbsp;
                                             _ jsesc
                                                 {
@@ -168,7 +168,7 @@ module
                                     @ title 'job · Wizzi'
                                     @ jobs result.item
                                     @ __INITIAL_DATA__
-                                        `lit
+                                        template
                                             + &nbsp; window.__INITIAL_DATA__ =&nbsp;
                                             _ jsesc
                                                 {

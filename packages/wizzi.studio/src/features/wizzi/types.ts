@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\types.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import * as wizzi from '@wizzi/factory';
 import {JsonFs} from '@wizzi/repo';
@@ -11,39 +11,48 @@ import {packiTypes} from '../packi';
 export type FilesystemWizziFactory = { 
     wf: wizzi.WizziFactory;
 };
+;
 export type JsonWizziFactory = { 
     wf: wizzi.WizziFactory;
     jsonFs: JsonFs;
 };
+;
 export type LoadModelOptions = { 
     pluginsBaseFolder?: string;
     plugins?: string[];
 };
+;
 export type GenerationOptions = { 
     generator?: string;
     artifactContext?: any;
     pluginsBaseFolder?: string;
     plugins?: string[];
 };
+;
 export type GeneratedArtifact = { 
     artifactContent: string;
     sourcePath: string;
     artifactGenerator: string;
 };
+;
 export type TransformationOptions = { 
     transformer?: string;
     pluginsBaseFolder?: string;
     plugins?: string[];
 };
+;
 export type TransformedModel = { 
     transformResult: any;
     sourcePath: string;
     modelTransformer: string;
 };
+;
 
 export type IttfDocumentSource = 'fs' | 'packi' | 'db' | 'text';
+;
 
 export type ContextSource = 'json-fsIttf' | 'json-packiIttf' | 'json-dbIttf' | 'json-fsFile' | 'json-value' | 'model-fsIttf' | 'model-packiIttf' | 'model-dbIttf';
+;
 
 export type MetaIttfDocument = { 
     source: IttfDocumentSource;
@@ -54,6 +63,7 @@ export type MetaIttfDocument = {
     wizziSchema?: string;
     text?: string;
 };
+;
 
 export type MetaIttfFolder = { 
     source: IttfDocumentSource;
@@ -63,6 +73,7 @@ export type MetaIttfFolder = {
     generateFragments?: boolean;
     packiFiles?: packiTypes.PackiFiles;
 };
+;
 
 export type MetaContext = { 
     name?: string;
@@ -72,12 +83,14 @@ export type MetaContext = {
     packiFiles?: packiTypes.PackiFiles;
     value?: object;
 };
+;
 
 export type ArtifactRequest = { 
     ittfDocument?: MetaIttfDocument;
     ittfFolder?: MetaIttfFolder;
     contextItems: MetaContext[];
 };
+;
 
 export type WizziModelTypesRequest = { 
     storeKind?: wizzi.StoreKind;
@@ -89,6 +102,7 @@ export type WizziModelTypesRequest = {
     pluginsBaseFolder: string;
     plugins: string[];
 };
+;
 
 export type WizziJobTypesRequest = { 
     storeKind?: wizzi.StoreKind;
@@ -99,6 +113,7 @@ export type WizziJobTypesRequest = {
     plugins: string[];
     productionOptions?: wizzi.ProductionOptions;
 };
+;
 
 export type ExtraMetaProductionData = { 
     name: string;
@@ -106,11 +121,13 @@ export type ExtraMetaProductionData = {
     ittfDocumentTemplates?: packiTypes.PackiFiles;
     plainDocuments?: packiTypes.PackiFiles;
 };
+;
 
 export type MetaProductionPaths = { 
     tempProductionFolder: string;
     wizziProductionFolder: string;
 };
+;
 
 export type MetaExecuteRequest = { 
     metaCtx?: any;
@@ -118,3 +135,4 @@ export type MetaExecuteRequest = {
     paths?: MetaProductionPaths;
     metaProductions?: ExtraMetaProductionData[];
 };
+;

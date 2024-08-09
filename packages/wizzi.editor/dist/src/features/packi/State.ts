@@ -1,18 +1,18 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\State.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:23:16 GMT
+    utc time: Fri, 09 Aug 2024 15:52:20 GMT
 */
 import isEqual from 'lodash/isEqual';
 import {PackiState} from './types';
 export type StateObject<T> = { 
     [key: string]: T;
 };
+;
 export function addObjects<T>(state: StateObject<T>, content: { 
     [key: string]: T;
 }, filter?: (a: T, b: T) => boolean):  StateObject<T> {
-
     let newState: StateObject<T> | null = null;
     for (const key in content) {
         if (filter ? filter(content[key], state[key]) : !isEqual(content[key], state[key])) {
@@ -25,20 +25,22 @@ export function addObjects<T>(state: StateObject<T>, content: {
     }
     return newState ?? state;
 }
-export function addObject<T>(state: StateObject<T>, key: string, content: T, filter?: (a: T, b: T) => boolean):  StateObject<T> {
 
+export function addObject<T>(
+    state: StateObject<T>, 
+    key: string, 
+    content: T, 
+    filter?: (a: T, b: T) => boolean):  StateObject<T> {
     return addObjects(state, {
             [key]: content
          }, filter);
 }
 export function removeObjects<T>(state: StateObject<T>, keys: string[]):  StateObject<T> {
-
     if (!keys.length) {
         return state;
     }
     let newState: StateObject<T> | null = null;
     keys.forEach((key) => {
-    
         if (state[key]) {
             newState = newState ?? ({
                 ...state
@@ -51,7 +53,6 @@ export function removeObjects<T>(state: StateObject<T>, keys: string[]):  StateO
     return newState ?? state;
 }
 export function removeObject<T>(state: StateObject<T>, key: string):  StateObject<T> {
-
     return removeObjects(state, [
             key
         ]);
@@ -59,7 +60,6 @@ export function removeObject<T>(state: StateObject<T>, key: string):  StateObjec
 export function updateObjects<T>(state: StateObject<T>, content: { 
     [key: string]: T | null;
 }, compareFn: (a: T, b: T) => boolean = isEqual):  StateObject<T> {
-
     let newState: StateObject<T> | null = null;
     for (const key in content) {
         const val = content[key];
@@ -84,11 +84,10 @@ export function updateObjects<T>(state: StateObject<T>, content: {
     }
     return newState ?? state;
 }
-export function isCodeChanged(state: PackiState, prevState: PackiState) {
 
+export function isCodeChanged(state: PackiState, prevState: PackiState) {
     return (state.files !== prevState.files);
 }
 export function isUnsaved(state: PackiState, prevState: PackiState) {
-
     return (state.files !== prevState.files || state.name !== prevState.name || state.description !== prevState.description);
 }

@@ -1,0 +1,37 @@
+module
+    import path from 'path'
+    import
+        @ verify
+        @ fSystem
+        from 'wizzi-utils'
+    import
+        @ config
+        from '../../config'
+    import
+        @ ScanDevFoldersOptions
+        from '../types'
+    import
+        @ execScanDevFolders
+        from './scanDevFolders'
+    +
+    const myname = 'features.dev.api.index'
+    +
+    async-function scanDevFolders
+        param options
+            :ref ScanDevFoldersOptions
+        :return
+            :ref Promise
+                :param
+                    :any
+        r_promise()
+            _ execScanDevFolders
+                @ options
+                a_then( result )
+                    log myname, 'options', options
+                    return
+                        _ resolve
+                            @ result
+                catch_reject( features.dev.api.scanDevFolders )
+    +
+    export
+        @ scanDevFolders

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorView.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import './EditorView.css';
@@ -46,6 +46,7 @@ const EDITOR_LOAD_FALLBACK_TIMEOUT = 3000;
 export type EditorViewProps = PreferencesContextType & BaseEditorViewProps & { 
     loggedUser?: LoggedUser;
 };
+;
 type ModalName = 'auth' | 'packi-manager' | 'github-commit' | 'github-create' | 'edit-info' | 'shortcuts' | 'previous-saves' | 'import-repo' | 'import-production';
 type BannerName = 'reconnect' | 'autosave-disabled' | 'export-unavailable' | 'slow-connection';
 type SplitViewKind = 'left' | 'right' | 'both';
@@ -77,7 +78,6 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
             selectedFile, 
             files
          } = props;
-        
         // When an empty markdown file is opened, switch to edit mode
         let newState: any = null;
         if (state.isMarkdownPreview && selectedFile.endsWith('.md') && !files[selectedFile]?.contents) {
@@ -115,10 +115,8 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
             currentBanner: name
          })
         setTimeout(() => 
-        
             // @ts-ignore
             this.setState((state) => 
-            
                 (state.currentBanner === name ? {
                         currentBanner: null
                      } : state)
@@ -127,7 +125,6 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
     };
     
     _handleChangeSplitViewKind = (e: any) => 
-    
         this.setState({
             splitViewKind: e.target.value as SplitViewKind
          })
@@ -173,7 +170,6 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
          });
     _toggleMarkdownPreview = () => 
         this.setState((state) => 
-        
             ({
                 isMarkdownPreview: !state.isMarkdownPreview
              })
@@ -186,9 +182,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
         this.setState({
             shouldPreventRedirectWarning: false
          });
-    
     // log 'EditorView.props.loggedUser', loggedUser, this.props.loggedUser
-    
     // log 'EditorView.props', this.props, mainIttf, wizziSchema
     render() {
         const {
@@ -238,20 +232,15 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
         const annotations = this.props.annotations;
         const testPreviewURL = `${process.env.API_SERVER_URL}/~/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`;
         return  (
-            <ContentShell
-            >
+            <ContentShell>
                 {
                     this.state.loadedEditor ? null :  (
-                        <ProgressIndicator
-                         />
+                        <ProgressIndicator />
                         )
                     
                 }
-                <PageMetadata
-                 name={name} description={description} id={id} />
-                <KeybindingsManager
-                 bindings={Shortcuts} onTrigger={(type) => {
-                    
+                <PageMetadata name={name} description={description} id={id} />
+                <KeybindingsManager bindings={Shortcuts} onTrigger={(type) => {
                         const commands: { 
                             [key: string]: (() => void) | null;
                         } = {
@@ -265,8 +254,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                         }
                     }
                 } />
-                <EditorToolbar 
-                    packiProduction={packiProduction}
+                <EditorToolbar packiProduction={packiProduction}
                     name={name}
                     description={description}
                     wizziSchema={wizziSchema}
@@ -292,14 +280,10 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                     onDownloadCode={this.props.onDownloadAsync}
                     onPublishAsync={onPublishAsync}
                  />
-                <div
-                 className={css(styles.editorAreaOuterWrapper)}>
-                    <div
-                     className={css(styles.editorAreaOuter)}>
-                        <LayoutShell
-                        >
-                            <SplitPane 
-                                split="vertical"
+                <div className={css(styles.editorAreaOuterWrapper)}>
+                    <div className={css(styles.editorAreaOuter)}>
+                        <LayoutShell>
+                            <SplitPane split="vertical"
                                 defaultSizes={JSON.parse(localStorage.getItem('splitPos1')) || undefined}
                                 onDragFinished={(size) => localStorage.setItem('splitPos1', JSON.stringify(size))}
                                 minSize={[240,400]}
@@ -307,8 +291,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                         position: 'relative'
                                      }}
                             >
-                                <FileList 
-                                    annotations={annotations}
+                                <FileList annotations={annotations}
                                     visible={preferences.fileTreeShown}
                                     files={files}
                                     selectedFile={selectedFile}
@@ -321,8 +304,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                     onDownloadCode={this.props.onDownloadAsync}
                                     saveStatus={saveStatus}
                                  />
-                                <SplitPane 
-                                    split="vertical"
+                                <SplitPane split="vertical"
                                     defaultSizes={JSON.parse(localStorage.getItem('splitPos2')) || undefined}
                                     onDragFinished={(size) => localStorage.setItem('splitPos2', JSON.stringify(size))}
                                     minSize={[200,200]}
@@ -330,35 +312,27 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                             position: 'relative'
                                          }}
                                 >
-                                    <LazyLoad
-                                     load={async ():  Promise<{ 
+                                    <LazyLoad load={async ():  Promise<{ 
                                             default: React.ComponentType<EditorProps>;
                                         }> => {
-                                        
                                             let timeout: any;
-                                            
                                             // Fallback to simple editor if monaco editor takes too long to load
                                             const MonacoEditorPromise = import('../Editor/MonacoEditor').then((editor) => 
-                                            
                                                 ({
                                                     editor, 
                                                     type: 'monaco'
                                                  })
                                             )
                                             ;
-                                            
                                             // Fallback to simple editor if monaco editor takes too long to load
                                             const SimpleEditorPromise = new Promise((resolve, reject) => 
-                                            
                                                 timeout = setTimeout(() => {
-                                                
                                                     this._showBanner('slow-connection', BANNER_TIMEOUT_LONG);
                                                     import('../Editor/SimpleEditor').then(resolve, reject)
                                                 }
                                                 , EDITOR_LOAD_FALLBACK_TIMEOUT)
                                             
                                             ).then((editor) => 
-                                            
                                                 ({
                                                     editor, 
                                                     type: 'simple'
@@ -366,16 +340,13 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                             );
                                             return Promise.race([
                                                     MonacoEditorPromise.catch(() => 
-                                                    
                                                         SimpleEditorPromise
-                                                    
                                                     ), 
                                                     SimpleEditorPromise
                                                 ]).then(({
                                                     editor, 
                                                     type
                                                  }: any) => {
-                                                
                                                     this.setState({
                                                         loadedEditor: type
                                                      })
@@ -391,7 +362,6 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                                 loaded, 
                                                 data: Comp
                                              }) => {
-                                            
                                                 this._EditorComponent = Comp;
                                                 const file = files[selectedFile];
                                                 if (file) {
@@ -401,11 +371,8 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                                     const isMarkdown = selectedFile.endsWith('.md');
                                                     if (isMarkdown && this.state.isMarkdownPreview) {
                                                         return  (
-                                                            <React.Fragment
-                                                            >
-                                                                <LazyLoad
-                                                                 load={() => 
-                                                                    
+                                                            <React.Fragment>
+                                                                <LazyLoad load={() => 
                                                                         import('../Markdown/MarkdownPreview')
                                                                 }>
                                                                     {
@@ -413,51 +380,40 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                                                             loaded: mdLoaded, 
                                                                             data: MarkdownPreview
                                                                          }) => {
-                                                                        
                                                                             if (mdLoaded && MarkdownPreview) {
                                                                                 return  (
-                                                                                    <MarkdownPreview
-                                                                                     source={contents as string} />
+                                                                                    <MarkdownPreview source={contents as string} />
                                                                                     )
                                                                                 ;
                                                                             }
                                                                             return  (
-                                                                                <EditorShell
-                                                                                 />
+                                                                                <EditorShell />
                                                                                 )
                                                                             ;
                                                                         }
                                                                         
                                                                     }
                                                                 </LazyLoad>
-                                                                <button
-                                                                 className={css(styles.previewToggle)} onClick={this._toggleMarkdownPreview}>
-                                                                    <svg 
-                                                                        width="12px"
+                                                                <button className={css(styles.previewToggle)} onClick={this._toggleMarkdownPreview}>
+                                                                    <svg width="12px"
                                                                         height="12px"
                                                                         viewBox="0 0 18 18"
                                                                         className={css(styles.previewToggleIcon)}
                                                                     >
-                                                                        <g
-                                                                         transform="translate(-147.000000, -99.000000)">
-                                                                            <g
-                                                                             transform="translate(144.000000, 96.000000)">
-                                                                                <path
-                                                                                 d="M3,17.25 L3,21 L6.75,21 L17.81,9.94 L14.06,6.19 L3,17.25 L3,17.25 Z M20.71,7.04 C21.1,6.65 21.1,6.02 20.71,5.63 L18.37,3.29 C17.98,2.9 17.35,2.9 16.96,3.29 L15.13,5.12 L18.88,8.87 L20.71,7.04 L20.71,7.04 Z" />
+                                                                        <g transform="translate(-147.000000, -99.000000)">
+                                                                            <g transform="translate(144.000000, 96.000000)">
+                                                                                <path d="M3,17.25 L3,21 L6.75,21 L17.81,9.94 L14.06,6.19 L3,17.25 L3,17.25 Z M20.71,7.04 C21.1,6.65 21.1,6.02 20.71,5.63 L18.37,3.29 C17.98,2.9 17.35,2.9 16.96,3.29 L15.13,5.12 L18.88,8.87 L20.71,7.04 L20.71,7.04 Z" />
                                                                             </g>
                                                                         </g>
                                                                     </svg>
-                                                                </button>
-                                                            </React.Fragment>
+                                                                </button></React.Fragment>
                                                             )
                                                         ;
                                                     }
                                                     if (loaded && Comp) {
                                                         return  (
-                                                            <div
-                                                             className={css(styles.editorComponentOuter)}>
-                                                                <Comp 
-                                                                    className={css(styles.editorComponent)}
+                                                            <div className={css(styles.editorComponentOuter)}>
+                                                                <Comp className={css(styles.editorComponent)}
                                                                     selectedFile={selectedFile}
                                                                     files={files}
                                                                     autoFocus={!/Untitled file.*\.(js|tsx?)$/.test(selectedFile)}
@@ -468,25 +424,19 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                                                  />
                                                                 {
                                                                     isMarkdown ?  (
-                                                                        <button
-                                                                         className={css(styles.previewToggle)} onClick={this._toggleMarkdownPreview}>
-                                                                            <svg 
-                                                                                width="16px"
+                                                                        <button className={css(styles.previewToggle)} onClick={this._toggleMarkdownPreview}>
+                                                                            <svg width="16px"
                                                                                 height="12px"
                                                                                 viewBox="0 0 22 16"
                                                                                 className={css(styles.previewToggleIcon)}
                                                                             >
-                                                                                <g
-                                                                                 transform="translate(-145.000000, -1156.000000)">
-                                                                                    <g
-                                                                                     transform="translate(144.000000, 1152.000000)">
-                                                                                        <path
-                                                                                         d="M12,4.5 C7,4.5 2.73,7.61 1,12 C2.73,16.39 7,19.5 12,19.5 C17,19.5 21.27,16.39 23,12 C21.27,7.61 17,4.5 12,4.5 L12,4.5 Z M12,17 C9.24,17 7,14.76 7,12 C7,9.24 9.24,7 12,7 C14.76,7 17,9.24 17,12 C17,14.76 14.76,17 12,17 L12,17 Z M12,9 C10.34,9 9,10.34 9,12 C9,13.66 10.34,15 12,15 C13.66,15 15,13.66 15,12 C15,10.34 13.66,9 12,9 L12,9 Z" />
+                                                                                <g transform="translate(-145.000000, -1156.000000)">
+                                                                                    <g transform="translate(144.000000, 1152.000000)">
+                                                                                        <path d="M12,4.5 C7,4.5 2.73,7.61 1,12 C2.73,16.39 7,19.5 12,19.5 C17,19.5 21.27,16.39 23,12 C21.27,7.61 17,4.5 12,4.5 L12,4.5 Z M12,17 C9.24,17 7,14.76 7,12 C7,9.24 9.24,7 12,7 C14.76,7 17,9.24 17,12 C17,14.76 14.76,17 12,17 L12,17 Z M12,9 C10.34,9 9,10.34 9,12 C9,13.66 10.34,15 12,15 C13.66,15 15,13.66 15,12 C15,10.34 13.66,9 12,9 L12,9 Z" />
                                                                                     </g>
                                                                                 </g>
                                                                             </svg>
-                                                                        </button>
-                                                                        )
+                                                                        </button>)
                                                                      : null
                                                                 }
                                                             </div>
@@ -496,14 +446,12 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                                 }
                                                 else {
                                                     return  (
-                                                        <NoFileSelected
-                                                         />
+                                                        <NoFileSelected />
                                                         )
                                                     ;
                                                 }
                                                 return  (
-                                                    <EditorShell
-                                                     />
+                                                    <EditorShell />
                                                     )
                                                 ;
                                             }
@@ -512,12 +460,10 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                     </LazyLoad>
                                     {
                                         wizziError ?  (
-                                            <GenerationErrors
-                                             key='GeneratedView' error={wizziError} />
+                                            <GenerationErrors key='GeneratedView' error={wizziError} />
                                             )
                                          : (generatedArtifact && generatedArtifact.artifactContent) || wizzifiedIttfContent || codeASTContent ?  (
-                                                <GeneratedView 
-                                                    key='GeneratedView'
+                                                <GeneratedView key='GeneratedView'
                                                     selectedFile={this.props.selectedFile}
                                                     generatedContent={generatedArtifact ? generatedArtifact.artifactContent : undefined}
                                                     generatedSourcePath={generatedArtifact ? generatedArtifact.sourcePath : undefined}
@@ -537,8 +483,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                                  />
                                                 )
                                              : generatedArtifact && generatedArtifact.errorLines ?  (
-                                                    <GenerationErrors 
-                                                        key='GeneratedView'
+                                                    <GenerationErrors key='GeneratedView'
                                                         errorName={generatedArtifact.errorName}
                                                         errorLines={generatedArtifact.errorLines}
                                                         errorMessage={generatedArtifact.errorMessage}
@@ -546,10 +491,8 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                                                      />
                                                     )
                                                  :  (
-                                                    <div
-                                                     key='GeneratedView'>
-                                                        No data
-                                                    </div>
+                                                    <div key='GeneratedView'>
+                                                        No data</div>
                                                     )
                                         
                                     }
@@ -558,8 +501,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                         </LayoutShell>
                         {
                             preferences.panelsShown ?  (
-                                <EditorPanels 
-                                    annotations={annotations}
+                                <EditorPanels annotations={annotations}
                                     onShowErrorPanel={this._showErrorPanel}
                                     onTogglePanels={this._togglePanels}
                                     onSelectFile={this.props.onSelectFile}
@@ -570,8 +512,7 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                         }
                     </div>
                 </div>
-                <EditorFooter 
-                    annotations={annotations}
+                <EditorFooter annotations={annotations}
                     loggedUser={loggedUser}
                     fileTreeShown={preferences.fileTreeShown}
                     panelsShown={preferences.panelsShown}
@@ -584,31 +525,24 @@ class EditorViewComp extends React.Component<EditorViewProps, State> {
                     autoGenSingleDoc={preferences.autoGenSingleDoc}
                     autoExecJob={preferences.autoExecJob}
                  />
-                <ModalDialog
-                 visible={currentModal === 'shortcuts'} onDismiss={this._handleHideModal}>
-                    <KeyboardShortcuts
-                     />
+                <ModalDialog visible={currentModal === 'shortcuts'} onDismiss={this._handleHideModal}>
+                    <KeyboardShortcuts />
                 </ModalDialog>
-                <Banner
-                 type="info" visible={currentBanner === 'autosave-disabled'}>
+                <Banner type="info" visible={currentBanner === 'autosave-disabled'}>
                     Automatic saving has been disabled in this Packi because you have it open in
-                  another tab.
-                </Banner>
-                <Banner
-                 type="info" visible={currentBanner === 'slow-connection'}>
+                  another tab.</Banner>
+                <Banner type="info" visible={currentBanner === 'slow-connection'}>
                     Slow network detected. Trying to load a basic version of the editor. Some features
-                  such as linting and autocomplete may not work.
-                </Banner>
-                <Banner
-                 type="info" visible={currentBanner === 'export-unavailable'}>
-                    You need to save the Packi first to export the code!
-                </Banner>
+                  such as linting and autocomplete may not work.</Banner>
+                <Banner type="info" visible={currentBanner === 'export-unavailable'}>
+                    You need to save the Packi first to export the code!</Banner>
             </ContentShell>
             )
         ;
     }
 }
 export const EditorView = withPreferences(EditorViewComp);
+
 export default EditorView;
 const styles = StyleSheet.create({
     editorAreaOuter: {

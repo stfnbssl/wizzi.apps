@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\SCTheme.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 //
 // styled-system theme
@@ -17,9 +17,7 @@ import palx from 'palx';
 
 const addAliases = (obj: { 
 }, aliases: string[]) => 
-
     aliases.forEach((key, i) => 
-    
         Object.defineProperty(obj, key, {
             enumerable: false, 
             get() {
@@ -43,6 +41,7 @@ export const breakpoints = [
     64, 
     80
 ];
+
 addAliases(breakpoints, bp_aliases);
 
 export let mediaQueries: { 
@@ -51,8 +50,8 @@ export let mediaQueries: {
     reduceMotion: '@media (prefers-reduced-motion: reduce)', 
     reduceTransparency: '@media (prefers-reduced-transparency: reduce)'
  };
-bp_aliases.forEach((key, i) => 
 
+bp_aliases.forEach((key, i) => 
     mediaQueries[key] = `@media screen and (min-width:${breakpoints[i]}em)`
 )
 
@@ -145,9 +144,8 @@ export const colors = {
     ...grays, 
     ...palette
  };
+// styled-system’s `borderRadius` function can hook into the `radii` object/array
 export const pill = '9999px';
-    // styled-system’s `borderRadius` function can hook into the `radii` object/array
-    
 
 export const radii = [
     '0px', 

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileList.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import pickBy from 'lodash/pickBy';
@@ -49,6 +49,7 @@ export type FileListProps = {
     theme: ThemeName;
     annotations: Annotation[];
 };
+;
 type State = { 
     clipboard: FileSystemEntry[];
     deleted: { 
@@ -63,25 +64,20 @@ type State = {
     selectedFile: string;
 };
 const AddIcon = () => 
-
      (
-    <g
-     transform="translate(7.000000, 7.000000)">
-        <circle 
-            fill={c('success')}
+    <g transform="translate(7.000000, 7.000000)">
+        <circle fill={c('success')}
             cx="4.5"
             cy="4.5"
             r="4.5"
          />
-        <rect 
-            fill={c('success-text')}
+        <rect fill={c('success-text')}
             x="4"
             y="2"
             width="1"
             height="5"
          />
-        <rect 
-            fill={c('success-text')}
+        <rect fill={c('success-text')}
             x="2"
             y="4"
             width="5"
@@ -118,15 +114,12 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
          })
         // Sync changes
         this.props.updateFiles((files) => {
-        
-            
             // Handle file removal (and rename)
             const updates: { 
                 [path: string]: PackiFile | null;
             } = {};
             for (const path in files) {
                 const entry = entries.find(entry => 
-                
                     entry.item.path === path
                 );
                 if (!entry) {
@@ -137,7 +130,6 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
             }
             // Handle added/renamed files
             entries.forEach((entry) => {
-            
                 if (entry.item.type === 'file' && !files[entry.item.path] && !isPackageJson(entry.item.path)) {
                     updates[entry.item.path] = {
                         type: entry.item.asset ? 'ASSET' : 'CODE', 
@@ -149,7 +141,6 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
             return updates;
         }
         )
-        
         // Update focus
         const prevFocusedEntry = findFocusedEntry(prevEntries);
         const focusedEntry = findFocusedEntry(entries);
@@ -170,16 +161,13 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
             return ;
         }
         const entry = this.state.entries.find(e => 
-        
             e.item.path === oldPath
         );
         if (entry) {
             if (entry.item.type === 'folder') {
                 this.state.entries.filter(e => 
-                
                     e.item.type === 'file' && e.item.path.startsWith(oldPath)
                 ).forEach(renamedFile => 
-                
                     this.props.onRenameFile(renamedFile.item.path, `${newPath}${renamedFile.item.path.substring(oldPath.length)}`)
                 )
             }
@@ -193,11 +181,9 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
         this.updateEntries([
             ...this.state.entries, 
             ...(entries.map(e => 
-                
                     updateEntry(e, {
                         item: {
                             path: getUniquePath(this.state.entries.map(it => 
-                            
                                 it.item.path
                             ), e.item.path)
                          }
@@ -207,37 +193,30 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
         ]);
     _handleDismissDelete = (id: number) => 
         this.setState((state) => 
-        
             ({
                 deleted: state.deleted.filter(g => 
-                
                     g.id !== id
                 )
              })
         );
     _handleEntryClose = (path: string) => 
         this.updateEntries(this.state.entries.map((e) => 
-        
             (e.item.path === path ? closeEntry(e) : e)
         ));
     _handleEntryCloseOthers = (path: string) => 
         this.updateEntries(this.state.entries.map((e) => 
-        
             (e.item.path !== path ? closeEntry(e) : e)
         ));
     _handleEntryCloseAll = () => 
         this.updateEntries(this.state.entries.map(e => 
-        
             closeEntry(e)
         ));
     _handleEntryDelete = (path: string) => {
         const entry = this.state.entries.find(e => 
-        
             e.item.path === path
         );
         const deletedEntries: FileSystemEntry[] = [];
         this.updateEntries(this.state.entries.filter((e) => {
-        
             const remove = e.item.path === path || isInsideFolder(e.item.path, path);
             if (remove) {
                 deletedEntries.push(e);
@@ -249,7 +228,6 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
         }
         ))
         this.setState((state) => 
-        
             ({
                 deleted: [
                     ...state.deleted, 
@@ -266,20 +244,18 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
     _handleEntryImport = (entry: TextFileEntry | AssetFileEntry) => {
         let entries: FileSystemEntry[];
         if (isPackageJson(entry.item.path)) {
-            
             // Merge dependencies from package.json file
             entries = this.state.entries.map((e) => {
-            
                 if (isPackageJson(e.item.path)) {
                     try {
-                        
                         // @ts-ignore
                         
                         // @ts-ignore
-                        const previous = JSON.parse(e.item.content); 
                         
+                        const previous = JSON.parse(e.item.content);
                         // @ts-ignore
-                        const next = JSON.parse(entry.item.content); 
+                        
+                        const next = JSON.parse(entry.item.content);
                         return {
                                     ...e, 
                                     item: {
@@ -291,7 +267,6 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
                                                 ...Object.keys(next.dependencies).reduce((acc: { 
                                                     [key: string]: string;
                                                 }, name) => {
-                                                
                                                     return acc;
                                                 }
                                                 , {})
@@ -311,12 +286,10 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
         else {
             if (isESLintConfig(entry.item.path)) {
                 try {
-                    
                     // Cleanup the config file to remove unsupported plugins and rules
                     const content = JSON.parse((entry as TextFileEntry).item.content);
                     if (content.plugins) {
                         content.plugins = content.plugins.filter((name: string) => 
-                        
                             eslintrc.plugins.includes(name)
                         )
                         ;
@@ -326,10 +299,8 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
                     }
                     if (content.rules) {
                         content.rules = pickBy(content.rules, (_, key) => {
-                        
                             if (key.includes('/')) {
                                 return eslintrc.plugins.some(name => 
-                                    
                                         key.startsWith(`${name}/`)
                                     );
                             }
@@ -344,7 +315,6 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
                         }
                         else {
                             content.extends = content.extends.filter((name: string) => 
-                            
                                 name.startsWith('eslint:')
                             )
                             ;
@@ -353,10 +323,8 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
                             }
                         }
                     }
-                    
                     // Remove existing eslintrc if any
                     entries = this.state.entries.filter(e => 
-                    
                         !isESLintConfig(e.item.path)
                     )
                     ;
@@ -367,7 +335,6 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
                      }))
                 } 
                 catch (e) {
-                    
                     // Ignore errors
                     entries = this.state.entries;
                 } 
@@ -381,7 +348,6 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
                 entries.push(updateEntry(entry, {
                     item: {
                         path: getUniquePath(entries.map(e => 
-                        
                             e.item.path
                         ), entry.item.path)
                      }
@@ -394,10 +360,8 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
         this.updateEntries(pasteEntry(this.state.entries, path, e));
     _handleCopy = (path: string) => 
         this.setState((state) => 
-        
             ({
                 clipboard: state.entries.filter(e => 
-                
                     e.item.path === path
                 )
              })
@@ -408,21 +372,18 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
          });
     _toggleOptionsPane = () => 
         this.setState((state) => 
-        
             ({
                 optionsPane: !state.optionsPane
              })
         );
     _toggleOpenFilesPane = () => 
         this.setState((state) => 
-        
             ({
                 openFilesPane: !state.openFilesPane
              })
         );
     _toggleProjectPane = () => 
         this.setState((state) => 
-        
             ({
                 projectPane: !state.projectPane
              })
@@ -430,9 +391,7 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
     _handleCreateFile = (path?: string | undefined) => {
         let entries = createNewEntry(this.state.entries, 'file', path);
         const newEntry = entries.find(e => 
-        
             !this.state.entries.find(e2 => 
-                
                     e2.item.path === e.item.path
                 )
         );
@@ -443,67 +402,50 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
         this.updateEntries(createNewEntry(this.state.entries, 'folder', path));
     render() {
         return  (
-            <div
-             className={css(styles.container)}>
+            <div className={css(styles.container)}>
                 {
                 this.props.visible ?  (
-                    <SidebarShell
-                     className={css(styles.pane)}>
-                        <FileListPane 
-                            className={css(styles.options)}
+                    <SidebarShell className={css(styles.pane)}>
+                        <FileListPane className={css(styles.options)}
                             title={"Options" + (this.props.readOnly ? ' (readonly)': '')}
                             expanded={this.state.optionsPane}
                             onClick={this._toggleOptionsPane}
                             buttons={!this.props.readOnly ? [
                                          (
-                                        <FileListPaneButton
-                                         key="github-clone" onClick={() => 
-                                            
+                                        <FileListPaneButton key="github-clone" onClick={() => 
                                                 this._handleGithubClone()
                                         }>
-                                            <path
-                                             fillOpacity="0.7" d="M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z" />
-                                            <AddIcon
-                                             />
+                                            <path fillOpacity="0.7" d="M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z" />
+                                            <AddIcon />
                                         </FileListPaneButton>
                                         )
                                         
                                     ] : []}
                         >
-                            <PackiPanel
-                             onGithubClone={this.props.onGithubClone}>
-                                <ul
-                                 className={css(styles.tabs)} />
+                            <PackiPanel onGithubClone={this.props.onGithubClone}>
+                                <ul className={css(styles.tabs)} />
                             </PackiPanel>
                         </FileListPane>
-                        <FileListPane 
-                            className={css(this.state.projectPane ? styles.openFilesSmall : styles.openFilesLarge)}
+                        <FileListPane className={css(this.state.projectPane ? styles.openFilesSmall : styles.openFilesLarge)}
                             title="Open files"
                             expanded={this.state.openFilesPane}
                             onClick={this._toggleOpenFilesPane}
                         >
-                            <ul
-                             className={css(styles.tabs)} data-test-id="file-list-open-files-content">
+                            <ul className={css(styles.tabs)} data-test-id="file-list-open-files-content">
                                 {
                                 this.state.entries.filter(e => 
-                                
                                     e.item.type === 'file' && e.state.isOpen
                                 ).map((e: any) => 
-                                
                                      (
-                                    <FileListOpenEntry 
-                                        key={e.item.path}
+                                    <FileListOpenEntry key={e.item.path}
                                         entry={e}
                                         onOpen={() => 
-                                            
                                                 this._handleEntryOpen(e.item.path)
                                         }
                                         onClose={() => 
-                                            
                                                 this._handleEntryClose(e.item.path)
                                         }
                                         onCloseOthers={() => 
-                                            
                                                 this._handleEntryCloseOthers(e.item.path)
                                         }
                                         onCloseAll={this._handleEntryCloseAll}
@@ -513,47 +455,35 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
                                 )
                                 }</ul>
                         </FileListPane>
-                        <FileListPane 
-                            className={css(styles.project)}
+                        <FileListPane className={css(styles.project)}
                             title={"Project" + (this.props.readOnly ? ' (readonly)': '')}
                             expanded={this.state.projectPane}
                             onClick={this._toggleProjectPane}
                             buttons={!this.props.readOnly ? [
                                          (
-                                        <FileListPaneButton
-                                         key="create-file" onClick={() => 
-                                            
+                                        <FileListPaneButton key="create-file" onClick={() => 
                                                 this._handleCreateFile()
                                         }>
-                                            <path
-                                             fillOpacity="0.7" d="M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z" />
-                                            <AddIcon
-                                             />
+                                            <path fillOpacity="0.7" d="M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z" />
+                                            <AddIcon />
                                         </FileListPaneButton>
                                         )
                                         , 
                                          (
-                                        <FileListPaneButton
-                                         key="create-folder" onClick={() => 
-                                            
+                                        <FileListPaneButton key="create-folder" onClick={() => 
                                                 this._handleCreateFolder()
                                         }>
-                                            <path
-                                             fillOpacity="0.7" d="M7.25,4 L7.5,4 L7.5,3 L7,3.5 L7,2 L15,2 L15,4 L7.25,4 Z M6.75,4 L5,4 L7,2 L7,3.5 L6.5,4 L6.75,4 Z M1,4 L15,4 L15,14 L1,14 L1,4 Z M7.5,3 L7.5,4 L14,4 L14,3 L7.5,3 Z" />
-                                            <AddIcon
-                                             />
+                                            <path fillOpacity="0.7" d="M7.25,4 L7.5,4 L7.5,3 L7,3.5 L7,2 L15,2 L15,4 L7.25,4 Z M6.75,4 L5,4 L7,2 L7,3.5 L6.5,4 L6.75,4 Z M1,4 L15,4 L15,14 L1,14 L1,4 Z M7.5,3 L7.5,4 L14,4 L14,3 L7.5,3 Z" />
+                                            <AddIcon />
                                         </FileListPaneButton>
                                         )
                                         
                                     ] : []
                             }
                         >
-                            <FileListEntryDropTarget
-                             className={css(styles.files)} rest={this.state.entries} onRename={this._handleEntryRename}>
-                                <div
-                                 className={css(styles.children)} data-test-id="file-list-project-content">
-                                    <FileListChildren 
-                                        parent=""
+                            <FileListEntryDropTarget className={css(styles.files)} rest={this.state.entries} onRename={this._handleEntryRename}>
+                                <div className={css(styles.children)} data-test-id="file-list-project-content">
+                                    <FileListChildren parent=""
                                         entries={this.state.entries}
                                         readOnly={this.props.readOnly}
                                         clipboard={this.state.clipboard}
@@ -576,16 +506,13 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
                         </FileListPane>
                         {
                         this.state.deleted.map((group) => 
-                        
                              (
-                            <Toast 
-                                key={group.id}
+                            <Toast key={group.id}
                                 label={`Deleted ${group.path.split('/').pop()}`}
                                 actions={[
                                         {
                                             label: 'Undo', 
                                             action: () => {
-                                            
                                                 this._restoreEntries(group.entries);
                                                 this._handleDismissDelete(group.id);
                                             }
@@ -596,7 +523,6 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
                                          }
                                     ]}
                                 onDismiss={() => 
-                                    
                                         this._handleDismissDelete(group.id)
                                 }
                              />
@@ -613,6 +539,7 @@ class FileListComp extends React.PureComponent<FileListProps, State> {
 }
 
 export const FileList = withThemeName(FileListComp);
+
 
 export default withThemeName(FileListComp);
 

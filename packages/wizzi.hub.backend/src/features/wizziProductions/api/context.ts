@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\features\wizziProductions\api\context.ts.ittf
-    utc time: Wed, 31 Jul 2024 13:44:15 GMT
+    utc time: Fri, 09 Aug 2024 16:10:15 GMT
 */
 import path from 'path';
 import {file} from '@wizzi/factory';
@@ -12,25 +12,28 @@ import {packiTypes} from '#/src/features/packi';
 import {ArtifactRequest, MetaContext} from '../types';
 const myname = 'features.wizzi.api.context';
 export async function resolveContexts(contextItems: MetaContext[]) {
-    const promises: Promise<any>[] = [];
-    contextItems.map(contextItem => 
-        promises.push(new Promise((resolve, reject) => 
-            resolveContext(contextItem).then((context: any) => 
-                resolve({
-                    name: contextItem.name, 
-                    value: context
-                 })
-            ).catch((err: any) => {
-                if (typeof err === 'object' && err !== null) {
-                }
-                console.log("[31m%s[0m", 'features.wizzi.api.context.resolveContexts.resolveContext.error', err);
-                return reject(err);
+    return new Promise((resolve, reject) => {
+            if (contextItems.length == 0) {
+                return resolve({});
             }
+            const promises: Promise<any>[] = [];
+            contextItems.map(contextItem => 
+                promises.push(new Promise((resolve, reject) => 
+                    resolveContext(contextItem).then((context: any) => 
+                        resolve({
+                            name: contextItem.name, 
+                            value: context
+                         })
+                    ).catch((err: any) => {
+                        if (typeof err === 'object' && err !== null) {
+                        }
+                        console.log("[31m%s[0m", 'features.wizzi.api.context.resolveContexts.resolveContext.error', err);
+                        return reject(err);
+                    }
+                    )
+                
+                ))
             )
-        
-        ))
-    )
-    return new Promise((resolve, reject) => 
             Promise.all(promises).then((items) => {
                 var context: any = {};
                 items.map((value: any) => {
@@ -52,7 +55,7 @@ export async function resolveContexts(contextItems: MetaContext[]) {
                 return reject(err);
             }
             )
-        
+        }
         );
 }
 function resolveContext(contextItem: MetaContext) {

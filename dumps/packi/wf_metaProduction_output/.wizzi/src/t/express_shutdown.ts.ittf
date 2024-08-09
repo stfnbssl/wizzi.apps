@@ -2,9 +2,11 @@ $group
     _ app.post
         @ '/shutdown'
         =>
-            param req
-            param res
-            _ res.send('Shutting down...')
+            param request
+                :ref Request
+            param response
+                :ref Response
+            _ response.send('Shutting down...')
             _ server.close
                 =>
                     info 'Server closed. Process will exit now.'

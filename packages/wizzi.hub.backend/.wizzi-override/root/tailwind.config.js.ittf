@@ -1,0 +1,18 @@
+module
+    kind es6
+    $include set-ctx-functions
+    $
+        setCtxDevDep ('tailwind-merge', '^2.3.0');
+        setCtxDevDep ('tailwindcss', '^3.4.3');
+        setCtxDevDep ('tailwindcss-animate', '^1.0.7');
+        setCtxDevDep ('tailwindcss-radix', '^3.0.3');
+    + /** @type {import('tailwindcss').Config} */
+    +
+    set module.exports
+        {
+            [ content
+                @ './src/site/views/__for_tw/**/*.ittf'
+                @ './ittf/__for_tw/**/*.html'
+                @ './public/**/*.html'
+            { theme
+            [ plugins

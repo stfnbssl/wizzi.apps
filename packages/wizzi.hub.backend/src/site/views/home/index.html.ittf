@@ -1,0 +1,38 @@
+html
+    $
+        var opt = {
+        }
+
+    $include models/docs/site.wzctx
+
+    html/layouts/site( &opt )
+        $if false
+            pre
+                code
+                    + ${JSON.stringify(locals, null, 2)}
+                    + ${JSON.stringify(siteCtx, null, 2)}
+        . m-l-200 m-r-200
+            . flex-column justify-content-center
+                . text-align-left m-t-50 font-w-xxl
+                    style font-size: 46px
+                    + ${siteCtx.name}
+                . text-align-left m-t-50
+                    style font-size: 38px
+                    + ${siteCtx.title}
+                . text-align-left
+                    style font-size: 38px
+                    + ${siteCtx.title2}
+                . text-align-left
+                    style font-size: 38px
+                    + ${siteCtx.title3}
+                . text-align-left m-t-50
+                    style font-size: 32px
+                    $foreach item in siteCtx.subtitles
+                        . m-t-s
+                            + ${item}
+                . text-align-left m-t-50
+                    style font-size: 32px
+                    $foreach item in siteCtx.subtitles2
+                        . m-t-s
+                            + ${item}
+

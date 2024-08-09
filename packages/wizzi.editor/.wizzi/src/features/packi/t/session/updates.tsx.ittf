@@ -72,10 +72,8 @@ $group
             :=>
                 :any
         log 'PackiSession.uploadPackiFilesUpdates.payload', payload, 'this.state.isLocalFolder', this.state.isLocalFolder
-        $$ $if wzConfigIsStudio
         if this.state.isLocalFolder
             # non update in wizzi.studio
-        $$ $else
         else
             const
                 {
@@ -83,13 +81,12 @@ $group
                     @ packiProduction
                 = this.state
             const url
-                `lit
+                template
                     @ this.apiURL
                     + /api/v1/production/
                     @ packiProduction
                     + /
                     @ encodeURIComponent(id)
-            $$ loog '---*** PackiSession.uploadPackiFilesUpdates', url
             const response
                 await
                     _ fetch
@@ -102,11 +99,19 @@ $group
             const data
                 await
                     _ response.json()
-            $$ loog '---*** PackiSession.uploadPackiFilesUpdates.response.data', data
+            if data.error || data.err
+                try
+                    _ alert
+                        _ JSON.stringify
+                            @ data
+                            @ null
+                            @ 2
+                catch ex
+                    _ alert
+                        @ data.error ? data.error.message : data.err.message
             set this.state.saveCount++
         if done
             _ done
-        $$ TODO VIA _ this.setPreviewUrl
 
     m saveLocalFolder
         async
@@ -119,7 +124,7 @@ $group
                 = this.state
             log '---*** PackiSession.saveLocalFolder.localFolderPath and files', localFolderPath, files
             const url
-                `lit
+                template
                     @ this.apiURL
                     + /api/v1/local/folder/fs/
                     _ encodeURIComponent

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziCdn\mongo\resource.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import {Schema, Model, model} from "mongoose";
 import {ModelBuilderType} from "../../app/types";
@@ -23,16 +23,15 @@ WizziCdnResourceSchema.index({
     unique: true
  })
 
+// mongoose models creation is centralized
+// the mongodb service calls buildModel() when starting, after connection has been established
+// controllers call GetWizziCdnResourceModel() when initialized, after buildModel() has benn called
 export type WizziCdnResourceModelType = Model<IWizziCdnResourceModel>;
-    // mongoose models creation is centralized
-    // the mongodb service calls buildModel() when starting, after connection has been established
-    // controllers call GetWizziCdnResourceModel() when initialized, after buildModel() has benn called
-    
+;
 
 let WizziCdnResourceModel: WizziCdnResourceModelType;
 
 export function GetWizziCdnResourceModel():  WizziCdnResourceModelType {
-
     if (!WizziCdnResourceModel) {
         WizziCdnResourceModel = model<IWizziCdnResourceModel>("WizziCdnResource")
         ;
@@ -42,12 +41,10 @@ export function GetWizziCdnResourceModel():  WizziCdnResourceModelType {
 
 export const WizziCdnResourceModelBuilder: ModelBuilderType = {
     buildModel: (options?: any) => 
-    
         WizziCdnResourceModel = model<IWizziCdnResourceModel>("WizziCdnResource", WizziCdnResourceSchema)
     
     , 
     applyExtraSetup: (options?: any) => {
-    
     }
     
  };

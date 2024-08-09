@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\job.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -21,18 +21,19 @@ import {packiTypes} from '../../packi';
 
 const myname = 'features/production/controllers/job';
 
-function renderPageForm(req: Request, res: Response, data: object, queryParams: object) {
-
+function renderPageForm(
+    req: Request, 
+    res: Response, 
+    data: object, 
+    queryParams: object) {
     const index = '<!DOCTYPE html>' + (ReactDOMServer.renderToStaticMarkup(
-    <PageFormDocument
-     data={data} queryParams={queryParams} />
+    <PageFormDocument data={data} queryParams={queryParams} />
     ));
     res.set('Content-Type', 'text/html');
     res.set('Content-Length', index.length.toString());
     res.send(index);
 }
 function getPackiConfigFile():  packiTypes.PackiFiles {
-
     return {
             ['.packi/config.json.ittf']: {
                 type: 'CODE', 
@@ -143,9 +144,7 @@ function getPackiConfigFile():  packiTypes.PackiFiles {
 }
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -187,7 +186,6 @@ export class JobController implements ControllerType {
     };
     
     private getNewJobForm = async (request: Request, response: Response) => 
-    
         renderPageForm(request, response, {
             type: 'success', 
             formName: 'CreateJob', 
@@ -199,14 +197,11 @@ export class JobController implements ControllerType {
     ;
     
     private postJob = async (request: Request, response: Response) => 
-    
         getTemplatePackiFiles(request.body.meta_id, request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}, request.query.context as string, request.body.context ? JSON.parse(request.body.context) : {}, {
             wizziSchema: "js", 
             mainIttf: "index.js.ittf"
          }).then((packiFiles: packiTypes.PackiFiles) => 
-        
             createJob((request.session as any).user.username, request.body.job_name, request.body.job_description, JSON.stringify(mergePackiFiles(packiFiles, getPackiConfigFile()))).then((result: CRUDResult) => {
-            
                 if (result.ok) {
                     response.redirect('/~~/j/' + (request.session as any).user.username + '/' + request.body.job_name)
                 }
@@ -218,7 +213,6 @@ export class JobController implements ControllerType {
                 }
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 response.render('error.html.ittf', {
@@ -229,7 +223,6 @@ export class JobController implements ControllerType {
             )
         
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             response.render('error.html.ittf', {
@@ -242,10 +235,8 @@ export class JobController implements ControllerType {
     ;
     
     private getUpdateJobForm = async (request: Request, response: Response) => {
-    
         const id = request.params.id;
         getJobObjectById(id).then((result: any) => 
-        
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'UpdateJob', 
@@ -261,10 +252,8 @@ export class JobController implements ControllerType {
     ;
     
     private putJob = async (request: Request, response: Response) => {
-    
         const obj = request.body;
         updateJob(obj.job_id, obj.job_owner, obj.job_name, obj.job_description).then((result: any) => {
-        
             if (result.ok) {
                 response.redirect('/productions/job');
             }
@@ -280,10 +269,8 @@ export class JobController implements ControllerType {
     ;
     
     private getDeleteJobForm = async (request: Request, response: Response) => {
-    
         const id = request.params.id;
         getJobObjectById(id).then((result: any) => 
-        
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'DeleteJob', 
@@ -299,10 +286,8 @@ export class JobController implements ControllerType {
     ;
     
     private deleteJob = async (request: Request, response: Response) => {
-    
         const obj = request.body;
         deleteJob(obj.job_id, obj.job_owner, obj.job_name).then((result: any) => {
-        
             if (result.ok) {
                 response.redirect('/productions/job');
             }

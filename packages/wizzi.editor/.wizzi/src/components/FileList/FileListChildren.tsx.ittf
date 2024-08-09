@@ -111,7 +111,7 @@ module
                             op! 
                                 _ e.item.path.replace
                                     new RegExp
-                                        `lit 
+                                        template 
                                             + ^
                                             _ escapeRegexp(this.props.parent)
                                             + /
@@ -142,7 +142,7 @@ module
                 return 
                     div 
                         @ className
-                            `lit 
+                            template 
                                 + 
                                 _ css(styles.container)
                                 + &nbsp;

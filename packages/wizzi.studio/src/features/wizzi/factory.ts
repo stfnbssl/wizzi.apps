@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\factory.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 import wizzi from '@wizzi/factory';
@@ -17,7 +17,6 @@ import {JsonWizziFactory, FilesystemWizziFactory} from './types';
 const myname = 'features/wizzi/factory';
 
 function getWzCtxFactoryPlugins() {
-
     return {
             items: [
                 './wizzi.plugin.css/index.js', 
@@ -26,6 +25,7 @@ function getWzCtxFactoryPlugins() {
                 './wizzi.plugin.ittf/index.js', 
                 './wizzi.plugin.js/index.js', 
                 './wizzi.plugin.json/index.js', 
+                './wizzi.plugin.logbot/index.js', 
                 './wizzi.plugin.md/index.js', 
                 './wizzi.plugin.pdf/index.js', 
                 './wizzi.plugin.svg/index.js', 
@@ -39,7 +39,6 @@ function getWzCtxFactoryPlugins() {
 }
 
 function getWzCtxMetaPlugins() {
-
     return {
             items: [
                 './wizzi.meta.cloud/index', 
@@ -66,9 +65,7 @@ function getWzCtxMetaPlugins() {
 export async function createFilesystemFactoryWithParameters(pluginsBaseFolder: string, plugins: string[], globalContext?: { 
     [k: string]: any;
 }):  Promise<wizzi.WizziFactory> {
-
     return new Promise((resolve, reject) => 
-        
             wizzi.fsFactory({
                 repo: {
                     storeKind: "filesystem"
@@ -79,7 +76,6 @@ export async function createFilesystemFactoryWithParameters(pluginsBaseFolder: s
                  }, 
                 globalContext: globalContext
              }, function(err: any, wf: wizzi.WizziFactory) {
-            
                 if (err) {
                     return reject(err);
                 }
@@ -87,10 +83,10 @@ export async function createFilesystemFactoryWithParameters(pluginsBaseFolder: s
             })
         );
 }
+
 export async function createFilesystemFactory(factoryPlugins?: any, metaPlugins?: any, globalContext?: { 
     [k: string]: any;
 }):  Promise<wizzi.WizziFactory> {
-
     const gc: { 
         [k: string]: any;
     } = {};
@@ -98,7 +94,6 @@ export async function createFilesystemFactory(factoryPlugins?: any, metaPlugins?
         gc['isWizziStudio'] = true;
     }
     return new Promise((resolve, reject) => 
-        
             wizzi.fsFactory({
                 repo: {
                     storeKind: "filesystem"
@@ -107,7 +102,6 @@ export async function createFilesystemFactory(factoryPlugins?: any, metaPlugins?
                 metaPlugins: metaPlugins ? metaPlugins : getWzCtxMetaPlugins(), 
                 globalContext: Object.assign({}, gc, globalContext || {})
              }, function(err: any, wf: wizzi.WizziFactory) {
-            
                 if (err) {
                     return reject(err);
                 }
@@ -116,11 +110,10 @@ export async function createFilesystemFactory(factoryPlugins?: any, metaPlugins?
         );
 }
 
-export function packiFilesToJsonDocuments(files: packiTypes.PackiFiles):  JsonDocumentDto[] {
 
+export function packiFilesToJsonDocuments(files: packiTypes.PackiFiles):  JsonDocumentDto[] {
     const jsonDocuments: JsonDocumentDto[] = [];
     Object.keys(files).map((value) => {
-    
         if (files[value].type === 'CODE') {
             const filePath = ensurePackiFilePrefix(value);
             jsonDocuments.push({
@@ -133,14 +126,16 @@ export function packiFilesToJsonDocuments(files: packiTypes.PackiFiles):  JsonDo
     return jsonDocuments;
 }
 
-export async function createJsonFsAndFactory(files: packiTypes.PackiFiles, factoryPlugins?: any, metaPlugins?: any, globalContext?: { 
-    [k: string]: any;
-}):  Promise<JsonWizziFactory> {
-
+export async function createJsonFsAndFactory(
+    files: packiTypes.PackiFiles, 
+    factoryPlugins?: any, 
+    metaPlugins?: any, 
+    globalContext?: { 
+        [k: string]: any;
+    }):  Promise<JsonWizziFactory> {
     const plugins: string[] = [];
     const jsonDocuments: JsonDocumentDto[] = [];
     Object.keys(files).map((value) => {
-    
         if (files[value].type === 'CODE' && files[value].contents && files[value].contents.length > 0) {
             const filePath = ensurePackiFilePrefix(value);
             jsonDocuments.push({
@@ -149,7 +144,6 @@ export async function createJsonFsAndFactory(files: packiTypes.PackiFiles, facto
              })
             const pluginList = wizziMaps.pluginsFor(filePath);
             pluginList.forEach((item) => {
-            
                 if (plugins.indexOf(item) < 0) {
                     plugins.push(item);
                 }
@@ -160,13 +154,9 @@ export async function createJsonFsAndFactory(files: packiTypes.PackiFiles, facto
     )
     const metaPluginsDef = Object.assign({}, getWzCtxMetaPlugins(), metaPlugins || {});
     return new Promise((resolve, reject) => 
-        
-            JsonComponents.createJsonFs(jsonDocuments, 
-            // error myname, 'factoryPlugins', factoryPlugins, getWzCtxFactoryPlugins()
-            
+            JsonComponents.createJsonFs(jsonDocuments, // error myname, 'factoryPlugins', factoryPlugins, getWzCtxFactoryPlugins()
             // error myname, 'metaPlugins', metaPlugins, getWzCtxMetaPlugins()
             (err, jsonFs) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'createJsonFsAndFactory.createJsonFs', err);
                     return reject(err);
@@ -178,7 +168,6 @@ export async function createJsonFsAndFactory(files: packiTypes.PackiFiles, facto
                     metaPlugins: metaPluginsDef, 
                     globalContext: Object.assign({}, globalContext || {})
                  }, function(err: any, wf: wizzi.WizziFactory) {
-                
                     if (err) {
                         console.log("[31m%s[0m", myname, 'createJsonFsAndFactory.jsonFactory', err);
                         return reject(err);
@@ -193,11 +182,10 @@ export async function createJsonFsAndFactory(files: packiTypes.PackiFiles, facto
         );
 }
 
-export async function createJsonFs(files: packiTypes.PackiFiles):  Promise<JsonFs> {
 
+export async function createJsonFs(files: packiTypes.PackiFiles):  Promise<JsonFs> {
     const jsonDocuments: JsonDocumentDto[] = [];
     Object.keys(files).map((value) => {
-    
         if (files[value].type === 'CODE') {
             const filePath = ensurePackiFilePrefix(value);
             jsonDocuments.push({
@@ -208,9 +196,7 @@ export async function createJsonFs(files: packiTypes.PackiFiles):  Promise<JsonF
     }
     )
     return new Promise((resolve, reject) => 
-        
             JsonComponents.createJsonFs(jsonDocuments, (err: any, result: JsonFs) => {
-            
                 if (err) {
                     return reject(err);
                 }
@@ -221,19 +207,15 @@ export async function createJsonFs(files: packiTypes.PackiFiles):  Promise<JsonF
 }
 
 export async function extractGeneratedFiles(jsonFs: JsonFs):  Promise<packiTypes.PackiFiles> {
-
     const files: packiTypes.PackiFiles = {};
     return new Promise((resolve, reject) => 
-        
             jsonFs.toFiles({
                 removeRoot: packiFilePrefix
              }, (err: any, result: fSystem.FileDef[]) => {
-            
                 if (err) {
                     reject(err);
                 }
                 result.forEach((value) => {
-                
                     if (value.relPath.endsWith('.ittf') == false) {
                         files[value.relPath] = {
                             type: 'CODE', 
@@ -250,11 +232,9 @@ export async function extractGeneratedFiles(jsonFs: JsonFs):  Promise<packiTypes
 }
 
 export function ensurePackiFilePrefix(filePath: string) {
-
     var newFilePath = normalizePath(filePath);
     return newFilePath.startsWith(packiFilePrefix) ? newFilePath : packiFilePrefix + newFilePath;
 }
 function normalizePath(path) {
-
     return path.replace(/\\/g, '/');
 }

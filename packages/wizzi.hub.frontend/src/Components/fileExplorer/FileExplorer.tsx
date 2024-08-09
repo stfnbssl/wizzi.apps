@@ -11,7 +11,7 @@ interface FileExplorerProps {
 export default function FileExplorer(props: FileExplorerProps) {
   const { entries, onFileSelect } = props;
   const [open, setOpen] = useState<string[]>([]);
-  console.log("FileExplorer.entries", entries)
+  // console.log("FileExplorer.entries", entries)
 
   const toggleFolderState = (uri: string) => {
     if (open.length === 0) {
@@ -56,7 +56,7 @@ export default function FileExplorer(props: FileExplorerProps) {
         }
       });
     }
-    console.log("FileExplorer.getRootEntries.rootFolders", rootFolders)
+    // console.log("FileExplorer.getRootEntries.rootFolders", rootFolders)
     return rootFolders;
   };
 

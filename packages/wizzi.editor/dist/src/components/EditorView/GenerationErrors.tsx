@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\GenerationErrors.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import * as React from 'react';
 import {withStyles, createStyles, Theme} from '@material-ui/core/styles';
@@ -11,6 +11,7 @@ export type GenerationErrorsProps = {
     classes: any;
     error?: any;
 };
+;
 
 export class GenerationErrors extends React.Component<GenerationErrorsProps> {
     render() {
@@ -64,86 +65,59 @@ export class GenerationErrors extends React.Component<GenerationErrorsProps> {
             }
         }
         return  (
-            <div
-             className={classes.container}>
-                <div
-                 className={classes.errorName}>
-                    Error {name}
-                </div>
+            <div className={classes.container}>
+                <div className={classes.errorName}>
+                    Error {name}</div>
                 {
-                    method
-                     &&  (
-                        <div
-                         className={classes.errorMethod}>
-                            Method: {method}
-                        </div>
+                    method &&  (
+                        <div className={classes.errorMethod}>
+                            Method: {method}</div>
                         )
                     
                 }
                 {
-                    ittfDocumentUri
-                     &&  (
-                        <div
-                         className={classes.errorUri}>
-                            In ITTF Document: {ittfDocumentUri}
-                        </div>
+                    ittfDocumentUri &&  (
+                        <div className={classes.errorUri}>
+                            In ITTF Document: {ittfDocumentUri}</div>
                         )
                     
                 }
                 {
-                    mixerUri
-                     &&  (
-                        <div
-                         className={classes.errorUri}>
-                            Mixed by ITTF Document: {mixerUri}
-                        </div>
+                    mixerUri &&  (
+                        <div className={classes.errorUri}>
+                            Mixed by ITTF Document: {mixerUri}</div>
                         )
                     
                 }
-                <div
-                 className={classes.message}>
+                <div className={classes.message}>
                     {
-                        message
-                         && message.split(',').map((line, i) => 
-                        
+                        message && message.split(',').map((line, i) => 
                              (
-                            <div
-                             key={i}>
-                                {line}
-                            </div>
+                            <div key={i}>
+                                {line}</div>
                             )
                         
                         )
                     }
                     {
-                        parameter
-                         && Object.keys(parameter).map((key) => {
-                        
+                        parameter && Object.keys(parameter).map((key) => {
                             return  (
-                                <div
-                                >
-                                    {key}: {parameter[key]}
-                                </div>
+                                <div>
+                                    {key}: {parameter[key]}</div>
                                 )
                             ;
                         }
                         )
                     }
                 </div>
-                <pre
-                 className={classes.lines}>
+                <pre className={classes.lines}>
                     {errorLines && errorLines.join('\n')}
-                    <ul
-                     />
+                    <ul />
                     {
-                        stack
-                         && stack.split('\n').map((line, i) => 
-                        
+                        stack && stack.split('\n').map((line, i) => 
                              (
-                            <li
-                             key={i}>
-                                {line}
-                            </li>
+                            <li key={i}>
+                                {line}</li>
                             )
                         
                         )
@@ -155,8 +129,8 @@ export class GenerationErrors extends React.Component<GenerationErrorsProps> {
     }
 }
 
-const muiStyles = (theme: Theme) => 
 
+const muiStyles = (theme: Theme) => 
     createStyles({
         container: {
             display: 'flex', 

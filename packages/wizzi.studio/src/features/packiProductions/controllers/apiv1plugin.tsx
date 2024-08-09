@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\apiv1plugin.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -19,9 +19,7 @@ import {getPluginProductionList, validatePluginProduction, getPluginProduction, 
 const myname = 'features/production/controllers/apiv1plugin';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -63,16 +61,13 @@ export class ApiV1PluginProductionController implements ControllerType {
     };
     
     private getPluginProductions = async (request: Request, response: Response) => 
-    
         getPluginProductionList({
             query: {
                 owner: request.params.owner
              }
          }).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getPluginProductions.error', err);
@@ -85,12 +80,9 @@ export class ApiV1PluginProductionController implements ControllerType {
     ;
     
     private getCheckPluginName = async (request: Request, response: Response) => 
-    
         validatePluginProduction(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {
@@ -102,12 +94,9 @@ export class ApiV1PluginProductionController implements ControllerType {
     ;
     
     private getPluginProduction = async (request: Request, response: Response) => 
-    
         getPluginProduction(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getPluginProduction.error', err);
@@ -120,12 +109,9 @@ export class ApiV1PluginProductionController implements ControllerType {
     ;
     
     private postPluginProduction = async (request: Request, response: Response) => 
-    
         createPluginProduction(request.params.owner, request.params.name, request.body.description, JSON.stringify(request.body.packiFiles)).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'postPluginProduction.error', err);
@@ -138,12 +124,9 @@ export class ApiV1PluginProductionController implements ControllerType {
     ;
     
     private putPluginProduction = async (request: Request, response: Response) => 
-    
         updatePluginProduction(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(request.body.packiFiles)).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putPluginProduction.error', err);
@@ -156,20 +139,17 @@ export class ApiV1PluginProductionController implements ControllerType {
     ;
     
     private putPluginProductionPackiDiffs = async (request: Request, response: Response) => {
-    
         console.log('putPluginProductionPackiDiffs.request.params', request.params, __filename);
         console.log('putPluginProductionPackiDiffs.request.body.options', Object.keys(request.body.options), __filename);
         console.log('putPluginProductionPackiDiffs.request.body.packiDiffs', Object.keys(request.body.packiDiffs), __filename);
         const options = request.body.options || {};
         getPluginProductionObjectById(request.params.id).then((prevPlugin: any) => {
-        
             console.log('putPluginProductionPackiDiffs.prevPackiFiles', Object.keys(prevPlugin.packiFiles), __filename);
             const pm = new PackiBuilder(prevPlugin.packiFiles);
             pm.applyPatch_ChangesOnly(request.body.packiDiffs)
             return exec_updatePluginProduction(request, response, pm.packiFiles);
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putPluginProductionPackiDiffs.getPluginProductionObjectById.error', err);
@@ -182,14 +162,11 @@ export class ApiV1PluginProductionController implements ControllerType {
     ;
 }
 function exec_updatePluginProduction(request: any, response: any, packiFiles: any) {
-
     updatePluginProduction(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then((result: any) => {
-    
         invalidateCache(request.params.id)
         sendSuccess(response, result)
     }
     ).catch((err: any) => {
-    
         if (typeof err === 'object' && err !== null) {
         }
         console.log("[31m%s[0m", 'exec_updatePluginProduction.updatePluginProduction.error', err);

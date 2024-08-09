@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\index.tsx.ittf
-    utc time: Wed, 31 Jul 2024 14:56:16 GMT
+    utc time: Wed, 07 Aug 2024 13:02:16 GMT
 */
 import {useState, useEffect} from "react";
 import {getMvc} from "@/Data/mvc/MetaProduction";
@@ -134,7 +134,23 @@ function MetaProductionPage(params: MetaProductionPageProps) {
         selCounter: 0
      });
     
-    const currentJobId = appState.currentJobId;
+    let currentJobId = appState.currentJobId;
+    if (!currentJobId && jobList.length > 0) {
+        const jobItem = jobList[0];
+        currentJobId = jobItem.id;
+        setAppState({
+            ...appState, 
+            currentJob: jobItem, 
+            currentJobId: jobItem.id
+         })
+        getMvc().controller.setAppState({
+            currentJobId: jobItem.id, 
+            activeView: appState.activeView, 
+            reloadCount: appState.reloadCount
+         }, () => {
+        }
+        )
+    }
     if (currentJobId) {
         const jobItemData = startCurrentJob(currentJobId, jobItemReloadCount, {
             appState, 
@@ -152,6 +168,13 @@ function MetaProductionPage(params: MetaProductionPageProps) {
         }
     }
     else {
+        return  (
+            <MainHeader>
+                <p>
+                Create/select a job</p>
+            </MainHeader>
+            )
+        ;
         console.log("index.MetaProductionPage.currentJobId: undefined");
     }
     return  (

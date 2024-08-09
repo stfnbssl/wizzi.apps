@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\utils.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:23:16 GMT
+    utc time: Fri, 09 Aug 2024 15:52:20 GMT
 */
 import fetchPonyfill from 'fetch-ponyfill';
 import {PackiError, PackiUser} from './types';
@@ -18,7 +18,6 @@ export function createError(config: {
     columnNumber?: number;
     stack?: string;
 }):  PackiError {
-
     const error: PackiError = new Error();
     if (config.name) {
         error.name = config.name;

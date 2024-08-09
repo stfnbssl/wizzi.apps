@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\features\wizziProductions\productions.ts.ittf
-    utc time: Wed, 31 Jul 2024 13:44:15 GMT
+    utc time: Fri, 09 Aug 2024 16:10:15 GMT
 */
 import path from 'path';
 import fs from 'fs';
@@ -15,6 +15,32 @@ import {createJsonFsAndFactory, ensurePackiFilePrefix, createFilesystemFactory, 
 import {LoadModelOptions, GenerationOptions, GeneratedArtifact, WizziModelTypesRequest, WizziJobTypesRequest, TransformationOptions, TransformedModel, ExtraMetaProductionData, MetaExecuteRequest} from './types';
 import {JsonFs} from '@wizzi/repo';
 const myname = 'features/wizzi/productions';
+export async function getCheatsheetList():  Promise<string> {
+    return new Promise(async (resolve, reject) => {
+            var files: packiTypes.PackiFiles = {};
+            let jsonwf: any = {};
+            jsonwf = await createJsonFsAndFactory(files);
+            ;
+            return resolve(jsonwf.wf.getCheatsheetList());
+        }
+        );
+}
+export async function getCheatsheet(schemaName):  Promise<string> {
+    return new Promise(async (resolve, reject) => {
+            var files: packiTypes.PackiFiles = {};
+            let jsonwf: any = {};
+            jsonwf = await createJsonFsAndFactory(files);
+            ;
+            jsonwf.wf.getCheatsheet(schemaName, (err: any, result: any) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(result);
+            }
+            )
+        }
+        );
+}
 export async function loadModel(filePath: string, files: packiTypes.PackiFiles, context?: any):  Promise<wizzi.WizziModel> {
     return new Promise(// TODO catch error
         async (resolve, reject) => {
@@ -202,7 +228,7 @@ export async function generateArtifact(
                         files
                      });
             }
-            const generator = _options.generator ? _options.generator : null;
+            let artifactName = _options.generator ? _options.generator : null;
             let jsonwf: any = {};
             let generationContext: any = {};
             const ittfDocumentUri = ensurePackiFilePrefix(filePath) as string
@@ -219,17 +245,23 @@ export async function generateArtifact(
                     
                  })
                 ;
+                const ittfSchema = jsonwf.wf.mapIttfDocumentPathToSchema(filePath);
+                if (!artifactName) {
+                    artifactName = jsonwf.wf.mapSchemaToDefaultArtifact(ittfSchema);
+                }
+                const contentType = jsonwf.wf.mapArtifactToContentType(artifactName);
                 jsonwf.wf.loadModelAndGenerateArtifact(ittfDocumentUri, {
                     modelRequestContext: generationContext || {}, 
                     artifactRequestContext: _options.artifactContext || {}
-                 }, generator, (err: any, result: string) => {
+                 }, artifactName, (err: any, result: string) => {
                     if (err) {
                         return reject(err);
                     }
                     resolve({
                         artifactContent: result, 
                         sourcePath: filePath, 
-                        artifactGenerator: generator
+                        artifactGenerator: artifactName, 
+                        contentType: contentType
                      })
                 }
                 )
@@ -245,24 +277,30 @@ export async function generateArtifactFs(filePath: string, context?: any, option
     const _options: GenerationOptions = options || {};
     return new Promise(// TODO catch error
         async (resolve, reject) => {
-            const generator = _options.generator ? _options.generator : null;
+            let artifactName = _options.generator ? _options.generator : null;
             const plugins = _options.pluginsBaseFolder && _options.plugins ? {
                     pluginsBaseFolder: _options.pluginsBaseFolder, 
                     items: _options.plugins
                  } : null;
             const wf = await createFilesystemFactory(plugins, null, {});
             try {
+                const ittfSchema = wf.mapIttfDocumentPathToSchema(filePath);
+                if (!artifactName) {
+                    artifactName = wf.mapSchemaToDefaultArtifact(ittfSchema);
+                }
+                const contentType = wf.mapArtifactToContentType(artifactName);
                 wf.loadModelAndGenerateArtifact(filePath, {
                     modelRequestContext: context || {}, 
                     artifactRequestContext: context || {}
-                 }, generator, (err, result) => {
+                 }, artifactName, (err, result) => {
                     if (err) {
                         return reject(err);
                     }
                     resolve({
                         artifactContent: result, 
                         sourcePath: filePath, 
-                        artifactGenerator: generator
+                        artifactGenerator: artifactName, 
+                        contentType: contentType
                      })
                 }
                 )

@@ -230,16 +230,16 @@ module
                 if usedCharacters.length
                     return 
                         new Error
-                            `lit 
+                            template 
                                 + 
                                 iif usedCharacters.length === 1
                                     then
-                                        `lit 
+                                        template 
                                             + 
                                             @ usedCharacters[0]
                                             + &nbsp;is
                                     else
-                                        `lit 
+                                        template 
                                             + 
                                             _ usedCharacters.join(', ')
                                             + &nbsp;are
@@ -253,12 +253,12 @@ module
                                 set (e.item.path.split('/').pop() ?? '').toLowerCase() === name.toLowerCase()
                     return 
                         new Error
-                            `lit 
+                            template 
                                 + Another entry already exists with same name
                 if isEntryPoint(name)
                     return 
                         new Error
-                            `lit 
+                            template 
                                 + Cannot name a new file as&nbsp;
                                 @ name
                                 + 
@@ -383,7 +383,7 @@ module
                         then
                             { 
                                 @ label
-                                    `lit 
+                                    template 
                                         + Rename to&nbsp;
                                         _ toggleTSExt(this.props.entry.item.path)
                                         + 
@@ -570,7 +570,7 @@ module
                     @ height 28
                     @ margin 1
                     @ border
-                        `lit 
+                        template 
                             + 1px solid&nbsp;
                             _ c('selected')
                             + 

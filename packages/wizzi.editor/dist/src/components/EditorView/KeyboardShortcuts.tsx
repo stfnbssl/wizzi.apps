@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\KeyboardShortcuts.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -58,25 +58,17 @@ export const Shortcuts = {
 class KeyboardShortcuts extends React.PureComponent {
     render() {
         return  (
-            <table
-             className={css(styles.shortcutList)}>
-                <tbody
-                >
+            <table className={css(styles.shortcutList)}>
+                <tbody>
                     {
                         Object.entries(Shortcuts).map(([type, binding]) => 
-                        
                              (
-                            <tr
-                             key={type}>
-                                <td
-                                 className={css(styles.shortcutCell, styles.shortcutLabelCell)}>
-                                    <ShortcutLabel
-                                     boxed combo={binding.combo} />
+                            <tr key={type}>
+                                <td className={css(styles.shortcutCell, styles.shortcutLabelCell)}>
+                                    <ShortcutLabel boxed combo={binding.combo} />
                                 </td>
-                                <td
-                                 className={css(styles.shortcutCell, styles.shortcutDescriptionCell)}>
-                                    {binding.description}
-                                </td>
+                                <td className={css(styles.shortcutCell, styles.shortcutDescriptionCell)}>
+                                    {binding.description}</td>
                             </tr>
                             )
                         

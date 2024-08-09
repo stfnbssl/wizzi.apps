@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\plugin.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '../../types';
@@ -20,13 +20,10 @@ const pluginProductionCache = new NodeCache({
     checkperiod: 60
  });
 export async function validatePluginProduction(owner: string, name: string):  Promise<ValidateResult> {
-
     const PluginProduction = GetPluginProductionModel();
     return new Promise((resolve, reject) => {
-        
             let query = { owner: owner, name: name };
             PluginProduction.find(query, (err, result) => {
-            
                 if (err) {
                     return reject(err);
                 }
@@ -53,14 +50,12 @@ export /**
         // options
 */
 async function getPluginProductionList(options?: any):  Promise<CRUDResult> {
-
     options = options || {};
     
     
     const PluginProduction = GetPluginProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             const query = PluginProduction.find(options.query);
             if (options.limit) {
@@ -70,7 +65,6 @@ async function getPluginProductionList(options?: any):  Promise<CRUDResult> {
                 query.sort(options.sort);
             }
             query.find((err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getPluginProductionList', 'PluginProduction.find', 'error', err);
                     return reject(err);
@@ -108,13 +102,11 @@ export /**
         // name
 */
 async function getPluginProduction(owner: string, name: string):  Promise<CRUDResult> {
-
     
     
     const PluginProduction = GetPluginProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -122,7 +114,6 @@ async function getPluginProduction(owner: string, name: string):  Promise<CRUDRe
              };
             
             PluginProduction.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getPluginProduction', 'PluginProduction.find', 'error', err);
                     return reject(err);
@@ -152,18 +143,15 @@ export /**
         // id
 */
 async function getPluginProductionById(id: string):  Promise<CRUDResult> {
-
     
     
     const PluginProduction = GetPluginProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             PluginProduction.find({
                 _id: id
              }, (err: any, result: IPluginProductionModel[]) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getPluginProduction', 'PluginProduction.find', 'error', err);
                     return reject(err);
@@ -187,11 +175,8 @@ async function getPluginProductionById(id: string):  Promise<CRUDResult> {
 }
 
 export async function getPluginProductionObject(owner: string, name: string, loadPackiConfig?: boolean) {
-
     return new Promise((resolve, reject) => 
-        
             getPluginProduction(owner, name).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -199,7 +184,6 @@ export async function getPluginProductionObject(owner: string, name: string, loa
                 return resolve(_createPluginProductionObject(lp, loadPackiConfig));
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.api.pluginProduction.getPluginProductionObject.getPluginProduction.error', err);
@@ -211,11 +195,8 @@ export async function getPluginProductionObject(owner: string, name: string, loa
 }
 
 export async function getPluginProductionObjectById(id: string, loadPackiConfig?: boolean) {
-
     return new Promise((resolve, reject) => 
-        
             getPluginProductionById(id).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -223,7 +204,6 @@ export async function getPluginProductionObjectById(id: string, loadPackiConfig?
                 return resolve(_createPluginProductionObject(lp, loadPackiConfig));
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.api.pluginProduction.getPluginProductionObjectById.getPluginProductionById.error', err);
@@ -234,10 +214,8 @@ export async function getPluginProductionObjectById(id: string, loadPackiConfig?
         );
 }
 async function _createPluginProductionObject(lp: IPluginProductionModel, loadPackiConfig?: boolean) {
-
     
     return new Promise((resolve, reject) => {
-        
             const lp_packiFiles_object: packiTypes.PackiFiles = JSON.parse(lp.packiFiles);
             const obj = {
                 ...lp._doc, 
@@ -260,12 +238,10 @@ async function _createPluginProductionObject(lp: IPluginProductionModel, loadPac
                         contents: obj.packiConfig.contents
                      }
                  }, {}).then((generationResult: any) => {
-                
                     obj.packiConfigObj = JSON.parse(generationResult.artifactContent);
                     return resolve(obj);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.production.api.pluginProduction.getPluginProductionObject._createPluginProductionObject.error', err);
@@ -289,14 +265,16 @@ export /**
         // description
         // packiFiles
 */
-async function createPluginProduction(owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
-
+async function createPluginProduction(
+    owner?: string, 
+    name?: string, 
+    description?: string, 
+    packiFiles?: string):  Promise<CRUDResult> {
     
     
     const PluginProduction = GetPluginProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -304,7 +282,6 @@ async function createPluginProduction(owner?: string, name?: string, description
              };
             
             PluginProduction.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getPluginProduction', 'PluginProduction.find', 'error', err);
                     return reject(err);
@@ -325,7 +302,6 @@ async function createPluginProduction(owner?: string, name?: string, description
                     updated_at: new Date()
                  });
                 newPluginProduction.save(function(err: any, doc: any) {
-                
                     if (err) {
                         console.log("[31m%s[0m", myname, 'createPluginProduction', 'newPluginProduction.save', 'error', err);
                         return reject(err);
@@ -352,14 +328,17 @@ export /**
         // description
         // packiFiles
 */
-async function updatePluginProduction(id?: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
-
+async function updatePluginProduction(
+    id?: string, 
+    owner?: string, 
+    name?: string, 
+    description?: string, 
+    packiFiles?: string):  Promise<CRUDResult> {
     
     
     const PluginProduction = GetPluginProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -389,7 +368,6 @@ async function updatePluginProduction(id?: string, owner?: string, name?: string
             update['updated_at'] = new Date();
             
             PluginProduction.findOneAndUpdate(query, update, {}, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'updatePluginProduction', 'PluginProduction.findOneAndUpdate', 'error', err);
                     return reject(err);
@@ -422,13 +400,11 @@ export /**
         // name
 */
 async function deletePluginProduction(id?: string, owner?: string, name?: string):  Promise<CRUDResult> {
-
     
     
     const PluginProduction = GetPluginProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -444,7 +420,6 @@ async function deletePluginProduction(id?: string, owner?: string, name?: string
             }
             
             PluginProduction.deleteOne(query, (err: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'deletePluginProduction', 'PluginProduction.deleteOne', 'error', err);
                     return reject(err);
@@ -461,17 +436,14 @@ async function deletePluginProduction(id?: string, owner?: string, name?: string
 }
 
 export async function getPluginProduction_withCache(owner: string, name: string) {
-
     var cacheKey = owner + '|' + name;
     return new Promise((resolve, reject) => {
-        
             let ppValue = {
                 packiFiles: {
                     
                  }
              };
             getPluginProduction(owner, name).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -483,7 +455,6 @@ export async function getPluginProduction_withCache(owner: string, name: string)
                 return resolve(ppValue);
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'getPluginProduction_withCache.getArtifactProduction.error', err);
@@ -495,7 +466,6 @@ export async function getPluginProduction_withCache(owner: string, name: string)
 }
 
 export function invalidateCache(owner: string, name?: string) {
-
     var cacheKey = owner + '|' + name;
     pluginProductionCache.del(cacheKey);
 }

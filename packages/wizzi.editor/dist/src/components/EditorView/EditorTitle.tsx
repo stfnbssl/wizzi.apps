@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorTitle.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import formatDistance from 'date-fns/formatDistance';
@@ -30,17 +30,14 @@ export type EditorTitleProps = {
         wizziSchema: string;
     }) => void;
 };
+;
 export function EditorTitle(props: EditorTitleProps) {
-
     const [date, setDate] = React.useState(new Date());
     React.useEffect(() => {
-    
         const timer = setInterval(() => 
-        
             setDate(new Date())
         , 10000);
         return () => 
-            
                 clearInterval(timer)
         ;
     }
@@ -64,84 +61,55 @@ export function EditorTitle(props: EditorTitleProps) {
             statusText = 'Saving changes…';
         }
         statusText =  (
-        <React.Fragment
-        >
-            <span
-             className={css(styles.statusText)}>
-                {statusText}
-                .
-            </span>
-            {' '}
-        </React.Fragment>
+        <React.Fragment>
+            <span className={css(styles.statusText)}>{statusText}.</span>{' '}</React.Fragment>
         )
         ;
     }
     else {
-        
         // User is a guest
         statusText =  (
-        <React.Fragment
-        >
-            <a
-             href="#" className={css(styles.textButton)}>
-                Log in
-            </a>
-            {' '}
-            <span
-             className={css(styles.statusText)}>
-                to save your changes as you work
-            </span>
-        </React.Fragment>
+        <React.Fragment>
+            <a href="#" className={css(styles.textButton)}>Log in</a>{' '}<span className={css(styles.statusText)}>to save your changes as you work</span></React.Fragment>
         )
         ;
     }
     return  (
-        <div
-         className={css(styles.container)}>
-            <div
-             className={css(styles.header)}>
-                <EditorTitleName 
-                    name={name}
+        <div className={css(styles.container)}>
+            <div className={css(styles.header)}>
+                <EditorTitleName name={name}
                     description={description}
                     onSubmitMetadata={onSubmitMetadata}
                     onShowEditModal={onShowEditModal}
                  />
-                <div
-                 className={css(styles.metadata)}>
-                    <p
-                     className={css(styles.status)}>
-                        {statusText}
-                    </p>
+                <div className={css(styles.metadata)}>
+                    <p className={css(styles.status)}>
+                        {statusText}</p>
                     {
                         loggedUser && saveStatus === 'saving-draft' ?  (
-                            <div
-                             className={css(styles.spinner)} />
+                            <div className={css(styles.spinner)} />
                             )
                          : null
                     }
                     {
                         (loggedUser && saveStatus === 'saved-draft') || saveStatus === 'published' ?  (
-                            <svg 
-                                className={css(styles.check)}
+                            <svg className={css(styles.check)}
                                 width="11px"
                                 height="8px"
                                 viewBox="0 0 11 8"
                             >
-                                <polygon
-                                 fill={c('success')} points="3.34328358 6.32835821 0.835820896 3.82089552 0 4.65671642 3.34328358 8 10.5074627 0.835820896 9.67164179 0" />
+                                <polygon fill={c('success')} points="3.34328358 6.32835821 0.835820896 3.82089552 0 4.65671642 3.34328358 8 10.5074627 0.835820896 9.67164179 0" />
                             </svg>
                             )
                          : null
                     }
                 </div>
             </div>
-            <ModalProductionDetails 
-                title="Edit Production Details"
+            <ModalProductionDetails title="Edit Production Details"
                 action="Done"
                 visible={isEditModalVisible}
                 onDismiss={onDismissEditModal}
                 onSubmit={(details) => {
-                    
                         onSubmitMetadata(details);
                         onDismissEditModal();
                     }
@@ -155,6 +123,7 @@ export function EditorTitle(props: EditorTitleProps) {
         )
     ;
 }
+
 
 const spin = {
     from: {

@@ -2,14 +2,11 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\root\babel.config.js.ittf
-    utc time: Thu, 11 Apr 2024 13:23:16 GMT
+    utc time: Fri, 09 Aug 2024 15:52:19 GMT
 */
-'use strict';
 const path = require('path');
 module.exports = (api) => {
-
     const isWebpack = api.caller(caller => 
-    
         Boolean(caller && caller.name === 'babel-loader')
     );
     return {

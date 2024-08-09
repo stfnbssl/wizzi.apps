@@ -8,8 +8,8 @@
     },
     "App": {
         "siteUrl": "http://localhost",
-        "baseUrl": "http://localhost:5100",
-        "port": 5100,
+        "baseUrl": "http://localhost:3003",
+        "port": 3003,
         "constants": {
             "edit": {
                 "uploadAfterChangeDelay": 3000
@@ -105,7 +105,7 @@
             "useStatsWriter": false,
             "useIgnore": true,
             "useCodeSplitting": true,
-            "outputPath": "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/public/packi",
+            "outputPath": "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.hub.backend/public/packi",
             "publicPath": "/public/packi/",
             "useEnv": true,
             "env": {

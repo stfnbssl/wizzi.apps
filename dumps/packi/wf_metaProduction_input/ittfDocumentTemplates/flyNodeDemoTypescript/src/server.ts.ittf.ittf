@@ -10,7 +10,11 @@ $group
 
     import http from 'node:http'
     $if options.express
-        import express from 'express'
+        import express
+            @ Request
+            @ Response
+            @ NextFunction
+            from 'express'
         $if options.ws
             import expressWs from 'express-ws'
     $else
@@ -56,14 +60,16 @@ $group
         _ app.get
             @ '/'
             async=> 
-                param _request
+                param request
+                  :ref Request
                 param response
+                  :ref Response
                 $if options.ws
                     const oldCount = count
                 # increment counter in counter.txt file
                 try 
                     set count = parseInt(fs.readFileSync('counter.txt', 'utf-8')) + 1
-                catch 
+                catch ex:any
                     set count = 1
                 _ fs.writeFileSync('counter.txt', count.toString())
                 $if options.ws
@@ -73,7 +79,7 @@ $group
                             try 
                                 _ client.send
                                     _ count.toString
-                            catch
+                            catch ex:any
                 _ response.render
                     @ 'index'
                     { 
@@ -98,7 +104,7 @@ $group
                         try 
                             _ ws.send
                                 _ count.toString
-                        catch
+                        catch ex:any
                     _ ws.on('message', console.log)
                         # We don’t expect any messages on websocket, but log any ones we do get.
                 # Define web socket route
@@ -111,7 +117,7 @@ $group
                     if count
                         try 
                             _ ws.send(count.toString())
-                        catch 
+                        catch ex:any
                     _ ws.on('message', console.log)
                         # We don’t expect any messages on websocket, but log any ones we do get.
 

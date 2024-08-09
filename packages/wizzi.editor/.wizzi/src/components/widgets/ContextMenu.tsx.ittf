@@ -165,7 +165,7 @@ module
                     @ animationTimingfunction 'linear'
                     @ backgroundColor c('content')
                     @ border
-                        `lit
+                        template
                             + 1px solid&nbsp;
                             _ c('border')
                             +
@@ -186,7 +186,7 @@ module
                     @ fontSize 16
                     @ color c('text')
                     @ borderBottom
-                        `lit
+                        template
                             + 1px solid&nbsp;
                             _ c('border')
                             +

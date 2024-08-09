@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\job.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '../../types';
@@ -20,13 +20,10 @@ const jobCache = new NodeCache({
     checkperiod: 60
  });
 export async function validateJob(owner: string, name: string):  Promise<ValidateResult> {
-
     const Job = GetJobModel();
     return new Promise((resolve, reject) => {
-        
             let query = { owner: owner, name: name };
             Job.find(query, (err, result) => {
-            
                 if (err) {
                     return reject(err);
                 }
@@ -53,14 +50,12 @@ export /**
         // options
 */
 async function getJobList(options?: any):  Promise<CRUDResult> {
-
     options = options || {};
     
     
     const Job = GetJobModel();
     
     return new Promise((resolve, reject) => {
-        
             
             const query = Job.find(options.query);
             if (options.limit) {
@@ -70,7 +65,6 @@ async function getJobList(options?: any):  Promise<CRUDResult> {
                 query.sort(options.sort);
             }
             query.find((err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getJobList', 'Job.find', 'error', err);
                     return reject(err);
@@ -108,13 +102,11 @@ export /**
         // name
 */
 async function getJob(owner: string, name: string):  Promise<CRUDResult> {
-
     
     
     const Job = GetJobModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -122,7 +114,6 @@ async function getJob(owner: string, name: string):  Promise<CRUDResult> {
              };
             
             Job.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getJob', 'Job.find', 'error', err);
                     return reject(err);
@@ -152,18 +143,15 @@ export /**
         // id
 */
 async function getJobById(id: string):  Promise<CRUDResult> {
-
     
     
     const Job = GetJobModel();
     
     return new Promise((resolve, reject) => {
-        
             
             Job.find({
                 _id: id
              }, (err: any, result: IJobModel[]) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getJob', 'Job.find', 'error', err);
                     return reject(err);
@@ -187,11 +175,8 @@ async function getJobById(id: string):  Promise<CRUDResult> {
 }
 
 export async function getJobObject(owner: string, name: string, loadPackiConfig?: boolean) {
-
     return new Promise((resolve, reject) => 
-        
             getJob(owner, name).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -199,7 +184,6 @@ export async function getJobObject(owner: string, name: string, loadPackiConfig?
                 return resolve(_createJobObject(job, loadPackiConfig));
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.api.job.getJobObject.getJob.error', err);
@@ -211,11 +195,8 @@ export async function getJobObject(owner: string, name: string, loadPackiConfig?
 }
 
 export async function getJobObjectById(id: string, loadPackiConfig?: boolean) {
-
     return new Promise((resolve, reject) => 
-        
             getJobById(id).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -223,7 +204,6 @@ export async function getJobObjectById(id: string, loadPackiConfig?: boolean) {
                 return resolve(_createJobObject(job, loadPackiConfig));
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.api.job.getJobObjectById.getJobById.error', err);
@@ -234,10 +214,8 @@ export async function getJobObjectById(id: string, loadPackiConfig?: boolean) {
         );
 }
 async function _createJobObject(job: IJobModel, loadPackiConfig?: boolean) {
-
     
     return new Promise((resolve, reject) => {
-        
             const job_packiFiles_object: packiTypes.PackiFiles = JSON.parse(job.packiFiles);
             const obj = {
                 ...job._doc, 
@@ -260,12 +238,10 @@ async function _createJobObject(job: IJobModel, loadPackiConfig?: boolean) {
                         contents: obj.packiConfig.contents
                      }
                  }, {}).then((generationResult: any) => {
-                
                     obj.packiConfigObj = JSON.parse(generationResult.artifactContent);
                     return resolve(obj);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.production.api.job.getJobObject._createJobObject.error', err);
@@ -289,14 +265,16 @@ export /**
         // description
         // packiFiles
 */
-async function createJob(owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
-
+async function createJob(
+    owner?: string, 
+    name?: string, 
+    description?: string, 
+    packiFiles?: string):  Promise<CRUDResult> {
     
     
     const Job = GetJobModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -304,7 +282,6 @@ async function createJob(owner?: string, name?: string, description?: string, pa
              };
             
             Job.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getJob', 'Job.find', 'error', err);
                     return reject(err);
@@ -325,7 +302,6 @@ async function createJob(owner?: string, name?: string, description?: string, pa
                     updated_at: new Date()
                  });
                 newJob.save(function(err: any, doc: any) {
-                
                     if (err) {
                         console.log("[31m%s[0m", myname, 'createJob', 'newJob.save', 'error', err);
                         return reject(err);
@@ -352,14 +328,17 @@ export /**
         // description
         // packiFiles
 */
-async function updateJob(id?: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
-
+async function updateJob(
+    id?: string, 
+    owner?: string, 
+    name?: string, 
+    description?: string, 
+    packiFiles?: string):  Promise<CRUDResult> {
     
     
     const Job = GetJobModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -389,7 +368,6 @@ async function updateJob(id?: string, owner?: string, name?: string, description
             update['updated_at'] = new Date();
             
             Job.findOneAndUpdate(query, update, {}, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'updateJob', 'Job.findOneAndUpdate', 'error', err);
                     return reject(err);
@@ -422,13 +400,11 @@ export /**
         // name
 */
 async function deleteJob(id?: string, owner?: string, name?: string):  Promise<CRUDResult> {
-
     
     
     const Job = GetJobModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -444,7 +420,6 @@ async function deleteJob(id?: string, owner?: string, name?: string):  Promise<C
             }
             
             Job.deleteOne(query, (err: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'deleteJob', 'Job.deleteOne', 'error', err);
                     return reject(err);
@@ -461,17 +436,14 @@ async function deleteJob(id?: string, owner?: string, name?: string):  Promise<C
 }
 
 export async function getJob_withCache(owner: string, name: string) {
-
     var cacheKey = owner + '|' + name;
     return new Promise((resolve, reject) => {
-        
             let tfValue = {
                 packiFiles: {
                     
                  }
              };
             getJob(owner, name).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -483,7 +455,6 @@ export async function getJob_withCache(owner: string, name: string) {
                 return resolve(tfValue);
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'getJob_withCache.getArtifactProduction.error', err);
@@ -495,7 +466,6 @@ export async function getJob_withCache(owner: string, name: string) {
 }
 
 export function invalidateCache(owner: string, name?: string) {
-
     var cacheKey = owner + '|' + name;
     jobCache.del(cacheKey);
 }

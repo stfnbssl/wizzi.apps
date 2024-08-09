@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Packi\ModalGithubClone.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -34,12 +34,12 @@ type State = {
     branch: string;
     visible: boolean;
 };
-
 // @ts-ignore
-const FormButton = withStatus(Button); 
 
+const FormButton = withStatus(Button);
 // @ts-ignore
-const ValidatedInput = withValidation(LargeInput); 
+
+const ValidatedInput = withValidation(LargeInput);
 export default class ModalGithubClone extends React.Component<Props, State> {
         static getDerivedStateFromProps(props: Props, state: State) {
             if (state.visible !== props.visible) {
@@ -78,7 +78,6 @@ export default class ModalGithubClone extends React.Component<Props, State> {
             this.setState({
                 [e.target.name]: e.target.value
              });
-        
         // log 'ModalGithubClone.state', this.state
         render() {
             const {
@@ -89,56 +88,46 @@ export default class ModalGithubClone extends React.Component<Props, State> {
                 action
              } = this.props;
             return  (
-                <ModalDialog
-                 visible={visible} title={title} onDismiss={onDismiss}>
-                    <Form
-                     onSubmit={this._handleSubmit}>
-                        <h4
-                         className={css(styles.subtitle)}>
-                            Owner
-                        </h4>
-                        <ValidatedInput 
-                            name='owner'
-                            
+                <ModalDialog visible={visible} title={title} onDismiss={onDismiss}>
+                    <Form onSubmit={this._handleSubmit}>
+                        <h4 className={css(styles.subtitle)}>
+                            Owner</h4>
+                        <ValidatedInput name='owner'
                             // @ts-ignore
+                            
                             autoFocus
                             value={this.state.owner}
                             onChange={this.handleChange}
                             placeholder="Repo owner"
                             validate={this._validateName}
                          />
-                        <ValidatedInput 
-                            name='name'
-                            
+                        <ValidatedInput name='name'
                             // @ts-ignore
+                            
                             autoFocus
                             value={this.state.name}
                             onChange={this.handleChange}
                             placeholder="Repo name"
                             validate={this._validateName}
                          />
-                        <ValidatedInput 
-                            name='branch'
-                            
+                        <ValidatedInput name='branch'
                             // @ts-ignore
+                            
                             autoFocus
                             value={this.state.branch}
                             onChange={this.handleChange}
                             placeholder="Repo branch"
                             validate={this._validateName}
                          />
-                        <div
-                         className={css(styles.buttons)}>
-                            <FormButton 
+                        <div className={css(styles.buttons)}>
+                            <FormButton // @ts-ignore
                                 
-                                // @ts-ignore
                                 type="submit"
                                 large
                                 variant="primary"
                                 loading={isWorking}
                             >
-                                {action}
-                            </FormButton>
+                                {action}</FormButton>
                         </div>
                     </Form>
                 </ModalDialog>
@@ -146,4 +135,15 @@ export default class ModalGithubClone extends React.Component<Props, State> {
             ;
         }
     }
-const styles = StyleSheet.create({ subtitle: { fontSize: 16,  fontWeight: 500,  padding: 0,  lineHeight: '22px',  margin: '16px 0 6px 0'  },  buttons: { margin: '20px 0 0 0'  }  }); 
+const styles = StyleSheet.create({
+    subtitle: {
+        fontSize: 16, 
+        fontWeight: 500, 
+        padding: 0, 
+        lineHeight: '22px', 
+        margin: '16px 0 6px 0'
+     }, 
+    buttons: {
+        margin: '20px 0 0 0'
+     }
+ });

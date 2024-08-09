@@ -59,7 +59,7 @@ module
                     :ref ArtifactRequest
                     = request.body
                 _ resolveContexts
-                    @ artifactRequest.contextItems
+                    @ artifactRequest.contextItems || []
                     ._ then
                         =>
                             param context
@@ -122,7 +122,7 @@ module
                     :ref ArtifactRequest
                     = request.body
                 _ resolveContexts
-                    @ artifactRequest.contextItems
+                    @ artifactRequest.contextItems || []
                     ._ then
                         =>
                             param context
@@ -175,7 +175,7 @@ module
                     :ref ArtifactRequest
                     = request.body
                 _ resolveContexts
-                    @ artifactRequest.contextItems
+                    @ artifactRequest.contextItems || []
                     ._ then
                         =>
                             param context
@@ -241,7 +241,7 @@ module
                     :ref ArtifactRequest
                     = request.body
                 _ resolveContexts
-                    @ artifactRequest.contextItems
+                    @ artifactRequest.contextItems || []
                     ._ then
                         =>
                             param context

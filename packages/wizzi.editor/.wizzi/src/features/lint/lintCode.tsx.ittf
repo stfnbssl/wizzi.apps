@@ -56,7 +56,7 @@ module
                                         @ startColumn err.column
                                         @ endColumn err.column
                                     @ message
-                                        `lit
+                                        template
                                             +
                                             @ err.message
                                             + &nbsp;(

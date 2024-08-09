@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\IconButton.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -18,6 +18,7 @@ export type IconButtonProps = {
     children?: React.ReactNode;
     small?: boolean;
 };
+;
 
 export function IconButton({
     title, 
@@ -27,31 +28,16 @@ export function IconButton({
     small, 
     ...rest
  }: IconButtonProps) {
-
     return  (
-        <button
-         {...rest} className={css(styles.button, small && styles.small, rest.disabled && styles.disabled)}>
-            {children}
-            {
+        <button {...rest} className={css(styles.button, small && styles.small, rest.disabled && styles.disabled)}>{children}{
                 label ?  (
-                    <span
-                     className={css(styles.label, !children && styles.labelNoIcon, responsive && styles.responsive)}>
-                        {label}
-                    </span>
-                    )
+                    <span className={css(styles.label, !children && styles.labelNoIcon, responsive && styles.responsive)}>{label}</span>)
                  : null
             }
-            <span
-             className={css(styles.phantom)}>
-                <span
-                 className={css(styles.tooltip)}>
-                    {title}
-                </span>
-            </span>
-        </button>
-        )
+            <span className={css(styles.phantom)}><span className={css(styles.tooltip)}>{title}</span></span></button>)
     ;
 }
+
 
 export default IconButton;
 

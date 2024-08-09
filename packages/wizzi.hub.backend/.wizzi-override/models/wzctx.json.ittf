@@ -1,27 +1,36 @@
 {
-    name "ts.express.lab"
+    name "wizzi.hub.backend"
     version "0.0.1"
-    description "Typescript express lab"
+    description "Wizzi hub server"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     { license
-        type "[object Object]"
-        url ""
+        type "MIT"
     
     { App
-        name "ts.express.lab"
-        title ""
+        name "wizzi.hub.backend"
+        title "Wizzi hub server"
         isLocal true
         isProduction false
-        port "5100"
+        port "3003"
         useSsl false
         siteUrl "http://localhost"
-        baseUrl "http://localhost:5100"
+        baseUrl "http://localhost:3003"
         siteUrlLocal "http://localhost"
-        baseUrlLocal "http://localhost:5100"
+        baseUrlLocal "http://localhost:3003"
         apiVersion "v1"
     { Build
+        { rootPath
+            $if TODO
+                $$ This is a workaround
+                $$ When running `tsc` sources are flattened and path.resolve(__dirname, ...) stop working as it should
+                $$ Research a better solution
+            siteViewsFiles "__dirname, '..'"
+            staticFiles "__dirname, '..'"
+        useConfig true
+        { config
+            mockLoggedUser true
         [ features
             {
                 name "wizziProductions"
@@ -35,6 +44,10 @@
                 name "wizziHubProductions"
                 hasControllers true
                 useMongoDb true
+            {
+                name "wizziDocs"
+                hasControllers true
+                useMongoDb false
             {
                 name "packi"
                 hasControllers true
@@ -57,4 +70,6 @@
         $include wizziDevMeta.json
         
         $include wizziDevHubProductions.json
+
+        $include tsExpressWizziSite.json
         

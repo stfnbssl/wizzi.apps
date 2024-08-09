@@ -26,7 +26,7 @@ $group
                 param callback
                 log 'wz.docs.getCheatsheet', name
                 _ wz.fetch.get
-                    `lit 
+                    template 
                         + 
                         @ wz.docs.apiUrl
                         + /cheatsheet/

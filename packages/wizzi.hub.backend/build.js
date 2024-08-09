@@ -2,9 +2,8 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\root\build.js.ittf
-    utc time: Wed, 31 Jul 2024 13:44:13 GMT
+    utc time: Fri, 09 Aug 2024 16:10:12 GMT
 */
-'use strict';
 const {
     build
  } = require("esbuild");

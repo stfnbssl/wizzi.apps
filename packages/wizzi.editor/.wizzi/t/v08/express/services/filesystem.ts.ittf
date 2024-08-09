@@ -159,7 +159,7 @@ $group
                                     _ reloadTemplates
                                         =>
                                             _ vfile.getFiles
-                                                `lit
+                                                template
                                                     +
                                                     @ packiTemplatesJsonUri
                                                     + /
@@ -189,7 +189,7 @@ $group
                                     _ reloadTemplates
                                         =>
                                             _ vfile.getFiles
-                                                `lit
+                                                template
                                                     +
                                                     @ packiTemplatesJsonUri
                                                     + /__starter

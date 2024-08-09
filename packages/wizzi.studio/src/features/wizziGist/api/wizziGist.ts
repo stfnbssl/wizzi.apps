@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziGist\api\wizziGist.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 import {verify, fSystem, pretty, crypto} from 'wizzi-utils';
@@ -15,16 +15,12 @@ var fsfile = fSystem.vfile();
 
 var GIST_KINDS = ['gist', 'fragment', 'context'];
 function isGistKind(kind) {
-
     return GIST_KINDS.indexOf(kind) > -1;
 }
 
 async function getGistList(kind: GistKind) {
-
     return new Promise((resolve, reject) => 
-        
             gistFs.getGistFiles(kind).then((result: any) => {
-            
                 var dummy = '';
                 if (isGistKind(kind)) {
                     return resolve({
@@ -46,7 +42,6 @@ async function getGistList(kind: GistKind) {
                 }
             }
             ).catch((error: any) => {
-            
                 if (typeof error === 'object' && error !== null) {
                 }
                 console.log("[31m%s[0m", 'wizziGist.getGistList.gistFs.getGistFiles.error', error);
@@ -57,9 +52,7 @@ async function getGistList(kind: GistKind) {
         );
 }
 async function createGist(kind: GistKind, name: string, schema: string) {
-
     return new Promise((resolve, reject) => {
-        
             var fullName = name;
             var content = '';
             if (schema) {
@@ -101,14 +94,11 @@ async function createGist(kind: GistKind, name: string, schema: string) {
                 }
             }
             gistFs.gistFileExists(kind, fullName).then((result: boolean) => {
-            
                 if (result) {
                     return reject(kind + ' ' + fullName + ' already exists');
                 }
                 gistFs.putGistFile(kind, fullName, content).then((putResult: any) => 
-                
                     getGistList(kind).then((result: any) => {
-                    
                         if (isGistKind(kind)) {
                             return resolve({
                                     message: kind + ' created', 
@@ -130,7 +120,6 @@ async function createGist(kind: GistKind, name: string, schema: string) {
                         }
                     }
                     ).catch((error: any) => {
-                    
                         if (typeof error === 'object' && error !== null) {
                         }
                         console.log("[31m%s[0m", 'wizziGist.createGist.getGistList.error', error);
@@ -139,7 +128,6 @@ async function createGist(kind: GistKind, name: string, schema: string) {
                     )
                 
                 ).catch((error: any) => {
-                
                     if (typeof error === 'object' && error !== null) {
                     }
                     console.log("[31m%s[0m", 'wizziGist.createGist.putGistFile.error', error);
@@ -148,7 +136,6 @@ async function createGist(kind: GistKind, name: string, schema: string) {
                 )
             }
             ).catch((error: any) => {
-            
                 if (typeof error === 'object' && error !== null) {
                 }
                 console.log("[31m%s[0m", 'wizziGist.createGist.gistFileExists.error', error);
@@ -159,15 +146,12 @@ async function createGist(kind: GistKind, name: string, schema: string) {
         );
 }
 async function updateGist(hash: string, content: string) {
-
     return new Promise((resolve, reject) => {
-        
             var filePath = crypto.decrypt(hash);
             var name = path.basename(filePath);
             var kind = gistFs.gistKindFromFilePath(filePath);
             console.log('updateGist.kind', kind, 'name', name, 'filePath', filePath, __filename);
             gistFs.putGistFile(kind, name, content).then((result: any) => {
-            
                 return resolve({
                         message: kind + ' updated', 
                         data: {
@@ -176,7 +160,6 @@ async function updateGist(hash: string, content: string) {
                      });
             }
             ).catch((error: any) => {
-            
                 if (typeof error === 'object' && error !== null) {
                 }
                 console.log("[31m%s[0m", 'wizziGist.updateGist.gistFs.putFile.error', error);
@@ -187,15 +170,11 @@ async function updateGist(hash: string, content: string) {
         );
 }
 async function deleteGist(hash: string) {
-
     return new Promise((resolve, reject) => {
-        
             var filePath = crypto.decrypt(hash);
             var kind = gistFs.gistKindFromFilePath(filePath);
             wizziFs.deleteFsItem(filePath).then((result: any) => 
-            
                 getGistList(kind).then((result: any) => {
-                
                     if (isGistKind(kind)) {
                         return resolve({
                                 message: kind + ' deleted', 
@@ -214,7 +193,6 @@ async function deleteGist(hash: string) {
                     }
                 }
                 ).catch((error: any) => {
-                
                     if (typeof error === 'object' && error !== null) {
                     }
                     console.log("[31m%s[0m", 'wizziGist.deleteGist.getGistList.error', error);
@@ -223,7 +201,6 @@ async function deleteGist(hash: string) {
                 )
             
             ).catch((error: any) => {
-            
                 if (typeof error === 'object' && error !== null) {
                 }
                 console.log("[31m%s[0m", 'wizziGist.deleteGist.gistFs.deleteFile.error', error);
@@ -234,15 +211,11 @@ async function deleteGist(hash: string) {
         );
 }
 async function duplicateGist(hash: string, newname: string) {
-
     return new Promise((resolve, reject) => {
-        
             var filePath = crypto.decrypt(hash);
             var kind = gistFs.gistKindFromFilePath(filePath);
             wizziFs.duplicateFsItem(filePath, path.join(path.dirname(filePath), newname)).then((result: any) => 
-            
                 getGistList(kind).then((result: any) => {
-                
                     if (isGistKind(kind)) {
                         return resolve({
                                 message: kind + ' duplicated', 
@@ -261,7 +234,6 @@ async function duplicateGist(hash: string, newname: string) {
                     }
                 }
                 ).catch((error: any) => {
-                
                     if (typeof error === 'object' && error !== null) {
                     }
                     console.log("[31m%s[0m", 'wizziGist.duplicateGist.getGistList.error', error);
@@ -270,7 +242,6 @@ async function duplicateGist(hash: string, newname: string) {
                 )
             
             ).catch((error: any) => {
-            
                 if (typeof error === 'object' && error !== null) {
                 }
                 console.log("[31m%s[0m", 'wizziGist.duplicateGist.wizziFs.duplicateFsItem.error', error);
@@ -281,15 +252,11 @@ async function duplicateGist(hash: string, newname: string) {
         );
 }
 async function renameGist(hash: string, newname: string) {
-
     return new Promise((resolve, reject) => {
-        
             var filePath = crypto.decrypt(hash);
             var kind = gistFs.gistKindFromFilePath(filePath);
             wizziFs.renameFsItem(filePath, path.join(path.dirname(filePath), newname)).then((result: any) => 
-            
                 getGistList(kind).then((result: any) => {
-                
                     if (isGistKind(kind)) {
                         return resolve({
                                 message: kind + ' renamed', 
@@ -308,7 +275,6 @@ async function renameGist(hash: string, newname: string) {
                     }
                 }
                 ).catch((error: any) => {
-                
                     if (typeof error === 'object' && error !== null) {
                     }
                     console.log("[31m%s[0m", 'wizziGist.renameGist.getGistList.error', error);
@@ -317,7 +283,6 @@ async function renameGist(hash: string, newname: string) {
                 )
             
             ).catch((error: any) => {
-            
                 if (typeof error === 'object' && error !== null) {
                 }
                 console.log("[31m%s[0m", 'wizziGist.renameGist.wizziFs.renameFsItem.error', error);
@@ -328,14 +293,11 @@ async function renameGist(hash: string, newname: string) {
         );
 }
 async function getGist(hash: string) {
-
     return new Promise((resolve, reject) => {
-        
             var filePath = crypto.decrypt(hash);
             var kind = gistFs.gistKindFromFilePath(filePath);
             var gist = gistFs.gistInfoByPath(filePath);
             wizziFs.readFsItem(filePath).then((result: any) => {
-            
                 gist.content = result;
                 if (isGistKind(kind)) {
                     return resolve({
@@ -353,7 +315,6 @@ async function getGist(hash: string) {
                 }
             }
             ).catch((error: any) => {
-            
                 if (typeof error === 'object' && error !== null) {
                 }
                 console.log("[31m%s[0m", 'gistFs.getGist.wizziFs.getFile.error', error);
@@ -364,9 +325,7 @@ async function getGist(hash: string) {
         );
 }
 async function executeGist(hash: string) {
-
     return new Promise((resolve, reject) => {
-        
             var filePath = crypto.decrypt(hash);
             var kind = gistFs.gistKindFromFilePath(filePath);
             var fileInfo = gistFs.gistInfoByPath(filePath);
@@ -379,16 +338,12 @@ async function executeGist(hash: string) {
                     generator: 'js/module', 
                     artifactContext
                  }).then((result: any) => {
-                
                     console.log('wizziProds.generateArtifactFs.result', result, __filename);
                     gistFs.putGistExecutable(kind, filePath, result.artifactContent).then((result: any) => 
-                    
                         executeNodeJsGist(hash, result.executablePath).then((result: any) => {
-                        
                             return resolve(result);
                         }
                         ).catch((error: any) => {
-                        
                             if (typeof error === 'object' && error !== null) {
                             }
                             console.log("[31m%s[0m", 'gistFs.executeGist.executeNodeJsGist.error', error);
@@ -397,7 +352,6 @@ async function executeGist(hash: string) {
                         )
                     
                     ).catch((error: any) => {
-                    
                         if (typeof error === 'object' && error !== null) {
                         }
                         console.log("[31m%s[0m", 'gistFs.executeGist.gistFs.putGistExecutable.error', error);
@@ -406,7 +360,6 @@ async function executeGist(hash: string) {
                     )
                 }
                 ).catch((error: any) => {
-                
                     if (typeof error === 'object' && error !== null) {
                     }
                     console.log("[31m%s[0m", 'gistFs.executeGist.wizziProds.generateArtifactFs.error', error);
@@ -416,11 +369,9 @@ async function executeGist(hash: string) {
             }
             else if (fileInfo.mime === 'js') {
                 executeNodeJsGist(hash, filePath).then((result: any) => {
-                
                     return resolve(result);
                 }
                 ).catch((error: any) => {
-                
                     if (typeof error === 'object' && error !== null) {
                     }
                     console.log("[31m%s[0m", 'gistFs.executeGist.executeNodeJsGist.error', error);
@@ -437,9 +388,7 @@ async function executeGist(hash: string) {
         );
 }
 async function executeNodeJsGist(hash: string, executablePath: string, response?: any) {
-
     return new Promise((resolve, reject) => {
-        
             if (response) {
                 try {
                     console.log('execute nodeJsExecToEventStream', __filename);
@@ -449,11 +398,9 @@ async function executeNodeJsGist(hash: string, executablePath: string, response?
                             
                         ]
                      }, response).then((result: any) => {
-                    
                         return resolve(result);
                     }
                     ).catch((error: any) => {
-                    
                         if (typeof error === 'object' && error !== null) {
                         }
                         console.log("[31m%s[0m", 'gistFs.executeNodeJsGist.scriptManager.nodeJsExecToEventStream.error', error);
@@ -474,14 +421,12 @@ async function executeNodeJsGist(hash: string, executablePath: string, response?
                             
                         ]
                      }).then((result: any) => {
-                    
                         return resolve({
                                 data: result, 
                                 message: 'NodeJs script executed'
                              });
                     }
                     ).catch((error: any) => {
-                    
                         if (typeof error === 'object' && error !== null) {
                         }
                         console.log("[31m%s[0m", 'gistFs.executeNodeJsGist.scriptManager.nodeJsExec.error', error);

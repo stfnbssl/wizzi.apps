@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\middlewares\ittfStatic.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -15,7 +15,6 @@ import {config} from '../features/config';
 import {wizziProds, wizziMaps} from '../features/wizzi';
 import {WizziModel} from '@wizzi/factory';
 export const IttfStaticMiddleware: MiddlewareType = (app: Application) => {
-
     console.log('IttfStaticMiddleware. Folder served from ', path.resolve(__dirname, '..', '..', 'ittf'));
     app.use('/ittf', ittfMiddleware(path.resolve(__dirname, '..', '..', 'ittf'), '/ittf'));
 }
@@ -40,9 +39,7 @@ export const IttfStaticMiddleware: MiddlewareType = (app: Application) => {
     // 
 */
 function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
-
     return async (request: Request, response: Response, next: NextFunction) => {
-        
             if (request.method !== 'GET' && request.method !== 'HEAD') {
                 return next();
             }
@@ -51,10 +48,8 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                 return next();
             }
             const urlPathName = decodeURIComponent(parsedUrl.pathname);
-            
             // ??? urlPathName.substr(routePath.length);
             const pathname = urlPathName;
-            
             // ??? urlPathName.substr(routePath.length);
             const filePath = path.join(basePath, pathname);
             const extname = path.extname(filePath);
@@ -75,7 +70,6 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                 return next();
             }
             wizziProds.loadSiteJsonModel('sitectx.json.ittf').then(async (siteCtx) => {
-            
                 if (queryMeta && queryMeta === 'html') {
                     try {
                         const documentState = await wizziProds.scanIttfDocumentFs(filePath, path.dirname(basePath));
@@ -112,7 +106,6 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                      }, {
                         generator: 'ittf/tojson'
                      }).then((generated) => {
-                    
                         response.writeHead(200, {
                             'Content-Type': 'application/json', 
                             'Content-Length': generated.artifactContent.length
@@ -120,7 +113,6 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                         response.end(generated.artifactContent);
                     }
                     ).catch((err) => {
-                    
                         return sendError(response, err, {
                                 format: 'json'
                              });
@@ -129,7 +121,6 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                 }
                 else {
                     return contextLoader(filePath, request, function(err: any, modelContext: WizziModel) {
-                        
                             if (err) {
                                 return sendError(response, err, {
                                         format: 'json'
@@ -144,7 +135,6 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                              })
                             ;
                             wizziProds.generateArtifactFs(filePath, modelContext).then((generated) => {
-                            
                                 response.writeHead(200, {
                                     'Content-Type': contentType, 
                                     'Content-Length': generated.artifactContent.length
@@ -152,7 +142,6 @@ function ittfMiddleware(basePath: string, routePath: string):  RequestHandler {
                                 response.end(generated.artifactContent);
                             }
                             ).catch((err) => {
-                            
                                 return sendError(response, err, {
                                         format: 'json'
                                      });
@@ -191,13 +180,11 @@ type contextRequest = {
     relPath: any;
 };
 async function contextLoader(resourceFilePath: string, request: Request, callback: any) {
-
     const contextRequest: string = (request.query._context as string);
     if (contextRequest && contextRequest.length > 0) {
         const ss = contextRequest.split(';');
         const ctxRequests: contextRequest[] = [];
         ss.forEach((element) => {
-        
             const ctxRequest: contextRequest = {
                 exportName: element, 
                 fullPath: undefined, 
@@ -233,7 +220,6 @@ async function contextLoader(resourceFilePath: string, request: Request, callbac
         } = {};
         const repeatCount = ctxRequests.length;
         const repeat = (index: number) => {
-        
             if (index == repeatCount) {
                 return callback(null, resultContext);
             }
@@ -245,12 +231,10 @@ async function contextLoader(resourceFilePath: string, request: Request, callbac
                 wizziProds.loadModelFs(ctxRequest.fullPath, {
                     isWizziStudio: true
                  }).then((model) => {
-                
                     resultContext[ctxRequest.exportName] = model;
                     repeat(index + 1);
                 }
                 ).catch(err => 
-                
                     callback(err)
                 )
             }
@@ -269,8 +253,12 @@ async function contextLoader(resourceFilePath: string, request: Request, callbac
     }
 }
 
-async function sendFolderScan(folderPath: string, root: string, meta: string, request: Request, response: Response) {
-
+async function sendFolderScan(
+    folderPath: string, 
+    root: string, 
+    meta: string, 
+    request: Request, 
+    response: Response) {
     try {
         const folderState = await wizziProds.scanIttfFolder(folderPath, path.dirname(root));
         const siteCtx = await wizziProds.loadSiteJsonModel('sitectx.json.ittf');
@@ -304,16 +292,13 @@ async function sendFolderScan(folderPath: string, root: string, meta: string, re
 }
 
 function sendTransform(filePath: string, transformer: string, response: Response) {
-
     wizziProds.loadAndTransformModelFs(filePath, {
         isWizziStudio: true
      }, {
         transformer: transformer
      }).then(model => 
-    
         response.send(stringify(model, null, 2))
     ).catch(err => 
-    
         sendError(response, err, {
             format: 'json'
          })
@@ -321,12 +306,10 @@ function sendTransform(filePath: string, transformer: string, response: Response
 }
 
 function sendJSONStringified(response: Response, wizziModelInstance: any) {
-
     response.send('<pre>' + stringify(cleanCircular(wizziModelInstance, []), null, 2) + '</pre>');
 }
 
 function cleanCircular(obj: any, stock: any[]) {
-
     if (!obj) {
         return ;
     }
@@ -339,7 +322,6 @@ function cleanCircular(obj: any, stock: any[]) {
     if (typeof obj === 'object') {
         if (obj.length) {
             (obj as []).forEach(element => 
-            
                 cleanCircular(element, stock)
             )
             return ;
@@ -378,7 +360,6 @@ function cleanCircular(obj: any, stock: any[]) {
 }
 
 function sendError(response: Response, err: any, options: any) {
-
     options = options || {};
     const code = options.code || 999;
     let errEmit: any = err;
@@ -396,7 +377,6 @@ function sendError(response: Response, err: any, options: any) {
         if (err.stack && err.stack.split) {
             const stackArray: string[] = [];
             (err.stack as string).split('\n').forEach(element => 
-            
                 stackArray.push('    ' + element)
             )
             errEmit.stack = stackArray;

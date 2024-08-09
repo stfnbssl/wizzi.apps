@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\index.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import cookies from 'js-cookie';
 import * as React from 'react';
@@ -46,7 +46,6 @@ const store = createStore({
  });
 
 function AppContainer(props: any) {
-
     const {
         data, 
         ...rest
@@ -59,34 +58,25 @@ function AppContainer(props: any) {
             defaults: data.defaults
          };
         return  (
-            <App
-             {...appProps} />
+            <App {...appProps} />
             )
         ;
     }
     else {
         return  (
-            <NonExistent
-             />
+            <NonExistent />
             )
         ;
     }
 }
 function PackiApp() {
-
     return  (
-        <React.Fragment
-        >
-            <HelmetProvider
-            >
-                <Provider
-                 store={store}>
-                    <PreferencesProvider
-                     cookies={cookies}>
-                        <ThemeProvider
-                        >
-                            <AppContainer
-                             data={window.__INITIAL_DATA__.data} loggedUser={window.__INITIAL_DATA__.loggedUser} queryParams={window.__INITIAL_DATA__.queryParams} />
+        <React.Fragment>
+            <HelmetProvider>
+                <Provider store={store}>
+                    <PreferencesProvider cookies={cookies}>
+                        <ThemeProvider>
+                            <AppContainer data={window.__INITIAL_DATA__.data} loggedUser={window.__INITIAL_DATA__.loggedUser} queryParams={window.__INITIAL_DATA__.queryParams} />
                         </ThemeProvider>
                     </PreferencesProvider>
                 </Provider>
@@ -96,6 +86,5 @@ function PackiApp() {
     ;
 }
 ReactDOM.render(
-<PackiApp
- />
+<PackiApp />
 , document.getElementById('root'))

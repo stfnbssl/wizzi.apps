@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\features\wizziProductions\controllers\production.ts.ittf
-    utc time: Wed, 31 Jul 2024 13:44:15 GMT
+    utc time: Fri, 09 Aug 2024 16:10:15 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -30,17 +30,21 @@ function makeHandlerAwareOfAsyncErrors(handler: any) {
             catch (error: any) {
                 if (error instanceof FcError) {
                     response.status(statusCode.BAD_REQUEST).send({
-                        code: error.code, 
-                        message: error.message, 
-                        data: error.data || {}
+                        error: {
+                            code: error.code, 
+                            message: error.message, 
+                            data: error.data || {}
+                         }
                      })
                 }
                 else {
                     const fcError = new FcError(SYSTEM_ERROR);
                     response.status(statusCode.BAD_REQUEST).send({
-                        code: fcError.code, 
-                        message: error.message, 
-                        data: fcError.data || {}
+                        error: {
+                            code: fcError.code, 
+                            message: error.message, 
+                            data: fcError.data || {}
+                         }
                      })
                 }
             } 
@@ -60,6 +64,7 @@ export class ProductionController implements ControllerType {
         this.router.post("/folder/artifacts", makeHandlerAwareOfAsyncErrors(this.folderArtifacts))
         this.router.post("/mtree", makeHandlerAwareOfAsyncErrors(this.mTree))
         this.router.post("/mtreescript", makeHandlerAwareOfAsyncErrors(this.mTreeBuildUpScript))
+        this.router.post("/wizzify", makeHandlerAwareOfAsyncErrors(this.wizzify))
         this.router.post("/mtreescan", makeHandlerAwareOfAsyncErrors(this.mTreeScan))
         this.router.post("/meta/execute", makeHandlerAwareOfAsyncErrors(this.metaExecute))
         this.router.post("/wrapittf", makeHandlerAwareOfAsyncErrors(this.wrapIttfText))
@@ -67,7 +72,7 @@ export class ProductionController implements ControllerType {
     
     private artifact = async (request: Request, response: Response) => {
         const artifactRequest: ArtifactRequest = request.body;
-        resolveContexts(artifactRequest.contextItems).then((context: any) => {
+        resolveContexts(artifactRequest.contextItems || []).then((context: any) => {
             if (artifactRequest.ittfDocument) {
                 if (artifactRequest.ittfDocument.source == 'fs') {
                     wizziProds.generateArtifactFs(path.join(config.ittfPath, artifactRequest.ittfDocument.path as string), context).then(generatedArtifact => 
@@ -130,7 +135,7 @@ export class ProductionController implements ControllerType {
     
     private folderArtifacts = async (request: Request, response: Response) => {
         const artifactRequest: ArtifactRequest = request.body;
-        resolveContexts(artifactRequest.contextItems).then((context: any) => {
+        resolveContexts(artifactRequest.contextItems || []).then((context: any) => {
             if (artifactRequest.ittfFolder) {
                 const sourceError = {
                     err: {
@@ -189,7 +194,7 @@ export class ProductionController implements ControllerType {
     
     private mTree = async (request: Request, response: Response) => {
         const artifactRequest: ArtifactRequest = request.body;
-        resolveContexts(artifactRequest.contextItems).then((context: any) => {
+        resolveContexts(artifactRequest.contextItems || []).then((context: any) => {
             if (artifactRequest.ittfDocument) {
                 if (artifactRequest.ittfDocument.source == 'fs') {
                     wizziProds.mTreeFs(path.join(config.ittfPath, artifactRequest.ittfDocument.path as string), context).then(mTree => 
@@ -258,7 +263,7 @@ export class ProductionController implements ControllerType {
     
     private mTreeBuildUpScript = async (request: Request, response: Response) => {
         const artifactRequest: ArtifactRequest = request.body;
-        resolveContexts(artifactRequest.contextItems).then((context: any) => {
+        resolveContexts(artifactRequest.contextItems || []).then((context: any) => {
             if (artifactRequest.ittfDocument) {
                 if (artifactRequest.ittfDocument.source == 'fs') {
                     wizziProds.mTreeBuildUpScriptFs(path.join(config.ittfPath, artifactRequest.ittfDocument.path as string), context).then(mTreeBuildUpScript => 
@@ -319,6 +324,53 @@ export class ProductionController implements ControllerType {
     }
     ;
     
+    private wizzify = async (request: Request, response: Response) => {
+        const artifactRequest: ArtifactRequest = request.body;
+        if (artifactRequest.wizzifiable) {
+            if (artifactRequest.wizzifiable.source == 'fs') {
+                wizziProds.wizzifyFs(artifactRequest.wizzifiable.filePath).then(wizzifiedContents => 
+                    sendSuccess(response, {
+                        wizzified: wizzifiedContents
+                     })
+                ).catch((err: any) => {
+                    if (typeof err === 'object' && err !== null) {
+                    }
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.wizzify.wizziProds.wizzifyFs.error', err);
+                    sendError(response, err)
+                }
+                )
+            }
+            else if (artifactRequest.wizzifiable.source == 'packi') {
+                wizziProds.wizzify(artifactRequest.wizzifiable.packiFiles).then(wizzifiedPackiFiles => 
+                    sendSuccess(response, {
+                        wizzifiedPackiFiles: wizzifiedPackiFiles
+                     })
+                ).catch((err: any) => {
+                    if (typeof err === 'object' && err !== null) {
+                    }
+                    console.log("[31m%s[0m", 'features/wizzi/controller/productions.handler.wizzify.wizziProds.wizzify.error', err);
+                    sendError(response, err)
+                }
+                )
+            }
+            else {
+                sendError(response, {
+                    err: {
+                        message: "Invalid artifactRequest.wizzifiable.source: " + artifactRequest.wizzifiable.source
+                     }
+                 })
+            }
+        }
+        else {
+            sendError(response, {
+                err: {
+                    message: "Invalid artifactRequest. Missing `wizzifiable` parameter"
+                 }
+             })
+        }
+    }
+    ;
+    
     private mTreeScan = async (request: Request, response: Response) => {
         const artifactRequest: ArtifactRequest = request.body;
         if (artifactRequest.ittfDocument) {
@@ -375,7 +427,7 @@ export class ProductionController implements ControllerType {
         else {
             sendError(response, {
                 err: {
-                    message: "Invalid artifactRequest"
+                    message: "Invalid artifactRequest. Missing `ittfDocument` parameter"
                  }
              })
         }

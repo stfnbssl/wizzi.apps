@@ -8,6 +8,7 @@ module
         setCtxEnvValues ('PORT', 'port', 'port');
         setCtxDep ('esbuild', '^0.21.4');
         setCtxScript ('build', 'node ./build.js');
+        setCtxScript ('start', 'node ./dist/index.js');
     $
         var md = {
             isGetApp: false,

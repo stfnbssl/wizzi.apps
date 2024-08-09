@@ -1,0 +1,107 @@
+html
+    $include models/docs/site.wzctx
+    $
+        var opt = {
+            section: 'Docs',
+            title: 'Cheatsheets',
+            useHighlight: true,
+            stickyNav: 'stickyNavbar',
+            stickyNavOffset: 50,
+            stickyNavLogo: 'logo',
+        }
+        /*
+        var _schemas = [
+            'css',
+            'html',
+            'ittf',
+            'js',
+            'json',
+            'jswizzi',
+            'jsx',
+            'md',
+            'svg',
+            'text', 
+            'ts',
+            'vtt',
+            'wfschema', 
+            'wfjob',
+            'xml', 
+            'yaml', 
+        ];
+        */
+    html/layouts/docs( &opt )
+        $if false
+            pre
+                code
+                    + ${JSON.stringify(cs, null, 2)}
+        $append body-scripts-0
+            script
+                module
+                    kind es6
+                    $if csStatus > 0
+                        _ alert("${csMessage}")
+        $append head-styles-2
+            html/s( /ittf/site/docs/styles/docs.css.ittf )
+            html/s( /ittf/css/cheatsheet.css.ittf )
+        . container-90 height-100
+            . grid height-100
+                style grid-template-columns: 1.5fr 8fr 0.5fr;
+                . mc-sidebar-left scrollbar-thin height-100 overflow-auto
+                    ul
+                        $foreach e in cs.elements
+                            li
+                                a ${e.name}
+                                    href #${e.name}
+                                ul
+                                    $foreach item in e.items
+                                        li
+                                            a ${item.title}
+                                                href #${item.title}
+                . mc-content scrollbar-thin height-100 overflow-auto
+                    $foreach e in cs.elements
+                        $foreach item in e.items
+                            h3 ${item.title}
+                                class code-title
+                                id ${item.title}
+                            div
+                                $if item.expected && item.expected.length > 0
+                                    div
+                                        style display: flex;
+                                        pre
+                                            style width: 100%;
+                                            code
+                                                class ${opt.language}
+                                                + ${item.expected}
+                                $foreach f in item.fragments
+                                    h6 Fragment: ${f.name}
+                                    div
+                                        style display: flex;
+                                        pre
+                                            style width: 50%; margin-right: 5px; padding: 15px;
+                                            class code-prettyprint prettyprint source
+                                            + ${f.ittfPretty}
+                                        pre
+                                            style width: 50%; margin-left: 5px;
+                                            class code-prettyprint prettyprint source
+                                div
+                                    style display: flex;
+                                    pre
+                                        style width: 50%; margin-right: 5px; padding: 15px;
+                                        class code-prettyprint prettyprint source
+                                        + ${item.ittfPretty}
+                                    pre
+                                        style width: 50%; margin-left: 5px;
+                                        class code-prettyprint prettyprint source
+                                        code
+                                            class ${opt.language}
+                                            + ${item.generated}
+                . scrollbar-thin height-100 overflow-auto p-x
+                    $foreach item in csList
+                        div
+                            $if item.name == cs.schema
+                                class current
+                                . current
+                                    + ${item.name}
+                            $else
+                                a ${item.name}
+                                    href /wizzi/docs/cheatsheet/${item.name}

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\wizzi\sagas.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {all, fork, put, takeEvery, call} from 'redux-saga/effects';
 import {getType} from 'typesafe-actions';
@@ -10,21 +10,16 @@ import {config} from '../config';
 import * as wizziActions from './actions';
 import {packiActions} from '../packi';
 import {callApi} from '../../utils/api';
+// import { getInstance } from '../../services/EventService';
 import {packiFilterIttf} from '../file/convertFileStructure';
 //
 function* handleGenerateArtifactRequest(action: ReturnType<typeof wizziActions.generateArtifactRequest>):  any {
-
     try {
         console.log('sagas.handleGenerateArtifactRequest.action', action, __filename);
-        const res = yield call(callApi, 'post', config.API_URL, 'wizzi/production/artifact', {
-                contextItems: [
-                    
-                ], 
-                ittfDocument: {
-                    source: "packi", 
-                    mainIttf: action.payload.filePath, 
-                    packiFiles: action.payload.files
-                 }
+        const res = yield call(callApi, 'post', config.API_URL, 'production/generations/artifact/' + encodeURIComponent(action.payload.filePath), {
+                packiFiles: action.payload.files, 
+                productionKind: action.payload.productionKind, 
+                productionName: action.payload.productionName
              });
         yield put(wizziActions.generateArtifactSuccess(res));
     } 
@@ -39,18 +34,12 @@ function* handleGenerateArtifactRequest(action: ReturnType<typeof wizziActions.g
 }
 //
 function* handleMTreeBuildUpScriptRequest(action: ReturnType<typeof wizziActions.mTreeBuildUpScriptRequest>):  any {
-
     try {
         console.log('sagas.handleMTreeBuildUpScriptRequest.action', action, __filename);
-        const res = yield call(callApi, 'post', config.API_URL, 'wizzi/production/mtreescript', {
-                contextItems: [
-                    
-                ], 
-                ittfDocument: {
-                    source: "packi", 
-                    mainIttf: action.payload.filePath, 
-                    packiFiles: action.payload.files
-                 }
+        const res = yield call(callApi, 'post', config.API_URL, 'production/generations/mtreescript/' + encodeURIComponent(action.payload.filePath), {
+                packiFiles: action.payload.files, 
+                productionKind: action.payload.productionKind, 
+                productionName: action.payload.productionName
              });
         yield put(wizziActions.mTreeBuildUpScriptSuccess(res));
     } 
@@ -65,18 +54,12 @@ function* handleMTreeBuildUpScriptRequest(action: ReturnType<typeof wizziActions
 }
 //
 function* handleMTreeRequest(action: ReturnType<typeof wizziActions.mTreeRequest>):  any {
-
     try {
         console.log('sagas.handleMTreeRequest.action', action, __filename);
-        const res = yield call(callApi, 'post', config.API_URL, 'wizzi/production/mtree', {
-                contextItems: [
-                    
-                ], 
-                ittfDocument: {
-                    source: "packi", 
-                    mainIttf: action.payload.filePath, 
-                    packiFiles: action.payload.files
-                 }
+        const res = yield call(callApi, 'post', config.API_URL, 'production/generations/mtree/' + encodeURIComponent(action.payload.filePath), {
+                packiFiles: action.payload.files, 
+                productionKind: action.payload.productionKind, 
+                productionName: action.payload.productionName
              });
         yield put(wizziActions.mTreeSuccess(res));
     } 
@@ -91,7 +74,6 @@ function* handleMTreeRequest(action: ReturnType<typeof wizziActions.mTreeRequest
 }
 //
 function* handleWizzifyRequest(action: ReturnType<typeof wizziActions.wizzifyRequest>):  any {
-
     try {
         console.log('sagas.handleWizzifyRequest.action', action, __filename);
         const filesRequest = {};
@@ -122,7 +104,6 @@ function* handleWizzifyRequest(action: ReturnType<typeof wizziActions.wizzifyReq
 }
 //
 function* handleCodeASTRequest(action: ReturnType<typeof wizziActions.codeASTRequest>):  any {
-
     try {
         console.log('sagas.handleCodeASTRequest.action', action, __filename);
         const filesRequest = {};
@@ -153,7 +134,6 @@ function* handleCodeASTRequest(action: ReturnType<typeof wizziActions.codeASTReq
 }
 //
 function* handleExecuteJobRequest(action: ReturnType<typeof wizziActions.executeJobRequest>):  any {
-
     try {
         console.log('sagas.handleExecuteJobRequest.action', action, __filename);
         const res = yield call(callApi, 'post', config.API_URL, 'production/generations/job/' + encodeURIComponent(action.payload.filePath), {
@@ -178,7 +158,6 @@ function* handleExecuteJobRequest(action: ReturnType<typeof wizziActions.execute
 }
 //
 function* handleExecuteWizziMetaFolderRequest(action: ReturnType<typeof wizziActions.executeWizziMetaFolderRequest>):  any {
-
     try {
         console.log('sagas.handleExecuteWizziMetaFolderRequest.action', action, __filename);
         const pk = action.payload.productionKind.toLowerCase();
@@ -199,7 +178,6 @@ function* handleExecuteWizziMetaFolderRequest(action: ReturnType<typeof wizziAct
 }
 //
 function* handleChangeSelectedFile(action: ReturnType<typeof wizziActions.changeSelectedFile>):  any {
-
     try {
         console.log('sagas.handleChangeSelectedFile.action', action, __filename);
         yield put(wizziActions.changeSelectedFile({
@@ -218,7 +196,6 @@ function* handleChangeSelectedFile(action: ReturnType<typeof wizziActions.change
 }
 //
 function* wizziRequest() {
-
     yield takeEvery(getType(wizziActions.generateArtifactRequest), handleGenerateArtifactRequest);
     yield takeEvery(getType(wizziActions.mTreeBuildUpScriptRequest), handleMTreeBuildUpScriptRequest);
     yield takeEvery(getType(wizziActions.mTreeRequest), handleMTreeRequest);
@@ -230,7 +207,6 @@ function* wizziRequest() {
 }
 //
 function* wizziSaga() {
-
     yield all([
             fork(wizziRequest)
         ]);

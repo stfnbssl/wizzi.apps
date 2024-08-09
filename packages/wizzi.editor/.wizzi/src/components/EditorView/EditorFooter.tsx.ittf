@@ -128,13 +128,13 @@ module
             set text =
                 iif isLoading
                     then
-                        `lit 
+                        template 
                             + 
                             @ loadingItems[0].message
                             + 
                             iif loadingItems.length > 1
                                 then
-                                    `lit 
+                                    template 
                                         + &nbsp;(+
                                         @ loadingItems.length - 1
                                         + &nbsp;more)
@@ -157,7 +157,7 @@ module
                 const prefix
                     iif location
                         then
-                            `lit 
+                            template 
                                 + 
                                 @ location.fileName
                                 + &nbsp;(
@@ -180,7 +180,7 @@ module
                         else
                             iif errors.length > 1
                                 then
-                                    `lit 
+                                    template 
                                         + (+
                                         @ errors.length - 1
                                         + &nbsp;more)
@@ -231,11 +231,11 @@ module
                                     { 
                                         ?? 
                                             + text
-                                            `lit 
+                                            template 
                                                 + No errors
                                                 iif warningCount
                                                     then
-                                                        `lit 
+                                                        template 
                                                             + ,&nbsp;
                                                             @ warningCount
                                                             + &nbsp;warning
@@ -336,20 +336,20 @@ module
                     @ textAlign 'left'
                 { successText
                     @ backgroundImage
-                        `lit 
+                        template 
                             + url(
                             _ require('../../assets/checkmark.png')
                             + )
                 { errorText
                     @ backgroundImage
-                        `lit 
+                        template 
                             + url(
                             _ require('../../assets/cross-red.png')
                             + )
                     @ color c('error')
                 { errorTextFatal
                     @ backgroundImage
-                        `lit 
+                        template 
                             + url(
                             _ require('../../assets/cross-light.png')
                             + )
@@ -385,7 +385,7 @@ module
                 { buttonLabel
                     @ display 'none'
                     @[
-                        `lit 
+                        template 
                             + @media (min-width:&nbsp;
                             @ ${wzCtx.App.constants.preview.minWidth} + 20
                             + px)
@@ -411,7 +411,7 @@ module
                 { menuSeparator
                     @ margin '6px 0'
                     @ borderBottom
-                        `lit 
+                        template 
                             + 1px solid&nbsp;
                             _ c('border')
                             + 

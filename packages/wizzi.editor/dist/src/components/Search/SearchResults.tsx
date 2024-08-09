@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Search\SearchResults.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import {request, gql} from 'graphql-request';
@@ -75,7 +75,6 @@ class SearchResults extends React.Component<Props, State> {
         }
     }
     _fetchResultsNotDebounced = async (query: string, previous: Data = []) => {
-    
         this.setState({
             status: {
                 type: 'loading', 
@@ -83,9 +82,15 @@ class SearchResults extends React.Component<Props, State> {
              }
          })
         try {
-            
             // @ts-ignore
-            const results: {  search: Data; } = await request(ENDPOINT, SEARCH_PACKIES, { query: this.props.query,  offset: previous.length,  limit: PAGE_SIZE  }); 
+            
+            const results: { 
+                search: Data;
+            } = await request(ENDPOINT, SEARCH_PACKIES, {
+                    query: this.props.query, 
+                    offset: previous.length, 
+                    limit: PAGE_SIZE
+                 });
             this.setState({
                 status: {
                     type: 'success', 
@@ -114,39 +119,21 @@ class SearchResults extends React.Component<Props, State> {
          } = this.state;
         return this._fetchResultsNotDebounced(this.props.query, status.type === 'success' ? status.data : []);
     };
-    _renderRow = ({
-        data: {
-            packi
-         }, 
-        style, 
-        key
-     }: { 
-        data: { 
-            packi: Packi;
-        };
-        style: object;
-        key: string;
-    }) => 
+    _renderRow = (data: {
+        packi
+     } = @style
+    ) => 
          (
-        <div
-         key={key} style={style}>
-            <a
-             target="_blank" href={`/${packi.slug}`} className={css(styles.item)}>
-                <img
-                 className={css(styles.icon)} src={this.props.theme === 'dark' ? require('../../assets/packi-icon-dark.svg') : require('../../assets/packi-icon-color.svg')} />
-                <div
-                 className={css(styles.content)}>
-                    <h4
-                     className={css(styles.title)}>
-                        {packi.name}
-                    </h4>
-                    <p
-                     className={css(styles.description)}>
-                        {packi.description}
-                    </p>
+        <div key={key} style={style}>
+            <a target="_blank" href={`/${packi.slug}`} className={css(styles.item)}>
+                <img className={css(styles.icon)} src={this.props.theme === 'dark' ? require('../../assets/packi-icon-dark.svg') : require('../../assets/packi-icon-color.svg')} />
+                <div className={css(styles.content)}>
+                    <h4 className={css(styles.title)}>
+                        {packi.name}</h4>
+                    <p className={css(styles.description)}>
+                        {packi.description}</p>
                 </div>
-            </a>
-        </div>
+            </a></div>
         )
     ;
     render() {
@@ -155,61 +142,49 @@ class SearchResults extends React.Component<Props, State> {
          } = this.state;
         if (!this.props.query) {
             return  (
-                <SearchPlaceholder
-                 label="Results will appear here." />
+                <SearchPlaceholder label="Results will appear here." />
                 )
             ;
         }
         if (status.type === 'failure') {
             return  (
-                <SearchPlaceholder
-                 label="An error ocurred. Try again after some time." />
+                <SearchPlaceholder label="An error ocurred. Try again after some time." />
                 )
             ;
         }
         if (status.type === 'loading' && !status.data?.length) {
             return  (
-                <div
-                 className={css(styles.loadingContainer)}>
-                    <ProgressIndicator
-                     />
-                    <SearchPlaceholder
-                     label="Searching…" />
+                <div className={css(styles.loadingContainer)}>
+                    <ProgressIndicator />
+                    <SearchPlaceholder label="Searching…" />
                 </div>
                 )
             ;
         }
         if (status.type === 'success' && !status.data?.length) {
             return  (
-                <SearchPlaceholder
-                 label="No results found." />
+                <SearchPlaceholder label="No results found." />
                 )
             ;
         }
         return  (
-            <div
-             className={css(status.type === 'loading' ? styles.loadingContainer : styles.container)}>
+            <div className={css(status.type === 'loading' ? styles.loadingContainer : styles.container)}>
                 {
                     status.type === 'loading' ?  (
-                        <ProgressIndicator
-                         />
+                        <ProgressIndicator />
                         )
                      : null
                 }
-                <AutoSizer
-                >
+                <AutoSizer>
                     {
                         ({
                             height, 
                             width
                          }) => 
-                        
                              (
-                            <InfiniteLoader
-                             isRowLoaded={({
+                            <InfiniteLoader isRowLoaded={({
                                     index
                                  }) => 
-                                
                                     index < status.data.length
                             } loadMoreRows={this._fetchMore} rowCount={status.data.length + 1}>
                                 {
@@ -217,10 +192,8 @@ class SearchResults extends React.Component<Props, State> {
                                         onRowsRendered, 
                                         registerChild
                                      }) => 
-                                    
                                          (
-                                        <List 
-                                            ref={registerChild}
+                                        <List ref={registerChild}
                                             onRowsRendered={onRowsRendered}
                                             height={height}
                                             width={width}
@@ -231,7 +204,6 @@ class SearchResults extends React.Component<Props, State> {
                                                     style, 
                                                     key
                                                  }) => 
-                                                
                                                     this._renderRow({
                                                         data: status.data[index], 
                                                         style, 

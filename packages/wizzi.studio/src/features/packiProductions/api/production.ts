@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\production.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import {packiTypes} from '../../packi';
 import {wizziProds} from '../../wizzi';
@@ -21,10 +21,8 @@ const packiConfigPath = '.packi/config.json.ittf';
 
 // TODO
 function transformProductionObject(packiProduction: productionTypes.PackiProduction, productionObject: any) {
-
     productionObject.packiProduction = packiProduction;
     productionObject.packiConfig = productionObject.packiFiles[packiConfigPath];
-    
     // TODO set a default packiConfig based on packiProduction
     if (!productionObject.packiConfig) {
     }
@@ -32,7 +30,6 @@ function transformProductionObject(packiProduction: productionTypes.PackiProduct
 }
 
 function mergePackiFiles(a: any, b: any) {
-
     var ret: any = {};
     for (var k in a) {
         ret[k] = a[k];
@@ -44,12 +41,9 @@ function mergePackiFiles(a: any, b: any) {
 }
 
 export async function getProductionById(packiProduction: productionTypes.PackiProduction, id: string) {
-
     return new Promise((resolve, reject) => {
-        
             if (packiProduction == 'artifact') {
                 artifactApi.getArtifactProductionById(id).then((result: any) => {
-                
                     if (result.ok) {
                         resolve(result.item)
                     }
@@ -58,7 +52,6 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
                     }
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionById.getArtifactProductionById.error', err);
@@ -68,7 +61,6 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
             }
             else if (packiProduction == 'package') {
                 packageApi.getPackageProductionById(id).then((result: any) => {
-                
                     if (result.ok) {
                         resolve(result.item)
                     }
@@ -77,7 +69,6 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
                     }
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionById.getPackageProductionById.error', err);
@@ -87,7 +78,6 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
             }
             else if (packiProduction == 'meta') {
                 metaApi.getMetaProductionById(id).then((result: any) => {
-                
                     if (result.ok) {
                         resolve(result.item)
                     }
@@ -96,7 +86,6 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
                     }
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionById.getMetaProductionById.error', err);
@@ -106,7 +95,6 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
             }
             else if (packiProduction == 'plugin') {
                 pluginApi.getPluginProductionById(id).then((result: any) => {
-                
                     if (result.ok) {
                         resolve(result.item)
                     }
@@ -115,7 +103,6 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
                     }
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionById.getPluginProductionById.error', err);
@@ -125,7 +112,6 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
             }
             else if (packiProduction == 'tfolder') {
                 tFolderApi.getTFolderById(id).then((result: any) => {
-                
                     if (result.ok) {
                         resolve(result.item)
                     }
@@ -134,7 +120,6 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
                     }
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionById.getTFolderProductionById.error', err);
@@ -150,15 +135,11 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
 }
 
 export async function getProductionObject(packiProduction: productionTypes.PackiProduction, owner: string, name: string) {
-
     return new Promise((resolve, reject) => {
-        
             if (packiProduction == 'artifact') {
                 artifactApi.getArtifactProductionObject(owner, name).then((productionObject: any) => 
-                
                     resolve(transformProductionObject(packiProduction, productionObject))
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionObject.getArtifactProductionObject.error', err);
@@ -168,10 +149,8 @@ export async function getProductionObject(packiProduction: productionTypes.Packi
             }
             else if (packiProduction == 'package') {
                 packageApi.getPackageProductionObject(owner, name).then((productionObject: any) => 
-                
                     resolve(transformProductionObject(packiProduction, productionObject))
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionObject.getPackageProductionObject.error', err);
@@ -181,10 +160,8 @@ export async function getProductionObject(packiProduction: productionTypes.Packi
             }
             else if (packiProduction == 'meta') {
                 metaApi.getMetaProductionObject(owner, name).then((productionObject: any) => 
-                
                     resolve(transformProductionObject(packiProduction, productionObject))
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionObject.getMetaProductionObject.error', err);
@@ -194,10 +171,8 @@ export async function getProductionObject(packiProduction: productionTypes.Packi
             }
             else if (packiProduction == 'plugin') {
                 pluginApi.getPluginProductionObject(owner, name).then((productionObject: any) => 
-                
                     resolve(transformProductionObject(packiProduction, productionObject))
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionObject.getPluginProductionObject.error', err);
@@ -207,10 +182,8 @@ export async function getProductionObject(packiProduction: productionTypes.Packi
             }
             else if (packiProduction == 'tfolder') {
                 tFolderApi.getTFolderObject(owner, name).then((productionObject: any) => 
-                
                     resolve(transformProductionObject(packiProduction, productionObject))
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionObject.getTFolderObject.error', err);
@@ -225,17 +198,16 @@ export async function getProductionObject(packiProduction: productionTypes.Packi
         );
 }
 
-export async function prepareProductionById(packiProduction: productionTypes.PackiProduction, id: string, queryContext: string, rootContext: any) {
-
+export async function prepareProductionById(
+    packiProduction: productionTypes.PackiProduction, 
+    id: string, 
+    queryContext: string, 
+    rootContext: any) {
     return new Promise((resolve, reject) => 
-        
             getProductionById(packiProduction, id).then((productionItem: any) => 
-            
                 prepareProduction(packiProduction, productionItem.owner, productionItem.name, queryContext, rootContext).then((result: any) => 
-                
                     resolve(result)
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProductionById.prepareProduction.error', err);
@@ -244,7 +216,6 @@ export async function prepareProductionById(packiProduction: productionTypes.Pac
                 )
             
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProductionById.getProductionById.error', err);
@@ -263,29 +234,27 @@ export /**
     // Called by features.production.api.meta.getTemplatePackiFiles
     // Called by handlers of features.production.controllers.apiv1generations
 */
-async function prepareProduction(packiProduction: productionTypes.PackiProduction, owner: string, productionName: string, queryContext: string, rootContext: any) {
-
+async function prepareProduction(
+    packiProduction: productionTypes.PackiProduction, 
+    owner: string, 
+    productionName: string, 
+    queryContext: string, 
+    rootContext: any) {
     console.log(myname + 'prepareProduction entered', owner, productionName, __filename);
     return new Promise((resolve, reject) => 
-        
             getDefaultContext_withCache(owner, productionName, rootContext).then((defaultContext: any) => {
-            
                 console.log(myname + 'prepareProduction.getDefaultContext_withCache completed', Object.keys(defaultContext), __filename);
                 getProductionObject(packiProduction, owner, productionName).then((productionObject: any) => {
-                
                     if (productionObject.packiConfig) {
                         getProductionSetFromProductionObject(owner, productionName, productionObject.packiConfig, productionObject.packiFiles, defaultContext).then((productionSet: any) => {
-                        
                             productionObject.packiFiles = productionSet.packiFiles;
                             productionObject.context = productionSet.context;
                             getProductionSetByQueryContext(owner, productionName, queryContext, productionObject.packiFiles, productionObject.context).then((queryProductionSet: any) => {
-                            
                                 productionObject.packiFiles = queryProductionSet.packiFiles;
                                 productionObject.context = queryProductionSet.context;
                                 resolve(productionObject)
                             }
                             ).catch((err: any) => {
-                            
                                 if (typeof err === 'object' && err !== null) {
                                 }
                                 console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProduction.getContextByQueryContext.error', err);
@@ -294,7 +263,6 @@ async function prepareProduction(packiProduction: productionTypes.PackiProductio
                             )
                         }
                         ).catch((err: any) => {
-                        
                             if (typeof err === 'object' && err !== null) {
                             }
                             console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProduction.getContextByProductionObject.error', err);
@@ -304,13 +272,11 @@ async function prepareProduction(packiProduction: productionTypes.PackiProductio
                     }
                     else {
                         getProductionSetByQueryContext(owner, productionName, queryContext, productionObject.packiFiles, defaultContext).then((queryProductionSet: any) => {
-                        
                             productionObject.packiFiles = queryProductionSet.packiFiles;
                             productionObject.context = queryProductionSet.context;
                             resolve(productionObject)
                         }
                         ).catch((err: any) => {
-                        
                             if (typeof err === 'object' && err !== null) {
                             }
                             console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProduction.getContextByQueryContext.error', err);
@@ -320,7 +286,6 @@ async function prepareProduction(packiProduction: productionTypes.PackiProductio
                     }
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProduction.getProductionObject.error', err);
@@ -329,7 +294,6 @@ async function prepareProduction(packiProduction: productionTypes.PackiProductio
                 )
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProduction.getDefaultContext_withCache.error', err);
@@ -341,15 +305,11 @@ async function prepareProduction(packiProduction: productionTypes.PackiProductio
 }
 
 async function getDefaultContext_withCache(owner: string, productionName: string, progressiveContext?: any) {
-
     progressiveContext = progressiveContext || {};
     return new Promise((resolve, reject) => 
-        
             getArtifactContextItem(owner, 'wzCtx;wzctx', progressiveContext).then((resultItemContext: any) => 
-            
                 resolve(Object.assign({}, progressiveContext, resultItemContext))
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'getDefaultContext_withCache.getArtifactContextItem.error', err);
@@ -366,10 +326,8 @@ async function getDefaultContext_withCache(owner: string, productionName: string
     // context property 'wzCtx' will contain json document 'wzctx.json'
 */
 async function getArtifactContextItem(owner: string, queryContextString: string, progressiveContext?: any) {
-
     progressiveContext = progressiveContext || {};
     return new Promise((resolve, reject) => {
-        
             if (queryContextString && queryContextString.length > 0) {
                 const parts = queryContextString.split(';');
                 const contextPropertyName = parts[0];
@@ -377,12 +335,10 @@ async function getArtifactContextItem(owner: string, queryContextString: string,
                 const transformationName = parts.length > 2 ? parts[2] : null;
                 if (transformationName) {
                     getArtifactTransformation(owner, artifactName, progressiveContext, transformationName).then((result: any) => 
-                    
                         resolve(Object.assign({}, progressiveContext, {
                             [contextPropertyName]: result.transformResult
                          }))
                     ).catch((err: any) => {
-                    
                         if (typeof err === 'object' && err !== null) {
                         }
                         console.log("[31m%s[0m", 'getArtifactContextItem.getArtifactTransformation.error', err);
@@ -393,14 +349,12 @@ async function getArtifactContextItem(owner: string, queryContextString: string,
                 else {
                     console.log('features.packiProductions.production.ctx_get.try.getArtifactGeneration', 'owner', owner, 'artifactName', artifactName, __filename);
                     getArtifactGeneration(owner, artifactName, progressiveContext).then((result: any) => {
-                    
                         const contextObject = JSON.parse(result.content);
                         resolve(Object.assign({}, progressiveContext, {
                             [contextPropertyName]: contextObject
                          }))
                     }
                     ).catch((err: any) => {
-                    
                         if (typeof err === 'object' && err !== null) {
                         }
                         console.log("[31m%s[0m", 'getArtifactContextItem.getArtifactGeneration.error', err);
@@ -421,8 +375,12 @@ async function getArtifactContextItem(owner: string, queryContextString: string,
     // Called by production.api.production.prepareProduction
     // increments progressivePackiFiles and progressiveContext
 */
-async function getProductionSetFromProductionObject(owner: string, productionName: string, packiConfig: any, progressivePackiFiles: packiTypes.PackiFiles, progressiveContext: any) {
-
+async function getProductionSetFromProductionObject(
+    owner: string, 
+    productionName: string, 
+    packiConfig: any, 
+    progressivePackiFiles: packiTypes.PackiFiles, 
+    progressiveContext: any) {
     
     
     progressiveContext = Object.assign({}, progressiveContext, {
@@ -430,7 +388,6 @@ async function getProductionSetFromProductionObject(owner: string, productionNam
      })
     ;
     return new Promise((resolve, reject) => {
-        
             
             if (packiConfig) {
                 wizziProds.generateArtifact(packiConfigPath, {
@@ -439,21 +396,17 @@ async function getProductionSetFromProductionObject(owner: string, productionNam
                         contents: packiConfig.contents
                      }
                  }, progressiveContext).then((generationResult: any) => {
-                
                     const packiConfigObj = JSON.parse(generationResult.artifactContent);
                     getTFoldersPackiFilesFromProductionData(owner, packiConfigObj).then((tFoldersPackiFiles: packiTypes.PackiFiles) => {
-                    
                         progressivePackiFiles = mergePackiFiles(progressivePackiFiles, tFoldersPackiFiles)
                         ;
                         addContextPropertiesFromProductionData(owner, packiConfigObj, progressiveContext).then((resultProductionContext) => {
-                        
                             return resolve({
                                     packiFiles: progressivePackiFiles, 
                                     context: resultProductionContext
                                  });
                         }
                         ).catch((err: any) => {
-                        
                             if (typeof err === 'object' && err !== null) {
                             }
                             console.log("[31m%s[0m", 'getArtifactGeneration.addContextPropertiesFromProductionData.error', err);
@@ -462,7 +415,6 @@ async function getProductionSetFromProductionObject(owner: string, productionNam
                         )
                     }
                     ).catch((err: any) => {
-                    
                         if (typeof err === 'object' && err !== null) {
                         }
                         console.log("[31m%s[0m", 'getArtifactGeneration.getTFoldersPackiFilesFromProductionData.error', err);
@@ -471,7 +423,6 @@ async function getProductionSetFromProductionObject(owner: string, productionNam
                     )
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'getArtifactGeneration.generateArtifact.error', err);
@@ -490,10 +441,8 @@ async function getProductionSetFromProductionObject(owner: string, productionNam
 }
 
 export async function getTFoldersPackiFilesFromProductionData(owner: string, packiConfigObj: any):  Promise<packiTypes.PackiFiles> {
-
     
     return new Promise((resolve, reject) => {
-        
             
             var tFoldersPackiFiles: packiTypes.PackiFiles = {};
             const hasTFolders = packiConfigObj && packiConfigObj.tfolders && packiConfigObj.tfolders.length > 0;
@@ -503,7 +452,6 @@ export async function getTFoldersPackiFilesFromProductionData(owner: string, pac
             
             var j = 0;
             (function next() {
-            
                 var tfolder = packiConfigObj.tfolders[j++];
                 if (!tfolder) {
                     return resolve(tFoldersPackiFiles);
@@ -512,7 +460,6 @@ export async function getTFoldersPackiFilesFromProductionData(owner: string, pac
                     return next();
                 }
                 tFolderApi.getTFolder(owner, tfolder.name).then((result: CRUDResult) => {
-                
                     const tf: productionTypes.ITFolderModel = result.item;
                     const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
                     tFoldersPackiFiles = mergePackiFiles(tFoldersPackiFiles, tf_packiFiles_object)
@@ -520,7 +467,6 @@ export async function getTFoldersPackiFilesFromProductionData(owner: string, pac
                     next();
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'getTFoldersPackiFilesFromProductionData.getTFolder.error', err);
@@ -533,17 +479,14 @@ export async function getTFoldersPackiFilesFromProductionData(owner: string, pac
 }
 
 async function addContextPropertiesFromProductionData(owner: string, packiConfigObj: any, progressiveContext: any):  Promise<any> {
-
     
     return new Promise((resolve, reject) => {
-        
             
             if (!!(packiConfigObj && packiConfigObj.contexts && packiConfigObj.contexts.length > 0) == false) {
                 return resolve(progressiveContext);
             }
             var j = 0;
             (function next() {
-            
                 var contextConfig = packiConfigObj.contexts[j++];
                 if (!contextConfig) {
                     return resolve(progressiveContext);
@@ -552,13 +495,11 @@ async function addContextPropertiesFromProductionData(owner: string, packiConfig
                     return next();
                 }
                 getArtifactContextItem(owner, contextConfig.propertyName + ';' + contextConfig.artifactName + (contextConfig.transformationName ? ';' + contextConfig.transformationName : ''), progressiveContext).then((resultContextItem: any) => {
-                
                     progressiveContext = Object.assign({}, progressiveContext, resultContextItem)
                     ;
                     next();
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'addContextPropertiesFromProductionData.getArtifactContextItem.error', err);
@@ -580,20 +521,22 @@ async function addContextPropertiesFromProductionData(owner: string, packiConfig
     // context property 'db' will contain json document 'item.db.json'
     // fragments from tFolders html, css and js will be added to production packiFiles
 */
-async function getProductionSetByQueryContext(owner: string, productionName: string, queryContextString: string, progressivePackiFiles: packiTypes.PackiFiles, progressiveContext: any) {
-
+async function getProductionSetByQueryContext(
+    owner: string, 
+    productionName: string, 
+    queryContextString: string, 
+    progressivePackiFiles: packiTypes.PackiFiles, 
+    progressiveContext: any) {
     
     progressiveContext = Object.assign({}, progressiveContext, {
         ctxByQueryContext: "Hello by QueryContext"
      })
     ;
     return new Promise((resolve, reject) => {
-        
             if (queryContextString && queryContextString.length > 0) {
                 const queryContextItems = queryContextString.split('|');
                 var j = 0;
                 (function next() {
-                
                     var queryContextItem = queryContextItems[j++];
                     if (!queryContextItem) {
                         return resolve({
@@ -602,13 +545,11 @@ async function getProductionSetByQueryContext(owner: string, productionName: str
                              });
                     }
                     getArtifactContextItem(owner, queryContextItem, progressiveContext).then((resultItemContext: any) => {
-                    
                         progressiveContext = Object.assign({}, progressiveContext, resultItemContext)
                         ;
                         next();
                     }
                     ).catch((err: any) => {
-                    
                         if (typeof err === 'object' && err !== null) {
                         }
                         console.log("[31m%s[0m", 'getProductionSetByQueryContext.getArtifactContextItem.error', err);
@@ -627,10 +568,12 @@ async function getProductionSetByQueryContext(owner: string, productionName: str
         );
 }
 
-export async function getCliCtxFromPackiConfig(owner: string, packiConfigObj: any, packiFiles: packiTypes.PackiFiles, progressiveContext: any) {
-
+export async function getCliCtxFromPackiConfig(
+    owner: string, 
+    packiConfigObj: any, 
+    packiFiles: packiTypes.PackiFiles, 
+    progressiveContext: any) {
     return new Promise((resolve, reject) => {
-        
             if (!packiConfigObj.meta || !packiConfigObj.meta.metaCtx) {
                 return resolve({});
             }
@@ -644,10 +587,8 @@ export async function getCliCtxFromPackiConfig(owner: string, packiConfigObj: an
             else if (kind == "artifact") {
                 artifact = packiConfigObj.meta.metaCtx.artifact;
                 artifactApi.getArtifactGeneration_withPrepare(owner, packiConfigObj.meta.metaCtx.artifact.name, null, progressiveContext, "").then((generationResult: any) => 
-                
                     resolve(JSON.parse(generationResult.content))
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'api.production.getCliCtxFromPackiConfig.getArtifactGeneration_withPrepare.error', err);
@@ -663,14 +604,10 @@ export async function getCliCtxFromPackiConfig(owner: string, packiConfigObj: an
 }
 
 export async function getCliCtxFromPackiFile(filePath: string, packiFiles: packiTypes.PackiFiles, progressiveContext: any) {
-
     return new Promise((resolve, reject) => 
-        
             wizziProds.generateArtifact(filePath, packiFiles, progressiveContext).then((generationResult: any) => 
-            
                 resolve(JSON.parse(generationResult.artifactContent))
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'api.production.getCliCtxFromPackiFile.generateArtifact.error', err);

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\apiv1meta.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -20,9 +20,7 @@ import {artifactApi, productionApi} from '../../packiProductions';
 const myname = 'features/production/controllers/apiv1metaproduction';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -66,13 +64,11 @@ export class ApiV1MetaProductionController implements ControllerType {
     };
     
     private getMetaProductions = async (request: Request, response: Response) => 
-    
         getMetaProductionList({
             query: {
                 owner: request.params.owner
              }
          }).then((result: any) => {
-        
             if (result.ok) {
                 sendSuccess(response, result)
             }
@@ -84,7 +80,6 @@ export class ApiV1MetaProductionController implements ControllerType {
             }
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getMetaProductions.error', err);
@@ -97,16 +92,12 @@ export class ApiV1MetaProductionController implements ControllerType {
     ;
     
     private getMetaProperties = async (request: Request, response: Response) => 
-    
         productionApi.prepareProductionById('meta', request.params.id, '', {}).then((metaProductionSet: any) => 
-        
             wizziProds.generateArtifact('properties/index.json.ittf', metaProductionSet.packiFiles, metaProductionSet.context).then(value => 
-            
                 sendSuccess(response, {
                     meta: JSON.parse(value.artifactContent)
                  })
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.packi.controllers.production.generateArtifact.error', err);
@@ -117,7 +108,6 @@ export class ApiV1MetaProductionController implements ControllerType {
             )
         
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getMetaProperties.prepareProductionById.error', err);
@@ -130,12 +120,9 @@ export class ApiV1MetaProductionController implements ControllerType {
     ;
     
     private getCheckMetaName = async (request: Request, response: Response) => 
-    
         validateMetaProduction(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {
@@ -147,12 +134,9 @@ export class ApiV1MetaProductionController implements ControllerType {
     ;
     
     private getMetaProduction = async (request: Request, response: Response) => 
-    
         getMetaProduction(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getMetaProduction.error', err);
@@ -165,12 +149,9 @@ export class ApiV1MetaProductionController implements ControllerType {
     ;
     
     private postMetaProduction = async (request: Request, response: Response) => 
-    
         createMetaProduction(request.params.owner, request.params.name, request.body.description, JSON.stringify(request.body.packiFiles)).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'postMetaProduction.error', err);
@@ -183,12 +164,9 @@ export class ApiV1MetaProductionController implements ControllerType {
     ;
     
     private putMetaProduction = async (request: Request, response: Response) => 
-    
         updateMetaProduction(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(request.body.packiFiles)).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putMetaProduction.error', err);
@@ -201,20 +179,17 @@ export class ApiV1MetaProductionController implements ControllerType {
     ;
     
     private putMetaProductionPackiDiffs = async (request: Request, response: Response) => {
-    
         console.log('putMetaProductionPackiDiffs.request.params', request.params, __filename);
         console.log('putMetaProductionPackiDiffs.request.body.options', Object.keys(request.body.options), __filename);
         console.log('putMetaProductionPackiDiffs.request.body.packiDiffs', Object.keys(request.body.packiDiffs), __filename);
         const options = request.body.options || {};
         getMetaProductionObjectById(request.params.id).then((prevMeta: any) => {
-        
             console.log('putMetaProductionPackiDiffs.prevPackiFiles', Object.keys(prevMeta.packiFiles), __filename);
             const pm = new PackiBuilder(prevMeta.packiFiles);
             pm.applyPatch_ChangesOnly(request.body.packiDiffs)
             return exec_updateMetaProduction(request, response, pm.packiFiles);
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putMetaProductionPackiDiffs.getMetaProductionObjectById.error', err);
@@ -227,12 +202,9 @@ export class ApiV1MetaProductionController implements ControllerType {
     ;
     
     private generateMetaProductionByName = async (request: Request, response: Response) => 
-    
         generateMetaProduction(request.params.owner, request.params.name, request.body.metaCtx).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'generateMetaProductionByName.error', err);
@@ -245,14 +217,11 @@ export class ApiV1MetaProductionController implements ControllerType {
     ;
 }
 function exec_updateMetaProduction(request: any, response: any, packiFiles: any) {
-
     updateMetaProduction(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then((result: any) => {
-    
         invalidateCache(request.params.id)
         sendSuccess(response, result)
     }
     ).catch((err: any) => {
-    
         if (typeof err === 'object' && err !== null) {
         }
         console.log("[31m%s[0m", 'exec_updateMetaProduction.updateMetaProduction.error', err);

@@ -59,7 +59,7 @@ $group
                         {
                             @ 'Content-Type' mimeType
                     _ response.write(contents, 'utf-8')
-                catch error
+                catch error:any
                     _ response.writeHead
                         @ 500
                         {

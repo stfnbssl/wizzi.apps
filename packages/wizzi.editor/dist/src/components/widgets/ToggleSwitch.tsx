@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\ToggleSwitch.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import classnames from 'classnames';
@@ -15,28 +15,20 @@ export type ToggleSwitchProps = {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     className?: string;
 };
+;
 
 export function ToggleSwitch(props: ToggleSwitchProps) {
-
     return  (
-        <label
-         className={classnames(css(styles.container), props.className)}>
-            <span
-             className={css(styles.label)}>
-                {props.label}
-            </span>
-            <span
-             className={css(styles.switch, props.checked ? styles.active : styles.inactive)} />
-            <input 
-                type="checkbox"
+        <label className={classnames(css(styles.container), props.className)}>
+            <span className={css(styles.label)}>{props.label}</span><span className={css(styles.switch, props.checked ? styles.active : styles.inactive)} /><input type="checkbox"
                 checked={props.checked}
                 onChange={props.onChange}
                 className={css(styles.check)}
-             />
-        </label>
+             /></label>
         )
     ;
 }
+
 
 const styles = StyleSheet.create({
     container: {

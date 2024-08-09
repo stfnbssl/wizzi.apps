@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziTable\mongo\wizziTable.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 const myname = 'src/features/wizziTable/mongo/wizziTable';
 import {Schema, Model, model} from "mongoose";
@@ -19,16 +19,15 @@ const WizziTableSchema: Schema<IWizziTableModel> = new Schema({
  });
 
 
+// mongoose models creation is centralized
+// the mongodb service calls buildModel() when starting, after connection has been established
+// controllers call GetWizziTableModel() when initialized, after buildModel() has benn called
 export type WizziTableModelType = Model<IWizziTableModel>;
-    // mongoose models creation is centralized
-    // the mongodb service calls buildModel() when starting, after connection has been established
-    // controllers call GetWizziTableModel() when initialized, after buildModel() has benn called
-    
+;
 
 let WizziTableModel: WizziTableModelType;
 
 export function GetWizziTableModel():  WizziTableModelType {
-
     if (!WizziTableModel) {
         WizziTableModel = model<IWizziTableModel>("WizziTable")
         ;
@@ -38,12 +37,10 @@ export function GetWizziTableModel():  WizziTableModelType {
 
 export const WizziTableModelBuilder: ModelBuilderType = {
     buildModel: (options?: any) => 
-    
         WizziTableModel = model<IWizziTableModel>("WizziTable", WizziTableSchema)
     
     , 
     applyExtraSetup: (options?: any) => {
-    
     }
     
  };

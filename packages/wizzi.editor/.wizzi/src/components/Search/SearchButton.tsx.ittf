@@ -130,7 +130,7 @@ module
                     @ borderColor c('border')
                     @ backgroundColor 'transparent'
                     @ backgroundImage
-                        `lit 
+                        template 
                             + url(
                             _ require('../../assets/search.svg')
                             + )

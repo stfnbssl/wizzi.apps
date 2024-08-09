@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\mongo\tfolder.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import {Schema, Model, model} from "mongoose";
 import {ModelBuilderType} from "../../app/types";
@@ -24,16 +24,15 @@ TFolderSchema.index({
     unique: true
  })
 
+// mongoose models creation is centralized
+// the mongodb service calls buildModel() when starting, after connection has been established
+// controllers call GetTFolderModel() when initialized, after buildModel() has benn called
 export type TFolderModelType = Model<ITFolderModel>;
-    // mongoose models creation is centralized
-    // the mongodb service calls buildModel() when starting, after connection has been established
-    // controllers call GetTFolderModel() when initialized, after buildModel() has benn called
-    
+;
 
 let TFolderModel: TFolderModelType;
 
 export function GetTFolderModel():  TFolderModelType {
-
     if (!TFolderModel) {
         TFolderModel = model<ITFolderModel>("TFolder")
         ;
@@ -43,12 +42,10 @@ export function GetTFolderModel():  TFolderModelType {
 
 export const TFolderModelBuilder: ModelBuilderType = {
     buildModel: (options?: any) => 
-    
         TFolderModel = model<ITFolderModel>("TFolder", TFolderSchema)
     
     , 
     applyExtraSetup: (options?: any) => {
-    
     }
     
  };

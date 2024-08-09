@@ -78,6 +78,8 @@ module
         param selectedMetaPlugins
             :[
                 :ref StringKeyedObject
+        param appState
+            :ref AppState
         let [allIndexParameters, setAllIndexParameters] = useState<{[productionName: string]: ParameterItem[];}|null>(null)
         let [metaCtx, setMetaCtx] = useState<StringKeyedObject>({})
         let [error, setError] = useState(null)
@@ -114,8 +116,9 @@ module
                             info '${myDisplayName}.startMetaPluginsExecution.allParameters', allParameters
                             _ setAllIndexParameters
                                 @ allParameters.indexParameters
+                            info '${myDisplayName}.startMetaPluginsExecution.appState.currentJob?.__metaCtx?.json', appState.currentJob?.__metaCtx?.json
                             _ setMetaCtx
-                                @ allParameters.indexInitialValues
+                                @ appState.currentJob?.__metaCtx?.json || allParameters.indexInitialValues
                         catch( startMetaPluginsExecution.doFetch )
                             _ setError
                                 @ error
@@ -234,6 +237,7 @@ module
                     _ startMetaPluginsExecution
                         @ prodSel.getSelected()
                         @ pluginSel.getSelected()
+                        @ appState
             if metaParametersError
                 return
                     < ErrorView

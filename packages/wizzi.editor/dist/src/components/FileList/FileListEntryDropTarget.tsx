@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListEntryDropTarget.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import * as React from 'react';
 import {FileSystemEntry, getUniquePath, dragEventIncludes} from '../../features/file';
@@ -73,7 +73,6 @@ class FileListEntryDropTarget extends React.PureComponent<Props> {
             return ;
         }
         this._dragTimer = setTimeout(() => {
-        
             if (this.props.entry && !this.props.entry.state.isExpanded && this.props.onExpand) {
                 this.props.onExpand(this.props.entry.item.path);
             }
@@ -97,7 +96,6 @@ class FileListEntryDropTarget extends React.PureComponent<Props> {
             }
             const name = entry.item.path.split('/').pop();
             this.props.onRename(entry.item.path, getUniquePath(this.props.rest.map(e => 
-            
                 e.item.path
             ), this.props.entry ? this.props.entry.item.path + '/' + name : name))
         } 
@@ -106,7 +104,6 @@ class FileListEntryDropTarget extends React.PureComponent<Props> {
     };
     _container = React.createRef<HTMLDivElement>();
     render() {
-        
         // eslint-disable-next-line no-unused-vars
         const {
             entry, 
@@ -117,8 +114,7 @@ class FileListEntryDropTarget extends React.PureComponent<Props> {
             ...restProps
          } = this.props;
         return  (
-            <div
-             {...restProps} ref={this._container} />
+            <div {...restProps} ref={this._container} />
             )
         ;
     }

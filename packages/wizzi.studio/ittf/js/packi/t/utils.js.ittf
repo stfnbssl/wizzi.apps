@@ -14,7 +14,7 @@ $group
                 param folderPath
                 return
                     _ path.startsWith
-                        `lit
+                        
                             +
                             @ folderPath
                             + /
@@ -64,7 +64,7 @@ $group
                                 set p.toLowerCase() === path.toLowerCase()
                     const suffix
                         _
-                            `lit
+                            
                                 +
                                 @ initialSuffix ?? ''
                                 + &nbsp;
@@ -73,7 +73,7 @@ $group
                             ._ trim
                     if ext
                         set path =
-                            `lit
+                            
                                 +
                                 @ initialPath
                                 + &nbsp;
@@ -83,7 +83,6 @@ $group
                                 +
                     else
                         set path =
-                            `lit
                                 +
                                 @ initialPath
                                 + &nbsp;

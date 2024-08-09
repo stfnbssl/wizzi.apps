@@ -1,6 +1,12 @@
 module
     $
         var moduleName = 'features.packiProductions.api.production';
+
+    #
+        # This api put toghether hub productions for executing wizzi productions.
+        # Hub productions contain files and folder with ittf documents
+        # and a .packi/config.json.ittf file that declares context objects and
+        # tfolder usages.
     import
         @ packiTypes
         from '#/src/features/packi'

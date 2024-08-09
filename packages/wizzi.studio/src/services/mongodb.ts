@@ -1,15 +1,14 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\services\mongodb.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import {ModelBuilderType} from '../features/app';
 import {ConfigType} from '../features/config';
 import mongoose from 'mongoose';
 
 export function mongodbStart(config: ConfigType, modelBuilders: ModelBuilderType[]) {
-
     
     let connectUrl: string;
     const { mongoHost, mongoUser, mongoPassword, mongoPath } = config;
@@ -20,19 +19,16 @@ export function mongodbStart(config: ConfigType, modelBuilders: ModelBuilderType
     else {
         connectUrl = `${mongoPath}`;
     }
+    // TODO (VIA) set mongoose.Promise = global.Promise
     
-        // TODO (VIA) set mongoose.Promise = global.Promise
     return mongoose.connect(connectUrl).then(() => {
-        
             console.log("[32m%s[0m", 'Mongodb. Connected to', mongoPath);
             modelBuilders.forEach(builder => 
-            
                 builder.buildModel()
             )
             return 'Connected';
         }
         , (err) => {
-        
             throw new Error('\n\nMongodb. \nCannot connect to \n"' + connectUrl + '". \n\n' + err.message + '\n\n');
         }
         )
@@ -40,6 +36,5 @@ export function mongodbStart(config: ConfigType, modelBuilders: ModelBuilderType
 }
 
 export const close = () => 
-
     mongoose.connection.close()
 ;

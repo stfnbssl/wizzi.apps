@@ -1,0 +1,18 @@
+$group
+    $params &md
+    
+    useTypescript true
+    { typescript
+        useBabelLoader true
+        useTsxFiles false
+
+    $if md.isHeroku
+        usePrettier true
+        { prettier
+        usePrismjs false
+        { prismjs
+            [ modes
+        useLint true
+        { lint
+
+

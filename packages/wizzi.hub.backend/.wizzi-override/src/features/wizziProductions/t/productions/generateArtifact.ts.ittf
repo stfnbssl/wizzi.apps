@@ -30,7 +30,7 @@ $group
                                         @ action 'wizzi.productions.generateArtifact'
                                         @ message 'files parameter must be an object of type PackiFiles'
                                         @ files
-                        const generator = _options.generator ? _options.generator : null
+                        let artifactName = _options.generator ? _options.generator : null
                         let jsonwf
                             :any
                             =
@@ -68,12 +68,16 @@ $group
                                         ...
                                             await
                                                 _ inferAndLoadContextJson(jsonwf.wf, files, ittfDocumentUri, 'twin')
+                            const ittfSchema = jsonwf.wf.mapIttfDocumentPathToSchema(filePath)
+                            if !artifactName
+                                set artifactName = jsonwf.wf.mapSchemaToDefaultArtifact(ittfSchema)
+                            const contentType = jsonwf.wf.mapArtifactToContentType(artifactName)
                             _ jsonwf.wf.loadModelAndGenerateArtifact
                                 @ ittfDocumentUri
                                 {
                                     @ modelRequestContext generationContext || {}
                                     @ artifactRequestContext _options.artifactContext || {}
-                                @ generator
+                                @ artifactName
                                 =>
                                     param err
                                         :any
@@ -85,7 +89,8 @@ $group
                                         {
                                             @ artifactContent result
                                             @ sourcePath filePath
-                                            @ artifactGenerator generator
+                                            @ artifactGenerator artifactName
+                                            @ contentType contentType
                         catch ex
                             return reject(ex)
     +
@@ -111,7 +116,7 @@ $group
                     async=>
                         param resolve
                         param reject
-                        const generator = _options.generator ? _options.generator : null
+                        let artifactName = _options.generator ? _options.generator : null
                         # TODO catch error
                         const plugins
                             iif _options.pluginsBaseFolder && _options.plugins
@@ -127,12 +132,16 @@ $group
                                     @ null
                                     {
                         try
+                            const ittfSchema = wf.mapIttfDocumentPathToSchema(filePath)
+                            if !artifactName
+                                set artifactName = wf.mapSchemaToDefaultArtifact(ittfSchema)
+                            const contentType = wf.mapArtifactToContentType(artifactName)
                             _ wf.loadModelAndGenerateArtifact
                                 @ filePath
                                 {
                                     @ modelRequestContext context || {}
                                     @ artifactRequestContext context || {}
-                                @ generator
+                                @ artifactName
                                 =>
                                     param err
                                     param result
@@ -142,7 +151,8 @@ $group
                                         {
                                             @ artifactContent result
                                             @ sourcePath filePath
-                                            @ artifactGenerator generator
+                                            @ artifactGenerator artifactName
+                                            @ contentType contentType
                         catch ex
                             return reject(ex)
     +

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziTable\api\wizziTable.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import {ValidateResult, CRUDResult} from '../../types';
 import {GetWizziTableModel} from '../mongo/wizziTable';;
@@ -19,14 +19,12 @@ export /**
         // options
 */
 async function getWizziTableList(options?: any):  Promise<CRUDResult> {
-
     options = options || {};
     
     
     const WizziTable = GetWizziTableModel();
     
     return new Promise((resolve, reject) => {
-        
             
             const query = WizziTable.find(options.query);
             if (options.limit) {
@@ -36,7 +34,6 @@ async function getWizziTableList(options?: any):  Promise<CRUDResult> {
                 query.sort(options.sort);
             }
             query.find((err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getWizziTableList', 'WizziTable.find', 'error', err);
                     return reject(err);
@@ -74,13 +71,11 @@ export /**
         // name
 */
 async function getWizziTable(owner: string, name: string):  Promise<CRUDResult> {
-
     
     
     const WizziTable = GetWizziTableModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -88,7 +83,6 @@ async function getWizziTable(owner: string, name: string):  Promise<CRUDResult> 
              };
             
             WizziTable.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getWizziTable', 'WizziTable.find', 'error', err);
                     return reject(err);
@@ -118,18 +112,15 @@ export /**
         // id
 */
 async function getWizziTableById(id: string):  Promise<CRUDResult> {
-
     
     
     const WizziTable = GetWizziTableModel();
     
     return new Promise((resolve, reject) => {
-        
             
             WizziTable.find({
                 _id: id
              }, (err: any, result: IWizziTableModel[]) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getWizziTable', 'WizziTable.find', 'error', err);
                     return reject(err);
@@ -161,14 +152,16 @@ export /**
         // field1
         // field2
 */
-async function createWizziTable(owner?: string, name?: string, field1?: string, field2?: string):  Promise<CRUDResult> {
-
+async function createWizziTable(
+    owner?: string, 
+    name?: string, 
+    field1?: string, 
+    field2?: string):  Promise<CRUDResult> {
     
     
     const WizziTable = GetWizziTableModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -176,7 +169,6 @@ async function createWizziTable(owner?: string, name?: string, field1?: string, 
              };
             
             WizziTable.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getWizziTable', 'WizziTable.find', 'error', err);
                     return reject(err);
@@ -197,7 +189,6 @@ async function createWizziTable(owner?: string, name?: string, field1?: string, 
                     updated_at: new Date()
                  });
                 newWizziTable.save(function(err: any, doc: any) {
-                
                     if (err) {
                         console.log("[31m%s[0m", myname, 'createWizziTable', 'newWizziTable.save', 'error', err);
                         return reject(err);
@@ -224,14 +215,17 @@ export /**
         // field1
         // field2
 */
-async function updateWizziTable(id?: string, owner?: string, name?: string, field1?: string, field2?: string):  Promise<CRUDResult> {
-
+async function updateWizziTable(
+    id?: string, 
+    owner?: string, 
+    name?: string, 
+    field1?: string, 
+    field2?: string):  Promise<CRUDResult> {
     
     
     const WizziTable = GetWizziTableModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -261,7 +255,6 @@ async function updateWizziTable(id?: string, owner?: string, name?: string, fiel
             update['updated_at'] = new Date();
             
             WizziTable.findOneAndUpdate(query, update, {}, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'updateWizziTable', 'WizziTable.findOneAndUpdate', 'error', err);
                     return reject(err);
@@ -294,13 +287,11 @@ export /**
         // name
 */
 async function deleteWizziTable(id?: string, owner?: string, name?: string):  Promise<CRUDResult> {
-
     
     
     const WizziTable = GetWizziTableModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -316,7 +307,6 @@ async function deleteWizziTable(id?: string, owner?: string, name?: string):  Pr
             }
             
             WizziTable.deleteOne(query, (err: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'deleteWizziTable', 'WizziTable.deleteOne', 'error', err);
                     return reject(err);

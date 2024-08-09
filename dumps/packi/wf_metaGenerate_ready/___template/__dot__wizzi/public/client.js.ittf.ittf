@@ -1,0 +1,2 @@
+module 
+   $include flyNodeDemoTypescript/public/client.js

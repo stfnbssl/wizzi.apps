@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\ModalProductionDetails.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -38,12 +38,12 @@ type State = {
     wizziSchema: string;
     visible: boolean;
 };
-
 // @ts-ignore
-const FormButton = withStatus(Button); 
 
+const FormButton = withStatus(Button);
 // @ts-ignore
-const ValidatedInput = withValidation(LargeInput); 
+
+const ValidatedInput = withValidation(LargeInput);
 export default class ModalProductionDetails extends React.Component<Props, State> {
         static getDerivedStateFromProps(props: Props, state: State) {
             if (state.visible !== props.visible) {
@@ -85,7 +85,6 @@ export default class ModalProductionDetails extends React.Component<Props, State
             this.setState({
                 [e.target.name]: e.target.value
              });
-        
         // log 'ModalProductionDetails.state', this.state
         render() {
             const {
@@ -97,67 +96,48 @@ export default class ModalProductionDetails extends React.Component<Props, State
                 packiProduction
              } = this.props;
             return  (
-                <ModalDialog
-                 visible={visible} title={title} onDismiss={onDismiss}>
-                    <Form
-                     onSubmit={this._handleSubmit}>
-                        <h4
-                         className={css(styles.subtitle)}>
-                            Name
-                        </h4>
-                        <ValidatedInput 
-                            name='name'
-                            
+                <ModalDialog visible={visible} title={title} onDismiss={onDismiss}>
+                    <Form onSubmit={this._handleSubmit}>
+                        <h4 className={css(styles.subtitle)}>
+                            Name</h4>
+                        <ValidatedInput name='name'
                             // @ts-ignore
+                            
                             autoFocus
                             value={this.state.name}
                             onChange={this.handleChange}
                             placeholder="Unnamed Packi"
                             validate={this._validateName}
                          />
-                        <h4
-                         className={css(styles.subtitle)}>
-                            Description
-                        </h4>
-                        <LargeTextArea 
-                            name='description'
+                        <h4 className={css(styles.subtitle)}>
+                            Description</h4>
+                        <LargeTextArea name='description'
                             value={this.state.description}
                             onChange={this.handleChange}
                             minRows={4}
                          />
                         {
-                            packiProduction == "artifact"
-                             &&  (
-                                <div
-                                >
-                                    <h4
-                                     className={css(styles.subtitle)}>
-                                        Main ittf
-                                    </h4>
-                                    <LargeInput
-                                     name='mainIttf' value={this.state.mainIttf} onChange={this.handleChange} />
-                                    <h4
-                                     className={css(styles.subtitle)}>
-                                        Wizzi schema
-                                    </h4>
-                                    <LargeInput
-                                     name='wizziSchema' value={this.state.wizziSchema} onChange={this.handleChange} />
+                            packiProduction == "artifact" &&  (
+                                <div>
+                                    <h4 className={css(styles.subtitle)}>
+                                        Main ittf</h4>
+                                    <LargeInput name='mainIttf' value={this.state.mainIttf} onChange={this.handleChange} />
+                                    <h4 className={css(styles.subtitle)}>
+                                        Wizzi schema</h4>
+                                    <LargeInput name='wizziSchema' value={this.state.wizziSchema} onChange={this.handleChange} />
                                 </div>
                                 )
                             
                         }
-                        <div
-                         className={css(styles.buttons)}>
-                            <FormButton 
+                        <div className={css(styles.buttons)}>
+                            <FormButton // @ts-ignore
                                 
-                                // @ts-ignore
                                 type="submit"
                                 large
                                 variant="primary"
                                 loading={isWorking}
                             >
-                                {action}
-                            </FormButton>
+                                {action}</FormButton>
                         </div>
                     </Form>
                 </ModalDialog>
@@ -165,4 +145,26 @@ export default class ModalProductionDetails extends React.Component<Props, State
             ;
         }
     }
-const styles = StyleSheet.create({ subtitle: { fontSize: 16,  fontWeight: 500,  padding: 0,  lineHeight: '22px',  margin: '16px 0 6px 0'  },  buttons: { margin: '20px 0 0 0'  },  caption: { marginTop: 24,  fontSize: '16px',  lineHeight: '22px',  textAlign: 'center'  },  link: { cursor: 'pointer',  color: c('primary'),  textDecoration: 'underline'  }  }); 
+const styles = StyleSheet.create({
+    subtitle: {
+        fontSize: 16, 
+        fontWeight: 500, 
+        padding: 0, 
+        lineHeight: '22px', 
+        margin: '16px 0 6px 0'
+     }, 
+    buttons: {
+        margin: '20px 0 0 0'
+     }, 
+    caption: {
+        marginTop: 24, 
+        fontSize: '16px', 
+        lineHeight: '22px', 
+        textAlign: 'center'
+     }, 
+    link: {
+        cursor: 'pointer', 
+        color: c('primary'), 
+        textDecoration: 'underline'
+     }
+ });

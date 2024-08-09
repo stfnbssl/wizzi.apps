@@ -1,0 +1,14 @@
+module
+    kind es6
+    $include set-ctx-functions
+    $
+        setCtxScript ('build:css','postcss index.css -o public/tailwind.css');
+        setCtxDevDep ('postcss-cli', '^11.0.0');
+        setCtxDevDep ('postcss', '^8.4.39');
+        setCtxDevDep ('autoprefixer', '^10.4.19');
+    set module.exports
+        {
+            { plugins
+                { 'tailwindcss/nesting'
+                { tailwindcss
+                { autoprefixer

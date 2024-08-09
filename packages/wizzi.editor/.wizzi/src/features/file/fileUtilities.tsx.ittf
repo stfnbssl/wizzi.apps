@@ -9,7 +9,7 @@ module
                 :string
             return
                 _ path.startsWith
-                    `lit
+                    template
                         +
                         @ folderPath
                         + /
@@ -72,7 +72,7 @@ module
                             set p.toLowerCase() === path.toLowerCase()
                 const suffix
                     _
-                        `lit
+                        template
                             +
                             @ initialSuffix ?? ''
                             + &nbsp;
@@ -81,7 +81,7 @@ module
                         ._ trim
                 if ext
                     set path =
-                        `lit
+                        template
                             +
                             @ initialPath
                             + &nbsp;
@@ -91,7 +91,7 @@ module
                             +
                 else
                     set path =
-                        `lit
+                        template
                             +
                             @ initialPath
                             + &nbsp;

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\package.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '../../types';
@@ -20,13 +20,10 @@ const packageProductionCache = new NodeCache({
     checkperiod: 60
  });
 export async function validatePackageProduction(owner: string, name: string):  Promise<ValidateResult> {
-
     const PackageProduction = GetPackageProductionModel();
     return new Promise((resolve, reject) => {
-        
             let query = { owner: owner, name: name };
             PackageProduction.find(query, (err, result) => {
-            
                 if (err) {
                     return reject(err);
                 }
@@ -54,14 +51,12 @@ export /**
         // options
 */
 async function getPackageProductionList(options?: any):  Promise<CRUDResult> {
-
     options = options || {};
     
     
     const PackageProduction = GetPackageProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             const query = PackageProduction.find(options.query);
             if (options.limit) {
@@ -71,7 +66,6 @@ async function getPackageProductionList(options?: any):  Promise<CRUDResult> {
                 query.sort(options.sort);
             }
             query.find((err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getPackageProductionList', 'PackageProduction.find', 'error', err);
                     return reject(err);
@@ -109,13 +103,11 @@ export /**
         // name
 */
 async function getPackageProduction(owner: string, name: string):  Promise<CRUDResult> {
-
     
     
     const PackageProduction = GetPackageProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -123,7 +115,6 @@ async function getPackageProduction(owner: string, name: string):  Promise<CRUDR
              };
             
             PackageProduction.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getPackageProduction', 'PackageProduction.find', 'error', err);
                     return reject(err);
@@ -153,18 +144,15 @@ export /**
         // id
 */
 async function getPackageProductionById(id: string):  Promise<CRUDResult> {
-
     
     
     const PackageProduction = GetPackageProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             PackageProduction.find({
                 _id: id
              }, (err: any, result: IPackageProductionModel[]) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getPackageProduction', 'PackageProduction.find', 'error', err);
                     return reject(err);
@@ -188,11 +176,8 @@ async function getPackageProductionById(id: string):  Promise<CRUDResult> {
 }
 
 export async function getPackageProductionObject(owner: string, name: string, loadPackiConfig?: boolean) {
-
     return new Promise((resolve, reject) => 
-        
             getPackageProduction(owner, name).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -200,7 +185,6 @@ export async function getPackageProductionObject(owner: string, name: string, lo
                 return resolve(_createPackageProductionObject(pp, loadPackiConfig));
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.api.packageProduction.getPackageProductionObject.getPackageProduction.error', err);
@@ -212,11 +196,8 @@ export async function getPackageProductionObject(owner: string, name: string, lo
 }
 
 export async function getPackageProductionObjectById(id: string, loadPackiConfig?: boolean) {
-
     return new Promise((resolve, reject) => 
-        
             getPackageProductionById(id).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -224,7 +205,6 @@ export async function getPackageProductionObjectById(id: string, loadPackiConfig
                 return resolve(_createPackageProductionObject(pp, loadPackiConfig));
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.api.packageProduction.getPackageProductionObjectById.getPackageProductionById.error', err);
@@ -235,10 +215,8 @@ export async function getPackageProductionObjectById(id: string, loadPackiConfig
         );
 }
 async function _createPackageProductionObject(pp: IPackageProductionModel, loadPackiConfig?: boolean) {
-
     
     return new Promise((resolve, reject) => {
-        
             const pp_packiFiles_object: packiTypes.PackiFiles = JSON.parse(pp.packiFiles);
             const obj = {
                 ...pp._doc, 
@@ -261,12 +239,10 @@ async function _createPackageProductionObject(pp: IPackageProductionModel, loadP
                         contents: obj.packiConfig.contents
                      }
                  }, {}).then((generationResult: any) => {
-                
                     obj.packiConfigObj = JSON.parse(generationResult.artifactContent);
                     return resolve(obj);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.production.api.packageProduction.getPackageProductionObject._createPackageProductionObject.error', err);
@@ -290,14 +266,16 @@ export /**
         // description
         // packiFiles
 */
-async function createPackageProduction(owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
-
+async function createPackageProduction(
+    owner?: string, 
+    name?: string, 
+    description?: string, 
+    packiFiles?: string):  Promise<CRUDResult> {
     
     
     const PackageProduction = GetPackageProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -305,7 +283,6 @@ async function createPackageProduction(owner?: string, name?: string, descriptio
              };
             
             PackageProduction.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getPackageProduction', 'PackageProduction.find', 'error', err);
                     return reject(err);
@@ -326,7 +303,6 @@ async function createPackageProduction(owner?: string, name?: string, descriptio
                     updated_at: new Date()
                  });
                 newPackageProduction.save(function(err: any, doc: any) {
-                
                     if (err) {
                         console.log("[31m%s[0m", myname, 'createPackageProduction', 'newPackageProduction.save', 'error', err);
                         return reject(err);
@@ -353,14 +329,17 @@ export /**
         // description
         // packiFiles
 */
-async function updatePackageProduction(id?: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
-
+async function updatePackageProduction(
+    id?: string, 
+    owner?: string, 
+    name?: string, 
+    description?: string, 
+    packiFiles?: string):  Promise<CRUDResult> {
     
     
     const PackageProduction = GetPackageProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -390,7 +369,6 @@ async function updatePackageProduction(id?: string, owner?: string, name?: strin
             update['updated_at'] = new Date();
             
             PackageProduction.findOneAndUpdate(query, update, {}, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'updatePackageProduction', 'PackageProduction.findOneAndUpdate', 'error', err);
                     return reject(err);
@@ -423,13 +401,11 @@ export /**
         // name
 */
 async function deletePackageProduction(id?: string, owner?: string, name?: string):  Promise<CRUDResult> {
-
     
     
     const PackageProduction = GetPackageProductionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -445,7 +421,6 @@ async function deletePackageProduction(id?: string, owner?: string, name?: strin
             }
             
             PackageProduction.deleteOne(query, (err: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'deletePackageProduction', 'PackageProduction.deleteOne', 'error', err);
                     return reject(err);
@@ -462,17 +437,14 @@ async function deletePackageProduction(id?: string, owner?: string, name?: strin
 }
 
 export async function getPackageProduction_withCache(owner: string, name: string) {
-
     var cacheKey = owner + '|' + name;
     return new Promise((resolve, reject) => {
-        
             let ppValue = {
                 packiFiles: {
                     
                  }
              };
             getPackageProduction(owner, name).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -484,7 +456,6 @@ export async function getPackageProduction_withCache(owner: string, name: string
                 return resolve(ppValue);
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'getPackageProduction_withCache.getArtifactProduction.error', err);
@@ -496,15 +467,12 @@ export async function getPackageProduction_withCache(owner: string, name: string
 }
 
 export function invalidateCache(owner: string, name?: string) {
-
     var cacheKey = owner + '|' + name;
     packageProductionCache.del(cacheKey);
 }
 
 export async function getWizziMetaFolder(owner: string, name: string, progressiveContext: any):  Promise<packiTypes.PackiFiles> {
-
     return getPackageProductionObject(owner, name, true).then((packageProductionObject: any) => {
-        
             return getWizziMetaFolderByPackageProductionObject(packageProductionObject, progressiveContext);
         }
         )
@@ -512,28 +480,21 @@ export async function getWizziMetaFolder(owner: string, name: string, progressiv
 }
 
 export async function getWizziMetaFolderById(packageId: string, progressiveContext: any):  Promise<packiTypes.PackiFiles> {
-
     return getPackageProductionObjectById(packageId, true).then((packageProductionObject: any) => {
-        
             return getWizziMetaFolderByPackageProductionObject(packageProductionObject, progressiveContext);
         }
         )
     ;
 }
 async function getWizziMetaFolderByPackageProductionObject(packageProductionObject: any, progressiveContext: any):  Promise<packiTypes.PackiFiles> {
-
     return new Promise((resolve, reject) => 
-        
             productionApi.getCliCtxFromPackiConfig(packageProductionObject.owner, packageProductionObject.packiConfigObj, packageProductionObject.packiFiles, progressiveContext).then((metaCtx: any) => 
-            
                 metaApi.generateMetaProduction(packageProductionObject.owner, packageProductionObject.packiConfigObj.meta.name, metaCtx).then((wizziPackiFiles: packiTypes.PackiFiles) => {
-                
                     return resolve(wizziPackiFiles);
                 }
                 )
             
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'api.production.getWizziMetaFolderByPackageProductionObject.getCliCtxFromPackiConfig.error', err);
@@ -544,14 +505,15 @@ async function getWizziMetaFolderByPackageProductionObject(packageProductionObje
         );
 }
 
-export async function getArtifactGeneration_withPrepare(owner: string, productionName: string, filePath: string, queryContext: string, rootContext: any) {
-
+export async function getArtifactGeneration_withPrepare(
+    owner: string, 
+    productionName: string, 
+    filePath: string, 
+    queryContext: string, 
+    rootContext: any) {
     return new Promise((resolve, reject) => 
-        
             productionApi.prepareProduction('package', owner, productionName, queryContext, rootContext).then((productionObj: any) => 
-            
                 wizziProds.generateArtifact(filePath, productionObj.packiFiles, productionObj.context).then((result: any) => {
-                
                     const response = {
                         content: result.artifactContent, 
                         contentLength: result.artifactContent.length, 
@@ -560,7 +522,6 @@ export async function getArtifactGeneration_withPrepare(owner: string, productio
                     return resolve(response);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", '' + myname + 'getArtifactGeneration_withPrepare.generateArtifact.error', err);
@@ -569,7 +530,6 @@ export async function getArtifactGeneration_withPrepare(owner: string, productio
                 )
             
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", '' + myname + 'getArtifactGeneration_withPrepare.prepareProduction.error', err);

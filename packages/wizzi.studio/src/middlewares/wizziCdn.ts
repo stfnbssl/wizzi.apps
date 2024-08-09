@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\middlewares\wizziCdn.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -18,13 +18,10 @@ const myname = 'express.middleware.wizziCdn';
 const cdnPath = '/wizzicdn/v1';
 
 export const WizziCdnMiddleware: MiddlewareType = (app: Application) => 
-
     app.use(cdnPath, cdnMiddleware())
 ;
 function cdnMiddleware():  RequestHandler {
-
     return async (request: Request, response: Response, next: Function) => {
-        
             if (request.method !== 'GET' && request.method !== 'HEAD') {
                 return next();
             }
@@ -44,11 +41,14 @@ function cdnMiddleware():  RequestHandler {
         }
     ;
 }
-function _renderCdn(owner: string, cdnName: string, request: Request, response: Response, next: Function) {
-
+function _renderCdn(
+    owner: string, 
+    cdnName: string, 
+    request: Request, 
+    response: Response, 
+    next: Function) {
     
     resourceApi.getWizziCdnResource(owner, cdnName).then((result: any) => {
-    
         if (result.ok) {
             const item = result.item;
             console.log(myname + '.getWizziCdnResource.contents.length:', item.contents.length, __filename);
@@ -62,7 +62,6 @@ function _renderCdn(owner: string, cdnName: string, request: Request, response: 
         }
     }
     ).catch((err: any) => {
-    
         console.log("[31m%s[0m", '' + myname + '_renderCdn.resourceApi.getWizziCdnResource.error', err);
         var content = err;
         if (typeof err === 'object' && err !== null) {
@@ -73,7 +72,6 @@ function _renderCdn(owner: string, cdnName: string, request: Request, response: 
     )
 }
 function getContentType(name) {
-
     if (name.endsWith('.js')) {
         return 'application/x-javascript';
     }

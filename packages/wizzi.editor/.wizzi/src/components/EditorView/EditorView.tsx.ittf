@@ -379,7 +379,7 @@ module
                 = this.props
             const annotations = this.props.annotations
             const testPreviewURL
-                `lit
+                template
                     @ process.env.API_SERVER_URL
                     + /~/
                     @ encodeURIComponent(owner)
@@ -506,7 +506,7 @@ module
                 { preview
                     @ backgroundColor c('content')
                     @ borderLeft
-                        `lit 
+                        template 
                             + 1px solid&nbsp;
                             _ c('border')
                             + 

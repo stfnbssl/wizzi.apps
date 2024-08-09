@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\ProblemsPanel.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import trim from 'lodash/trim';
@@ -13,15 +13,14 @@ export type ProblemsPanelProps = {
     annotations: Annotation[];
     onSelectFile: (path: string) => void;
 };
+;
 export function ProblemsPanel({
     annotations, 
     onSelectFile
  }: ProblemsPanelProps) {
-
     const [selected, setSelected] = React.useState<string | undefined>(undefined);
     return  (
-        <React.Fragment
-        >
+        <React.Fragment>
             {
                 annotations.map(({
                     message, 
@@ -30,7 +29,6 @@ export function ProblemsPanel({
                     severity, 
                     action
                  }, index) => {
-                
                     let iconStyle = styles.infoIcon;
                     let locationStyle = styles.infoColor;
                     if (severity >= 3) {
@@ -49,20 +47,15 @@ export function ProblemsPanel({
                         }
                     }
                     const file = location?.fileName ?  (
-                        <span
-                         className={css(styles.location, locationStyle)} onClick={() => 
-                            
+                        <span className={css(styles.location, locationStyle)} onClick={() => 
                                 onSelectFile(location.fileName)
-                        }>
-                            {
+                        }>{
                                 `${location.fileName} (${location.startLineNumber}:${location.startColumn})`
                             }
-                        </span>
-                        )
+                        </span>)
                      : '';
                     const icon =  (
-                    <div
-                     className={css(styles.icon, iconStyle)} />
+                    <div className={css(styles.icon, iconStyle)} />
                     )
                     ;
                     const lines = message.split('\n');
@@ -70,60 +63,38 @@ export function ProblemsPanel({
                     let suffix;
                     if (action) {
                         suffix =  (
-                        <button
-                         className={css(styles.action)} onClick={action.run}>
-                            {
+                        <button className={css(styles.action)} onClick={action.run}>{
                                 action.icon ?  (
-                                    <span
-                                     className={css(styles.actionIcon)}>
-                                        <action.icon
-                                         />
-                                    </span>
-                                    )
+                                    <span className={css(styles.actionIcon)}>
+                                        <action.icon />
+                                    </span>)
                                  : undefined
                             }
-                            <span
-                             className={css(styles.actionText)}>
-                                {action.title}
-                            </span>
-                        </button>
-                        )
+                            <span className={css(styles.actionText)}>{action.title}</span></button>)
                         ;
                     }
                     else {
                         if (source) {
                             suffix =  (
-                            <span
-                             className={css(styles.source)}>
-                                {
+                            <span className={css(styles.source)}>{
                                     ` (${source})`
                                 }
-                            </span>
-                            )
+                            </span>)
                             ;
                         }
                     }
                     const key = `${location?.fileName ?? ''}.${title}.${source ?? ''}`;
                     const expanded = annotations.length === 1 || selected === key;
                     return  (
-                        <div
-                         key={index} className={css(styles.item)} onClick={() => 
-                            
+                        <div key={index} className={css(styles.item)} onClick={() => 
                                 setSelected(key)
                         }>
-                            <div
-                             className={css(styles.line)}>
-                                {icon}
-                                {file}
-                                {title}
-                                {suffix}
-                            </div>
+                            <div className={css(styles.line)}>
+                                {icon}{file}{title}{suffix}</div>
                             {
                                 expanded && lines.length > 1 ?  (
-                                    <pre
-                                     className={css(styles.callstack)}>
-                                        {trim(message.substring(title.length), '\r\n')}
-                                    </pre>
+                                    <pre className={css(styles.callstack)}>
+                                        {trim(message.substring(title.length), '\r\n')}</pre>
                                     )
                                  : undefined
                             }
@@ -137,6 +108,7 @@ export function ProblemsPanel({
         )
     ;
 }
+
 
 export default ProblemsPanel;
 

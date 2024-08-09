@@ -9,7 +9,7 @@ module
                 {
                     { '.wizzi/index.html.ittf'
                         @ contents
-                            `lit
+                            template
                                 + html&lf;
                                 + &nbsp; body&lf;
                                 + &nbsp;   h1 Hello world&lf;
@@ -17,7 +17,7 @@ module
                         @ type 'CODE'
                     { '.wizzi/main.js.ittf'
                         @ contents
-                            `lit
+                            template
                                 + module&lf;
                                 + &nbsp; kind es6&lf;
                                 + &nbsp; log 'Hello world'&lf;
@@ -25,13 +25,13 @@ module
                         @ type 'CODE'
                     { '.wizzi/main.wfjob.ittf'
                         @ contents
-                            `lit
+                            template
                                 + wfjob&lf;
                                 + &nbsp;&nbsp;
                         @ type 'CODE'
                     { 'README.md'
                         @ contents
-                            `lit
+                            template
                                 + # Sample Packi&lf;
                                 + &nbsp;&nbsp;
                         @ type 'CODE'

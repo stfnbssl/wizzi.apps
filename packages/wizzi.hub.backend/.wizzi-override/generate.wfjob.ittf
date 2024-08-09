@@ -8,7 +8,7 @@ wfjob ts.express.lab/job
             ittf_prisma_folder: path.join(__dirname, 'prisma'),
             ittf_root_folder: path.join(__dirname, 'root'),
             ittf_tests_folder: path.join(__dirname, 'tests'),
-            ittf_ittf_folder: path.join(__dirname, 'ittf'),
+            ittf_ittf_folder: path.join(__dirname, '..', 'ittf'),
             dest_folder: path.join(__dirname, '..'),
             job_model: 'wzCtx'
         }
@@ -33,6 +33,7 @@ wfjob ts.express.lab/job
         wfjobs(any_xml, &jobCtx)
         wfjobs(any_md, &jobCtx)
         wfjobs(any_text, &jobCtx)
+        wfjobs(any_css, &jobCtx)
         wfjobs(.gitignore, &jobCtx)
     
     line ittf-src
@@ -47,10 +48,22 @@ wfjob ts.express.lab/job
         wfjobs(any_plain, &jobCtx, js)
         wfjobs(any_plain, &jobCtx, ts)
         wfjobs(any_plain, &jobCtx, d.ts)
+        wfjobs(any_plain, &jobCtx, html)
+        wfjobs(any_plain, &jobCtx, html.ittf)
+        wfjobs(any_plain, &jobCtx, css)
+        wfjobs(any_plain, &jobCtx, css.ittf)
+        wfjobs(any_plain_image, &jobCtx)
     
-    
+    $if TODO
+        line ittf-tw
+            cwd-folder ${jobCtx.ittf_ittf_folder}
+            dest-folder ${jobCtx.ittf_ittf_folder}/__for_tw
+            wfjobs(any_html, &jobCtx)
+
     production
         dest-folder ${jobCtx.dest_folder}
         line-ref ittf-models
         line-ref ittf-root
         line-ref ittf-src
+        $if TODO
+            line-ref ittf-tw

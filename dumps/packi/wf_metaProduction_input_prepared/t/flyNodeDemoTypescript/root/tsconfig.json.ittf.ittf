@@ -1,4 +1,10 @@
 $group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDevDep ('typescript', '^5.5.4');
+        setCtxDevDep ('@types/node', '^22.0.0');
+
     { compilerOptions
         outDir "./build"
         allowJs true

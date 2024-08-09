@@ -9,7 +9,7 @@ $group
         # increment counter in counter.txt file
         try 
             set count = parseInt(fs.readFileSync('counter.txt', 'utf-8')) + 1
-        catch 
+        catch ex:any
             set count = 1
         _ fs.writeFileSync('counter.txt', count.toString())
         if oldCount !== count
@@ -19,7 +19,7 @@ $group
                 of wss.clients
                 try 
                     _ client.send(count.toString())
-                catch 
+                catch ex:any
                 # publish new count to all websocket clients
         # render HTML response
         try 
@@ -34,7 +34,7 @@ $group
                 { 
                     @ 'Content-Type' 'text/html'
             _ response.write(contents, 'utf-8')
-        catch error
+        catch error:any
             _ response.writeHead
                 @ 500
                 { 

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\form\withValidation.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import * as React from 'react';
 import {$Subtract} from '../../types';
@@ -25,7 +25,6 @@ type State = {
     value: any;
 };
 export default function withValidation<P extends InjectedProps>(Comp: React.ComponentType<P>):  React.ComponentType<$Subtract<P, InjectedProps> & ExternalProps> {
-    
         class EnhancedComponent extends React.Component<Props, State> {
             static displayName = `withValidation(${Comp.displayName ?? Comp.name})`;
             static getDerivedStateFromProps(nextProps: Props, prevState: State) {
@@ -71,34 +70,33 @@ export default function withValidation<P extends InjectedProps>(Comp: React.Comp
                 }
             };
             render() {
-                
                 // @ts-ignore
-                const { helperText,  ...other  } = this.props; 
                 
+                const {
+                    helperText, 
+                    ...other
+                 } = this.props;
                 // @ts-ignore
-                return  ( <Comp 
-                        ref={this._root}
+                
+                return  (
+                    <Comp ref={this._root}
                         error={this.state.error}
-                        
                         // @ts-ignore
+                        
                         helperText={this.state.error ? this.state.error.message : helperText}
                         {...other}
                      />
                     )
                 ;
-                
             }
         }
-        return (props) =>  
+        return (props) => 
                  (
-                <FormValidationContext.Consumer
-                >
+                <FormValidationContext.Consumer>
                     {
                         (value: any) => {
-                        
                             return  (
-                                <EnhancedComponent
-                                 validation={value} {...props} />
+                                <EnhancedComponent validation={value} {...props} />
                                 )
                             ;
                         }
@@ -108,5 +106,4 @@ export default function withValidation<P extends InjectedProps>(Comp: React.Comp
                 )
             
         ;
-        
     }

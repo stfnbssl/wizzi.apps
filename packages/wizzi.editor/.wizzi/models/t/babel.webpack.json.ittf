@@ -46,6 +46,9 @@ $group
         $if wzConfigIsStudio
             $$ outputPath "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/public/packi"
             outputPath "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/public/packi"
+        $elif wzConfigIsHubBackend
+            $$ outputPath "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio/public/packi"
+            outputPath "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.hub.backend/public/packi"
         $else
             outputPath "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi-heroku/public/packi"
         publicPath "/public/packi/"

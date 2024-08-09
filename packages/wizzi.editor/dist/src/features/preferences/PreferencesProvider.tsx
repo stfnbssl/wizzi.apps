@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\preferences\PreferencesProvider.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import debounce from 'lodash/debounce';
 import * as React from 'react';
@@ -42,7 +42,6 @@ class PreferencesProvider extends React.Component<Props, State> {
          } = this.props;
         let overrides: Partial<PreferencesType> = {};
         try {
-            
             // Restore editor preferences from saved data
             overrides = JSON.parse(cookies.get(EDITOR_CONFIG_KEY) ?? '') || {};
         } 
@@ -56,7 +55,6 @@ class PreferencesProvider extends React.Component<Props, State> {
          };
     }
     _persistPreferences = debounce(() => {
-    
         const {
             cookies
          } = this.props;
@@ -69,7 +67,6 @@ class PreferencesProvider extends React.Component<Props, State> {
     , 1000);
     _setPreferences = (overrides: Partial<PreferencesType>) => 
         this.setState((state) => 
-        
             ({
                 preferences: {
                     ...state.preferences, 
@@ -79,13 +76,11 @@ class PreferencesProvider extends React.Component<Props, State> {
         , this._persistPreferences);
     render() {
         return  (
-            <PreferencesContext.Provider
-             value={{
+            <PreferencesContext.Provider value={{
                     setPreferences: this._setPreferences, 
                     preferences: this.state.preferences
                  }}>
-                {this.props.children}
-            </PreferencesContext.Provider>
+                {this.props.children}</PreferencesContext.Provider>
             )
         ;
     }

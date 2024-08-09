@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\Button.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import React, {FunctionComponent} from 'react';
 // see https://mxstbr.blog/2016/11/styled-components-magic-explained/
@@ -40,7 +40,6 @@ const buttonKeyframes = keyframes`
         -ms-transition: rotate(360deg);
         transform: rotate(360deg);
     }
-    
 `
 const StyledRoot = styled.button<RootStyleProps>`
     -webkit-appearance: none;
@@ -100,7 +99,6 @@ const StyledRoot = styled.button<RootStyleProps>`
                 }
             `
         }
-        
     }}
     &:hover {
         -webkit-box-shadow: ${props => s('small')};
@@ -120,10 +118,8 @@ export const Button: FunctionComponent<ButtonProps> = ({
     onClick, 
     children
  }) => 
-
      (
-    <StyledRoot 
-        className={className}
+    <StyledRoot className={className}
         disabled={disabled}
         onClick={onClick}
         primary={variant === 'primary'}
@@ -133,8 +129,7 @@ export const Button: FunctionComponent<ButtonProps> = ({
         large={large}
         isLoading={loading}
     >
-        {children}
-    </StyledRoot>
+        {children}</StyledRoot>
     )
 
 ;

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\apiv1tfolder.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -19,9 +19,7 @@ import {getTFolderList, validateTFolder, getTFolder, getTFolderObjectById, updat
 const myname = 'features/production/controllers/apiv1tfolder';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -63,16 +61,13 @@ export class ApiV1TFolderController implements ControllerType {
     };
     
     private getTFolders = async (request: Request, response: Response) => 
-    
         getTFolderList({
             query: {
                 owner: request.params.owner
              }
          }).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getTFolders.error', err);
@@ -85,12 +80,9 @@ export class ApiV1TFolderController implements ControllerType {
     ;
     
     private getCheckTFolderName = async (request: Request, response: Response) => 
-    
         validateTFolder(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {
@@ -102,12 +94,9 @@ export class ApiV1TFolderController implements ControllerType {
     ;
     
     private getTFolder = async (request: Request, response: Response) => 
-    
         getTFolder(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getTFolder.error', err);
@@ -120,14 +109,11 @@ export class ApiV1TFolderController implements ControllerType {
     ;
     
     private postTFolder = async (request: Request, response: Response) => 
-    
         createTFolder(request.params.owner, request.params.name, request.body.description, JSON.stringify(request.body.packiFiles)).then((result: any) => {
-        
             invalidateCache(request.params.owner, request.params.name)
             sendSuccess(response, result)
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'postTFolder.error', err);
@@ -140,14 +126,11 @@ export class ApiV1TFolderController implements ControllerType {
     ;
     
     private putTFolder = async (request: Request, response: Response) => 
-    
         updateTFolder(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(request.body.packiFiles)).then((result: any) => {
-        
             invalidateCache(request.params.owner, request.params.name)
             sendSuccess(response, result)
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putTFolder.error', err);
@@ -160,20 +143,17 @@ export class ApiV1TFolderController implements ControllerType {
     ;
     
     private putTFolderPackiDiffs = async (request: Request, response: Response) => {
-    
         console.log('putTFolderPackiDiffs.request.params', request.params, __filename);
         console.log('putTFolderPackiDiffs.request.body.options', Object.keys(request.body.options), __filename);
         console.log('putTFolderPackiDiffs.request.body.packiDiffs', Object.keys(request.body.packiDiffs), __filename);
         const options = request.body.options || {};
         getTFolderObjectById(request.params.id).then((prevTFolder: any) => {
-        
             console.log('putTFolderPackiDiffs.prevPackiFiles', Object.keys(prevTFolder.packiFiles), __filename);
             const pm = new PackiBuilder(prevTFolder.packiFiles);
             pm.applyPatch_ChangesOnly(request.body.packiDiffs)
             return exec_updateTFolder(request, response, pm.packiFiles);
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putTFolderPackiDiffs.getTFolderObjectById.error', err);
@@ -186,14 +166,11 @@ export class ApiV1TFolderController implements ControllerType {
     ;
 }
 function exec_updateTFolder(request: any, response: any, packiFiles: any) {
-
     updateTFolder(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then((result: any) => {
-    
         invalidateCache(request.params.id)
         sendSuccess(response, result)
     }
     ).catch((err: any) => {
-    
         if (typeof err === 'object' && err !== null) {
         }
         console.log("[31m%s[0m", 'exec_updateTFolder.updateTFolder.error', err);

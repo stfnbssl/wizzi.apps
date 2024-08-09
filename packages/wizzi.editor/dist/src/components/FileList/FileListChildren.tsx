@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListChildren.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import escapeRegexp from 'escape-string-regexp';
@@ -32,9 +32,8 @@ type Props = {
 export default class FileListChildren extends React.PureComponent<Props> {
         _getImmediateChildren = () => 
             this.props.entries.filter(e => 
-            
+                // Filter-out non-immediate children
                 !e.item.path.replace(new RegExp(`^${escapeRegexp(this.props.parent)}/`), '').includes('/')
-                    // Filter-out non-immediate children
             
             );
         render() {
@@ -57,11 +56,9 @@ export default class FileListChildren extends React.PureComponent<Props> {
                 theme
              } = this.props;
             return  (
-                <div
-                 className={`${css(styles.container)} ${className ?? ''}`}>
+                <div className={`${css(styles.container)} ${className ?? ''}`}>
                     {
                         this._getImmediateChildren().sort((a, b) => {
-                        
                             if (a.item.type === b.item.type) {
                                 if (a.item.path.startsWith('.') && !b.item.path.startsWith('.')) {
                                     return 1;
@@ -81,13 +78,10 @@ export default class FileListChildren extends React.PureComponent<Props> {
                             }
                         }
                         ).map((e) => 
-                        
                              (
-                            <FileListEntry 
-                                key={e.item.path}
+                            <FileListEntry key={e.item.path}
                                 entry={e}
                                 rest={entries.filter(en => 
-                                    
                                         isInsideFolder(en.item.path, e.item.path)
                                     )}
                                 readOnly={readOnly}

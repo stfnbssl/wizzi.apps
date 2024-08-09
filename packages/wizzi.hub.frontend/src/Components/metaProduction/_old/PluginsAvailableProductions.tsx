@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\_old\PluginsAvailableProductions.tsx.ittf
-    utc time: Wed, 31 Jul 2024 14:56:16 GMT
+    utc time: Wed, 07 Aug 2024 13:02:16 GMT
 */
 import React, {useState} from "react";
 import {SearchView} from "@/Components/utils/SearchView";

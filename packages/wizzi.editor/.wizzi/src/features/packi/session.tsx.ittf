@@ -195,7 +195,7 @@ module
                                 (
                                     {
                                         @ previewURL
-                                            `lit
+                                            template
                                                 @ process.env.SERVER_URL
                                                 @ localFolderUri
                                                 + /
@@ -217,7 +217,7 @@ module
                                 (
                                     {
                                         @ previewURL
-                                            `lit
+                                            template
                                                 @ process.env.API_SERVER_URL
                                                 @ pathPrefix
                                                 @ encodeURIComponent(state.owner)

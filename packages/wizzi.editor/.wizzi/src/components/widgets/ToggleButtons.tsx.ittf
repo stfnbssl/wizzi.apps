@@ -84,7 +84,7 @@ module
                     @ outline 0
                     @ margin 0
                     @ border
-                        `lit
+                        template
                             + 1px solid&nbsp;
                             _ c('border')
                             +

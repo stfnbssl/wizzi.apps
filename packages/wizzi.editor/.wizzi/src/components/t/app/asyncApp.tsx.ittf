@@ -85,7 +85,7 @@ $group
                                                 if !response.ok
                                                     throw 
                                                         new Error
-                                                            `lit 
+                                                            template 
                                                                 @ response.status
                                                                 + &nbsp;-&nbsp;
                                                                 @ response.statusText
@@ -96,7 +96,7 @@ $group
                                             catch e
                                                 throw 
                                                     new Error
-                                                        `lit 
+                                                        template 
                                                             + We were unable to load code for file "
                                                             @ path
                                                             + " (
@@ -108,7 +108,7 @@ $group
                                             else
                                                 throw 
                                                     new Error
-                                                        `lit 
+                                                        template 
                                                             + No code specified for file "
                                                             @ path
                                                             + "

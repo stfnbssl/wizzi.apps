@@ -1,0 +1,29 @@
+module
+    import
+        @ ControllerType
+        from '../app/types'
+    import
+        as devTypes
+        from './types'
+    import
+        as apis
+        from './api/index'
+    import
+        @ ApiV1DevController
+        from './controllers/apiv1dev'
+    +
+    const devControllers
+        :[
+            :ref ControllerType
+        =
+            [
+                @ new ApiV1DevController()
+    +
+    const devApi
+        {
+            ... apis
+    +
+    export
+        @ devTypes
+        @ devControllers
+        @ devApi

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\UserMenu.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -13,6 +13,7 @@ import ContextMenu from '../widgets/ContextMenu';
 export type UserMenuProps = { 
     loggedUser: LoggedUser;
 };
+;
 type State = { 
     visible: boolean;
 };
@@ -38,7 +39,6 @@ export class UserMenuComp extends React.Component<UserMenuProps, State> {
         else {
             if (this._avatar.current && (e.target === this._avatar.current || this._avatar.current.contains(e.target as Node))) {
                 this.setState((state) => 
-                
                     ({
                         visible: !state.visible
                      })
@@ -62,49 +62,40 @@ export class UserMenuComp extends React.Component<UserMenuProps, State> {
             loggedUser
          } = this.props;
         return  (
-            <div
-             className={css(styles.container)}>
-                <button
-                 ref={this._avatar} className={css(styles.button)} title="Your profile">
-                    <Avatar
-                     source={loggedUser?.picture ? loggedUser.picture : null} size={26} />
+            <div className={css(styles.container)}>
+                <button ref={this._avatar} className={css(styles.button)} title="Your profile">
+                    <Avatar source={loggedUser?.picture ? loggedUser.picture : null} size={26} />
                 </button>
-                <ContextMenu 
-                    ref={this._menu}
+                <ContextMenu ref={this._menu}
                     visible={this.state.visible}
                     actions={loggedUser ? [
                                 {
                                     label: 'Artifacts', 
                                     handler: () => 
-                                    
                                         window.open(`${process.env.SERVER_URL}/productions/artifacts`)
                                     
                                  }, 
                                 {
                                     label: 'Packages', 
                                     handler: () => 
-                                    
                                         window.open(`${process.env.SERVER_URL}/productions/packages`)
                                     
                                  }, 
                                 {
                                     label: 'Metas', 
                                     handler: () => 
-                                    
                                         window.open(`${process.env.SERVER_URL}/productions/metas`)
                                     
                                  }, 
                                 {
                                     label: 'tFolders', 
                                     handler: () => 
-                                    
                                         window.open(`${process.env.SERVER_URL}/productions/tfolders`)
                                     
                                  }, 
                                 {
                                     label: 'Settings', 
                                     handler: () => 
-                                    
                                         window.open(`${process.env.SERVER_URL}/settings`)
                                     
                                  }
@@ -112,7 +103,6 @@ export class UserMenuComp extends React.Component<UserMenuProps, State> {
                                 {
                                     label: 'Log in to Wizzi', 
                                     handler: () => 
-                                    
                                         window.location.href = '#'
                                     
                                  }
@@ -125,6 +115,7 @@ export class UserMenuComp extends React.Component<UserMenuProps, State> {
         ;
     }
 }
+
 export const UserMenu = UserMenuComp;
 export default UserMenu;
 const styles = StyleSheet.create({

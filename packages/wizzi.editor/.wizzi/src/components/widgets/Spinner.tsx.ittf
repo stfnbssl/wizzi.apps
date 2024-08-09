@@ -101,12 +101,12 @@ module
                             {
                                 @ opacity
                         @ transform
-                            `lit
+                            template
                                 + rotate(
                                 @ rotation
                                 + )
             const rgbaColor
-                `lit
+                template
                     + rgba(
                     @ red
                     + ,&nbsp;
@@ -127,7 +127,7 @@ module
                         @ strokeWidth {segmentWidth}
                         @ strokeLinecap "round"
                         @ transform
-                            `lit
+                            template
                                 + translate(
                                 @ radius
                                 + ,&nbsp;

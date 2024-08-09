@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Router.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import * as React from 'react';
 import {Switch, Route} from 'react-router-dom';
@@ -29,31 +29,24 @@ export default class Router extends React.Component<Props> {
                     defaults: data.defaults
                  };
                 return  (
-                    <App
-                     {...appProps} />
+                    <App {...appProps} />
                     )
                 ;
             }
             else {
                 return  (
-                    <NonExistent
-                     />
+                    <NonExistent />
                     )
                 ;
             }
         };
         render() {
             return  (
-                <Switch
-                >
-                    <Route
-                     exact path="/@:username/:projectName+" render={this._renderRoute} />
-                    <Route
-                     exact path="/:id" render={this._renderRoute} />
-                    <Route
-                     exact path="/" render={this._renderRoute} />
-                    <Route
-                     component={NonExistent} />
+                <Switch>
+                    <Route exact path="/@:username/:projectName+" render={this._renderRoute} />
+                    <Route exact path="/:id" render={this._renderRoute} />
+                    <Route exact path="/" render={this._renderRoute} />
+                    <Route component={NonExistent} />
                 </Switch>
                 )
             ;

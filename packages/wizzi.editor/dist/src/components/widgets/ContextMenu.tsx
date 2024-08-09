@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\ContextMenu.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import classnames from 'classnames';
@@ -16,6 +16,7 @@ export type Action = {
     disabled?: boolean;
     combo?: number[];
 };
+;
 
 export type ContextMenuProps = { 
     innerRef?: React.Ref<HTMLUListElement>;
@@ -28,6 +29,7 @@ export type ContextMenuProps = {
     onHide: () => void;
     className?: string;
 };
+;
 const BOTTOM_OFFSET = 35;
 const MENU_ITEM_HEIGHT = 28;
 
@@ -39,20 +41,18 @@ export class ContextMenu extends React.PureComponent<ContextMenuProps> {
             actions, 
             onHide, 
             className, 
-            
             // @ts-ignore
+            
             innerRef
          } = this.props;
         if (!visible) {
-            return null; 
+            return null;
         }
         const shownActions = actions.filter(action => 
-            
                 action
             ) as Action[];
         return  (
-            <ul
-             ref={innerRef} className={classnames(css(styles.menu), className)} style={position ? {
+            <ul ref={innerRef} className={classnames(css(styles.menu), className)} style={position ? {
                         position: 'fixed', 
                         top: Math.min(position.pageY, window.innerHeight - BOTTOM_OFFSET - shownActions.length * MENU_ITEM_HEIGHT), 
                         left: position.pageX, 
@@ -65,30 +65,22 @@ export class ContextMenu extends React.PureComponent<ContextMenuProps> {
                         disabled, 
                         combo
                      }: Action) => 
-                    
                          (
-                        <li
-                         key={label}>
-                            <button
-                             disabled={disabled} className={css(styles.item, disabled && styles.disabled)} onClick={() => {
-                                
+                        <li key={label}>
+                            <button disabled={disabled} className={css(styles.item, disabled && styles.disabled)} onClick={() => {
                                     handler();
                                     onHide();
                                 }
                             }>
-                                <div
-                                >
-                                    {label}
-                                </div>
+                                <div>
+                                    {label}</div>
                                 {
                                     combo ?  (
-                                        <ShortcutLabel
-                                         combo={combo} className={css(styles.hint)} />
+                                        <ShortcutLabel combo={combo} className={css(styles.hint)} />
                                         )
                                      : null
                                 }
-                            </button>
-                        </li>
+                            </button></li>
                         )
                     
                     )
@@ -98,11 +90,10 @@ export class ContextMenu extends React.PureComponent<ContextMenuProps> {
         ;
     }
 }
+
 export default React.forwardRef((props: ContextMenuProps, ref: React.Ref<HTMLUListElement>) => 
-    
          (
-        <ContextMenu
-         {...props} innerRef={ref} />
+        <ContextMenu {...props} innerRef={ref} />
         )
     
     )

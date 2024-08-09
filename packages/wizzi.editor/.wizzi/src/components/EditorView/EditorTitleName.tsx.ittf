@@ -208,19 +208,19 @@ module
                     @ borderRadius 3
                     { ':hover'
                         @ boxShadow
-                            `lit 
+                            template 
                                 + inset 0 0 0 1px&nbsp;
                                 _ c('border')
                                 + 
                     { ':focus'
                         @ boxShadow
-                            `lit 
+                            template 
                                 + inset 0 0 0 1px&nbsp;
                                 _ c('selected')
                                 + 
                     { ':hover:focus'
                         @ boxShadow
-                            `lit 
+                            template 
                                 + inset 0 0 0 1px&nbsp;
                                 _ c('selected')
                                 + 
@@ -253,7 +253,7 @@ module
                         @ borderLeft '6px solid transparent'
                         @ borderRight '6px solid transparent'
                         @ borderBottom
-                            `lit 
+                            template 
                                 + 6px solid&nbsp;
                                 _ c('error')
                                 + 
@@ -279,13 +279,13 @@ module
                     @ margin 16
                 { infoLight
                     @ backgroundImage
-                        `lit 
+                        template 
                             + url(
                             _ require('../../assets/info-icon.png')
                             + )
                 { infoDark
                     @ backgroundImage
-                        `lit 
+                        template 
                             + url(
                             _ require('../../assets/info-icon-light.png')
                             + )
@@ -295,7 +295,7 @@ module
                     @ outline 0
                     @ border 'none'
                     @ borderTop
-                        `lit 
+                        template 
                             + 1px solid&nbsp;
                             _ c('border')
                             + 

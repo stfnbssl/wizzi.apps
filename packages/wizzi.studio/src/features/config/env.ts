@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\config\env.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 import dotenv from 'dotenv';
@@ -11,7 +11,6 @@ import wizzi from '@wizzi/factory';
 import {ConfigType} from './types';
 const costants = wizzi.costants;
 function validateEnv() {
-
     dotenv.config();
     let checkedEnv = cleanEnv(process.env, {
         PORT: port(), 
@@ -31,7 +30,6 @@ export const packiFilePrefixExtract = costants.packiFilePrefixExtract;
 export const packiConfigPath = '.packi/config.json.ittf';
 let config: ConfigType;
 export default function create():  ConfigType {
-    
         if (config == null) {
             const checkedEnv = validateEnv();
             const __rootPath = path.join(__dirname, '..', '..', '..');
@@ -67,7 +65,6 @@ export default function create():  ConfigType {
                 config.mongoConnectUrl = `${mongoPath}`;
             }
             Object.keys(config).forEach((element) => {
-            
                 if (element.indexOf("Pass") < 0 && element.indexOf("Secr") < 0) {
                     console.log('Created config', element, (config as any)[element])
                 }

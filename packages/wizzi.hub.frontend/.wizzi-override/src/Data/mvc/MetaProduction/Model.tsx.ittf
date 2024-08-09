@@ -11,6 +11,9 @@ module
             { name: "reloadCount", type: 'number' },
         ];
 
+    import DiffMatchPatch 
+        from "diff-match-patch"
+
     import
         @ JobItem
         from "@/Data/types"
@@ -107,7 +110,9 @@ module
                 param filePath
                     :string
                 param oldContents
-                    :string
+                    :union
+                        :string
+                        :null
                 param newContents
                     :string
                 param_callback( required, Method: ${myName}.updatePackiFile )
@@ -115,28 +120,50 @@ module
                         :void 
                         param cb
                             :any
-                info "${myDisplayName}.updatePackiFile", productionKind, filePath, newContents
-                if oldContents.trim() == newContents.trim()
+                info "${myDisplayName}.updatePackiFile", productionKind, filePath, oldContents, newContents
+                if oldContents && oldContents.trim() == newContents.trim()
                     return
                         _ callback
                             {
                                 @ message 'Nothing changed'
-                const pbuilder
-                    new packiApi.PackiBuilder
+                let packiDiffs
+                    :{ 
+                        :index 
+                            :{ 
+                                :p d
+                                    :number 
+                                :p contents
+                                    :string 
+                                :p diffs
+                                    :optional 
+                                    :[ 
+                                        :ref DiffMatchPatch.Diff
+                            param x
+                                :string 
+                    =
+                        { 
+                            { [filePath]
+                                @ d 1
+                                @ contents newContents
+                                @ diffs []
+
+                if oldContents != null
+                    const pbuilder
+                        new packiApi.PackiBuilder
+                            {
+                    _ pbuilder.putCodeFile
+                        @ filePath
+                        @ oldContents
+                    const fileDiffs
+                        _ pbuilder.getFileDiffs
+                            @ filePath
+                            @ newContents
+                    set packiDiffs
                         {
-                _ pbuilder.putCodeFile
-                    @ filePath
-                    @ oldContents
-                const fileDiffs
-                  _ pbuilder.getFileDiffs
-                    @ filePath
-                    @ newContents
-                const packiDiffs
-                    {
-                        { [filePath]
-                            @ d 0
-                            @ diffs fileDiffs
-                            @ contents newContents
+                            { [filePath]
+                                @ d 0
+                                @ diffs fileDiffs
+                                @ contents newContents
                 _ this.storage.putPackiDiffs
                     @ productionKind
                     @ productionId
@@ -197,6 +224,16 @@ module
                     set mdp.json.npm = {}
                     set mdp.text = JSON.stringify(mdp.json)
                 set jobItem.__metaDemoPackage = mdp
+                #
+                # set saved meta context (metaCtx) object
+                const metaCtx
+                    _ packiApi.extractPackiFileContent
+                        @ jobItem.packiFiles
+                        @ this.constants.metaCtxFilePath
+                        {
+                            @ json true
+                set metaCtx.json = metaCtx.json || {}
+                set jobItem.__metaCtx = metaCtx
                 #
                 set jobItem.__setup = true
                 $$ info '${myDisplayName}.setupJobProductionItem.jobItem.__metaProductions', jobItem.__metaProductions

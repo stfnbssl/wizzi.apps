@@ -360,7 +360,7 @@ module
                     @ height '2em'
                     @ background c('background')
                     @ border
-                        `lit 
+                        template 
                             + 2px solid&nbsp;
                             @ c('border')
                             + 
@@ -376,7 +376,7 @@ module
                     @ backgroundColor c('content')
                     @ color c('text')
                     @ border
-                        `lit 
+                        template 
                             + 1px solid&nbsp;
                             @ c('border')
     const muiStyles

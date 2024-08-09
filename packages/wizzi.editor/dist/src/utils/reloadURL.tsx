@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\utils\reloadURL.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import querystring from 'query-string';
 import type {RouterData, QueryParams, QueryStateParams} from '../features/packi/index';
@@ -10,21 +10,19 @@ export type ReloadURLOptions = {
     noEmbedded?: boolean;
     useAllQueryParamsWhenPossible?: boolean;
 };
+;
 declare const __INITIAL_DATA__: { 
     data: RouterData;
     queryParams: QueryParams;
 };
 type QueryStateParamKeys =  keyof QueryStateParams;
 function pickQueryStateParams(queryParams: QueryParams) {
-
     const res: QueryStateParams = {};
     for (const key in queryParams) {
-        
         /**
             * eslint @typescript-eslint/switch-exhaustiveness-check: 1
         */
         const name = key as QueryStateParamKeys;
-        
         /**
             * eslint @typescript-eslint/switch-exhaustiveness-check: 1
         */
@@ -41,7 +39,6 @@ function pickQueryStateParams(queryParams: QueryParams) {
     return res;
 }
 export function getReloadURL(queryParams?: QueryParams, options?: ReloadURLOptions) {
-
     const {
         origin
      } = window.location;
@@ -66,8 +63,8 @@ export function getReloadURL(queryParams?: QueryParams, options?: ReloadURLOptio
     }
     return `${origin}${pathname}?${querystring.stringify(allQueryParams)}`;
 }
-export function reload() {
 
+export function reload() {
     const url = getReloadURL(undefined, {
         useAllQueryParamsWhenPossible: true
      });

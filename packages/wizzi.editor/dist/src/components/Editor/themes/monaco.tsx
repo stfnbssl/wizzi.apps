@@ -1,13 +1,12 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Editor\themes\monaco.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import * as darkColors from './colors-dark';
 import * as lightColors from './colors-light';
 const c = (color: string) => 
-
     color.substr(1)
 ;
 const theme = ({
@@ -17,7 +16,6 @@ const theme = ({
     ui: lightColors.UIColors;
     syntax: lightColors.SyntaxColors;
 }, base: 'vs' | 'vs-dark') => 
-
     ({
         base, 
         inherit: true, 
@@ -218,4 +216,5 @@ const theme = ({
      })
 ;
 export const light = theme(lightColors, 'vs');
+
 export const dark = theme(darkColors, 'vs-dark');

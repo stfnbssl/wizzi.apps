@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\pages\EditorDocument.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import jsesc from 'jsesc';
 import React from 'react';
@@ -103,7 +103,6 @@ type EditorDocumentProps = {
 };
 
 export default function EditorDocument(props: EditorDocumentProps) {
-    
         const {
             data, 
             loggedUser, 
@@ -111,26 +110,17 @@ export default function EditorDocument(props: EditorDocumentProps) {
             content
          } = props;
         return  (
-            <html
-            >
-                <head
-                >
-                    <meta
-                     charSet="utf-8" />
-                    <meta
-                     httpEquiv="X-UA-Compatible" content="IE=edge" />
-                    <meta
-                     name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
-                    <link
-                     rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,500,600" />
-                    <link
-                     rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css" />
-                    <style
-                     type="text/css" dangerouslySetInnerHTML={{
+            <html>
+                <head>
+                    <meta charSet="utf-8" />
+                    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+                    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,500,600" />
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css" />
+                    <style type="text/css" dangerouslySetInnerHTML={{
                             __html: PageCss
                          }} />
-                    <script
-                     dangerouslySetInnerHTML={{
+                    <script dangerouslySetInnerHTML={{
                             __html: `  window.__INITIAL_DATA__ = ${jsesc({
                                 data, 
                                 loggedUser, 
@@ -143,22 +133,14 @@ export default function EditorDocument(props: EditorDocumentProps) {
 `
                          }} />
                 </head>
-                <body
-                >
-                    <section
-                     id="root" />
-                    <script
-                     defer src="/public/packi/app.bundle.js" />
-                    <script
-                     defer src="/public/packi/editor.worker.bundle.js" />
-                    <script
-                     defer src="/public/packi/json.worker.bundle.js" />
-                    <script
-                     defer src="/public/packi/css.worker.bundle.js" />
-                    <script
-                     defer src="/public/packi/html.worker.bundle.js" />
-                    <script
-                     defer src="/public/packi/ts.worker.bundle.js" />
+                <body>
+                    <section id="root" />
+                    <script defer src="/public/packi/app.bundle.js" />
+                    <script defer src="/public/packi/editor.worker.bundle.js" />
+                    <script defer src="/public/packi/json.worker.bundle.js" />
+                    <script defer src="/public/packi/css.worker.bundle.js" />
+                    <script defer src="/public/packi/html.worker.bundle.js" />
+                    <script defer src="/public/packi/ts.worker.bundle.js" />
                 </body>
             </html>
             )

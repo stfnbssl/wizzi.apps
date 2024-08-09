@@ -16,6 +16,7 @@ module
         setCtxDevDep ('vite', '^5.0.0');
         setCtxDevDep ('vite-plugin-eslint', '^1.8.1');
         setCtxDevDep ('@vitejs/plugin-react', '^4.2.0');
+    import path from 'path'
     import
         @ defineConfig
         from 'vite'
@@ -23,8 +24,29 @@ module
     export-default
         _ defineConfig
             {
+                { build
+                    @ outDir path.resolve(__dirname, '..', 'wizzi.hub.backend', 'public', 'meta')
+                        # Set the output directory
+                    @ emptyOutDir false
+                        # Ensure that Vite doesn't empty the outDir on build
+                @ base '/public/meta/'
                 [ plugins
                     @ react()
+                    $if TODO
+                        { 
+                            @ name 'rewrite-middleware'
+                            m configureServer
+                                param server
+                                _ server.middlewares.use
+                                    => 
+                                        param req
+                                        param res
+                                        param next
+                                        if req.url.startsWith('/public/meta/')
+                                            set req.url = req.url.replace('/public/meta/', '/')
+                                        _ next()
+                { server
+                    @ middlewareMode 'html'                                                
                 { resolve
                     [ alias
                         {
@@ -46,3 +68,5 @@ module
                             @ find '@/Utils'
                             @ replacement '/src/Utils'
         # https://vitejs.dev/config/
+
+

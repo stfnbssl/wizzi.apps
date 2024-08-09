@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziMeta\api\wizziMeta.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 import {verify, fSystem} from 'wizzi-utils';
@@ -13,13 +13,9 @@ import {packiTypes} from '../../packi';
 const file = fSystem.vfile();
 
 export async function getMetaParameters(options: WizziMetaRequest) {
-
     return new Promise((resolve, reject) => 
-        
-            metaApi.getInMemoryMetaPlugins(options.inMemoryMetas).then(
-            // log 'wizziMeta.getMetaParameters.options', options
+            metaApi.getInMemoryMetaPlugins(options.inMemoryMetas).then(// log 'wizziMeta.getMetaParameters.options', options
             async (inMemoryItems: any) => {
-            
                 console.log('wizziMeta.getMetaParameters.inMemoryItems', Object.keys(inMemoryItems), __filename);
                 let jsonwf = await wizziFactory.createJsonFsAndFactory({}, null, {
                         inMemoryItems: inMemoryItems
@@ -35,7 +31,6 @@ export async function getMetaParameters(options: WizziMetaRequest) {
                     }
                 }
                 jsonwf.wf.getMetaParameters(mpOptions, async (err, metaParameters) => {
-                
                     if (err) {
                         return reject(err);
                     }
@@ -64,7 +59,6 @@ export async function getMetaParameters(options: WizziMetaRequest) {
                     const metaParametersObjArray = Object.values(metaParametersObj);
                     const jsonwf2 = await wizziFactory.createJsonFsAndFactory(metaParameters, null, null, {});
                     function generateJson(count) {
-                    
                         const mpObj = metaParametersObjArray[count] as any;
                         if (!mpObj) {
                             const result = {
@@ -78,7 +72,6 @@ export async function getMetaParameters(options: WizziMetaRequest) {
                                 modelRequestContext: {}, 
                                 artifactRequestContext: {}
                              }, 'json/document', (err: any, result: any) => {
-                            
                                 if (err) {
                                     return reject(err);
                                 }
@@ -88,7 +81,6 @@ export async function getMetaParameters(options: WizziMetaRequest) {
                                         modelRequestContext: {}, 
                                         artifactRequestContext: {}
                                      }, 'json/document', (err: any, result: any) => {
-                                    
                                         if (err) {
                                             return reject(err);
                                         }
@@ -109,7 +101,6 @@ export async function getMetaParameters(options: WizziMetaRequest) {
                                     modelRequestContext: {}, 
                                     artifactRequestContext: {}
                                  }, 'json/document', (err: any, result: any) => {
-                                
                                     if (err) {
                                         return reject(err);
                                     }
@@ -128,7 +119,6 @@ export async function getMetaParameters(options: WizziMetaRequest) {
                 )
             }
             ).catch((error: any) => {
-            
                 if (typeof error === 'object' && error !== null) {
                 }
                 console.log("[31m%s[0m", 'wizziMeta.getMetaParameters.error', error);
@@ -140,13 +130,10 @@ export async function getMetaParameters(options: WizziMetaRequest) {
 }
 
 export async function getProvidedMetas(options: WizziMetaRequest) {
-
     const jsonwf = await wizziFactory.createJsonFsAndFactory({}, null, null, {});
     return new Promise((resolve, reject) => {
-        
             console.log('wizziMeta.getMetaProvides.options', options, __filename);
             jsonwf.wf.getProvidedMetas((err, providedMetas) => {
-            
                 if (err) {
                     return reject(err);
                 }
@@ -158,28 +145,20 @@ export async function getProvidedMetas(options: WizziMetaRequest) {
 }
 
 export async function executeMetaProduction(options: WizziMetaRequest) {
-
-    return new Promise(
-        // log 'wizziMeta.executeMetaProduction.options', options
+    return new Promise(// log 'wizziMeta.executeMetaProduction.options', options
         (resolve, reject) => 
-        
-            createMetaCtx(options).then(
-            // log 'wizziMeta.createWizziPackage.metaCtx', metaCtx
+            createMetaCtx(options).then(// log 'wizziMeta.createWizziPackage.metaCtx', metaCtx
             (metaCtx: any) => {
-            
                 var pluginsBaseFolder = 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages';
                 var metaPluginsBaseFolder = 'C:/My/wizzi/stfnbssl/wizzi.metas/packages';
                 var globalContext = {};
                 wizziProds.executeMetaProduction(metaCtx, null, null, {}).then((packiFiles: any) => {
-                
                     persistPackageFiles(packiFiles, options)
                     .then((packiFiles: any) => {
-                    
                         return resolve(packiFiles);
                     }
                     )
                     .catch((error: any) => {
-                    
                         if (typeof error === 'object' && error !== null) {
                         }
                         console.log("[31m%s[0m", 'wizziMeta.executeMetaProduction.persistPackageFiles.error', error);
@@ -188,7 +167,6 @@ export async function executeMetaProduction(options: WizziMetaRequest) {
                     )
                 }
                 ).catch((error: any) => {
-                
                     if (typeof error === 'object' && error !== null) {
                     }
                     console.log("[31m%s[0m", 'wizziMeta.executeMetaProduction.executeMetaProduction.error', error);
@@ -197,7 +175,6 @@ export async function executeMetaProduction(options: WizziMetaRequest) {
                 )
             }
             ).catch((error: any) => {
-            
                 if (typeof error === 'object' && error !== null) {
                 }
                 console.log("[31m%s[0m", 'wizziMeta.executeMetaProduction.createMetaCtx.error', error);
@@ -209,31 +186,23 @@ export async function executeMetaProduction(options: WizziMetaRequest) {
 }
 
 export async function executeMetaProductionWithInMemoryPlugins(options: WizziMetaRequest) {
-
     return new Promise((resolve, reject) => 
-        
             metaApi.getInMemoryMetaPlugins(options.inMemoryMetas).then((inMemoryItems: any) => {
-            
                 console.log('wizziMeta.executeMetaProductionWithInMemoryPlugins.inMemoryItems', Object.keys(inMemoryItems), __filename);
-                createMetaCtx(options).then(
-                // log 'wizziMeta.createWizziPackage.metaCtx', metaCtx
+                createMetaCtx(options).then(// log 'wizziMeta.createWizziPackage.metaCtx', metaCtx
                 (metaCtx: any) => {
-                
                     var pluginsBaseFolder = 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages';
                     var metaPluginsBaseFolder = 'C:/My/wizzi/stfnbssl/wizzi.metas/packages';
                     var globalContext = {};
                     wizziProds.executeMetaProduction(metaCtx, null, null, {}, {
                         inMemoryItems: inMemoryItems
                      }).then((packiFiles: any) => {
-                    
                         persistPackageFiles(packiFiles, options)
                         .then((packiFiles: any) => {
-                        
                             return resolve(packiFiles);
                         }
                         )
                         .catch((error: any) => {
-                        
                             if (typeof error === 'object' && error !== null) {
                             }
                             console.log("[31m%s[0m", 'wizziMeta.executeMetaProduction.persistPackageFiles.error', error);
@@ -242,7 +211,6 @@ export async function executeMetaProductionWithInMemoryPlugins(options: WizziMet
                         )
                     }
                     ).catch((error: any) => {
-                    
                         if (typeof error === 'object' && error !== null) {
                         }
                         console.log("[31m%s[0m", 'wizziMeta.executeMetaProduction.executeMetaProduction.error', error);
@@ -251,7 +219,6 @@ export async function executeMetaProductionWithInMemoryPlugins(options: WizziMet
                     )
                 }
                 ).catch((error: any) => {
-                
                     if (typeof error === 'object' && error !== null) {
                     }
                     console.log("[31m%s[0m", 'wizziMeta.executeMetaProduction.createMetaCtx.error', error);
@@ -264,11 +231,8 @@ export async function executeMetaProductionWithInMemoryPlugins(options: WizziMet
         );
 }
 async function createMetaCtx(options: WizziMetaRequest) {
-
-    return new Promise(
-        // log 'createMetaCtx.options.metaCtxFilepath', options.metaCtxFilepath
+    return new Promise(// log 'createMetaCtx.options.metaCtxFilepath', options.metaCtxFilepath
         (resolve, reject) => {
-        
             if (options.metaCtx) {
                 return resolve(options.metaCtx);
             }
@@ -281,11 +245,9 @@ async function createMetaCtx(options: WizziMetaRequest) {
                     description: options.description || options.outputPackageName
                  }
              }).then((metaCtx: any) => {
-            
                 return resolve(metaCtx);
             }
             ).catch((error: any) => {
-            
                 if (typeof error === 'object' && error !== null) {
                 }
                 console.log("[31m%s[0m", 'wizziMeta.createMetaCtx.error', error);
@@ -296,11 +258,8 @@ async function createMetaCtx(options: WizziMetaRequest) {
         );
 }
 async function persistPackageFiles(packiFiles: packiTypes.PackiFiles, options: WizziMetaRequest) {
-
     return new Promise((resolve, reject) => {
-        
             if (options.persist) {
-                
                 // TODO
                 if (options.persist.type == 'filesystem') {
                     return resolve(packiFiles);

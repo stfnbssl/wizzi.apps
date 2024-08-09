@@ -1,29 +1,36 @@
 {
-    "name": "ts.express.lab",
+    "name": "wizzi.hub.backend",
     "version": "0.0.1",
-    "description": "Typescript express lab",
+    "description": "Wizzi hub server",
     "author": {
         "name": "Stefano Bassoli",
         "email": "stfn.bssl@gmail.com"
     },
     "license": {
-        "type": "[object Object]",
-        "url": ""
+        "type": "MIT"
     },
     "App": {
-        "name": "ts.express.lab",
-        "title": "",
+        "name": "wizzi.hub.backend",
+        "title": "Wizzi hub server",
         "isLocal": true,
         "isProduction": false,
-        "port": "5100",
+        "port": "3003",
         "useSsl": false,
         "siteUrl": "http://localhost",
-        "baseUrl": "http://localhost:5100",
+        "baseUrl": "http://localhost:3003",
         "siteUrlLocal": "http://localhost",
-        "baseUrlLocal": "http://localhost:5100",
+        "baseUrlLocal": "http://localhost:3003",
         "apiVersion": "v1"
     },
     "Build": {
+        "rootPath": {
+            "siteViewsFiles": "__dirname, '..'",
+            "staticFiles": "__dirname, '..'"
+        },
+        "useConfig": true,
+        "config": {
+            "mockLoggedUser": true
+        },
         "features": [
             {
                 "name": "wizziProductions",
@@ -39,6 +46,11 @@
                 "name": "wizziHubProductions",
                 "hasControllers": true,
                 "useMongoDb": true
+            },
+            {
+                "name": "wizziDocs",
+                "hasControllers": true,
+                "useMongoDb": false
             },
             {
                 "name": "packi",
@@ -58,8 +70,14 @@
             "useErrors": false,
             "useStaticFiles": true,
             "staticFiles": {
-                "basePath": "__dirname, '..', '..'"
+                "basePath": "__dirname, '..'"
             },
+            "useIttfStatic": true,
+            "ittfStatic": {},
+            "useWizziViewEngine": true,
+            "wizziViewEngine": {},
+            "usePackiBrowse": true,
+            "packiBrowse": {},
             "useSessionStore": false,
             "useExpressValidator": true,
             "useSession": true,
@@ -126,12 +144,14 @@
         "useWizzi": true,
         "wizzi": {
             "isDev": true,
+            "configBasedRootPath": "'..'",
             "plugins": [
                 "./wizzi.plugin.css/index.js",
                 "./wizzi.plugin.html/index.js",
                 "./wizzi.plugin.ittf/index.js",
                 "./wizzi.plugin.js/index.js",
                 "./wizzi.plugin.json/index.js",
+                "./wizzi.plugin.logbot/index.js",
                 "./wizzi.plugin.md/index.js",
                 "./wizzi.plugin.svg/index.js",
                 "./wizzi.plugin.text/index.js",
@@ -179,6 +199,15 @@
         "xxx": {},
         "wizziDevHubProductions": {
             "useCachedProductions": false
+        },
+        "useSite": true,
+        "site": {
+            "useIttfStatic": false,
+            "ittfStatic": {},
+            "useDemoHome": true,
+            "demoHome": {},
+            "useWizziDocs": true,
+            "wizziDocs": {}
         }
     }
 }

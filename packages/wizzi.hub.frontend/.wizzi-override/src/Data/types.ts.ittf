@@ -83,6 +83,21 @@ module
                             :ref MetaDemoPackage
                     :optional
                     # meta demo package properties
+                :p __metaCtx
+                    :{
+                        :p text
+                            :string
+                        :p json
+                            :{
+                                :index
+                                    :any
+                                    param key
+                                        :string
+                        :p exists
+                            :boolean
+                            :optional
+                    :optional
+                    # saved metaCtx object
 
 
 

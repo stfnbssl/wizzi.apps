@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\site\controllers\productions.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -16,9 +16,7 @@ import jsesc from 'jsesc';
 import {artifactApi, packageApi, pluginApi, metaApi, tFolderApi} from '../../features/production';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -59,9 +57,7 @@ export class ProductionsController implements ControllerType {
     };
     
     private artifacts = async (request: Request, response: Response) => 
-    
         artifactApi.getArtifactProductionList().then(result => 
-        
             response.render('wizzi/productions/artifacts.html.ittf', {
                 title: 'Artifact productions · Wizzi', 
                 artifacts: result.item, 
@@ -82,7 +78,6 @@ export class ProductionsController implements ControllerType {
                  })}`
              })
         ).catch((err: any) => {
-        
             console.log("[31m%s[0m", 'artifact productions.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {
@@ -95,9 +90,7 @@ export class ProductionsController implements ControllerType {
     ;
     
     private packages = async (request: Request, response: Response) => 
-    
         packageApi.getPackageProductionList().then(result => 
-        
             response.render('wizzi/productions/packages.html.ittf', {
                 title: 'Package productions · Wizzi', 
                 packages: result.item, 
@@ -118,7 +111,6 @@ export class ProductionsController implements ControllerType {
                  })}`
              })
         ).catch((err: any) => {
-        
             console.log("[31m%s[0m", 'package productions.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {
@@ -131,9 +123,7 @@ export class ProductionsController implements ControllerType {
     ;
     
     private plugins = async (request: Request, response: Response) => 
-    
         pluginApi.getPluginProductionList().then(result => 
-        
             response.render('wizzi/productions/plugins.html.ittf', {
                 title: 'Plugin productions · Wizzi', 
                 plugins: result.item, 
@@ -154,7 +144,6 @@ export class ProductionsController implements ControllerType {
                  })}`
              })
         ).catch((err: any) => {
-        
             console.log("[31m%s[0m", 'plugin productions.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {
@@ -167,9 +156,7 @@ export class ProductionsController implements ControllerType {
     ;
     
     private metas = async (request: Request, response: Response) => 
-    
         metaApi.getMetaProductionList().then(result => 
-        
             response.render('wizzi/productions/metas.html.ittf', {
                 title: 'Meta productions · Wizzi', 
                 metas: result.item, 
@@ -190,7 +177,6 @@ export class ProductionsController implements ControllerType {
                  })}`
              })
         ).catch((err: any) => {
-        
             console.log("[31m%s[0m", 'meta productions.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {
@@ -203,9 +189,7 @@ export class ProductionsController implements ControllerType {
     ;
     
     private tfolders = async (request: Request, response: Response) => 
-    
         tFolderApi.getTFolderList().then(result => 
-        
             response.render('wizzi/productions/tfolders.html.ittf', {
                 title: 'tFolder · Wizzi', 
                 tfolders: result.item, 
@@ -226,7 +210,6 @@ export class ProductionsController implements ControllerType {
                  })}`
              })
         ).catch((err: any) => {
-        
             console.log("[31m%s[0m", 'tFolders.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {

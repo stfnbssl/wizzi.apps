@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\LargeInput.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -18,6 +18,7 @@ export type LargeInputProps = {
     autoFocus?: boolean;
     error?: Error | null;
 };
+;
 
 type State = { 
     focused: boolean;
@@ -42,10 +43,8 @@ export class LargeInput extends React.Component<LargeInputProps, State> {
     _input = React.createRef<HTMLInputElement>();
     render() {
         return  (
-            <div
-             className={css(styles.container)}>
-                <input 
-                    ref={this._input}
+            <div className={css(styles.container)}>
+                <input ref={this._input}
                     autoFocus={this.props.autoFocus}
                     className={css(styles.input, this.props.error ? styles.error : styles.normal)}
                     value={this.props.value}
@@ -56,13 +55,10 @@ export class LargeInput extends React.Component<LargeInputProps, State> {
                     placeholder={this.props.placeholder}
                     onFocus={this._handleFocus}
                     onBlur={this._handleBlur}
-                 />
-                {
+                 />{
                     this.state.focused && this.props.error ?  (
-                        <div
-                         className={css(styles.validation)}>
-                            {this.props.error.message}
-                        </div>
+                        <div className={css(styles.validation)}>
+                            {this.props.error.message}</div>
                         )
                      : null
                 }
@@ -71,6 +67,7 @@ export class LargeInput extends React.Component<LargeInputProps, State> {
         ;
     }
 }
+
 
 export default LargeInput;
 

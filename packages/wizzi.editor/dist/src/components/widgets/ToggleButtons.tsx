@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\ToggleButtons.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import classnames from 'classnames';
@@ -19,31 +19,23 @@ export type ToggleButtonsProps<T extends string> = {
     disabled?: boolean;
     className?: string;
 };
+;
 
 export function ToggleButtons<T extends string>(props: ToggleButtonsProps<T>) {
-
     return  (
-        <span
-         className={classnames(css(styles.buttons, props.disabled && styles.disabled), props.className)}>
-            {
+        <span className={classnames(css(styles.buttons, props.disabled && styles.disabled), props.className)}>{
                 props.options.map((o) => 
-                
                      (
-                    <button
-                     key={o.value} className={css(styles.button, o.value === props.value ? props.disabled ? styles.activeDisabled : styles.active : undefined)} onClick={() => 
-                        
+                    <button key={o.value} className={css(styles.button, o.value === props.value ? props.disabled ? styles.activeDisabled : styles.active : undefined)} onClick={() => 
                             props.onValueChange(o.value)
-                    }>
-                        {o.label}
-                    </button>
-                    )
+                    }>{o.label}</button>)
                 
                 )
             }
-        </span>
-        )
+        </span>)
     ;
 }
+
 
 const styles = StyleSheet.create({
     disabled: {

@@ -1,0 +1,32 @@
+$group
+    $params &md
+    
+    $if md.isHeroku
+        useAuthentication true
+        { authentication
+            isProduction false
+            isLocal true
+            authRequired false
+            userInfo false
+            useLocal true
+            { local
+            useGithub true
+            { github
+                clientIdLocal "${md.stfnbssl_env.githubClientIdLocal}"
+                clientSecretLocal "${md.stfnbssl_env.githubClientSecretLocal}"
+                callbackURLLocal "http://localhost:5000/api/v1/authenticate/github/callback"
+                clientId "${md.stfnbssl_env.githubClientId}"
+                clientSecret "${md.stfnbssl_env.githubClientSecret}"
+                callbackURL "http://localhost:5000/api/v1/authenticate/github/callback"
+            useGoogle true
+            { google
+                clientIdLocal "${md.stfnbssl_env.googleClientIdLocal}"
+                clientSecretLocal "${md.stfnbssl_env.googleClientSecretLocal}"
+                callbackURLLocal "http://localhost:5000/api/v1/authenticate/google/callback"
+                clientId "${md.stfnbssl_env.googleClientId}"
+                clientSecret "${md.stfnbssl_env.googleClientSecret}"
+                callbackURL "http://localhost:5000/api/v1/authenticate/google/callback"
+    $else
+        useLocalUserFromConfig true
+        { localUserFromConfig
+

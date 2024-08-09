@@ -1,17 +1,15 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\styles\utils.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {themeGet} from '@styled-system/theme-get';
 import {css} from 'styled-components';
 
 
 export const applyVariations = (componentName: string, variations: any = null) => 
-
     ((props: any) => {
-    
         const {
             color, 
             variation
@@ -33,7 +31,6 @@ export const applyVariations = (componentName: string, variations: any = null) =
 import {boxShadows as defaultBoxShadowTheme} from '../SCTheme';
 
 export function boxShadow(props: any) {
-
     const boxShadowTheme = props.theme.boxShadows || defaultBoxShadowTheme;
     const boxShadows = {
         sm: {
@@ -49,13 +46,12 @@ export function boxShadow(props: any) {
             'box-shadow': boxShadowTheme[3]
          }
      };
-    
     // @ts-ignore
-    return boxShadows[props.boxShadowSize]; 
+    
+    return boxShadows[props.boxShadowSize];
 }
 
 export const color = (props: any) => {
-
     if (!props.theme || (!props.color && !props.bg)) {
         return '';
     }
@@ -98,19 +94,16 @@ export const color = (props: any) => {
 }
 ;
 export const decomposeColor = (color: string):  number[] => {
-
     if (color.charAt(0) === '#') {
         return decomposeColor(hexToRgb(color));
     }
     return color.substring(color.indexOf('(') + 1, color.length - 1).split(',').map(value => 
-        
             parseFloat(value)
         );
 }
 ;
 
 export const getByPalette = (props: any) => 
-
     css`
         background-color: ${getPaletteColor(props.bg, 'base')(props)};
         color: ${getPaletteColor(props.color, 'base')(props)};
@@ -119,7 +112,6 @@ export const getByPalette = (props: any) =>
 ;
 
 export const getContrastRatio = (colorA: string, colorB: string) => {
-
     const luminA = getLuminance(colorA);
     const luminB = getLuminance(colorB);
     return (Math.max(luminA, luminB) + 0.05) / (Math.min(luminA, luminB) + 0.05);
@@ -127,9 +119,7 @@ export const getContrastRatio = (colorA: string, colorB: string) => {
 ;
 
 export const getLuminance = (color: string) => {
-
     const [r, g, b] = decomposeColor(color).map((val: number) => {
-    
         val = val / 255;
         return val <= 0.03928 ? val / 12.92 : ((val + 0.055) / 1.055) ** 2.4;
     }
@@ -139,9 +129,7 @@ export const getLuminance = (color: string) => {
 ;
 
 export const getPaletteColor = (...args: string[]) => 
-
     ((props: any) => {
-    
         let color = args.length === 2 ? args[0] : props.color;
         let shade = args.length === 2 ? args[1] : args[0];
         const colorShade = shade.match(/^([a-z]+)\.([a-z]+)$/i);
@@ -158,9 +146,7 @@ export const getPaletteColor = (...args: string[]) =>
 ;
 
 export const getTextColorOn = (name: string) => 
-
     ((props: any) => {
-    
         const {
             theme
          } = props;
@@ -177,17 +163,14 @@ export const getTextColorOn = (name: string) =>
     )
 ;
 export const hasPaletteColor = (props: any) => {
-
     return (props.theme && props.theme.palette && typeof props.color === 'string' && Object.keys(props.theme.palette).includes(props.color.split('.')[0]));
 }
 ;
 export const hexToRgb = (color: string) => {
-
     color = color.substring(1);
     let colors = color.match(new RegExp(`.{1,${color.length / 3}}`, 'g'));
     if (colors) {
         let rgb = colors.map(val => 
-        
             parseInt(val.length === 1 ? val + val : val, 16)
         ).join(', ')
         ;

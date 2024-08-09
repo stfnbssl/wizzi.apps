@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Markdown\MarkdownPreview.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import classnames from 'classnames';
@@ -29,11 +29,9 @@ type Props = {
     source: string;
     theme: ThemeName;
 };
-
 // use a custom renderer to customize the `a` tag and add `target='_blank'`
 const renderer = new marked.Renderer();
 renderer.link = function(args: any) {
-
     return marked.Renderer.prototype.link.apply(this, args).replace(/^<a/, '<a target="_blank"');
 }
 ;
@@ -48,7 +46,6 @@ class MarkdownPreview extends React.Component<Props> {
             gfm: true, 
             silent: true, 
             highlight: (code: string, lang: string) => {
-            
                 const grammar = lang === 'js' ? languages.jsx : languages[lang];
                 const language = lang === 'js' ? 'jsx' : lang;
                 return grammar ? highlight(code, grammar, language) : escape(code);
@@ -57,14 +54,11 @@ class MarkdownPreview extends React.Component<Props> {
          });
         html = sanitize(html, require('./santize-config.json'));
         return  (
-            <React.Fragment
-            >
-                <div
-                 dangerouslySetInnerHTML={{
+            <React.Fragment>
+                <div dangerouslySetInnerHTML={{
                         __html: html
                      }} className={classnames(css(styles.content), 'markdown-body', 'prism-code')} />
-                <style
-                 type="text/css" dangerouslySetInnerHTML={{
+                <style type="text/css" dangerouslySetInnerHTML={{
                         __html: theme === 'dark' ? dark : light
                      }} />
             </React.Fragment>

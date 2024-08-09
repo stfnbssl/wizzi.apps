@@ -13,14 +13,14 @@ module
             $$ loog 'callApi', method, url, path, data
             _ console.log
                 @ 'url'
-                `lit
+                template
                     @ url
                     + /
                     @ path
             const res
                 await
                     _ fetch
-                        `lit
+                        template
                             @ url
                             + /
                             @ path

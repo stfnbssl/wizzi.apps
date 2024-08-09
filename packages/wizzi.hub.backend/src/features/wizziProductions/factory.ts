@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\features\wizziProductions\factory.ts.ittf
-    utc time: Wed, 31 Jul 2024 13:44:15 GMT
+    utc time: Fri, 09 Aug 2024 16:10:15 GMT
 */
 import path from 'path';
 import wizzi, {constants} from '@wizzi/factory';
@@ -22,6 +22,7 @@ function getWzCtxFactoryPlugins() {
                 './wizzi.plugin.ittf/index.js', 
                 './wizzi.plugin.js/index.js', 
                 './wizzi.plugin.json/index.js', 
+                './wizzi.plugin.logbot/index.js', 
                 './wizzi.plugin.md/index.js', 
                 './wizzi.plugin.svg/index.js', 
                 './wizzi.plugin.text/index.js', 

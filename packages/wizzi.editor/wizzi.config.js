@@ -38,6 +38,8 @@ module.exports = {
     globalContext: {
         wzConfigIsDevelopment: true,
         wzConfigIsLocal: false,
-        wzConfigIsStudio: false
+        wzConfigIsStudio: false,
+        wzConfigIsHubBackend: false,
+        wzConfigPort: null
     }
 };

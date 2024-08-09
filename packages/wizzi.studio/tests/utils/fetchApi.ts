@@ -1,19 +1,16 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\Tests\utils\fetchApi.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:20 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 export async function postRequest(url: string, data: object):  Promise<Response> {
-
     return putPostRequest(url, data, "POST");
 }
 export async function putRequest(url: string, data: object):  Promise<Response> {
-
     return putPostRequest(url, data, "PUT");
 }
 async function putPostRequest(url: string, data: object, method: string):  Promise<Response> {
-
     try {
         const response = await fetch(url, {
                 method: method, 
@@ -34,8 +31,6 @@ async function putPostRequest(url: string, data: object, method: string):  Promi
 }
 // Esempio di utilizzo:
 function putRequest_example() {
-
-    
     // Esempio di utilizzo:
     const url = 'https://api.example.com/resource';
     const data = {
@@ -43,13 +38,10 @@ function putRequest_example() {
         field2: 'value2'
      };
     putRequest(url, data).then(response => 
-    
         response.json()
     ).then((updatedData) => {
-    
     }
     ).catch((error) => {
-    
         console.log("[31m%s[0m", '');
         console.log("[31m%s[0m", 'Si è verificato un errore:', error);
     }

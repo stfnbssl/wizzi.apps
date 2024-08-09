@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Packi\PackiPanel.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import * as React from 'react';
 import {withStyles, createStyles, Theme} from '@material-ui/core/styles';
@@ -36,19 +36,14 @@ class PackiPanelComp extends React.Component<Props, State> {
             currentModal
          } = this.state;
         return  (
-            <div
-            >
-                <Button
-                 variant="contained" size="small" onClick={this._handleOpenModalGithubClone}>
-                    Github clone
-                </Button>
-                <ModalGithubClone 
-                    title="Clone github repository"
+            <div>
+                <Button variant="contained" size="small" onClick={this._handleOpenModalGithubClone}>
+                    Github clone</Button>
+                <ModalGithubClone title="Clone github repository"
                     action="Clone"
                     visible={currentModal === 'github-clone'}
                     onDismiss={this._handleDismissEditModal}
                     onSubmit={(details) => {
-                        
                             onGithubClone(details);
                             this._handleDismissEditModal();
                         }
@@ -60,9 +55,9 @@ class PackiPanelComp extends React.Component<Props, State> {
     }
 }
 const muiStyles = (theme: Theme) => 
-
     createStyles({})
 ;
 export const PackiPanel = withStyles(muiStyles)(PackiPanelComp)
 ;
+
 export default PackiPanel;

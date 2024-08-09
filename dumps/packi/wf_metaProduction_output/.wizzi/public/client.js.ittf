@@ -1,0 +1,33 @@
+module
+    kind es6
+    let ws = null
+    let interval = null
+    const counter = document.getElementById('counter')
+    function openws
+        if ws
+            return
+        const url = window.location.protocol.replace('http', 'ws') + '//' + window.location.host + '/websocket'
+        set ws = new WebSocket(url)
+        set ws.onopen =
+            =>
+                if interval
+                    _ console.log('reconnected')
+                    _ clearInterval(interval)
+                    set interval = null
+        set ws.onerror =
+            =>
+                param error
+                _ console.error(error)
+                if !interval
+                    set interval = setInterval(openws, 500)
+        set ws.onclose =
+            =>
+                _ console.log('disconnected')
+                set ws = null
+                if !interval
+                    set interval = setInterval(openws, 500)
+        set ws.onmessage =
+            =>
+                param event
+                set counter.textContent = event.data
+    _ document.addEventListener('DOMContentLoaded', openws)

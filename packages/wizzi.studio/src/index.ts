@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\index.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import {ApiType, ControllerType, AppInitializerType, MiddlewareType} from './features/app/types';
 import {ModelBuilderType} from './features/app';
@@ -29,7 +29,6 @@ var app: any = {
     instance: null
  };
 async function start() {
-
     let modelBuilders: ModelBuilderType[] = [
         ...packiProductionsModelBuilders, 
         ...wizziCdnModelBuilders, 
@@ -83,12 +82,10 @@ catch (ex) {
     console.log("[31m%s[0m", ex);
 } 
 export function close(done: any) {
-
     try {
         console.log(`Index closing.`)
         console.log(`app.instance.close:${app.instance.close}`)
         app.instance.close(() => 
-        
             done()
         )
     } 

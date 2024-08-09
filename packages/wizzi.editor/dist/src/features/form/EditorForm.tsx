@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\form\EditorForm.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import * as React from 'react';
 import {StyleSheet, css} from 'aphrodite';
@@ -21,7 +21,6 @@ import {c} from '../../components/ThemeProvider';
 import {FormField} from './types';
 
 function validationOk(value: string):  Error | null {
-
     return null;
 }
 
@@ -38,6 +37,7 @@ export type EditFormProps = {
     }) => void;
     onDismiss: () => void;
 };
+;
 type Props = EditFormProps & { 
     classes: any;
     theme: ThemeName;
@@ -53,12 +53,10 @@ function stateDefaultValues(fields: {
 }):  { 
     [key: string]: string;
 } {
-
     const ret: { 
         [key: string]: string;
     } = {};
     Object.keys(fields).map(k => 
-    
         ret[k] = fields[k].default
     )
     return ret;
@@ -67,19 +65,17 @@ function optionsSelected(options: {
     label: string;
     value: string;
 }[], value: string):  any {
-
     const selected = options.find(option => 
-    
         option.value === value
     );
     return selected ? selected.value : undefined;
 }
-
 // @ts-ignore
-const SubmitButton = withStatus(Fab); 
 
+const SubmitButton = withStatus(Fab);
 // @ts-ignore
-const ValidatedInput = withValidation(TextField); 
+
+const ValidatedInput = withValidation(TextField);
 class EditorForm extends React.Component<Props, State> {
     static getDerivedStateFromProps(props: Props, state: State) {
         if (state.visible !== props.visible) {
@@ -103,11 +99,9 @@ class EditorForm extends React.Component<Props, State> {
     }
     ;
     _handleSubmit = () => 
-    
         this.props.onSubmit(this.state.values)
     ;
     render() {
-        
         // console.log('EditForm.state.values', this.state.values);
         const {
             classes, 
@@ -119,44 +113,33 @@ class EditorForm extends React.Component<Props, State> {
             className, 
             onDismiss
          } = this.props;
-        
         // console.log('EditForm.state.values', this.state.values);
         return visible ?  (
-                <div
-                 className={classes.container}>
-                    <div
-                     className={classnames(css(styles.modal, theme === 'dark' ? styles.contentDark : styles.contentLight), className)}>
-                        <div
-                         className={classes.title}>
-                            <Typography
-                             variant="h6">
-                                {title}
-                            </Typography>
+                <div className={classes.container}>
+                    <div className={classnames(css(styles.modal, theme === 'dark' ? styles.contentDark : styles.contentLight), className)}>
+                        <div className={classes.title}>
+                            <Typography variant="h6">
+                                {title}</Typography>
                         </div>
-                        <Form
-                         onSubmit={this._handleSubmit}>
+                        <Form onSubmit={this._handleSubmit}>
                             {
                                 Object.keys(fields).map((k, i) => {
-                                
                                     const field = fields[k];
                                     const value = this.state.values[k];
                                     return ((([
                                             'text', 
                                             'checkbox'
-                                        ].indexOf(field.type)) > -1
-                                        ) ?  (
-                                            <div
-                                             key={i} className={classes.fieldContainer}>
-                                                <ValidatedInput 
+                                        ].indexOf(field.type)) > -1) ?  (
+                                            <div key={i} className={classes.fieldContainer}>
+                                                <ValidatedInput // @ts-ignore
                                                     
-                                                    // @ts-ignore
                                                     autoFocus
                                                     type={field.type}
                                                     className={classes.textField}
                                                     margin="normal"
                                                     label={field.label}
                                                     value={value}
-                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>  
+                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                                                             this.setState({
                                                                 values: {
                                                                     ...this.state.values, 
@@ -170,21 +153,21 @@ class EditorForm extends React.Component<Props, State> {
                                             </div>
                                             )
                                          : field.type === 'select' ?  (
-                                                <div
-                                                 key={i} className={classes.fieldContainer}>
-                                                    <ValidatedInput 
+                                                <div key={i} className={classes.fieldContainer}>
+                                                    <ValidatedInput // @ts-ignore
                                                         
-                                                        // @ts-ignore
                                                         select
                                                         className={classes.textField}
                                                         label={field.label}
-                                                        SelectProps={{ MenuProps: { className: classes.menu  }  }
-                                                        }
+                                                        SelectProps={{
+                                                                MenuProps: {
+                                                                    className: classes.menu
+                                                                 }
+                                                             }}
                                                         helperText={field.helperText}
                                                         margin="normal"
                                                         value={value}
                                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                                            
                                                                 // console.log('onChange', k, e.target.value);
                                                                 this.setState({
                                                                     values: {
@@ -198,12 +181,9 @@ class EditorForm extends React.Component<Props, State> {
                                                     >
                                                         {
                                                             field.options && field.options.map((option) => 
-                                                            
                                                                  (
-                                                                <MenuItem
-                                                                 key={option.value} value={option.value}>
-                                                                    {option.label}
-                                                                </MenuItem>
+                                                                <MenuItem key={option.value} value={option.value}>
+                                                                    {option.label}</MenuItem>
                                                                 )
                                                             
                                                             )
@@ -215,29 +195,22 @@ class EditorForm extends React.Component<Props, State> {
                                 }
                                 )
                             }
-                            <div
-                             className={css(styles.buttons)}>
-                                <div
-                                 className={classes.button}>
-                                    <SubmitButton
+                            <div className={css(styles.buttons)}>
+                                <div className={classes.button}>
+                                    <SubmitButton// @ts-ignore
                                     
-                                    // @ts-ignore
                                      type="submit" color="primary" variant="extended">
-                                        {action}
-                                    </SubmitButton>
+                                        {action}</SubmitButton>
                                 </div>
-                                <div
-                                 className={classes.button}>
-                                    <Fab 
+                                <div className={classes.button}>
+                                    <Fab // @ts-ignore
                                         
-                                        // @ts-ignore
                                         type="button"
                                         color="secondary"
                                         variant="extended"
                                         onClick={onDismiss}
                                     >
-                                        Cancel
-                                    </Fab>
+                                        Cancel</Fab>
                                 </div>
                             </div>
                         </Form>
@@ -247,9 +220,78 @@ class EditorForm extends React.Component<Props, State> {
              : null;
     }
 }
-const styles = StyleSheet.create({ title: { height: 72,  fontSize: 24,  width: '100%',  lineHeight: '24px',  display: 'flex',  flexShrink: 0,  alignItems: 'center',  justifyContent: 'center',  boxShadow: '0 1px 0 rgba(36, 44, 58, 0.1)'  },  subtitle: { fontSize: 16,  fontWeight: 500,  padding: 0,  lineHeight: '22px',  margin: '16px 0 6px 0'  },  buttons: { margin: '20px 0 0 0',  display: 'flex',  justifyContent: 'space-around'  },  caption: { marginTop: 24,  fontSize: '16px',  lineHeight: '22px',  textAlign: 'center'  },  link: { cursor: 'pointer',  color: c('primary'),  textDecoration: 'underline'  },  modal: { display: 'flex',  flexDirection: 'column',  position: 'relative',  textAlign: 'start',  borderRadius: 4,  boxShadow: '0 1px 4px rgba(36, 44, 58, 0.3)'  },  close: { appearance: 'none',  borderRadius: '1em',  outline: 0,  padding: 0,  position: 'absolute',  right: '-1em',  top: '-1em',  width: '2em',  height: '2em',  background: c('background'),  border: `2px solid ${c('border')}`,  boxShadow: '0 1.5px 3px rgba(0, 0, 0, .16)',  color: 'white',  fontSize: '1em',  fontWeight: 'bold',  textAlign: 'center'  },  contentLight: { backgroundColor: c('content'),  color: c('text')  },  contentDark: { backgroundColor: c('content'),  color: c('text'),  border: `1px solid ${c('border')}`  }  }); 
+const styles = StyleSheet.create({
+    title: {
+        height: 72, 
+        fontSize: 24, 
+        width: '100%', 
+        lineHeight: '24px', 
+        display: 'flex', 
+        flexShrink: 0, 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        boxShadow: '0 1px 0 rgba(36, 44, 58, 0.1)'
+     }, 
+    subtitle: {
+        fontSize: 16, 
+        fontWeight: 500, 
+        padding: 0, 
+        lineHeight: '22px', 
+        margin: '16px 0 6px 0'
+     }, 
+    buttons: {
+        margin: '20px 0 0 0', 
+        display: 'flex', 
+        justifyContent: 'space-around'
+     }, 
+    caption: {
+        marginTop: 24, 
+        fontSize: '16px', 
+        lineHeight: '22px', 
+        textAlign: 'center'
+     }, 
+    link: {
+        cursor: 'pointer', 
+        color: c('primary'), 
+        textDecoration: 'underline'
+     }, 
+    modal: {
+        display: 'flex', 
+        flexDirection: 'column', 
+        position: 'relative', 
+        textAlign: 'start', 
+        borderRadius: 4, 
+        boxShadow: '0 1px 4px rgba(36, 44, 58, 0.3)'
+     }, 
+    close: {
+        appearance: 'none', 
+        borderRadius: '1em', 
+        outline: 0, 
+        padding: 0, 
+        position: 'absolute', 
+        right: '-1em', 
+        top: '-1em', 
+        width: '2em', 
+        height: '2em', 
+        background: c('background'), 
+        border: `2px solid ${c('border')}`, 
+        boxShadow: '0 1.5px 3px rgba(0, 0, 0, .16)', 
+        color: 'white', 
+        fontSize: '1em', 
+        fontWeight: 'bold', 
+        textAlign: 'center'
+     }, 
+    contentLight: {
+        backgroundColor: c('content'), 
+        color: c('text')
+     }, 
+    contentDark: {
+        backgroundColor: c('content'), 
+        color: c('text'), 
+        border: `1px solid ${c('border')}`
+     }
+ });
 const muiStyles = (theme: Theme) => 
-
     createStyles({
         container: {
             padding: '20px'

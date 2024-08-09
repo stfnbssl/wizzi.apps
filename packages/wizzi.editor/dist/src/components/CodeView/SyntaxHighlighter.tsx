@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\CodeView\SyntaxHighlighter.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import React, {FunctionComponent} from 'react';
 import './SyntaxHighlighter.css';
@@ -13,6 +13,7 @@ export type SyntaxHighlighterProps = {
     code: string;
     showLineNumbers: boolean;
 };
+;
 export class SyntaxHighlighter extends React.Component<SyntaxHighlighterProps> {
     componentDidMount() {
         const el1 = document.querySelector('.syntax-highlight-container > pre');
@@ -25,17 +26,15 @@ export class SyntaxHighlighter extends React.Component<SyntaxHighlighterProps> {
     render() {
         const language = getLanguage(this.props.filePath);
         return  (
-            <div
-             className="syntax-highlight-container">
-                <Prism
-                 language={language} showLineNumbers={this.props.showLineNumbers} style={vscDarkPlus}>
-                    {this.props.code}
-                </Prism>
+            <div className="syntax-highlight-container">
+                <Prism language={language} showLineNumbers={this.props.showLineNumbers} style={vscDarkPlus}>
+                    {this.props.code}</Prism>
             </div>
             )
         ;
     }
 }
+
 export default SyntaxHighlighter;
 const mimeLanguageMap = {
     '.js': 'javascript', 
@@ -49,7 +48,6 @@ const mimeLanguageMap = {
     '.xml': 'xml'
  };
 function getLanguage(path: string) {
-
     const ext2 = path.substr(path.lastIndexOf('.'));
     const rest = path.substr(0, path.lastIndexOf('.'));
     const ext = rest.substr(rest.lastIndexOf('.'));

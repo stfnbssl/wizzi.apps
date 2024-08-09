@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\ShortcutLabel.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {css, StyleSheet} from 'aphrodite';
 import classnames from 'classnames';
@@ -16,6 +16,7 @@ export type ShortcutLabelProps = {
     className?: string;
     boxed?: boolean;
 };
+;
 
 type KeyName =  keyof typeof KeyMap;
 
@@ -37,19 +38,14 @@ export function ShortcutLabel({
     className, 
     boxed=false
  }: ShortcutLabelProps):  any {
-
     return  (
-        <kbd
-         className={classnames(css(styles.shortcutLabel), boxed && css(styles.boxedShortcut), className)}>
-            {
+        <kbd className={classnames(css(styles.shortcutLabel), boxed && css(styles.boxedShortcut), className)}>{
                 combo.map((code) => {
-                
-                    
                     // @ts-ignore
-                    const name = findKey(KeyMap, c =>  
+                    
+                    const name = findKey(KeyMap, c => 
                         c === code
                     );
-                    
                     if (name && KeyLabels[name as KeyName]) {
                         return KeyLabels[name as KeyName];
                     }
@@ -60,10 +56,10 @@ export function ShortcutLabel({
                 ).join(isMac ? '' : '+')
                 
             }
-        </kbd>
-        )
+        </kbd>)
     ;
 }
+
 
 export default ShortcutLabel;
 

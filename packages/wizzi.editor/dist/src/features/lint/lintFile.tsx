@@ -1,26 +1,26 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\lint\lintFile.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {PackiFiles} from '../packi';
 import {Annotation} from '../annotations';
 import {isESLintConfig, isScript, isJson} from '../file';
 
 async function lintCode(path: string, code: string, files: PackiFiles):  Promise<Annotation[]> {
-
     const eslintrc = Object.keys(files).find(isESLintConfig);
     let config: object | undefined;
     if (eslintrc) {
         try {
-            
             // Use the babel-eslint parser by default since it's what we bundle
-            
             // This avoids having to specify the parser which might not be obvious
-            
             // @ts-ignore
-            config = { parser: 'babel-eslint',  ...JSON.parse(files[eslintrc].contents)  }; 
+            
+            config = {
+                parser: 'babel-eslint', 
+                ...JSON.parse(files[eslintrc].contents)
+             };
         } 
         catch (e) {
             return [
@@ -46,7 +46,6 @@ async function lintCode(path: string, code: string, files: PackiFiles):  Promise
 }
 
 export default async function lintFile(selectedFile: string, files: PackiFiles):  Promise<Annotation[]> {
-    
         const file = files[selectedFile];
         if (!file || file.type !== 'CODE') {
             return [];

@@ -1,0 +1,63 @@
+$group
+    useMongoDb true
+    { mongoDb
+        host "mongodb+srv"
+        user "yanez"
+        password "${stfnbssl_env.mongoDbPsw}"
+        dbPath "@cluster0.idlk7.mongodb.net"
+        dbName "wizzi"
+        { options
+            useNewUrlParser true
+            useUnifiedTopology true
+        [ featureTables
+            {
+                Name "WizziAction"
+                name "wizziAction"
+                mongoName "plugin"
+                descr ""
+                prefix ""
+                [ fields
+                    {
+                        name 'owner'
+                        type 'string'
+                        isKey true
+                        isListFilter true
+                    {
+                        name 'kind'
+                        type 'string'
+                        isKey true
+                    {
+                        name 'name'
+                        type 'string'
+                        isKey true
+                    {
+                        name 'description'
+                        type 'string'
+                created_at true
+                updated_at true
+                update_delete_by_id true
+            {
+                Name "WizziTable"
+                name "wizziTable"
+                mongoName "plugin"
+                descr ""
+                prefix ""
+                [ fields
+                    {
+                        name 'owner'
+                        type 'string'
+                        isKey true
+                        isListFilter true
+                    {
+                        name 'name'
+                        type 'string'
+                        isKey true
+                    {
+                        name 'field1'
+                        type 'string'
+                    {
+                        name 'field2'
+                        type 'string'
+                created_at true
+                updated_at true
+                update_delete_by_id true

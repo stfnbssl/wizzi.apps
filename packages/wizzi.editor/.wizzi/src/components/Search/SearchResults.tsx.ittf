@@ -29,7 +29,7 @@ module
         from '../widgets/ProgressIndicator'
     import SearchPlaceholder from './SearchPlaceholder'
     const ENDPOINT
-        `lit 
+        template 
             + 
             _ nullthrows(process.env.API_SERVER_URL)
             + /--/graphql
@@ -187,7 +187,7 @@ module
                 a 
                     @ target "_blank"
                     @ href
-                        `lit 
+                        template 
                             + /
                             @ packi.slug
                             + 
@@ -301,7 +301,7 @@ module
                     @ color 'inherit'
                     @ textDecoration 'none'
                     @ borderBottom
-                        `lit 
+                        template 
                             + 1px solid&nbsp;
                             _ c('border')
                             + 

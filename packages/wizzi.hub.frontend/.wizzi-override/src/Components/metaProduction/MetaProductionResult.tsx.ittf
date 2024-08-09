@@ -25,18 +25,22 @@ module
         from '@/Api/wizziMetaApi'
 
     import
+        @ PackiFiles
         @ PackiEntry
         @ MetaPluginExt
         from "@/Api/types"
 
     import
+        @ JobItem
+        from "@/Data/types"
+    
+    import
         @ AppState
         from "@/Data/mvc/MetaProduction/types"
 
-    $if TODO
-        import
-            @ getMvc
-            from "@/Data/mvc/MetaProduction"
+    import
+        @ getMvc
+        from "@/Data/mvc/MetaProduction"
 
     import
         @ ErrorView
@@ -54,6 +58,9 @@ module
         param hubMetaProductions
             :[
                 :any
+        param currentJob
+            :ref JobItem
+            :optional
         const [error, setError] = useState(null)
         const [data, setData] = useState(null)
         const [prettifiedError, setPrettifiedError] = useState(null)
@@ -126,6 +133,11 @@ module
                                                 error err
                                                 _ setGeneratedError
                                                     @ err
+                                if currentJob
+                                    _ getMvc().controller.saveMetaCtx
+                                        @ currentJob
+                                        @ metaCtx
+
                         catch(executeResultMetaProduction.MetaExecuteInMemory)
                             error '----> Error: MetaExecuteInMemory', error
                             _ setError
@@ -146,10 +158,14 @@ module
         param packiFiles
             :ref PackiFiles
         :return
-            :string
-        var items = Object.keys(packiFiles)
-        foreach item in items
-            info 'detectWfjob', item, item.endsWith('.wfjob.ittf')
+            :union
+                :string
+                :null
+        $if TODO
+            var items = Object.keys(packiFiles)
+            foreach item in items
+        for var item in packiFiles
+            $$ info 'detectWfjob', item, item.endsWith('.wfjob.ittf')
             if item.endsWith('.wfjob.ittf')
                 return item
         return null                
@@ -173,6 +189,7 @@ module
             const
                 {
                     @ selectedMetaPlugins
+                    @ currentJob
                 = appState
             const metaPlugins
                 :[
@@ -194,6 +211,7 @@ module
                     _ executeResultMetaProduction
                         @ metaCtx
                         @ metaPlugins
+                        @ currentJob
             if executionError
                 return
                     < ErrorView
@@ -211,8 +229,9 @@ module
                     . w-area-list w-area-list-15 w-area-list-15
             $$ info '${myDisplayName}.executeResultMetaProduction.result', executionResult
             let explorerEntries
-                :ref PackiFiles
-                = {}
+                :[
+                    :ref PackiEntry
+                = []
             let installEntries
                 :ref PackiFiles
                 = {}
@@ -258,35 +277,40 @@ module
                                         @ onClick
                                             =>
                                                 info '${myDisplayName}.Install.onClick'
-                                                _ alert
-                                                    _ JSON.stringify
+                                                if appState.currentJob?.__metaDemoPackage
+                                                    _ alert
+                                                        _ JSON.stringify
+                                                            @ appState.currentJob?.__metaDemoPackage.json
+                                                            @ null
+                                                            @ 4
+                                                    _ packiApi.install
+                                                        @ installEntries
                                                         @ appState.currentJob?.__metaDemoPackage.json
-                                                        @ null
-                                                        @ 4
-                                                _ packiApi.install
-                                                    @ installEntries
-                                                    @ appState.currentJob?.__metaDemoPackage.json
-                                                    ._ then
-                                                        =>
-                                                            param response
-                                                                :any
-                                                            $if TODO
-                                                                _ setInstalled(response)
-                                                            info 'install.response', response
-                                                            _ alert
-                                                                _ JSON.stringify
-                                                                    @ response
-                                                                    @ null
-                                                                    @ 4
-                                                    ._ catch
-                                                        =>
-                                                            param err
-                                                            error err.message
-                                                            error err
-                                                            $if TODO
-                                                                _ setInstalledError
-                                                                    @ err
-
+                                                        ._ then
+                                                            =>
+                                                                param response
+                                                                    :any
+                                                                $if TODO
+                                                                    _ setInstalled(response)
+                                                                info 'install.response', response
+                                                                _ alert
+                                                                    _ JSON.stringify
+                                                                        @ response
+                                                                        @ null
+                                                                        @ 4
+                                                        ._ catch
+                                                            =>
+                                                                param err
+                                                                error err.message
+                                                                error err
+                                                                $if TODO
+                                                                    _ setInstalledError
+                                                                        @ err
+                                                else
+                                                    if appState.currentJob
+                                                        _ alert
+                                                            @ "The job production " + appState.currentJob.name +  
+                                                                \b " is missing the file 'metaDemoPackage.json' that is requested for installing the generated package"
                             $if TODO
                                 div
                                     button edit artifact

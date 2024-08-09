@@ -60,7 +60,7 @@ module
                             @ dangerouslySetInnerHTML
                                 {
                                     @ __html
-                                        `lit
+                                        template
                                             + &nbsp; window.__INITIAL_DATA__ =&nbsp;
                                             _ jsesc
                                                 {

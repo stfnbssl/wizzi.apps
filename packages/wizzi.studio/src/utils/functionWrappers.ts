@@ -1,19 +1,14 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\utils\functionWrappers.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 export const promisify = (f, self) => {
-
     return function(...args) {
-        
-            
             // ritorna una funzione wrapper
             return new Promise((resolve, reject) => {
-                
                     function callback(err, result) {
-                    
                         if (err) {
                             reject(err);
                         }

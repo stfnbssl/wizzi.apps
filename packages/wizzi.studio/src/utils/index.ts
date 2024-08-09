@@ -1,13 +1,12 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\utils\index.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 // A helper function to assert the request ID param is valid
 // and convert it to a number (since it comes as a string by default)
 function getIdParam(req) {
-
     const id = req.params.id;
     if (/^\d+$/.test(id)) {
         return Number.parseInt(id, 10);
@@ -21,7 +20,6 @@ const statusCode = {
     FORBIDDEN: 403, 
     NOT_FOUND: 404
  };
-
 // ms
 const expiredAfter = "600000";
 export {

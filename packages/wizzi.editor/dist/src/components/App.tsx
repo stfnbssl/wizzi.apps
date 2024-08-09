@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\App.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import * as React from 'react';
 // Redux
@@ -62,10 +62,26 @@ interface PackiStateProps {
 }
 
 interface PackiDispatchProps {
-    dispatchGenerateArtifact: (fileName: string, files: PackiFiles, productionKind: PackiProduction, productionName: string) => void;
-    dispatchMTree: (fileName: string, files: PackiFiles, productionKind: PackiProduction, productionName: string) => void;
-    dispatchMTreeDebugInfo: (fileName: string, files: PackiFiles, productionKind: PackiProduction, productionName: string) => void;
-    dispatchExecuteJob: (fileName: string, files: PackiFiles, productionKind: PackiProduction, productionName: string) => void;
+    dispatchGenerateArtifact: (
+        fileName: string, 
+        files: PackiFiles, 
+        productionKind: PackiProduction, 
+        productionName: string) => void;
+    dispatchMTree: (
+        fileName: string, 
+        files: PackiFiles, 
+        productionKind: PackiProduction, 
+        productionName: string) => void;
+    dispatchMTreeDebugInfo: (
+        fileName: string, 
+        files: PackiFiles, 
+        productionKind: PackiProduction, 
+        productionName: string) => void;
+    dispatchExecuteJob: (
+        fileName: string, 
+        files: PackiFiles, 
+        productionKind: PackiProduction, 
+        productionName: string) => void;
     dispatchExecuteWizziMetaFolder: (productionKind: PackiProduction, productionId: string) => void;
     dispatchSaveLocalFolder: (localFolderPath: string, files: PackiFiles) => void;
     dispatchWizzify: (filePath: string, fileContent: string) => void;
@@ -75,7 +91,6 @@ interface PackiDispatchProps {
 }
 
 const packiMapStateToProps = (storeState: StoreState):  PackiStateProps => {
-
     return {
             generatedArtifact: storeState.wizzi.generatedArtifact, 
             mTreeBuildUpScript: storeState.wizzi.mTreeBuildUpScript, 
@@ -93,10 +108,12 @@ const packiMapStateToProps = (storeState: StoreState):  PackiStateProps => {
 ;
 
 const packiMapDispatchToProps = (dispatch: Dispatch):  PackiDispatchProps => 
-
     ({
-        dispatchGenerateArtifact: (filePath: string, files: PackiFiles, productionKind: PackiProduction, productionName: string) => {
-        
+        dispatchGenerateArtifact: (
+            filePath: string, 
+            files: PackiFiles, 
+            productionKind: PackiProduction, 
+            productionName: string) => {
             if (filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')) {
                 dispatch(wizziActions.generateArtifactRequest({
                     filePath, 
@@ -107,8 +124,11 @@ const packiMapDispatchToProps = (dispatch: Dispatch):  PackiDispatchProps =>
             }
         }
         , 
-        dispatchMTree: (filePath: string, files: PackiFiles, productionKind: PackiProduction, productionName: string) => {
-        
+        dispatchMTree: (
+            filePath: string, 
+            files: PackiFiles, 
+            productionKind: PackiProduction, 
+            productionName: string) => {
             if (filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')) {
                 dispatch(wizziActions.mTreeRequest({
                     filePath, 
@@ -119,8 +139,11 @@ const packiMapDispatchToProps = (dispatch: Dispatch):  PackiDispatchProps =>
             }
         }
         , 
-        dispatchMTreeDebugInfo: (filePath: string, files: PackiFiles, productionKind: PackiProduction, productionName: string) => {
-        
+        dispatchMTreeDebugInfo: (
+            filePath: string, 
+            files: PackiFiles, 
+            productionKind: PackiProduction, 
+            productionName: string) => {
             if (filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')) {
                 dispatch(wizziActions.mTreeBuildUpScriptRequest({
                     filePath, 
@@ -131,8 +154,11 @@ const packiMapDispatchToProps = (dispatch: Dispatch):  PackiDispatchProps =>
             }
         }
         , 
-        dispatchExecuteJob: (fileName: string, files: PackiFiles, productionKind: PackiProduction, productionName: string) => 
-        
+        dispatchExecuteJob: (
+            fileName: string, 
+            files: PackiFiles, 
+            productionKind: PackiProduction, 
+            productionName: string) => 
             dispatch(wizziActions.executeJobRequest({
                 fileName, 
                 files, 
@@ -141,42 +167,36 @@ const packiMapDispatchToProps = (dispatch: Dispatch):  PackiDispatchProps =>
              }))
         , 
         dispatchExecuteWizziMetaFolder: (productionKind: PackiProduction, productionId: string) => 
-        
             dispatch(wizziActions.executeWizziMetaFolderRequest({
                 productionKind, 
                 productionId
              }))
         , 
         dispatchSaveLocalFolder: (localFolderPath: string, files: PackiFiles) => 
-        
             dispatch(wizziActions.executeSaveLocalFolder({
                 localFolderPath, 
                 files
              }))
         , 
         dispatchWizzify: (filePath: string, fileContent: string) => 
-        
             dispatch(wizziActions.wizzifyRequest({
                 filePath, 
                 fileContent
              }))
         , 
         dispatchCodeAST: (filePath: string, fileContent: string) => 
-        
             dispatch(wizziActions.codeASTRequest({
                 filePath, 
                 fileContent
              }))
         , 
         dispatchChangeSelectedFile: (oldFilePath: string, newFilePath: string) => 
-        
             dispatch(wizziActions.changeSelectedFile({
                 oldFilePath, 
                 newFilePath
              }))
         , 
         dispatchGithubClone: (owner: string, name: string, branch: string) => 
-        
             dispatch(packiActions.githubCloneRequest({
                 owner, 
                 name, 
@@ -323,7 +343,6 @@ class AppMain extends React.Component<AppProps, State> {
     _executeWizziMetaFolderNotDebounced = () => {
         console.log('App._executeWizziMetaFolderNotDebounced', __filename);
         const files = this.state.session.files;
-        
         // TODO check if .packi/config contains a meta property
         if (Object.keys(files).length) {
             this.setState({
@@ -395,12 +414,9 @@ class AppMain extends React.Component<AppProps, State> {
     _handleSessionStateChange = (packiState: PackiState, prevPackiState: PackiState) => 
         // log 'Session state change: ', diff(prevPackiState, packiState), packiState
         this.setState((state) => {
-        
             let annotations: Annotation[] | undefined;
-            
             // Set save-status to changed if needed
             const saveStatus: SaveStatus = state.unsaved && (state.saveStatus === 'saved-draft' || state.saveStatus === 'published' || state.saveStatus === 'unsaved') ? this.edited ? 'edited' : 'unsaved' : state.saveStatus;
-            
             // Update session state
             return {
                     session: packiState, 
@@ -408,16 +424,11 @@ class AppMain extends React.Component<AppProps, State> {
                     annotations: annotations ?? state.annotations
                  };
         }
-        , 
-        // 15/7/21 Disactivated
-        
+        , // 15/7/21 Disactivated
         // for changes uploaded see
-        
         // - _PackiSession.updatePackiData
-        
         // - _PackiSession.updatePackiFiles
         () => {
-        
         }
         );
     
@@ -435,23 +446,19 @@ class AppMain extends React.Component<AppProps, State> {
     };
     
     _handleDownloadAsync = async () => {
-    
         this.setState({
             isDownloading: true
          })
-        
         // Make sure file is saved before downloading
         const {
             saveStatus
          } = this.state;
         let once = true;
         this.setState((state) => {
-        
             const {
                 id
              } = state.session;
             if (!id) {
-                
                 // this shouldn't happen
                 return {
                         saveStatus, 
@@ -461,7 +468,6 @@ class AppMain extends React.Component<AppProps, State> {
             if (once) {
                 once = false;
                 const url = `${process.env.API_SERVER_URL}/--/api/v2/packi/download/${id}`;
-                
                 // Simulate link click to download file
                 const element = document.createElement('a');
                 if (element && document.body) {
@@ -487,14 +493,12 @@ class AppMain extends React.Component<AppProps, State> {
             return ;
         }
         this.setState((state) => {
-        
             return {
                     selectedFile: filePath, 
                     previewKind: this._getViewKind(filePath, state.selectedFile)
                  };
         }
         , () => {
-        
             if (this.props.preferences.autoGenSingleDoc) {
                 this._generateArtifactOrWizzifyOrCodeAST(filePath)
             }
@@ -511,7 +515,6 @@ class AppMain extends React.Component<AppProps, State> {
         if (Object.keys(filesUpdate).length) {
             this.edited = true;
             this._PackiSession.updatePackiFiles(filesUpdate, () => 
-            
                 this._generateArtifactOrWizzifyOrCodeAST()
             )
         }
@@ -528,15 +531,12 @@ class AppMain extends React.Component<AppProps, State> {
     };
     
     _handleGenerateArtifactPreview = async () => 
-    
         this.setState((state) => {
-        
             return {
                     previewKind: 'generated'
                  };
         }
         , () => {
-        
             const files = this.state.session.files;
             if (Object.keys(files).length) {
                 const filePath = this.state.selectedFile || Object.keys(files)[0];
@@ -550,15 +550,12 @@ class AppMain extends React.Component<AppProps, State> {
     ;
     
     _handleMTreePreview = async () => 
-    
         this.setState((state) => {
-        
             return {
                     previewKind: 'mTreeIttf'
                  };
         }
         , () => {
-        
             const files = this.state.session.files;
             if (Object.keys(files).length) {
                 const filePath = this.state.selectedFile || Object.keys(files)[0];
@@ -572,15 +569,12 @@ class AppMain extends React.Component<AppProps, State> {
     ;
     
     _handleMTreeDebugInfoPreview = async () => 
-    
         this.setState((state) => {
-        
             return {
                     previewKind: 'mTreeBuildUpScript'
                  };
         }
         , () => {
-        
             const files = this.state.session.files;
             if (Object.keys(files).length) {
                 const filePath = this.state.selectedFile || Object.keys(files)[0];
@@ -593,9 +587,7 @@ class AppMain extends React.Component<AppProps, State> {
     
     ;
     _handleBrowsePreview = async () => 
-    
         this.setState((state) => {
-        
             return {
                     previewKind: 'browser'
                  };
@@ -604,15 +596,12 @@ class AppMain extends React.Component<AppProps, State> {
     
     ;
     _handleWizzifyPreview = async () => 
-    
         this.setState((state) => {
-        
             return {
                     previewKind: 'wizzified'
                  };
         }
         , () => {
-        
             const files = this.state.session.files;
             if (Object.keys(files).length) {
                 const filePath = this.state.selectedFile || Object.keys(files)[0];
@@ -625,15 +614,12 @@ class AppMain extends React.Component<AppProps, State> {
     
     ;
     _handleCodeASTPreview = async () => 
-    
         this.setState((state) => {
-        
             return {
                     previewKind: 'codeAST'
                  };
         }
         , () => {
-        
             const files = this.state.session.files;
             if (Object.keys(files).length) {
                 const filePath = this.state.selectedFile || Object.keys(files)[0];
@@ -646,16 +632,13 @@ class AppMain extends React.Component<AppProps, State> {
     
     ;
     _handleGithubClone = async (details: any) => 
-    
         this.props.dispatchGithubClone(details.owner, details.name, details.branch)
     
     ;
     render() {
         if (this.props && this.state) {
             return  (
-                <LazyLoad<React.ComponentType<EditorViewProps>>
-                 load={() => 
-                    
+                <LazyLoad<React.ComponentType<EditorViewProps>> load={() => 
                         (import('./EditorView/EditorView'))
                 }>
                     {
@@ -663,10 +646,8 @@ class AppMain extends React.Component<AppProps, State> {
                             loaded, 
                             data: Comp
                          }) => 
-                        
                             loaded && Comp ?  (
-                                <Comp 
-                                    id={this.state.session.id}
+                                <Comp id={this.state.session.id}
                                     owner={this.state.session.owner}
                                     name={this.state.session.name}
                                     description={this.state.session.description}
@@ -716,8 +697,7 @@ class AppMain extends React.Component<AppProps, State> {
                                  />
                                 )
                              :  (
-                                <AppShell
-                                 title={this.state.session.name} />
+                                <AppShell title={this.state.session.name} />
                                 )
                         
                         
@@ -728,10 +708,8 @@ class AppMain extends React.Component<AppProps, State> {
         }
         else {
             return  (
-                <div
-                >
-                    Not ready
-                </div>
+                <div>
+                    Not ready</div>
                 )
             ;
         }

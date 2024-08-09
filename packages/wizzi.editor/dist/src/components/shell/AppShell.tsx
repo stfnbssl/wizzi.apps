@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\shell\AppShell.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -19,63 +19,43 @@ import {ToolbarTitleShell} from './ToolbarTitleShell';
 export type AppShellProps = { 
     title?: string | null;
 };
+;
 export function AppShell(props: AppShellProps) {
-
     return  (
-        <ContentShell
-        >
-            <ProgressIndicator
-             delay={1000} />
-            <ToolbarShell
-            >
-                <ToolbarTitleShell
-                >
-                    <div
-                     className={css(styles.logo)} />
-                    <div
-                     className={css(styles.header)}>
-                        <h1
-                         className={css(styles.title)}>
-                            {props.title ?? 'packi'}
-                        </h1>
-                        <div
-                         className={css(styles.status)}>
-                            …
-                        </div>
+        <ContentShell>
+            <ProgressIndicator delay={1000} />
+            <ToolbarShell>
+                <ToolbarTitleShell>
+                    <div className={css(styles.logo)} />
+                    <div className={css(styles.header)}>
+                        <h1 className={css(styles.title)}>
+                            {props.title ?? 'packi'}</h1>
+                        <div className={css(styles.status)}>
+                            …</div>
                     </div>
                 </ToolbarTitleShell>
-                <Button
-                 variant="secondary" onClick={() => 
-                    
+                <Button variant="secondary" onClick={() => 
                         undefined
-                    
                 } className={css(styles.saveButton)}>
-                    {'\u00A0'}
-                </Button>
-                <div
-                 className={css(styles.avatar)} />
+                    {'\u00A0'}</Button>
+                <div className={css(styles.avatar)} />
             </ToolbarShell>
-            <LayoutShell
-            >
-                <SidebarShell
-                 />
-                <EditorShell
-                 />
+            <LayoutShell>
+                <SidebarShell />
+                <EditorShell />
                 {
-                    props.previewShown
-                     &&  (
-                        <PreviewShell
-                         />
+                    props.previewShown &&  (
+                        <PreviewShell />
                         )
                     
                 }
             </LayoutShell>
-            <FooterShell
-             />
+            <FooterShell />
         </ContentShell>
         )
     ;
 }
+
 
 export default AppShell;
 

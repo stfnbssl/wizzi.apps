@@ -145,7 +145,7 @@ module
                         @ borderLeft '6px solid transparent'
                         @ borderRight '6px solid transparent'
                         @ borderBottom
-                            `lit
+                            template
                                 + 6px solid&nbsp;
                                 _ c('error')
                                 +

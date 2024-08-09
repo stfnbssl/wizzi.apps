@@ -1,0 +1,2 @@
+html 
+   $include flyNodeDemoTypescript/views/index.htmlejs

@@ -44,7 +44,7 @@ module
                                 :ref InjectedProps
                 p displayName
                     static
-                    `lit
+                    template
                         + withTheme(
                         @ Comp.displayName ?? Comp.name
                         + )

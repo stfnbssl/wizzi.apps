@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziFs\controllers\apiv1wizzifs.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -16,9 +16,7 @@ import {getIttfDocument, putIttfDocument} from '../api/wizziFs';
 const myname = 'features/wizzifs/controllers/apiv1wizzifs';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -56,17 +54,14 @@ export class ApiV1WizziFsController implements ControllerType {
     };
     
     private getIttfDocument = async (request: Request, response: Response) => {
-    
         var __check = restParamsCheck(request);
         var hash = __check.notEmpty('query', 'hash');
         if (__check.hasErrors()) {
             return __check.sendErrors(response);
         }
         getIttfDocument(hash).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {
@@ -78,7 +73,6 @@ export class ApiV1WizziFsController implements ControllerType {
     ;
     
     private putIttfDocument = async (request: Request, response: Response) => {
-    
         var __check = restParamsCheck(request);
         var hash = __check.notEmpty('body', 'hash');
         var content = __check.notEmpty('body', 'content');
@@ -87,10 +81,8 @@ export class ApiV1WizziFsController implements ControllerType {
             return __check.sendErrors(response);
         }
         putIttfDocument(hash, content, prettify).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {

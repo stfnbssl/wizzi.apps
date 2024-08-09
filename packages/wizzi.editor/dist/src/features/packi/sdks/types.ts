@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\sdks\types.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:23:16 GMT
+    utc time: Fri, 09 Aug 2024 15:52:20 GMT
 */
 
 export type SDKSpec = { 
@@ -14,7 +14,12 @@ export type SDKSpec = {
         [name: string]: string;
     };
 };
+;
 
+/**
+    * 
+    * Feature that is supported by the SDK (e.g. "MULTIPLE_FILES").
+    * 
+*/
 export type SDKFeature = 'MULTIPLE_FILES' | 'TFOLDER_DEPENDENCIES' | 'WIZZI_JOBS' | 'META_PRODUCTIONS';
-    //
-    
+;

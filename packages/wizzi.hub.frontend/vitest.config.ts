@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\root\vitest.config.ts.ittf
-    utc time: Wed, 31 Jul 2024 14:56:15 GMT
+    utc time: Wed, 07 Aug 2024 13:02:15 GMT
 */
 /// <reference types="vitest" />
 import {defineConfig, mergeConfig} from 'vitest/config';

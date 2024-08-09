@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListEntry.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -33,15 +33,14 @@ export type FileListEntryProps = {
     getAdjacentEntries: () => FileSystemEntry[];
     theme: ThemeName;
 };
+;
 type State = { 
     name: string;
     error: Error | null;
     isRenaming: boolean;
 };
 const toggleTSExt = (name: string) => 
-
     name.replace(/(\.[^.]+$)/, (_, $1) => 
-    
         ($1 === '.js' ? '.tsx' : '.js')
     )
 ;
@@ -70,7 +69,6 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
             this._handleNameChange(this.state.name);
         }
         this.setState((state, props) => 
-        
             state.isRenaming ? {
                     isRenaming: false, 
                     name: '', 
@@ -116,7 +114,6 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
             '|'
         ];
         const usedCharacters = invalidCharacters.filter(c => 
-        
             name.includes(c)
         );
         if (usedCharacters.length) {
@@ -128,7 +125,6 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
         }
         const adjacentEntries = this.props.getAdjacentEntries();
         if (adjacentEntries.some(e => 
-        
             (e.item.path.split('/').pop() ?? '').toLowerCase() === name.toLowerCase()
         )) {
             return new Error(`Another entry already exists with same name`);
@@ -180,7 +176,6 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
             onClearClipboard
          } = this.props;
         clipboard.forEach(e => 
-        
             onPaste(entry.item.path, e)
         )
         onClearClipboard();
@@ -269,27 +264,18 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
          } = this.state;
         const displayName = isRenaming ? '\u00A0' : entry.item.path.split('/').pop();
         return  (
-            <div
-            >
+            <div>
                 {
                     this.state.error ?  (
-                        <div
-                         className={css(styles.error)}>
-                            {this.state.error.message}
-                        </div>
+                        <div className={css(styles.error)}>
+                            {this.state.error.message}</div>
                         )
                      : null
                 }
-                <FileListEntryIcon
-                 entry={entry} />
-                <span
-                 className={css(styles.label, isTest(entry.item.path) ? styles.labelTest : undefined, entry.state.isError ? styles.labelError : undefined)}>
-                    {displayName}
-                </span>
-                {
+                <FileListEntryIcon entry={entry} />
+                <span className={css(styles.label, isTest(entry.item.path) ? styles.labelTest : undefined, entry.state.isError ? styles.labelError : undefined)}>{displayName}</span>{
                     isRenaming ?  (
-                        <input 
-                            autoFocus
+                        <input autoFocus
                             type="text"
                             value={name}
                             onChange={this._handleInputChange}
@@ -297,8 +283,7 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
                             onBlur={this._handleInputBlur}
                             onKeyUp={this._handleInputKeyUp}
                             className={css(styles.input)}
-                         />
-                        )
+                         />)
                      : null
                 }
             </div>
@@ -325,10 +310,8 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
             theme
          } = this.props;
         return entry.item.type === 'folder' && rest.length && entry.state.isExpanded ?  (
-                <div
-                 className={css(styles.child)}>
-                    <FileListChildren 
-                        parent={entry.item.path}
+                <div className={css(styles.child)}>
+                    <FileListChildren parent={entry.item.path}
                         entries={rest}
                         clipboard={clipboard}
                         readOnly={readOnly}
@@ -351,23 +334,16 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
     };
     _renderMenuIcon = () => 
          (
-        <svg
-         className={css(styles.icon)} viewBox="0 0 16 16">
-            <circle
-             cy="3" cx="8" r="1.5" />
-            <circle
-             cy="8" cx="8" r="1.5" />
-            <circle
-             cy="13" cx="8" r="1.5" />
+        <svg className={css(styles.icon)} viewBox="0 0 16 16">
+            <circle cy="3" cx="8" r="1.5" />
+            <circle cy="8" cx="8" r="1.5" />
+            <circle cy="13" cx="8" r="1.5" />
         </svg>
         )
     ;
     render() {
-        
         // Disable drag n drop for the entry file and virtual files
-        
         // Also disable for files being created because they will have a nested input
-        
         // Otherwise it'll be impossible to move the cursor in the input by dragging
         const {
             entry, 
@@ -379,16 +355,12 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
             readOnly, 
             theme
          } = this.props;
-        
         // Disable drag n drop for the entry file and virtual files
-        
         // Also disable for files being created because they will have a nested input
-        
         // Otherwise it'll be impossible to move the cursor in the input by dragging
         const draggable = !((isEntryPoint(this.props.entry.item.path) || this.props.entry.item.virtual) ?? this.props.entry.state.isCreating);
         return  (
-            <FileListEntryBase 
-                entry={entry}
+            <FileListEntryBase entry={entry}
                 rest={rest}
                 onOpen={onOpen}
                 onFocus={onFocus}
@@ -406,6 +378,7 @@ export class FileListEntry extends React.Component<FileListEntryProps, State> {
         ;
     }
 }
+
 
 export default FileListEntry;
 

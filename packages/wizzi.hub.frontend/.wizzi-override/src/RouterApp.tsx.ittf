@@ -20,7 +20,7 @@ module
         _ createBrowserRouter
             _ createRoutesFromElements
                 < Route
-                    @ path "/"
+                    @ path "/public/meta"
                     $if TODO
                         @ element
                             < Header

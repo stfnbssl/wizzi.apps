@@ -42,6 +42,7 @@ module
             @ js 'js/module'
             @ json 'json/document'
             @ jsx 'js/module'
+            @ logbot 'logbot/document'
             @ md 'md/tohtml'
             @ scss 'scss/document'
             @ svg 'svg/document'

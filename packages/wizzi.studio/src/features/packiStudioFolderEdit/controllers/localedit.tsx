@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiStudioFolderEdit\controllers\localedit.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -22,11 +22,14 @@ import EditorDocument from '../../../pages/EditorDocument';
 import {getPackiFromLocalFolder} from '../api/studioFolderEdit';
 
 const myname = 'features/studioFolderEdit/controllers/localedit';
-function renderPackiEditor(req: Request, res: Response, packiItemObject: object, loggedUser: object, queryParams: object) {
-
+function renderPackiEditor(
+    req: Request, 
+    res: Response, 
+    packiItemObject: object, 
+    loggedUser: object, 
+    queryParams: object) {
     const index = '<!DOCTYPE html>' + ((ReactDOMServer.renderToStaticMarkup(
-    <EditorDocument
-     data={packiItemObject} queryParams={queryParams} loggedUser={loggedUser} />
+    <EditorDocument data={packiItemObject} queryParams={queryParams} loggedUser={loggedUser} />
     )));
     res.set('Content-Type', 'text/html');
     res.set('Content-Length', index.length.toString());
@@ -34,9 +37,7 @@ function renderPackiEditor(req: Request, res: Response, packiItemObject: object,
 }
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -73,14 +74,12 @@ export class LocalEditController implements ControllerType {
     };
     
     private getFolderEditor = async (request: Request, response: Response) => {
-    
         const parsedUrl = parseUrl(request);
         const pathName = decodeURIComponent(parsedUrl.pathname);
         const parts = pathName.split('/');
         const folderPath = path.join(config.ittfPath, parts.slice(2).join('/'));
         const queryParams = {};
         wizziProds.folderFsToPackiFiles(folderPath).then((packiFiles: packiTypes.PackiFiles) => {
-        
             const loggedUser = {
                 id: 0, 
                 username: config.userUserName, 
@@ -105,7 +104,6 @@ export class LocalEditController implements ControllerType {
              }, loggedUser, queryParams)
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {

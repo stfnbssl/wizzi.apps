@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\ModalDialog.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import React, {FunctionComponent} from 'react';
 // see https://mxstbr.blog/2016/11/styled-components-magic-explained/
@@ -31,7 +31,6 @@ const StyledModalSheet = styled(ModalSheet)<SheetStyleProps>`
     min-height: 0;
     max-width: 420px;
     max-height: calc(100% - 100px);
-    
 `
 const StyledTitle = styled.div<TitleStyleProps>`
     height: 72px;
@@ -67,27 +66,21 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = ({
     autoSize, 
     children
  }) => 
-
      (
-    <StyledModalSheet 
-        autoSize={autoSize}
+    <StyledModalSheet autoSize={autoSize}
         className={className}
         visible={visible}
         onDismiss={onDismiss}
     >
         {
             title ?  (
-                <StyledTitle
-                 title={title}>
-                    {title}
-                </StyledTitle>
+                <StyledTitle title={title}>
+                    {title}</StyledTitle>
                 )
              : null
         }
-        <StyledContent
-         title={title}>
-            {children}
-        </StyledContent>
+        <StyledContent title={title}>
+            {children}</StyledContent>
     </StyledModalSheet>
     )
 

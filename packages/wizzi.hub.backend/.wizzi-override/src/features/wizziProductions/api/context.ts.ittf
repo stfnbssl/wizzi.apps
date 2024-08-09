@@ -1,8 +1,6 @@
 module
     $include set-ctx-functions
     $
-        setCtxEnvValues ('ITTF_PATH', 'ittfPath', 'str');
-    $
         var md = {
             myname: 'features.wizzi.api.context'
         }
@@ -30,52 +28,52 @@ module
             param contextItems
                 :[
                     :ref MetaContext
-            const promises: Promise<any>[] = []
-            _ contextItems.map
-                =>
-                    param contextItem
-                    _ promises.push
-                        new Promise
-                            =>
-                                param resolve
-                                param reject
-                                _ resolveContext
-                                    @ contextItem
-                                    ._ then
-                                        =>
-                                            param context
-                                                :any
-                                            _ resolve
-                                                {
-                                                    @ name contextItem.name
-                                                    @ value context
-                                    v08/ts/catch_reject( ${md.myname}.resolveContexts.resolveContext )
-            return
-                new Promise
+            r_promise()
+                if contextItems.length == 0
+                    return
+                        _ resolve
+                            {
+                const promises: Promise<any>[] = []
+                _ contextItems.map
                     =>
-                        param resolve
-                        param reject
-                        _ Promise.all
-                            @ promises
-                            ._ then
+                        param contextItem
+                        _ promises.push
+                            new Promise
                                 =>
-                                    param items
-                                    var context: any = {}
-                                    _ items.map
-                                        =>
-                                            param value
-                                                :any
-                                            if value.name && value.name.length > 0
-                                                set context[value.name] = value.value
-                                            else
-                                                set context
-                                                    _ Object.assign
-                                                        {
-                                                        @ context
-                                                        @ value.value
-                                    _ resolve
-                                        @ context
-                            v08/ts/catch_reject( ${md.myname}.resolveContexts.Promise.all )
+                                    param resolve
+                                    param reject
+                                    _ resolveContext
+                                        @ contextItem
+                                        ._ then
+                                            =>
+                                                param context
+                                                    :any
+                                                _ resolve
+                                                    {
+                                                        @ name contextItem.name
+                                                        @ value context
+                                        v08/ts/catch_reject( ${md.myname}.resolveContexts.resolveContext )
+                _ Promise.all
+                    @ promises
+                    ._ then
+                        =>
+                            param items
+                            var context: any = {}
+                            _ items.map
+                                =>
+                                    param value
+                                        :any
+                                    if value.name && value.name.length > 0
+                                        set context[value.name] = value.value
+                                    else
+                                        set context
+                                            _ Object.assign
+                                                {
+                                                @ context
+                                                @ value.value
+                            _ resolve
+                                @ context
+                    v08/ts/catch_reject( ${md.myname}.resolveContexts.Promise.all )
     function resolveContext
         param contextItem
             :ref MetaContext

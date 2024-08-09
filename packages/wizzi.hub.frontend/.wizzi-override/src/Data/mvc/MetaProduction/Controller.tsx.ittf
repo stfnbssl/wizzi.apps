@@ -308,3 +308,36 @@ module
                         if currentJob.__metaProductions
                             set currentJob.__metaProductions.text = JSON.stringify(mpsJsonContent, null, 2)
                             info '${myDisplayName}.selectMetaProduction.result', result, currentJob.__metaProductions
+
+            m saveMetaCtx
+                param currentJob
+                    :ref JobItem
+                param metaCtx
+                    :{
+                        :index
+                            :any
+                            param key
+                                :string
+                info '${myDisplayName}.saveMetaCtx.metaCtx', metaCtx
+                if !currentJob.__metaCtx
+                    throw new Error("Property `currentJob.__metaCtx` not set")
+                const 
+                    {
+                        @ exists metaCtxExists
+                        @ text metaCtxTextContent
+                        @ json metaCtxJsonContent
+                    = currentJob.__metaCtx
+                info '${myDisplayName}.saveMetaCtx.metaCtxJsonContent', metaCtxJsonContent
+                _ this.model.updatePackiFile
+                    @ 'job'
+                    @ currentJob.id
+                    @ this.constants.metaCtxFilePath
+                    @ metaCtxExists ? metaCtxTextContent : null
+                    @ JSON.stringify(metaCtx, null, 2)
+                    =>
+                        param result
+                        if currentJob.__metaCtx
+                            set currentJob.__metaCtx.text = JSON.stringify(metaCtx, null, 2)
+                            set currentJob.__metaCtx.json = metaCtx
+                            info '${myDisplayName}.saveMetaCtx.result', result, currentJob.__metaCtx
+

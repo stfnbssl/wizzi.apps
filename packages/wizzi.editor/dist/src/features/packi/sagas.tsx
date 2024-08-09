@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\sagas.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {all, fork, put, takeEvery, call} from 'redux-saga/effects';
 import {getType} from 'typesafe-actions';
@@ -11,7 +11,6 @@ import {packiActions} from '../packi';
 import {callApi} from '../../utils/api';
 //
 function* handleGithubCloneRequest(action: ReturnType<typeof packiActions.githubCloneRequest>):  any {
-
     try {
         console.log('sagas.handleGithubCloneRequest.action', action, __filename);
         const res = yield call(callApi, 'get', config.API_URL, 'github/repo/clone/' + encodeURIComponent(action.payload.owner) + '/' + encodeURIComponent(action.payload.name) + '/' + encodeURIComponent(action.payload.branch));
@@ -29,12 +28,10 @@ function* handleGithubCloneRequest(action: ReturnType<typeof packiActions.github
 //
 //
 function* packiRequest() {
-
     yield takeEvery(getType(packiActions.githubCloneRequest), handleGithubCloneRequest);
 }
 //
 function* packiSaga() {
-
     yield all([
             fork(packiRequest)
         ]);

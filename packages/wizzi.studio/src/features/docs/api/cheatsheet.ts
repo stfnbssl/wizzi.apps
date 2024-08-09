@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\docs\api\cheatsheet.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 import {pretty, verify} from 'wizzi-utils';
@@ -10,16 +10,11 @@ import {wizziMaps, wizziProds} from '../../wizzi';
 import stringify from 'json-stringify-safe';
 
 async function getCheatsheet(name: string) {
-
     return new Promise((resolve, reject) => {
-        
             var csPath = path.join(__dirname, '..', '..', '..', '..', 'ittf', 'models', 'cheatsheets', name, 'index.ittf.ittf');
-            wizziProds.mTreeFs(csPath, {}).then(
-            // items are ittf fragments that will be ittf/prettified and generated
-            
+            wizziProds.mTreeFs(csPath, {}).then(// items are ittf fragments that will be ittf/prettified and generated
             // the resulting cheatsheet context object that will be returned when built
             (result: any) => {
-            
                 const mTree = result.mTree;
                 var _all_items = [];
                 var result: any = {
@@ -31,7 +26,6 @@ async function getCheatsheet(name: string) {
                 var i, i_items=mTree.nodes[0].children, i_len=mTree.nodes[0].children.length, itemTop;
                 for (i=0; i<i_len; i++) {
                     itemTop = mTree.nodes[0].children[i];
-                    
                     // set properties of result
                     if (itemTop.n !== 'element') {
                         result[itemTop.n] = itemTop.v;
@@ -50,7 +44,6 @@ async function getCheatsheet(name: string) {
                         var j, j_items=itemTop.children, j_len=itemTop.children.length, itemEl;
                         for (j=0; j<j_len; j++) {
                             itemEl = itemTop.children[j];
-                            
                             // ittf fragment
                             if (itemEl.n === 'item') {
                                 var itemResult: any = {
@@ -62,7 +55,6 @@ async function getCheatsheet(name: string) {
                                     item = itemEl.children[k];
                                     if (item.n === 'ittf') {
                                         if (item.children.length == 1) {
-                                            
                                             // is already ok, has the correct root
                                             if ((result.schema === 'json' && (item.children[0].n === '{' || item.children[0].n === '[')) || item.children[0].n === wizziMaps.ittfRootFromSchema(result.schema) || wizziMaps.ittfRootFromSchema(result.schema) === 'any') {
                                                 itemResult[item.n] = mTree.toIttf(item.children[0]);
@@ -112,13 +104,11 @@ async function getCheatsheet(name: string) {
                 }
                 var item_count = 0;
                 (function next() {
-                
                     var item = _all_items[item_count++];
                     if (!item) {
                         return resolve(result);
                     }
                     pretty.prettifyIttfHtmlFromString(item.ittf, (err: any, pretty: any) => {
-                    
                         if (err) {
                             item.ittfPretty = stringify(err, null, 4);
                         }
@@ -132,7 +122,6 @@ async function getCheatsheet(name: string) {
                                     contents: item.ittfWrapped
                                  }
                              }, {}).then((mTreeBuildUpScript: any) => {
-                            
                                 if (mTreeBuildUpScript.__is_error) {
                                     item.generated = verify.htmlEscape(stringify(mTreeBuildUpScript, null, 2));
                                 }
@@ -143,7 +132,6 @@ async function getCheatsheet(name: string) {
                                 next();
                             }
                             ).catch((err: any) => {
-                            
                                 item.generated = stringify(err, null, 2)
                                 ;
                                 next();
@@ -163,13 +151,11 @@ async function getCheatsheet(name: string) {
                                     noGeneratorComments: true
                                  }
                              }).then((result) => {
-                            
                                 const artifactText = verify.htmlEscape(result.artifactContent);
                                 item.generated = artifactText ? artifactText.trim() : 'No result. Something went wrong!';
                                 next();
                             }
                             ).catch((err: any) => {
-                            
                                 item.generated = stringify(err, null, 2)
                                 ;
                                 next();
@@ -181,7 +167,6 @@ async function getCheatsheet(name: string) {
                 })();
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'cheatsheetApi.getCheatsheet.wizziProds.mTreeFs.error', err);
@@ -192,7 +177,6 @@ async function getCheatsheet(name: string) {
         );
 }
 function wrapperForSchema(schema: string) {
-
     if (schema === 'js' || schema === 'jsx') {
         return {
                 n: 'module', 
@@ -225,7 +209,6 @@ function wrapperForSchema(schema: string) {
     }
 }
 function buildExpected(ittf: any, sb?: any, indent?: number) {
-
     if (typeof sb === 'undefined') {
         sb = [];
         var i, i_items=ittf.children, i_len=ittf.children.length, item;

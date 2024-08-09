@@ -1,8 +1,10 @@
 module
     import React from "react"
     import ReactDOM from "react-dom/client"
-    import App from "./RouterApp"
-    $$ import "./index.css"
+    $if true
+        import App from "./App"
+    $else
+        import App from "./RouterApp"
     _ ReactDOM.createRoot
         :!
             _ document.getElementById("root")

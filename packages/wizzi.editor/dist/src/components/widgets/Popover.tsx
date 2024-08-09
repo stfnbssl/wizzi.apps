@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\Popover.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -12,6 +12,7 @@ export type PopoverProps = {
     children: React.ReactNode;
     content: React.ReactNode;
 };
+;
 
 type State = { 
     visible: boolean;
@@ -44,12 +45,12 @@ export class Popover extends React.PureComponent<PopoverProps, State> {
     _togglePopover = (ev: any) => {
         if (!this.state.visible) {
             const popover = this._popover.current?.getBoundingClientRect?.() ?? {};
-            
             // @ts-ignore
-            const anchor = this._anchor.current?.getBoundingClientRect?.() ?? {}; 
             
+            const anchor = this._anchor.current?.getBoundingClientRect?.() ?? {};
             // @ts-ignore
-            const diff = (popover.width - 10) / 2 - anchor.left; 
+            
+            const diff = (popover.width - 10) / 2 - anchor.left;
             if (this._popover.current && this._arrow.current) {
                 if (diff > 0) {
                     this._popover.current.style.left = `${diff + 5}px`;
@@ -58,13 +59,11 @@ export class Popover extends React.PureComponent<PopoverProps, State> {
                         `${anchor.left - anchor.width / 2 + 10}px`;
                 }
                 else {
-                    this._popover.current.style.left = '5px'; 
-                    this._arrow.current.style.left = '50%';
+                    this._popover.current.style.left = '5px'; this._arrow.current.style.left = '50%';
                 }
             }
         }
         this.setState((state) => 
-        
             ({
                 visible: !state.visible
              })
@@ -84,8 +83,7 @@ export class Popover extends React.PureComponent<PopoverProps, State> {
             content
          } = this.props;
         return  (
-            <div
-             className={css(styles.container)}>
+            <div className={css(styles.container)}>
                 {
                     React.cloneElement(// @ts-ignore
                     React.Children.only(children), {
@@ -93,17 +91,14 @@ export class Popover extends React.PureComponent<PopoverProps, State> {
                         onClick: this._togglePopover
                      })
                 }
-                <div
-                 ref={this._popover} className={css(styles.popover, this.state.visible ? styles.visible : styles.hidden)}>
-                    <span
-                     ref={this._arrow} className={css(styles.arrow)} />
-                    {content}
-                </div>
+                <div ref={this._popover} className={css(styles.popover, this.state.visible ? styles.visible : styles.hidden)}>
+                    <span ref={this._arrow} className={css(styles.arrow)} />{content}</div>
             </div>
             )
         ;
     }
 }
+
 
 export default Popover;
 

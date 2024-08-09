@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\types.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {ThemeName} from '../preferences/index';
 
@@ -10,7 +10,15 @@ export type Packi = {
     id: string;
     files: PackiFiles;
 };
+;
 
+/**
+    * 
+    * A non asset file that is included with the project.
+    * This can be either a code file (.js/.tsx) or a support
+    * file such as a markdown or json file.
+    * 
+*/
 export type PackiCodeFile = { 
     type: 'CODE';
     contents: string;
@@ -18,9 +26,19 @@ export type PackiCodeFile = {
     bothRealAndGenerated?: boolean;
     error?: Error;
 };
-    //
-    
+;
 
+/**
+    * 
+    * An asset file that refers to externaly available
+    * content such as an image or font.
+    * 
+    * When resolved, the `contents` field is an URL to the
+    * uploaded asset. A File, Blob or FormData object may
+    * also be provided after which it is automatically uploaded
+    * and converted into an URL.
+    * 
+*/
 export type PackiAssetFile = { 
     type: 'ASSET';
     // string = url
@@ -30,33 +48,49 @@ export type PackiAssetFile = {
     // string = url
     error?: Error;
 };
-    //
-    
+;
 
+/**
+    * 
+    * The content of a Packi code or asset file.
+    * 
+*/
 export type PackiFile = PackiCodeFile | PackiAssetFile;
-    //
-    
+;
 
+/**
+    * 
+    * Dictionary of file-names and their content that make up
+    * the files of the Packi.
+    * 
+*/
 export type PackiFiles = { 
     [path: string]: PackiFile;
 };
-    //
-    
+;
 
+/**
+    * 
+    * An error that can optionally hold a file-name and line/column location.
+    * 
+*/
 export interface PackiError extends Error {
     fileName?: string;
     lineNumber?: number;
     columnNumber?: number;
 }
-    //
-    
 
+
+/**
+    * 
+    * User that is used for communicating with the Wizzi servers.
+    * 
+*/
 export type PackiUser = { 
     sessionSecret?: string;
     accessToken?: string;
 };
-    //
-    
+;
 
 export type PackiState = { 
     /**
@@ -116,18 +150,23 @@ export type PackiState = {
     */
     generated?: boolean;
 };
+;
 
 export type SaveStatus = 'unsaved' | 'edited' | 'saving-draft' | 'saved-draft' | 'publishing' | 'published' | 'changed';
+;
 
 export type PackiListenerSubscription = () => any;
+;
 
 export type PackiDefaults = { 
     name: string;
 };
+;
 
 export type PackiWindowRef = { 
     current: Window | null;
 };
+;
 
 export type PackiOptions = { 
     id?: string;
@@ -147,14 +186,17 @@ export type PackiOptions = {
     localFolderPath?: string;
     localFolderUri?: string;
 };
+;
 
 export type PackiSaveOptions = { 
     isDraft?: boolean;
     ignoreUser?: boolean;
     excludeFromHistory?: boolean;
 };
+;
 
 export type PackiStateListener = (state: PackiState, prevState: PackiState) => any;
+;
 
 export type QueryInitParams = { 
     code?: string;
@@ -166,6 +208,7 @@ export type QueryInitParams = {
     waitForData?: 'boolean';
     saveToAccount?: 'true' | 'false';
 };
+;
 
 export type QueryStateParams = { 
     preview?: 'true' | 'false';
@@ -173,8 +216,10 @@ export type QueryStateParams = {
     verbose?: 'true' | 'false';
     hideQueryParams?: 'true' | 'false';
 };
+;
 
 export type QueryParams = QueryInitParams & QueryStateParams;
+;
 
 export type RouterData = { 
     type: "success";
@@ -187,10 +232,13 @@ export type RouterData = {
     };
     defaults: PackiDefaults;
 };
+;
 
 export type PackiFilesOrKind = PackiFiles | string;
+;
 
 export type PackiProduction = 'artifact' | 'package' | 'meta' | 'plugin' | 'tfolder';
+;
 
 export type PackiUploadPayload = { 
     name?: string;
@@ -199,3 +247,4 @@ export type PackiUploadPayload = {
     wizziSchema?: string;
     files?: PackiFiles;
 };
+;

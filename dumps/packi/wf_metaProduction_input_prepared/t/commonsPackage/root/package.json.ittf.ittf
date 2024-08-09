@@ -12,7 +12,7 @@ $group
             userid "${metaCtx.github.userid}"
     private false
     sideEffects false
-    $if TODO
+    $if metaCtx.commonsPackage.useTypeModule
         type "module"
     { imports
         #* "./*"

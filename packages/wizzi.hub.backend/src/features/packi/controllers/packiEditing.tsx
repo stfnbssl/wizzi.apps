@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\features\packi\controllers\packiEditing.tsx.ittf
-    utc time: Wed, 31 Jul 2024 13:44:17 GMT
+    utc time: Fri, 09 Aug 2024 16:10:17 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -41,17 +41,21 @@ function makeHandlerAwareOfAsyncErrors(handler: any) {
             catch (error: any) {
                 if (error instanceof FcError) {
                     response.status(statusCode.BAD_REQUEST).send({
-                        code: error.code, 
-                        message: error.message, 
-                        data: error.data || {}
+                        error: {
+                            code: error.code, 
+                            message: error.message, 
+                            data: error.data || {}
+                         }
                      })
                 }
                 else {
                     const fcError = new FcError(SYSTEM_ERROR);
                     response.status(statusCode.BAD_REQUEST).send({
-                        code: fcError.code, 
-                        message: error.message, 
-                        data: fcError.data || {}
+                        error: {
+                            code: fcError.code, 
+                            message: error.message, 
+                            data: fcError.data || {}
+                         }
                      })
                 }
             } 

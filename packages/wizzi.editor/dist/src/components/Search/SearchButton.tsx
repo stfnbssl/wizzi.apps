@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Search\SearchButton.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -41,41 +41,31 @@ export default class SearchButton extends React.Component<Props, State> {
              });
         render() {
             return  (
-                <React.Fragment
-                >
-                    <IconButton 
-                        responsive={this.props.responsive}
+                <React.Fragment>
+                    <IconButton responsive={this.props.responsive}
                         title="Search for Packis"
                         onClick={this._handleClick}
                         data-test-id="search-button"
                     >
-                        <svg
-                         width="20" height="20" fill="none">
-                            <circle 
-                                cx="8.75"
+                        <svg width="20" height="20" fill="none">
+                            <circle cx="8.75"
                                 cy="8.333"
                                 r="5.417"
                                 strokeWidth="1.667"
                              />
-                            <path
-                             d="M12.5 12.917l4.167 4.166" strokeWidth="1.667" strokeLinecap="round" />
+                            <path d="M12.5 12.917l4.167 4.166" strokeWidth="1.667" strokeLinecap="round" />
                         </svg>
                     </IconButton>
-                    <ModalSheet
-                     className={css(styles.modal)} visible={this.state.focused} onDismiss={this._handleDismiss}>
-                        <input 
-                            type="search"
+                    <ModalSheet className={css(styles.modal)} visible={this.state.focused} onDismiss={this._handleDismiss}>
+                        <input type="search"
                             autoFocus
                             onChange={this._handleChange}
                             placeholder="Search for Packies…"
                             className={css(styles.input)}
                             data-test-id="search-input"
                          />
-                        <div
-                         className={css(styles.results)}>
-                            <LazyLoad
-                             load={() => 
-                                
+                        <div className={css(styles.results)}>
+                            <LazyLoad load={() => 
                                     import('./SearchResults')
                             }>
                                 {
@@ -83,26 +73,21 @@ export default class SearchButton extends React.Component<Props, State> {
                                         loaded, 
                                         data: SearchResults
                                      }) => {
-                                    
                                         if (loaded && SearchResults) {
                                             return  (
-                                                <SearchResults
-                                                 query={this.state.query} />
+                                                <SearchResults query={this.state.query} />
                                                 )
                                             ;
                                         }
                                         return  (
-                                            <div
-                                             className={css(styles.loadingContainer)}>
+                                            <div className={css(styles.loadingContainer)}>
                                                 {
                                                     this.state.query ?  (
-                                                        <ProgressIndicator
-                                                         />
+                                                        <ProgressIndicator />
                                                         )
                                                      : null
                                                 }
-                                                <SearchPlaceholder
-                                                 label={this.state.query ? 'Searching…' : 'Results will appear here.'} />
+                                                <SearchPlaceholder label={this.state.query ? 'Searching…' : 'Results will appear here.'} />
                                             </div>
                                             )
                                         ;

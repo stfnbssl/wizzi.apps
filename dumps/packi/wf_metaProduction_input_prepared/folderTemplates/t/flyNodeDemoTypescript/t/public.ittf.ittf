@@ -1,0 +1,34 @@
+$group
+
+    $
+        var items = [
+            'index.css',
+            ];
+        //
+
+    $foreach item in items
+        $file __dot__wizzi/public/${item}.ittf.ittf
+            css
+                ${'$'}include flyNodeDemoTypescript/public/${item}
+
+    $
+        var items = [
+            'brandmark-light.svg',
+            ];
+        //
+
+    $foreach item in items
+        $file __dot__wizzi/public/${item}.ittf.ittf
+            svg
+                ${'$'}include flyNodeDemoTypescript/public/${item}
+
+    $
+        var items = [
+            'client.js',
+            ];
+        //
+
+    $foreach item in items
+        $file __dot__wizzi/public/${item}.ittf.ittf
+            module
+                ${'$'}include flyNodeDemoTypescript/public/${item}                

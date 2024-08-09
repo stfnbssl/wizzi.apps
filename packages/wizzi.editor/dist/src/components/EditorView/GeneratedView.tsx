@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\GeneratedView.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import * as React from 'react';
 import {withStyles, createStyles, Theme} from '@material-ui/core/styles';
@@ -41,27 +41,21 @@ type Props = {
 };
 class GeneratedView extends React.Component<Props> {
     _handleGenerateArtifact = () => 
-    
         this.props.onGenerateArtifactPreview()
     ;
     _handleMTree = () => 
-    
         this.props.onMTreePreview()
     ;
     _handleMTreeDebugInfo = () => 
-    
         this.props.onMTreeDebugInfoPreview()
     ;
     _handleBrowse = () => 
-    
         this.props.onBrowsePreview()
     ;
     _handleWizzify = () => 
-    
         this.props.onWizzifyPreview()
     ;
     _handleCodeAST = () => 
-    
         this.props.onCodeASTPreview()
     ;
     render() {
@@ -73,15 +67,11 @@ class GeneratedView extends React.Component<Props> {
          } = this.props;
         const isIttf = selectedFile && selectedFile.endsWith('.ittf');
         return  (
-            <div
-             className={splitViewKind === 'right' ? classes.containerFull : classes.container}>
+            <div className={splitViewKind === 'right' ? classes.containerFull : classes.container}>
                 {
-                    previewKind === 'generated' && this.props.generatedContent
-                     &&  (
-                        <div
-                         className={classes.editor}>
-                            <SyntaxHighlighter 
-                                className={classes.syntaxHigh}
+                    previewKind === 'generated' && this.props.generatedContent &&  (
+                        <div className={classes.editor}>
+                            <SyntaxHighlighter className={classes.syntaxHigh}
                                 code={this.props.generatedContent}
                                 filePath={selectedFile.substr(0, selectedFile.length - 5)}
                                 lineNumbers={true}
@@ -91,12 +81,9 @@ class GeneratedView extends React.Component<Props> {
                     
                 }
                 {
-                    previewKind === 'mTreeIttf'
-                     &&  (
-                        <div
-                         className={classes.editor}>
-                            <SyntaxHighlighter 
-                                className={classes.syntaxHigh}
+                    previewKind === 'mTreeIttf' &&  (
+                        <div className={classes.editor}>
+                            <SyntaxHighlighter className={classes.syntaxHigh}
                                 code={this.props.mTreeIttf || ''}
                                 filePath={'mTree.ittf'}
                                 lineNumbers={true}
@@ -106,12 +93,9 @@ class GeneratedView extends React.Component<Props> {
                     
                 }
                 {
-                    previewKind === 'mTreeBuildUpScript'
-                     &&  (
-                        <div
-                         className={classes.editor}>
-                            <SyntaxHighlighter 
-                                className={classes.syntaxHigh}
+                    previewKind === 'mTreeBuildUpScript' &&  (
+                        <div className={classes.editor}>
+                            <SyntaxHighlighter className={classes.syntaxHigh}
                                 code={this.props.mTreeBuildUpScript || ''}
                                 filePath={'mTreeBuildUpScript.js'}
                                 lineNumbers={true}
@@ -121,21 +105,15 @@ class GeneratedView extends React.Component<Props> {
                     
                 }
                 {
-                    previewKind === 'browser'
-                     &&  (
-                        <div
-                         className={classes.browserOuter}>
+                    previewKind === 'browser' &&  (
+                        <div className={classes.browserOuter}>
                             {
-                                ((this.props.generatedSourcePath.endsWith('.html.ittf') || this.props.generatedSourcePath.endsWith('.svg.ittf')) ?  (
-                                    <WebFrame
-                                     previewURL={this.props.generatedPreviewURL} />
+                                ((this.props.generatedSourcePath.endsWith('.html.ittf') || this.props.generatedSourcePath.endsWith('.logbot.ittf') || this.props.generatedSourcePath.endsWith('.svg.ittf')) ?  (
+                                    <WebFrame previewURL={this.props.generatedPreviewURL} />
                                     )
                                  : (this.props.generatedSourcePath.endsWith('.md.ittf') ?  (
-                                        <React.Fragment
-                                        >
-                                            <LazyLoad
-                                             load={() => 
-                                                
+                                        <React.Fragment>
+                                            <LazyLoad load={() => 
                                                     import('../Markdown/MarkdownPreview')
                                             }>
                                                 {
@@ -143,26 +121,19 @@ class GeneratedView extends React.Component<Props> {
                                                         loaded: mdLoaded, 
                                                         data: MarkdownPreview
                                                      }) => {
-                                                    
                                                         if (mdLoaded && MarkdownPreview) {
                                                             return  (
-                                                                <MarkdownPreview
-                                                                 source={this.props.generatedContent} />
+                                                                <MarkdownPreview source={this.props.generatedContent} />
                                                                 )
                                                             ;
                                                         }
                                                         else {
                                                             return  (
-                                                                <React.Fragment
-                                                                >
-                                                                    <h1
-                                                                    >
-                                                                        Failed to load markdown preview for document
-                                                                    </h1>
-                                                                    <p
-                                                                    >
-                                                                    {this.props.generatedSourcePath}
-                                                                    </p>
+                                                                <React.Fragment>
+                                                                    <h1>
+                                                                        Failed to load markdown preview for document</h1>
+                                                                    <p>
+                                                                    {this.props.generatedSourcePath}</p>
                                                                 </React.Fragment>
                                                                 )
                                                             ;
@@ -174,16 +145,11 @@ class GeneratedView extends React.Component<Props> {
                                         </React.Fragment>
                                         )
                                      :  (
-                                        <React.Fragment
-                                        >
-                                            <h1
-                                            >
-                                                No browser viewer for document
-                                            </h1>
-                                            <p
-                                            >
-                                            {this.props.generatedSourcePath}
-                                            </p>
+                                        <React.Fragment>
+                                            <h1>
+                                                No browser viewer for document</h1>
+                                            <p>
+                                            {this.props.generatedSourcePath}</p>
                                         </React.Fragment>
                                         )
                                     ))
@@ -193,12 +159,9 @@ class GeneratedView extends React.Component<Props> {
                     
                 }
                 {
-                    previewKind === 'wizzified' && this.props.wizzifiedIttfContent
-                     &&  (
-                        <div
-                         className={classes.editor}>
-                            <SyntaxHighlighter 
-                                className={classes.syntaxHigh}
+                    previewKind === 'wizzified' && this.props.wizzifiedIttfContent &&  (
+                        <div className={classes.editor}>
+                            <SyntaxHighlighter className={classes.syntaxHigh}
                                 code={this.props.wizzifiedIttfContent}
                                 filePath={selectedFile}
                                 lineNumbers={true}
@@ -208,12 +171,9 @@ class GeneratedView extends React.Component<Props> {
                     
                 }
                 {
-                    previewKind === 'codeAST' && this.props.codeASTContent
-                     &&  (
-                        <div
-                         className={classes.editor}>
-                            <SyntaxHighlighter 
-                                className={classes.syntaxHigh}
+                    previewKind === 'codeAST' && this.props.codeASTContent &&  (
+                        <div className={classes.editor}>
+                            <SyntaxHighlighter className={classes.syntaxHigh}
                                 code={this.props.codeASTContent}
                                 filePath={selectedFile}
                                 lineNumbers={true}
@@ -222,21 +182,15 @@ class GeneratedView extends React.Component<Props> {
                         )
                     
                 }
-                <div
-                 className={classes.sidebar}>
+                <div className={classes.sidebar}>
                     {
-                        isIttf
-                         &&  (
-                            <div
-                             className={classes.sbItem}>
-                                <Tooltip
-                                 title="View generated artifact content">
-                                    <IconButton
-                                     onClick={this._handleGenerateArtifact} classes={{
+                        isIttf &&  (
+                            <div className={classes.sbItem}>
+                                <Tooltip title="View generated artifact content">
+                                    <IconButton onClick={this._handleGenerateArtifact} classes={{
                                             root: classes.iconButton
                                          }}>
-                                        <ViewListIcon
-                                         />
+                                        <ViewListIcon />
                                     </IconButton>
                                 </Tooltip>
                             </div>
@@ -244,18 +198,13 @@ class GeneratedView extends React.Component<Props> {
                         
                     }
                     {
-                        isIttf
-                         &&  (
-                            <div
-                             className={classes.sbItem}>
-                                <Tooltip
-                                 title="View mTree">
-                                    <IconButton
-                                     onClick={this._handleMTree} classes={{
+                        isIttf &&  (
+                            <div className={classes.sbItem}>
+                                <Tooltip title="View mTree">
+                                    <IconButton onClick={this._handleMTree} classes={{
                                             root: classes.iconButton
                                          }}>
-                                        <AccountTreeIcon
-                                         />
+                                        <AccountTreeIcon />
                                     </IconButton>
                                 </Tooltip>
                             </div>
@@ -263,18 +212,13 @@ class GeneratedView extends React.Component<Props> {
                         
                     }
                     {
-                        isIttf
-                         &&  (
-                            <div
-                             className={classes.sbItem}>
-                                <Tooltip
-                                 title="View mTree build script">
-                                    <IconButton
-                                     onClick={this._handleMTreeDebugInfo} classes={{
+                        isIttf &&  (
+                            <div className={classes.sbItem}>
+                                <Tooltip title="View mTree build script">
+                                    <IconButton onClick={this._handleMTreeDebugInfo} classes={{
                                             root: classes.iconButton
                                          }}>
-                                        <DebugIcon
-                                         />
+                                        <DebugIcon />
                                     </IconButton>
                                 </Tooltip>
                             </div>
@@ -282,18 +226,13 @@ class GeneratedView extends React.Component<Props> {
                         
                     }
                     {
-                        isIttf
-                         &&  (
-                            <div
-                             className={classes.sbItem}>
-                                <Tooltip
-                                 title="Browse artifact">
-                                    <IconButton
-                                     onClick={this._handleBrowse} classes={{
+                        isIttf &&  (
+                            <div className={classes.sbItem}>
+                                <Tooltip title="Browse artifact">
+                                    <IconButton onClick={this._handleBrowse} classes={{
                                             root: classes.iconButton
                                          }}>
-                                        <BrowserIcon
-                                         />
+                                        <BrowserIcon />
                                     </IconButton>
                                 </Tooltip>
                             </div>
@@ -301,18 +240,13 @@ class GeneratedView extends React.Component<Props> {
                         
                     }
                     {
-                        isIttf == false
-                         &&  (
-                            <div
-                             className={classes.sbItem}>
-                                <Tooltip
-                                 title="Wizzify source">
-                                    <IconButton
-                                     onClick={this._handleWizzify} classes={{
+                        isIttf == false &&  (
+                            <div className={classes.sbItem}>
+                                <Tooltip title="Wizzify source">
+                                    <IconButton onClick={this._handleWizzify} classes={{
                                             root: classes.iconButton
                                          }}>
-                                        <WizzifiedIcon
-                                         />
+                                        <WizzifiedIcon />
                                     </IconButton>
                                 </Tooltip>
                             </div>
@@ -320,18 +254,13 @@ class GeneratedView extends React.Component<Props> {
                         
                     }
                     {
-                        isIttf == false
-                         &&  (
-                            <div
-                             className={classes.sbItem}>
-                                <Tooltip
-                                 title="Get code AST">
-                                    <IconButton
-                                     onClick={this._handleCodeAST} classes={{
+                        isIttf == false &&  (
+                            <div className={classes.sbItem}>
+                                <Tooltip title="Get code AST">
+                                    <IconButton onClick={this._handleCodeAST} classes={{
                                             root: classes.iconButton
                                          }}>
-                                        <AstIcon
-                                         />
+                                        <AstIcon />
                                     </IconButton>
                                 </Tooltip>
                             </div>
@@ -345,7 +274,6 @@ class GeneratedView extends React.Component<Props> {
     }
 }
 const muiStyles = (theme: Theme) => 
-
     createStyles({
         container: {
             display: 'flex', 

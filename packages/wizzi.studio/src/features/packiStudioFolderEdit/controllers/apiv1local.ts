@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiStudioFolderEdit\controllers\apiv1local.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -18,9 +18,7 @@ import {packiTypes} from '../../packi';
 const myname = 'features/studioFolderEdit/controllers/apiv1local';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -57,17 +55,14 @@ export class ApiV1LocalController implements ControllerType {
     };
     
     private putFolderFs = async (request: Request, response: Response) => {
-    
         if (!request.body.packiFiles) {
             return sendFailure(response, {
                     err: "Missing packiFiles property in body"
                  }, 501);
         }
         wizziProds.packiFilesToFolderFs(request.params.folderpath, request.body.packiFiles).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {

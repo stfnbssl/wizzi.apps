@@ -1,15 +1,13 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\file\convertFileStructure.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {isEntryPoint} from './fileUtilities';
 import {FileSystemEntry, FileSystemEntryDiff} from './types';
 import {PackiFiles} from '../packi';
 const getFolders = (path: string):  string[] => {
-
-    
     // TODO: change this to slice and join
     const pathSegments = path.split('/');
     if (pathSegments.length === 0) {
@@ -23,7 +21,6 @@ const getFolders = (path: string):  string[] => {
 }
 ;
 export const packiToEntryArray = (files: PackiFiles):  FileSystemEntry[] => {
-
     const fileSystem: FileSystemEntry[] = [];
     const foldersInFileSystem = new Set();
     for (const filename of Object.keys(files).sort()) {
@@ -70,10 +67,8 @@ export const packiToEntryArray = (files: PackiFiles):  FileSystemEntry[] => {
 }
 ;
 export const packiFilterIttf = (files: PackiFiles):  PackiFiles => {
-
     const ittfFiles: PackiFiles = {};
     Object.keys(files).forEach((k) => {
-    
         if (k.endsWith('.ittf')) {
             ittfFiles[k] = files[k];
         }
@@ -83,15 +78,12 @@ export const packiFilterIttf = (files: PackiFiles):  PackiFiles => {
 }
 ;
 export const mixPreviousAndGeneratedPackiFilesToEntryArray = (previous: PackiFiles, generated: PackiFiles):  FileSystemEntry[] => {
-
     return packiToEntryArray(mixPreviousAndGeneratedPackiFiles(previous, generated));
 }
 ;
 export const mixPreviousAndGeneratedPackiFiles = (previous: PackiFiles, generated: PackiFiles):  PackiFiles => {
-
     const packiFiles = Object.assign({}, previous);
     Object.keys(generated).forEach((k) => {
-    
         if (previous[k]) {
             generated[k].bothRealAndGenerated = true;
         }
@@ -102,14 +94,12 @@ export const mixPreviousAndGeneratedPackiFiles = (previous: PackiFiles, generate
 }
 ;
 export const entryArrayToPacki = (entryArray: FileSystemEntry[]):  PackiFiles => {
-
     const sourceResult: PackiFiles = {};
     for (const { item } of entryArray) {
         if (item.type === 'file') {
             if (item.asset) {
                 sourceResult[item.path] = {
                     contents: item.uri, 
-                    
                     // TODO: support for different types
                     type: 'ASSET'
                  };
@@ -117,7 +107,6 @@ export const entryArrayToPacki = (entryArray: FileSystemEntry[]):  PackiFiles =>
             else {
                 sourceResult[item.path] = {
                     contents: (item as any).content, 
-                    
                     // TODO: support for different types
                     type: 'CODE'
                  };
@@ -130,13 +119,10 @@ export const entryArrayToPacki = (entryArray: FileSystemEntry[]):  PackiFiles =>
 export const entryArrayDiff = (a: FileSystemEntry[], b: FileSystemEntry[]):  { 
     [k: string]: FileSystemEntryDiff;
 } => {
-
     const diff: { 
         [k: string]: FileSystemEntryDiff;
     } = {};
     a.forEach(entry => 
-    
-        
         // console.log('-', entry.item.path)
         diff[entry.item.path] = {
             kind: '-', 
@@ -144,20 +130,17 @@ export const entryArrayDiff = (a: FileSystemEntry[], b: FileSystemEntry[]):  {
          }
     )
     b.forEach((entry) => {
-    
         if (diff[entry.item.path]) {
             if (diff[entry.item.path].a === entry.item) {
                 delete diff[entry.item.path]
             }
             else {
-                
                 // console.log('<>', entry.item.path)
                 diff[entry.item.path].kind === '<>';
                 diff[entry.item.path].b === entry.item;
             }
         }
         else {
-            
             // console.log('+', entry.item.path)
             diff[entry.item.path] = {
                 kind: '+', 

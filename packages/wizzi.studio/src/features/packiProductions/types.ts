@@ -1,13 +1,14 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\types.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 
 import {Document} from "mongoose";
 
 export type PackiProduction = 'artifact' | 'package' | 'meta' | 'plugin' | 'tfolder' | 'job';
+;
 
 export type IArtifactProduction = { 
     owner: string;
@@ -19,6 +20,7 @@ export type IArtifactProduction = {
     created_at: Date;
     updated_at: Date;
 };
+;
 
 
 type IArtifactProduction_doc = { 
@@ -28,6 +30,7 @@ type IArtifactProduction_doc = {
 export interface IArtifactProductionModel extends IArtifactProduction, IArtifactProduction_doc, Document {
 }
 
+
 export type IPackageProduction = { 
     owner: string;
     name: string;
@@ -36,6 +39,7 @@ export type IPackageProduction = {
     created_at: Date;
     updated_at: Date;
 };
+;
 
 
 type IPackageProduction_doc = { 
@@ -45,6 +49,7 @@ type IPackageProduction_doc = {
 export interface IPackageProductionModel extends IPackageProduction, IPackageProduction_doc, Document {
 }
 
+
 export type IPluginProduction = { 
     owner: string;
     name: string;
@@ -53,6 +58,7 @@ export type IPluginProduction = {
     created_at: Date;
     updated_at: Date;
 };
+;
 
 
 type IPluginProduction_doc = { 
@@ -62,6 +68,7 @@ type IPluginProduction_doc = {
 export interface IPluginProductionModel extends IPluginProduction, IPluginProduction_doc, Document {
 }
 
+
 export type IMetaProduction = { 
     owner: string;
     name: string;
@@ -70,6 +77,7 @@ export type IMetaProduction = {
     created_at: Date;
     updated_at: Date;
 };
+;
 
 
 type IMetaProduction_doc = { 
@@ -79,6 +87,7 @@ type IMetaProduction_doc = {
 export interface IMetaProductionModel extends IMetaProduction, IMetaProduction_doc, Document {
 }
 
+
 export type ITFolder = { 
     owner: string;
     name: string;
@@ -87,6 +96,7 @@ export type ITFolder = {
     created_at: Date;
     updated_at: Date;
 };
+;
 
 
 type ITFolder_doc = { 
@@ -96,6 +106,7 @@ type ITFolder_doc = {
 export interface ITFolderModel extends ITFolder, ITFolder_doc, Document {
 }
 
+
 export type IJob = { 
     owner: string;
     name: string;
@@ -104,6 +115,7 @@ export type IJob = {
     created_at: Date;
     updated_at: Date;
 };
+;
 
 
 type IJob_doc = { 
@@ -112,7 +124,9 @@ type IJob_doc = {
 
 export interface IJobModel extends IJob, IJob_doc, Document {
 }
+
 export type WizziInMemoryMetaRef = { 
     owner: string;
     name: string;
 };
+;

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\api\tfolder.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '../../types';
@@ -20,13 +20,10 @@ const tFolderCache = new NodeCache({
     checkperiod: 60
  });
 export async function validateTFolder(owner: string, name: string):  Promise<ValidateResult> {
-
     const TFolder = GetTFolderModel();
     return new Promise((resolve, reject) => {
-        
             let query = { owner: owner, name: name };
             TFolder.find(query, (err, result) => {
-            
                 if (err) {
                     return reject(err);
                 }
@@ -53,14 +50,12 @@ export /**
         // options
 */
 async function getTFolderList(options?: any):  Promise<CRUDResult> {
-
     options = options || {};
     
     
     const TFolder = GetTFolderModel();
     
     return new Promise((resolve, reject) => {
-        
             
             const query = TFolder.find(options.query);
             if (options.limit) {
@@ -70,7 +65,6 @@ async function getTFolderList(options?: any):  Promise<CRUDResult> {
                 query.sort(options.sort);
             }
             query.find((err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getTFolderList', 'TFolder.find', 'error', err);
                     return reject(err);
@@ -108,13 +102,11 @@ export /**
         // name
 */
 async function getTFolder(owner: string, name: string):  Promise<CRUDResult> {
-
     
     
     const TFolder = GetTFolderModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -122,7 +114,6 @@ async function getTFolder(owner: string, name: string):  Promise<CRUDResult> {
              };
             
             TFolder.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getTFolder', 'TFolder.find', 'error', err);
                     return reject(err);
@@ -152,18 +143,15 @@ export /**
         // id
 */
 async function getTFolderById(id: string):  Promise<CRUDResult> {
-
     
     
     const TFolder = GetTFolderModel();
     
     return new Promise((resolve, reject) => {
-        
             
             TFolder.find({
                 _id: id
              }, (err: any, result: ITFolderModel[]) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getTFolder', 'TFolder.find', 'error', err);
                     return reject(err);
@@ -187,11 +175,8 @@ async function getTFolderById(id: string):  Promise<CRUDResult> {
 }
 
 export async function getTFolderObject(owner: string, name: string, loadPackiConfig?: boolean) {
-
     return new Promise((resolve, reject) => 
-        
             getTFolder(owner, name).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -199,7 +184,6 @@ export async function getTFolderObject(owner: string, name: string, loadPackiCon
                 return resolve(_createTFolderObject(tf, loadPackiConfig));
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.api.tFolder.getTFolderObject.getTFolder.error', err);
@@ -211,11 +195,8 @@ export async function getTFolderObject(owner: string, name: string, loadPackiCon
 }
 
 export async function getTFolderObjectById(id: string, loadPackiConfig?: boolean) {
-
     return new Promise((resolve, reject) => 
-        
             getTFolderById(id).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -223,7 +204,6 @@ export async function getTFolderObjectById(id: string, loadPackiConfig?: boolean
                 return resolve(_createTFolderObject(tf, loadPackiConfig));
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.production.api.tFolder.getTFolderObjectById.getTFolderById.error', err);
@@ -234,10 +214,8 @@ export async function getTFolderObjectById(id: string, loadPackiConfig?: boolean
         );
 }
 async function _createTFolderObject(tf: ITFolderModel, loadPackiConfig?: boolean) {
-
     
     return new Promise((resolve, reject) => {
-        
             const tf_packiFiles_object: packiTypes.PackiFiles = JSON.parse(tf.packiFiles);
             const obj = {
                 ...tf._doc, 
@@ -260,12 +238,10 @@ async function _createTFolderObject(tf: ITFolderModel, loadPackiConfig?: boolean
                         contents: obj.packiConfig.contents
                      }
                  }, {}).then((generationResult: any) => {
-                
                     obj.packiConfigObj = JSON.parse(generationResult.artifactContent);
                     return resolve(obj);
                 }
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.production.api.tFolder.getTFolderObject._createTFolderObject.error', err);
@@ -289,14 +265,16 @@ export /**
         // description
         // packiFiles
 */
-async function createTFolder(owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
-
+async function createTFolder(
+    owner?: string, 
+    name?: string, 
+    description?: string, 
+    packiFiles?: string):  Promise<CRUDResult> {
     
     
     const TFolder = GetTFolderModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -304,7 +282,6 @@ async function createTFolder(owner?: string, name?: string, description?: string
              };
             
             TFolder.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getTFolder', 'TFolder.find', 'error', err);
                     return reject(err);
@@ -325,7 +302,6 @@ async function createTFolder(owner?: string, name?: string, description?: string
                     updated_at: new Date()
                  });
                 newTFolder.save(function(err: any, doc: any) {
-                
                     if (err) {
                         console.log("[31m%s[0m", myname, 'createTFolder', 'newTFolder.save', 'error', err);
                         return reject(err);
@@ -352,14 +328,17 @@ export /**
         // description
         // packiFiles
 */
-async function updateTFolder(id?: string, owner?: string, name?: string, description?: string, packiFiles?: string):  Promise<CRUDResult> {
-
+async function updateTFolder(
+    id?: string, 
+    owner?: string, 
+    name?: string, 
+    description?: string, 
+    packiFiles?: string):  Promise<CRUDResult> {
     
     
     const TFolder = GetTFolderModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -389,7 +368,6 @@ async function updateTFolder(id?: string, owner?: string, name?: string, descrip
             update['updated_at'] = new Date();
             
             TFolder.findOneAndUpdate(query, update, {}, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'updateTFolder', 'TFolder.findOneAndUpdate', 'error', err);
                     return reject(err);
@@ -422,13 +400,11 @@ export /**
         // name
 */
 async function deleteTFolder(id?: string, owner?: string, name?: string):  Promise<CRUDResult> {
-
     
     
     const TFolder = GetTFolderModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -444,7 +420,6 @@ async function deleteTFolder(id?: string, owner?: string, name?: string):  Promi
             }
             
             TFolder.deleteOne(query, (err: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'deleteTFolder', 'TFolder.deleteOne', 'error', err);
                     return reject(err);
@@ -461,17 +436,14 @@ async function deleteTFolder(id?: string, owner?: string, name?: string):  Promi
 }
 
 export async function getTFolder_withCache(owner: string, name: string) {
-
     var cacheKey = owner + '|' + name;
     return new Promise((resolve, reject) => {
-        
             let tfValue = {
                 packiFiles: {
                     
                  }
              };
             getTFolder(owner, name).then((result) => {
-            
                 if (!result.ok) {
                     return reject(result);
                 }
@@ -483,7 +455,6 @@ export async function getTFolder_withCache(owner: string, name: string) {
                 return resolve(tfValue);
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'getTFolder_withCache.getArtifactProduction.error', err);
@@ -495,7 +466,6 @@ export async function getTFolder_withCache(owner: string, name: string) {
 }
 
 export function invalidateCache(owner: string, name?: string) {
-
     var cacheKey = owner + '|' + name;
     tFolderCache.del(cacheKey);
 }

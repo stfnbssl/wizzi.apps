@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\dev\api\scanDevFolders.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 import {verify, fSystem} from 'wizzi-utils';
@@ -19,9 +19,7 @@ const plugins = [
 const pluginsBaseFolder = "C:/My/wizzi/stfnbssl/wizzi.plugins/packages";
 
 async function execScanDevFolders(options: ScanDevFoldersOptions):  Promise<any> {
-
     return new Promise((resolve, reject) => {
-        
             var baseDevFolderPath = "C:/My/wizzi/stfnbssl";
             var searchInFolders = [];
             if (options.hasPlugins) {
@@ -39,7 +37,6 @@ async function execScanDevFolders(options: ScanDevFoldersOptions):  Promise<any>
              });
             
             function exec(i) {
-            
                 const folder = folders[i];
                 if (!folder) {
                     return resolve(result);
@@ -48,7 +45,6 @@ async function execScanDevFolders(options: ScanDevFoldersOptions):  Promise<any>
                     return exec(i+1);
                 }
                 scanFolderPackages(path.join(baseDevFolderPath, folder), options).then((packagesInfo: any) => {
-                
                     result.wizziPackages = result.wizziPackages.concat(packagesInfo)
                     ;
                     exec(i+1);
@@ -61,16 +57,13 @@ async function execScanDevFolders(options: ScanDevFoldersOptions):  Promise<any>
 }
 
 async function scanFolderPackages(folderPath: string, options: ScanDevFoldersOptions):  Promise<any> {
-
     return new Promise((resolve, reject) => {
-        
             var packagesFolder = path.join(folderPath, 'packages');
             var packagesFolderFolders = file.getFolders(packagesFolder, {
                 deep: false
              });
             var packagesInfo = [];
             function exec(i) {
-            
                 const packageName = packagesFolderFolders[i];
                 if (!packageName) {
                     return resolve(packagesInfo);
@@ -79,7 +72,6 @@ async function scanFolderPackages(folderPath: string, options: ScanDevFoldersOpt
                     return exec(i+1);
                 }
                 detectWizziPackage(path.join(packagesFolder, packageName), options).then((packageInfo: any) => {
-                
                     if (options.hasPlugins && packageInfo.isPlugin || options.hasMetaPlugins && packageInfo.isMetaPlugin) {
                         packagesInfo.push(packageInfo);
                     }
@@ -93,9 +85,7 @@ async function scanFolderPackages(folderPath: string, options: ScanDevFoldersOpt
 }
 
 async function detectWizziPackage(folderPath: string, options: ScanDevFoldersOptions):  Promise<any> {
-
     return new Promise((resolve, reject) => {
-        
             var packageInfo = {
                 ok: false, 
                 isPlugin: false, 
@@ -126,7 +116,6 @@ async function detectWizziPackage(folderPath: string, options: ScanDevFoldersOpt
                 deep: false
              });
             folders.forEach((childFolderName) => {
-            
                 if (childFolderName == '.wizzi') {
                     packageInfo.ok = true;
                     packageInfo.name = path.basename(folderPath);
@@ -149,19 +138,15 @@ async function detectWizziPackage(folderPath: string, options: ScanDevFoldersOpt
                 deep: false
              });
             function exec(i) {
-            
                 const childFileName = files[i];
                 if (!childFileName) {
                     return detectPlugin(packageInfo, ".wizzi", options).then((notUsed: any) => 
-                        
                             detectPlugin(packageInfo, ".wizzi-override", options).then((notUsed: any) => {
-                            
                                 if (packageInfo.isPlugin) {
                                     return resolve(packageInfo);
                                 }
                                 else {
                                     detectMetaPlugin(packageInfo, ".wizzi-override", options).then((notUsed: any) => {
-                                    
                                         return resolve(packageInfo);
                                     }
                                     )
@@ -189,13 +174,9 @@ async function detectWizziPackage(folderPath: string, options: ScanDevFoldersOpt
 }
 
 async function detectPlugin(packageInfo: any, wizziFolder: string, options: ScanDevFoldersOptions):  Promise<void> {
-
     return new Promise((resolve, reject) => 
-        
             detectSchema(packageInfo, wizziFolder, options).then((notUsed: any) => 
-            
                 detectArtifact(packageInfo, wizziFolder, options).then((notUsed: any) => {
-                
                     return resolve();
                 }
                 )
@@ -206,11 +187,8 @@ async function detectPlugin(packageInfo: any, wizziFolder: string, options: Scan
 }
 
 async function detectSchema(packageInfo: any, wizziFolder: string, options: ScanDevFoldersOptions):  Promise<void> {
-
-    return new Promise(
-        // check wizzi plugin standard folders
+    return new Promise(// check wizzi plugin standard folders
         (resolve, reject) => {
-        
             var wizziSchemasFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'wizzi', 'schemas');
             var wizziModelsFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'wizzi', 'models');
             var artifactsFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'artifacts');
@@ -222,7 +200,6 @@ async function detectSchema(packageInfo: any, wizziFolder: string, options: Scan
                 deep: false
              });
             function exec(i) {
-            
                 const schemaFilePath = schemaFilePaths[i];
                 if (!schemaFilePath) {
                     return resolve();
@@ -257,11 +234,8 @@ async function detectSchema(packageInfo: any, wizziFolder: string, options: Scan
 }
 
 async function detectArtifact(packageInfo: any, wizziFolder: string, options: ScanDevFoldersOptions):  Promise<void> {
-
-    return new Promise(
-        // check wizzi plugin standard folders
+    return new Promise(// check wizzi plugin standard folders
         (resolve, reject) => {
-        
             var wizziSchemasFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'wizzi', 'schemas');
             var wizziModelsFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'wizzi', 'models');
             var artifactsFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'artifacts');
@@ -272,15 +246,12 @@ async function detectArtifact(packageInfo: any, wizziFolder: string, options: Sc
                 deep: false
              });
             function exec(i) {
-            
                 const schema = artifactSchemas[i];
                 if (!schema) {
                     return resolve();
                 }
                 detectArtifactSchemaArtifacts(packageInfo, wizziFolder, schema, options).then((notUsed: any) => 
-                
                     detectWizzifier(packageInfo, wizziFolder, options).then((notUsed: any) => 
-                    
                         exec(i+1)
                     )
                 
@@ -291,24 +262,23 @@ async function detectArtifact(packageInfo: any, wizziFolder: string, options: Sc
         );
 }
 
-async function detectArtifactSchemaArtifacts(packageInfo: any, wizziFolder: string, schema: string, options: ScanDevFoldersOptions):  Promise<void> {
-
+async function detectArtifactSchemaArtifacts(
+    packageInfo: any, 
+    wizziFolder: string, 
+    schema: string, 
+    options: ScanDevFoldersOptions):  Promise<void> {
     return new Promise((resolve, reject) => {
-        
-            
             // console.log("detectArtifacts.schema", schema);
             var artifactSchemaFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'artifacts', schema);
             var artifactSchemaArtifacts = file.getFolders(artifactSchemaFolder, {
                 deep: false
              });
             function exec(i) {
-            
                 const artifact = artifactSchemaArtifacts[i];
                 if (!artifact) {
                     return resolve();
                 }
                 detectArtifactSchemaArtifactGenOrTrans(packageInfo, wizziFolder, schema, artifact, options).then((notUsed: any) => 
-                
                     exec(i+1)
                 )
             }
@@ -317,16 +287,18 @@ async function detectArtifactSchemaArtifacts(packageInfo: any, wizziFolder: stri
         );
 }
 
-async function detectArtifactSchemaArtifactGenOrTrans(packageInfo: any, wizziFolder: string, schema: string, artifact: string, options: ScanDevFoldersOptions):  Promise<void> {
-
+async function detectArtifactSchemaArtifactGenOrTrans(
+    packageInfo: any, 
+    wizziFolder: string, 
+    schema: string, 
+    artifact: string, 
+    options: ScanDevFoldersOptions):  Promise<void> {
     return new Promise((resolve, reject) => {
-        
             var artifactSchemaArtifactGenOrTransFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'artifacts', schema, artifact);
             var artifactSchemaArtifactGenOrTrans = file.getFolders(artifactSchemaArtifactGenOrTransFolder, {
                 deep: false
              });
             function exec(i) {
-            
                 const genortrans = artifactSchemaArtifactGenOrTrans[i];
                 if (!genortrans) {
                     return resolve();
@@ -371,9 +343,7 @@ async function detectArtifactSchemaArtifactGenOrTrans(packageInfo: any, wizziFol
 }
 
 async function detectWizzifier(packageInfo: any, wizziFolder: string, options: ScanDevFoldersOptions):  Promise<void> {
-
     return new Promise((resolve, reject) => {
-        
             var wizzifiersFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'wizzifiers');
             if (!file.exists(wizzifiersFolder)) {
                 return resolve();
@@ -382,7 +352,6 @@ async function detectWizzifier(packageInfo: any, wizziFolder: string, options: S
                 deep: false
              });
             function exec(i) {
-            
                 const schemaName = wizzifierFolderSchemas[i];
                 if (!schemaName) {
                     return resolve();
@@ -407,9 +376,7 @@ async function detectWizzifier(packageInfo: any, wizziFolder: string, options: S
 }
 
 async function detectMetaPlugin(packageInfo: any, wizziFolder: string, options: ScanDevFoldersOptions):  Promise<void> {
-
     return new Promise((resolve, reject) => {
-        
             var ittfFolder = path.join(packageInfo.fullPath, wizziFolder, 'ittf');
             var detector1Filepath = path.join(packageInfo.fullPath, wizziFolder, 'root', 't', 'meta-production.js.ittf');
             var detector2Filepath = path.join(packageInfo.fullPath, wizziFolder, 'root', 't', 'meta-production-starter.js.ittf');
@@ -421,7 +388,6 @@ async function detectMetaPlugin(packageInfo: any, wizziFolder: string, options: 
                 deep: false
              });
             function exec(i) {
-            
                 const metaProduction = metaProductions[i];
                 if (!metaProduction) {
                     return resolve();

@@ -3,6 +3,7 @@ module
         var md = {
             isGetApp: false
         }
+
     $if wzCtx.Build.useNetlify
         index/start(&md)
     $else

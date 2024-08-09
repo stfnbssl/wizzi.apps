@@ -1,6 +1,6 @@
-# ts.express.lab
+# wizzi.hub.backend
 
-Typescript express lab
+Wizzi hub server
 
 ## Features
 ## Built With

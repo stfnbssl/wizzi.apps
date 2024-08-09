@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\site\controllers\wizziDocs.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -14,9 +14,7 @@ import {statusCode} from '../../utils';
 import {cheatsheetApi} from '../../features/docs';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -53,14 +51,11 @@ export class DocsController implements ControllerType {
     };
     
     private cheatsheet = async (request: Request, response: Response) => 
-    
         cheatsheetApi.getCheatsheet(request.params.name).then(result => 
-        
             response.render('wizzi/docs/cheatsheet.html.ittf', {
                 cs: result
              })
         ).catch((err: any) => {
-        
             console.log("[31m%s[0m", 'docs.cheatsheet.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {

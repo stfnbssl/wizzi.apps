@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\ThemeProvider.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 // taken from https://github.com/expo/snack/blob/main/website/src/client/components/ThemeProvider.tsx
 // modified
@@ -36,9 +36,7 @@ const lightColors = {
     text: colors.gray[900], 
     soft: colors.gray[500], 
     'soft-text': colors.white, 
-    
     // semantic.background offered too little contrast with content
-    
     // background: colors.semantic.background,
     background: '#F9F9F9', 
     content: colors.white, 
@@ -49,22 +47,16 @@ const lightColors = {
     border: colors.semantic.border
  };
 
-
 // Use custom colors for dark theme which are not
-
 // so saturated and blue-ish
-
 // const darkGray = colors.gray;
 const lightShadows = {
     popover: shadows.popover, 
     small: shadows.small
  };
 
-
 // Use custom colors for dark theme which are not
-
 // so saturated and blue-ish
-
 // const darkGray = colors.gray;
 const darkGray = {
     100: '#F5F5F5', 
@@ -108,9 +100,9 @@ const darkShadows: Shadows = {
  };
 
 export type ThemeName = 'light' | 'dark';
+;
 
 export function c(color: ColorName, theme?: ThemeName) {
-
     if (theme) {
         const colors = theme === 'dark' ? darkColors : lightColors;
         return colors[color];
@@ -121,7 +113,6 @@ export function c(color: ColorName, theme?: ThemeName) {
 }
 
 export function s(shadow: ShadowName, theme?: ThemeName) {
-
     if (theme) {
         const shadows = theme === 'dark' ? darkShadows : lightShadows;
         return shadows[shadow];
@@ -162,8 +153,6 @@ export const ThemeProvider: FunctionComponent<ThemeProviderProps> = ({
     theme, 
     children
  }) => {
-
-    
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [prefs] = theme ? [
             {
@@ -171,10 +160,8 @@ export const ThemeProvider: FunctionComponent<ThemeProviderProps> = ({
              }
         ] : usePreferences();
     return  (
-        <div
-         className={classnames(css(style || styles.container, prefs.theme === 'dark' ? styles.dark : styles.light), className)}>
-            {children}
-        </div>
+        <div className={classnames(css(style || styles.container, prefs.theme === 'dark' ? styles.dark : styles.light), className)}>
+            {children}</div>
         )
     ;
 }

@@ -128,6 +128,21 @@ module
                     :optional
     +
     export
+        :type MetaWizzifiable
+            :{
+                :p source
+                    :ref IttfDocumentSource
+                :p filePath
+                    :string
+                    :optional
+                :p packiFiles
+                    :ref packiTypes.PackiFiles
+                    :optional
+                :p text
+                    :string
+                    :optional
+    +
+    export
         :type MetaIttfFolder
             :{
                 :p source
@@ -178,9 +193,13 @@ module
                 :p ittfFolder
                     :ref MetaIttfFolder
                     :optional
+                :p wizzifiable
+                    :ref MetaIttfDocument
+                    :optional
                 :p contextItems
                     :[
                         :ref MetaContext
+                    :optional
     +
     export
         :type WizziModelTypesRequest

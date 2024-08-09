@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\philos\api\philos.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 import {verify, fSystem} from 'wizzi-utils';
@@ -17,17 +17,13 @@ var plugins = [
 var pluginsBaseFolder = "C:/My/wizzi/stfnbssl/wizzi.plugins/packages";
 
 async function getPhilosList() {
-
     return new Promise((resolve, reject) => {
-        
             let philosFolderPath = path.join(config.ittfPath, 'philos');
             wizziFs.getFolderFiles(philosFolderPath, philosFolderPath, '/philos').then((philos: any) => {
-            
                 console.log('api/philos/getPhilosList', philos, __filename);
                 return resolve(philos);
             }
             ).catch((error: any) => {
-            
                 if (typeof error === 'object' && error !== null) {
                 }
                 console.log("[31m%s[0m", 'features.philos.api.getPhilosList.error', error);
@@ -39,21 +35,17 @@ async function getPhilosList() {
 }
 
 async function getPhilosItem(name: string) {
-
     return new Promise((resolve, reject) => {
-        
             let philosItemPath = path.join(config.ittfPath, 'philos', name + '.philos.ittf');
             wizziProds.loadAndTransformModelFs(philosItemPath, {}, {
                 plugins: plugins, 
                 pluginsBaseFolder: pluginsBaseFolder, 
                 transformer: "philos/extended"
              }).then((philosModelTransformed: any) => {
-            
                 console.log('api/philos/getPhilosItem/philosModelTransformed', Object.keys(philosModelTransformed), __filename);
                 return resolve(philosModelTransformed.transformResult);
             }
             ).catch((error: any) => {
-            
                 if (typeof error === 'object' && error !== null) {
                 }
                 console.log("[31m%s[0m", 'features.philos.api.getPhilosItem.error', error);

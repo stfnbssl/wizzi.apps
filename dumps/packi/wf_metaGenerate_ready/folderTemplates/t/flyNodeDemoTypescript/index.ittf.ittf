@@ -5,6 +5,8 @@ $group
         $include ./models
         $include ./root
         $include ./src
+        $include ./views
+        $include ./public
 
         $file __dot__wizzi/generate.wfjob.ittf.ittf
             wfjob ${'$'}{metaCtx.name}/job

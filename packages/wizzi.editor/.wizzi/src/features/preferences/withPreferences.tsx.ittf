@@ -37,7 +37,7 @@ module
                                 :ref PreferencesContextType
                 p displayName
                     static
-                    `lit
+                    template
                         + withPreferences(
                         @ Comp.displayName ?? Comp.name
                         + )

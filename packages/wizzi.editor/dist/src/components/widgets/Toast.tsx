@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\Toast.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -20,6 +20,7 @@ export type ToastProps = {
     }[];
     onDismiss?: () => void;
 };
+;
 
 type State = { 
     dismissing: boolean;
@@ -76,7 +77,6 @@ export class Toast extends React.Component<ToastProps, State> {
             dismissing: true
          })
         this._timer = setTimeout(() => 
-        
             this.props.onDismiss?.()
         , 400)
         ;
@@ -87,21 +87,13 @@ export class Toast extends React.Component<ToastProps, State> {
                 onMouseLeave: this._scheduleDismiss
              };
         return ReactDOM.createPortal(
-            <ThemeProvider
-             {...props} style={styles.toast} className={css(this.state.dismissing ? styles.dismissing : styles.appearing)}>
-                <div
-                 className={css(styles.label)}>
-                    {this.props.label}
-                </div>
+            <ThemeProvider {...props} style={styles.toast} className={css(this.state.dismissing ? styles.dismissing : styles.appearing)}>
+                <div className={css(styles.label)}>
+                    {this.props.label}</div>
                 {
                     this.props.actions.map((action) => 
-                    
                          (
-                        <button
-                         key={action.label} className={css(styles.button)} onClick={action.action ?? this._handleDismiss}>
-                            {action.label}
-                        </button>
-                        )
+                        <button key={action.label} className={css(styles.button)} onClick={action.action ?? this._handleDismiss}>{action.label}</button>)
                     
                     )
                 }
@@ -109,6 +101,7 @@ export class Toast extends React.Component<ToastProps, State> {
             , this._container);
     }
 }
+
 
 const fadeIn = {
     from: {

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\mongo\artifact.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import {Schema, Model, model} from "mongoose";
 import {ModelBuilderType} from "../../app/types";
@@ -26,16 +26,15 @@ ArtifactProductionSchema.index({
     unique: true
  })
 
+// mongoose models creation is centralized
+// the mongodb service calls buildModel() when starting, after connection has been established
+// controllers call GetArtifactProductionModel() when initialized, after buildModel() has benn called
 export type ArtifactProductionModelType = Model<IArtifactProductionModel>;
-    // mongoose models creation is centralized
-    // the mongodb service calls buildModel() when starting, after connection has been established
-    // controllers call GetArtifactProductionModel() when initialized, after buildModel() has benn called
-    
+;
 
 let ArtifactProductionModel: ArtifactProductionModelType;
 
 export function GetArtifactProductionModel():  ArtifactProductionModelType {
-
     if (!ArtifactProductionModel) {
         ArtifactProductionModel = model<IArtifactProductionModel>("ArtifactProduction")
         ;
@@ -45,12 +44,10 @@ export function GetArtifactProductionModel():  ArtifactProductionModelType {
 
 export const ArtifactProductionModelBuilder: ModelBuilderType = {
     buildModel: (options?: any) => 
-    
         ArtifactProductionModel = model<IArtifactProductionModel>("ArtifactProduction", ArtifactProductionSchema)
     
     , 
     applyExtraSetup: (options?: any) => {
-    
     }
     
  };

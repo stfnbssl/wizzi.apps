@@ -1,0 +1,38 @@
+module
+    $
+        var ctrl = {
+            name: 'ApiV1Cheatsheet',
+            path: '/api/v1/docs/cheatsheet',
+        }
+    v08/ts/controller(&ctrl)
+        $append imports
+            import
+                @ getCheatsheetList
+                @ getCheatsheet
+                from '../api/cheatsheet'
+            +
+            const myname = 'features/docs/controllers/apiv1cheatsheet'
+        _ this.router.get('/', this.getCheatsheetList)
+        _ this.router.get('/:name', this.getCheatsheet)
+        $append handlers
+            v08/ts/handler(getCheatsheetList)
+                _ getCheatsheetList
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail( ApiV1Cheatsheet.getCheatsheetList )
+            v08/ts/handler(getCheatsheet)
+                _ getCheatsheet
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail( ApiV1Cheatsheet.getCheatsheet )

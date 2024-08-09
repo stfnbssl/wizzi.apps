@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziAction\controllers\apiv1wizziAction.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -15,9 +15,7 @@ import {getWizziAction, getWizziActionById, getWizziActionList, createWizziActio
 const myname = 'src/features/wizziAction/controllers/apiv1wizziAction';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -59,9 +57,7 @@ export class ApiV1WizziActionController implements ControllerType {
     };
     
     private getCheckArtifactName = async (request: Request, response: Response) => 
-    
         getWizziAction(request.params.owner, request.params.kind, request.params.name).then((result: any) => {
-        
             if (result.length == 1) {
                 sendSuccess(response, {
                     isValid: false, 
@@ -75,7 +71,6 @@ export class ApiV1WizziActionController implements ControllerType {
             }
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getWizziAction.error', err);
@@ -88,16 +83,13 @@ export class ApiV1WizziActionController implements ControllerType {
     ;
     
     private getWizziActions = async (request: Request, response: Response) => 
-    
         getWizziActionList({
             query: {
                 owner: request.params.owner
              }
          }).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getWizziActions.error', err);
@@ -110,12 +102,9 @@ export class ApiV1WizziActionController implements ControllerType {
     ;
     
     private getWizziAction = async (request: Request, response: Response) => 
-    
         getWizziAction(request.params.owner, request.params.kind, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getWizziAction.error', err);
@@ -128,19 +117,15 @@ export class ApiV1WizziActionController implements ControllerType {
     ;
     
     private postWizziAction = async (request: Request, response: Response) => 
-    
-        createWizziAction(request.params.owner, request.params.kind, request.params.name, request.body.description).then(
-        /**
+        createWizziAction(request.params.owner, request.params.kind, request.params.name, request.body.description).then(/**
             * invalidateCache
                 * request.params.owner
                 * request.params.kind
                 * request.params.name
         */
         (result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'postWizziAction.error', err);
@@ -153,19 +138,15 @@ export class ApiV1WizziActionController implements ControllerType {
     ;
     
     private putWizziAction = async (request: Request, response: Response) => {
-    
         console.log('putWizziAction.request.params', request.params, __filename);
         console.log('putWizziAction.request.body', Object.keys(request.body), __filename);
-        updateWizziAction(request.params.id, request.body.owner, request.body.kind, request.body.name, request.body.description).then(
-        /**
+        updateWizziAction(request.params.id, request.body.owner, request.body.kind, request.body.name, request.body.description).then(/**
             * invalidateCache
                 * request.params.id
         */
         (result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putWizziAction.error', err);
@@ -178,18 +159,14 @@ export class ApiV1WizziActionController implements ControllerType {
     ;
     
     private deleteWizziAction = async (request: Request, response: Response) => {
-    
         console.log('deleteWizziAction.request.params', request.params, __filename);
-        deleteWizziAction(request.params.id, request.params.owner, request.params.kind, request.params.name).then(
-        /**
+        deleteWizziAction(request.params.id, request.params.owner, request.params.kind, request.params.name).then(/**
             * invalidateCache
                 * request.params.id
         */
         (result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'deleteWizziAction.error', err);

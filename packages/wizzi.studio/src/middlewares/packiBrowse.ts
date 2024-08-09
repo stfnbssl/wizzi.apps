@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\middlewares\packiBrowse.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import util from 'util';
 import path from 'path';
@@ -21,7 +21,6 @@ const packiSiteBrowsePath = '/~-';
 const packiUserBrowsePath = '/~';
 
 export const PackiBrowseMiddleware: MiddlewareType = (app: Application) => {
-
     app.use(packiSiteBrowsePackageItemPath, packiBrowseMiddleware('package', false));
     app.use(packiSiteBrowsePluginItemPath, packiBrowseMiddleware('plugin', false));
     app.use(packiSiteBrowsePath, packiBrowseMiddleware('artifact', true));
@@ -29,7 +28,6 @@ export const PackiBrowseMiddleware: MiddlewareType = (app: Application) => {
 }
 ;
 function getPackiBrowseContext(request: Request) {
-
     return Object.assign({}, request.query, {
             isWizziStudio: true, 
             locals: {
@@ -38,9 +36,7 @@ function getPackiBrowseContext(request: Request) {
          });
 }
 function packiBrowseMiddleware(packiProduction: string, isSiteLevel: boolean):  RequestHandler {
-
     return async (request: Request, response: Response, next: Function) => {
-        
             if (request.method !== 'GET' && request.method !== 'HEAD') {
                 return next();
             }
@@ -64,8 +60,12 @@ function packiBrowseMiddleware(packiProduction: string, isSiteLevel: boolean):  
         }
     ;
 }
-function _executeBrowse(packiProduction: string, owner: string, productionName: string, request: Request, response: Response) {
-
+function _executeBrowse(
+    packiProduction: string, 
+    owner: string, 
+    productionName: string, 
+    request: Request, 
+    response: Response) {
     
     let productionApi;
     if (packiProduction == 'package') {
@@ -80,7 +80,6 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
     
     if (request.query.meta && (request.query.meta as string).toLowerCase() == 'mtree') {
         productionApi.getArtifactMTree_withPrepare(owner, productionName, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
-        
             response.status(200);
             response.set('Content-Type', result.contentType);
             response.set('Content-Length', result.contentLength.toString());
@@ -90,7 +89,6 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
             response.send(result.content);
         }
         ).catch((err: any) => {
-        
             console.log("[31m%s[0m", '' + myname + '_executeBrowse.artifactApi.getArtifactMTree.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {
@@ -102,7 +100,6 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
     }
     else if (request.query.meta && (request.query.meta as string).toLowerCase() == 'script') {
         productionApi.getArtifactMTreeBuildUpScript_withPrepare(owner, productionName, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
-        
             response.status(200);
             response.set('Content-Type', result.contentType);
             response.set('Content-Length', result.contentLength.toString());
@@ -112,7 +109,6 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
             response.send(result.content);
         }
         ).catch((err: any) => {
-        
             console.log("[31m%s[0m", '' + myname + '_executeBrowse.artifactApi.getArtifactMTree.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {
@@ -124,7 +120,6 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
     }
     else if (request.query.meta && (request.query.meta as string).toLowerCase() == 'raw') {
         productionApi.getArtifactGeneration_withPrepare(owner, productionName, request.query.filepath as string, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
-        
             response.status(200);
             response.set('Content-Type', 'text/plain');
             response.set('Content-Length', result.contentLength.toString());
@@ -134,7 +129,6 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
             response.send(result.content);
         }
         ).catch((err: any) => {
-        
             console.log("[31m%s[0m", '' + myname + '_executeBrowse.artifactApi.getArtifactGeneration.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {
@@ -146,7 +140,6 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
     }
     else {
         productionApi.getArtifactGeneration_withPrepare(owner, productionName, request.query.filepath as string, request.query.context as string, getPackiBrowseContext(request)).then((result: any) => {
-        
             response.status(200);
             response.set('Content-Type', result.contentType);
             response.set('Content-Length', result.contentLength.toString());
@@ -156,7 +149,6 @@ function _executeBrowse(packiProduction: string, owner: string, productionName: 
             response.send(result.content);
         }
         ).catch((err: any) => {
-        
             console.log("[31m%s[0m", '' + myname + '_executeBrowse.artifactApi.getArtifactGeneration.error', err);
             var content = err;
             if (typeof err === 'object' && err !== null) {

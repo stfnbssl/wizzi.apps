@@ -1,16 +1,14 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packi\api\utils.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import DiffMatchPatch from 'diff-match-patch';
 import {PackiFiles} from '../types';
 export function clonePackiFiles(packiFiles: PackiFiles, filters: string[]) {
-
     filters = filters || [];
     function isOk(filename: string) {
-    
         if (filters.length == 0) {
             return true;
         }
@@ -35,7 +33,6 @@ export // log "extractPackiFileContent.packiFiles 1", packiFiles
 // log "extractPackiFile.filePath", filePath
 // 'extractPackiFile.pf", pf
 function extractPackiFileContent(packiFiles: PackiFiles, filePath: string, options: any) {
-
     const pf = extractPackiFile(packiFiles, filePath);
     const retval = {
         text: (pf && pf.contents) || (options.json ? '{}' : ''), 
@@ -55,12 +52,10 @@ function extractPackiFileContent(packiFiles: PackiFiles, filePath: string, optio
     return retval;
 }
 export function extractPackiFile(packiFiles: PackiFiles, filePath: string) {
-
     const pfs = packiFilesToObject(packiFiles);
     return pfs[filePath];
 }
 export function packiFilesToObject(packiFiles: any) {
-
     if (typeof packiFiles === "string") {
         try {
             return JSON.parse(packiFiles);

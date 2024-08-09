@@ -55,7 +55,7 @@ module
                                     @ disabled {!value.valid}
                                     @ {...props}
             set withStatusFn.displayName =
-                `lit 
+                template 
                     + withValidation(
                     @ Comp.displayName || Comp.name
                     + )

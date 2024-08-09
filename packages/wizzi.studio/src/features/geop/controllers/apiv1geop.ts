@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\geop\controllers\apiv1geop.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -16,9 +16,7 @@ import {getGeopList, getGeopItem} from '../api/geop';
 const myname = 'features/geop/controllers/apiv1geop';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -56,9 +54,7 @@ export class ApiV1GeopController implements ControllerType {
     };
     
     private getGeopList = async (request: Request, response: Response) => 
-    
         getGeopList().then((result: any) => {
-        
             if (result && result.data && result.data.items) {
                 sendSuccess(response, result.data.items)
             }
@@ -67,7 +63,6 @@ export class ApiV1GeopController implements ControllerType {
             }
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {
@@ -79,12 +74,9 @@ export class ApiV1GeopController implements ControllerType {
     ;
     
     private getGeopItem = async (request: Request, response: Response) => 
-    
         getGeopItem(request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {

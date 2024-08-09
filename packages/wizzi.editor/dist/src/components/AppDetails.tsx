@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\AppDetails.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -20,31 +20,19 @@ export default function AppDetails({
         onOpenEditor, 
         userAgent
      }: Props) {
-    
         return  (
-            <main
-             className={css(styles.container)}>
-                <div
-                 className={css(styles.card)}>
-                    <div
-                     className={css(styles.section, styles.first)}>
-                        <div
-                         className={css(styles.details)}>
-                            <h1
-                             className={css(styles.title)}>
-                                {name || 'Unnamed Packi'}
-                            </h1>
-                            <p
-                            >
-                                {description ?? 'No description'}
-                            </p>
+            <main className={css(styles.container)}>
+                <div className={css(styles.card)}>
+                    <div className={css(styles.section, styles.first)}>
+                        <div className={css(styles.details)}>
+                            <h1 className={css(styles.title)}>
+                                {name || 'Unnamed Packi'}</h1>
+                            <p>
+                                {description ?? 'No description'}</p>
                         </div>
-                        <div
-                         className={css(styles.openInEditor)}>
-                            <Button
-                             className={css(styles.button)} onClick={onOpenEditor}>
-                                Open in editor
-                            </Button>
+                        <div className={css(styles.openInEditor)}>
+                            <Button className={css(styles.button)} onClick={onOpenEditor}>
+                                Open in editor</Button>
                         </div>
                     </div>
                 </div>

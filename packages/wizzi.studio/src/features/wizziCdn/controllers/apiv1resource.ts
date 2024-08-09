@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziCdn\controllers\apiv1resource.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -16,9 +16,7 @@ import {getWizziCdnResourceList, validateWizziCdnResource, getWizziCdnResource, 
 const myname = 'features/wizziCdn/controllers/apiv1resource';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -61,16 +59,13 @@ export class ApiV1WizziCdnResourceController implements ControllerType {
     };
     
     private getWizziCdnResourceList = async (request: Request, response: Response) => 
-    
         getWizziCdnResourceList({
             query: {
                 owner: request.params.owner
              }
          }).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getWizziCdnResourceList.error', err);
@@ -83,12 +78,9 @@ export class ApiV1WizziCdnResourceController implements ControllerType {
     ;
     
     private getCheckResourceName = async (request: Request, response: Response) => 
-    
         validateWizziCdnResource(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {
@@ -100,12 +92,9 @@ export class ApiV1WizziCdnResourceController implements ControllerType {
     ;
     
     private getWizziCdnResource = async (request: Request, response: Response) => 
-    
         getWizziCdnResource(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getWizziCdnResource.error', err);
@@ -118,14 +107,11 @@ export class ApiV1WizziCdnResourceController implements ControllerType {
     ;
     
     private postWizziCdnResource = async (request: Request, response: Response) => 
-    
         createWizziCdnResource(request.params.owner, request.params.name, request.body.contents).then((result: any) => {
-        
             invalidateCache(request.params.owner, request.params.name)
             sendSuccess(response, result)
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'postWizziCdnResource.error', err);
@@ -138,14 +124,11 @@ export class ApiV1WizziCdnResourceController implements ControllerType {
     ;
     
     private putWizziCdnResource = async (request: Request, response: Response) => 
-    
         updateWizziCdnResource(null, request.params.owner, request.params.name, request.body.contents).then((result: any) => {
-        
             invalidateCache(request.params.id)
             sendSuccess(response, result)
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putWizziCdnResource.error', err);
@@ -158,14 +141,11 @@ export class ApiV1WizziCdnResourceController implements ControllerType {
     ;
     
     private putWizziCdnResourceById = async (request: Request, response: Response) => 
-    
         updateWizziCdnResource(request.params.id, null, null, request.body.contents).then((result: any) => {
-        
             invalidateCache(request.params.id)
             sendSuccess(response, result)
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putWizziCdnResourceById.error', err);
@@ -178,14 +158,11 @@ export class ApiV1WizziCdnResourceController implements ControllerType {
     ;
     
     private deleteWizziCdnResource = async (request: Request, response: Response) => 
-    
         deleteWizziCdnResource(request.params.owner, request.params.name).then((result: any) => {
-        
             invalidateCache(request.params.id)
             sendSuccess(response, result)
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'deleteWizziCdnResource.error', err);

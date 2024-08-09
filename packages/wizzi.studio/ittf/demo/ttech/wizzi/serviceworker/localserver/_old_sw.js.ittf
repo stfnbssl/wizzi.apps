@@ -254,7 +254,7 @@ module
                 @ '<!DOCTYPE html>'
                 @ '<html>'
                 @ '<body>'
-                `lit 
+                 
                     + <h1>BrowserFS\b
                     @ path
                     + </h1>
@@ -281,7 +281,7 @@ module
                 @ '<html>'
                 @ '<body>'
                 @ '<h1>404 File Not Found</h1>'
-                `lit 
+                 
                     + <p>File\b
                     @ path
                     + \bnot\bfound\bin\bbrowserfs

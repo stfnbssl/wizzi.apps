@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\apiv1artifact.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -18,9 +18,7 @@ import {getArtifactProductionList, validateArtifactProduction, getArtifactProduc
 const myname = 'features/production/controllers/apiv1artifact';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -62,16 +60,13 @@ export class ApiV1ArtifactProductionController implements ControllerType {
     };
     
     private getArtifactProductions = async (request: Request, response: Response) => 
-    
         getArtifactProductionList({
             query: {
                 owner: request.params.owner
              }
          }).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getArtifactProductions.error', err);
@@ -84,12 +79,9 @@ export class ApiV1ArtifactProductionController implements ControllerType {
     ;
     
     private getCheckArtifactName = async (request: Request, response: Response) => 
-    
         validateArtifactProduction(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {
@@ -101,12 +93,9 @@ export class ApiV1ArtifactProductionController implements ControllerType {
     ;
     
     private getArtifactProduction = async (request: Request, response: Response) => 
-    
         getArtifactProduction(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getArtifactProduction.error', err);
@@ -119,14 +108,11 @@ export class ApiV1ArtifactProductionController implements ControllerType {
     ;
     
     private postArtifactProduction = async (request: Request, response: Response) => 
-    
         createArtifactProduction(request.params.owner, request.params.name, request.body.description, request.body.mainIttf, request.body.wizziSchema, JSON.stringify(request.body.packiFiles)).then((result: any) => {
-        
             invalidateCache(request.params.owner, request.params.name)
             sendSuccess(response, result)
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'postArtifactProduction.error', err);
@@ -139,7 +125,6 @@ export class ApiV1ArtifactProductionController implements ControllerType {
     ;
     
     private putArtifactProduction = async (request: Request, response: Response) => {
-    
         console.log('putArtifactProduction.request.params', request.params, __filename);
         console.log('putArtifactProduction.request.body', Object.keys(request.body), __filename);
         if (request.body.packiFiles) {
@@ -148,12 +133,10 @@ export class ApiV1ArtifactProductionController implements ControllerType {
         const options = request.body.options || {};
         if (options.wizzify) {
             wizziProds.wizzify(request.body.packiFiles).then((resultPackiFiles: any) => {
-            
                 console.log('putArtifactProduction.wizzify.resultPackiFiles', Object.keys(resultPackiFiles), __filename);
                 return exec_updateArtifactProduction(request, response, resultPackiFiles);
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'putArtifactProduction.wizzify.error', err);
@@ -165,13 +148,11 @@ export class ApiV1ArtifactProductionController implements ControllerType {
         }
         else if (options.merge) {
             getArtifactProductionObjectById(request.params.id).then((prevArtifact: any) => {
-            
                 const resultPackiFiles = mergePackiFiles(prevArtifact.packiFiles, request.body.packiFiles);
                 console.log('putArtifactProduction.merge.resultPackiFiles', Object.keys(resultPackiFiles), __filename);
                 return exec_updateArtifactProduction(request, response, resultPackiFiles);
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'putArtifactProduction.merge.getArtifactProductionById.error', err);
@@ -188,20 +169,17 @@ export class ApiV1ArtifactProductionController implements ControllerType {
     ;
     
     private putArtifactProductionPackiDiffs = async (request: Request, response: Response) => {
-    
         console.log('putArtifactProductionPackiDiffs.request.params', request.params, __filename);
         console.log('putArtifactProductionPackiDiffs.request.body.options', Object.keys(request.body.options), __filename);
         console.log('putArtifactProductionPackiDiffs.request.body.packiDiffs', Object.keys(request.body.packiDiffs), __filename);
         const options = request.body.options || {};
         getArtifactProductionObjectById(request.params.id).then((prevArtifact: any) => {
-        
             console.log('putArtifactProductionPackiDiffs.prevPackiFiles', Object.keys(prevArtifact.packiFiles), __filename);
             const pm = new PackiBuilder(prevArtifact.packiFiles);
             pm.applyPatch_ChangesOnly(request.body.packiDiffs)
             return exec_updateArtifactProduction(request, response, pm.packiFiles);
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putArtifactProductionPackiDiffs.getArtifactProductionObjectById.error', err);
@@ -214,14 +192,11 @@ export class ApiV1ArtifactProductionController implements ControllerType {
     ;
 }
 function exec_updateArtifactProduction(request: any, response: any, packiFiles: any) {
-
     updateArtifactProduction(request.params.id, request.body.owner, request.body.name, request.body.description, request.body.mainIttf, request.body.wizziSchema, JSON.stringify(packiFiles)).then((result: any) => {
-    
         invalidateCache(request.params.id)
         sendSuccess(response, result)
     }
     ).catch((err: any) => {
-    
         if (typeof err === 'object' && err !== null) {
         }
         console.log("[31m%s[0m", 'exec_updateArtifactProduction.updateArtifactProduction.error', err);

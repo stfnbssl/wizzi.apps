@@ -3,16 +3,18 @@ $group
     _ app.post
         @ '/shutdown'
         => 
-            param req
-            param res
+            param request
+              :ref Request
+            param response
+              :ref Response
             $if TODO
                 const 
                     { 
                         @ secret
-                    = req.query
+                    = request.query
                 if secret !== SHUTDOWN_SECRET
-                    return res.status(403).send('Unauthorized')
-            _ res.send('Shutting down...')
+                    return response.status(403).send('Unauthorized')
+            _ response.send('Shutting down...')
             _ server.close
                 => 
                     info 'Server closed. Process will exit now.'

@@ -8,7 +8,7 @@ module
     import
         @ MiddlewareType
         from '#/src/features/app/types'
-    $if wzCtx.Build.useLocalUserFromConfig
+    $if wzCtx.Build.config.mockLoggedUser
         import
             @ config
             from '#/src/features/config'
@@ -37,7 +37,7 @@ module
                                     set response.locals.user = (request as any).session.user
                                 $else
                                     set response.locals.user = (request as any).user
-                            $if wzCtx.Build.useLocalUserFromConfig
+                            $elif wzCtx.Build.useLocalUserFromConfig
                                 set (request as any).session.user
                                     {
                                         @ id 'local_' + config.userUserName

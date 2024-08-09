@@ -45,19 +45,19 @@ $group
                 set this.fsDb = initValues.fsDb
                 _ this.router.get(this.path, this.getAllTemplates)
                 _ this.router.get
-                    `lit
+                    template
                         +
                         @ this.path
                         + /:id
                     @expr this.getTemplateById
                 _ this.router.get
-                    `lit
+                    template
                         +
                         @ this.path
                         + /__starter
                     @expr this.getStarterTemplate
                 _ this.router.post
-                    `lit
+                    template
                         +
                         @ this.path
                         + /:uid/:id

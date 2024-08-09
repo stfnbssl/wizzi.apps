@@ -90,7 +90,7 @@ module
             if options?.noEmbedded
                 set pathname = pathname.replace('/embedded', '')
             return
-                `lit
+                template
                     +
                     @ origin
                     +

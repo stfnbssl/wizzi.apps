@@ -40,6 +40,7 @@ module
             v08/ts/route_api_secured( post, /folder/artifacts, this.folderArtifacts)
             v08/ts/route_api_secured( post, /mtree, this.mTree)
             v08/ts/route_api_secured( post, /mtreescript, this.mTreeBuildUpScript)
+            v08/ts/route_api_secured( post, /wizzify, this.wizzify)
             v08/ts/route_api_secured( post, /mtreescan, this.mTreeScan)
             v08/ts/route_api_secured( post, /meta/execute, this.metaExecute)
         $else
@@ -47,6 +48,7 @@ module
             v08/ts/route( post, /folder/artifacts, this.folderArtifacts)
             v08/ts/route( post, /mtree, this.mTree)
             v08/ts/route( post, /mtreescript, this.mTreeBuildUpScript)
+            v08/ts/route( post, /wizzify, this.wizzify)
             v08/ts/route( post, /mtreescan, this.mTreeScan)
             v08/ts/route( post, /meta/execute, this.metaExecute)
         $if wzCtx.Build.useAuthentication
@@ -59,7 +61,7 @@ module
                     :ref ArtifactRequest
                     = request.body
                 _ resolveContexts
-                    @ artifactRequest.contextItems
+                    @ artifactRequest.contextItems || []
                     ._ then
                         =>
                             param context
@@ -122,7 +124,7 @@ module
                     :ref ArtifactRequest
                     = request.body
                 _ resolveContexts
-                    @ artifactRequest.contextItems
+                    @ artifactRequest.contextItems || []
                     ._ then
                         =>
                             param context
@@ -175,7 +177,7 @@ module
                     :ref ArtifactRequest
                     = request.body
                 _ resolveContexts
-                    @ artifactRequest.contextItems
+                    @ artifactRequest.contextItems || []
                     ._ then
                         =>
                             param context
@@ -241,7 +243,7 @@ module
                     :ref ArtifactRequest
                     = request.body
                 _ resolveContexts
-                    @ artifactRequest.contextItems
+                    @ artifactRequest.contextItems || []
                     ._ then
                         =>
                             param context
@@ -299,6 +301,46 @@ module
                                         { err
                                             @ message "Invalid artifactRequest"
                     v08/ts/catch_send_error( ${myname}.handler.mTreeBuildUpScript.resolveContexts )
+            v08/ts/handler( wizzify
+                const artifactRequest
+                    :ref ArtifactRequest
+                    = request.body
+                if artifactRequest.wizzifiable
+                    if artifactRequest.wizzifiable.source == 'fs'
+                        _ wizziProds.wizzifyFs
+                            @ artifactRequest.wizzifiable.filePath
+                            ._ then
+                                =>
+                                    param wizzifiedContents
+                                    _ sendSuccess
+                                        @ response
+                                        {
+                                            @ wizzified wizzifiedContents
+                            v08/ts/catch_send_error( ${myname}.handler.wizzify.wizziProds.wizzifyFs )
+                    elif artifactRequest.wizzifiable.source == 'packi'
+                        _ wizziProds.wizzify
+                            @ artifactRequest.wizzifiable.packiFiles
+                            ._ then
+                                =>
+                                    param wizzifiedPackiFiles
+                                    _ sendSuccess
+                                        @ response
+                                        {
+                                            @ wizzifiedPackiFiles wizzifiedPackiFiles
+                            v08/ts/catch_send_error( ${myname}.handler.wizzify.wizziProds.wizzify )
+                    else
+                        _ sendError
+                            @ response
+                            {
+                                { err
+                                    @ message "Invalid artifactRequest.wizzifiable.source: " + artifactRequest.wizzifiable.source
+                else
+                    _ sendError
+                        @ response
+                        {
+                            { err
+                                @ message "Invalid artifactRequest. Missing `wizzifiable` parameter"
+
             v08/ts/handler( mTreeScan
                 const artifactRequest
                     :ref ArtifactRequest
@@ -361,7 +403,7 @@ module
                         @ response
                         {
                             { err
-                                @ message "Invalid artifactRequest"
+                                @ message "Invalid artifactRequest. Missing `ittfDocument` parameter"
             v08/ts/handler( wrapIttfText )
                 _ wizziProds.wrapIttfText
                     @ request.body.schema

@@ -1,0 +1,66 @@
+module
+    $
+        var ctrl = {
+            name: 'Docs',
+            path: '/wizzi/docs',
+            kind: 'site',
+            webSecured: wzCtx.Build.useAuthentication
+        }
+    v08/ts/controller( &ctrl )
+        $append imports
+            import
+                @ cheatsheetApi
+                from '../../features/wizziDocs'
+        $if wzCtx.Build.useAuthentication
+            v08/ts/route_web_secured( get, /cheatsheet/:name, this.cheatsheet)
+        $else
+            v08/ts/route( get, /cheatsheet/:name, this.cheatsheet)
+        $append handlers
+            v08/ts/handler( cheatsheet )
+                # loog '*** calling cheatsheetApi.getCheatsheetList'
+                _ cheatsheetApi.getCheatsheetList
+                    a_then( csList )
+                        # loog '*** csList', csList
+                        const exists
+                            _ csList.filter
+                                =>
+                                    param item
+                                    set item.name == request.params.name
+                        # loog '*** exists', exists
+                        if exists.length > 0
+                            # loog '*** calling cheatsheetApi.getCheatsheetList', request.params.name
+                            _ cheatsheetApi.getCheatsheet
+                                @ request.params.name
+                                a_then( result )
+                                    # loog '*** 0 result', result
+                                    _ response.render
+                                        @ 'wizzi/docs/cheatsheet.html.ittf'
+                                        {
+                                            @ csList csList
+                                            @ cs result
+                                            @ csStatus 0
+                                v08/ts/catch_fail_html( docs.cheatsheet )
+                        elif csList.length > 0
+                            # loog '*** calling cheatsheetApi.getCheatsheetList', csList[0].name
+                            _ cheatsheetApi.getCheatsheet
+                                @ csList[0].name
+                                a_then( result )
+                                    # loog '*** 1 result', result
+                                    _ response.render
+                                        @ 'wizzi/docs/cheatsheet.html.ittf'
+                                        {
+                                            @ csList csList
+                                            @ cs result
+                                            @ csStatus 1
+                                            @ csMessage "Cheatsheet for schema " + request.params.name + " unavailable"
+                                v08/ts/catch_fail_html( docs.cheatsheet )
+                        else
+                            # loog '*** 3 render'
+                            _ response.render
+                                @ 'wizzi/docs/cheatsheet.html.ittf'
+                                {
+                                    [ csList 
+                                    { cs 
+                                        [ elements
+                                    @ csStatus 2
+                                    @ csMessage "No available cheatsheet"

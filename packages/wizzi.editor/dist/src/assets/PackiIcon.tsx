@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\assets\PackiIcon.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import * as React from "react";
 export const PackiIcon = ({
@@ -13,19 +13,16 @@ export const PackiIcon = ({
  }: React.SVGProps<SVGSVGElement> & { 
     theme?: string;
 }) => {
-
     const fill = theme == 'light' ? '#ffffff' : '#000000';
     const stroke = theme == 'light' ? '#000000' : '#ffffff';
     return  (
-        <svg 
-            xmlns="http://www.w3.org/2000/svg"
+        <svg xmlns="http://www.w3.org/2000/svg"
             width={width}
             height={height}
             viewBox="0 0 24 24"
             {...props}
         >
-            <polyline 
-                stroke={stroke}
+            <polyline stroke={stroke}
                 fill={fill}
                 points="4 2 4 22 20 22 20 2 4 2"
                 strokeWidth="2"

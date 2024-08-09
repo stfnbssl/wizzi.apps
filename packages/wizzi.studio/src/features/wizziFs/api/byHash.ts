@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziFs\api\byHash.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 import {verify, fSystem, crypto} from 'wizzi-utils';
@@ -10,9 +10,7 @@ import {verify, fSystem, crypto} from 'wizzi-utils';
 var fsfile = fSystem.vfile();
 
 async function getIttfFileContentByHash(hash: string) {
-
     return new Promise((resolve, reject) => {
-        
             const filePath = crypto.decrypt(hash);
             if (fsfile.isFile(filePath)) {
                 return resolve({
@@ -29,9 +27,7 @@ async function getIttfFileContentByHash(hash: string) {
 }
 
 async function putIttfFileContentByHash(hash: string, content: string) {
-
     return new Promise((resolve, reject) => {
-        
             var filePath = crypto.decrypt(hash);
             try {
                 fsfile.write(filePath, content)

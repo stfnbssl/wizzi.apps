@@ -1,0 +1,526 @@
+module
+    import path from 'path'
+    import
+        @ verify
+        @ fSystem
+        from 'wizzi-utils'
+    import
+        @ config
+        from '../../config'
+    import
+        @ wizziProds
+        from '../../wizzi'
+    import
+        @ ScanDevFoldersOptions
+        from '../types'
+    const file = (fSystem as any).file
+    +
+    const myname = 'features.dev.api.scanDevFolders'
+    +
+    const plugins
+        [
+            @ "./wizzi.plugin.json/index.js"
+    const pluginsBaseFolder = "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+    +
+    async-function execScanDevFolders
+        param options
+            :ref ScanDevFoldersOptions
+        :return
+            :ref Promise
+                :param
+                    :any
+        r_promise()
+            $$ loog myname, 'options', options
+            $$ loog myname, 'config', config
+            var baseDevFolderPath = "C:/My/wizzi/stfnbssl"
+            var searchInFolders
+                [ 
+            if options.hasPlugins
+                _ searchInFolders.push('wizzi.plugins')
+            if options.hasMetaPlugins
+                _ searchInFolders.push('wizzi.metas')
+            +
+            var result
+                { 
+                    @ wizziPackages []
+            var folders
+                _ file.getFolders
+                    @ baseDevFolderPath
+                    { 
+                        @ deep false
+            $$ loog myname, "folders of baseDevFolderPath", folders
+            +
+            function exec
+                param i
+                const folder = folders[i]
+                if !folder
+                    return 
+                        _ resolve
+                            @ result
+                if folder == 't' || searchInFolders.indexOf(folder) < 0
+                    return
+                        _ exec(i+1)
+                _ scanFolderPackages
+                    _ path.join
+                        @ baseDevFolderPath
+                        @ folder
+                    @ options
+                    a_then( packagesInfo )
+                        $$ loog myname, 'execScanDevFolders', 'packagesInfo.length', packagesInfo.length
+                        set result.wizziPackages
+                            _ result.wizziPackages.concat
+                                @ packagesInfo
+                        _ exec(i+1)
+            _ exec(0)
+    +
+    async-function scanFolderPackages
+        param folderPath
+            :string
+        param options
+            :ref ScanDevFoldersOptions
+        :return
+            :ref Promise
+                :param
+                    :any
+        r_promise()
+            var packagesFolder = path.join(folderPath, 'packages')
+            $$ loog myname, 'scanFolderPackages.packagesFolder', packagesFolder
+            var packagesFolderFolders
+                _ file.getFolders
+                    @ packagesFolder
+                    { 
+                        @ deep false
+            var packagesInfo = []
+            function exec
+                param i
+                const packageName = packagesFolderFolders[i]
+                if !packageName
+                    return 
+                        _ resolve
+                            @ packagesInfo
+                if packageName == 't'
+                    return
+                        _ exec(i+1)
+                _ detectWizziPackage
+                    _ path.join
+                        @ packagesFolder
+                        @ packageName
+                    @ options
+                    a_then( packageInfo )
+                        if options.hasPlugins && packageInfo.isPlugin || 
+                            \b options.hasMetaPlugins && packageInfo.isMetaPlugin
+                            _ packagesInfo.push(packageInfo)
+                        return 
+                            _ exec(i+1)
+            _ exec(0)
+    +
+    async-function detectWizziPackage
+        param folderPath
+            :string
+        param options
+            :ref ScanDevFoldersOptions
+        :return
+            :ref Promise
+                :param
+                    :any
+        r_promise()
+            var packageInfo
+                { 
+                    @ ok false
+                    @ isPlugin false
+                    @ isMetaPlugin false
+                    @ name null
+                    @ fullPath null
+                    @ hasWizziOverride false
+                    [ wizziConfigFiles
+                    { schemas
+                    { artifacts
+                    { transformations
+                    { wizzifiers
+                    { metaProductions
+            var folders
+                _ file.getFolders
+                    @ folderPath
+                    { 
+                        @ deep false
+            _ folders.forEach
+                => 
+                    param childFolderName
+                    if childFolderName == '.wizzi'
+                        set packageInfo.ok = true
+                        set packageInfo.name = path.basename(folderPath)
+                        set packageInfo.fullPath = folderPath
+                        set packageInfo.wizziConfigFiles = []
+                    if childFolderName == '.wizzi-override'
+                        set packageInfo.ok = true
+                        set packageInfo.name = path.basename(folderPath)
+                        set packageInfo.fullPath = folderPath
+                        set packageInfo.wizziConfigFiles = []
+                        set packageInfo.hasWizziOverride = true
+            if !packageInfo.ok
+                return
+                    _ resolve
+                        @ packageInfo
+            var files
+                _ file.getFiles
+                    _ path.join(folderPath)
+                    { 
+                        @ deep false
+            function exec
+                param i
+                const childFileName = files[i]
+                $$ loog myname, 'detectWizziPackage', childFileName
+                if !childFileName
+                    return
+                        _ detectPlugin
+                            @ packageInfo
+                            @ ".wizzi"
+                            @ options
+                            a_then()
+                                _ detectPlugin
+                                    @ packageInfo
+                                    @ ".wizzi-override"
+                                    @ options
+                                    a_then()
+                                        if packageInfo.isPlugin
+                                            return 
+                                                _ resolve
+                                                    @ packageInfo
+                                        else
+                                            _ detectMetaPlugin
+                                                @ packageInfo
+                                                @ ".wizzi-override"
+                                                @ options
+                                                a_then()
+                                                    return 
+                                                        _ resolve
+                                                            @ packageInfo
+
+                if !childFileName.startsWith('wizzi.config.')
+                    return
+                        _ exec(i+1)
+
+                var fullPath = path.join(folderPath, childFileName)
+                _ packageInfo.wizziConfigFiles.push
+                    { 
+                        @ name childFileName
+                        @ fullPath
+                        @ content
+                            iif options.hasPluginContents
+                                then require(fullPath)
+                                else null
+                _ exec(i+1)
+            _ exec(0)
+    +
+    async-function detectPlugin
+        param packageInfo
+            :any
+        param wizziFolder
+            :string
+        param options
+            :ref ScanDevFoldersOptions
+        :return
+            :ref Promise
+                :param
+                    :void
+        r_promise()
+            _ detectSchema
+                @ packageInfo
+                @ wizziFolder
+                @ options
+                a_then()
+                    _ detectArtifact
+                        @ packageInfo
+                        @ wizziFolder
+                        @ options
+                        a_then()
+                            return
+                                _ resolve
+    +
+    async-function detectSchema
+        param packageInfo
+            :any
+        param wizziFolder
+            :string
+        param options
+            :ref ScanDevFoldersOptions
+        :return
+            :ref Promise
+                :param
+                    :void
+        r_promise()
+            # check wizzi plugin standard folders
+            var wizziSchemasFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'wizzi', 'schemas')
+            var wizziModelsFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'wizzi', 'models')
+            var artifactsFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'artifacts')
+            if !(file.exists(wizziSchemasFolder) && file.exists(wizziModelsFolder) && file.exists(artifactsFolder))
+                return
+                    _ resolve
+            set packageInfo.isPlugin = true
+            var schemaFilePaths
+                _ file.getFiles
+                    @ wizziSchemasFolder
+                    { 
+                        @ deep false
+            function exec
+                param i
+                const schemaFilePath = schemaFilePaths[i]
+                $$ loog myname, 'detectSchema', schemaFilePath
+                if !schemaFilePath
+                    return 
+                        _ resolve
+                if schemaFilePath.endsWith('.wfschema.ittf')
+                    var schemaName = schemaFilePath.substring(0, schemaFilePath.length - '.wfschema.ittf'.length)
+                    set packageInfo.schemas[schemaName]
+                        { 
+                            @ name schemaName
+                            @ fullPath path.join(wizziSchemasFolder, schemaName, schemaName + '.wfschema.ittf')
+                            @ content null
+                    if options.hasPluginContents
+                        try 
+                            _ exec(i+1)
+                            set packageInfo.schemas[schemaName].content = file.read(packageInfo.schemas[schemaName].fullPath)
+                        catch ex
+                            _ exec(i+1)
+                    else
+                        _ exec(i+1)
+                else
+                    _ exec(i+1)
+            _ exec(0)
+    +
+    async-function detectArtifact
+        param packageInfo
+            :any
+        param wizziFolder
+            :string
+        param options
+            :ref ScanDevFoldersOptions
+        :return
+            :ref Promise
+                :param
+                    :void
+        r_promise()
+            # check wizzi plugin standard folders
+            var wizziSchemasFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'wizzi', 'schemas')
+            var wizziModelsFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'wizzi', 'models')
+            var artifactsFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'artifacts')
+            if !(file.exists(wizziSchemasFolder) && file.exists(wizziModelsFolder) && file.exists(artifactsFolder))
+                return
+                    _ resolve
+            var artifactSchemas
+                _ file.getFolders
+                    @ artifactsFolder
+                    { 
+                        @ deep false
+            function exec
+                param i
+                const schema = artifactSchemas[i]
+                $$ loog myname, 'detectArtifact', 'schema', schema
+                if !schema
+                    return 
+                        _ resolve
+                _ detectArtifactSchemaArtifacts
+                    @ packageInfo
+                    @ wizziFolder
+                    @ schema
+                    @ options
+                    a_then()
+                        _ detectWizzifier
+                            @ packageInfo
+                            @ wizziFolder
+                            @ options
+                            a_then()
+                                _ exec(i+1)
+            _ exec(0)
+    +
+    async-function detectArtifactSchemaArtifacts
+        param packageInfo
+            :any
+        param wizziFolder
+            :string
+        param schema
+            :string
+        param options
+            :ref ScanDevFoldersOptions
+        :return
+            :ref Promise
+                :param
+                    :void
+        r_promise()
+            var artifactSchemaFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'artifacts', schema)
+                # console.log("detectArtifacts.schema", schema);
+            var artifactSchemaArtifacts
+                _ file.getFolders
+                    @ artifactSchemaFolder
+                    { 
+                        @ deep false
+            function exec
+                param i
+                const artifact = artifactSchemaArtifacts[i]
+                $$ loog myname, 'detectArtifactSchemaArtifacts', artifact
+                if !artifact
+                    return 
+                        _ resolve
+                _ detectArtifactSchemaArtifactGenOrTrans
+                    @ packageInfo
+                    @ wizziFolder
+                    @ schema
+                    @ artifact
+                    @ options
+                    a_then()
+                        _ exec(i+1)
+            _ exec(0)
+    +
+    async-function detectArtifactSchemaArtifactGenOrTrans
+        param packageInfo
+            :any
+        param wizziFolder
+            :string
+        param schema
+            :string
+        param artifact
+            :string
+        param options
+            :ref ScanDevFoldersOptions
+        :return
+            :ref Promise
+                :param
+                    :void
+        r_promise()
+            var artifactSchemaArtifactGenOrTransFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'artifacts', schema, artifact)
+            var artifactSchemaArtifactGenOrTrans
+                _ file.getFolders
+                    @ artifactSchemaArtifactGenOrTransFolder
+                    { 
+                        @ deep false
+            function exec
+                param i
+                const genortrans = artifactSchemaArtifactGenOrTrans[i]
+                $$ loog myname, 'detectArtifactSchemaArtifactGenOrTrans', genortrans
+                if !genortrans
+                    return 
+                        _ resolve
+                if genortrans == 'gen'
+                    var artifactFullPath = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'artifacts', schema, artifact, 'gen', 'main.js.ittf')
+                    var key = schema + '/' + artifact
+                    set packageInfo.artifacts[key] =
+                        { 
+                            @ name key
+                            @ schema
+                            @ artifact
+                            @ fullPath artifactFullPath
+                            @ content null
+                    if options.hasPluginContents
+                        set packageInfo.artifacts[key].content = file.read(artifactFullPath)
+                    _ exec(i+1)
+                elif genortrans == 'trans'
+                    var artifactFullPath = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'artifacts', schema, artifact, 'trans', 'main.js.ittf')
+                    var key = schema + '/' + artifact
+                    set packageInfo.transformations[key] =
+                        { 
+                            @ name key
+                            @ schema
+                            @ artifact
+                            @ fullPath artifactFullPath
+                            @ content null
+                    if options.hasPluginContents
+                        set packageInfo.transformations[key].content = file.read(artifactFullPath)
+                    _ exec(i+1)
+                else
+                    _ exec(i+1)
+            _ exec(0)
+    +
+    async-function detectWizzifier
+        param packageInfo
+            :any
+        param wizziFolder
+            :string
+        param options
+            :ref ScanDevFoldersOptions
+        :return
+            :ref Promise
+                :param
+                    :void
+        r_promise()
+            var wizzifiersFolder = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'wizzifiers')
+            if !file.exists(wizzifiersFolder)
+                return
+                    _ resolve
+
+            var wizzifierFolderSchemas
+                _ file.getFolders
+                    @ wizzifiersFolder
+                    { 
+                        @ deep false
+            function exec
+                param i
+                const schemaName = wizzifierFolderSchemas[i]
+                $$ loog myname, "detectWizzifier", schemaName
+                if !schemaName
+                    return 
+                        _ resolve
+                var wizzifierFullPath = path.join(packageInfo.fullPath, wizziFolder, 'lib', 'wizzifiers', schemaName, 'wizzifier.js.ittf')
+                if file.exists(wizzifierFullPath)
+                    set packageInfo.hasWizzifiers = true
+                    set packageInfo.wizzifiers[schemaName] =
+                        { 
+                            @ name schemaName
+                            @ fullPath wizzifierFullPath
+                            @ content null
+                    if options.hasPluginContents
+                        set packageInfo.wizzifiers[schemaName].content = file.read(wizzifierFullPath)
+                _ exec(i+1)
+            _ exec(0)
+    +
+    async-function detectMetaPlugin
+        param packageInfo
+            :any
+        param wizziFolder
+            :string
+        param options
+            :ref ScanDevFoldersOptions
+        :return
+            :ref Promise
+                :param
+                    :void
+        r_promise()
+            var ittfFolder = path.join(packageInfo.fullPath, wizziFolder, 'ittf')
+            var detector1Filepath = path.join(packageInfo.fullPath, wizziFolder, 'root', 't', 'meta-production.js.ittf')
+            var detector2Filepath = path.join(packageInfo.fullPath, wizziFolder, 'root', 't', 'meta-production-starter.js.ittf')
+            if !(file.exists(ittfFolder) && file.exists(detector1Filepath) && file.exists(detector2Filepath))
+                return
+                    _ resolve
+
+            set packageInfo.isMetaPlugin = true
+            var metaProductions
+                _ file.getFolders
+                    @ ittfFolder
+                    { 
+                        @ deep false
+            function exec
+                param i
+                const metaProduction = metaProductions[i]
+                if !metaProduction
+                    return 
+                        _ resolve
+                if metaProduction == 't'
+                    return 
+                        _ exec(i+1)
+                var metaProductionPath = path.join(ittfFolder, metaProduction)
+                var metaCtxSchemaPath = path.join(ittfFolder, metaProduction, 'metaCtxSchemas', 'index.json.ittf')
+                set packageInfo.metaProductions[metaProduction] =
+                    { 
+                        @ name metaProduction
+                        @ fullPath metaProductionPath
+                        @ metaCtxSchemaPath
+                        @ content null
+                if file.exists(metaCtxSchemaPath)
+                    if options.hasMetaPluginContents
+                        set packageInfo.metaProductions[metaProduction].metaCtxSchemaContent = file.read(metaCtxSchemaPath)
+                else
+                    set packageInfo.metaProductions[metaProduction].metaCtxSchemaPath = null
+                _ exec(i+1)
+            _ exec(0)
+    +
+    export
+        @ execScanDevFolders

@@ -47,7 +47,7 @@ module
                             then
                                 {
                                     @ backgroundImage
-                                        `lit
+                                        template
                                             + url(
                                             @ icon
                                             + )

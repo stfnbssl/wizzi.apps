@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\maps.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 type parsedFilePath = { 
@@ -12,7 +12,6 @@ type parsedFilePath = {
 };
 
 export function parseFilePath(filePath: string):  parsedFilePath {
-
     const nameParts = path.basename(filePath).split('.');
     if (nameParts[nameParts.length - 1] === 'ittf') {
         return {
@@ -29,6 +28,7 @@ export function parseFilePath(filePath: string):  parsedFilePath {
              };
     }
 }
+
 const schemaArtifactMap: { 
     [k: string]: string;
 } = {
@@ -39,6 +39,7 @@ const schemaArtifactMap: {
     js: 'js/module', 
     json: 'json/document', 
     jsx: 'js/module', 
+    logbot: 'logbot/document', 
     md: 'md/tohtml', 
     scss: 'scss/document', 
     svg: 'svg/document', 
@@ -51,9 +52,9 @@ const schemaArtifactMap: {
     yml: 'yaml/document'
  };
 export function artifactNameFromFileSchema(schema: string):  string | undefined {
-
     return schemaArtifactMap[schema];
 }
+
 
 const schemaIttfRootMap: { 
     [k: string]: string;
@@ -76,9 +77,9 @@ const schemaIttfRootMap: {
     yaml: 'yaml'
  };
 export function ittfRootFromSchema(schema: string):  string | undefined {
-
     return schemaIttfRootMap[schema];
 }
+
 
 const schemaPluginMap: { 
     [k: string]: string[];
@@ -132,7 +133,6 @@ const schemaPluginMap: {
     ]
  };
 export function pluginsFor(file: string):  string[] {
-
     const nameParts = path.basename(file).split('.');
     if (nameParts[nameParts.length - 1] === 'ittf') {
         return schemaPluginMap[nameParts[nameParts.length - 2]] || [];
@@ -140,8 +140,8 @@ export function pluginsFor(file: string):  string[] {
     return [];
 }
 
-export function generatorFor(filePath: string):  string | undefined {
 
+export function generatorFor(filePath: string):  string | undefined {
     const pf = parseFilePath(filePath);
     if (pf.isIttfDocument) {
         return artifactNameFromFileSchema(pf.schema);
@@ -171,9 +171,9 @@ const extSchemaMap: {
  };
 
 export function schemaFromExtension(extension: string):  string | undefined {
-
     return extSchemaMap[extension];
 }
+
 
 const schemaTransformerMap: { 
     [k: string]: string;
@@ -182,7 +182,6 @@ const schemaTransformerMap: {
  };
 
 export function transformerFor(filePath: string):  string | undefined {
-
     const pf = parseFilePath(filePath);
     if (pf.isIttfDocument) {
         return schemaTransformerMap[pf.schema];
@@ -190,8 +189,8 @@ export function transformerFor(filePath: string):  string | undefined {
     return undefined;
 }
 
-export function schemaFromFilePath(filePath: string):  string | undefined {
 
+export function schemaFromFilePath(filePath: string):  string | undefined {
     const pf = parseFilePath(filePath);
     if (pf.isIttfDocument) {
         return pf.schema;
@@ -200,7 +199,6 @@ export function schemaFromFilePath(filePath: string):  string | undefined {
 }
 
 export function wrapperForSchema(schema: string) {
-
     if (schema === 'js' || schema === 'jsx') {
         return {
                 n: 'module', 
@@ -260,7 +258,6 @@ const extContentTypeMap: {
  };
 
 export function contentTypeFor(filePath: string):  string | undefined {
-
     const ittfSchema = schemaFromFilePath(filePath);
     if (ittfSchema) {
         return extContentTypeMap['.' + ittfSchema];

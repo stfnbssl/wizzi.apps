@@ -4,3 +4,5 @@ $group
         setCtxDep ('express', '^4.19.2');
         setCtxDevDep ('@types/express', '^4.17.21');
         setCtxDevDep ('@types/node', '^20.14.2');
+        setCtxScript ('build','tsc');
+        setCtxScript ('start','node build/server.js');

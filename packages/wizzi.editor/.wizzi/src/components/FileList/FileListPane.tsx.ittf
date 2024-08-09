@@ -42,7 +42,7 @@ module
             return 
                 div 
                     @ className
-                        `lit 
+                        template 
                             + 
                             @ className ?? ''
                             + &nbsp;
@@ -54,7 +54,7 @@ module
                             @ className {css(styles.left)}
                             @ onClick {onClick}
                             @ data-test-id
-                                `lit 
+                                template 
                                     + file-list-pane-
                                     _ title.toLowerCase().replace(/[^a-z]/g, '-')
                                     + 

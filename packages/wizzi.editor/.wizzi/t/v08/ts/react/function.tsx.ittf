@@ -41,13 +41,16 @@ $group
                             :typeof mapDispatchToProps
                     :{
                         $foreach prop in myProps
-                            $ if (prop.xdefault) { defaultProps.push(prop); }
+                            $
+                                if (prop.xdefault) { defaultProps.push(prop); }
+
                             $include setPropType
     $else
         export
             :interface ${md.name}Props
                 $foreach prop in myProps
                     $ if (prop.xdefault) { defaultProps.push(prop); }
+
                     $include setPropType
     +
     $if md.aphrodite

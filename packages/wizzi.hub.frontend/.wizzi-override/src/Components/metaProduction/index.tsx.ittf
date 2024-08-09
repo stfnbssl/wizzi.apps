@@ -215,7 +215,26 @@ module
                 return
                     < MainHeader
                         p Create/select a job
-        const currentJobId = appState.currentJobId
+        let currentJobId = appState.currentJobId
+        if !currentJobId && jobList.length > 0
+            const jobItem = jobList[0]
+            set currentJobId = jobItem.id
+            _ setAppState
+                {
+                    @ ...appState
+                    @ currentJob jobItem
+                    @ currentJobId jobItem.id
+            _ getMvc().controller.setAppState
+                {
+                    @ currentJobId jobItem.id
+                    @ activeView appState.activeView
+                    @ reloadCount appState.reloadCount
+                =>
+            $*            
+            return
+                < MainHeader
+                    < SpinnerView
+            *$
         if currentJobId
             const jobItemData
                 _ startCurrentJob
@@ -234,6 +253,11 @@ module
             $$ info "index.MetaProductionPage.metaSelectionState", metaSelectionState
             $$ info "index.MetaProductionPage.appState", appState
         else
+            $if TODO
+                _ alert('Missing redirect to create job')
+            return
+                < MainHeader
+                    p Create/select a job
             info "index.MetaProductionPage.currentJobId: undefined"
         return
             . w-full min-h-screen flex flex-col 

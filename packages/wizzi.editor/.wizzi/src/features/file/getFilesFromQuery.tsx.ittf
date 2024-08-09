@@ -47,14 +47,14 @@ module
                     if typeof file !== 'object' || (file.type !== 'CODE' && file.type !== 'ASSET')
                         throw
                             new Error
-                                `lit
+                                template
                                     + '
                                     @ path
                                     + ' is not a valid file object
                     if !file.contents && !file.url
                         throw
                             new Error
-                                `lit
+                                template
                                     + '
                                     @ path
                                     + ' should contain either contents or a url
@@ -62,6 +62,6 @@ module
             catch e
                 throw
                     new Error
-                        `lit
+                        template
                             + Invalid files&nbsp;
                             @ e.message

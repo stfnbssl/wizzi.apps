@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\PageMetadata.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import * as React from 'react';
 import {Helmet} from 'react-helmet-async';
@@ -12,7 +12,6 @@ type Props = {
     id?: string;
 };
 export function getPageMetadata(props: Props) {
-
     const title = `${props.name} - Packi`;
     const description = props.description;
     const url = `${process.env.PACKI_SERVER_URL}${
@@ -26,7 +25,6 @@ export function getPageMetadata(props: Props) {
             name: 'description', 
             content: description
          }, 
-        
         // Open graph
         {
             property: 'og:url', 
@@ -56,7 +54,6 @@ export function getPageMetadata(props: Props) {
             property: 'og:image:height', 
             content: '200'
          }, 
-        
         // Twitter
         {
             name: 'twitter:card', 
@@ -86,15 +83,14 @@ export function getPageMetadata(props: Props) {
             meta
          };
 }
+
 export default function PageMetadata(props: Props) {
-    
         const {
             title, 
             meta
          } = getPageMetadata(props);
         return  (
-            <Helmet
-             title={title} meta={meta} />
+            <Helmet title={title} meta={meta} />
             )
         ;
     }

@@ -88,7 +88,7 @@ $group
                     if once
                         set once = false
                         const url
-                            `lit 
+                            template 
                                 @ process.env.API_SERVER_URL
                                 + /--/api/v2/packi/download/
                                 @ id

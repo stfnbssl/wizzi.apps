@@ -1,7 +1,4 @@
 module
-    $include set-ctx-functions
-    $
-        setCtxEnvValues ('ITTF_PATH', 'ittfPath', 'str');
     $
         var md = {
             myname: 'features.wizzi.api.context'

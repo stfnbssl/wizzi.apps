@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\IFramePage.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import React from 'react';
 import {connect} from 'react-redux';
@@ -11,6 +11,7 @@ export type IFramePageProps = {
     css?: string;
     styleSheets?: string[];
 };
+;
 export class IFramePage extends React.Component<IFramePageProps> {
     ifr: any;
     styleEl: any;
@@ -42,7 +43,6 @@ export class IFramePage extends React.Component<IFramePageProps> {
         return false;
     }
     _updateContent = (content?: string) => 
-    
         /**
             // 
             // const document = this.ifr.contentDocument;
@@ -53,7 +53,6 @@ export class IFramePage extends React.Component<IFramePageProps> {
         this.ifr.setAttribute('srcdoc', content)
     ;
     _updateStylesheets = (styleSheets: any) => {
-    
         const document = this.ifr.contentDocument;
         if (document) {
             const head = document.getElementsByTagName('head')[0];
@@ -64,7 +63,6 @@ export class IFramePage extends React.Component<IFramePageProps> {
             }
             if (styleSheets && styleSheets.length) {
                 styleSheets.forEach((href: string) => {
-                
                     const link = document.createElement('link');
                     link.setAttribute('rel', 'stylesheet');
                     link.setAttribute('type', 'text/css');
@@ -77,7 +75,6 @@ export class IFramePage extends React.Component<IFramePageProps> {
     }
     ;
     _updateCss = (css?: string) => {
-    
         const document = this.ifr.contentDocument;
         if (document) {
             const head = document.getElementsByTagName('head')[0];
@@ -104,20 +101,17 @@ export class IFramePage extends React.Component<IFramePageProps> {
     ;
     render() {
         return  (
-            <div
-             style={{
+            <div style={{
                     width: '100%', 
                     height: '100%'
                  }}>
-                <iframe 
-                    frameBorder={0}
+                <iframe frameBorder={0}
                     sandbox="allow-scripts"
                     style={{
                             width: '100%', 
                             height: '100%'
                          }}
                     ref={f => 
-                        
                             this.ifr = f
                     }
                  />
@@ -126,4 +120,5 @@ export class IFramePage extends React.Component<IFramePageProps> {
         ;
     }
 }
+
 export default IFramePage;

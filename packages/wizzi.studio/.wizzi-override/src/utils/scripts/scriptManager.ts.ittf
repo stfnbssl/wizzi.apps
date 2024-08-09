@@ -47,9 +47,3 @@ module
                 :optional
     $include spawn
     $include nodejs
-    export
-        {
-            @ spawnExec
-            @ spawnExecToEventStream
-            @ nodeJsExec
-            @ nodeJsExecToEventStream

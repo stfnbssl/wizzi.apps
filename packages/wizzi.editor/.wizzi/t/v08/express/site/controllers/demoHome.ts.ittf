@@ -7,7 +7,7 @@ $group
         }
     controller( &ctrl )
         _ this.router.get
-            `lit
+            template
                 + /
             @expr this.home
         $append handlers

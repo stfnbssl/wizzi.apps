@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Data\types.ts.ittf
-    utc time: Wed, 31 Jul 2024 14:56:15 GMT
+    utc time: Wed, 07 Aug 2024 13:02:16 GMT
 */
 import {MetaPluginCategory, MetaPlugin, MetaProductionCategory, MetaProduction, MetaDemoPackage} from "@/Api/types";
 export type LocalStorageItem = { 
@@ -45,6 +45,14 @@ export type JobItem = {
     __metaDemoPackage?: { 
         text: string;
         json: MetaDemoPackage;
+    };
+    // saved metaCtx object
+    __metaCtx?: { 
+        text: string;
+        json: { 
+            [key: string]: any;
+        };
+        exists?: boolean;
     };
 };
 ;

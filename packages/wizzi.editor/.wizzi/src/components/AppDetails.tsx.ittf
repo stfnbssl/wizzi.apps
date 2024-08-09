@@ -71,7 +71,7 @@ module
                     @ width 420
                     @ margin '4rem auto'
                     @ border
-                        `lit 
+                        template 
                             + 1px solid&nbsp;
                             _ c('border')
                             + 
@@ -81,7 +81,7 @@ module
                         @ width '100%'
                 { section
                     @ borderTop
-                        `lit 
+                        template 
                             + 1px solid&nbsp;
                             _ c('border')
                             + 

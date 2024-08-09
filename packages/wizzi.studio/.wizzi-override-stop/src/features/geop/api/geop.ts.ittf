@@ -1,0 +1,64 @@
+module
+    import path from 'path'
+    import
+        @ verify
+        @ fSystem
+        from 'wizzi-utils'
+    import
+        @ config
+        from '../../config'
+    import
+        @ wizziProds
+        from '../../wizzi'
+    import * as wizziFs from '../../../utils/wizziFs'
+    var fsfile = fSystem.vfile()
+    var plugins
+        [
+            @ "./wizzi.plugin.geop/index.js"
+            @ "./wizzi.plugin.json/index.js"
+    var pluginsBaseFolder = "C:/My/wizzi/stfnbssl/wizzi.plugins/packages" 
+    +
+    async-function getGeopList
+        r_promise()
+            let geopFolderPath
+                _ path.join
+                    @ config.ittfPath
+                    @ 'geop'
+            _ wizziFs.getFolderFiles
+                @ geopFolderPath
+                @ geopFolderPath
+                @ '/geop'
+                a_then( geop )
+                    log 'api/geop/getGeopList', geop
+                    return
+                        _ resolve
+                            @ geop
+                catch_reject( features.geop.api.getGeopList )
+    +
+    async-function getGeopItem
+        param name
+            :string
+        r_promise()
+            let geopItemPath
+                _ path.join
+                    @ config.ittfPath
+                    @ 'geop'
+                    @ name + '.geop.ittf'
+            _ wizziProds.loadAndTransformModelFs
+                @ geopItemPath
+                {
+                {
+                    @ plugins plugins
+                    @ pluginsBaseFolder pluginsBaseFolder
+                    @ transformer "geop/extended"
+                a_then( geopModelTransformed )
+                    log 'api/geop/getGeopItem/geopModelTransformed', Object.keys(geopModelTransformed)
+                    return
+                        _ resolve
+                            @ geopModelTransformed.transformResult
+                catch_reject( features.geop.api.getGeopItem )
+
+    +
+    export
+        @ getGeopList
+        @ getGeopItem

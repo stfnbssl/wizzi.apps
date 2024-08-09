@@ -68,7 +68,7 @@ module
                         :ref State
                 p displayName
                     static
-                    `lit 
+                    template 
                         + withValidation(
                         @ Comp.displayName || Comp.name
                         + )
@@ -249,7 +249,7 @@ module
                         :ref State
                 p displayName
                     static
-                    `lit 
+                    template 
                         + withValidation(
                         @ Comp.displayName ?? Comp.name
                         + )

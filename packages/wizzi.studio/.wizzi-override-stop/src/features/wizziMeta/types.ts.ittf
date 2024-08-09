@@ -1,0 +1,77 @@
+module
+    import
+        @ packiTypes
+        from '../packi'
+    import
+        @ wizziTypes
+        from '../wizzi'
+    +
+    :type WizziProductionRef
+        :{
+            :p kind
+                :string
+            :p name
+                :string
+            :p apiURL
+                :string
+    +
+    :type WizziInMemoryMetaRef
+        :{
+            :p owner
+                :string
+            :p name
+                :string
+    :type WizziMetaPersistence
+        :{
+            :p type
+                :string
+                :optional
+            :p folderPath
+                :string
+                :optional
+            :p packageOwner
+                :string
+                :optional
+            :p packageName
+                :string
+                :optional
+    export
+        :type WizziMetaRequest
+            :{
+                :p description
+                    :string
+                    :optional
+                :p metaPlugins
+                    :[
+                        :string
+                    :optional
+                :p factoryPlugins
+                    :[
+                        :string
+                    :optional
+                $$ TODO metaProductions VIA replaced by inMemoryMetas
+                :p metaProductions
+                    :[
+                        :ref wizziTypes.ExtraMetaProductionData
+                    :optional
+                :p inMemoryMetas
+                    :[
+                        :ref WizziInMemoryMetaRef
+                    :optional
+                :p metaCtx
+                    :any
+                    :optional
+                :p metaCtxFilepath
+                    :string
+                    :optional
+                :p metaCtxRef
+                    :ref WizziProductionRef
+                    :optional
+                :p outputPackageName
+                    :string
+                    :optional
+                :p persist
+                    :ref WizziMetaPersistence
+                    :optional
+
+

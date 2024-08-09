@@ -1,0 +1,12 @@
+$group
+
+    $
+        var items = [
+            'index.htmlejs',
+            ];
+        //
+
+    $foreach item in items
+        $file __dot__wizzi/views/${item}.ittf.ittf
+            html
+                ${'$'}include flyNodeDemoTypescript/views/${item}

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorToolbar.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -50,9 +50,9 @@ export type EditorToolbarProps = {
     onSaveLocalFolder: () => void;
     onCloseLocalFolder: () => void;
 };
+;
 export // loog 'EditorToolbar.props', props, mainIttf, wizziSchema
 function EditorToolbar(props: EditorToolbarProps) {
-
     const [preferences] = usePreferences();
     const {
         name, 
@@ -88,37 +88,24 @@ function EditorToolbar(props: EditorToolbarProps) {
     const isPublished = saveStatus === 'published';
     const productionLabel = isLocalFolder ? "Filesystem folder" : packiProduction;
     return  (
-        <div
-         className={css(styles.ve_top_bar)}>
-            <div
-             className={css(styles.ve_top_bar_logo)}>
-                <a
-                 href="/">
-                    <WizziIcon
-                     theme={theme} width="90" height="30" />
-                </a>
-            </div>
-            <div
-             className={css(styles.ve_top_bar_control)}>
-                <div
-                 className={css(styles.ve_top_bar_label)}>
-                    {productionLabel} Production
-                </div>
-                <div
-                 className={css(styles.ve_top_bar_field)}>
-                    <div
-                     className={css(styles.ve_top_bar_field_editor)}>
-                        {name + (readOnly ? ' (generated, readonly)': '')}
-                    </div>
+        <div className={css(styles.ve_top_bar)}>
+            <div className={css(styles.ve_top_bar_logo)}>
+                <a href="/">
+                    <WizziIcon theme={theme} width="90" height="30" />
+                </a></div>
+            <div className={css(styles.ve_top_bar_control)}>
+                <div className={css(styles.ve_top_bar_label)}>
+                    {productionLabel} Production</div>
+                <div className={css(styles.ve_top_bar_label)}>
+                    File ... todo ...</div>
+                <div className={css(styles.ve_top_bar_field)}>
+                    <div className={css(styles.ve_top_bar_field_editor)}>
+                        {name + (readOnly ? ' (generated, readonly)': '')}</div>
                     {
-                        !(isLocalFolder)
-                         &&  (
-                            <div
-                             className={css(styles.ve_top_bar_field_button)}>
-                                <IconButton
-                                 responsive title="Edit production metadata" onClick={onShowEditModal}>
-                                    <EditIcon
-                                     theme={theme} width="20" height="20" />
+                        !(isLocalFolder) &&  (
+                            <div className={css(styles.ve_top_bar_field_button)}>
+                                <IconButton responsive title="Edit production metadata" onClick={onShowEditModal}>
+                                    <EditIcon theme={theme} width="20" height="20" />
                                 </IconButton>
                             </div>
                             )
@@ -126,25 +113,17 @@ function EditorToolbar(props: EditorToolbarProps) {
                     }
                 </div>
             </div>
-            <div
-             className={css(styles.ve_top_bar_icons)}>
-                <IconButton
-                 responsive title="Browse generated" onClick={() => 
-                    
+            <div className={css(styles.ve_top_bar_icons)}>
+                <IconButton responsive title="Browse generated" onClick={() => 
                         window.open(generatedPreviewURL)
                 }>
-                    <BrowserIcon
-                     />
+                    <BrowserIcon />
                 </IconButton>
                 {
-                    packiProduction == 'package'
-                     &&  (
-                        <React.Fragment
-                        >
-                            <IconButton
-                             responsive title="Generate .wizzi-meta folder" onClick={onExecuteWizziMetaFolder}>
-                                <svg 
-                                    width="20px"
+                    packiProduction == 'package' &&  (
+                        <React.Fragment>
+                            <IconButton responsive title="Generate .wizzi-meta folder" onClick={onExecuteWizziMetaFolder}>
+                                <svg width="20px"
                                     height="18px"
                                     viewBox="0 0 20 18"
                                     fill="none"
@@ -152,30 +131,21 @@ function EditorToolbar(props: EditorToolbarProps) {
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                 >
-                                    <path
-                                     d="M18,8a3,3,0,1,1,3-3A3,3,0,0,1,18,8Zm0-4a1,1,0,1,0,1,1A1,1,0,0,0,18,4Z" />
-                                    <path
-                                     d="M5.5,14.5A3.5,3.5,0,1,1,9,11,3.5,3.5,0,0,1,5.5,14.5Zm0-5A1.5,1.5,0,1,0,7,11,1.5,1.5,0,0,0,5.5,9.5Z" />
-                                    <path
-                                     d="M18,22a4,4,0,1,1,4-4A4,4,0,0,1,18,22Zm0-6a2,2,0,1,0,2,2A2,2,0,0,0,18,16Z" />
-                                    <path
-                                     d="M7.73,10.64a1,1,0,0,1-.91-.57,1,1,0,0,1,.47-1.34L15.37,4.9a1,1,0,0,1,.86,1.8L8.15,10.54A.9.9,0,0,1,7.73,10.64Z" />
-                                    <path
-                                     d="M18.7,16.1a.92.92,0,0,1-.36-.07L8.14,12.1a1,1,0,0,1,.72-1.87l10.2,3.94a1,1,0,0,1-.36,1.93Z" />
-                                    <path
-                                     d="M12.21,18.5a1,1,0,0,1-.6-.2L6,14.1a1,1,0,1,1,1.19-1.6l5.62,4.2a1,1,0,0,1,.2,1.4A1,1,0,0,1,12.21,18.5Z" />
+                                    <path d="M18,8a3,3,0,1,1,3-3A3,3,0,0,1,18,8Zm0-4a1,1,0,1,0,1,1A1,1,0,0,0,18,4Z" />
+                                    <path d="M5.5,14.5A3.5,3.5,0,1,1,9,11,3.5,3.5,0,0,1,5.5,14.5Zm0-5A1.5,1.5,0,1,0,7,11,1.5,1.5,0,0,0,5.5,9.5Z" />
+                                    <path d="M18,22a4,4,0,1,1,4-4A4,4,0,0,1,18,22Zm0-6a2,2,0,1,0,2,2A2,2,0,0,0,18,16Z" />
+                                    <path d="M7.73,10.64a1,1,0,0,1-.91-.57,1,1,0,0,1,.47-1.34L15.37,4.9a1,1,0,0,1,.86,1.8L8.15,10.54A.9.9,0,0,1,7.73,10.64Z" />
+                                    <path d="M18.7,16.1a.92.92,0,0,1-.36-.07L8.14,12.1a1,1,0,0,1,.72-1.87l10.2,3.94a1,1,0,0,1-.36,1.93Z" />
+                                    <path d="M12.21,18.5a1,1,0,0,1-.6-.2L6,14.1a1,1,0,1,1,1.19-1.6l5.62,4.2a1,1,0,0,1,.2,1.4A1,1,0,0,1,12.21,18.5Z" />
                                 </svg>
                             </IconButton>
-                            <IconButton
-                             responsive title="Generate package" onClick={onExecuteWizziJob}>
-                                <svg 
-                                    width="20px"
+                            <IconButton responsive title="Generate package" onClick={onExecuteWizziJob}>
+                                <svg width="20px"
                                     height="18px"
                                     viewBox="0 0 20 18"
                                     fill="none"
                                 >
-                                    <path 
-                                        d="M13.333 15l5-5-5-5M6.667 5l-5 5 5 5"
+                                    <path d="M13.333 15l5-5-5-5M6.667 5l-5 5 5 5"
                                         strokeWidth="2"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -187,43 +157,32 @@ function EditorToolbar(props: EditorToolbarProps) {
                     
                 }
                 {
-                    isLocalFolder
-                     &&  (
-                        <React.Fragment
-                        >
-                            <IconButton
-                             responsive title="Save" onClick={onSaveLocalFolder}>
-                                <SaveIcon
-                                 theme={theme} width="20" height="20" />
+                    isLocalFolder &&  (
+                        <React.Fragment>
+                            <IconButton responsive title="Save" onClick={onSaveLocalFolder}>
+                                <SaveIcon theme={theme} width="20" height="20" />
                             </IconButton>
                         </React.Fragment>
                         )
                     
                 }
                 {
-                    isLocalFolder
-                     &&  (
-                        <React.Fragment
-                        >
-                            <IconButton
-                             responsive title="Close" onClick={onCloseLocalFolder}>
-                                <CloseIcon
-                                 theme={theme} width="20" height="20" />
+                    isLocalFolder &&  (
+                        <React.Fragment>
+                            <IconButton responsive title="Close" onClick={onCloseLocalFolder}>
+                                <CloseIcon theme={theme} width="20" height="20" />
                             </IconButton>
                         </React.Fragment>
                         )
                     
                 }
-                <UserMenu
-                 loggedUser={loggedUser} />
+                <UserMenu loggedUser={loggedUser} />
             </div>
-            <ModalProductionDetails 
-                title="Edit Production Details"
+            <ModalProductionDetails title="Edit Production Details"
                 action="Done"
                 visible={isEditModalVisible}
                 onDismiss={onDismissEditModal}
                 onSubmit={(details) => {
-                    
                         onSubmitMetadata(details);
                         onDismissEditModal();
                     }
@@ -238,6 +197,7 @@ function EditorToolbar(props: EditorToolbarProps) {
         )
     ;
 }
+
 export default EditorToolbar;
 const styles = StyleSheet.create({
     ve_top_bar: {

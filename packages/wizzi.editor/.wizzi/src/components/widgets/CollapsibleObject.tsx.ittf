@@ -65,7 +65,7 @@ module
                             else
                                 iif typeof value === 'string'
                                     then
-                                        `lit
+                                        template
                                             + "
                                             @ value
                                             + "

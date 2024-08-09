@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziAction\api\wizziAction.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import {ValidateResult, CRUDResult} from '../../types';
 import {GetWizziActionModel} from '../mongo/wizziAction';;
@@ -19,14 +19,12 @@ export /**
         // options
 */
 async function getWizziActionList(options?: any):  Promise<CRUDResult> {
-
     options = options || {};
     
     
     const WizziAction = GetWizziActionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             const query = WizziAction.find(options.query);
             if (options.limit) {
@@ -36,7 +34,6 @@ async function getWizziActionList(options?: any):  Promise<CRUDResult> {
                 query.sort(options.sort);
             }
             query.find((err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getWizziActionList', 'WizziAction.find', 'error', err);
                     return reject(err);
@@ -75,13 +72,11 @@ export /**
         // name
 */
 async function getWizziAction(owner: string, kind: string, name: string):  Promise<CRUDResult> {
-
     
     
     const WizziAction = GetWizziActionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -90,7 +85,6 @@ async function getWizziAction(owner: string, kind: string, name: string):  Promi
              };
             
             WizziAction.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getWizziAction', 'WizziAction.find', 'error', err);
                     return reject(err);
@@ -120,18 +114,15 @@ export /**
         // id
 */
 async function getWizziActionById(id: string):  Promise<CRUDResult> {
-
     
     
     const WizziAction = GetWizziActionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             WizziAction.find({
                 _id: id
              }, (err: any, result: IWizziActionModel[]) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getWizziAction', 'WizziAction.find', 'error', err);
                     return reject(err);
@@ -163,14 +154,16 @@ export /**
         // name
         // description
 */
-async function createWizziAction(owner?: string, kind?: string, name?: string, description?: string):  Promise<CRUDResult> {
-
+async function createWizziAction(
+    owner?: string, 
+    kind?: string, 
+    name?: string, 
+    description?: string):  Promise<CRUDResult> {
     
     
     const WizziAction = GetWizziActionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             let query = {
                 owner: owner, 
@@ -179,7 +172,6 @@ async function createWizziAction(owner?: string, kind?: string, name?: string, d
              };
             
             WizziAction.find(query, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'getWizziAction', 'WizziAction.find', 'error', err);
                     return reject(err);
@@ -200,7 +192,6 @@ async function createWizziAction(owner?: string, kind?: string, name?: string, d
                     updated_at: new Date()
                  });
                 newWizziAction.save(function(err: any, doc: any) {
-                
                     if (err) {
                         console.log("[31m%s[0m", myname, 'createWizziAction', 'newWizziAction.save', 'error', err);
                         return reject(err);
@@ -227,14 +218,17 @@ export /**
         // name
         // description
 */
-async function updateWizziAction(id?: string, owner?: string, kind?: string, name?: string, description?: string):  Promise<CRUDResult> {
-
+async function updateWizziAction(
+    id?: string, 
+    owner?: string, 
+    kind?: string, 
+    name?: string, 
+    description?: string):  Promise<CRUDResult> {
     
     
     const WizziAction = GetWizziActionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -265,7 +259,6 @@ async function updateWizziAction(id?: string, owner?: string, kind?: string, nam
             update['updated_at'] = new Date();
             
             WizziAction.findOneAndUpdate(query, update, {}, (err: any, result: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'updateWizziAction', 'WizziAction.findOneAndUpdate', 'error', err);
                     return reject(err);
@@ -298,14 +291,16 @@ export /**
         // kind
         // name
 */
-async function deleteWizziAction(id?: string, owner?: string, kind?: string, name?: string):  Promise<CRUDResult> {
-
+async function deleteWizziAction(
+    id?: string, 
+    owner?: string, 
+    kind?: string, 
+    name?: string):  Promise<CRUDResult> {
     
     
     const WizziAction = GetWizziActionModel();
     
     return new Promise((resolve, reject) => {
-        
             
             var query;
             if (id && id.length > 0) {
@@ -322,7 +317,6 @@ async function deleteWizziAction(id?: string, owner?: string, kind?: string, nam
             }
             
             WizziAction.deleteOne(query, (err: any) => {
-            
                 if (err) {
                     console.log("[31m%s[0m", myname, 'deleteWizziAction', 'WizziAction.deleteOne', 'error', err);
                     return reject(err);

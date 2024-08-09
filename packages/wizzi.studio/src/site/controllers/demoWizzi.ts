@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\site\controllers\demoWizzi.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -13,9 +13,7 @@ import {FcError, SYSTEM_ERROR} from '../../utils/error';
 import {statusCode} from '../../utils';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -53,7 +51,6 @@ export class DemoWizziController implements ControllerType {
     };
     
     private index = async (request: Request, response: Response) => 
-    
         response.render('demoWizzi/index.html.ittf', {
             title: 'Hello demo wizzi'
          })
@@ -61,7 +58,6 @@ export class DemoWizziController implements ControllerType {
     ;
     
     private test = async (request: Request, response: Response) => 
-    
         response.render('demoWizzi/index.html.ittf', {
             title: 'Wizzi section: ' + request.params.id
          })

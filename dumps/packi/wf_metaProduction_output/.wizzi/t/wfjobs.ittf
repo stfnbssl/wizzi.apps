@@ -114,6 +114,16 @@ $group
                     model-ref ${jobCtx.job_model}
                         export-name ${jobCtx.job_model}
                 $hook
+        $elif name == 'any_htmlejs'
+            artifact any_html
+                src ./**/*.htmlejs.ittf
+                schema html
+                generator html/document
+                extension ejs
+                $if jobCtx.job_model
+                    model-ref ${jobCtx.job_model}
+                        export-name ${jobCtx.job_model}
+                $hook
         $elif name == 'any_docx'
             artifact any_docx
                 src ./**/*.docx.ittf

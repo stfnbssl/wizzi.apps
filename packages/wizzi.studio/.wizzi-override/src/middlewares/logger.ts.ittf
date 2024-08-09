@@ -35,7 +35,7 @@ module
                                     param next
                                         :ref Function
                                     _ console.log
-                                        `lit
+                                        template
                                             +
                                             @ request.method
                                             + &nbsp;

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\MenuButton.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -14,19 +14,17 @@ export type MenuButtonProps = {
     label?: React.ReactNode;
     content: React.ReactNode;
 };
+;
 
 export function MenuButton({
     icon, 
     label, 
     content
  }: MenuButtonProps) {
-
     const [active, setActive] = React.useState<boolean>(false);
     const root = React.useRef<HTMLDivElement>(null);
     React.useEffect(() => {
-    
         const onClick = (e: MouseEvent) => {
-        
             if (e.target === root.current || root.current?.contains?.(e.target as Node)) {
                 return ;
             }
@@ -35,31 +33,22 @@ export function MenuButton({
         ;
         document.addEventListener('click', onClick);
         return () => 
-            
                 document.removeEventListener('click', onClick)
         ;
     }
     , [])
     return  (
-        <div
-         ref={root} className={css(styles.panelContainer)}>
-            <FooterButton
-             icon={icon} active={active} onClick={() => 
-                
+        <div ref={root} className={css(styles.panelContainer)}>
+            <FooterButton icon={icon} active={active} onClick={() => 
                     setActive(value => 
-                    
                         !value
-                    
                     )
             }>
-                {label}
-            </FooterButton>
+                {label}</FooterButton>
             {
                 active ?  (
-                    <div
-                     className={css(styles.pane)}>
-                        {content}
-                    </div>
+                    <div className={css(styles.pane)}>
+                        {content}</div>
                     )
                  : null
             }
@@ -67,6 +56,7 @@ export function MenuButton({
         )
     ;
 }
+
 
 export default MenuButton;
 

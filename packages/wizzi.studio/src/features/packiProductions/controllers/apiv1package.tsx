@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\apiv1package.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -20,9 +20,7 @@ import {getWizziMetaFolderById} from '../api/package';
 const myname = 'features/production/controllers/apiv1packageproduction';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -65,16 +63,13 @@ export class ApiV1PackageProductionController implements ControllerType {
     };
     
     private getPackageProductions = async (request: Request, response: Response) => 
-    
         getPackageProductionList({
             query: {
                 owner: request.params.owner
              }
          }).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getPackageProductions.error', err);
@@ -87,12 +82,9 @@ export class ApiV1PackageProductionController implements ControllerType {
     ;
     
     private getCheckPackageName = async (request: Request, response: Response) => 
-    
         validatePackageProduction(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {
@@ -104,12 +96,9 @@ export class ApiV1PackageProductionController implements ControllerType {
     ;
     
     private getPackageProduction = async (request: Request, response: Response) => 
-    
         getPackageProduction(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getPackageProduction.error', err);
@@ -122,12 +111,9 @@ export class ApiV1PackageProductionController implements ControllerType {
     ;
     
     private postPackageProduction = async (request: Request, response: Response) => 
-    
         createPackageProduction(request.params.owner, request.params.name, request.body.description, JSON.stringify(request.body.packiFiles)).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'postPackageProduction.error', err);
@@ -140,12 +126,9 @@ export class ApiV1PackageProductionController implements ControllerType {
     ;
     
     private putPackageProduction = async (request: Request, response: Response) => 
-    
         updatePackageProduction(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(request.body.packiFiles)).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putPackageProduction.error', err);
@@ -158,20 +141,17 @@ export class ApiV1PackageProductionController implements ControllerType {
     ;
     
     private putPackageProductionPackiDiffs = async (request: Request, response: Response) => {
-    
         console.log('putPackageProductionPackiDiffs.request.params', request.params, __filename);
         console.log('putPackageProductionPackiDiffs.request.body.options', Object.keys(request.body.options), __filename);
         console.log('putPackageProductionPackiDiffs.request.body.packiDiffs', Object.keys(request.body.packiDiffs), __filename);
         const options = request.body.options || {};
         getPackageProductionObjectById(request.params.id).then((prevPackage: any) => {
-        
             console.log('putPackageProductionPackiDiffs.prevPackiFiles', Object.keys(prevPackage.packiFiles), __filename);
             const pm = new PackiBuilder(prevPackage.packiFiles);
             pm.applyPatch_ChangesOnly(request.body.packiDiffs)
             return exec_updatePackageProduction(request, response, pm.packiFiles);
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putPackageProductionPackiDiffs.getPackageProductionObjectById.error', err);
@@ -184,12 +164,9 @@ export class ApiV1PackageProductionController implements ControllerType {
     ;
     
     private getWizziMetaFolder = async (request: Request, response: Response) => 
-    
         getWizziMetaFolderById(request.params.id, {}).then((packiFiles: packiTypes.PackiFiles) => 
-        
             sendSuccess(response, packiFiles)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getWizziMetaFolder.error', err);
@@ -202,14 +179,11 @@ export class ApiV1PackageProductionController implements ControllerType {
     ;
 }
 function exec_updatePackageProduction(request: any, response: any, packiFiles: any) {
-
     updatePackageProduction(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then((result: any) => {
-    
         invalidateCache(request.params.id)
         sendSuccess(response, result)
     }
     ).catch((err: any) => {
-    
         if (typeof err === 'object' && err !== null) {
         }
         console.log("[31m%s[0m", 'exec_updatePackageProduction.updatePackageProduction.error', err);

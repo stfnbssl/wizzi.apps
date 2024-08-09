@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\apiv1job.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -19,9 +19,7 @@ import {getJobList, validateJob, getJob, getJobObjectById, updateJob, createJob,
 const myname = 'features/production/controllers/apiv1job';
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -63,16 +61,13 @@ export class ApiV1JobController implements ControllerType {
     };
     
     private getJobs = async (request: Request, response: Response) => 
-    
         getJobList({
             query: {
                 owner: request.params.owner
              }
          }).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getJobs.error', err);
@@ -85,12 +80,9 @@ export class ApiV1JobController implements ControllerType {
     ;
     
     private getCheckJobName = async (request: Request, response: Response) => 
-    
         validateJob(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {
@@ -102,12 +94,9 @@ export class ApiV1JobController implements ControllerType {
     ;
     
     private getJob = async (request: Request, response: Response) => 
-    
         getJob(request.params.owner, request.params.name).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'getJob.error', err);
@@ -120,12 +109,9 @@ export class ApiV1JobController implements ControllerType {
     ;
     
     private postJob = async (request: Request, response: Response) => 
-    
         createJob(request.params.owner, request.params.name, request.body.description, JSON.stringify(request.body.packiFiles)).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'postJob.error', err);
@@ -138,12 +124,9 @@ export class ApiV1JobController implements ControllerType {
     ;
     
     private putJob = async (request: Request, response: Response) => 
-    
         updateJob(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(request.body.packiFiles)).then((result: any) => 
-        
             sendSuccess(response, result)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putJob.error', err);
@@ -156,20 +139,17 @@ export class ApiV1JobController implements ControllerType {
     ;
     
     private putJobPackiDiffs = async (request: Request, response: Response) => {
-    
         console.log('putJobPackiDiffs.request.params', request.params, __filename);
         console.log('putJobPackiDiffs.request.body.options', Object.keys(request.body.options), __filename);
         console.log('putJobPackiDiffs.request.body.packiDiffs', Object.keys(request.body.packiDiffs), __filename);
         const options = request.body.options || {};
         getJobObjectById(request.params.id).then((prevJob: any) => {
-        
             console.log('putJobPackiDiffs.prevPackiFiles', Object.keys(prevJob.packiFiles), __filename);
             const pm = new PackiBuilder(prevJob.packiFiles);
             pm.applyPatch_ChangesOnly(request.body.packiDiffs)
             return exec_updateJob(request, response, pm.packiFiles);
         }
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             console.log("[31m%s[0m", 'putJobPackiDiffs.getJobObjectById.error', err);
@@ -182,14 +162,11 @@ export class ApiV1JobController implements ControllerType {
     ;
 }
 function exec_updateJob(request: any, response: any, packiFiles: any) {
-
     updateJob(request.params.id, request.body.owner, request.body.name, request.body.description, JSON.stringify(packiFiles)).then((result: any) => {
-    
         invalidateCache(request.params.id)
         sendSuccess(response, result)
     }
     ).catch((err: any) => {
-    
         if (typeof err === 'object' && err !== null) {
         }
         console.log("[31m%s[0m", 'exec_updateJob.updateJob.error', err);

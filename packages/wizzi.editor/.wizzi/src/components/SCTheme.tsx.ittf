@@ -67,7 +67,7 @@ module
             param key
             param i
             set mediaQueries[key]
-                `lit 
+                template 
                     + @media screen and (min-width:
                     @ breakpoints[i]
                     + em)
@@ -196,25 +196,25 @@ module
             [ 
                 op+ 
                     + baseShadow
-                    `lit 
+                    template 
                         + 0 2px 4px 0&nbsp;
                         @ shadowColor
                         + 
                 op+ 
                     + baseShadow
-                    `lit 
+                    template 
                         + 0 4px 8px 0&nbsp;
                         @ shadowColor
                         + 
                 op+ 
                     + baseShadow
-                    `lit 
+                    template 
                         + 0 12px 12px 0&nbsp;
                         @ shadowColor
                         + 
                 op+ 
                     + baseShadow
-                    `lit 
+                    template 
                         + 0 24px 24px 0&nbsp;
                         @ shadowColor
                         + 
@@ -230,7 +230,7 @@ module
     +
     export 
         const font
-            `lit 
+            template 
                 + "Phantom Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif,
                 @ emoji
                 + 
@@ -257,7 +257,7 @@ module
     +
     export 
         const transition
-            `lit 
+            template 
                 + 
                 @ 3 / 16
                 + s cubic-bezier(0.375, 0, 0.675, 1)
@@ -281,7 +281,7 @@ module
                     decl b = parseInt(hex.slice(5, 7), 16)
                 if alpha >= 0
                     return 
-                        `lit 
+                        template 
                             + rgba(
                             @ r
                             + ,&nbsp;
@@ -293,7 +293,7 @@ module
                             + )
                 else
                     return 
-                        `lit 
+                        template 
                             + rgb(
                             @ r
                             + ,&nbsp;
@@ -307,7 +307,7 @@ module
             => 
                 param color1
                 param color2
-                `lit 
+                template 
                     + radial-gradient(&lf;
                     + &nbsp;   ellipse farthest-corner at top left,&lf;
                     + &nbsp;  &nbsp;

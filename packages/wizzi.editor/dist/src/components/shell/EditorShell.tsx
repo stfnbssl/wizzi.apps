@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\shell\EditorShell.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import React, {FunctionComponent} from 'react';
 // see https://mxstbr.blog/2016/11/styled-components-magic-explained/
@@ -33,24 +33,18 @@ const StyledRoot = styled.div<RootStyleProps>`
     -ms-flex-pack: center;
     -webkit-justify-content: center;
     justify-content: center;
-    
 `
 const StyledLogo = styled.div<LogoStyleProps>`
     -webkit-transform: scale(0.4);
     -ms-transition: scale(0.4);
     transform: scale(0.4);
     opacity: 0.2;
-    
 `
 export const EditorShell: FunctionComponent<EditorShellProps> = () => 
-
      (
-    <StyledRoot
-    >
-        <StyledLogo
-        >
-            <AnimatedLogo
-             />
+    <StyledRoot>
+        <StyledLogo>
+            <AnimatedLogo />
         </StyledLogo>
     </StyledRoot>
     )

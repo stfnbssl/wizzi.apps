@@ -46,19 +46,19 @@ $group
                 param initValues
                     :ref AppInitializerType
                 _ this.router.get
-                    `lit
+                    template
                         +
                         @ this.path
                         + /ownedrepos/:uid
                     @expr this.getOwnedRepositories
                 _ this.router.get
-                    `lit
+                    template
                         +
                         @ this.path
                         + /clone/:uid/:owner/:name/:branch/:kind
                     @expr this.cloneRepository
                 _ this.router.post
-                    `lit
+                    template
                         +
                         @ this.path
                         + /commit/:uid/:owner/:name/:branch

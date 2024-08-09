@@ -60,7 +60,7 @@ module
                                                 @expr e.item.path
                                     iif parent
                                         then
-                                            `lit 
+                                            template 
                                                 + 
                                                 @ parent
                                                 + /

@@ -7,7 +7,7 @@ $group
             :optional
         let state = this.getState()
         return
-            `lit
+            template
                 +
                 @ this.apiURL
                 + /--/api/v2/packi/download/

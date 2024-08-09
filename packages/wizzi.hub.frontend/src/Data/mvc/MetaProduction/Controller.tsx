@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Data\mvc\MetaProduction\Controller.tsx.ittf
-    utc time: Wed, 31 Jul 2024 14:56:16 GMT
+    utc time: Wed, 07 Aug 2024 13:02:16 GMT
 */
 import {JobItem} from "@/Data/types";
 import {Constants} from "./Constants";
@@ -203,6 +203,28 @@ export class Controller {
             if (currentJob.__metaProductions) {
                 currentJob.__metaProductions.text = JSON.stringify(mpsJsonContent, null, 2);
                 console.log('Data.mvc.MetaProduction.Controller.selectMetaProduction.result', result, currentJob.__metaProductions);
+            }
+        }
+        )
+    }
+    saveMetaCtx(currentJob: JobItem, metaCtx: { 
+        [key: string]: any;
+    }) {
+        console.log('Data.mvc.MetaProduction.Controller.saveMetaCtx.metaCtx', metaCtx);
+        if (!currentJob.__metaCtx) {
+            throw new Error("Property `currentJob.__metaCtx` not set");
+        }
+        const {
+            exists: metaCtxExists, 
+            text: metaCtxTextContent, 
+            json: metaCtxJsonContent
+         } = currentJob.__metaCtx;
+        console.log('Data.mvc.MetaProduction.Controller.saveMetaCtx.metaCtxJsonContent', metaCtxJsonContent);
+        this.model.updatePackiFile('job', currentJob.id, this.constants.metaCtxFilePath, metaCtxExists ? metaCtxTextContent : null, JSON.stringify(metaCtx, null, 2), (result) => {
+            if (currentJob.__metaCtx) {
+                currentJob.__metaCtx.text = JSON.stringify(metaCtx, null, 2);
+                currentJob.__metaCtx.json = metaCtx;
+                console.log('Data.mvc.MetaProduction.Controller.saveMetaCtx.result', result, currentJob.__metaCtx);
             }
         }
         )

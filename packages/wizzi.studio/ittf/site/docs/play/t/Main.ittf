@@ -14,7 +14,7 @@ $group
                     param model
                     === 
                         + model.uri.path
-                        `lit 
+                        template 
                             + /
                             @ path
 

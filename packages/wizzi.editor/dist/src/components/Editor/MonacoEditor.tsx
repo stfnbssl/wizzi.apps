@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\Editor\MonacoEditor.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import classnames from 'classnames';
@@ -23,9 +23,33 @@ import ittfLightTheme from './themes/ittf.light.theme';
 import overrides from './themes/monaco-overrides';
 console.log('MonacoEditor', 1, __filename);
 
-
 // @ts-ignore
-global.MonacoEnvironment = { getWorkerUrl(moduleId: string, label: string) { switch (label) { case 'json': { return '/public/packi/json.worker.bundle.js'; } case 'html': { return '/public/packi/html.worker.bundle.js'; } case 'css': case 'scss': case 'less': { return '/public/packi/css.worker.bundle.js'; } case 'typescript': case 'javascript': { return '/public/packi/ts.worker.bundle.js'; } default: { return '/public/packi/editor.worker.bundle.js'; } } }   }; 
+
+global.MonacoEnvironment = {
+    getWorkerUrl(moduleId: string, label: string) {
+        switch (label) {
+            case 'json': {
+                return '/public/packi/json.worker.bundle.js';
+            }
+            case 'html': {
+                return '/public/packi/html.worker.bundle.js';
+            }
+            case 'css':
+            case 'scss':
+            case 'less': {
+                return '/public/packi/css.worker.bundle.js';
+            }
+            case 'typescript':
+            case 'javascript': {
+                return '/public/packi/ts.worker.bundle.js';
+            }
+            default: {
+                return '/public/packi/editor.worker.bundle.js';
+            }
+        }
+    }
+    
+ };
 console.log('MonacoEditor', 2, __filename);
 monaco.languages.register({
     id: 'ittf'
@@ -36,7 +60,6 @@ monaco.editor.defineTheme('ittfDark', ittfDarkTheme);
 monaco.editor.defineTheme('light', light);
 monaco.editor.defineTheme('dark', dark);
 console.log('MonacoEditor', 3, __filename);
-
 /**
     * 
     * Use prettier to format code.
@@ -63,21 +86,18 @@ console.log('MonacoEditor', 5, __filename);
 export type MonacoEditorProps = EditorProps & { 
     theme: ThemeName;
 };
+;
 type State = { 
 };
-
 // Store editor states such as cursor position, selection and scroll position for each model
 const editorStates = new Map();
-
 // Store details about typings we have requested and loaded
 const requestedTypings = new Map();
 const extraLibs = new Map();
 const codeEditorService = StaticServices.codeEditorService.get();
 console.log('MonacoEditor', 6, __filename);
 const findModel = (path: string) => 
-
     monaco.editor.getModels().find(model => 
-    
         model.uri.path === (`/${path}`)
     )
 ;
@@ -97,7 +117,6 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
     static removePath(path: string) {
         // Remove editor states
         editorStates.delete(path);
-        
         // Remove associated models
         const model = findModel(path);
         model?.dispose?.();
@@ -126,22 +145,18 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
             readOnly, 
             ...rest
          } = this.props;
-        
         // The methods provided by the service are on it's prototype
-        
         // So spreading this object doesn't work, we must mutate it
         codeEditorService.openCodeEditor = async ({
             resource, 
             options
          }: any, editor: monaco.editor.IStandaloneCodeEditor) => {
-        
             // Remove the leading slash added by the Uri
             this.props.onSelectFile(resource.path.replace(/^\//, ''));
             editor.setSelection(options.selection);
             editor.revealLine(options.selection.startLineNumber);
             return {
                     getControl: () => 
-                    
                         editor
                     
                  };
@@ -216,7 +231,6 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
     }
     componentWillUnmount() {
         this._disposables.forEach(dis => 
-        
             dis.dispose()
         )
     }
@@ -262,7 +276,6 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
         const model = findModel(path);
         if (this._editor && model) {
             this._editor.setModel(model);
-            
             // Restore the editor state for the file
             const editorState = editorStates.get(path);
             if (editorState) {
@@ -280,7 +293,6 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
             const value = model.getValue();
             if (value !== this.props.files[this.props.selectedFile]?.contents) {
                 this.props.updateFiles(() => 
-                
                     ({
                         [this.props.selectedFile]: {
                             type: 'CODE', 
@@ -292,7 +304,6 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
         }
     };
     _handleResize = debounce(() => 
-    
         this._editor?.layout?.()
     , 50, {
         leading: true, 
@@ -306,16 +317,12 @@ class MonacoEditorComp extends React.Component<MonacoEditorProps, State> {
     
     render() {
         return  (
-            <div
-             className={css(styles.container)}>
-                <style
-                 type="text/css" dangerouslySetInnerHTML={{
+            <div className={css(styles.container)}>
+                <style type="text/css" dangerouslySetInnerHTML={{
                         __html: overrides
                      }} />
-                <ResizeDetector
-                 onResize={this._handleResize}>
-                    <div
-                     ref={this._node} className={classnames(css(styles.editor), 'packi-monaco-editor', `theme-${this.props.theme}`)} />
+                <ResizeDetector onResize={this._handleResize}>
+                    <div ref={this._node} className={classnames(css(styles.editor), 'packi-monaco-editor', `theme-${this.props.theme}`)} />
                 </ResizeDetector>
             </div>
             )

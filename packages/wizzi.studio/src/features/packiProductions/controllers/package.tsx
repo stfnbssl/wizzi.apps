@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\package.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -21,18 +21,19 @@ import {packiTypes} from '../../packi';
 
 const myname = 'features/production/controllers/package';
 
-function renderPageForm(req: Request, res: Response, data: object, queryParams: object) {
-
+function renderPageForm(
+    req: Request, 
+    res: Response, 
+    data: object, 
+    queryParams: object) {
     const index = '<!DOCTYPE html>' + (ReactDOMServer.renderToStaticMarkup(
-    <PageFormDocument
-     data={data} queryParams={queryParams} />
+    <PageFormDocument data={data} queryParams={queryParams} />
     ));
     res.set('Content-Type', 'text/html');
     res.set('Content-Length', index.length.toString());
     res.send(index);
 }
 function getPackiConfigFile():  packiTypes.PackiFiles {
-
     return {
             ['.packi/config.json.ittf']: {
                 type: 'CODE', 
@@ -126,9 +127,7 @@ function getPackiConfigFile():  packiTypes.PackiFiles {
 }
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -172,7 +171,6 @@ export class PackageProductionController implements ControllerType {
     };
     
     private getNewPackageForm = async (request: Request, response: Response) => 
-    
         renderPageForm(request, response, {
             type: 'success', 
             formName: 'CreatePackageProduction', 
@@ -184,14 +182,11 @@ export class PackageProductionController implements ControllerType {
     ;
     
     private postPackage = async (request: Request, response: Response) => 
-    
         getTemplatePackiFiles(request.body.meta_id, request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}, request.query.context as string, request.body.context ? JSON.parse(request.body.context) : {}, {
             wizziSchema: null, 
             mainIttf: null
          }).then((packiFiles: packiTypes.PackiFiles) => 
-        
             createPackageProduction((request.session as any).user.username, request.body.pp_name, request.body.pp_description, JSON.stringify(mergePackiFiles(packiFiles, getPackiConfigFile()))).then((result: CRUDResult) => {
-            
                 if (result.ok) {
                     response.redirect('/~~/p/' + (request.session as any).user.username + '/' + request.body.pp_name)
                 }
@@ -203,7 +198,6 @@ export class PackageProductionController implements ControllerType {
                 }
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 response.render('error.html.ittf', {
@@ -214,7 +208,6 @@ export class PackageProductionController implements ControllerType {
             )
         
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             response.render('error.html.ittf', {
@@ -227,10 +220,8 @@ export class PackageProductionController implements ControllerType {
     ;
     
     private getUpdatePackageForm = async (request: Request, response: Response) => {
-    
         const id = request.params.id;
         getPackageProductionObjectById(id).then((result: any) => 
-        
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'UpdatePackageProduction', 
@@ -246,10 +237,8 @@ export class PackageProductionController implements ControllerType {
     ;
     
     private putPackage = async (request: Request, response: Response) => {
-    
         const obj = request.body;
         updatePackageProduction(obj.pp_id, obj.pp_owner, obj.pp_name, obj.pp_description).then((result: any) => {
-        
             if (result.ok) {
                 response.redirect('/productions/packages');
             }
@@ -265,10 +254,8 @@ export class PackageProductionController implements ControllerType {
     ;
     
     private getDeletePackageForm = async (request: Request, response: Response) => {
-    
         const id = request.params.id;
         getPackageProductionObjectById(id).then((result: any) => 
-        
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'DeletePackageProduction', 
@@ -284,10 +271,8 @@ export class PackageProductionController implements ControllerType {
     ;
     
     private deletePackage = async (request: Request, response: Response) => {
-    
         const obj = request.body;
         deletePackageProduction(obj.pp_id, obj.pp_owner, obj.pp_name).then((result: any) => {
-        
             if (result.ok) {
                 response.redirect('/productions/packages');
             }
@@ -303,7 +288,6 @@ export class PackageProductionController implements ControllerType {
     ;
     
     private getPackageProperties = async (request: Request, response: Response) => 
-    
         renderPageForm(request, response, {
             type: 'success', 
             formName: 'PropertyEditor', 
@@ -361,12 +345,9 @@ export class PackageProductionController implements ControllerType {
     ;
     
     private getWizziMetaFolderByName = async (request: Request, response: Response) => 
-    
         getWizziMetaFolder(request.params.owner, request.params.name, {}).then((packiFiles: packiTypes.PackiFiles) => 
-        
             sendSuccess(response, packiFiles)
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             response.render('error.html.ittf', {

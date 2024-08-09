@@ -71,7 +71,7 @@ module
                                                     => 
                                                         _ onSelectFile(location.fileName)
                                                 { 
-                                                    `lit 
+                                                    template 
                                                         + 
                                                         @ location.fileName
                                                         + &nbsp;(
@@ -107,12 +107,12 @@ module
                                             span 
                                                 @ className {css(styles.source)}
                                                 { 
-                                                    `lit 
+                                                    template 
                                                         + &nbsp;(
                                                         @ source
                                                         + )
                                 const key
-                                    `lit 
+                                    template 
                                         + 
                                         @ location?.fileName ?? ''
                                         + .
@@ -188,19 +188,19 @@ module
                     @ animationTimingFunction 'linear'
                 { infoIcon
                     @ backgroundImage
-                        `lit 
+                        template 
                             + url(
                             _ require('../../assets/info-icon.png')
                             + )
                 { errorIcon
                     @ backgroundImage
-                        `lit 
+                        template 
                             + url(
                             _ require('../../assets/cross-red.png')
                             + )
                 { warningIcon
                     @ backgroundImage
-                        `lit 
+                        template 
                             + url(
                             _ require('../../assets/cross.png')
                             + )
@@ -229,7 +229,7 @@ module
                     @ color c('selected')
                     @ borderRadius 3
                     @ border
-                        `lit 
+                        template 
                             + 1px solid&nbsp;
                             _ c('selected')
                             + 

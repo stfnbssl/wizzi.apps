@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\widgets\Avatar.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import React, {FunctionComponent} from 'react';
 // see https://mxstbr.blog/2016/11/styled-components-magic-explained/
@@ -48,24 +48,19 @@ export const Avatar: FunctionComponent<AvatarProps> = ({
     size, 
     source
  }) => 
-
      (
-    <StyledRoot
-    >
+    <StyledRoot>
         {
             source ?  (
-                <StyledImage
-                 src={source} size={size} />
+                <StyledImage src={source} size={size} />
                 )
              :  (
-                <svg 
-                    width="20"
+                <svg width="20"
                     height="20"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                 >
-                    <path 
-                        d="M13.125 13.563c2.423-3.635 2.831-10.938-2.623-10.938-5.454 0-5.05 7.303-2.627 10.938-2.423 0-5.25 2.389-5.25 4.812h15.75c.004-2.423-2.827-4.813-5.25-4.813z"
+                    <path d="M13.125 13.563c2.423-3.635 2.831-10.938-2.623-10.938-5.454 0-5.05 7.303-2.627 10.938-2.423 0-5.25 2.389-5.25 4.812h15.75c.004-2.423-2.827-4.813-5.25-4.813z"
                         strokeWidth="1.75"
                         strokeLinecap="round"
                         strokeLinejoin="round"

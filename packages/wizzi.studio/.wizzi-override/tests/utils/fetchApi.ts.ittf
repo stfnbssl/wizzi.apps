@@ -53,7 +53,7 @@ module
             if !response.ok
                 throw
                     new Error
-                        `lit
+                        template
                             + HTTP error! status:&nbsp;
                             @ response.status
                             +

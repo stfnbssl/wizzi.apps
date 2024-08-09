@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\features\packi\session.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import mapValues from 'lodash/mapValues';
 import nullthrows from 'nullthrows';
@@ -14,13 +14,10 @@ import {fetch, createURL, createError} from './utils';
 const myname = "src.features.packi.session";
 //
 const debounce = (func: any, timeout: any, context: any) => {
-
     let timer: NodeJS.Timeout;
     return (...args: any[]) => {
-        
             clearTimeout(timer);
             timer = setTimeout(() => 
-            
                 func.apply(context || this, args)
             , timeout)
             ;
@@ -70,7 +67,6 @@ export default class PackiSession {
         private codeChangesDelay: number;
         private codeChangesTimer: any;
         
-        
         /**
             * 
             * Sets the name of the Packi.
@@ -78,13 +74,11 @@ export default class PackiSession {
         */
         setName(name: string) {
             return this.setState((state) => 
-                
                     (state.name !== name ? {
                             name
                          } : null)
                 );
         }
-        
         
         /**
             * 
@@ -93,7 +87,6 @@ export default class PackiSession {
         */
         setDescription(description: string) {
             return this.setState((state) => 
-                
                     (state.description !== description ? {
                             description
                          } : null)
@@ -102,7 +95,6 @@ export default class PackiSession {
         
         setMainIttf(mainIttf: string) {
             return this.setState((state) => 
-                
                     (state.mainIttf !== mainIttf ? {
                             mainIttf
                          } : null)
@@ -111,7 +103,6 @@ export default class PackiSession {
         
         setWizziSchema(wizziSchema: string) {
             return this.setState((state) => 
-                
                     (state.wizziSchema !== wizziSchema ? {
                             wizziSchema
                          } : null)
@@ -124,7 +115,6 @@ export default class PackiSession {
                     localFolderUri
                  } = this.state;
                 return this.setState((state) => 
-                    
                         ({
                             previewURL: `${process.env.SERVER_URL}${localFolderUri}/${encodeURIComponent(filePath)}`
                          })
@@ -145,7 +135,6 @@ export default class PackiSession {
                     pathPrefix = "/~t/";
                 }
                 return this.setState((state) => 
-                    
                         ({
                             previewURL: `${process.env.API_SERVER_URL}${pathPrefix}${encodeURIComponent(state.owner)}/${encodeURIComponent(state.name)}?savecount=${state.saveCount}&filepath=${encodeURIComponent(filePath)}`
                          })
@@ -153,13 +142,9 @@ export default class PackiSession {
             }
         }
         
-        
         // 
-        
         // State
-        
         // 
-        
         /**
             * 
             * Returns the current state of the Packi. This includes files, dependencies
@@ -169,7 +154,6 @@ export default class PackiSession {
         getState():  PackiState {
             return this.state;
         }
-        
         
         /**
             * 
@@ -192,7 +176,6 @@ export default class PackiSession {
         addStateListener(listener: PackiStateListener):  PackiListenerSubscription {
             this.stateListeners.add(listener);
             return () => 
-                
                     this.stateListeners.delete(listener)
             ;
         }
@@ -206,21 +189,18 @@ export default class PackiSession {
                  };
                 this.state = this.updateDerivedState(newState, oldState);
                 this.stateListeners.forEach(listener => 
-                
                     listener(newState, oldState)
                 )
             }
         }
         
         private updateDerivedState(state: PackiState, prevState: PackiState):  PackiState {
-            
             // Set unsaved to true whenever files or dependencies change
             state.unsaved = state.unsaved || State.isUnsaved(state, prevState);
             // Update other derived states
             this.updateDerivedOnlineState(state, prevState);
             return state;
         }
-        
         
         /**
             * 
@@ -240,13 +220,9 @@ export default class PackiSession {
                 disabled
              } = state;
         }
-        
         // 
-        
         // Files (code & assets)
-        
         // 
-        
         /**
             * 
             * Updates code or asset files.
@@ -297,7 +273,6 @@ export default class PackiSession {
         */
         updateFiles(files: PackiFiles) {
             return this.setState((state) => {
-                
                     const newFiles = State.updateObjects(state.files, files);
                     return newFiles !== state.files ? {
                                 files: newFiles
@@ -307,7 +282,6 @@ export default class PackiSession {
         }
         setSelectedFile(filePath: string) {
             return this.setState((state) => {
-                
                     if (state.selectedFile !== filePath) {
                         if (!(filePath.startsWith('t/') || filePath.indexOf('/t/') > -1)) {
                             this.setPreviewUrl(filePath)
@@ -325,14 +299,12 @@ export default class PackiSession {
         
         updateJobGeneratedFiles(jobGeneratedFiles: PackiFiles) {
             this.updatePackiFiles(jobGeneratedFiles, () => {
-            
             }
             )
         }
         
         updateWizziMetaFolderIttfDocuments(wizziMetaFolderIttfDocuments: PackiFiles) {
             this.updatePackiFiles(wizziMetaFolderIttfDocuments, () => {
-            
             }
             )
         }
@@ -340,7 +312,6 @@ export default class PackiSession {
         updateClonedGithubRepoFiles(clonedGithubRepoOwner: string, clonedGithubRepoName: string, clonedGithubRepoFiles: PackiFiles) {
             const toAddPackiFiles: PackiFiles = {};
             Object.keys(clonedGithubRepoFiles).forEach((k) => {
-            
                 const filePath = 'github/' + clonedGithubRepoOwner + '/' + clonedGithubRepoName + '/' + k;
                 toAddPackiFiles[filePath] = {
                     type: clonedGithubRepoFiles[k].type, 
@@ -349,7 +320,6 @@ export default class PackiSession {
             }
             )
             this.updatePackiFiles(toAddPackiFiles, () => {
-            
             }
             )
         }
@@ -357,7 +327,6 @@ export default class PackiSession {
         updatePackiFiles(files: PackiFiles, done: () => any) {
             console.log('PackiSession.updatePackiFiles.files', files, __filename);
             return this.setState((state) => {
-                
                     const newFiles = State.updateObjects(state.files, files);
                     if (newFiles !== state.files) {
                         this.debouncedUploadPackiFilesUpdates({
@@ -373,7 +342,6 @@ export default class PackiSession {
         
         async uploadPackiFilesUpdates(payload: PackiUploadPayload, done: () => any) {
             console.log('PackiSession.uploadPackiFilesUpdates.payload', payload, 'this.state.isLocalFolder', this.state.isLocalFolder, __filename);
-            
             // non update in wizzi.studio
             if (this.state.isLocalFolder) {
             }
@@ -391,6 +359,14 @@ export default class PackiSession {
                          }
                      });
                 const data = await response.json();
+                if (data.error || data.err) {
+                    try {
+                        alert(JSON.stringify(data, null, 2))
+                    } 
+                    catch (ex) {
+                        alert(data.error ? data.error.message : data.err.message)
+                    } 
+                }
                 this.state.saveCount++;
             }
             if (done) {
@@ -428,7 +404,6 @@ export default class PackiSession {
              } = this.state;
             window.location.href = localFolderUri;
         }
-        
         
         /**
             * 

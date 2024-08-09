@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizzi\api\context.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 import {file} from '@wizzi/factory';
@@ -11,20 +11,15 @@ import * as wizziProds from '../productions';
 import {ArtifactRequest, MetaContext} from '../types';
 const myname = 'features.wizzi.api.context';
 export async function resolveContexts(contextItems: MetaContext[]) {
-
     const promises: Promise<any>[] = [];
     contextItems.map(contextItem => 
-    
         promises.push(new Promise((resolve, reject) => 
-        
             resolveContext(contextItem).then((context: any) => 
-            
                 resolve({
                     name: contextItem.name, 
                     value: context
                  })
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.wizzi.api.context.resolveContexts.resolveContext.error', err);
@@ -35,12 +30,9 @@ export async function resolveContexts(contextItems: MetaContext[]) {
         ))
     )
     return new Promise((resolve, reject) => 
-        
             Promise.all(promises).then((items) => {
-            
                 var context: any = {};
                 items.map((value: any) => {
-                
                     if (value.name && value.name.length > 0) {
                         context[value.name] = value.value;
                     }
@@ -53,7 +45,6 @@ export async function resolveContexts(contextItems: MetaContext[]) {
                 resolve(context)
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 console.log("[31m%s[0m", 'features.wizzi.api.context.resolveContexts.Promise.all.error', err);
@@ -64,17 +55,12 @@ export async function resolveContexts(contextItems: MetaContext[]) {
         );
 }
 function resolveContext(contextItem: MetaContext) {
-
     if (contextItem.source == 'json-fsIttf') {
-        return new Promise(
-            // TODO check contextItem.path.endsWith('.json.ittf')
+        return new Promise(// TODO check contextItem.path.endsWith('.json.ittf')
             (resolve, reject) => 
-            
                 wizziProds.generateArtifactFs(path.join(config.ittfPath, contextItem.path as string)).then((value: any) => 
-                
                     resolve(value)
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.wizzi.api.context.resolveContext.wizziProds.generateArtifactFs.error', err);
@@ -89,7 +75,6 @@ function resolveContext(contextItem: MetaContext) {
     }
     else if (contextItem.source == 'json-fsFile') {
         return new Promise((resolve, reject) => {
-            
                 const json = file.readJSON(contextItem.path as string);
                 resolve(json);
             }
@@ -97,18 +82,14 @@ function resolveContext(contextItem: MetaContext) {
     }
     else if (contextItem.source == 'json-value') {
         return new Promise(resolve => 
-            
                 resolve(contextItem.value)
             );
     }
     else if (contextItem.source == 'model-fsIttf') {
         return new Promise((resolve, reject) => 
-            
                 wizziProds.loadModelFs(path.join(config.ittfPath, contextItem.path as string), {}).then((value: any) => 
-                
                     resolve(value)
                 ).catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     console.log("[31m%s[0m", 'features.wizzi.api.context.resolveContext.wizziProds.loadModelFs.error', err);

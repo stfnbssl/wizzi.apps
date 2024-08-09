@@ -37,7 +37,7 @@ $group
                     set request.session.socketUserId = request.query.socketUserId
                 _ next()
         _ this.router.get
-            `lit
+            template
                 + /github
             _ authenticate
                 @ 'github'
@@ -47,19 +47,19 @@ $group
                         @ 'public_repo'
             _ this.githubConnect.bind(this)
         _ this.router.get
-            `lit
+            template
                 + /github/callback
             _ authenticate
                 @ 'github'
                 {
                     @ failureRedirect
-                        `lit
+                        template
                             +
                             @ this.path
                             + /account
             _ this.githubConnectCallback.bind(this)
         _ this.router.get
-            `lit
+            template
                 +
                 @ this.path
                 + /github/loggedin/:uid

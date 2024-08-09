@@ -28,7 +28,7 @@ $group
                                     || 
                                         || 
                                             _ themeGet
-                                                `lit 
+                                                template 
                                                     + palette.
                                                     @ color
                                                     + .
@@ -36,13 +36,13 @@ $group
                                                 (
                                                     @ props
                                             _ themeGet
-                                                `lit 
+                                                template 
                                                     + palette.
                                                     @ color
                                                 (
                                                     @ props
                                         _ themeGet
-                                            `lit 
+                                            template 
                                                 + colors.
                                                 @ color
                                             (

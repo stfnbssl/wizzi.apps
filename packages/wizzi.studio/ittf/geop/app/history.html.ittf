@@ -67,7 +67,7 @@ layouts/muiPage( theme )
                         @ duration theme.transitions.duration.leavingScreen
         { appBarShift
             @ width
-                `lit 
+                 
                     + calc(100% - \b
                     @ g_drawerWidth
                     + px)

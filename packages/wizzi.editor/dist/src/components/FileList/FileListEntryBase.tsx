@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListEntryBase.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -33,6 +33,7 @@ type State = {
     isHovered: boolean;
 };
 export let lastDraggedEntry: FileSystemEntry | null;
+
 export default class FileListEntry extends React.Component<Props, State> {
         static defaultProps = {
             draggable: true
@@ -69,9 +70,7 @@ export default class FileListEntry extends React.Component<Props, State> {
             this._click = true;
         _handleFocus = () => {
             if (this._click) {
-                
                 // The focus was triggered by a click event
-                
                 // Ignore it to avoid double handling
                 this._click = false;
                 return ;
@@ -83,13 +82,11 @@ export default class FileListEntry extends React.Component<Props, State> {
                 return ;
             }
             const bindings = this.props.actions.filter(action => 
-            
                 action?.combo ? isKeyCombo(event as any, action.combo) : false
             );
             if (bindings.length) {
                 event.preventDefault();
                 bindings.forEach(binding => 
-                
                     binding?.handler?.()
                 )
             }
@@ -160,14 +157,12 @@ export default class FileListEntry extends React.Component<Props, State> {
                 isHovered
              } = this.state;
             return  (
-                <FileListEntryDropTarget 
-                    entry={entry}
+                <FileListEntryDropTarget entry={entry}
                     rest={rest}
                     onRename={onRename}
                     onExpand={onExpand}
                 >
-                    <div 
-                        ref={this._item}
+                    <div ref={this._item}
                         draggable={draggable}
                         onDragStart={this._handleDragStart}
                         onDragEnd={this._handleDragEnd}
@@ -180,15 +175,11 @@ export default class FileListEntry extends React.Component<Props, State> {
                         onFocus={this._handleFocus}
                         onKeyDown={this._handleKeyDown}
                     >
-                        {this.props.renderItem()}
-                    </div>
-                    <div
-                     className={css(styles.highlight, theme === 'dark' ? styles.highlightDark : styles.highlightLight, entry.state.isSelected ? styles.highlightActive : null)} />
+                        {this.props.renderItem()}</div>
+                    <div className={css(styles.highlight, theme === 'dark' ? styles.highlightDark : styles.highlightLight, entry.state.isSelected ? styles.highlightActive : null)} />
                     {
-                        !readOnly
-                         &&  (
-                            <ContextMenu 
-                                ref={this._menu}
+                        !readOnly &&  (
+                            <ContextMenu ref={this._menu}
                                 visible={Boolean(menu)}
                                 position={menu}
                                 actions={actions}
@@ -197,12 +188,7 @@ export default class FileListEntry extends React.Component<Props, State> {
                             )
                         
                     }
-                    <button
-                     ref={this._more} tabIndex={-1} className={css(styles.more, isHovered || menu ? styles.moreVisible : styles.moreInvisible)}>
-                        {this.props.renderMenuIcon()}
-                    </button>
-                    {this.props.renderTree?.()}
-                </FileListEntryDropTarget>
+                    <button ref={this._more} tabIndex={-1} className={css(styles.more, isHovered || menu ? styles.moreVisible : styles.moreInvisible)}>{this.props.renderMenuIcon()}</button>{this.props.renderTree?.()}</FileListEntryDropTarget>
                 )
             ;
         }

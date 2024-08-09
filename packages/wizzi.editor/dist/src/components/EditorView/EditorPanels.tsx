@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\EditorPanels.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -36,31 +36,19 @@ export default class EditorPanels extends React.Component<Props> {
                 panelType
              } = this.props;
             return  (
-                <ResizablePane
-                 direction="vertical" className={css(styles.container)}>
-                    <div
-                     className={css(styles.panels)}>
-                        <div
-                         className={css(styles.header)}>
-                            <button
-                             onClick={onShowErrorPanel} className={css(styles.tab, panelType !== 'errors' && styles.inactive)}>
-                                Problems
-                            </button>
-                            <div
-                             className={css(styles.buttons)}>
-                                <button
-                                 onClick={() => 
-                                    
+                <ResizablePane direction="vertical" className={css(styles.container)}>
+                    <div className={css(styles.panels)}>
+                        <div className={css(styles.header)}>
+                            <button onClick={onShowErrorPanel} className={css(styles.tab, panelType !== 'errors' && styles.inactive)}>Problems</button>
+                            <div className={css(styles.buttons)}>
+                                <button onClick={() => 
                                         onTogglePanels()
-                                } className={css(styles.button, styles.close)} />
-                            </div>
+                                } className={css(styles.button, styles.close)} /></div>
                         </div>
-                        <div
-                         ref={this._panel} className={css(styles.panel)}>
+                        <div ref={this._panel} className={css(styles.panel)}>
                             {
                                 panelType === 'errors' ?  (
-                                    <ProblemsPanel
-                                     annotations={annotations} onSelectFile={onSelectFile} />
+                                    <ProblemsPanel annotations={annotations} onSelectFile={onSelectFile} />
                                     )
                                  : null
                             }

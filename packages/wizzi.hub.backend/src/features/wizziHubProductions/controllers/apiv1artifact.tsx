@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\features\wizziHubProductions\controllers\apiv1artifact.tsx.ittf
-    utc time: Wed, 31 Jul 2024 13:44:17 GMT
+    utc time: Fri, 09 Aug 2024 16:10:17 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -25,17 +25,21 @@ function makeHandlerAwareOfAsyncErrors(handler: any) {
             catch (error: any) {
                 if (error instanceof FcError) {
                     response.status(statusCode.BAD_REQUEST).send({
-                        code: error.code, 
-                        message: error.message, 
-                        data: error.data || {}
+                        error: {
+                            code: error.code, 
+                            message: error.message, 
+                            data: error.data || {}
+                         }
                      })
                 }
                 else {
                     const fcError = new FcError(SYSTEM_ERROR);
                     response.status(statusCode.BAD_REQUEST).send({
-                        code: fcError.code, 
-                        message: error.message, 
-                        data: fcError.data || {}
+                        error: {
+                            code: fcError.code, 
+                            message: error.message, 
+                            data: fcError.data || {}
+                         }
                      })
                 }
             } 
@@ -156,12 +160,12 @@ export class ApiV1ArtifactProductionController implements ControllerType {
         console.log('putArtifact.request.body', Object.keys(request.body), __filename);
         var __check = restParamsCheck(request);
         var packiFiles = __check.notUndefined('body', 'packiFiles');
-        var options = __check.notUndefined('body', 'options');
+        var options = __check.optional('body', 'options');
         if (__check.hasErrors()) {
             return __check.sendErrors(response);
         }
         console.log('putArtifact.request.body.packiFiles', Object.keys(packiFiles), __filename);
-        if (options.wizzify) {
+        if (options && options.wizzify) {
             wizziProds.wizzify(packiFiles).then((resultPackiFiles: any) => {
                 console.log('putArtifact.wizzify.resultPackiFiles', Object.keys(resultPackiFiles), __filename);
                 return exec_updateArtifactProduction(request, response, resultPackiFiles);
@@ -176,7 +180,7 @@ export class ApiV1ArtifactProductionController implements ControllerType {
             }
             )
         }
-        else if (options.merge) {
+        else if (options && options.merge) {
             var __check = restParamsCheck(request);
             var id = __check.notUndefined('params', 'id');
             if (__check.hasErrors()) {

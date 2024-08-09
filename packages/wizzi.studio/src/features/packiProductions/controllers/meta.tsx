@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\controllers\meta.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -20,18 +20,19 @@ import {packiTypes} from '../../packi';
 
 const myname = 'features/production/controllers/meta';
 
-function renderPageForm(req: Request, res: Response, data: object, queryParams: object) {
-
+function renderPageForm(
+    req: Request, 
+    res: Response, 
+    data: object, 
+    queryParams: object) {
     const index = '<!DOCTYPE html>' + (ReactDOMServer.renderToStaticMarkup(
-    <PageFormDocument
-     data={data} queryParams={queryParams} />
+    <PageFormDocument data={data} queryParams={queryParams} />
     ));
     res.set('Content-Type', 'text/html');
     res.set('Content-Length', index.length.toString());
     res.send(index);
 }
 function getPackiConfigFile():  packiTypes.PackiFiles {
-
     return {
             ['.packi/config.json.ittf']: {
                 type: 'CODE', 
@@ -109,14 +110,120 @@ function getPackiConfigFile():  packiTypes.PackiFiles {
                     '        [ parameters', 
                     '            $hook'
                 ].join('\n')
+             }, 
+            ['.db/meta_provides.json']: {
+                type: 'CODE', 
+                contents: [
+                    '{', 
+                    '    "name" : "...",', 
+                    '    "version" : "0.0.1",', 
+                    '    "pluginCategories": [', 
+                    '        {', 
+                    '            "name": "..."', 
+                    '        },', 
+                    '        {', 
+                    '            "name": "..."', 
+                    '        }', 
+                    '    ],', 
+                    '    "pluginMetaProductions": [', 
+                    '        {', 
+                    '            "name": "...",', 
+                    '            "title": "...",', 
+                    '            "categories": [', 
+                    '                {', 
+                    '                    "name": "..."', 
+                    '                },', 
+                    '                {', 
+                    '                    "name": "..."', 
+                    '                },', 
+                    '                {', 
+                    '                    "name": "..."', 
+                    '                }', 
+                    '            ]', 
+                    '        }', 
+                    '    ]', 
+                    '}'
+                ].join('\n')
+             }, 
+            ['t/params/index.json.ittf']: {
+                type: 'CODE', 
+                contents: [
+                    '{', 
+                    '    [ parameters', 
+                    '        {', 
+                    '            name "name"', 
+                    '            type "string"', 
+                    '        string$( kind )'
+                ].join('\n')
+             }, 
+            ['t/params/string.json.ittf']: {
+                type: 'CODE', 
+                contents: [
+                    '{', 
+                    '    $params name', 
+                    '    name "${name}"', 
+                    '    type "string"', 
+                    '    $hook'
+                ].join('\n')
+             }, 
+            ['t/params/boolean.json.ittf']: {
+                type: 'CODE', 
+                contents: [
+                    '{', 
+                    '    $params name', 
+                    '    name "${name}"', 
+                    '    type "boolean"', 
+                    '    $hook'
+                ].join('\n')
+             }, 
+            ['t/params/integer.json.ittf']: {
+                type: 'CODE', 
+                contents: [
+                    '{', 
+                    '    $params name', 
+                    '    name "${name}"', 
+                    '    type "integer"', 
+                    '    $hook'
+                ].join('\n')
+             }, 
+            ['t/params/use.json.ittf']: {
+                type: 'CODE', 
+                contents: [
+                    '{', 
+                    '    $params name', 
+                    '    name "${name}"', 
+                    '    type "integer"', 
+                    '    $hook'
+                ].join('\n')
+             }, 
+            ['t/params/object.json.ittf']: {
+                type: 'CODE', 
+                contents: [
+                    '{', 
+                    '    $params name', 
+                    '    name "${name}"', 
+                    '    type "object"', 
+                    '    [ parameters', 
+                    '        $hook'
+                ].join('\n')
+             }, 
+            ['t/params/array.json.ittf']: {
+                type: 'CODE', 
+                contents: [
+                    '{', 
+                    '    $params name', 
+                    '    name "${name}"', 
+                    '    type "array"', 
+                    '    { item', 
+                    '        [ parameters', 
+                    '            $hook'
+                ].join('\n')
              }
          };
 }
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -159,7 +266,6 @@ export class MetaProductionController implements ControllerType {
     };
     
     private getNewMetaForm = async (request: Request, response: Response) => 
-    
         renderPageForm(request, response, {
             type: 'success', 
             formName: 'CreateMetaProduction', 
@@ -171,9 +277,7 @@ export class MetaProductionController implements ControllerType {
     ;
     
     private postMeta = async (request: Request, response: Response) => 
-    
         createMetaProduction((request.session as any).user.username, request.body.mp_name, request.body.mp_description, JSON.stringify(getPackiConfigFile())).then((result: CRUDResult) => {
-        
             if (result.ok) {
                 response.redirect('/~~/m/' + (request.session as any).user.username + '/' + request.body.mp_name)
             }
@@ -185,7 +289,6 @@ export class MetaProductionController implements ControllerType {
             }
         }
         ).catch((err: any) => 
-        
             response.render('error.html.ittf', {
                 message: 'creating a new meta production', 
                 error: err
@@ -195,10 +298,8 @@ export class MetaProductionController implements ControllerType {
     ;
     
     private getUpdateMetaForm = async (request: Request, response: Response) => {
-    
         const id = request.params.id;
         getMetaProductionObjectById(id).then((result: any) => 
-        
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'UpdateMetaProduction', 
@@ -214,10 +315,8 @@ export class MetaProductionController implements ControllerType {
     ;
     
     private putMeta = async (request: Request, response: Response) => {
-    
         const obj = request.body;
         updateMetaProduction(obj.mp_id, obj.mp_owner, obj.mp_name, obj.mp_description).then((result: any) => {
-        
             if (result.ok) {
                 response.redirect('/productions/metas');
             }
@@ -233,10 +332,8 @@ export class MetaProductionController implements ControllerType {
     ;
     
     private getDeleteMetaForm = async (request: Request, response: Response) => {
-    
         const id = request.params.id;
         getMetaProductionObjectById(id).then((result: any) => 
-        
             renderPageForm(request, response, {
                 type: 'success', 
                 formName: 'DeleteMetaProduction', 
@@ -252,10 +349,8 @@ export class MetaProductionController implements ControllerType {
     ;
     
     private deleteMeta = async (request: Request, response: Response) => {
-    
         const obj = request.body;
         deleteMetaProduction(obj.mp_id, obj.mp_owner, obj.mp_name).then((result: any) => {
-        
             if (result.ok) {
                 response.redirect('/productions/metas');
             }
@@ -271,13 +366,10 @@ export class MetaProductionController implements ControllerType {
     ;
     
     private generateMeta = async (request: Request, response: Response) => {
-    
         generateMetaProduction(request.body.owner, request.body.name, request.body.metaCtx).then((wizziPackiFiles: packiTypes.PackiFiles) => 
-        
             sendSuccess(response, wizziPackiFiles)
         )
         .catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             response.render('error.html.ittf', {

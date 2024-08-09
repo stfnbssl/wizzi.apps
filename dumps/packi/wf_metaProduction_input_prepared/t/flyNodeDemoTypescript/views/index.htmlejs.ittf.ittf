@@ -1,0 +1,27 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('ejs', '^3.1.10');
+
+    head 
+        meta 
+            charset UTF-8
+        link 
+            rel shortcut icon
+            type image/x-icon
+            href favicon.ico
+        link 
+            href index.css
+            rel stylesheet
+        js client.js
+    body 
+        . container
+            img 
+                src brandmark-light.svg
+                class image
+                alt The monochrome white Fly.io brandmark on a navy background
+                srcset 
+            . counter
+                id counter
+                ++ <%= count %>

@@ -1,0 +1,134 @@
+﻿$group
+
+	class DataManager
+		ctor
+			param props
+			set this.props = props
+			set this.cheatsheetList = {}
+			set this.cheatsheetDatas = {}
+			set this.selectedSchema = null
+			_ this.initialize
+
+		m initialize
+			
+			js/event_on( schema-selected
+				set this.selectedSchema = data.name
+				_ this.getCheatsheetData
+					@ data.name
+
+			$*
+			js/event_on( select-tree-node
+				if data.treeNode.item.isFolder
+					return
+
+				var item = this.schemaDatas[this.selectedSchema].itemsDict[data.treeNode.item.id]
+				
+				js/event_emit( seteditvalue
+					@ key 'gen-ittf'
+					@ value wz.replace(item.ittfWrapped, '\\n', '\n')
+				
+				js/event_emit( editvaluechanged
+					@ key 'gen-ittf'
+					@ value wz.replace(item.ittfWrapped, '\\n', '\n')
+
+				js/event_emit( seteditvalue
+					@ key 'snippet-source'
+					@ value
+						_ wz.unescapeHtml
+							_ wz.replace(item.generated, '\\n', '\n')
+				
+				js/event_emit( editvaluechanged
+					@ key 'snippet-source'
+					@ value
+						_ wz.unescapeHtml
+							_ wz.replace(item.generated, '\\n', '\n')
+			*$
+
+		m getCheatsheetList
+			_ fetch
+				@ '${ittfCtx.baseUrl}/api/v1/docs/cheatsheet'
+				._ then
+					=>
+						param response
+						return response.json()
+				._ then
+					=>
+						param json
+						log 'DataManager.getCheatsheetList', json
+						set this.cheatsheetList = json
+						js/event_emit( schema-list-ready
+							@ json json
+				._ catch
+					=>
+						param err
+						# FIXME
+						log 'getCheatsheetList error', err
+
+
+		m getCheatsheetData
+			param name
+			
+			if this.cheatsheetDatas[name]
+			
+				if true
+					js/event_emit( schema-selected-ready
+						@ name name
+						@ json this.cheatsheetDatas[name]
+			
+			else
+			
+				_ fetch
+					@ '${ittfCtx.baseUrl}/api/v1/docs/cheatsheet/' + name
+					._ then
+						=>
+							param response
+							return response.json()
+					._ then
+						=>
+							param json
+							log 'DataManager.getCheatsheetData', name, json
+							set json = this.setIds(json)
+							set this.cheatsheetDatas[name] = json
+							if true
+								js/event_emit( schema-selected-ready
+									@ name name
+									@ json json
+					._ catch
+						=>
+							param err
+							# FIXME
+							log 'getcheatsheetData error', err
+
+		m setIds
+			param json
+			set json.itemsDict = {}
+			var c = 1
+			_ json.elements.map
+				=> 
+					param element
+					param i
+					_ element.items.map
+						=>
+							param item
+							param j
+							set item.id = 'k' + c++
+							set json.itemsDict[item.id] = item
+
+			set json.itemsDict = {}
+			var c = 1
+			foreach e in json.elements
+				foreach item in e.items
+					set item.id = 'k' + c++
+					set json.itemsDict[item.id] = item
+			return json
+
+		m getIttfCheatsheetItem
+			param id 
+			if this.selectedSchema && this.cheatsheetDatas[this.selectedSchema]
+			return this.cheatsheetDatas[this.selectedSchema].itemsDict[id].ittfWrapped
+
+		m getSnippetCheatsheetItem
+			param id 
+			if this.selectedSchema && this.cheatsheetDatas[this.selectedSchema]
+			return this.cheatsheetDatas[this.selectedSchema].itemsDict[id].generated
+

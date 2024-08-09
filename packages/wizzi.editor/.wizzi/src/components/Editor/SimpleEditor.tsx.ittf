@@ -58,7 +58,7 @@ module
                     @ className "code-output"
                     code 
                         @ className
-                            `lit 
+                            template 
                                 + language-
                                 @ language
                                 + 

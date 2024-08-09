@@ -1,20 +1,17 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\EditorView\NoFileSelected.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
 export default class NoFileSelected extends React.PureComponent {
         render() {
             return  (
-                <div
-                 className={css(styles.container)}>
-                    <h4
-                     className={css(styles.text)}>
-                        Select a file to view and edit
-                    </h4>
+                <div className={css(styles.container)}>
+                    <h4 className={css(styles.text)}>
+                        Select a file to view and edit</h4>
                 </div>
                 )
             ;

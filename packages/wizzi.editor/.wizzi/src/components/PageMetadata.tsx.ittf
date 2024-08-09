@@ -19,19 +19,19 @@ module
             param props
                 :ref Props
             const title
-                `lit 
+                template 
                     + 
                     @ props.name
                     + &nbsp;- Packi
             const description = props.description
             const url
-                `lit 
+                template 
                     + 
                     @ process.env.PACKI_SERVER_URL
                     + 
                     iif props.id
                         then
-                            `lit 
+                            template 
                                 + /
                                 @ props.id
                                 + 

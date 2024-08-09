@@ -2,15 +2,17 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\index.ts.ittf
-    utc time: Wed, 31 Jul 2024 13:44:15 GMT
+    utc time: Fri, 09 Aug 2024 16:10:15 GMT
 */
 import {ApiType, ControllerType, AppInitializerType, MiddlewareType} from '#/src/features/app/types';
 import {ModelBuilderType} from '#/src/features/app';
 import {config} from '#/src/features/config/index';
 import { mongodbStart } from '#/src/services/mongodb';
+import {siteControllers} from './site/index';
 import {wizziProductionsControllers} from '#/src/features/wizziProductions/index';
 import {wizziMetaControllers} from '#/src/features/wizziMeta/index';
 import {wizziHubProductionsControllers, wizziHubProductionsModelBuilders} from '#/src/features/wizziHubProductions/index';
+import {wizziDocsControllers} from '#/src/features/wizziDocs/index';
 import {packiControllers} from '#/src/features/packi/index';
 import {appMiddlewaresPre, appMiddlewaresPost} from '#/src/middlewares/index';
 import App from './App';
@@ -31,9 +33,11 @@ async function start() {
     ];
     let apis: ApiType[] = [];
     let controllers: ControllerType[] = [
+        ...siteControllers, 
         ...wizziProductionsControllers, 
         ...wizziMetaControllers, 
         ...wizziHubProductionsControllers, 
+        ...wizziDocsControllers, 
         ...packiControllers
     ];
     console.log("[33m%s[0m", 'Starting app. Config:', config);

@@ -42,7 +42,7 @@ module
                     [
                         {
                             @ message
-                                `lit
+                                template
                                     + Content of the ESLint config (
                                     @ eslintrc
                                     + ) is not valid JSON

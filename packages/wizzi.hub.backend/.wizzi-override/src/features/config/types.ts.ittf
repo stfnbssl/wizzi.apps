@@ -13,3 +13,21 @@ module
                                 :number
                             $elif item.checker == 'number'
                                 :number
+                $if wzCtx.Build.config.mockLoggedUser
+                    :p userUserName
+                        :string
+                    :p userDisplayName
+                        :string
+                    :p userAvatarUrl
+                        :string
+                $if wzCtx.Build.useWizzi
+                    :p ittfPath
+                        :string
+                    :p dataPath
+                        :string
+                    :p metaHtmlIttfPath
+                        :string
+                    :p metaFolderIttfPath
+                        :string
+                    :p metaHtmlTextPath
+                        :string

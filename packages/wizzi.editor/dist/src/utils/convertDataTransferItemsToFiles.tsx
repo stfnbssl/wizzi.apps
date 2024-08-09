@@ -1,13 +1,15 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\utils\convertDataTransferItemsToFiles.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 export type WebkitDirectoryReaderResult = (WebkitFileEntry | WebkitDirectoryEntry)[];
+;
 export type WebkitDirectoryReader = { 
     readEntries: (success: (result: WebkitDirectoryReaderResult) => void, error: (e: Error) => void) => void;
 };
+;
 export type WebkitFileEntry = { 
     isFile: true;
     isDirectory: false;
@@ -15,6 +17,7 @@ export type WebkitFileEntry = {
     fullPath: string;
     file: (success: (f: File) => void, failure: (e: Error) => void) => void;
 };
+;
 export type WebkitDirectoryEntry = { 
     isFile: false;
     isDirectory: true;
@@ -22,6 +25,7 @@ export type WebkitDirectoryEntry = {
     fullPath: string;
     createReader: () => WebkitDirectoryReader;
 };
+;
 const blacklist = [
     /^\./, 
     /\.(jks|keystore)$/, 
@@ -46,19 +50,15 @@ const processEntry = async (entry: WebkitFileEntry | WebkitDirectoryEntry, files
     file: File;
     path: string;
 }[], path: string) => {
-
     if (blacklist.some(r => 
-    
         r.test(entry.name)
     ) && !whitelist.some(r => 
-    
         r.test(entry.name)
     )) {
         return ;
     }
     if (entry.isFile) {
         const file = await new Promise<File>((resolve, reject) => 
-            
                 entry.file(resolve, reject)
             );
         files.push({
@@ -70,11 +70,9 @@ const processEntry = async (entry: WebkitFileEntry | WebkitDirectoryEntry, files
         if (entry.isDirectory) {
             const reader = entry.createReader();
             const entries = await new Promise<WebkitDirectoryReaderResult>((resolve, reject) => 
-                
                     reader.readEntries(resolve, reject)
                 );
             await Promise.all(entries.map(async (e: WebkitFileEntry | WebkitDirectoryEntry) => 
-                
                     processEntry(e, files, `${path}/${e.name}`)
                 
                 ));
@@ -85,13 +83,11 @@ const processEntry = async (entry: WebkitFileEntry | WebkitDirectoryEntry, files
 export default async function convertDataTransferItemsToFiles(items: (File | WebkitFileEntry | WebkitDirectoryEntry)[], mappings: { 
         [key: string]: string;
     }) {
-    
         const files: { 
             file: File;
             path: string;
         }[] = [];
         await Promise.all(items.map((it) => {
-            
                 const path = mappings[it.name] || it.name;
                 if (it instanceof File) {
                     files.push({

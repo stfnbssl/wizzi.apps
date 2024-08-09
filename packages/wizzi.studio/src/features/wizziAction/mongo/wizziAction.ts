@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\wizziAction\mongo\wizziAction.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 const myname = 'src/features/wizziAction/mongo/wizziAction';
 import {Schema, Model, model} from "mongoose";
@@ -19,16 +19,15 @@ const WizziActionSchema: Schema<IWizziActionModel> = new Schema({
  });
 
 
+// mongoose models creation is centralized
+// the mongodb service calls buildModel() when starting, after connection has been established
+// controllers call GetWizziActionModel() when initialized, after buildModel() has benn called
 export type WizziActionModelType = Model<IWizziActionModel>;
-    // mongoose models creation is centralized
-    // the mongodb service calls buildModel() when starting, after connection has been established
-    // controllers call GetWizziActionModel() when initialized, after buildModel() has benn called
-    
+;
 
 let WizziActionModel: WizziActionModelType;
 
 export function GetWizziActionModel():  WizziActionModelType {
-
     if (!WizziActionModel) {
         WizziActionModel = model<IWizziActionModel>("WizziAction")
         ;
@@ -38,12 +37,10 @@ export function GetWizziActionModel():  WizziActionModelType {
 
 export const WizziActionModelBuilder: ModelBuilderType = {
     buildModel: (options?: any) => 
-    
         WizziActionModel = model<IWizziActionModel>("WizziAction", WizziActionSchema)
     
     , 
     applyExtraSetup: (options?: any) => {
-    
     }
     
  };

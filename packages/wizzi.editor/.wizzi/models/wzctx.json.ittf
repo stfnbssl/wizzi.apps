@@ -15,7 +15,7 @@
         var md = {
             useSsl: false,
             host: 'localhost',
-            port: wzConfigIsStudio ? 5100 : 5000,
+            port: wzConfigPort, // wzConfigIsStudio ? 5100 : 5000,
             apiVersion: 'v1'
         };
         md.http = md.useSsl ? 'https' : 'http';

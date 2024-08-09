@@ -160,7 +160,7 @@ module
                                     _ processEntry
                                         @ e
                                         @ files
-                                        `lit
+                                        template
                                             +
                                             @ path
                                             + /

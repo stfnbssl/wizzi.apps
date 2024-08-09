@@ -5,7 +5,13 @@ $group
         useErrors false
         useStaticFiles true
         { staticFiles
-            basePath "__dirname, '..', '..'"
+            basePath "__dirname, '..'"
+        useIttfStatic true
+        { ittfStatic
+        useWizziViewEngine true
+        { wizziViewEngine
+        usePackiBrowse true
+        { packiBrowse
         useSessionStore false
         useExpressValidator true
         useSession true

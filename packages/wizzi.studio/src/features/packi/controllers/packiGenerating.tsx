@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packi\controllers\packiGenerating.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:29:19 GMT
+    utc time: Mon, 05 Aug 2024 15:53:34 GMT
 */
 import express from 'express';
 import {Router, Request, Response, NextFunction} from 'express';
@@ -17,11 +17,14 @@ import {packageApi, metaApi, pluginApi, productionApi} from '../../packiProducti
 import EditorDocument from '../../../pages/EditorDocument';
 const myname = 'features/packi/controller/packiGenerating';
 
-function renderPackiEditor(req: Request, res: Response, packiItemObject: object, loggedUser: object, queryParams: object) {
-
+function renderPackiEditor(
+    req: Request, 
+    res: Response, 
+    packiItemObject: object, 
+    loggedUser: object, 
+    queryParams: object) {
     const index = '<!DOCTYPE html>' + (ReactDOMServer.renderToStaticMarkup(
-    <EditorDocument
-     data={packiItemObject} queryParams={queryParams} loggedUser={loggedUser} />
+    <EditorDocument data={packiItemObject} queryParams={queryParams} loggedUser={loggedUser} />
     ));
     res.set('Content-Type', 'text/html');
     res.set('Content-Length', index.length.toString());
@@ -29,9 +32,7 @@ function renderPackiEditor(req: Request, res: Response, packiItemObject: object,
 }
 
 function makeHandlerAwareOfAsyncErrors(handler: any) {
-
     return async function(request: Request, response: Response, next: NextFunction) {
-        
             try {
                 await handler(request, response, next);
             } 
@@ -73,15 +74,11 @@ export class PackiGeneratingController implements ControllerType {
     };
     
     private getPackiPackageGeneration = async (request: Request, response: Response) => {
-    
         const queryParams = {};
         const parts = request.path.split('/');
         productionApi.prepareProduction('package', parts[2], parts.slice(3).join('/'), '', {}).then((packageProductionSet: any) => 
-        
             wizziProds.executeJobs(packageProductionSet.packiFiles, packageProductionSet.context).then((fsJson: any) => {
-            
                 wizziFactory.extractGeneratedFiles(fsJson).then((packiFiles) => {
-                
                     const user = (request.session as any).user;
                     const loggedUser = {
                         id: user._id, 
@@ -105,7 +102,6 @@ export class PackiGeneratingController implements ControllerType {
                 }
                 )
                 .catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     sendFailure(response, {
@@ -115,7 +111,6 @@ export class PackiGeneratingController implements ControllerType {
                 )
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 sendFailure(response, {
@@ -125,7 +120,6 @@ export class PackiGeneratingController implements ControllerType {
             )
         
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {
@@ -137,22 +131,17 @@ export class PackiGeneratingController implements ControllerType {
     ;
     
     private getPackiMetaGeneration = async (request: Request, response: Response) => {
-    
         const queryParams = {};
         const parts = request.path.split('/');
     }
     ;
     
     private getPackiPluginGeneration = async (request: Request, response: Response) => {
-    
         const queryParams = {};
         const parts = request.path.split('/');
         productionApi.prepareProduction('plugin', parts[2], parts.slice(3).join('/'), '', {}).then((packageProductionSet: any) => 
-        
             wizziProds.executeJobs(packageProductionSet.packiFiles, packageProductionSet.context).then((fsJson: any) => {
-            
                 wizziFactory.extractGeneratedFiles(fsJson).then((packiFiles) => {
-                
                     const user = (request.session as any).user;
                     const loggedUser = {
                         id: user._id, 
@@ -176,7 +165,6 @@ export class PackiGeneratingController implements ControllerType {
                 }
                 )
                 .catch((err: any) => {
-                
                     if (typeof err === 'object' && err !== null) {
                     }
                     sendFailure(response, {
@@ -186,7 +174,6 @@ export class PackiGeneratingController implements ControllerType {
                 )
             }
             ).catch((err: any) => {
-            
                 if (typeof err === 'object' && err !== null) {
                 }
                 sendFailure(response, {
@@ -196,7 +183,6 @@ export class PackiGeneratingController implements ControllerType {
             )
         
         ).catch((err: any) => {
-        
             if (typeof err === 'object' && err !== null) {
             }
             sendFailure(response, {

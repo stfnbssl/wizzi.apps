@@ -1,12 +1,15 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\features\packiProductions\utils.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import {packiTypes} from '../packi';
-export function createInitialPackiFiles(contexts: string, tfolders: string, wizziSchema: string, mainIttf: string) {
-
+export function createInitialPackiFiles(
+    contexts: string, 
+    tfolders: string, 
+    wizziSchema: string, 
+    mainIttf: string) {
     const packiFiles: packiTypes.PackiFiles = {};
     if (wizziSchema && mainIttf) {
         packiFiles[mainIttf] = {
@@ -21,7 +24,6 @@ export function createInitialPackiFiles(contexts: string, tfolders: string, wizz
     return packiFiles;
 }
 export function createPackiConfigContents(contexts: string, tfolders: string) {
-
     const tfoldersObj = JSON.parse(tfolders || '[]');
     const contextsObj = JSON.parse(contexts || '[]');
     const sb = [];
@@ -44,7 +46,6 @@ export function createPackiConfigContents(contexts: string, tfolders: string) {
     return sb.join('\n');
 }
 export function mergePackiFiles(a: any, b: any) {
-
     var ret: any = {};
     for (var k in a) {
         ret[k] = a[k];

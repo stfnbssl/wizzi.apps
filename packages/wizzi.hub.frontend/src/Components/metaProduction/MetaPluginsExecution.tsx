@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\Components\metaProduction\MetaPluginsExecution.tsx.ittf
-    utc time: Wed, 31 Jul 2024 14:56:16 GMT
+    utc time: Wed, 07 Aug 2024 13:02:16 GMT
 */
 import React, {useState, useEffect} from "react";
 import * as wizziMetaApi from '@/Api/wizziMetaApi';
@@ -24,7 +24,7 @@ type MetaPluginsExecutionProps = {
     setAppState: React.Dispatch<React.SetStateAction<AppState|null>>;
     metaSelectionState: MetaSelectionState;
 };
-function startMetaPluginsExecution(selectedMetaProductions: StringKeyedObject[], selectedMetaPlugins: StringKeyedObject[]) {
+function startMetaPluginsExecution(selectedMetaProductions: StringKeyedObject[], selectedMetaPlugins: StringKeyedObject[], appState: AppState) {
     let [allIndexParameters, setAllIndexParameters] = useState<{[productionName: string]: ParameterItem[];}|null>(null);
     let [metaCtx, setMetaCtx] = useState<StringKeyedObject>({});
     let [error, setError] = useState(null);
@@ -44,7 +44,8 @@ function startMetaPluginsExecution(selectedMetaProductions: StringKeyedObject[],
                 const allParameters = extractAllParameters(metaParameters);
                 console.log('Components.metaproduction.MetaPluginsExecution.startMetaPluginsExecution.allParameters', allParameters);
                 setAllIndexParameters(allParameters.indexParameters)
-                setMetaCtx(allParameters.indexInitialValues)
+                console.log('Components.metaproduction.MetaPluginsExecution.startMetaPluginsExecution.appState.currentJob?.__metaCtx?.json', appState.currentJob?.__metaCtx?.json);
+                setMetaCtx(appState.currentJob?.__metaCtx?.json || allParameters.indexInitialValues)
             }
             ).catch((error: any) => {
                 setError(error)
@@ -118,7 +119,7 @@ export function MetaPluginsExecution(props: MetaPluginsExecutionProps) {
         metaCtx, 
         setMetaCtx, 
         metaParametersError
-     } = startMetaPluginsExecution(prodSel.getSelected(), pluginSel.getSelected());
+     } = startMetaPluginsExecution(prodSel.getSelected(), pluginSel.getSelected(), appState);
     if (metaParametersError) {
         return  (
             <ErrorView error={metaParametersError} />

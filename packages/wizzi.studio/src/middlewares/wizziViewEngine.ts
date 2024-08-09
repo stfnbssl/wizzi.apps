@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\middlewares\wizziViewEngine.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 import {Application} from 'express';
@@ -11,9 +11,7 @@ import {config} from '../features/config';
 import {wizziProds} from '../features/wizzi';
 import stringify from 'json-stringify-safe';
 export const WizziViewEngineMiddleware: MiddlewareType = (app: Application) => {
-
     app.engine('ittf', async function(filePath: string, options: any, callback: any) {
-    
         try {
             const twinJsonContext = await wizziProds.inferAndLoadContextFs(filePath, 'wzCtx');
             var optionsLocals = Object.assign({}, options._locals, {
@@ -34,11 +32,9 @@ export const WizziViewEngineMiddleware: MiddlewareType = (app: Application) => {
             console.log('WizziViewEngineMiddleware.filePath', filePath);
             console.log('WizziViewEngineMiddleware.options', Object.keys(options));
             wizziProds.generateArtifactFs(filePath, context).then((generated) => {
-            
                 return callback(null, generated.artifactContent);
             }
             ).catch((err) => {
-            
                 console.log("[31m%s[0m", 'WizziViewEngineMiddleware. wizziProds.generateArtifactFs error', err);
                 return callback(stringify(err, null, 4));
             }

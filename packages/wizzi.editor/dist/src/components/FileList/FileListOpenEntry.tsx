@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListOpenEntry.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -86,29 +86,17 @@ class FileListOpenEntry extends React.PureComponent<Props, State> {
          } = this.props;
         const displayName = entry.item.path.split('/').pop();
         return  (
-            <li 
-                ref={this._item}
+            <li ref={this._item}
                 tabIndex={-1}
-                className={css(styles.item, entry.state.isFocused
-                     && ((theme === 'dark' ? styles.focusedDark : styles.focusedLight)))}
+                className={css(styles.item, entry.state.isFocused && ((theme === 'dark' ? styles.focusedDark : styles.focusedLight)))}
                 onMouseEnter={this._handleMouseEnter}
                 onMouseLeave={this._handleMouseLeave}
             >
-                <button
-                 onClick={this.props.onClose} className={css(styles.close, this.state.isHovered ? styles.closeFocused : styles.closeBlurred)}>
-                    ×
-                </button>
-                <div
-                 onClick={this.props.onOpen}>
-                    <FileListEntryIcon
-                     entry={entry} />
-                    <span
-                     className={css(styles.label, entry.state.isError ? styles.labelError : undefined)}>
-                        {displayName}
-                    </span>
-                </div>
-                <ContextMenu 
-                    ref={this._menu}
+                <button onClick={this.props.onClose} className={css(styles.close, this.state.isHovered ? styles.closeFocused : styles.closeBlurred)}>×</button>
+                <div onClick={this.props.onOpen}>
+                    <FileListEntryIcon entry={entry} />
+                    <span className={css(styles.label, entry.state.isError ? styles.labelError : undefined)}>{displayName}</span></div>
+                <ContextMenu ref={this._menu}
                     visible={Boolean(this.state.menu)}
                     position={this.state.menu}
                     actions={[

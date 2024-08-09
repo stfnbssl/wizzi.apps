@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.editor\.wizzi\src\components\FileList\FileListPane.tsx.ittf
-    utc time: Thu, 11 Apr 2024 13:23:20 GMT
+    utc time: Fri, 09 Aug 2024 15:52:24 GMT
 */
 import {StyleSheet, css} from 'aphrodite';
 import * as React from 'react';
@@ -22,41 +22,30 @@ export default function FileListPane({
         onClick, 
         className
      }: Props) {
-    
         return  (
-            <div
-             className={`${className ?? ''} ${css(styles.container)}`}>
-                <div
-                 className={css(styles.header)}>
-                    <div
-                     className={css(styles.left)} onClick={onClick} data-test-id={`file-list-pane-${title.toLowerCase().replace(/[^a-z]/g, '-')}`}>
-                        <svg 
-                            className={css(styles.collapse, expanded ? styles.collapseExpanded : styles.collapseCollapsed)}
+            <div className={`${className ?? ''} ${css(styles.container)}`}>
+                <div className={css(styles.header)}>
+                    <div className={css(styles.left)} onClick={onClick} data-test-id={`file-list-pane-${title.toLowerCase().replace(/[^a-z]/g, '-')}`}>
+                        <svg className={css(styles.collapse, expanded ? styles.collapseExpanded : styles.collapseCollapsed)}
                             width="12px"
                             height="12px"
                             viewBox="0 0 12 12"
                         >
-                            <g 
-                                stroke="none"
+                            <g stroke="none"
                                 strokeWidth="2"
                                 fill="none"
                                 fillRule="evenodd"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                             >
-                                <polyline
-                                 stroke="currentColor" transform="translate(6.000000, 6.000000) scale(-1, 1) rotate(180.000000) translate(-6.000000, -6.000000) " points="2 4 6 8 10 4" />
+                                <polyline stroke="currentColor" transform="translate(6.000000, 6.000000) scale(-1, 1) rotate(180.000000) translate(-6.000000, -6.000000) " points="2 4 6 8 10 4" />
                             </g>
                         </svg>
-                        <h4
-                         className={css(styles.label)}>
-                            {title}
-                        </h4>
+                        <h4 className={css(styles.label)}>
+                            {title}</h4>
                     </div>
-                    <div
-                     className={css(styles.right)}>
-                        {buttons}
-                    </div>
+                    <div className={css(styles.right)}>
+                        {buttons}</div>
                 </div>
                 {
                     expanded ? children : null

@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
-    package: wizzi.plugin.ts@
+    package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.studio\.wizzi-override\src\utils\scripts\scriptManager.ts.ittf
-    utc time: Thu, 11 Apr 2024 13:29:18 GMT
+    utc time: Mon, 05 Aug 2024 15:53:32 GMT
 */
 import path from 'path';
 import util from 'util';
@@ -34,8 +34,7 @@ type ScriptOptions = {
     shell?: boolean;
     __response?: any;
 };
-async function spawnExec(options: ScriptOptions) {
-
+export async function spawnExec(options: ScriptOptions) {
     var response = options.__response;
     if (response) {
         response.writeHead(200, {
@@ -49,7 +48,6 @@ async function spawnExec(options: ScriptOptions) {
         responseEnded = false,
         sentCallback = false;
     return new Promise((resolve, reject) => {
-        
             try {
                 var spw = cp.spawn(options.command, options.args, {
                     cwd: options.cwd, 
@@ -64,7 +62,6 @@ async function spawnExec(options: ScriptOptions) {
                     windowsHide: false
                  });
                 spw.stdout.on('data', function(data) {
-                
                     temp = data.toString();
                     console.log(temp, __filename);
                     stdout.push(temp);
@@ -83,7 +80,6 @@ async function spawnExec(options: ScriptOptions) {
                     }
                 })
                 spw.on('close', function(code) {
-                
                     console.log("close", code, __filename);
                     if (response && !responseEnded) {
                         response.write('data: ***___CLOSE___***\n\n');
@@ -99,7 +95,6 @@ async function spawnExec(options: ScriptOptions) {
                     }
                 })
                 spw.stderr.on('data', function(data) {
-                
                     temp = data.toString();
                     console.log("stderr:", temp, __filename);
                     if (response && !responseEnded) {
@@ -134,13 +129,12 @@ async function spawnExec(options: ScriptOptions) {
         }
         );
 }
-async function spawnExecToEventStream(options: ScriptOptions, response: any) {
 
+export async function spawnExecToEventStream(options: ScriptOptions, response: any) {
     options.__response = response;
     return spawnExec(options);
 }
-async function nodeJsExec(options: ScriptOptions) {
-
+export async function nodeJsExec(options: ScriptOptions) {
     var scriptPath = options.scriptPath;
     var scriptArgs = options.args;
     var args = [path.basename(scriptPath)];
@@ -153,8 +147,7 @@ async function nodeJsExec(options: ScriptOptions) {
             args: args
          });
 }
-async function nodeJsExecToEventStream(options: ScriptOptions, response: any) {
-
+export async function nodeJsExecToEventStream(options: ScriptOptions, response: any) {
     var scriptPath = options.scriptPath;
     var scriptArgs = options.args;
     var args = [path.basename(scriptPath)];
@@ -167,9 +160,3 @@ async function nodeJsExecToEventStream(options: ScriptOptions, response: any) {
         args: args
      }, response)
 }
-export {
-    spawnExec, 
-    spawnExecToEventStream, 
-    nodeJsExec, 
-    nodeJsExecToEventStream
- }

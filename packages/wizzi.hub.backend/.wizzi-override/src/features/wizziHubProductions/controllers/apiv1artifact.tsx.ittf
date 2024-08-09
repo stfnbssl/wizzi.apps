@@ -82,9 +82,9 @@ module
                 log 'putArtifact.request.body', Object.keys(request.body)
                 rest/check-params( )
                     rest/not-undefined( body , packiFiles )
-                    rest/not-undefined( body , options )
+                    rest/optional( body , options )
                 log 'putArtifact.request.body.packiFiles', Object.keys(packiFiles)
-                if options.wizzify
+                if options && options.wizzify
                     _ wizziProds.wizzify
                         @ packiFiles
                         ._ then
@@ -98,7 +98,7 @@ module
                                         @ response
                                         @ resultPackiFiles
                         v08/ts/catch_send_fail( putArtifact.wizzify )
-                elif options.merge
+                elif options && options.merge
                     rest/check-params( )
                         rest/not-undefined( params , id )
                     _ getArtifactProductionObjectById

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.frontend\.wizzi-override\src\RouterApp.tsx.ittf
-    utc time: Wed, 31 Jul 2024 14:56:16 GMT
+    utc time: Wed, 07 Aug 2024 13:02:16 GMT
 */
 import React from 'react';
 import {Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
@@ -12,7 +12,7 @@ import PageTwo from '@/Pages/Two';
 import PageThree from '@/Pages/Three';
 import PageFour from '@/Pages/Four';
 const router = createBrowserRouter(createRoutesFromElements(
-<Route path="/">
+<Route path="/public/meta">
     <Route index element={ (
         <Home />
         )
