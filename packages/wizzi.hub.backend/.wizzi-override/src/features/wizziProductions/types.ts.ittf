@@ -231,10 +231,10 @@ module
                 :p storeKind
                     :ref wizzi.StoreKind
                     :optional
-                :p wfjobName
+                :p wzjobName
                     :string
                     :optional
-                :p wfjobIttfDocumentUri
+                :p wzjobIttfDocumentUri
                     :string
                 :p globalContext
                     :any

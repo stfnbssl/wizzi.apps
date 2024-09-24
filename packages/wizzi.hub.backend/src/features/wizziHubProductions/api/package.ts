@@ -2,11 +2,11 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\features\wizziHubProductions\api\package.ts.ittf
-    utc time: Fri, 09 Aug 2024 16:10:15 GMT
+    utc time: Mon, 12 Aug 2024 07:40:25 GMT
 */
 import NodeCache from 'node-cache';
 import {ValidateResult, CRUDResult} from '#/src/features/types';
-import {packiTypes} from '#/src/features/packi';
+import {packiTypes, packiConstants} from '#/src/features/packi';
 import {config} from '#/src/features/config';
 import {wizziProds} from '#/src/features/wizziProductions';
 import {GetPackageProductionModel} from '../mongo/package';
@@ -217,27 +217,25 @@ export async function getPackageProductionObjectById(id: string, loadPackiConfig
 }
 async function _createPackageProductionObject(pp: IPackageProductionModel, loadPackiConfig?: boolean):  Promise<PackiProductionObject> {
     
-    return new Promise(// TODO config.packiConfigPath shoul become constants.packiConfigPath
-        (resolve, reject) => {
+    return new Promise((resolve, reject) => {
             const pp_packiFiles_object: packiTypes.PackiFiles = JSON.parse(pp.packiFiles);
             const obj = {
                 ...pp._doc, 
                 packiFiles: pp_packiFiles_object, 
                 _id: pp._id.toString(), 
                 packiProduction: "PackageProduction", 
-                packiConfig: pp_packiFiles_object[config.packiConfigPath], 
+                packiConfig: pp_packiFiles_object[packiConstants.packiConfigPath], 
                 packiConfigObj: null
              };
             
-            // TODO config.packiConfigPath shoul become constants.packiConfigPath
             if (loadPackiConfig) {
                 if (!obj.packiConfig) {
                     return reject({
-                            message: 'Missing file ' + config.packiConfigPath + ' in PackageProduction'
+                            message: 'Missing file ' + packiConstants.packiConfigPath + ' in PackageProduction'
                          });
                 }
-                wizziProds.generateArtifact(config.packiConfigPath, {
-                    [config.packiConfigPath]: {
+                wizziProds.generateArtifact(packiConstants.packiConfigPath, {
+                    [packiConstants.packiConfigPath]: {
                         type: obj.packiConfig.type, 
                         contents: obj.packiConfig.contents
                      }

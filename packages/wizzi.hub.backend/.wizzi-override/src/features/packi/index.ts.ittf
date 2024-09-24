@@ -12,6 +12,9 @@ module
         as packiTypes
         from './types'
     import
+        as packiConstants
+        from './constants'
+    import
         @ PackiBuilder
         from './api/PackiBuilder'
     import
@@ -57,6 +60,7 @@ module
             @ generate
     export
         @ packiTypes
+        @ packiConstants
         @ PackiBuilder
         @ packiApi
         $if wzCtx.Build.useExpress

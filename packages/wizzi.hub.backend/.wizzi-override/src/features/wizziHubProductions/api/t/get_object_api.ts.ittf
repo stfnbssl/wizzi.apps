@@ -80,27 +80,25 @@ $group
             const ${md.prefix}_packiFiles_object
                 :ref packiTypes.PackiFiles
                 _ JSON.parse(${md.prefix}.packiFiles)
-            # TODO config.packiConfigPath shoul become constants.packiConfigPath
             const obj
                 {
                     @ ...${md.prefix}._doc
                     @ packiFiles ${md.prefix}_packiFiles_object
                     @ _id ${md.prefix}._id.toString()
                     @ packiProduction "${md.Name}"
-                    @ packiConfig ${md.prefix}_packiFiles_object[config.packiConfigPath]
+                    @ packiConfig ${md.prefix}_packiFiles_object[packiConstants.packiConfigPath]
                     @ packiConfigObj null
             +
             if loadPackiConfig
-                # TODO config.packiConfigPath shoul become constants.packiConfigPath
                 if !obj.packiConfig
                     return
                         _ reject
                             {
-                                @ message 'Missing file ' + config.packiConfigPath + ' in ${md.Name}'
+                                @ message 'Missing file ' + packiConstants.packiConfigPath + ' in ${md.Name}'
                 _ wizziProds.generateArtifact
-                    @ config.packiConfigPath
+                    @ packiConstants.packiConfigPath
                     {
-                        { [config.packiConfigPath]
+                        { [packiConstants.packiConfigPath]
                             @ type obj.packiConfig.type
                             @ contents obj.packiConfig.contents
                     {

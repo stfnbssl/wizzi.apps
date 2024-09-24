@@ -24,6 +24,9 @@ html
                     p In the Packi Editor the '$' ITTF Command must be followed by a space otherwise sinthax highlighting does not work correctly.
                     
                     h1 Core
+
+                    p setCtxScript, setCtxDep and setCtxDevDep can be disrupteg by defininig a `version` variable
+                        \b on the ittfDocumed. Prefix setCtxxxx variable with strange symbols es. `__sys__`
                     
                     p In wizzi.WizziFactory.generateFolderArtifacts error callbacks should report the file path on which error occurred.
                     

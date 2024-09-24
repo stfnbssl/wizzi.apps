@@ -1200,7 +1200,7 @@ async function metaGenerate(metaCtx, factoryPlugins, metaPlugins, globalContext)
     }
   );
 }
-async function executeJob(wfjobFilePath, packiFiles, context) {
+async function executeJob(wzjobFilePath, packiFiles, context) {
   return new Promise(
     async (resolve2, reject) => {
       if (!import_utils2.verify.isObject(packiFiles)) {
@@ -1210,12 +1210,12 @@ async function executeJob(wfjobFilePath, packiFiles, context) {
           packiFiles
         });
       }
-      wfjobFilePath = ensurePackiFilePrefix(wfjobFilePath);
+      wzjobFilePath = ensurePackiFilePrefix(wzjobFilePath);
       const jsonwf = await createJsonFsAndFactory(packiFiles);
       jsonwf.wf.executeJob(
         {
           name: "",
-          path: wfjobFilePath,
+          path: wzjobFilePath,
           productionOptions: {},
           globalContext: context || {}
         },
@@ -1233,19 +1233,19 @@ async function executeJobs(packiFiles, context) {
   return new Promise(
     // TODO catch error
     async (resolve2, reject) => {
-      const wfjobFilePaths = Object.keys(packiFiles).filter(
-        (k) => k.endsWith(".wfjob.ittf")
+      const wzjobFilePaths = Object.keys(packiFiles).filter(
+        (k) => k.endsWith(".wzjob.ittf")
       );
       const jsonwf = await createJsonFsAndFactory(packiFiles);
       const execJob = (index) => {
-        let wfjobFilePath = wfjobFilePaths[index];
-        if (!wfjobFilePath) {
+        let wzjobFilePath = wzjobFilePaths[index];
+        if (!wzjobFilePath) {
           return resolve2(jsonwf.jsonFs);
         }
         jsonwf.wf.executeJob(
           {
-            name: "job: " + wfjobFilePath,
-            path: ensurePackiFilePrefix(wfjobFilePath),
+            name: "job: " + wzjobFilePath,
+            path: ensurePackiFilePrefix(wzjobFilePath),
             productionOptions: {},
             globalContext: context || {}
           },
@@ -1279,11 +1279,11 @@ async function executeJobFs(request) {
           plugins.push("wizzi-core");
         }
         const wf = await createFilesystemFactoryWithParameters(request.pluginsBaseFolder, plugins, globalContext);
-        console.log("STARTING WIZZI JOB", request.wfjobIttfDocumentUri);
+        console.log("STARTING WIZZI JOB", request.wzjobIttfDocumentUri);
         wf.executeJob(
           {
-            name: request.wfjobName || import_path2.default.basename(request.wfjobIttfDocumentUri),
-            path: request.wfjobIttfDocumentUri,
+            name: request.wzjobName || import_path2.default.basename(request.wzjobIttfDocumentUri),
+            path: request.wzjobIttfDocumentUri,
             productionOptions: {},
             globalContext
           },
@@ -1294,7 +1294,7 @@ async function executeJobFs(request) {
                 err: {}
               });
             }
-            console.log("\x1B[32m%s\x1B[0m", "WIZZI JOB Executed", request.wfjobIttfDocumentUri);
+            console.log("\x1B[32m%s\x1B[0m", "WIZZI JOB Executed", request.wzjobIttfDocumentUri);
             return resolve2(result);
           }
         );
@@ -2713,6 +2713,15 @@ __export(meta_exports, {
   validateMetaProduction: () => validateMetaProduction
 });
 
+// src/features/packi/constants.ts
+var constants_exports = {};
+__export(constants_exports, {
+  default: () => constants_default
+});
+var constants_default = {
+  packiConfigPath: ".packi/config.json.ittf"
+};
+
 // src/features/packi/api/PackiBuilder.ts
 var import_diff_match_patch = __toESM(require("diff-match-patch"));
 var PackiBuilder = class {
@@ -3870,7 +3879,6 @@ async function getMetaProductionObjectById(id, loadPackiConfig) {
 }
 async function _createMetaProductionObject(mp, loadPackiConfig) {
   return new Promise(
-    // TODO config.packiConfigPath shoul become constants.packiConfigPath
     (resolve2, reject) => {
       const mp_packiFiles_object = JSON.parse(mp.packiFiles);
       const obj = {
@@ -3878,17 +3886,17 @@ async function _createMetaProductionObject(mp, loadPackiConfig) {
         packiFiles: mp_packiFiles_object,
         _id: mp._id.toString(),
         packiProduction: "MetaProduction",
-        packiConfig: mp_packiFiles_object[config2.packiConfigPath],
+        packiConfig: mp_packiFiles_object[constants_exports.packiConfigPath],
         packiConfigObj: null
       };
       if (loadPackiConfig) {
         if (!obj.packiConfig) {
           return reject({
-            message: "Missing file " + config2.packiConfigPath + " in MetaProduction"
+            message: "Missing file " + constants_exports.packiConfigPath + " in MetaProduction"
           });
         }
-        productions_exports.generateArtifact(config2.packiConfigPath, {
-          [config2.packiConfigPath]: {
+        productions_exports.generateArtifact(constants_exports.packiConfigPath, {
+          [constants_exports.packiConfigPath]: {
             type: obj.packiConfig.type,
             contents: obj.packiConfig.contents
           }
@@ -4429,7 +4437,6 @@ async function getArtifactProductionObjectById(id, loadPackiConfig) {
 }
 async function _createArtifactProductionObject(ap, loadPackiConfig) {
   return new Promise(
-    // TODO config.packiConfigPath shoul become constants.packiConfigPath
     (resolve2, reject) => {
       const ap_packiFiles_object = JSON.parse(ap.packiFiles);
       const obj = {
@@ -4437,17 +4444,17 @@ async function _createArtifactProductionObject(ap, loadPackiConfig) {
         packiFiles: ap_packiFiles_object,
         _id: ap._id.toString(),
         packiProduction: "ArtifactProduction",
-        packiConfig: ap_packiFiles_object[config2.packiConfigPath],
+        packiConfig: ap_packiFiles_object[constants_exports.packiConfigPath],
         packiConfigObj: null
       };
       if (loadPackiConfig) {
         if (!obj.packiConfig) {
           return reject({
-            message: "Missing file " + config2.packiConfigPath + " in ArtifactProduction"
+            message: "Missing file " + constants_exports.packiConfigPath + " in ArtifactProduction"
           });
         }
-        productions_exports.generateArtifact(config2.packiConfigPath, {
-          [config2.packiConfigPath]: {
+        productions_exports.generateArtifact(constants_exports.packiConfigPath, {
+          [constants_exports.packiConfigPath]: {
             type: obj.packiConfig.type,
             contents: obj.packiConfig.contents
           }
@@ -5860,7 +5867,6 @@ async function getPackageProductionObjectById(id, loadPackiConfig) {
 }
 async function _createPackageProductionObject(pp, loadPackiConfig) {
   return new Promise(
-    // TODO config.packiConfigPath shoul become constants.packiConfigPath
     (resolve2, reject) => {
       const pp_packiFiles_object = JSON.parse(pp.packiFiles);
       const obj = {
@@ -5868,17 +5874,17 @@ async function _createPackageProductionObject(pp, loadPackiConfig) {
         packiFiles: pp_packiFiles_object,
         _id: pp._id.toString(),
         packiProduction: "PackageProduction",
-        packiConfig: pp_packiFiles_object[config2.packiConfigPath],
+        packiConfig: pp_packiFiles_object[constants_exports.packiConfigPath],
         packiConfigObj: null
       };
       if (loadPackiConfig) {
         if (!obj.packiConfig) {
           return reject({
-            message: "Missing file " + config2.packiConfigPath + " in PackageProduction"
+            message: "Missing file " + constants_exports.packiConfigPath + " in PackageProduction"
           });
         }
-        productions_exports.generateArtifact(config2.packiConfigPath, {
-          [config2.packiConfigPath]: {
+        productions_exports.generateArtifact(constants_exports.packiConfigPath, {
+          [constants_exports.packiConfigPath]: {
             type: obj.packiConfig.type,
             contents: obj.packiConfig.contents
           }
@@ -6919,7 +6925,6 @@ async function getPluginProductionObjectById(id, loadPackiConfig) {
 }
 async function _createPluginProductionObject(lp, loadPackiConfig) {
   return new Promise(
-    // TODO config.packiConfigPath shoul become constants.packiConfigPath
     (resolve2, reject) => {
       const lp_packiFiles_object = JSON.parse(lp.packiFiles);
       const obj = {
@@ -6927,17 +6932,17 @@ async function _createPluginProductionObject(lp, loadPackiConfig) {
         packiFiles: lp_packiFiles_object,
         _id: lp._id.toString(),
         packiProduction: "PluginProduction",
-        packiConfig: lp_packiFiles_object[config2.packiConfigPath],
+        packiConfig: lp_packiFiles_object[constants_exports.packiConfigPath],
         packiConfigObj: null
       };
       if (loadPackiConfig) {
         if (!obj.packiConfig) {
           return reject({
-            message: "Missing file " + config2.packiConfigPath + " in PluginProduction"
+            message: "Missing file " + constants_exports.packiConfigPath + " in PluginProduction"
           });
         }
-        productions_exports.generateArtifact(config2.packiConfigPath, {
-          [config2.packiConfigPath]: {
+        productions_exports.generateArtifact(constants_exports.packiConfigPath, {
+          [constants_exports.packiConfigPath]: {
             type: obj.packiConfig.type,
             contents: obj.packiConfig.contents
           }
@@ -8362,7 +8367,6 @@ async function getTFolderProductionObjectById(id, loadPackiConfig) {
 }
 async function _createTFolderProductionObject(tf, loadPackiConfig) {
   return new Promise(
-    // TODO config.packiConfigPath shoul become constants.packiConfigPath
     (resolve2, reject) => {
       const tf_packiFiles_object = JSON.parse(tf.packiFiles);
       const obj = {
@@ -8370,17 +8374,17 @@ async function _createTFolderProductionObject(tf, loadPackiConfig) {
         packiFiles: tf_packiFiles_object,
         _id: tf._id.toString(),
         packiProduction: "TFolderProduction",
-        packiConfig: tf_packiFiles_object[config2.packiConfigPath],
+        packiConfig: tf_packiFiles_object[constants_exports.packiConfigPath],
         packiConfigObj: null
       };
       if (loadPackiConfig) {
         if (!obj.packiConfig) {
           return reject({
-            message: "Missing file " + config2.packiConfigPath + " in TFolderProduction"
+            message: "Missing file " + constants_exports.packiConfigPath + " in TFolderProduction"
           });
         }
-        productions_exports.generateArtifact(config2.packiConfigPath, {
-          [config2.packiConfigPath]: {
+        productions_exports.generateArtifact(constants_exports.packiConfigPath, {
+          [constants_exports.packiConfigPath]: {
             type: obj.packiConfig.type,
             contents: obj.packiConfig.contents
           }
@@ -9143,7 +9147,6 @@ async function getJobProductionObjectById(id, loadPackiConfig) {
 }
 async function _createJobProductionObject(job, loadPackiConfig) {
   return new Promise(
-    // TODO config.packiConfigPath shoul become constants.packiConfigPath
     (resolve2, reject) => {
       const job_packiFiles_object = JSON.parse(job.packiFiles);
       const obj = {
@@ -9151,17 +9154,17 @@ async function _createJobProductionObject(job, loadPackiConfig) {
         packiFiles: job_packiFiles_object,
         _id: job._id.toString(),
         packiProduction: "JobProduction",
-        packiConfig: job_packiFiles_object[config2.packiConfigPath],
+        packiConfig: job_packiFiles_object[constants_exports.packiConfigPath],
         packiConfigObj: null
       };
       if (loadPackiConfig) {
         if (!obj.packiConfig) {
           return reject({
-            message: "Missing file " + config2.packiConfigPath + " in JobProduction"
+            message: "Missing file " + constants_exports.packiConfigPath + " in JobProduction"
           });
         }
-        productions_exports.generateArtifact(config2.packiConfigPath, {
-          [config2.packiConfigPath]: {
+        productions_exports.generateArtifact(constants_exports.packiConfigPath, {
+          [constants_exports.packiConfigPath]: {
             type: obj.packiConfig.type,
             contents: obj.packiConfig.contents
           }
@@ -10064,18 +10067,18 @@ __export(production_exports, {
   prepareProduction: () => prepareProduction,
   prepareProductionById: () => prepareProductionById
 });
-var myname9 = "features.packiProductions.api.production";
-function transformProductionObject(packiProduction, productionObject) {
-  productionObject.packiProduction = packiProduction;
-  productionObject.packiConfig = productionObject.packiFiles[config2.packiConfigPath];
+var myname9 = "features.wizziHubProductions.api.production";
+function transformProductionObject(productionType, productionObject) {
+  productionObject.packiProduction = productionType;
+  productionObject.packiConfig = productionObject.packiFiles[constants_exports.packiConfigPath];
   if (!productionObject.packiConfig) {
   }
   return productionObject;
 }
-async function getProductionById(packiProduction, id) {
+async function getProductionById(productionType, id) {
   return new Promise(
     (resolve2, reject) => {
-      if (packiProduction == "artifact") {
+      if (productionType == "artifact") {
         getArtifactProductionById(id).then(
           (result) => {
             if (result.ok) {
@@ -10088,11 +10091,11 @@ async function getProductionById(packiProduction, id) {
           (err) => {
             if (typeof err === "object" && err !== null) {
             }
-            console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.getProductionById.getArtifactProductionById.error", err);
+            console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.getProductionById.getArtifactProductionById.error", err);
             return reject(err);
           }
         );
-      } else if (packiProduction == "package") {
+      } else if (productionType == "package") {
         getPackageProductionById(id).then(
           (result) => {
             if (result.ok) {
@@ -10105,11 +10108,11 @@ async function getProductionById(packiProduction, id) {
           (err) => {
             if (typeof err === "object" && err !== null) {
             }
-            console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.getProductionById.getPackageProductionById.error", err);
+            console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.getProductionById.getPackageProductionById.error", err);
             return reject(err);
           }
         );
-      } else if (packiProduction == "meta") {
+      } else if (productionType == "meta") {
         getMetaProductionById(id).then(
           (result) => {
             if (result.ok) {
@@ -10122,11 +10125,11 @@ async function getProductionById(packiProduction, id) {
           (err) => {
             if (typeof err === "object" && err !== null) {
             }
-            console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.getProductionById.getMetaProductionById.error", err);
+            console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.getProductionById.getMetaProductionById.error", err);
             return reject(err);
           }
         );
-      } else if (packiProduction == "plugin") {
+      } else if (productionType == "plugin") {
         getPluginProductionById(id).then(
           (result) => {
             if (result.ok) {
@@ -10139,11 +10142,11 @@ async function getProductionById(packiProduction, id) {
           (err) => {
             if (typeof err === "object" && err !== null) {
             }
-            console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.getProductionById.getPluginProductionById.error", err);
+            console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.getProductionById.getPluginProductionById.error", err);
             return reject(err);
           }
         );
-      } else if (packiProduction == "tfolder") {
+      } else if (productionType == "tfolder") {
         getTFolderProductionById(id).then(
           (result) => {
             if (result.ok) {
@@ -10156,90 +10159,90 @@ async function getProductionById(packiProduction, id) {
           (err) => {
             if (typeof err === "object" && err !== null) {
             }
-            console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.getProductionById.getTFolderProductionById.error", err);
+            console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.getProductionById.getTFolderProductionById.error", err);
             return reject(err);
           }
         );
       } else {
-        throw new Error("features.packiProductions.api.production.getProductionById: packiProduction " + packiProduction + " not implemented");
+        throw new Error("features.wizziHubProductions.api.production.getProductionById: productionType " + productionType + " not implemented");
       }
     }
   );
 }
-async function getProductionObject(packiProduction, owner, name2) {
+async function getProductionObject(productionType, owner, name2) {
   return new Promise(
     (resolve2, reject) => {
-      if (packiProduction == "artifact") {
+      if (productionType == "artifact") {
         getArtifactProductionObject(owner, name2).then(
-          (productionObject) => resolve2(transformProductionObject(packiProduction, productionObject))
+          (productionObject) => resolve2(transformProductionObject(productionType, productionObject))
         ).catch(
           (err) => {
             if (typeof err === "object" && err !== null) {
             }
-            console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.getProductionObject.getArtifactProductionObject.error", err);
+            console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.getProductionObject.getArtifactProductionObject.error", err);
             return reject(err);
           }
         );
-      } else if (packiProduction == "package") {
+      } else if (productionType == "package") {
         getPackageProductionObject(owner, name2).then(
-          (productionObject) => resolve2(transformProductionObject(packiProduction, productionObject))
+          (productionObject) => resolve2(transformProductionObject(productionType, productionObject))
         ).catch(
           (err) => {
             if (typeof err === "object" && err !== null) {
             }
-            console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.getProductionObject.getPackageProductionObject.error", err);
+            console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.getProductionObject.getPackageProductionObject.error", err);
             return reject(err);
           }
         );
-      } else if (packiProduction == "meta") {
+      } else if (productionType == "meta") {
         getMetaProductionObject(owner, name2).then(
-          (productionObject) => resolve2(transformProductionObject(packiProduction, productionObject))
+          (productionObject) => resolve2(transformProductionObject(productionType, productionObject))
         ).catch(
           (err) => {
             if (typeof err === "object" && err !== null) {
             }
-            console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.getProductionObject.getMetaProductionObject.error", err);
+            console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.getProductionObject.getMetaProductionObject.error", err);
             return reject(err);
           }
         );
-      } else if (packiProduction == "plugin") {
+      } else if (productionType == "plugin") {
         getPluginProductionObject(owner, name2).then(
-          (productionObject) => resolve2(transformProductionObject(packiProduction, productionObject))
+          (productionObject) => resolve2(transformProductionObject(productionType, productionObject))
         ).catch(
           (err) => {
             if (typeof err === "object" && err !== null) {
             }
-            console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.getProductionObject.getPluginProductionObject.error", err);
+            console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.getProductionObject.getPluginProductionObject.error", err);
             return reject(err);
           }
         );
-      } else if (packiProduction == "tfolder") {
+      } else if (productionType == "tfolder") {
         getTFolderProductionObject(owner, name2).then(
-          (productionObject) => resolve2(transformProductionObject(packiProduction, productionObject))
+          (productionObject) => resolve2(transformProductionObject(productionType, productionObject))
         ).catch(
           (err) => {
             if (typeof err === "object" && err !== null) {
             }
-            console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.getProductionObject.getTFolderObject.error", err);
+            console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.getProductionObject.getTFolderObject.error", err);
             return reject(err);
           }
         );
       } else {
-        throw new Error("features.packiProductions.api.production.getProductionObject: packiProduction " + packiProduction + " not implemented");
+        throw new Error("features.wizziHubProductions.api.production.getProductionObject: productionType " + productionType + " not implemented");
       }
     }
   );
 }
-async function prepareProductionById(packiProduction, id, queryContext, rootContext) {
+async function prepareProductionById(productionType, id, queryContext, rootContext) {
   return new Promise(
-    (resolve2, reject) => getProductionById(packiProduction, id).then(
-      (productionItem) => prepareProduction(packiProduction, productionItem.owner, productionItem.name, queryContext, rootContext).then(
+    (resolve2, reject) => getProductionById(productionType, id).then(
+      (productionItem) => prepareProduction(productionType, productionItem.owner, productionItem.name, queryContext, rootContext).then(
         (result) => resolve2(result)
       ).catch(
         (err) => {
           if (typeof err === "object" && err !== null) {
           }
-          console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.prepareProductionById.prepareProduction.error", err);
+          console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.prepareProductionById.prepareProduction.error", err);
           return reject(err);
         }
       )
@@ -10247,19 +10250,19 @@ async function prepareProductionById(packiProduction, id, queryContext, rootCont
       (err) => {
         if (typeof err === "object" && err !== null) {
         }
-        console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.prepareProductionById.getProductionById.error", err);
+        console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.prepareProductionById.getProductionById.error", err);
         return reject(err);
       }
     )
   );
 }
-async function prepareProduction(packiProduction, owner, productionName, queryContext, rootContext) {
+async function prepareProduction(productionType, owner, productionName, queryContext, rootContext) {
   console.log(myname9 + "prepareProduction entered", owner, productionName, __filename);
   return new Promise(
     (resolve2, reject) => getDefaultContext_withCache(owner, rootContext).then(
       (defaultContext) => {
         console.log(myname9 + "prepareProduction.getDefaultContext_withCache completed", Object.keys(defaultContext), __filename);
-        getProductionObject(packiProduction, owner, productionName).then(
+        getProductionObject(productionType, owner, productionName).then(
           (productionObject) => {
             if (productionObject.packiConfig) {
               getProductionSetFromProductionObject(owner, productionName, productionObject.packiConfig, productionObject.packiFiles, defaultContext).then(
@@ -10276,7 +10279,7 @@ async function prepareProduction(packiProduction, owner, productionName, queryCo
                     (err) => {
                       if (typeof err === "object" && err !== null) {
                       }
-                      console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.prepareProduction.getContextByQueryContext.error", err);
+                      console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.prepareProduction.getContextByQueryContext.error", err);
                       return reject(err);
                     }
                   );
@@ -10285,7 +10288,7 @@ async function prepareProduction(packiProduction, owner, productionName, queryCo
                 (err) => {
                   if (typeof err === "object" && err !== null) {
                   }
-                  console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.prepareProduction.getContextByProductionObject.error", err);
+                  console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.prepareProduction.getContextByProductionObject.error", err);
                   return reject(err);
                 }
               );
@@ -10300,7 +10303,7 @@ async function prepareProduction(packiProduction, owner, productionName, queryCo
                 (err) => {
                   if (typeof err === "object" && err !== null) {
                   }
-                  console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.prepareProduction.getContextByQueryContext.error", err);
+                  console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.prepareProduction.getContextByQueryContext.error", err);
                   return reject(err);
                 }
               );
@@ -10310,7 +10313,7 @@ async function prepareProduction(packiProduction, owner, productionName, queryCo
           (err) => {
             if (typeof err === "object" && err !== null) {
             }
-            console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.prepareProduction.getProductionObject.error", err);
+            console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.prepareProduction.getProductionObject.error", err);
             return reject(err);
           }
         );
@@ -10319,7 +10322,7 @@ async function prepareProduction(packiProduction, owner, productionName, queryCo
       (err) => {
         if (typeof err === "object" && err !== null) {
         }
-        console.log("\x1B[31m%s\x1B[0m", "features.packiProductions.api.production.prepareProduction.getDefaultContext_withCache.error", err);
+        console.log("\x1B[31m%s\x1B[0m", "features.wizziHubProductions.api.production.prepareProduction.getDefaultContext_withCache.error", err);
         return reject(err);
       }
     )
@@ -10332,8 +10335,8 @@ async function getProductionSetFromProductionObject(owner, productionName, packi
   return new Promise(
     (resolve2, reject) => {
       if (packiConfig) {
-        productions_exports.generateArtifact(config2.packiConfigPath, {
-          [config2.packiConfigPath]: {
+        productions_exports.generateArtifact(constants_exports.packiConfigPath, {
+          [constants_exports.packiConfigPath]: {
             type: packiConfig.type,
             contents: packiConfig.contents
           }

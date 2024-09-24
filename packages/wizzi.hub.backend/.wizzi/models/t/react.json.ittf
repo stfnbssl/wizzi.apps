@@ -1,5 +1,0 @@
-$group
-    useReact true
-    { react
-        usePages true
-        { pages

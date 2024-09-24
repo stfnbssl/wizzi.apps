@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\features\packi\types.ts.ittf
-    utc time: Fri, 09 Aug 2024 16:10:15 GMT
+    utc time: Mon, 12 Aug 2024 07:40:25 GMT
 */
 
 /**
@@ -61,4 +61,18 @@ export type PackiInstallContext = {
     name: string;
     buildCommand?: string;
     runDevCommand?: string;
+}
+
+export type PackiConfigType = { 
+    tfolders: { 
+        name: string;
+    }[];
+    contexts: { 
+        propertyName: string;
+        artifactName?: string;
+        artifactFilePath?: string;
+        values?: { 
+            [key: string]: any;
+        };
+    }[];
 }

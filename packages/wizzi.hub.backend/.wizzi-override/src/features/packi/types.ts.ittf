@@ -78,3 +78,30 @@ module
             #
             # Context data for meta demo installations of packifiles
             #            
+
+    +
+    :export-type PackiConfigType
+        :{
+            :p tfolders
+                :[
+                    :{
+                        :p name
+                            :string
+            :p contexts
+                :[
+                    :{
+                        :p propertyName
+                            :string
+                        :p artifactName
+                            :string
+                            :optional
+                        :p artifactFilePath
+                            :string
+                            :optional
+                        :p values
+                            :{
+                                :index
+                                    :any
+                                    param key
+                                        :string
+                            :optional

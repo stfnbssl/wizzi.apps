@@ -10,7 +10,23 @@ $group
         param progressivePackiFiles
             :ref packiTypes.PackiFiles
         param progressiveContext
-            :any
+            :{
+                :index
+                    :any
+                    param key
+                        :string
+        :return
+            :ref Promise
+                :param
+                    :{
+                        :p packiFiles
+                            :ref PackiFiles
+                        :p context
+                            :{
+                                :index
+                                    :any
+                                    param key
+                                        :string
         #
             # __key__production_flow
             # Called by production.api.production.prepareProduction
@@ -31,11 +47,10 @@ $group
                     param reject
                     +
                     if packiConfig
-                        # TODO config.packiConfigPath shoul become constants.packiConfigPath
                         _ wizziProds.generateArtifact
-                            @ config.packiConfigPath
+                            @ packiConstants.packiConfigPath
                             {
-                                { [config.packiConfigPath]
+                                { [packiConstants.packiConfigPath]
                                     @ type packiConfig.type
                                     @ contents packiConfig.contents
                             @ progressiveContext

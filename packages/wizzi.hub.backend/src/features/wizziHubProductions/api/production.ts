@@ -2,9 +2,10 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\features\wizziHubProductions\api\production.ts.ittf
-    utc time: Fri, 09 Aug 2024 16:10:15 GMT
+    utc time: Mon, 12 Aug 2024 07:40:25 GMT
 */
-import {packiTypes} from '#/src/features/packi';
+//
+import {packiTypes, packiConstants} from '#/src/features/packi';
 import {config} from '#/src/features/config';
 import {wizziProds} from '#/src/features/wizziProductions';
 import * as productionTypes from '../types';
@@ -17,21 +18,21 @@ import * as tFolderApi from './tfolder';
 import {getArtifactGeneration, getArtifactTransformation, getDefaultContext_withCache, getArtifactContextItem} from './artifact';
 import {mergePackiFiles} from '../utils';
 
-const myname = 'features.packiProductions.api.production';
+const myname = 'features.wizziHubProductions.api.production';
 
 // TODO
-function transformProductionObject(packiProduction: productionTypes.PackiProduction, productionObject: any) {
-    productionObject.packiProduction = packiProduction;
-    productionObject.packiConfig = productionObject.packiFiles[config.packiConfigPath];
-    // TODO set a default packiConfig based on packiProduction
+function transformProductionObject(productionType: productionTypes.PackiProduction, productionObject: any) {
+    productionObject.packiProduction = productionType;
+    productionObject.packiConfig = productionObject.packiFiles[packiConstants.packiConfigPath];
+    // TODO set a default packiConfig based on productionType
     if (!productionObject.packiConfig) {
     }
     return productionObject;
 }
 
-export async function getProductionById(packiProduction: productionTypes.PackiProduction, id: string) {
+export async function getProductionById(productionType: productionTypes.PackiProduction, id: string) {
     return new Promise((resolve, reject) => {
-            if (packiProduction == 'artifact') {
+            if (productionType == 'artifact') {
                 artifactApi.getArtifactProductionById(id).then((result: any) => {
                     if (result.ok) {
                         resolve(result.item)
@@ -43,12 +44,12 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionById.getArtifactProductionById.error', err);
+                    console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.getProductionById.getArtifactProductionById.error', err);
                     return reject(err);
                 }
                 )
             }
-            else if (packiProduction == 'package') {
+            else if (productionType == 'package') {
                 packageApi.getPackageProductionById(id).then((result: any) => {
                     if (result.ok) {
                         resolve(result.item)
@@ -60,12 +61,12 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionById.getPackageProductionById.error', err);
+                    console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.getProductionById.getPackageProductionById.error', err);
                     return reject(err);
                 }
                 )
             }
-            else if (packiProduction == 'meta') {
+            else if (productionType == 'meta') {
                 metaApi.getMetaProductionById(id).then((result: any) => {
                     if (result.ok) {
                         resolve(result.item)
@@ -77,12 +78,12 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionById.getMetaProductionById.error', err);
+                    console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.getProductionById.getMetaProductionById.error', err);
                     return reject(err);
                 }
                 )
             }
-            else if (packiProduction == 'plugin') {
+            else if (productionType == 'plugin') {
                 pluginApi.getPluginProductionById(id).then((result: any) => {
                     if (result.ok) {
                         resolve(result.item)
@@ -94,12 +95,12 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionById.getPluginProductionById.error', err);
+                    console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.getProductionById.getPluginProductionById.error', err);
                     return reject(err);
                 }
                 )
             }
-            else if (packiProduction == 'tfolder') {
+            else if (productionType == 'tfolder') {
                 tFolderApi.getTFolderProductionById(id).then((result: any) => {
                     if (result.ok) {
                         resolve(result.item)
@@ -111,95 +112,95 @@ export async function getProductionById(packiProduction: productionTypes.PackiPr
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionById.getTFolderProductionById.error', err);
+                    console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.getProductionById.getTFolderProductionById.error', err);
                     return reject(err);
                 }
                 )
             }
             else {
-                throw new Error("features.packiProductions.api.production.getProductionById: packiProduction " + packiProduction + " not implemented");
+                throw new Error("features.wizziHubProductions.api.production.getProductionById: productionType " + productionType + " not implemented");
             }
         }
         );
 }
 
-export async function getProductionObject(packiProduction: productionTypes.PackiProduction, owner: string, name: string) {
+export async function getProductionObject(productionType: productionTypes.PackiProduction, owner: string, name: string) {
     return new Promise((resolve, reject) => {
-            if (packiProduction == 'artifact') {
+            if (productionType == 'artifact') {
                 artifactApi.getArtifactProductionObject(owner, name).then((productionObject: any) => 
-                    resolve(transformProductionObject(packiProduction, productionObject))
+                    resolve(transformProductionObject(productionType, productionObject))
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionObject.getArtifactProductionObject.error', err);
+                    console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.getProductionObject.getArtifactProductionObject.error', err);
                     return reject(err);
                 }
                 )
             }
-            else if (packiProduction == 'package') {
+            else if (productionType == 'package') {
                 packageApi.getPackageProductionObject(owner, name).then((productionObject: any) => 
-                    resolve(transformProductionObject(packiProduction, productionObject))
+                    resolve(transformProductionObject(productionType, productionObject))
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionObject.getPackageProductionObject.error', err);
+                    console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.getProductionObject.getPackageProductionObject.error', err);
                     return reject(err);
                 }
                 )
             }
-            else if (packiProduction == 'meta') {
+            else if (productionType == 'meta') {
                 metaApi.getMetaProductionObject(owner, name).then((productionObject: any) => 
-                    resolve(transformProductionObject(packiProduction, productionObject))
+                    resolve(transformProductionObject(productionType, productionObject))
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionObject.getMetaProductionObject.error', err);
+                    console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.getProductionObject.getMetaProductionObject.error', err);
                     return reject(err);
                 }
                 )
             }
-            else if (packiProduction == 'plugin') {
+            else if (productionType == 'plugin') {
                 pluginApi.getPluginProductionObject(owner, name).then((productionObject: any) => 
-                    resolve(transformProductionObject(packiProduction, productionObject))
+                    resolve(transformProductionObject(productionType, productionObject))
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionObject.getPluginProductionObject.error', err);
+                    console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.getProductionObject.getPluginProductionObject.error', err);
                     return reject(err);
                 }
                 )
             }
-            else if (packiProduction == 'tfolder') {
+            else if (productionType == 'tfolder') {
                 tFolderApi.getTFolderProductionObject(owner, name).then((productionObject: any) => 
-                    resolve(transformProductionObject(packiProduction, productionObject))
+                    resolve(transformProductionObject(productionType, productionObject))
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features.packiProductions.api.production.getProductionObject.getTFolderObject.error', err);
+                    console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.getProductionObject.getTFolderObject.error', err);
                     return reject(err);
                 }
                 )
             }
             else {
-                throw new Error("features.packiProductions.api.production.getProductionObject: packiProduction " + packiProduction + " not implemented");
+                throw new Error("features.wizziHubProductions.api.production.getProductionObject: productionType " + productionType + " not implemented");
             }
         }
         );
 }
 
 export async function prepareProductionById(
-    packiProduction: productionTypes.PackiProduction, 
+    productionType: productionTypes.PackiProduction, 
     id: string, 
     queryContext: string, 
     rootContext: any) {
     return new Promise((resolve, reject) => 
-            getProductionById(packiProduction, id).then((productionItem: any) => 
-                prepareProduction(packiProduction, productionItem.owner, productionItem.name, queryContext, rootContext).then((result: any) => 
+            getProductionById(productionType, id).then((productionItem: any) => 
+                prepareProduction(productionType, productionItem.owner, productionItem.name, queryContext, rootContext).then((result: any) => 
                     resolve(result)
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProductionById.prepareProduction.error', err);
+                    console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.prepareProductionById.prepareProduction.error', err);
                     return reject(err);
                 }
                 )
@@ -207,7 +208,7 @@ export async function prepareProductionById(
             ).catch((err: any) => {
                 if (typeof err === 'object' && err !== null) {
                 }
-                console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProductionById.getProductionById.error', err);
+                console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.prepareProductionById.getProductionById.error', err);
                 return reject(err);
             }
             )
@@ -224,7 +225,7 @@ export /**
     // Called by handlers of features.production.controllers.apiv1generations
 */
 async function prepareProduction(
-    packiProduction: productionTypes.PackiProduction, 
+    productionType: productionTypes.PackiProduction, 
     owner: string, 
     productionName: string, 
     queryContext: string, 
@@ -233,7 +234,7 @@ async function prepareProduction(
     return new Promise((resolve, reject) => 
             getDefaultContext_withCache(owner, rootContext).then((defaultContext: any) => {
                 console.log(myname + 'prepareProduction.getDefaultContext_withCache completed', Object.keys(defaultContext), __filename);
-                getProductionObject(packiProduction, owner, productionName).then((productionObject: any) => {
+                getProductionObject(productionType, owner, productionName).then((productionObject: any) => {
                     if (productionObject.packiConfig) {
                         getProductionSetFromProductionObject(owner, productionName, productionObject.packiConfig, productionObject.packiFiles, defaultContext).then((productionSet: any) => {
                             productionObject.packiFiles = productionSet.packiFiles;
@@ -246,7 +247,7 @@ async function prepareProduction(
                             ).catch((err: any) => {
                                 if (typeof err === 'object' && err !== null) {
                                 }
-                                console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProduction.getContextByQueryContext.error', err);
+                                console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.prepareProduction.getContextByQueryContext.error', err);
                                 return reject(err);
                             }
                             )
@@ -254,7 +255,7 @@ async function prepareProduction(
                         ).catch((err: any) => {
                             if (typeof err === 'object' && err !== null) {
                             }
-                            console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProduction.getContextByProductionObject.error', err);
+                            console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.prepareProduction.getContextByProductionObject.error', err);
                             return reject(err);
                         }
                         )
@@ -268,7 +269,7 @@ async function prepareProduction(
                         ).catch((err: any) => {
                             if (typeof err === 'object' && err !== null) {
                             }
-                            console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProduction.getContextByQueryContext.error', err);
+                            console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.prepareProduction.getContextByQueryContext.error', err);
                             return reject(err);
                         }
                         )
@@ -277,7 +278,7 @@ async function prepareProduction(
                 ).catch((err: any) => {
                     if (typeof err === 'object' && err !== null) {
                     }
-                    console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProduction.getProductionObject.error', err);
+                    console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.prepareProduction.getProductionObject.error', err);
                     return reject(err);
                 }
                 )
@@ -285,7 +286,7 @@ async function prepareProduction(
             ).catch((err: any) => {
                 if (typeof err === 'object' && err !== null) {
                 }
-                console.log("[31m%s[0m", 'features.packiProductions.api.production.prepareProduction.getDefaultContext_withCache.error', err);
+                console.log("[31m%s[0m", 'features.wizziHubProductions.api.production.prepareProduction.getDefaultContext_withCache.error', err);
                 return reject(err);
             }
             )
@@ -303,7 +304,14 @@ async function getProductionSetFromProductionObject(
     productionName: string, 
     packiConfig: any, 
     progressivePackiFiles: packiTypes.PackiFiles, 
-    progressiveContext: any) {
+    progressiveContext: { 
+        [key: string]: any;
+    }):  Promise<{ 
+    packiFiles: PackiFiles;
+    context: { 
+        [key: string]: any;
+    };
+}> {
     
     
     progressiveContext = Object.assign({}, progressiveContext, {
@@ -312,10 +320,9 @@ async function getProductionSetFromProductionObject(
     ;
     return new Promise((resolve, reject) => {
             
-            // TODO config.packiConfigPath shoul become constants.packiConfigPath
             if (packiConfig) {
-                wizziProds.generateArtifact(config.packiConfigPath, {
-                    [config.packiConfigPath]: {
+                wizziProds.generateArtifact(packiConstants.packiConfigPath, {
+                    [packiConstants.packiConfigPath]: {
                         type: packiConfig.type, 
                         contents: packiConfig.contents
                      }
@@ -401,6 +408,7 @@ export async function getTFoldersPackiFilesFromProductionData(owner: string, pac
         }
         );
 }
+
 
 async function addContextPropertiesFromProductionData(owner: string, packiConfigObj: any, progressiveContext: any):  Promise<any> {
     

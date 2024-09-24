@@ -7,6 +7,7 @@ $group
         from '#/src/features/types'
     import
         @ packiTypes
+        @ packiConstants
         from '#/src/features/packi'
     import
         @ config

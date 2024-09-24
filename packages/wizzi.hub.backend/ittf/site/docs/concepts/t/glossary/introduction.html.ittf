@@ -342,7 +342,7 @@
                 span
                     + The Wizzi Job is the Task Manager of Wizzi. It is implemented as
                         \b a Wizzi Kernel Schema of type \b
-                    high-code( wfjob )
+                    high-code( wzjob )
                     + \b where you can define Wizzi Productions. A Wizzi Job can be executed
                         \b using the \b
                     high-code( wizzi )

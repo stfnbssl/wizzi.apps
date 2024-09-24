@@ -8764,7 +8764,7 @@ const packiMapStateToProps = storeState => {
 
 const packiMapDispatchToProps = dispatch => ({
   dispatchGenerateArtifact: (filePath, files, productionKind, productionName) => {
-    if (filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')) {
+    if (filePath.endsWith('.ittf') && !filePath.endsWith('wzjob.ittf')) {
       dispatch(_features_wizzi__WEBPACK_IMPORTED_MODULE_9__.wizziActions.generateArtifactRequest({
         filePath,
         files,
@@ -8774,7 +8774,7 @@ const packiMapDispatchToProps = dispatch => ({
     }
   },
   dispatchMTree: (filePath, files, productionKind, productionName) => {
-    if (filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')) {
+    if (filePath.endsWith('.ittf') && !filePath.endsWith('wzjob.ittf')) {
       dispatch(_features_wizzi__WEBPACK_IMPORTED_MODULE_9__.wizziActions.mTreeRequest({
         filePath,
         files,
@@ -8784,7 +8784,7 @@ const packiMapDispatchToProps = dispatch => ({
     }
   },
   dispatchMTreeDebugInfo: (filePath, files, productionKind, productionName) => {
-    if (filePath.endsWith('.ittf') && !filePath.endsWith('wfjob.ittf')) {
+    if (filePath.endsWith('.ittf') && !filePath.endsWith('wzjob.ittf')) {
       dispatch(_features_wizzi__WEBPACK_IMPORTED_MODULE_9__.wizziActions.mTreeBuildUpScriptRequest({
         filePath,
         files,
@@ -10242,8 +10242,8 @@ const DEFAULT_PACKI_CODE = {
     contents: "module\n  kind es6\n  log 'Hello world'\n  ",
     type: 'CODE'
   },
-  '.wizzi/main.wfjob.ittf': {
-    contents: "wfjob\n  ",
+  '.wizzi/main.wzjob.ittf': {
+    contents: "wzjob\n  ",
     type: 'CODE'
   },
   'README.md': {

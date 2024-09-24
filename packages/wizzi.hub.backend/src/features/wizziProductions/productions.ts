@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.ts\lib\artifacts\ts\module\gen\main.js
     package: @wizzi/plugin.ts@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.apps\packages\wizzi.hub.backend\.wizzi-override\src\features\wizziProductions\productions.ts.ittf
-    utc time: Fri, 09 Aug 2024 16:10:15 GMT
+    utc time: Mon, 12 Aug 2024 07:40:25 GMT
 */
 import path from 'path';
 import fs from 'fs';
@@ -661,7 +661,7 @@ export async function metaGenerate(
 }
 
 
-export async function executeJob(wfjobFilePath: string, packiFiles: packiTypes.PackiFiles, context: any):  Promise<JsonFs> {
+export async function executeJob(wzjobFilePath: string, packiFiles: packiTypes.PackiFiles, context: any):  Promise<JsonFs> {
     return new Promise(async (resolve, reject) => {
             if (!verify.isObject(packiFiles)) {
                 return reject({
@@ -670,11 +670,11 @@ export async function executeJob(wfjobFilePath: string, packiFiles: packiTypes.P
                         packiFiles
                      });
             }
-            wfjobFilePath = ensurePackiFilePrefix(wfjobFilePath);
+            wzjobFilePath = ensurePackiFilePrefix(wzjobFilePath);
             const jsonwf = await createJsonFsAndFactory(packiFiles);
             jsonwf.wf.executeJob({
                 name: '', 
-                path: wfjobFilePath, 
+                path: wzjobFilePath, 
                 productionOptions: {
                     
                  }, 
@@ -693,18 +693,18 @@ export async function executeJob(wfjobFilePath: string, packiFiles: packiTypes.P
 export async function executeJobs(packiFiles: packiTypes.PackiFiles, context: any):  Promise<JsonFs> {
     return new Promise(// TODO catch error
         async (resolve, reject) => {
-            const wfjobFilePaths = Object.keys(packiFiles).filter(k => 
-                k.endsWith('.wfjob.ittf')
+            const wzjobFilePaths = Object.keys(packiFiles).filter(k => 
+                k.endsWith('.wzjob.ittf')
             );
             const jsonwf = await createJsonFsAndFactory(packiFiles);
             const execJob = (index: number):  void => {
-                let wfjobFilePath = wfjobFilePaths[index];
-                if (!wfjobFilePath) {
+                let wzjobFilePath = wzjobFilePaths[index];
+                if (!wzjobFilePath) {
                     return resolve(jsonwf.jsonFs);
                 }
                 jsonwf.wf.executeJob({
-                    name: 'job: ' + wfjobFilePath, 
-                    path: ensurePackiFilePrefix(wfjobFilePath), 
+                    name: 'job: ' + wzjobFilePath, 
+                    path: ensurePackiFilePrefix(wzjobFilePath), 
                     productionOptions: {
                         
                      }, 
@@ -742,10 +742,10 @@ export async function executeJobFs(request: WizziJobTypesRequest):  Promise<any>
                     plugins.push('wizzi-core');
                 }
                 const wf = await createFilesystemFactoryWithParameters(request.pluginsBaseFolder, plugins, globalContext);
-                console.log('STARTING WIZZI JOB', request.wfjobIttfDocumentUri);
+                console.log('STARTING WIZZI JOB', request.wzjobIttfDocumentUri);
                 wf.executeJob({
-                    name: request.wfjobName || path.basename(request.wfjobIttfDocumentUri), 
-                    path: request.wfjobIttfDocumentUri, 
+                    name: request.wzjobName || path.basename(request.wzjobIttfDocumentUri), 
+                    path: request.wzjobIttfDocumentUri, 
                     productionOptions: {
                         
                      }, 
@@ -759,7 +759,7 @@ export async function executeJobFs(request: WizziJobTypesRequest):  Promise<any>
                                  }
                              });
                     }
-                    console.log("[32m%s[0m", 'WIZZI JOB Executed', request.wfjobIttfDocumentUri);
+                    console.log("[32m%s[0m", 'WIZZI JOB Executed', request.wzjobIttfDocumentUri);
                     return resolve(result);
                 }
                 )

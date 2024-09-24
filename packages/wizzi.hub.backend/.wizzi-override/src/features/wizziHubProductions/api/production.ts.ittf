@@ -1,6 +1,6 @@
 module
     $
-        var moduleName = 'features.packiProductions.api.production';
+        var moduleName = 'features.wizziHubProductions.api.production';
 
     #
         # This api put toghether hub productions for executing wizzi productions.
@@ -9,6 +9,7 @@ module
         # tfolder usages.
     import
         @ packiTypes
+        @ packiConstants
         from '#/src/features/packi'
     import
         @ config
@@ -51,20 +52,20 @@ module
     const myname = '${moduleName}'
     +
     function transformProductionObject
-        param packiProduction
+        param productionType
             :ref productionTypes.PackiProduction
         param productionObject
             :any
         # TODO
-        set productionObject.packiProduction = packiProduction
-        set productionObject.packiConfig = productionObject.packiFiles[config.packiConfigPath]
+        set productionObject.packiProduction = productionType
+        set productionObject.packiConfig = productionObject.packiFiles[packiConstants.packiConfigPath]
         if !productionObject.packiConfig
-            # TODO set a default packiConfig based on packiProduction
+            # TODO set a default packiConfig based on productionType
         return productionObject
     +
     export
         async-function getProductionById
-            param packiProduction
+            param productionType
                 :ref productionTypes.PackiProduction
             param id
                 :string
@@ -73,7 +74,7 @@ module
                     =>
                         param resolve
                         param reject
-                        if packiProduction == 'artifact'
+                        if productionType == 'artifact'
                             _ artifactApi.getArtifactProductionById
                                 @ id
                                 ._ then
@@ -87,7 +88,7 @@ module
                                             _ reject
                                                 @ result
                                 v08/ts/catch_reject( ${moduleName}.getProductionById.getArtifactProductionById )
-                        elif packiProduction == 'package'
+                        elif productionType == 'package'
                             _ packageApi.getPackageProductionById
                                 @ id
                                 ._ then
@@ -101,7 +102,7 @@ module
                                             _ reject
                                                 @ result
                                 v08/ts/catch_reject( ${moduleName}.getProductionById.getPackageProductionById )
-                        elif packiProduction == 'meta'
+                        elif productionType == 'meta'
                             _ metaApi.getMetaProductionById
                                 @ id
                                 ._ then
@@ -115,7 +116,7 @@ module
                                             _ reject
                                                 @ result
                                 v08/ts/catch_reject( ${moduleName}.getProductionById.getMetaProductionById )
-                        elif packiProduction == 'plugin'
+                        elif productionType == 'plugin'
                             _ pluginApi.getPluginProductionById
                                 @ id
                                 ._ then
@@ -129,7 +130,7 @@ module
                                             _ reject
                                                 @ result
                                 v08/ts/catch_reject( ${moduleName}.getProductionById.getPluginProductionById )
-                        elif packiProduction == 'tfolder'
+                        elif productionType == 'tfolder'
                             _ tFolderApi.getTFolderProductionById
                                 @ id
                                 ._ then
@@ -144,11 +145,11 @@ module
                                                 @ result
                                 v08/ts/catch_reject( ${moduleName}.getProductionById.getTFolderProductionById )
                         else
-                            throw new Error("${moduleName}.getProductionById: packiProduction " + packiProduction + " not implemented")
+                            throw new Error("${moduleName}.getProductionById: productionType " + productionType + " not implemented")
     +
     export
         async-function getProductionObject
-            param packiProduction
+            param productionType
                 :ref productionTypes.PackiProduction
             param owner
                 :string
@@ -159,7 +160,7 @@ module
                     =>
                         param resolve
                         param reject
-                        if packiProduction == 'artifact'
+                        if productionType == 'artifact'
                             _ artifactApi.getArtifactProductionObject
                                 @ owner
                                 @ name
@@ -169,10 +170,10 @@ module
                                             :any
                                         _ resolve
                                             _ transformProductionObject
-                                                @ packiProduction
+                                                @ productionType
                                                 @ productionObject
                                 v08/ts/catch_reject( ${moduleName}.getProductionObject.getArtifactProductionObject )
-                        elif packiProduction == 'package'
+                        elif productionType == 'package'
                             _ packageApi.getPackageProductionObject
                                 @ owner
                                 @ name
@@ -182,10 +183,10 @@ module
                                             :any
                                         _ resolve
                                             _ transformProductionObject
-                                                @ packiProduction
+                                                @ productionType
                                                 @ productionObject
                                 v08/ts/catch_reject( ${moduleName}.getProductionObject.getPackageProductionObject )
-                        elif packiProduction == 'meta'
+                        elif productionType == 'meta'
                             _ metaApi.getMetaProductionObject
                                 @ owner
                                 @ name
@@ -195,10 +196,10 @@ module
                                             :any
                                         _ resolve
                                             _ transformProductionObject
-                                                @ packiProduction
+                                                @ productionType
                                                 @ productionObject
                                 v08/ts/catch_reject( ${moduleName}.getProductionObject.getMetaProductionObject )
-                        elif packiProduction == 'plugin'
+                        elif productionType == 'plugin'
                             _ pluginApi.getPluginProductionObject
                                 @ owner
                                 @ name
@@ -208,10 +209,10 @@ module
                                             :any
                                         _ resolve
                                             _ transformProductionObject
-                                                @ packiProduction
+                                                @ productionType
                                                 @ productionObject
                                 v08/ts/catch_reject( ${moduleName}.getProductionObject.getPluginProductionObject )
-                        elif packiProduction == 'tfolder'
+                        elif productionType == 'tfolder'
                             _ tFolderApi.getTFolderProductionObject
                                 @ owner
                                 @ name
@@ -221,15 +222,15 @@ module
                                             :any
                                         _ resolve
                                             _ transformProductionObject
-                                                @ packiProduction
+                                                @ productionType
                                                 @ productionObject
                                 v08/ts/catch_reject( ${moduleName}.getProductionObject.getTFolderObject )
                         else
-                            throw new Error("${moduleName}.getProductionObject: packiProduction " + packiProduction + " not implemented")
+                            throw new Error("${moduleName}.getProductionObject: productionType " + productionType + " not implemented")
     +
     export
         async-function prepareProductionById
-            param packiProduction
+            param productionType
                 :ref productionTypes.PackiProduction
             param id
                 :string
@@ -243,14 +244,14 @@ module
                         param resolve
                         param reject
                         _ getProductionById
-                            @ packiProduction
+                            @ productionType
                             @ id
                             ._ then
                                 =>
                                     param productionItem
                                         :any
                                     _ prepareProduction
-                                        @ packiProduction
+                                        @ productionType
                                         @ productionItem.owner
                                         @ productionItem.name
                                         @ queryContext
@@ -266,7 +267,7 @@ module
     +
     export
         async-function prepareProduction
-            param packiProduction
+            param productionType
                 :ref productionTypes.PackiProduction
             param owner
                 :string
@@ -298,7 +299,7 @@ module
                                         :any
                                     log myname + 'prepareProduction.getDefaultContext_withCache completed', Object.keys(defaultContext)
                                     _ getProductionObject
-                                        @ packiProduction
+                                        @ productionType
                                         @ owner
                                         @ productionName
                                         ._ then
